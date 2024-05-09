@@ -4,7 +4,7 @@ This is the Python library for retrieving and loading data provided by UCalgary 
 
 ## Requirements
 
-PyUCalagarySRS currently supports Python 3.8+.
+PyUCalagarySRS currently supports Python 3.9+.
 
 ## Installation
 
