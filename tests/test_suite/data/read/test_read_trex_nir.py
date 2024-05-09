@@ -572,7 +572,6 @@ def test_read_trex_nir_first_frame_and_no_metadata(srs, all_datasets, test_dict)
     },
 ])
 @pytest.mark.data_read
-@pytest.mark.data_read
 def test_read_trex_nir_bad_file(srs, all_datasets, test_dict):
     # set dataset
     dataset = find_dataset(all_datasets, "TREX_NIR_RAW")

@@ -6,7 +6,6 @@ import numpy as np
 DATA_DIR = "%s/../../../test_data/read_trex_rgb/unstable/stream0" % (os.path.dirname(os.path.realpath(__file__)))
 
 
-@pytest.mark.data_read
 @pytest.mark.parametrize("test_dict", [
     {
         "filename": "20210503_0600_luck_rgb-03_full.pgm.gz",
@@ -24,6 +23,7 @@ DATA_DIR = "%s/../../../test_data/read_trex_rgb/unstable/stream0" % (os.path.dir
         "expected_frames": 20
     },
 ])
+@pytest.mark.data_read
 def test_read_trex_rgb_unstable_stream0_single_file(srs, test_dict):
     # read file
     data = srs.data.readers.read_trex_rgb("%s/%s" % (DATA_DIR, test_dict["filename"]))
@@ -371,7 +371,6 @@ def test_read_trex_rgb_unstable_stream0_first_frame(srs, test_dict):
     assert data.data.dtype == np.uint16
 
 
-@pytest.mark.data_read
 @pytest.mark.parametrize("test_dict", [
     {
         "filenames": [
@@ -413,6 +412,7 @@ def test_read_trex_rgb_unstable_stream0_first_frame(srs, test_dict):
         "expected_frames": 100
     },
 ])
+@pytest.mark.data_read
 def test_read_trex_rgb_unstable_stream0_no_metadata(srs, test_dict):
     # build file list
     file_list = []

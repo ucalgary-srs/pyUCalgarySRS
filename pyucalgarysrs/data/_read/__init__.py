@@ -5,6 +5,7 @@ from ._rego import read as func_read_rego
 from ._trex_nir import read as func_read_trex_nir
 from ._trex_blue import read as func_read_trex_blue
 from ._trex_rgb import read as func_read_trex_rgb
+from ._trex_spectrograph import read as func_read_trex_spectrograph
 from .._schemas import Dataset, Data, ProblematicFile
 from ...exceptions import SRSUnsupportedReadException, SRSException
 
@@ -309,6 +310,50 @@ class ReadManager:
                     timestamp_list.append(datetime.datetime.strptime(m["Image request start"], "%Y-%m-%d %H:%M:%S.%f UTC"))
                 else:
                     raise SRSException("Unexpected timestamp metadata format")
+
+        # convert to appropriate return type
+        if (as_xarray is True):
+            ret_obj = None
+        else:
+            problematic_files_objs = []
+            for p in problematic_files:
+                problematic_files_objs.append(ProblematicFile(p["filename"], error_message=p["error_message"], error_type="error"))
+            ret_obj = Data(
+                data=img,
+                timestamp=timestamp_list,
+                metadata=meta,
+                problematic_files=problematic_files_objs,
+                dataset=dataset,
+            )
+
+        # return
+        return ret_obj
+
+    def read_trex_spectrograph(self,
+                               file_list: Union[List[str], str],
+                               n_parallel: int = 1,
+                               first_record: bool = False,
+                               no_metadata: bool = False,
+                               quiet: bool = False,
+                               as_xarray: bool = False,
+                               dataset: Optional[Dataset] = None) -> Union[None, Data]:
+        """
+        Read in TREx Spectrograph raw data (stream0 pgm* files)
+        """
+        # read data
+        img, meta, problematic_files = func_read_trex_spectrograph(
+            file_list,
+            n_parallel=n_parallel,
+            first_record=first_record,
+            no_metadata=no_metadata,
+            quiet=quiet,
+        )
+
+        # generate timestamp array
+        timestamp_list = []
+        if (no_metadata is False):
+            for m in meta:
+                timestamp_list.append(datetime.datetime.strptime(m["Image request start"], "%Y-%m-%d %H:%M:%S.%f UTC"))
 
         # convert to appropriate return type
         if (as_xarray is True):

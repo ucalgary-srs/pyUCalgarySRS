@@ -371,7 +371,6 @@ def test_read_trex_rgb_unstable_stream0colour_first_frame(srs, test_dict):
     assert data.data.dtype == np.uint8
 
 
-@pytest.mark.data_read
 @pytest.mark.parametrize("test_dict", [
     {
         "filenames": [
@@ -413,6 +412,7 @@ def test_read_trex_rgb_unstable_stream0colour_first_frame(srs, test_dict):
         "expected_frames": 100
     },
 ])
+@pytest.mark.data_read
 def test_read_trex_rgb_unstable_stream0colour_no_metadata(srs, test_dict):
     # build file list
     file_list = []
