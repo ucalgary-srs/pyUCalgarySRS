@@ -1,12 +1,11 @@
-.PHONY: install update test test-linting test-ruff test-pycodestyle test-bandit test-pyright test-pytest test-pytest-production test-pytest-staging test-pytest-ci test-coverage clean publish
+.PHONY: install update get-test-data test test-linting test-ruff test-pycodestyle test-bandit test-pyright test-pytest test-pytest-production test-pytest-staging test-pytest-ci test-coverage clean publish
 
 all:
 
-poetry:
+install:
 	pip install poetry
-
-install: poetry
 	poetry install
+	${MAKE} get-test-data
 
 update upgrade:
 	pip install --upgrade poetry
