@@ -54,6 +54,12 @@ class ReadManager:
         """
         This function reads in data, using the derived readfile based on the dataset name
         """
+        # verify dataset is valid
+        if (dataset is None):
+            raise SRSUnsupportedReadException(
+                "Must supply a dataset. If not know, please use the srs.data.readers.read_<specific_routine>() function")
+
+        # read data using the appropriate readfile routine
         if (dataset.name in self.__VALID_THEMIS_READFILE_DATASETS):
             return self.read_themis(file_list,
                                     n_parallel=n_parallel,

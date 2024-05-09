@@ -15,6 +15,7 @@ clean:
 	@rm -rf pyucalgarysrs.egg-info build dist
 
 get-test-data:
+	cd tests/test_data && rm -rf read_*
 	cd tests/test_data && wget -O test_data.tar https://aurora.phys.ucalgary.ca/public/github_tests/pyucalgarysrs_test_data.tar
 	cd tests/test_data && tar -xvf test_data.tar && rm test_data.tar
 

@@ -105,6 +105,14 @@ def test_read_generic_bad_dataset(srs, all_datasets):
 
 
 @pytest.mark.data_read
+def test_read_generic_none_dataset(srs):
+    # check that the read routine raises an exception
+    with pytest.raises(SRSUnsupportedReadException) as e_info:
+        _ = srs.data.read(None, "some_fake_filename.pgm")
+        assert "Must supply a dataset" in str(e_info)
+
+
+@pytest.mark.data_read
 def test_list_supported_read_datasets(srs):
     datasets = srs.data.list_supported_read_datasets()
     assert len(datasets) > 0

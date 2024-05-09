@@ -47,6 +47,25 @@ def test_read_trex_rgb_burst_single_file(srs, all_datasets, test_dict):
     assert data.data.dtype == np.uint8
 
 
+@pytest.mark.data_read
+def test_read_trex_rgb_burst_single_file_720p(srs, all_datasets):
+    # set dataset
+    dataset = find_dataset(all_datasets, "TREX_RGB_RAW_BURST")
+
+    # read file
+    data = srs.data.read(dataset, "%s/20181208_1308_fsmi_rgb-01_mode-b3_raw.png.tar" % (DATA_DIR))
+
+    # check success
+    assert len(data.problematic_files) == 0
+
+    # check number of frames
+    assert data.data.shape == (720, 830, 3, 33)
+    assert len(data.metadata) == 33
+
+    # check dtype
+    assert data.data.dtype == np.uint8
+
+
 @pytest.mark.parametrize("test_dict", [
     {
         "filenames": [

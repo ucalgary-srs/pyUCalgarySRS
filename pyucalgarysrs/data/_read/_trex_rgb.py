@@ -172,7 +172,7 @@ def __trex_readfile_worker(file_obj):
     image_width = 0
     image_height = 0
     image_channels = 0
-    image_dtype = np.dtype("uint8")
+    image_dtype = np.dtype("uint8")  # type: ignore
 
     # check file extension to know how to process
     try:
