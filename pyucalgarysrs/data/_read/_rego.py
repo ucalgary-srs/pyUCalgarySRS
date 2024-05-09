@@ -34,7 +34,7 @@ def read(file_list, n_parallel=1, first_record=False, no_metadata=False, quiet=F
     if isinstance(file_list, str):
         file_list = [file_list]
 
-    # check workers
+    # check n_parallel
     if (n_parallel > 1):
         try:
             # set up process pool (ignore SIGINT before spawning pool so child processes inherit SIGINT handler)

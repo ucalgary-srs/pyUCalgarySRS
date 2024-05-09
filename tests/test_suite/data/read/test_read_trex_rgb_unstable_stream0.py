@@ -117,23 +117,23 @@ def test_read_trex_rgb_unstable_stream0_multiple_files(srs, test_dict):
 @pytest.mark.parametrize("test_dict", [
     {
         "filename": "20210503_0600_luck_rgb-03_full.pgm.gz",
-        "workers": 1,
+        "n_parallel": 1,
         "expected_success": True,
         "expected_frames": 20
     },
     {
         "filename": "20210503_0601_luck_rgb-03_full.pgm.gz",
-        "workers": 2,
+        "n_parallel": 2,
         "expected_success": True,
         "expected_frames": 20
     },
 ])
 @pytest.mark.data_read
-def test_read_trex_rgb_unstable_stream0_single_file_workers(srs, test_dict):
+def test_read_trex_rgb_unstable_stream0_single_file_n_parallel(srs, test_dict):
     # read file
     data = srs.data.readers.read_trex_rgb(
         "%s/%s" % (DATA_DIR, test_dict["filename"]),
-        n_parallel=test_dict["workers"],
+        n_parallel=test_dict["n_parallel"],
     )
 
     # check success
@@ -159,7 +159,7 @@ def test_read_trex_rgb_unstable_stream0_single_file_workers(srs, test_dict):
         "filenames": [
             "20210503_0600_luck_rgb-03_full.pgm.gz",
         ],
-        "workers": 1,
+        "n_parallel": 1,
         "expected_success": True,
         "expected_frames": 20
     },
@@ -167,7 +167,7 @@ def test_read_trex_rgb_unstable_stream0_single_file_workers(srs, test_dict):
         "filenames": [
             "20210503_0600_luck_rgb-03_full.pgm.gz",
         ],
-        "workers": 2,
+        "n_parallel": 2,
         "expected_success": True,
         "expected_frames": 20
     },
@@ -176,7 +176,7 @@ def test_read_trex_rgb_unstable_stream0_single_file_workers(srs, test_dict):
             "20210503_0600_luck_rgb-03_full.pgm.gz",
             "20210503_0601_luck_rgb-03_full.pgm.gz",
         ],
-        "workers": 1,
+        "n_parallel": 1,
         "expected_success": True,
         "expected_frames": 40
     },
@@ -185,7 +185,7 @@ def test_read_trex_rgb_unstable_stream0_single_file_workers(srs, test_dict):
             "20210503_0600_luck_rgb-03_full.pgm.gz",
             "20210503_0601_luck_rgb-03_full.pgm.gz",
         ],
-        "workers": 2,
+        "n_parallel": 2,
         "expected_success": True,
         "expected_frames": 40
     },
@@ -197,7 +197,7 @@ def test_read_trex_rgb_unstable_stream0_single_file_workers(srs, test_dict):
             "20210503_0603_luck_rgb-03_full.pgm.gz",
             "20210503_0604_luck_rgb-03_full.pgm.gz",
         ],
-        "workers": 1,
+        "n_parallel": 1,
         "expected_success": True,
         "expected_frames": 100
     },
@@ -209,7 +209,7 @@ def test_read_trex_rgb_unstable_stream0_single_file_workers(srs, test_dict):
             "20210503_0603_luck_rgb-03_full.pgm.gz",
             "20210503_0604_luck_rgb-03_full.pgm.gz",
         ],
-        "workers": 2,
+        "n_parallel": 2,
         "expected_success": True,
         "expected_frames": 100
     },
@@ -221,13 +221,13 @@ def test_read_trex_rgb_unstable_stream0_single_file_workers(srs, test_dict):
             "20210503_0603_luck_rgb-03_full.pgm.gz",
             "20210503_0604_luck_rgb-03_full.pgm.gz",
         ],
-        "workers": 5,
+        "n_parallel": 5,
         "expected_success": True,
         "expected_frames": 100
     },
 ])
 @pytest.mark.data_read
-def test_read_trex_rgb_unstable_stream0_multiple_files_workers(srs, test_dict):
+def test_read_trex_rgb_unstable_stream0_multiple_files_n_parallel(srs, test_dict):
     # build file list
     file_list = []
     for f in test_dict["filenames"]:
@@ -236,7 +236,7 @@ def test_read_trex_rgb_unstable_stream0_multiple_files_workers(srs, test_dict):
     # read file
     data = srs.data.readers.read_trex_rgb(
         file_list,
-        n_parallel=test_dict["workers"],
+        n_parallel=test_dict["n_parallel"],
     )
 
     # check success
@@ -262,7 +262,7 @@ def test_read_trex_rgb_unstable_stream0_multiple_files_workers(srs, test_dict):
         "filenames": [
             "20210503_0600_luck_rgb-03_full.pgm.gz",
         ],
-        "workers": 1,
+        "n_parallel": 1,
         "expected_success": True,
         "expected_frames": 1
     },
@@ -270,7 +270,7 @@ def test_read_trex_rgb_unstable_stream0_multiple_files_workers(srs, test_dict):
         "filenames": [
             "20210503_0600_luck_rgb-03_full.pgm.gz",
         ],
-        "workers": 2,
+        "n_parallel": 2,
         "expected_success": True,
         "expected_frames": 1
     },
@@ -279,7 +279,7 @@ def test_read_trex_rgb_unstable_stream0_multiple_files_workers(srs, test_dict):
             "20210503_0600_luck_rgb-03_full.pgm.gz",
             "20210503_0601_luck_rgb-03_full.pgm.gz",
         ],
-        "workers": 1,
+        "n_parallel": 1,
         "expected_success": True,
         "expected_frames": 2
     },
@@ -288,7 +288,7 @@ def test_read_trex_rgb_unstable_stream0_multiple_files_workers(srs, test_dict):
             "20210503_0600_luck_rgb-03_full.pgm.gz",
             "20210503_0601_luck_rgb-03_full.pgm.gz",
         ],
-        "workers": 2,
+        "n_parallel": 2,
         "expected_success": True,
         "expected_frames": 2
     },
@@ -298,7 +298,7 @@ def test_read_trex_rgb_unstable_stream0_multiple_files_workers(srs, test_dict):
             "20210503_0601_luck_rgb-03_full.pgm.gz",
             "20210503_0605_luck_rgb-03_full.pgm",
         ],
-        "workers": 2,
+        "n_parallel": 2,
         "expected_success": True,
         "expected_frames": 3
     },
@@ -310,7 +310,7 @@ def test_read_trex_rgb_unstable_stream0_multiple_files_workers(srs, test_dict):
             "20210503_0603_luck_rgb-03_full.pgm.gz",
             "20210503_0604_luck_rgb-03_full.pgm.gz",
         ],
-        "workers": 1,
+        "n_parallel": 1,
         "expected_success": True,
         "expected_frames": 5
     },
@@ -322,7 +322,7 @@ def test_read_trex_rgb_unstable_stream0_multiple_files_workers(srs, test_dict):
             "20210503_0603_luck_rgb-03_full.pgm.gz",
             "20210503_0604_luck_rgb-03_full.pgm.gz",
         ],
-        "workers": 2,
+        "n_parallel": 2,
         "expected_success": True,
         "expected_frames": 5
     },
@@ -334,7 +334,7 @@ def test_read_trex_rgb_unstable_stream0_multiple_files_workers(srs, test_dict):
             "20210503_0603_luck_rgb-03_full.pgm.gz",
             "20210503_0604_luck_rgb-03_full.pgm.gz",
         ],
-        "workers": 5,
+        "n_parallel": 5,
         "expected_success": True,
         "expected_frames": 5
     },
@@ -349,7 +349,7 @@ def test_read_trex_rgb_unstable_stream0_first_frame(srs, test_dict):
     # read file
     data = srs.data.readers.read_trex_rgb(
         file_list,
-        n_parallel=test_dict["workers"],
+        n_parallel=test_dict["n_parallel"],
         first_record=True,
     )
 
@@ -377,7 +377,7 @@ def test_read_trex_rgb_unstable_stream0_first_frame(srs, test_dict):
         "filenames": [
             "20210503_0600_luck_rgb-03_full.pgm.gz",
         ],
-        "workers": 1,
+        "n_parallel": 1,
         "expected_success": True,
         "expected_frames": 20
     },
@@ -386,7 +386,7 @@ def test_read_trex_rgb_unstable_stream0_first_frame(srs, test_dict):
             "20210503_0600_luck_rgb-03_full.pgm.gz",
             "20210503_0601_luck_rgb-03_full.pgm.gz",
         ],
-        "workers": 2,
+        "n_parallel": 2,
         "expected_success": True,
         "expected_frames": 40
     },
@@ -396,7 +396,7 @@ def test_read_trex_rgb_unstable_stream0_first_frame(srs, test_dict):
             "20210503_0601_luck_rgb-03_full.pgm.gz",
             "20210503_0605_luck_rgb-03_full.pgm",
         ],
-        "workers": 3,
+        "n_parallel": 3,
         "expected_success": True,
         "expected_frames": 60
     },
@@ -408,7 +408,7 @@ def test_read_trex_rgb_unstable_stream0_first_frame(srs, test_dict):
             "20210503_0603_luck_rgb-03_full.pgm.gz",
             "20210503_0604_luck_rgb-03_full.pgm.gz",
         ],
-        "workers": 5,
+        "n_parallel": 5,
         "expected_success": True,
         "expected_frames": 100
     },
@@ -422,7 +422,7 @@ def test_read_trex_rgb_unstable_stream0_no_metadata(srs, test_dict):
     # read file
     data = srs.data.readers.read_trex_rgb(
         file_list,
-        n_parallel=test_dict["workers"],
+        n_parallel=test_dict["n_parallel"],
         no_metadata=True,
     )
 
@@ -449,7 +449,7 @@ def test_read_trex_rgb_unstable_stream0_no_metadata(srs, test_dict):
         "filenames": [
             "20210503_0600_luck_rgb-03_full.pgm.gz",
         ],
-        "workers": 1,
+        "n_parallel": 1,
         "expected_success": True,
         "expected_frames": 1
     },
@@ -458,7 +458,7 @@ def test_read_trex_rgb_unstable_stream0_no_metadata(srs, test_dict):
             "20210503_0600_luck_rgb-03_full.pgm.gz",
             "20210503_0601_luck_rgb-03_full.pgm.gz",
         ],
-        "workers": 2,
+        "n_parallel": 2,
         "expected_success": True,
         "expected_frames": 2
     },
@@ -470,7 +470,7 @@ def test_read_trex_rgb_unstable_stream0_no_metadata(srs, test_dict):
             "20210503_0603_luck_rgb-03_full.pgm.gz",
             "20210503_0604_luck_rgb-03_full.pgm.gz",
         ],
-        "workers": 5,
+        "n_parallel": 5,
         "expected_success": True,
         "expected_frames": 5
     },
@@ -485,7 +485,7 @@ def test_read_trex_rgb_unstable_stream0_first_frame_and_no_metadata(srs, test_di
     # read file
     data = srs.data.readers.read_trex_rgb(
         file_list,
-        n_parallel=test_dict["workers"],
+        n_parallel=test_dict["n_parallel"],
         first_record=True,
         no_metadata=True,
     )

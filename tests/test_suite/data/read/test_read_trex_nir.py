@@ -130,19 +130,19 @@ def test_read_trex_nir_multiple_files(srs, all_datasets, test_dict):
 @pytest.mark.parametrize("test_dict", [
     {
         "filename": "20220307_0600_gill_nir-216_8446.pgm.gz",
-        "workers": 1,
+        "n_parallel": 1,
         "expected_success": True,
         "expected_frames": 10
     },
     {
         "filename": "20220307_0601_gill_nir-216_8446.pgm.gz",
-        "workers": 2,
+        "n_parallel": 2,
         "expected_success": True,
         "expected_frames": 10
     },
 ])
 @pytest.mark.data_read
-def test_read_trex_nir_single_file_workers(srs, all_datasets, test_dict):
+def test_read_trex_nir_single_file_n_parallel(srs, all_datasets, test_dict):
     # set dataset
     dataset = find_dataset(all_datasets, "TREX_NIR_RAW")
 
@@ -150,7 +150,7 @@ def test_read_trex_nir_single_file_workers(srs, all_datasets, test_dict):
     data = srs.data.read(
         dataset,
         "%s/%s" % (DATA_DIR, test_dict["filename"]),
-        n_parallel=test_dict["workers"],
+        n_parallel=test_dict["n_parallel"],
     )
 
     # check success
@@ -176,7 +176,7 @@ def test_read_trex_nir_single_file_workers(srs, all_datasets, test_dict):
         "filenames": [
             "20220307_0600_gill_nir-216_8446.pgm.gz",
         ],
-        "workers": 1,
+        "n_parallel": 1,
         "expected_success": True,
         "expected_frames": 10
     },
@@ -184,7 +184,7 @@ def test_read_trex_nir_single_file_workers(srs, all_datasets, test_dict):
         "filenames": [
             "20220307_0600_gill_nir-216_8446.pgm.gz",
         ],
-        "workers": 2,
+        "n_parallel": 2,
         "expected_success": True,
         "expected_frames": 10
     },
@@ -193,7 +193,7 @@ def test_read_trex_nir_single_file_workers(srs, all_datasets, test_dict):
             "20220307_0600_gill_nir-216_8446.pgm.gz",
             "20220307_0601_gill_nir-216_8446.pgm.gz",
         ],
-        "workers": 1,
+        "n_parallel": 1,
         "expected_success": True,
         "expected_frames": 20
     },
@@ -202,7 +202,7 @@ def test_read_trex_nir_single_file_workers(srs, all_datasets, test_dict):
             "20220307_0600_gill_nir-216_8446.pgm.gz",
             "20220307_0601_gill_nir-216_8446.pgm.gz",
         ],
-        "workers": 2,
+        "n_parallel": 2,
         "expected_success": True,
         "expected_frames": 20
     },
@@ -214,7 +214,7 @@ def test_read_trex_nir_single_file_workers(srs, all_datasets, test_dict):
             "20220307_0603_gill_nir-216_8446.pgm.gz",
             "20220307_0604_gill_nir-216_8446.pgm.gz",
         ],
-        "workers": 1,
+        "n_parallel": 1,
         "expected_success": True,
         "expected_frames": 50
     },
@@ -226,7 +226,7 @@ def test_read_trex_nir_single_file_workers(srs, all_datasets, test_dict):
             "20220307_0603_gill_nir-216_8446.pgm.gz",
             "20220307_0604_gill_nir-216_8446.pgm.gz",
         ],
-        "workers": 2,
+        "n_parallel": 2,
         "expected_success": True,
         "expected_frames": 50
     },
@@ -238,13 +238,13 @@ def test_read_trex_nir_single_file_workers(srs, all_datasets, test_dict):
             "20220307_0603_gill_nir-216_8446.pgm.gz",
             "20220307_0604_gill_nir-216_8446.pgm.gz",
         ],
-        "workers": 5,
+        "n_parallel": 5,
         "expected_success": True,
         "expected_frames": 50
     },
 ])
 @pytest.mark.data_read
-def test_read_trex_nir_multiple_files_workers(srs, all_datasets, test_dict):
+def test_read_trex_nir_multiple_files_n_parallel(srs, all_datasets, test_dict):
     # set dataset
     dataset = find_dataset(all_datasets, "TREX_NIR_RAW")
 
@@ -257,7 +257,7 @@ def test_read_trex_nir_multiple_files_workers(srs, all_datasets, test_dict):
     data = srs.data.read(
         dataset,
         file_list,
-        n_parallel=test_dict["workers"],
+        n_parallel=test_dict["n_parallel"],
     )
 
     # check success
@@ -283,7 +283,7 @@ def test_read_trex_nir_multiple_files_workers(srs, all_datasets, test_dict):
         "filenames": [
             "20220307_0600_gill_nir-216_8446.pgm.gz",
         ],
-        "workers": 1,
+        "n_parallel": 1,
         "expected_success": True,
         "expected_frames": 1
     },
@@ -291,7 +291,7 @@ def test_read_trex_nir_multiple_files_workers(srs, all_datasets, test_dict):
         "filenames": [
             "20220307_0600_gill_nir-216_8446.pgm.gz",
         ],
-        "workers": 2,
+        "n_parallel": 2,
         "expected_success": True,
         "expected_frames": 1
     },
@@ -300,7 +300,7 @@ def test_read_trex_nir_multiple_files_workers(srs, all_datasets, test_dict):
             "20220307_0600_gill_nir-216_8446.pgm.gz",
             "20220307_0601_gill_nir-216_8446.pgm.gz",
         ],
-        "workers": 1,
+        "n_parallel": 1,
         "expected_success": True,
         "expected_frames": 2
     },
@@ -309,7 +309,7 @@ def test_read_trex_nir_multiple_files_workers(srs, all_datasets, test_dict):
             "20220307_0600_gill_nir-216_8446.pgm.gz",
             "20220307_0601_gill_nir-216_8446.pgm.gz",
         ],
-        "workers": 2,
+        "n_parallel": 2,
         "expected_success": True,
         "expected_frames": 2
     },
@@ -319,7 +319,7 @@ def test_read_trex_nir_multiple_files_workers(srs, all_datasets, test_dict):
             "20220307_0601_gill_nir-216_8446.pgm.gz",
             "20220307_0605_gill_nir-216_8446.pgm",
         ],
-        "workers": 2,
+        "n_parallel": 2,
         "expected_success": True,
         "expected_frames": 3
     },
@@ -331,7 +331,7 @@ def test_read_trex_nir_multiple_files_workers(srs, all_datasets, test_dict):
             "20220307_0603_gill_nir-216_8446.pgm.gz",
             "20220307_0604_gill_nir-216_8446.pgm.gz",
         ],
-        "workers": 1,
+        "n_parallel": 1,
         "expected_success": True,
         "expected_frames": 5
     },
@@ -343,7 +343,7 @@ def test_read_trex_nir_multiple_files_workers(srs, all_datasets, test_dict):
             "20220307_0603_gill_nir-216_8446.pgm.gz",
             "20220307_0604_gill_nir-216_8446.pgm.gz",
         ],
-        "workers": 2,
+        "n_parallel": 2,
         "expected_success": True,
         "expected_frames": 5
     },
@@ -355,7 +355,7 @@ def test_read_trex_nir_multiple_files_workers(srs, all_datasets, test_dict):
             "20220307_0603_gill_nir-216_8446.pgm.gz",
             "20220307_0604_gill_nir-216_8446.pgm.gz",
         ],
-        "workers": 5,
+        "n_parallel": 5,
         "expected_success": True,
         "expected_frames": 5
     },
@@ -374,7 +374,7 @@ def test_read_trex_nir_first_frame(srs, all_datasets, test_dict):
     data = srs.data.read(
         dataset,
         file_list,
-        n_parallel=test_dict["workers"],
+        n_parallel=test_dict["n_parallel"],
         first_record=True,
     )
 
@@ -401,7 +401,7 @@ def test_read_trex_nir_first_frame(srs, all_datasets, test_dict):
         "filenames": [
             "20220307_0600_gill_nir-216_8446.pgm.gz",
         ],
-        "workers": 1,
+        "n_parallel": 1,
         "expected_success": True,
         "expected_frames": 10
     },
@@ -410,7 +410,7 @@ def test_read_trex_nir_first_frame(srs, all_datasets, test_dict):
             "20220307_0600_gill_nir-216_8446.pgm.gz",
             "20220307_0601_gill_nir-216_8446.pgm.gz",
         ],
-        "workers": 2,
+        "n_parallel": 2,
         "expected_success": True,
         "expected_frames": 20
     },
@@ -420,7 +420,7 @@ def test_read_trex_nir_first_frame(srs, all_datasets, test_dict):
             "20220307_0601_gill_nir-216_8446.pgm.gz",
             "20220307_0605_gill_nir-216_8446.pgm",
         ],
-        "workers": 3,
+        "n_parallel": 3,
         "expected_success": True,
         "expected_frames": 30
     },
@@ -432,7 +432,7 @@ def test_read_trex_nir_first_frame(srs, all_datasets, test_dict):
             "20220307_0603_gill_nir-216_8446.pgm.gz",
             "20220307_0604_gill_nir-216_8446.pgm.gz",
         ],
-        "workers": 5,
+        "n_parallel": 5,
         "expected_success": True,
         "expected_frames": 50
     },
@@ -451,7 +451,7 @@ def test_read_trex_nir_no_metadata(srs, all_datasets, test_dict):
     data = srs.data.read(
         dataset,
         file_list,
-        n_parallel=test_dict["workers"],
+        n_parallel=test_dict["n_parallel"],
         no_metadata=True,
     )
 
@@ -478,7 +478,7 @@ def test_read_trex_nir_no_metadata(srs, all_datasets, test_dict):
         "filenames": [
             "20220307_0600_gill_nir-216_8446.pgm.gz",
         ],
-        "workers": 1,
+        "n_parallel": 1,
         "expected_success": True,
         "expected_frames": 1
     },
@@ -487,7 +487,7 @@ def test_read_trex_nir_no_metadata(srs, all_datasets, test_dict):
             "20220307_0600_gill_nir-216_8446.pgm.gz",
             "20220307_0601_gill_nir-216_8446.pgm.gz",
         ],
-        "workers": 2,
+        "n_parallel": 2,
         "expected_success": True,
         "expected_frames": 2
     },
@@ -499,7 +499,7 @@ def test_read_trex_nir_no_metadata(srs, all_datasets, test_dict):
             "20220307_0603_gill_nir-216_8446.pgm.gz",
             "20220307_0604_gill_nir-216_8446.pgm.gz",
         ],
-        "workers": 5,
+        "n_parallel": 5,
         "expected_success": True,
         "expected_frames": 5
     },
@@ -518,7 +518,7 @@ def test_read_trex_nir_first_frame_and_no_metadata(srs, all_datasets, test_dict)
     data = srs.data.read(
         dataset,
         file_list,
-        n_parallel=test_dict["workers"],
+        n_parallel=test_dict["n_parallel"],
         first_record=True,
         no_metadata=True,
     )
@@ -633,7 +633,7 @@ def test_read_trex_nir_badperms_file(srs, all_datasets):
         "filenames": [
             "20220307_0600_gill_nir-216_8446.pgm.gz",
         ],
-        "workers": 1,
+        "n_parallel": 1,
         "expected_success": True,
         "expected_frames": 1
     },
@@ -642,7 +642,7 @@ def test_read_trex_nir_badperms_file(srs, all_datasets):
             "20220307_0600_gill_nir-216_8446.pgm.gz",
             "20220307_0601_gill_nir-216_8446.pgm.gz",
         ],
-        "workers": 2,
+        "n_parallel": 2,
         "expected_success": True,
         "expected_frames": 2
     },
@@ -654,7 +654,7 @@ def test_read_trex_nir_badperms_file(srs, all_datasets):
             "20220307_0603_gill_nir-216_8446.pgm.gz",
             "20220307_0604_gill_nir-216_8446.pgm.gz",
         ],
-        "workers": 5,
+        "n_parallel": 5,
         "expected_success": True,
         "expected_frames": 5
     },
@@ -672,7 +672,7 @@ def test_read_trex_nir_readers_func(srs, all_datasets, test_dict):
     # read file
     data = srs.data.readers.read_trex_nir(
         file_list,
-        n_parallel=test_dict["workers"],
+        n_parallel=test_dict["n_parallel"],
         first_record=True,
         no_metadata=True,
         dataset=dataset,
@@ -701,7 +701,7 @@ def test_read_trex_nir_readers_func(srs, all_datasets, test_dict):
         "filenames": [
             "20220307_0600_gill_nir-216_8446.pgm.gz",
         ],
-        "workers": 1,
+        "n_parallel": 1,
         "expected_success": True,
         "expected_frames": 1
     },
@@ -710,7 +710,7 @@ def test_read_trex_nir_readers_func(srs, all_datasets, test_dict):
             "20220307_0600_gill_nir-216_8446.pgm.gz",
             "20220307_0601_gill_nir-216_8446.pgm.gz",
         ],
-        "workers": 2,
+        "n_parallel": 2,
         "expected_success": True,
         "expected_frames": 2
     },
@@ -725,7 +725,7 @@ def test_read_trex_nir_readers_func_nodataset(srs, test_dict):
     # read file
     data = srs.data.readers.read_trex_nir(
         file_list,
-        n_parallel=test_dict["workers"],
+        n_parallel=test_dict["n_parallel"],
         first_record=True,
         no_metadata=True,
     )

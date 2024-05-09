@@ -22,8 +22,17 @@ def list_datasets(srs_obj, name):
     if (r.status_code != 200):  # pragma: nocover
         raise SRSAPIException("API error code %d: %s" % (r.status_code, res["detail"]))
 
+    # get list of file reading supported datasets
+    file_reading_supported_datasets = srs_obj.data.list_supported_read_datasets()
+
     # cast response into dataset objects
-    datasets = [Dataset(**ds) for ds in res]
+    datasets = res
+    for i in range(0, len(datasets)):
+        # inject 'data_reading_supported' flag
+        datasets[i]["file_reading_supported"] = True if datasets[i]["name"] in file_reading_supported_datasets else False
+
+        # cast into object
+        datasets[i] = Dataset(**datasets[i])
 
     # return
     return datasets

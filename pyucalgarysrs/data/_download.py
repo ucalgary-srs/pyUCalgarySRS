@@ -144,9 +144,15 @@ def _get_urls(srs_obj, dataset_name, start, end, site_uid):
     if (r.status_code != 200):  # pragma: nocover
         raise SRSAPIException("API error code %d: %s" % (r.status_code, res["detail"]))
 
+    # get list of file reading supported datasets
+    file_reading_supported_datasets = srs_obj.data.list_supported_read_datasets()
+
     # cast response into FileDownloadResult object
     file_listing_obj = FileListingResponse(**res)
-    file_listing_obj.dataset = Dataset(**res["dataset"])
+
+    # cast dataset part of response
+    file_reading_supported = True if res["dataset"]["name"] in file_reading_supported_datasets else False
+    file_listing_obj.dataset = Dataset(**res["dataset"], file_reading_supported=file_reading_supported)
 
     # return
     return file_listing_obj

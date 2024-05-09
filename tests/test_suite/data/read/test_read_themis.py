@@ -130,19 +130,19 @@ def test_read_themis_multiple_files(srs, all_datasets, test_dict):
 @pytest.mark.parametrize("test_dict", [
     {
         "filename": "20140310_0600_gill_themis19_full.pgm.gz",
-        "workers": 1,
+        "n_parallel": 1,
         "expected_success": True,
         "expected_frames": 20
     },
     {
         "filename": "20140310_0601_gill_themis19_full.pgm.gz",
-        "workers": 2,
+        "n_parallel": 2,
         "expected_success": True,
         "expected_frames": 20
     },
 ])
 @pytest.mark.data_read
-def test_read_themis_single_file_workers(srs, all_datasets, test_dict):
+def test_read_themis_single_file_n_parallel(srs, all_datasets, test_dict):
     # set dataset
     dataset = find_dataset(all_datasets, "THEMIS_ASI_RAW")
 
@@ -150,7 +150,7 @@ def test_read_themis_single_file_workers(srs, all_datasets, test_dict):
     data = srs.data.read(
         dataset,
         "%s/%s" % (DATA_DIR, test_dict["filename"]),
-        n_parallel=test_dict["workers"],
+        n_parallel=test_dict["n_parallel"],
     )
 
     # check success
@@ -176,7 +176,7 @@ def test_read_themis_single_file_workers(srs, all_datasets, test_dict):
         "filenames": [
             "20140310_0600_gill_themis19_full.pgm.gz",
         ],
-        "workers": 1,
+        "n_parallel": 1,
         "expected_success": True,
         "expected_frames": 20
     },
@@ -184,7 +184,7 @@ def test_read_themis_single_file_workers(srs, all_datasets, test_dict):
         "filenames": [
             "20140310_0600_gill_themis19_full.pgm.gz",
         ],
-        "workers": 2,
+        "n_parallel": 2,
         "expected_success": True,
         "expected_frames": 20
     },
@@ -193,7 +193,7 @@ def test_read_themis_single_file_workers(srs, all_datasets, test_dict):
             "20140310_0600_gill_themis19_full.pgm.gz",
             "20140310_0601_gill_themis19_full.pgm.gz",
         ],
-        "workers": 1,
+        "n_parallel": 1,
         "expected_success": True,
         "expected_frames": 40
     },
@@ -202,7 +202,7 @@ def test_read_themis_single_file_workers(srs, all_datasets, test_dict):
             "20140310_0600_gill_themis19_full.pgm.gz",
             "20140310_0601_gill_themis19_full.pgm.gz",
         ],
-        "workers": 2,
+        "n_parallel": 2,
         "expected_success": True,
         "expected_frames": 40
     },
@@ -214,7 +214,7 @@ def test_read_themis_single_file_workers(srs, all_datasets, test_dict):
             "20140310_0603_gill_themis19_full.pgm.gz",
             "20140310_0604_gill_themis19_full.pgm.gz",
         ],
-        "workers": 1,
+        "n_parallel": 1,
         "expected_success": True,
         "expected_frames": 100
     },
@@ -226,7 +226,7 @@ def test_read_themis_single_file_workers(srs, all_datasets, test_dict):
             "20140310_0603_gill_themis19_full.pgm.gz",
             "20140310_0604_gill_themis19_full.pgm.gz",
         ],
-        "workers": 2,
+        "n_parallel": 2,
         "expected_success": True,
         "expected_frames": 100
     },
@@ -238,13 +238,13 @@ def test_read_themis_single_file_workers(srs, all_datasets, test_dict):
             "20140310_0603_gill_themis19_full.pgm.gz",
             "20140310_0604_gill_themis19_full.pgm.gz",
         ],
-        "workers": 5,
+        "n_parallel": 5,
         "expected_success": True,
         "expected_frames": 100
     },
 ])
 @pytest.mark.data_read
-def test_read_themis_multiple_files_workers(srs, all_datasets, test_dict):
+def test_read_themis_multiple_files_n_parallel(srs, all_datasets, test_dict):
     # set dataset
     dataset = find_dataset(all_datasets, "THEMIS_ASI_RAW")
 
@@ -254,7 +254,7 @@ def test_read_themis_multiple_files_workers(srs, all_datasets, test_dict):
         file_list.append("%s/%s" % (DATA_DIR, f))
 
     # read file
-    data = srs.data.read(dataset, file_list, n_parallel=test_dict["workers"])
+    data = srs.data.read(dataset, file_list, n_parallel=test_dict["n_parallel"])
 
     # check success
     if (test_dict["expected_success"] is True):
@@ -279,7 +279,7 @@ def test_read_themis_multiple_files_workers(srs, all_datasets, test_dict):
         "filenames": [
             "20140310_0600_gill_themis19_full.pgm.gz",
         ],
-        "workers": 1,
+        "n_parallel": 1,
         "expected_success": True,
         "expected_frames": 1
     },
@@ -287,7 +287,7 @@ def test_read_themis_multiple_files_workers(srs, all_datasets, test_dict):
         "filenames": [
             "20140310_0600_gill_themis19_full.pgm.gz",
         ],
-        "workers": 2,
+        "n_parallel": 2,
         "expected_success": True,
         "expected_frames": 1
     },
@@ -296,7 +296,7 @@ def test_read_themis_multiple_files_workers(srs, all_datasets, test_dict):
             "20140310_0600_gill_themis19_full.pgm.gz",
             "20140310_0601_gill_themis19_full.pgm.gz",
         ],
-        "workers": 1,
+        "n_parallel": 1,
         "expected_success": True,
         "expected_frames": 2
     },
@@ -305,7 +305,7 @@ def test_read_themis_multiple_files_workers(srs, all_datasets, test_dict):
             "20140310_0600_gill_themis19_full.pgm.gz",
             "20140310_0601_gill_themis19_full.pgm.gz",
         ],
-        "workers": 2,
+        "n_parallel": 2,
         "expected_success": True,
         "expected_frames": 2
     },
@@ -315,7 +315,7 @@ def test_read_themis_multiple_files_workers(srs, all_datasets, test_dict):
             "20140310_0601_gill_themis19_full.pgm.gz",
             "20140310_0605_gill_themis19_full.pgm",
         ],
-        "workers": 2,
+        "n_parallel": 2,
         "expected_success": True,
         "expected_frames": 3
     },
@@ -327,7 +327,7 @@ def test_read_themis_multiple_files_workers(srs, all_datasets, test_dict):
             "20140310_0603_gill_themis19_full.pgm.gz",
             "20140310_0604_gill_themis19_full.pgm.gz",
         ],
-        "workers": 1,
+        "n_parallel": 1,
         "expected_success": True,
         "expected_frames": 5
     },
@@ -339,7 +339,7 @@ def test_read_themis_multiple_files_workers(srs, all_datasets, test_dict):
             "20140310_0603_gill_themis19_full.pgm.gz",
             "20140310_0604_gill_themis19_full.pgm.gz",
         ],
-        "workers": 2,
+        "n_parallel": 2,
         "expected_success": True,
         "expected_frames": 5
     },
@@ -351,7 +351,7 @@ def test_read_themis_multiple_files_workers(srs, all_datasets, test_dict):
             "20140310_0603_gill_themis19_full.pgm.gz",
             "20140310_0604_gill_themis19_full.pgm.gz",
         ],
-        "workers": 5,
+        "n_parallel": 5,
         "expected_success": True,
         "expected_frames": 5
     },
@@ -370,7 +370,7 @@ def test_read_themis_first_record(srs, all_datasets, test_dict):
     data = srs.data.read(
         dataset,
         file_list,
-        n_parallel=test_dict["workers"],
+        n_parallel=test_dict["n_parallel"],
         first_record=True,
     )
 
@@ -397,7 +397,7 @@ def test_read_themis_first_record(srs, all_datasets, test_dict):
         "filenames": [
             "20140310_0600_gill_themis19_full.pgm.gz",
         ],
-        "workers": 1,
+        "n_parallel": 1,
         "expected_success": True,
         "expected_frames": 20
     },
@@ -406,7 +406,7 @@ def test_read_themis_first_record(srs, all_datasets, test_dict):
             "20140310_0600_gill_themis19_full.pgm.gz",
             "20140310_0601_gill_themis19_full.pgm.gz",
         ],
-        "workers": 2,
+        "n_parallel": 2,
         "expected_success": True,
         "expected_frames": 40
     },
@@ -416,7 +416,7 @@ def test_read_themis_first_record(srs, all_datasets, test_dict):
             "20140310_0601_gill_themis19_full.pgm.gz",
             "20140310_0605_gill_themis19_full.pgm",
         ],
-        "workers": 3,
+        "n_parallel": 3,
         "expected_success": True,
         "expected_frames": 60
     },
@@ -428,7 +428,7 @@ def test_read_themis_first_record(srs, all_datasets, test_dict):
             "20140310_0603_gill_themis19_full.pgm.gz",
             "20140310_0604_gill_themis19_full.pgm.gz",
         ],
-        "workers": 5,
+        "n_parallel": 5,
         "expected_success": True,
         "expected_frames": 100
     },
@@ -447,7 +447,7 @@ def test_read_themis_no_metadata(srs, all_datasets, test_dict):
     data = srs.data.read(
         dataset,
         file_list,
-        n_parallel=test_dict["workers"],
+        n_parallel=test_dict["n_parallel"],
         no_metadata=True,
     )
 
@@ -474,7 +474,7 @@ def test_read_themis_no_metadata(srs, all_datasets, test_dict):
         "filenames": [
             "20140310_0600_gill_themis19_full.pgm.gz",
         ],
-        "workers": 1,
+        "n_parallel": 1,
         "expected_success": True,
         "expected_frames": 1
     },
@@ -483,7 +483,7 @@ def test_read_themis_no_metadata(srs, all_datasets, test_dict):
             "20140310_0600_gill_themis19_full.pgm.gz",
             "20140310_0601_gill_themis19_full.pgm.gz",
         ],
-        "workers": 2,
+        "n_parallel": 2,
         "expected_success": True,
         "expected_frames": 2
     },
@@ -495,7 +495,7 @@ def test_read_themis_no_metadata(srs, all_datasets, test_dict):
             "20140310_0603_gill_themis19_full.pgm.gz",
             "20140310_0604_gill_themis19_full.pgm.gz",
         ],
-        "workers": 5,
+        "n_parallel": 5,
         "expected_success": True,
         "expected_frames": 5
     },
@@ -514,7 +514,7 @@ def test_read_themis_first_record_and_no_metadata(srs, all_datasets, test_dict):
     data = srs.data.read(
         dataset,
         file_list,
-        n_parallel=test_dict["workers"],
+        n_parallel=test_dict["n_parallel"],
         first_record=True,
         no_metadata=True,
     )
@@ -663,7 +663,7 @@ def test_read_rego_badperms_file(srs, all_datasets):
         "filenames": [
             "20140310_0600_gill_themis19_full.pgm.gz",
         ],
-        "workers": 1,
+        "n_parallel": 1,
         "expected_success": True,
         "expected_frames": 1
     },
@@ -672,7 +672,7 @@ def test_read_rego_badperms_file(srs, all_datasets):
             "20140310_0600_gill_themis19_full.pgm.gz",
             "20140310_0601_gill_themis19_full.pgm.gz",
         ],
-        "workers": 2,
+        "n_parallel": 2,
         "expected_success": True,
         "expected_frames": 2
     },
@@ -684,7 +684,7 @@ def test_read_rego_badperms_file(srs, all_datasets):
             "20140310_0603_gill_themis19_full.pgm.gz",
             "20140310_0604_gill_themis19_full.pgm.gz",
         ],
-        "workers": 5,
+        "n_parallel": 5,
         "expected_success": True,
         "expected_frames": 5
     },
@@ -702,7 +702,7 @@ def test_read_themis_readers_func(srs, all_datasets, test_dict):
     # read file
     data = srs.data.readers.read_themis(
         file_list,
-        n_parallel=test_dict["workers"],
+        n_parallel=test_dict["n_parallel"],
         first_record=True,
         no_metadata=True,
         dataset=dataset,
@@ -731,7 +731,7 @@ def test_read_themis_readers_func(srs, all_datasets, test_dict):
         "filenames": [
             "20140310_0600_gill_themis19_full.pgm.gz",
         ],
-        "workers": 1,
+        "n_parallel": 1,
         "expected_success": True,
         "expected_frames": 1
     },
@@ -740,7 +740,7 @@ def test_read_themis_readers_func(srs, all_datasets, test_dict):
             "20140310_0600_gill_themis19_full.pgm.gz",
             "20140310_0601_gill_themis19_full.pgm.gz",
         ],
-        "workers": 2,
+        "n_parallel": 2,
         "expected_success": True,
         "expected_frames": 2
     },
@@ -755,7 +755,7 @@ def test_read_themis_readers_func_nodataset(srs, test_dict):
     # read file
     data = srs.data.readers.read_themis(
         file_list,
-        n_parallel=test_dict["workers"],
+        n_parallel=test_dict["n_parallel"],
         first_record=True,
         no_metadata=True,
     )

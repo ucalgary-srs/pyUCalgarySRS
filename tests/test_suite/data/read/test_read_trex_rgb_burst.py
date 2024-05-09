@@ -133,19 +133,19 @@ def test_read_trex_rgb_burst_multiple_files(srs, all_datasets, test_dict):
 @pytest.mark.parametrize("test_dict", [
     {
         "filename": "20211030_0600_gill_rgb-04_burst.png.tar",
-        "workers": 1,
+        "n_parallel": 1,
         "expected_success": True,
         "expected_frames": 167
     },
     {
         "filename": "20211030_0601_gill_rgb-04_burst.png.tar",
-        "workers": 2,
+        "n_parallel": 2,
         "expected_success": True,
         "expected_frames": 159
     },
 ])
 @pytest.mark.data_read
-def test_read_trex_rgb_burst_single_file_workers(srs, all_datasets, test_dict):
+def test_read_trex_rgb_burst_single_file_n_parallel(srs, all_datasets, test_dict):
     # set dataset
     dataset = find_dataset(all_datasets, "TREX_RGB_RAW_BURST")
 
@@ -153,7 +153,7 @@ def test_read_trex_rgb_burst_single_file_workers(srs, all_datasets, test_dict):
     data = srs.data.read(
         dataset,
         "%s/%s" % (DATA_DIR, test_dict["filename"]),
-        n_parallel=test_dict["workers"],
+        n_parallel=test_dict["n_parallel"],
     )
 
     # check success
@@ -179,7 +179,7 @@ def test_read_trex_rgb_burst_single_file_workers(srs, all_datasets, test_dict):
         "filenames": [
             "20211030_0600_gill_rgb-04_burst.png.tar",
         ],
-        "workers": 1,
+        "n_parallel": 1,
         "expected_success": True,
         "expected_frames": 167
     },
@@ -187,7 +187,7 @@ def test_read_trex_rgb_burst_single_file_workers(srs, all_datasets, test_dict):
         "filenames": [
             "20211030_0600_gill_rgb-04_burst.png.tar",
         ],
-        "workers": 2,
+        "n_parallel": 2,
         "expected_success": True,
         "expected_frames": 167
     },
@@ -196,7 +196,7 @@ def test_read_trex_rgb_burst_single_file_workers(srs, all_datasets, test_dict):
             "20211030_0600_gill_rgb-04_burst.png.tar",
             "20211030_0601_gill_rgb-04_burst.png.tar",
         ],
-        "workers": 1,
+        "n_parallel": 1,
         "expected_success": True,
         "expected_frames": 167 + 159
     },
@@ -205,7 +205,7 @@ def test_read_trex_rgb_burst_single_file_workers(srs, all_datasets, test_dict):
             "20211030_0600_gill_rgb-04_burst.png.tar",
             "20211030_0601_gill_rgb-04_burst.png.tar",
         ],
-        "workers": 2,
+        "n_parallel": 2,
         "expected_success": True,
         "expected_frames": 167 + 159
     },
@@ -215,13 +215,13 @@ def test_read_trex_rgb_burst_single_file_workers(srs, all_datasets, test_dict):
             "20211030_0601_gill_rgb-04_burst.png.tar",
             "20211030_0602_gill_rgb-04_burst.png.tar",
         ],
-        "workers": 3,
+        "n_parallel": 3,
         "expected_success": True,
         "expected_frames": 167 + 159 + 167
     },
 ])
 @pytest.mark.data_read
-def test_read_trex_rgb_burst_multiple_files_workers(srs, all_datasets, test_dict):
+def test_read_trex_rgb_burst_multiple_files_n_parallel(srs, all_datasets, test_dict):
     # set dataset
     dataset = find_dataset(all_datasets, "TREX_RGB_RAW_BURST")
 
@@ -234,7 +234,7 @@ def test_read_trex_rgb_burst_multiple_files_workers(srs, all_datasets, test_dict
     data = srs.data.read(
         dataset,
         file_list,
-        n_parallel=test_dict["workers"],
+        n_parallel=test_dict["n_parallel"],
     )
 
     # check success
@@ -260,7 +260,7 @@ def test_read_trex_rgb_burst_multiple_files_workers(srs, all_datasets, test_dict
         "filenames": [
             "20211030_0600_gill_rgb-04_burst.png.tar",
         ],
-        "workers": 1,
+        "n_parallel": 1,
         "expected_success": True,
         "expected_frames": 1
     },
@@ -268,7 +268,7 @@ def test_read_trex_rgb_burst_multiple_files_workers(srs, all_datasets, test_dict
         "filenames": [
             "20211030_0600_gill_rgb-04_burst.png.tar",
         ],
-        "workers": 2,
+        "n_parallel": 2,
         "expected_success": True,
         "expected_frames": 1
     },
@@ -277,7 +277,7 @@ def test_read_trex_rgb_burst_multiple_files_workers(srs, all_datasets, test_dict
             "20211030_0600_gill_rgb-04_burst.png.tar",
             "20211030_0601_gill_rgb-04_burst.png.tar",
         ],
-        "workers": 1,
+        "n_parallel": 1,
         "expected_success": True,
         "expected_frames": 2
     },
@@ -286,7 +286,7 @@ def test_read_trex_rgb_burst_multiple_files_workers(srs, all_datasets, test_dict
             "20211030_0600_gill_rgb-04_burst.png.tar",
             "20211030_0601_gill_rgb-04_burst.png.tar",
         ],
-        "workers": 2,
+        "n_parallel": 2,
         "expected_success": True,
         "expected_frames": 2
     },
@@ -296,7 +296,7 @@ def test_read_trex_rgb_burst_multiple_files_workers(srs, all_datasets, test_dict
             "20211030_0601_gill_rgb-04_burst.png.tar",
             "20211030_060500_149606_gill_rgb-04_320ms_burst.png",
         ],
-        "workers": 3,
+        "n_parallel": 3,
         "expected_success": True,
         "expected_frames": 3
     },
@@ -315,7 +315,7 @@ def test_read_trex_rgb_burst_first_frame(srs, all_datasets, test_dict):
     data = srs.data.read(
         dataset,
         file_list,
-        n_parallel=test_dict["workers"],
+        n_parallel=test_dict["n_parallel"],
         first_record=True,
     )
 
@@ -342,7 +342,7 @@ def test_read_trex_rgb_burst_first_frame(srs, all_datasets, test_dict):
         "filenames": [
             "20211030_0600_gill_rgb-04_burst.png.tar",
         ],
-        "workers": 1,
+        "n_parallel": 1,
         "expected_success": True,
         "expected_frames": 167
     },
@@ -351,7 +351,7 @@ def test_read_trex_rgb_burst_first_frame(srs, all_datasets, test_dict):
             "20211030_0600_gill_rgb-04_burst.png.tar",
             "20211030_0601_gill_rgb-04_burst.png.tar",
         ],
-        "workers": 2,
+        "n_parallel": 2,
         "expected_success": True,
         "expected_frames": 167 + 159
     },
@@ -361,7 +361,7 @@ def test_read_trex_rgb_burst_first_frame(srs, all_datasets, test_dict):
             "20211030_0601_gill_rgb-04_burst.png.tar",
             "20211030_060500_149606_gill_rgb-04_320ms_burst.png",
         ],
-        "workers": 3,
+        "n_parallel": 3,
         "expected_success": True,
         "expected_frames": 167 + 159 + 1
     },
@@ -371,7 +371,7 @@ def test_read_trex_rgb_burst_first_frame(srs, all_datasets, test_dict):
             "20211030_0601_gill_rgb-04_burst.png.tar",
             "20211030_0602_gill_rgb-04_burst.png.tar",
         ],
-        "workers": 3,
+        "n_parallel": 3,
         "expected_success": True,
         "expected_frames": 167 + 159 + 167
     },
@@ -390,7 +390,7 @@ def test_read_trex_rgb_burst_no_metadata(srs, all_datasets, test_dict):
     data = srs.data.read(
         dataset,
         file_list,
-        n_parallel=test_dict["workers"],
+        n_parallel=test_dict["n_parallel"],
         no_metadata=True,
     )
 
@@ -417,7 +417,7 @@ def test_read_trex_rgb_burst_no_metadata(srs, all_datasets, test_dict):
         "filenames": [
             "20211030_0600_gill_rgb-04_burst.png.tar",
         ],
-        "workers": 1,
+        "n_parallel": 1,
         "expected_success": True,
         "expected_frames": 1
     },
@@ -426,7 +426,7 @@ def test_read_trex_rgb_burst_no_metadata(srs, all_datasets, test_dict):
             "20211030_0600_gill_rgb-04_burst.png.tar",
             "20211030_060500_149606_gill_rgb-04_320ms_burst.png",
         ],
-        "workers": 1,
+        "n_parallel": 1,
         "expected_success": True,
         "expected_frames": 2
     },
@@ -435,7 +435,7 @@ def test_read_trex_rgb_burst_no_metadata(srs, all_datasets, test_dict):
             "20211030_0600_gill_rgb-04_burst.png.tar",
             "20211030_060500_149606_gill_rgb-04_320ms_burst.png",
         ],
-        "workers": 2,
+        "n_parallel": 2,
         "expected_success": True,
         "expected_frames": 2
     },
@@ -444,7 +444,7 @@ def test_read_trex_rgb_burst_no_metadata(srs, all_datasets, test_dict):
             "20211030_0600_gill_rgb-04_burst.png.tar",
             "20211030_0601_gill_rgb-04_burst.png.tar",
         ],
-        "workers": 2,
+        "n_parallel": 2,
         "expected_success": True,
         "expected_frames": 2
     },
@@ -454,7 +454,7 @@ def test_read_trex_rgb_burst_no_metadata(srs, all_datasets, test_dict):
             "20211030_0601_gill_rgb-04_burst.png.tar",
             "20211030_0602_gill_rgb-04_burst.png.tar",
         ],
-        "workers": 3,
+        "n_parallel": 3,
         "expected_success": True,
         "expected_frames": 3
     },
@@ -473,7 +473,7 @@ def test_read_trex_rgb_burst_first_frame_and_no_metadata(srs, all_datasets, test
     data = srs.data.read(
         dataset,
         file_list,
-        n_parallel=test_dict["workers"],
+        n_parallel=test_dict["n_parallel"],
         first_record=True,
         no_metadata=True,
     )

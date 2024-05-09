@@ -11,6 +11,7 @@ class Dataset:
     long_description: str
     data_tree_url: str
     file_listing_supported: bool
+    file_reading_supported: bool
     level: str
     doi: Optional[str] = None
     doi_details: Optional[str] = None
