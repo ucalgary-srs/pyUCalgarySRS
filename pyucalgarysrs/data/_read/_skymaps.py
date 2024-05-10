@@ -1,5 +1,6 @@
 import os
 import signal
+import warnings
 from multiprocessing import Pool
 from functools import partial
 from scipy.io import readsav
@@ -72,6 +73,13 @@ def __skymaps_readfile_worker(file, quiet=False):
 
     # try to read in the file
     try:
+        # NOTE: we suppress some warnings that the readsav routine
+        # outputs since they only apply to some of our THEMIS
+        # skymaps (circa 2007-2012) and do not affect the data
+        # which is loaded.
+        warnings.simplefilter("ignore", category=Warning)
+
+        # read the save file
         data_recarray = readsav(file, python_dict=True)
     except Exception as e:
         if (quiet is False):
