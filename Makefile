@@ -1,4 +1,4 @@
-.PHONY: install update get-test-data test test-linting test-ruff test-pycodestyle test-bandit test-pyright test-pytest test-pytest-production test-pytest-staging test-pytest-ci test-coverage clean publish
+.PHONY: install update get-test-data test test-linting test-ruff test-pycodestyle test-bandit test-pyright test-pytest test-pytest-noread test-pytest-production test-pytest-staging test-pytest-ci test-coverage clean publish
 
 all:
 
@@ -48,6 +48,9 @@ test-bandit bandit:
 	@printf "\n\n"
 
 test-pytest pytest: test-pytest-staging
+
+test-pytest-noread pytest-noread:
+	pytest -n auto -m "not data_read" --cov=pyucalgarysrs --cov-report= --maxfail=1
 
 test-pytest-staging pytest-staging:
 	pytest -n auto --cov=pyucalgarysrs --cov-report= --maxfail=1

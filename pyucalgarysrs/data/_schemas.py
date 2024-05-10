@@ -71,7 +71,35 @@ class Data:
 
 
 @dataclass
+class SkymapGenerationInfo:
+    author: str
+    ccd_center: float
+    code_used: str
+    data_loc: str
+    date_generated: datetime.datetime
+    date_time_used: int
+    img_flip: ndarray
+    optical_orientation: ndarray
+    optical_projection: ndarray
+    pixel_aspect_ratio: float
+    valid_interval_start: datetime.datetime
+    valid_interval_stop: Optional[datetime.datetime] = None
+    bytscl_values: Optional[ndarray] = None
+
+    def __str__(self) -> str:
+        return self.__repr__()
+
+    def __repr__(self) -> str:
+        return "SkymapGenerationInfo(date_generated=%s, author=%s, ccd_center=%s, ...)" % (
+            str(self.date_generated.__repr__()),
+            self.author,
+            self.ccd_center,
+        )
+
+
+@dataclass
 class Skymap:
+    filename: str
     project_uid: str
     site_uid: str
     imager_uid: str
@@ -96,7 +124,8 @@ class Skymap:
     full_map_latitude: ndarray
     full_map_longitude: ndarray
     full_bin: ndarray
-    generation_info: dict
+    generation_info: SkymapGenerationInfo
+    version: str
     dataset: Optional[Dataset] = None
 
     def __str__(self) -> str:
@@ -112,3 +141,23 @@ class Skymap:
             self.site_map_longitude,
             dataset_str,
         )
+
+
+@dataclass
+class CalibrationGenerationInfo:
+    valid_interval_start: datetime.datetime
+    author: Optional[str] = None
+    valid_interval_stop: Optional[datetime.datetime] = None
+    input_data_dir: Optional[str] = None
+    skymap_filename: Optional[str] = None
+
+
+@dataclass
+class Calibration:
+    filename: str
+    detector_uid: str
+    version: str
+    generation_info: CalibrationGenerationInfo
+    rayleighs_perdn_persecond: Optional[float] = None
+    flat_field_multiplier: Optional[ndarray] = None
+    dataset: Optional[Dataset] = None

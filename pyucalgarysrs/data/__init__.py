@@ -45,7 +45,8 @@ class DataManager:
                  progress_bar_disable: bool = False,
                  progress_bar_ncols: Optional[int] = None,
                  progress_bar_ascii: Optional[str] = None,
-                 progress_bar_desc: Optional[str] = None) -> FileDownloadResult:
+                 progress_bar_desc: Optional[str] = None,
+                 timeout: Optional[int] = None) -> FileDownloadResult:
         """
         Download data from UCalgary open data archive
         """
@@ -61,9 +62,15 @@ class DataManager:
             progress_bar_ncols,
             progress_bar_ascii,
             progress_bar_desc,
+            timeout,
         )
 
-    def get_urls(self, dataset_name: str, start: datetime.datetime, end: datetime.datetime, site_uid: Optional[str] = None) -> FileListingResponse:
+    def get_urls(self,
+                 dataset_name: str,
+                 start: datetime.datetime,
+                 end: datetime.datetime,
+                 site_uid: Optional[str] = None,
+                 timeout: Optional[int] = None) -> FileListingResponse:
         """
         Get URLs of data files
         """
@@ -73,6 +80,7 @@ class DataManager:
             start,
             end,
             site_uid,
+            timeout,
         )
 
     def download_using_urls(self,
@@ -82,7 +90,8 @@ class DataManager:
                             progress_bar_disable: bool = False,
                             progress_bar_ncols: Optional[int] = None,
                             progress_bar_ascii: Optional[str] = None,
-                            progress_bar_desc: Optional[str] = None) -> FileDownloadResult:
+                            progress_bar_desc: Optional[str] = None,
+                            timeout: Optional[int] = None) -> FileDownloadResult:
         """
         Download data from UCalgary open data archive using a FileListingResponse 
         object. This would be used in cases where more customization is needed than
@@ -100,6 +109,7 @@ class DataManager:
             progress_bar_ncols,
             progress_bar_ascii,
             progress_bar_desc,
+            timeout,
         )
 
     def read(self,
@@ -108,7 +118,7 @@ class DataManager:
              n_parallel: int = 1,
              first_record: bool = False,
              no_metadata: bool = False,
-             quiet: bool = False) -> Union[Data, List[Skymap]]:
+             quiet: bool = False) -> Union[Data, List[Skymap], List[Calibration]]:
         """
         Read data files
         """

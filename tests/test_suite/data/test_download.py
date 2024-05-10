@@ -79,3 +79,24 @@ def test_download_no_overwrite(srs):
     # check that the files exist
     for f in download_obj.filenames:
         assert os.path.exists(f)
+
+
+@pytest.mark.data_download
+def test_download_timeout(srs):
+    # download data
+    download_obj = srs.data.download(
+        "TREX_RGB_HOURLY_KEOGRAM",
+        datetime.datetime(2023, 3, 1, 6, 0, 0),
+        datetime.datetime(2023, 3, 1, 8, 59, 59),
+        site_uid="gill",
+        n_parallel=1,
+        overwrite=True,
+        timeout=5,
+    )
+
+    # check download object
+    assert isinstance(download_obj, pyucalgarysrs.FileDownloadResult) is True
+
+    # check that the files exist
+    for f in download_obj.filenames:
+        assert os.path.exists(f)

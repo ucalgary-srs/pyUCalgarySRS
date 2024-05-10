@@ -54,6 +54,7 @@ def test_top_level_class_instantiation_usingparams():
         download_output_root_path=testing_download_path,
         read_tar_temp_dir=testing_read_path,
         api_key=testing_api_key,
+        default_api_timeout=5,
     )
     assert srs.api_base_url == testing_url
     assert srs.download_output_root_path == testing_download_path
@@ -89,6 +90,14 @@ def test_jupyter_notebook_flag(srs):
     assert srs.in_jupyter_notebook is False
     srs.in_jupyter_notebook = True
     assert srs.in_jupyter_notebook is True
+
+
+@pytest.mark.top_level
+def test_api_timeout(srs):
+    # set flag
+    assert srs.api_timeout == srs.DEFAULT_API_TIMEOUT
+    srs.api_timeout = 5
+    assert srs.api_timeout == 5
 
 
 @pytest.mark.top_level

@@ -1,10 +1,10 @@
 import os
 import pytest
-from pyucalgarysrs.data import Skymap
+from pyucalgarysrs import Skymap, SRSError
 from ...conftest import find_dataset
 
 # globals
-DATA_DIR = "%s/../../../test_data/read_skymaps" % (os.path.dirname(os.path.realpath(__file__)))
+DATA_DIR = "%s/../../../test_data/read_skymap" % (os.path.dirname(os.path.realpath(__file__)))
 
 
 @pytest.mark.parametrize("test_dict", [
@@ -34,7 +34,7 @@ DATA_DIR = "%s/../../../test_data/read_skymaps" % (os.path.dirname(os.path.realp
     },
 ])
 @pytest.mark.data_read
-def test_read_skymaps_single_file(srs, all_datasets, test_dict):
+def test_read_skymap_single_file(srs, all_datasets, test_dict):
     # set dataset
     dataset = find_dataset(all_datasets, test_dict["dataset_name"])
 
@@ -44,6 +44,14 @@ def test_read_skymaps_single_file(srs, all_datasets, test_dict):
     # check return type
     assert isinstance(data, list) is True
     assert isinstance(data[0], Skymap) is True
+
+    # check __str__ and __repr__ for Skymap type
+    print_str = str(data[0])
+    assert print_str != ""
+
+    # check __str__ and __repr__ for SkymapGeneration type
+    print_str = str(data[0].generation_info)
+    assert print_str != ""
 
 
 @pytest.mark.parametrize("test_dict", [
@@ -62,7 +70,7 @@ def test_read_skymaps_single_file(srs, all_datasets, test_dict):
     },
 ])
 @pytest.mark.data_read
-def test_read_skymaps_multiple_files(srs, all_datasets, test_dict):
+def test_read_skymap_multiple_files(srs, all_datasets, test_dict):
     # set dataset
     dataset = find_dataset(all_datasets, test_dict["dataset_name"])
 
@@ -105,7 +113,7 @@ def test_read_skymaps_multiple_files(srs, all_datasets, test_dict):
     },
 ])
 @pytest.mark.data_read
-def test_read_skymaps_single_file_n_parallel(srs, all_datasets, test_dict):
+def test_read_skymap_n_parallel(srs, all_datasets, test_dict):
     # set dataset
     dataset = find_dataset(all_datasets, test_dict["dataset_name"])
 
@@ -125,3 +133,23 @@ def test_read_skymaps_single_file_n_parallel(srs, all_datasets, test_dict):
     assert isinstance(data, list) is True
     for item in data:
         assert isinstance(item, Skymap) is True
+
+
+@pytest.mark.data_read
+def test_read_skymap_badperms_file(srs):
+    # set filename
+    f = "%s/themis_skymap_gill_20210308-+_v02.sav" % (DATA_DIR)
+    os.chmod(f, 0o000)
+
+    # read file and check problematic files (not quiet mode)
+    with pytest.raises(SRSError) as e_info:
+        srs.data.readers.read_skymap(f, quiet=False)
+        assert "Error reading skymap file" in str(e_info)
+
+    # read file and check problematic files (quiet mode)
+    with pytest.raises(SRSError) as e_info:
+        srs.data.readers.read_skymap(f, quiet=True)
+        assert "Error reading skymap file" in str(e_info)
+
+    # change perms back
+    os.chmod(f, 0o644)

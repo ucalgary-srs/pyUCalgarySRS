@@ -3,9 +3,13 @@ from ._schemas import Dataset
 from ..exceptions import SRSAPIError
 
 
-def list_datasets(srs_obj, name):
+def list_datasets(srs_obj, name, timeout=None):
     # init
     datasets = []
+
+    # set timeout
+    if (timeout is None):
+        timeout = srs_obj.api_timeout
 
     # set up request
     params = {}
@@ -15,7 +19,7 @@ def list_datasets(srs_obj, name):
     # make request
     url = "%s/api/v1/data_distribution/datasets" % (srs_obj.api_base_url)
     try:
-        r = requests.get(url, params=params)
+        r = requests.get(url, params=params, timeout=timeout)
         res = r.json()
     except Exception as e:  # pragma: nocover
         raise SRSAPIError("Unexpected API error: %s" % (str(e))) from e

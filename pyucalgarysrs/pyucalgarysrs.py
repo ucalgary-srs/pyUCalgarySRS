@@ -11,12 +11,14 @@ class PyUCalgarySRS:
     Top-level class for interacting with UCalgary SRS data tools
     """
     DEFAULT_API_BASE_URL = "https://api.phys.ucalgary.ca"
+    DEFAULT_API_TIMEOUT = 10
 
     def __init__(self,
                  api_base_url: str = DEFAULT_API_BASE_URL,
                  api_key: Optional[Union[str, None]] = None,
                  download_output_root_path: Optional[str] = None,
-                 read_tar_temp_dir: Optional[str] = None):
+                 read_tar_temp_dir: Optional[str] = None,
+                 default_api_timeout: int = DEFAULT_API_TIMEOUT):
         # public parameters
         self.api_base_url = api_base_url
         self.api_key = api_key
@@ -24,7 +26,8 @@ class PyUCalgarySRS:
         # private parameters exposed publicly using decorators
         self.__download_output_root_path = download_output_root_path
         self.__read_tar_temp_dir = read_tar_temp_dir
-        self.__in_jupyter_flag: bool = self.__initialize_jupyter_flag()
+        self.__in_jupyter_flag = self.__initialize_jupyter_flag()
+        self.__api_timeout = default_api_timeout
 
         # initialize paths, in jupyter flag
         self.initialize_paths()
@@ -101,6 +104,14 @@ class PyUCalgarySRS:
     @in_jupyter_notebook.setter
     def in_jupyter_notebook(self, value: bool):
         self.__in_jupyter_flag = value
+
+    @property
+    def api_timeout(self):
+        return self.__api_timeout
+
+    @api_timeout.setter
+    def api_timeout(self, value: bool):
+        self.__api_timeout = value
 
     # -----------------------------
     # public methods

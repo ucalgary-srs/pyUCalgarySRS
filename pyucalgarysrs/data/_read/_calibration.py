@@ -1,15 +1,15 @@
 import os
 import signal
-import warnings
+from typing import List
 from multiprocessing import Pool
 from functools import partial
 from scipy.io import readsav
 from ...exceptions import SRSError
 
 
-def read(file_list, n_parallel=1, quiet=False):
+def read(file_list, n_parallel=1, quiet=False) -> List:
     """
-    Read in a single skymap file or set of skymap files
+    Read in a single calibration file or set of calibration files
 
     :param file_list: filename or list of filenames
     :type file_list: str
@@ -40,10 +40,10 @@ def read(file_list, n_parallel=1, quiet=False):
         # call readfile function, run each iteration with a single input file from file_list
         data = []
         try:
-            data = pool.map(partial(__skymaps_readfile_worker, quiet=quiet), file_list)
+            data = pool.map(partial(__calibration_readfile_worker, quiet=quiet), file_list)
         except KeyboardInterrupt:  # pragma: nocover
             pool.terminate()  # gracefully kill children
-            return [], []
+            return []
         else:
             pool.close()
             pool.join()
@@ -51,7 +51,7 @@ def read(file_list, n_parallel=1, quiet=False):
         # don't bother using multiprocessing with one worker, just call the worker function directly
         data = []
         for f in file_list:
-            data.append(__skymaps_readfile_worker(f, quiet=quiet))
+            data.append(__calibration_readfile_worker(f, quiet=quiet))
 
     # process pool results
     data_dict_list = []
@@ -60,25 +60,19 @@ def read(file_list, n_parallel=1, quiet=False):
             data[i][0]["filename"] = data[i][2]
             data_dict_list.append(data[i][0])
         if (data[i][1] is True):
-            raise SRSError("Error reading skymap file '%s'" % (os.path.basename(data[i][2])))
+            raise SRSError("Error reading calibration file '%s'" % (os.path.basename(data[i][2])))
     data = None
 
     # return
     return data_dict_list
 
 
-def __skymaps_readfile_worker(file, quiet=False):
+def __calibration_readfile_worker(file, quiet=False):
     # init
     data_recarray = {}
 
     # try to read in the file
     try:
-        # NOTE: we suppress some warnings that the readsav routine
-        # outputs since they only apply to some of our THEMIS
-        # skymaps (circa 2007-2012) and do not affect the data
-        # which is loaded.
-        warnings.simplefilter("ignore", category=Warning)
-
         # read the save file
         data_recarray = readsav(file, python_dict=True)
     except Exception as e:

@@ -6,7 +6,15 @@ from ..exceptions import SRSAPIError, SRSDownloadError
 from ._schemas import FileListingResponse, FileDownloadResult, Dataset
 
 
-def __download_url(url, prefix, output_base_path, overwrite=False, pbar=None, pbar_iterator_nfiles=False):
+def __download_url(
+    url,
+    prefix,
+    output_base_path,
+    timeout,
+    overwrite=False,
+    pbar=None,
+    pbar_iterator_nfiles=False,
+):
     # set output filename
     output_filename = "%s/%s" % (output_base_path, url.removeprefix(prefix + "/"))
     if (overwrite is False and os.path.exists(output_filename)):
@@ -26,7 +34,7 @@ def __download_url(url, prefix, output_base_path, overwrite=False, pbar=None, pb
         pass
 
     # retrieve file and save to disk
-    r = requests.get(url)
+    r = requests.get(url, timeout=timeout)
     if (r.status_code == 200):
         this_bytes = len(r.content)
         with open(output_filename, 'wb') as fp:
@@ -58,6 +66,7 @@ def _download_urls(srs_obj,
                    progress_bar_ncols,
                    progress_bar_ascii,
                    progress_bar_desc,
+                   timeout,
                    progress_bar_format_numurls_nobytes=False):
 
     def __do_parallel_work(pbar=None, pbar_iterator_nfiles=False):
@@ -65,11 +74,16 @@ def _download_urls(srs_obj,
             file_listing_obj.urls[i],
             path_prefix,
             output_path,
+            timeout,
             overwrite=overwrite,
             pbar=pbar,
             pbar_iterator_nfiles=pbar_iterator_nfiles,
         ) for i in range(0, len(file_listing_obj.urls)))
         return list(job_data)
+
+    # set timeout
+    if (timeout is None):
+        timeout = srs_obj.api_timeout
 
     # set output path
     output_path = "%s/%s" % (srs_obj.download_output_root_path, file_listing_obj.dataset.name)
@@ -131,7 +145,11 @@ def _download_urls(srs_obj,
     return download_obj
 
 
-def _get_urls(srs_obj, dataset_name, start, end, site_uid):
+def _get_urls(srs_obj, dataset_name, start, end, site_uid, timeout):
+    # set timeout
+    if (timeout is None):
+        timeout = srs_obj.api_timeout
+
     # set up API file listing request
     params = {
         "name": dataset_name,
@@ -145,7 +163,7 @@ def _get_urls(srs_obj, dataset_name, start, end, site_uid):
     # make API request
     url = "%s/api/v1/data_distribution/urls" % (srs_obj.api_base_url)
     try:
-        r = requests.get(url, params=params)
+        r = requests.get(url, params=params, timeout=timeout)
         res = r.json()
     except Exception as e:  # pragma: nocover
         raise SRSAPIError("Unexpected API error: %s" % (str(e))) from e
@@ -167,9 +185,9 @@ def _get_urls(srs_obj, dataset_name, start, end, site_uid):
 
 
 def _download_generic(srs_obj, dataset_name, start, end, site_uid, n_parallel, overwrite, progress_bar_disable, progress_bar_ncols,
-                      progress_bar_ascii, progress_bar_desc):
+                      progress_bar_ascii, progress_bar_desc, timeout):
     # get file listing
-    file_listing_obj = _get_urls(srs_obj, dataset_name, start, end, site_uid)
+    file_listing_obj = _get_urls(srs_obj, dataset_name, start, end, site_uid, timeout)
 
     # download the urls
     download_obj = _download_urls(
@@ -181,6 +199,7 @@ def _download_generic(srs_obj, dataset_name, start, end, site_uid, n_parallel, o
         progress_bar_ncols,
         progress_bar_ascii,
         progress_bar_desc,
+        timeout,
     )
 
     # return
@@ -188,7 +207,7 @@ def _download_generic(srs_obj, dataset_name, start, end, site_uid, n_parallel, o
 
 
 def _download_using_urls(srs_obj, file_listing_obj, n_parallel, overwrite, progress_bar_disable, progress_bar_ncols, progress_bar_ascii,
-                         progress_bar_desc):
+                         progress_bar_desc, timeout):
     # download the urls
     download_obj = _download_urls(srs_obj,
                                   file_listing_obj,
@@ -198,6 +217,7 @@ def _download_using_urls(srs_obj, file_listing_obj, n_parallel, overwrite, progr
                                   progress_bar_ncols,
                                   progress_bar_ascii,
                                   progress_bar_desc,
+                                  timeout,
                                   progress_bar_format_numurls_nobytes=True)
 
     # return

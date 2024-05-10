@@ -23,4 +23,4 @@ file_list = download_obj.filenames
 print("\n[%s] Reading data ..." % (datetime.datetime.now()))
 for f in file_list:
     print("[%s]  Reading %s" % (datetime.datetime.now(), os.path.basename(f)))
-    data = srs.data.readers.read_skymaps(f, dataset=dataset)
+    data = srs.data.readers.read_skymap(f, dataset=dataset)

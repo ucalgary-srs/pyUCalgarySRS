@@ -22,7 +22,7 @@ file_list = download_obj.filenames
 
 # read data
 print("\n[%s] Reading data ..." % (datetime.datetime.now()))
-data = srs.data.readers.read_skymaps(file_list, n_parallel=2, dataset=dataset)
+data = srs.data.readers.read_skymap(file_list, n_parallel=2, dataset=dataset)
 
 print()
 if (data is not None):
@@ -30,3 +30,6 @@ if (data is not None):
 
 print()
 print(data)
+
+print()
+print(data[0].generation_info.__dict__)
