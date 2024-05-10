@@ -35,3 +35,10 @@ class SRSUnsupportedReadException(SRSException):
     Unsupported dataset for read function
     """
     pass
+
+
+class SRSDownloadException(SRSException):
+    """
+    Unsupported dataset for read function
+    """
+    pass

@@ -11,9 +11,7 @@ ALL_TESTS = [
             "end": datetime.datetime(2023, 1, 3, 6, 9, 0),
             "site_uid": "atha",
         },
-        "expected_success": True,
         "expected_file_count": 10,
-        "expected_error_message": None,
     },
     {
         "request": {
@@ -22,9 +20,7 @@ ALL_TESTS = [
             "end": datetime.datetime(2023, 1, 19, 23, 59, 59),
             "site_uid": "gill",
         },
-        "expected_success": True,
         "expected_file_count": 5,
-        "expected_error_message": None,
     },
 ]
 

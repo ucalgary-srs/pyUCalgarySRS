@@ -11,6 +11,7 @@ from .exceptions import (
     SRSPurgeException,
     SRSAPIException,
     SRSUnsupportedReadException,
+    SRSDownloadException,
 )
 
 # pull in schemas

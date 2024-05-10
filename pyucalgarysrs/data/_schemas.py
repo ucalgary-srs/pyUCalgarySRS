@@ -68,3 +68,47 @@ class Data:
             problematic_files_str,
             dataset_str,
         )
+
+
+@dataclass
+class Skymap:
+    project_uid: str
+    site_uid: str
+    imager_uid: str
+    site_map_latitude: float
+    site_map_longitude: float
+    site_map_altitude: float
+    bin_row: ndarray
+    bin_column: ndarray
+    bin_elevation: ndarray
+    bin_azimuth: ndarray
+    bin_map_altitude: float
+    bin_map_latitude: ndarray
+    bin_map_longitude: ndarray
+    full_row: ndarray
+    full_column: ndarray
+    full_ignore: ndarray
+    full_subtract: ndarray
+    full_multiply: ndarray
+    full_elevation: ndarray
+    full_azimuth: ndarray
+    full_map_altitude: ndarray
+    full_map_latitude: ndarray
+    full_map_longitude: ndarray
+    full_bin: ndarray
+    generation_info: dict
+    dataset: Optional[Dataset] = None
+
+    def __str__(self) -> str:
+        return self.__repr__()
+
+    def __repr__(self) -> str:
+        dataset_str = "unknown" if self.dataset is None else self.dataset.__repr__()[0:75] + "...)"
+        return "Skymap(project_uid=%s, site_uid=%s, imager_uid=%s, site_map_latitude=%f, site_map_longitude=%f, dataset=%s, ...)" % (
+            self.project_uid,
+            self.site_uid,
+            self.imager_uid,
+            self.site_map_latitude,
+            self.site_map_longitude,
+            dataset_str,
+        )

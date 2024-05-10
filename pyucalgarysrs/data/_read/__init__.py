@@ -6,7 +6,8 @@ from ._trex_nir import read as func_read_trex_nir
 from ._trex_blue import read as func_read_trex_blue
 from ._trex_rgb import read as func_read_trex_rgb
 from ._trex_spectrograph import read as func_read_trex_spectrograph
-from .._schemas import Dataset, Data, ProblematicFile
+from ._skymaps import read as func_read_skymaps
+from .._schemas import Dataset, Data, ProblematicFile, Skymap
 from ...exceptions import SRSUnsupportedReadException, SRSException
 
 
@@ -17,6 +18,13 @@ class ReadManager:
     __VALID_TREX_NIR_READFILE_DATASETS = ["TREX_NIR_RAW"]
     __VALID_TREX_BLUE_READFILE_DATASETS = ["TREX_BLUE_RAW"]
     __VALID_TREX_RGB_READFILE_DATASETS = ["TREX_RGB_RAW_NOMINAL", "TREX_RGB_RAW_BURST"]
+    __VALID_SKYMAP_READFILE_DATASETS = [
+        "REGO_SKYMAP_IDLSAV",
+        "THEMIS_ASI_SKYMAP_IDLSAV",
+        "TREX_NIR_SKYMAP_IDLSAV",
+        "TREX_RGB_SKYMAP_IDLSAV",
+        # "TREX_BLUE_SKYMAP_IDLSAV",
+    ]
 
     def __init__(self):
         pass
@@ -51,7 +59,7 @@ class ReadManager:
              first_record: bool = False,
              no_metadata: bool = False,
              quiet: bool = False,
-             as_xarray: bool = False):
+             as_xarray: bool = False) -> Union[Data, List[Skymap], None]:
         """
         This function reads in data, using the derived readfile based on the dataset name
         """
@@ -101,6 +109,8 @@ class ReadManager:
                                       quiet=quiet,
                                       as_xarray=as_xarray,
                                       dataset=dataset)
+        elif (dataset.name in self.__VALID_SKYMAP_READFILE_DATASETS):
+            return self.read_skymaps(file_list, n_parallel=n_parallel, quiet=quiet, as_xarray=as_xarray, dataset=dataset)
         else:
             raise SRSUnsupportedReadException("Dataset does not have a supported read function")
 
@@ -372,3 +382,83 @@ class ReadManager:
 
         # return
         return ret_obj
+
+    def read_skymaps(self,
+                     file_list: Union[List[str], str],
+                     n_parallel: int = 1,
+                     quiet: bool = False,
+                     as_xarray: bool = False,
+                     dataset: Optional[Dataset] = None) -> Union[None, List[Skymap]]:
+        """
+        Read in UCalgary skymap files
+        """
+        # read data
+        data = func_read_skymaps(
+            file_list,
+            n_parallel=n_parallel,
+            quiet=quiet,
+        )
+
+        # convert to appropriate return type
+        ret_list = []
+        for item in data:
+            item = item["skymap"][0]  # type: ignore
+            if (as_xarray is True):
+                ret_obj = None
+            else:
+                # create generation info dictionary
+                generation_info_dict = {
+                    "author": item.generation_info[0].author.decode(),
+                    "ccd_center": item.generation_info[0].ccd_center,
+                    "code_used": item.generation_info[0].code_used.decode(),
+                    "data_loc": item.generation_info[0].data_loc.decode(),
+                    "date_generated": item.generation_info[0].date_generated.decode(),
+                    "date_time_used": item.generation_info[0].date_time_used.decode(),
+                    "img_flip": item.generation_info[0].img_flip,
+                    "optical_orientation": item.generation_info[0].optical_orientation,
+                    "optical_projection": item.generation_info[0].optical_projection,
+                    "pixel_aspect_ratio": item.generation_info[0].pixel_aspect_ratio,
+                    "valid_interval_start": item.generation_info[0].valid_interval_start.decode(),
+                    "valid_interval_stop": item.generation_info[0].valid_interval_stop.decode(),
+                }
+
+                # add in bytscl_values parameter
+                #
+                # NOTE: bytscl_values was not present in early THEMIS skymap files, so
+                # we conditionally add it
+                if ("bytscl_values" in item.generation_info[0].dtype.names):
+                    generation_info_dict["bytscl_values"] = item.generation_info[0].bytscl_values,
+
+                # create object
+                ret_obj = Skymap(
+                    project_uid=item.project_uid.decode(),
+                    site_uid=item.site_uid.decode(),
+                    imager_uid=item.imager_uid.decode(),
+                    site_map_latitude=item.site_map_latitude,
+                    site_map_longitude=item.site_map_longitude,
+                    site_map_altitude=item.site_map_altitude,
+                    bin_row=item.bin_row,
+                    bin_column=item.bin_column,
+                    bin_elevation=item.bin_elevation,
+                    bin_azimuth=item.bin_azimuth,
+                    bin_map_altitude=item.bin_map_altitude,
+                    bin_map_latitude=item.bin_map_latitude,
+                    bin_map_longitude=item.bin_map_longitude,
+                    full_row=item.full_row,
+                    full_column=item.full_column,
+                    full_ignore=item.full_ignore,
+                    full_subtract=item.full_subtract,
+                    full_multiply=item.full_multiply,
+                    full_elevation=item.full_elevation,
+                    full_azimuth=item.full_azimuth,
+                    full_map_altitude=item.full_map_altitude,
+                    full_map_latitude=item.full_map_latitude,
+                    full_map_longitude=item.full_map_longitude,
+                    full_bin=item.full_bin,
+                    generation_info=generation_info_dict,
+                    dataset=dataset,
+                )
+            ret_list.append(ret_obj)
+
+        # return
+        return ret_list

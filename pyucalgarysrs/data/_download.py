@@ -2,7 +2,7 @@ import os
 import requests
 import joblib
 from tqdm import tqdm, tqdm_notebook
-from ..exceptions import SRSAPIException
+from ..exceptions import SRSAPIException, SRSDownloadException
 from ._schemas import FileListingResponse, FileDownloadResult, Dataset
 
 
@@ -27,16 +27,24 @@ def __download_url(url, prefix, output_base_path, overwrite=False, pbar=None, pb
 
     # retrieve file and save to disk
     r = requests.get(url)
-    this_bytes = len(r.content)
-    with open(output_filename, 'wb') as fp:
-        fp.write(r.content)
+    if (r.status_code == 200):
+        this_bytes = len(r.content)
+        with open(output_filename, 'wb') as fp:
+            fp.write(r.content)
 
-    # advance progress
-    if (pbar is not None):
-        if (pbar_iterator_nfiles is True):
-            pbar.update()
-        else:
-            pbar.update(this_bytes)
+        # advance progress
+        if (pbar is not None):
+            if (pbar_iterator_nfiles is True):
+                pbar.update()
+            else:
+                pbar.update(this_bytes)
+    else:
+        if (pbar is not None):
+            if (pbar_iterator_nfiles is True):
+                pbar.update()
+            else:
+                pbar.update(0)
+        raise SRSDownloadException("HTTP error %d when downloading '%s'" % (r.status_code, url))
 
     # return filename
     return {"filename": output_filename, "bytes_downloaded": this_bytes}

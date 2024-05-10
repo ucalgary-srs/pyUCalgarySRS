@@ -218,3 +218,27 @@ def test_download_using_urls_progress_bar_desc(srs):
     # check that the files exist
     for f in download_obj.filenames:
         assert os.path.exists(f)
+
+
+@pytest.mark.data_download
+def test_download_using_urls_bad_url(srs):
+    # get urls
+    file_listing_obj = srs.data.get_urls(
+        "TREX_RGB_HOURLY_KEOGRAM",
+        datetime.datetime(2023, 2, 5, 6, 0, 0),
+        datetime.datetime(2023, 2, 5, 8, 59, 59),
+        site_uid="gill",
+    )
+
+    # hack one of the urls
+    file_listing_obj.urls[0] = "https://data.phys.ucalgary.ca/pyucalgarysrs-testing/fake_url.txt"
+
+    # get urls, expecting a failure
+    with pytest.raises(pyucalgarysrs.SRSDownloadException) as e_info:
+        srs.data.download_using_urls(
+            file_listing_obj,
+            n_parallel=1,
+            overwrite=True,
+            progress_bar_desc="Some download description",
+        )
+        assert "HTTP error 404 when downloading" in str(e_info)
