@@ -4,7 +4,7 @@ import warnings
 from multiprocessing import Pool
 from functools import partial
 from scipy.io import readsav
-from ...exceptions import SRSException
+from ...exceptions import SRSError
 
 
 def read(file_list, n_parallel=1, quiet=False):
@@ -60,7 +60,7 @@ def read(file_list, n_parallel=1, quiet=False):
             data[i][0]["filename"] = data[i][2]
             data_dict_list.append(data[i][0])
         if (data[i][1] is True):
-            raise SRSException("Error reading skymap file '%s'" % (os.path.basename(data[i][2])))
+            raise SRSError("Error reading skymap file '%s'" % (os.path.basename(data[i][2])))
     data = None
 
     # return

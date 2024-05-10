@@ -6,12 +6,12 @@ from .pyucalgarysrs import PyUCalgarySRS
 
 # pull in exceptions
 from .exceptions import (
-    SRSException,
-    SRSInitializationException,
-    SRSPurgeException,
-    SRSAPIException,
-    SRSUnsupportedReadException,
-    SRSDownloadException,
+    SRSError,
+    SRSInitializationError,
+    SRSPurgeError,
+    SRSAPIError,
+    SRSUnsupportedReadError,
+    SRSDownloadError,
 )
 
 # pull in schemas

@@ -8,7 +8,7 @@ from ._trex_rgb import read as func_read_trex_rgb
 from ._trex_spectrograph import read as func_read_trex_spectrograph
 from ._skymaps import read as func_read_skymaps
 from .._schemas import Dataset, Data, ProblematicFile, Skymap
-from ...exceptions import SRSUnsupportedReadException, SRSException
+from ...exceptions import SRSUnsupportedReadError, SRSError
 
 
 class ReadManager:
@@ -24,6 +24,12 @@ class ReadManager:
         "TREX_NIR_SKYMAP_IDLSAV",
         "TREX_RGB_SKYMAP_IDLSAV",
         # "TREX_BLUE_SKYMAP_IDLSAV",
+    ]
+    __VALID_CALIBRATION_READFILE_DATASETS = [
+        "REGO_CALIBRATION_RAYLEIGHS_IDLSAV",
+        "REGO_CALIBRATION_FLATFIELD_IDLSAV",
+        "TREX_NIR_CALIBRATION_RAYLEIGHS_IDLSAV",
+        "TREX_NIR_CALIBRATION_FLATFIELD_IDLSAV",
     ]
 
     def __init__(self):
@@ -64,7 +70,7 @@ class ReadManager:
         """
         # verify dataset is valid
         if (dataset is None):
-            raise SRSUnsupportedReadException(
+            raise SRSUnsupportedReadError(
                 "Must supply a dataset. If not know, please use the srs.data.readers.read_<specific_routine>() function")
 
         # read data using the appropriate readfile routine
@@ -101,7 +107,7 @@ class ReadManager:
         elif (dataset.name in self.__VALID_SKYMAP_READFILE_DATASETS):
             return self.read_skymaps(file_list, n_parallel=n_parallel, quiet=quiet, dataset=dataset)
         else:
-            raise SRSUnsupportedReadException("Dataset does not have a supported read function")
+            raise SRSUnsupportedReadError("Dataset does not have a supported read function")
 
     def read_themis(self,
                     file_list: Union[List[str], str],
@@ -291,7 +297,7 @@ class ReadManager:
                 elif ("Image request start" in m):
                     timestamp_list.append(datetime.datetime.strptime(m["Image request start"], "%Y-%m-%d %H:%M:%S.%f UTC"))
                 else:
-                    raise SRSException("Unexpected timestamp metadata format")
+                    raise SRSError("Unexpected timestamp metadata format")
 
         # convert to return type
         problematic_files_objs = []

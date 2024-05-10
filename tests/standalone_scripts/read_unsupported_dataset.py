@@ -25,5 +25,5 @@ try:
     data = srs.data.read(dataset, file_list, n_parallel=1)
     print()
     print(data)
-except pyucalgarysrs.SRSUnsupportedReadException as e:
-    print("Expected error occurred\n\n[pyucalgarysrs.SRSUnsupportedReadException]: %s\n" % (str(e)))
+except pyucalgarysrs.SRSUnsupportedReadError as e:
+    print("Expected error occurred\n\n[pyucalgarysrs.SRSUnsupportedReadError]: %s\n" % (str(e)))

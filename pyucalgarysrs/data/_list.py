@@ -1,6 +1,6 @@
 import requests
 from ._schemas import Dataset
-from ..exceptions import SRSAPIException
+from ..exceptions import SRSAPIError
 
 
 def list_datasets(srs_obj, name):
@@ -18,9 +18,9 @@ def list_datasets(srs_obj, name):
         r = requests.get(url, params=params)
         res = r.json()
     except Exception as e:  # pragma: nocover
-        raise SRSAPIException("Unexpected API error: %s" % (str(e))) from e
+        raise SRSAPIError("Unexpected API error: %s" % (str(e))) from e
     if (r.status_code != 200):  # pragma: nocover
-        raise SRSAPIException("API error code %d: %s" % (r.status_code, res["detail"]))
+        raise SRSAPIError("API error code %d: %s" % (r.status_code, res["detail"]))
 
     # get list of file reading supported datasets
     file_reading_supported_datasets = srs_obj.data.list_supported_read_datasets()

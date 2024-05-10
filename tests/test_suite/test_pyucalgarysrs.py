@@ -75,10 +75,10 @@ def test_bad_paths_noparams(srs):
     # path to check on Mac. Good enough for now.
     if (platform.system() == "Linux"):
         new_path = "/dev/bad_path"
-        with pytest.raises(pyucalgarysrs.SRSInitializationException) as e_info:
+        with pytest.raises(pyucalgarysrs.SRSInitializationError) as e_info:
             srs.download_output_root_path = new_path
         assert "Error during output path creation" in str(e_info)
-        with pytest.raises(pyucalgarysrs.SRSInitializationException) as e_info:
+        with pytest.raises(pyucalgarysrs.SRSInitializationError) as e_info:
             srs.read_tar_temp_dir = new_path
         assert "Error during output path creation" in str(e_info)
 

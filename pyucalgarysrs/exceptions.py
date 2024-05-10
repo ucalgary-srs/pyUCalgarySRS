@@ -3,41 +3,41 @@ The exceptions module contains exceptions unique to the PyAuroraX library
 """
 
 
-class SRSException(Exception):
+class SRSError(Exception):
 
     def __init__(self, *args, **kwargs):
-        super(SRSException, self).__init__(*args, **kwargs)  # pragma: no cover
+        super(SRSError, self).__init__(*args, **kwargs)  # pragma: no cover
 
 
-class SRSInitializationException(SRSException):
+class SRSInitializationError(SRSError):
     """
     Error during library initialization occurred
     """
     pass
 
 
-class SRSPurgeException(SRSException):
+class SRSPurgeError(SRSError):
     """
     Error during purging of download or tar extraction working directory occurred
     """
     pass
 
 
-class SRSAPIException(SRSException):
+class SRSAPIError(SRSError):
     """
     Error during API call occurred
     """
     pass
 
 
-class SRSUnsupportedReadException(SRSException):
+class SRSUnsupportedReadError(SRSError):
     """
     Unsupported dataset for read function
     """
     pass
 
 
-class SRSDownloadException(SRSException):
+class SRSDownloadError(SRSError):
     """
     Unsupported dataset for read function
     """

@@ -38,7 +38,7 @@ pyright = "^1.1.362"
 
 [tool.ruff]
 line-length = 150
-lint.select = ["E", "F", "B"]
+lint.select = ["E", "F", "B", "N"]
 lint.ignore = [
     "F403",  # `from .schemas import *` used; unable to detect undefined names
     "F405",  # `Union` may be undefined, or defined from star imports

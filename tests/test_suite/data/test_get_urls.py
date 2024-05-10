@@ -912,7 +912,7 @@ def test_get_urls(srs, test_dict):
             site_uid=None if "site_uid" not in test_dict["request"] else test_dict["request"]["site_uid"],
         )
     else:
-        with pytest.raises(pyucalgarysrs.SRSAPIException) as e_info:
+        with pytest.raises(pyucalgarysrs.SRSAPIError) as e_info:
             url_obj = srs.data.get_urls(
                 test_dict["request"]["name"],
                 datetime.datetime.fromisoformat(test_dict["request"]["start"]),

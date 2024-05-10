@@ -1,7 +1,7 @@
 import os
 import pytest
 import numpy as np
-from pyucalgarysrs import SRSUnsupportedReadException
+from pyucalgarysrs import SRSUnsupportedReadError
 from ...conftest import find_dataset
 
 
@@ -99,7 +99,7 @@ def test_read_generic_bad_dataset(srs, all_datasets):
     dataset.name = "bad_dataset_name"
 
     # check that the read routine raises an exception
-    with pytest.raises(SRSUnsupportedReadException) as e_info:
+    with pytest.raises(SRSUnsupportedReadError) as e_info:
         _ = srs.data.read(dataset, "some_fake_filename.pgm")
         assert "Dataset does not have a supported read function" == str(e_info)
 
@@ -107,7 +107,7 @@ def test_read_generic_bad_dataset(srs, all_datasets):
 @pytest.mark.data_read
 def test_read_generic_none_dataset(srs):
     # check that the read routine raises an exception
-    with pytest.raises(SRSUnsupportedReadException) as e_info:
+    with pytest.raises(SRSUnsupportedReadError) as e_info:
         _ = srs.data.read(None, "some_fake_filename.pgm")
         assert "Must supply a dataset" in str(e_info)
 

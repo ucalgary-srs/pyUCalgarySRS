@@ -2,7 +2,7 @@ import os
 import shutil
 from typing import Optional, Union
 from pathlib import Path
-from .exceptions import SRSInitializationException, SRSPurgeException
+from .exceptions import SRSInitializationError, SRSPurgeError
 from .data import DataManager
 
 
@@ -114,7 +114,7 @@ class PyUCalgarySRS:
                 elif (os.path.isfile(item) is True):
                     os.remove(item)
         except Exception as e:  # pragma: nocover
-            raise SRSPurgeException("Error while purging download output root path: %s" % (str(e))) from e
+            raise SRSPurgeError("Error while purging download output root path: %s" % (str(e))) from e
 
     def purge_read_tar_temp_dir(self):
         try:
@@ -125,7 +125,7 @@ class PyUCalgarySRS:
                 elif (os.path.isfile(item) is True):
                     os.remove(item)
         except Exception as e:  # pragma: nocover
-            raise SRSPurgeException("Error while purging read tar temp dir: %s" % (str(e))) from e
+            raise SRSPurgeError("Error while purging read tar temp dir: %s" % (str(e))) from e
 
     def initialize_paths(self):
         if (self.__download_output_root_path is None):
@@ -136,4 +136,4 @@ class PyUCalgarySRS:
             os.makedirs(self.download_output_root_path, exist_ok=True)
             os.makedirs(self.read_tar_temp_dir, exist_ok=True)
         except IOError as e:  # pragma: nocover
-            raise SRSInitializationException("Error during output path creation: %s" % str(e)) from e
+            raise SRSInitializationError("Error during output path creation: %s" % str(e)) from e

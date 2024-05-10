@@ -234,7 +234,7 @@ def test_download_using_urls_bad_url(srs):
     file_listing_obj.urls[0] = "https://data.phys.ucalgary.ca/pyucalgarysrs-testing/fake_url.txt"
 
     # get urls, expecting a failure
-    with pytest.raises(pyucalgarysrs.SRSDownloadException) as e_info:
+    with pytest.raises(pyucalgarysrs.SRSDownloadError) as e_info:
         srs.data.download_using_urls(
             file_listing_obj,
             n_parallel=1,
