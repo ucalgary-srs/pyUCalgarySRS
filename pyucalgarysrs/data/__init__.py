@@ -108,8 +108,7 @@ class DataManager:
              n_parallel: int = 1,
              first_record: bool = False,
              no_metadata: bool = False,
-             quiet: bool = False,
-             as_xarray: bool = False):
+             quiet: bool = False) -> Union[Data, List[Skymap]]:
         """
         Read data files
         """
@@ -120,5 +119,4 @@ class DataManager:
             first_record=first_record,
             no_metadata=no_metadata,
             quiet=quiet,
-            as_xarray=as_xarray,
         )

@@ -58,8 +58,7 @@ class ReadManager:
              n_parallel: int = 1,
              first_record: bool = False,
              no_metadata: bool = False,
-             quiet: bool = False,
-             as_xarray: bool = False) -> Union[Data, List[Skymap], None]:
+             quiet: bool = False) -> Union[Data, List[Skymap]]:
         """
         This function reads in data, using the derived readfile based on the dataset name
         """
@@ -75,23 +74,15 @@ class ReadManager:
                                     first_record=first_record,
                                     no_metadata=no_metadata,
                                     quiet=quiet,
-                                    as_xarray=as_xarray,
                                     dataset=dataset)
         elif (dataset.name in self.__VALID_REGO_READFILE_DATASETS):
-            return self.read_rego(file_list,
-                                  n_parallel=n_parallel,
-                                  first_record=first_record,
-                                  no_metadata=no_metadata,
-                                  quiet=quiet,
-                                  as_xarray=as_xarray,
-                                  dataset=dataset)
+            return self.read_rego(file_list, n_parallel=n_parallel, first_record=first_record, no_metadata=no_metadata, quiet=quiet, dataset=dataset)
         elif (dataset.name in self.__VALID_TREX_NIR_READFILE_DATASETS):
             return self.read_trex_nir(file_list,
                                       n_parallel=n_parallel,
                                       first_record=first_record,
                                       no_metadata=no_metadata,
                                       quiet=quiet,
-                                      as_xarray=as_xarray,
                                       dataset=dataset)
         elif (dataset.name in self.__VALID_TREX_BLUE_READFILE_DATASETS):
             return self.read_trex_blue(file_list,
@@ -99,7 +90,6 @@ class ReadManager:
                                        first_record=first_record,
                                        no_metadata=no_metadata,
                                        quiet=quiet,
-                                       as_xarray=as_xarray,
                                        dataset=dataset)
         elif (dataset.name in self.__VALID_TREX_RGB_READFILE_DATASETS):
             return self.read_trex_rgb(file_list,
@@ -107,10 +97,9 @@ class ReadManager:
                                       first_record=first_record,
                                       no_metadata=no_metadata,
                                       quiet=quiet,
-                                      as_xarray=as_xarray,
                                       dataset=dataset)
         elif (dataset.name in self.__VALID_SKYMAP_READFILE_DATASETS):
-            return self.read_skymaps(file_list, n_parallel=n_parallel, quiet=quiet, as_xarray=as_xarray, dataset=dataset)
+            return self.read_skymaps(file_list, n_parallel=n_parallel, quiet=quiet, dataset=dataset)
         else:
             raise SRSUnsupportedReadException("Dataset does not have a supported read function")
 
@@ -120,8 +109,7 @@ class ReadManager:
                     first_record: bool = False,
                     no_metadata: bool = False,
                     quiet: bool = False,
-                    as_xarray: bool = False,
-                    dataset: Optional[Dataset] = None) -> Union[None, Data]:
+                    dataset: Optional[Dataset] = None) -> Data:
         """
         Read in THEMIS ASI raw data (stream0 full.pgm* files)
         """
@@ -140,20 +128,17 @@ class ReadManager:
             for m in meta:
                 timestamp_list.append(datetime.datetime.strptime(m["Image request start"], "%Y-%m-%d %H:%M:%S.%f UTC"))
 
-        # convert to appropriate return type
-        if (as_xarray is True):
-            ret_obj = None
-        else:
-            problematic_files_objs = []
-            for p in problematic_files:
-                problematic_files_objs.append(ProblematicFile(p["filename"], error_message=p["error_message"], error_type="error"))
-            ret_obj = Data(
-                data=img,
-                timestamp=timestamp_list,
-                metadata=meta,
-                problematic_files=problematic_files_objs,
-                dataset=dataset,
-            )
+        # convert to return type
+        problematic_files_objs = []
+        for p in problematic_files:
+            problematic_files_objs.append(ProblematicFile(p["filename"], error_message=p["error_message"], error_type="error"))
+        ret_obj = Data(
+            data=img,
+            timestamp=timestamp_list,
+            metadata=meta,
+            problematic_files=problematic_files_objs,
+            dataset=dataset,
+        )
 
         # return
         return ret_obj
@@ -164,8 +149,7 @@ class ReadManager:
                   first_record: bool = False,
                   no_metadata: bool = False,
                   quiet: bool = False,
-                  as_xarray: bool = False,
-                  dataset: Optional[Dataset] = None) -> Union[None, Data]:
+                  dataset: Optional[Dataset] = None) -> Data:
         """
         Read in REGO raw data (stream0 pgm* files)
         """
@@ -184,20 +168,17 @@ class ReadManager:
             for m in meta:
                 timestamp_list.append(datetime.datetime.strptime(m["Image request start"], "%Y-%m-%d %H:%M:%S.%f UTC"))
 
-        # convert to appropriate return type
-        if (as_xarray is True):
-            ret_obj = None
-        else:
-            problematic_files_objs = []
-            for p in problematic_files:
-                problematic_files_objs.append(ProblematicFile(p["filename"], error_message=p["error_message"], error_type="error"))
-            ret_obj = Data(
-                data=img,
-                timestamp=timestamp_list,
-                metadata=meta,
-                problematic_files=problematic_files_objs,
-                dataset=dataset,
-            )
+        # convert to return type
+        problematic_files_objs = []
+        for p in problematic_files:
+            problematic_files_objs.append(ProblematicFile(p["filename"], error_message=p["error_message"], error_type="error"))
+        ret_obj = Data(
+            data=img,
+            timestamp=timestamp_list,
+            metadata=meta,
+            problematic_files=problematic_files_objs,
+            dataset=dataset,
+        )
 
         # return
         return ret_obj
@@ -208,8 +189,7 @@ class ReadManager:
                       first_record: bool = False,
                       no_metadata: bool = False,
                       quiet: bool = False,
-                      as_xarray: bool = False,
-                      dataset: Optional[Dataset] = None) -> Union[None, Data]:
+                      dataset: Optional[Dataset] = None) -> Data:
         """
         Read in TREx near-infrared (NIR) raw data (stream0 pgm* files)
         """
@@ -229,19 +209,16 @@ class ReadManager:
                 timestamp_list.append(datetime.datetime.strptime(m["Image request start"], "%Y-%m-%d %H:%M:%S.%f UTC"))
 
         # convert to appropriate return type
-        if (as_xarray is True):
-            ret_obj = None
-        else:
-            problematic_files_objs = []
-            for p in problematic_files:
-                problematic_files_objs.append(ProblematicFile(p["filename"], error_message=p["error_message"], error_type="error"))
-            ret_obj = Data(
-                data=img,
-                timestamp=timestamp_list,
-                metadata=meta,
-                problematic_files=problematic_files_objs,
-                dataset=dataset,
-            )
+        problematic_files_objs = []
+        for p in problematic_files:
+            problematic_files_objs.append(ProblematicFile(p["filename"], error_message=p["error_message"], error_type="error"))
+        ret_obj = Data(
+            data=img,
+            timestamp=timestamp_list,
+            metadata=meta,
+            problematic_files=problematic_files_objs,
+            dataset=dataset,
+        )
 
         # return
         return ret_obj
@@ -252,8 +229,7 @@ class ReadManager:
                        first_record: bool = False,
                        no_metadata: bool = False,
                        quiet: bool = False,
-                       as_xarray: bool = False,
-                       dataset: Optional[Dataset] = None) -> Union[None, Data]:
+                       dataset: Optional[Dataset] = None) -> Data:
         """
         Read in TREx Blueline raw data (stream0 pgm* files)
         """
@@ -272,20 +248,17 @@ class ReadManager:
             for m in meta:
                 timestamp_list.append(datetime.datetime.strptime(m["Image request start"], "%Y-%m-%d %H:%M:%S.%f UTC"))
 
-        # convert to appropriate return type
-        if (as_xarray is True):
-            ret_obj = None
-        else:
-            problematic_files_objs = []
-            for p in problematic_files:
-                problematic_files_objs.append(ProblematicFile(p["filename"], error_message=p["error_message"], error_type="error"))
-            ret_obj = Data(
-                data=img,
-                timestamp=timestamp_list,
-                metadata=meta,
-                problematic_files=problematic_files_objs,
-                dataset=dataset,
-            )
+        # convert to return type
+        problematic_files_objs = []
+        for p in problematic_files:
+            problematic_files_objs.append(ProblematicFile(p["filename"], error_message=p["error_message"], error_type="error"))
+        ret_obj = Data(
+            data=img,
+            timestamp=timestamp_list,
+            metadata=meta,
+            problematic_files=problematic_files_objs,
+            dataset=dataset,
+        )
 
         # return
         return ret_obj
@@ -296,8 +269,7 @@ class ReadManager:
                       first_record: bool = False,
                       no_metadata: bool = False,
                       quiet: bool = False,
-                      as_xarray: bool = False,
-                      dataset: Optional[Dataset] = None) -> Union[None, Data]:
+                      dataset: Optional[Dataset] = None) -> Data:
         """
         Read in TREx RGB raw data (stream0 h5, stream0.burst png.tar, unstable stream0 and stream0.colour pgm* and png*)
         """
@@ -321,20 +293,17 @@ class ReadManager:
                 else:
                     raise SRSException("Unexpected timestamp metadata format")
 
-        # convert to appropriate return type
-        if (as_xarray is True):
-            ret_obj = None
-        else:
-            problematic_files_objs = []
-            for p in problematic_files:
-                problematic_files_objs.append(ProblematicFile(p["filename"], error_message=p["error_message"], error_type="error"))
-            ret_obj = Data(
-                data=img,
-                timestamp=timestamp_list,
-                metadata=meta,
-                problematic_files=problematic_files_objs,
-                dataset=dataset,
-            )
+        # convert to return type
+        problematic_files_objs = []
+        for p in problematic_files:
+            problematic_files_objs.append(ProblematicFile(p["filename"], error_message=p["error_message"], error_type="error"))
+        ret_obj = Data(
+            data=img,
+            timestamp=timestamp_list,
+            metadata=meta,
+            problematic_files=problematic_files_objs,
+            dataset=dataset,
+        )
 
         # return
         return ret_obj
@@ -345,8 +314,7 @@ class ReadManager:
                                first_record: bool = False,
                                no_metadata: bool = False,
                                quiet: bool = False,
-                               as_xarray: bool = False,
-                               dataset: Optional[Dataset] = None) -> Union[None, Data]:
+                               dataset: Optional[Dataset] = None) -> Data:
         """
         Read in TREx Spectrograph raw data (stream0 pgm* files)
         """
@@ -365,20 +333,17 @@ class ReadManager:
             for m in meta:
                 timestamp_list.append(datetime.datetime.strptime(m["Image request start"], "%Y-%m-%d %H:%M:%S.%f UTC"))
 
-        # convert to appropriate return type
-        if (as_xarray is True):
-            ret_obj = None
-        else:
-            problematic_files_objs = []
-            for p in problematic_files:
-                problematic_files_objs.append(ProblematicFile(p["filename"], error_message=p["error_message"], error_type="error"))
-            ret_obj = Data(
-                data=img,
-                timestamp=timestamp_list,
-                metadata=meta,
-                problematic_files=problematic_files_objs,
-                dataset=dataset,
-            )
+        # convert to return type
+        problematic_files_objs = []
+        for p in problematic_files:
+            problematic_files_objs.append(ProblematicFile(p["filename"], error_message=p["error_message"], error_type="error"))
+        ret_obj = Data(
+            data=img,
+            timestamp=timestamp_list,
+            metadata=meta,
+            problematic_files=problematic_files_objs,
+            dataset=dataset,
+        )
 
         # return
         return ret_obj
@@ -387,8 +352,7 @@ class ReadManager:
                      file_list: Union[List[str], str],
                      n_parallel: int = 1,
                      quiet: bool = False,
-                     as_xarray: bool = False,
-                     dataset: Optional[Dataset] = None) -> Union[None, List[Skymap]]:
+                     dataset: Optional[Dataset] = None) -> List[Skymap]:
         """
         Read in UCalgary skymap files
         """
@@ -399,65 +363,64 @@ class ReadManager:
             quiet=quiet,
         )
 
-        # convert to appropriate return type
+        # convert to return object
         ret_list = []
         for item in data:
             item = item["skymap"][0]  # type: ignore
-            if (as_xarray is True):
-                ret_obj = None
-            else:
-                # create generation info dictionary
-                generation_info_dict = {
-                    "author": item.generation_info[0].author.decode(),
-                    "ccd_center": item.generation_info[0].ccd_center,
-                    "code_used": item.generation_info[0].code_used.decode(),
-                    "data_loc": item.generation_info[0].data_loc.decode(),
-                    "date_generated": item.generation_info[0].date_generated.decode(),
-                    "date_time_used": item.generation_info[0].date_time_used.decode(),
-                    "img_flip": item.generation_info[0].img_flip,
-                    "optical_orientation": item.generation_info[0].optical_orientation,
-                    "optical_projection": item.generation_info[0].optical_projection,
-                    "pixel_aspect_ratio": item.generation_info[0].pixel_aspect_ratio,
-                    "valid_interval_start": item.generation_info[0].valid_interval_start.decode(),
-                    "valid_interval_stop": item.generation_info[0].valid_interval_stop.decode(),
-                }
+            # create generation info dictionary
+            generation_info_dict = {
+                "author": item.generation_info[0].author.decode(),
+                "ccd_center": item.generation_info[0].ccd_center,
+                "code_used": item.generation_info[0].code_used.decode(),
+                "data_loc": item.generation_info[0].data_loc.decode(),
+                "date_generated": item.generation_info[0].date_generated.decode(),
+                "date_time_used": item.generation_info[0].date_time_used.decode(),
+                "img_flip": item.generation_info[0].img_flip,
+                "optical_orientation": item.generation_info[0].optical_orientation,
+                "optical_projection": item.generation_info[0].optical_projection,
+                "pixel_aspect_ratio": item.generation_info[0].pixel_aspect_ratio,
+                "valid_interval_start": item.generation_info[0].valid_interval_start.decode(),
+                "valid_interval_stop": item.generation_info[0].valid_interval_stop.decode(),
+            }
 
-                # add in bytscl_values parameter
-                #
-                # NOTE: bytscl_values was not present in early THEMIS skymap files, so
-                # we conditionally add it
-                if ("bytscl_values" in item.generation_info[0].dtype.names):
-                    generation_info_dict["bytscl_values"] = item.generation_info[0].bytscl_values,
+            # add in bytscl_values parameter
+            #
+            # NOTE: bytscl_values was not present in early THEMIS skymap files, so
+            # we conditionally add it
+            if ("bytscl_values" in item.generation_info[0].dtype.names):
+                generation_info_dict["bytscl_values"] = item.generation_info[0].bytscl_values
 
-                # create object
-                ret_obj = Skymap(
-                    project_uid=item.project_uid.decode(),
-                    site_uid=item.site_uid.decode(),
-                    imager_uid=item.imager_uid.decode(),
-                    site_map_latitude=item.site_map_latitude,
-                    site_map_longitude=item.site_map_longitude,
-                    site_map_altitude=item.site_map_altitude,
-                    bin_row=item.bin_row,
-                    bin_column=item.bin_column,
-                    bin_elevation=item.bin_elevation,
-                    bin_azimuth=item.bin_azimuth,
-                    bin_map_altitude=item.bin_map_altitude,
-                    bin_map_latitude=item.bin_map_latitude,
-                    bin_map_longitude=item.bin_map_longitude,
-                    full_row=item.full_row,
-                    full_column=item.full_column,
-                    full_ignore=item.full_ignore,
-                    full_subtract=item.full_subtract,
-                    full_multiply=item.full_multiply,
-                    full_elevation=item.full_elevation,
-                    full_azimuth=item.full_azimuth,
-                    full_map_altitude=item.full_map_altitude,
-                    full_map_latitude=item.full_map_latitude,
-                    full_map_longitude=item.full_map_longitude,
-                    full_bin=item.full_bin,
-                    generation_info=generation_info_dict,
-                    dataset=dataset,
-                )
+            # create object
+            ret_obj = Skymap(
+                project_uid=item.project_uid.decode(),
+                site_uid=item.site_uid.decode(),
+                imager_uid=item.imager_uid.decode(),
+                site_map_latitude=item.site_map_latitude,
+                site_map_longitude=item.site_map_longitude,
+                site_map_altitude=item.site_map_altitude,
+                bin_row=item.bin_row,
+                bin_column=item.bin_column,
+                bin_elevation=item.bin_elevation,
+                bin_azimuth=item.bin_azimuth,
+                bin_map_altitude=item.bin_map_altitude,
+                bin_map_latitude=item.bin_map_latitude,
+                bin_map_longitude=item.bin_map_longitude,
+                full_row=item.full_row,
+                full_column=item.full_column,
+                full_ignore=item.full_ignore,
+                full_subtract=item.full_subtract,
+                full_multiply=item.full_multiply,
+                full_elevation=item.full_elevation,
+                full_azimuth=item.full_azimuth,
+                full_map_altitude=item.full_map_altitude,
+                full_map_latitude=item.full_map_latitude,
+                full_map_longitude=item.full_map_longitude,
+                full_bin=item.full_bin,
+                generation_info=generation_info_dict,
+                dataset=dataset,
+            )
+
+            # append object
             ret_list.append(ret_obj)
 
         # return
