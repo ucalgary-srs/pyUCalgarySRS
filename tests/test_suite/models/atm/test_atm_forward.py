@@ -559,7 +559,7 @@ def test_atm_forward(srs, test_dict):
 
 
 @pytest.mark.atm
-def test_atm_forward_schema_atm_forward_output_flags(srs):
+def test_atm_forward_schema_atm_forward_output_flags():
     # init
     excluded_items = ["set_all_true", "set_all_false", "enable_only_height_integrated_rayleighs"]
 
@@ -599,7 +599,7 @@ def test_atm_forward_schema_atm_forward_result(srs, capsys):
         test_dict["request"]["output"][key] = True
 
     # do a request
-    result, output_obj = __do_function(srs, test_dict)
+    result, _ = __do_function(srs, test_dict)
 
     # check pretty_print method
     result.pretty_print()

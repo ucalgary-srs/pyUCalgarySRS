@@ -1,7 +1,8 @@
 import datetime
 from ._forward import forward as func_forward
 from ._inverse import inverse as func_inverse
-from ._schemas import *
+from ._schemas_forward import *
+from ._schemas_inverse import *
 
 
 class ATMManager:
@@ -16,6 +17,7 @@ class ATMManager:
     __ATM_DEFAULT_TIMESCALE_AURORAL = 600
     __ATM_DEFAULT_TIMESCALE_TRANSPORT = 300
     __ATM_DEFAULT_MODEL_VERSION = "1.0"
+    __ATM_DEFAULT_PRECIPITATION_SPECTRAL_FLUX_TYPE = "gaussian"
 
     def __init__(self, srs_obj):
         self.__srs_obj = srs_obj
@@ -62,8 +64,36 @@ class ATMManager:
             timeout,
         )
 
-    def inverse(self) -> None:
+    def inverse(self,
+                timestamp: datetime.datetime,
+                geodetic_latitude: float,
+                geodetic_longitude: float,
+                intensity_4278: float,
+                intensity_5577: float,
+                intensity_6300: float,
+                intensity_8446: float,
+                output: ATMInverseOutputFlags,
+                precipitation_flux_spectral_type: Literal["gaussian", "maxwellian"] = __ATM_DEFAULT_PRECIPITATION_SPECTRAL_FLUX_TYPE,
+                nrlmsis_model_version: Literal["00", "2.0"] = __ATM_DEFAULT_NRLMSIS_MODEL_VERSION,
+                atm_model_version: Literal["1.0"] = __ATM_DEFAULT_MODEL_VERSION,
+                no_cache: bool = False,
+                timeout: Optional[int] = None) -> ATMInverseResult:
         """
         Perform an inverse calculation using the TREx Auroral Transport Model and the supplied input parameters.
         """
-        return func_inverse(self.__srs_obj)
+        return func_inverse(
+            self.__srs_obj,
+            timestamp,
+            geodetic_latitude,
+            geodetic_longitude,
+            intensity_4278,
+            intensity_5577,
+            intensity_6300,
+            intensity_8446,
+            output,
+            precipitation_flux_spectral_type,
+            nrlmsis_model_version,
+            atm_model_version,
+            no_cache,
+            timeout,
+        )

@@ -26,9 +26,16 @@ from .data._schemas import (
     SkymapGenerationInfo,
     ProblematicFile,
 )
-from .models._atm._schemas import (
+from .models._atm._schemas_forward import (
     ATMForwardOutputFlags,
     ATMForwardRequest,
     ATMForwardResult,
     ATMForwardResultRequestInfo,
+)
+from .models._atm._schemas_inverse import (
+    ATMInverseForwardParams,
+    ATMInverseOutputFlags,
+    ATMInverseRequest,
+    ATMInverseResult,
+    ATMInverseResultRequestInfo,
 )
