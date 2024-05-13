@@ -49,16 +49,21 @@ def test_top_level_class_instantiation_usingparams():
     testing_read_path = str("%s/pyucalgarysrs_data_tar_testing%s" %
                             (Path.home(), ''.join(random.choices(string.ascii_lowercase + string.digits, k=8))))
     testing_api_key = "abcd1234"
+    testing_api_timeout = 5
+    testing_api_headers = {"some_key": "some value"}
     srs = pyucalgarysrs.PyUCalgarySRS(
         api_base_url=testing_url,
         download_output_root_path=testing_download_path,
         read_tar_temp_dir=testing_read_path,
         api_key=testing_api_key,
-        default_api_timeout=5,
+        api_timeout=testing_api_timeout,
+        api_headers=testing_api_headers,
     )
-    assert srs.api_base_url == testing_url
     assert srs.download_output_root_path == testing_download_path
     assert srs.read_tar_temp_dir == testing_read_path
+    assert srs.api_base_url == testing_url
+    assert srs.api_timeout == testing_api_timeout
+    assert srs.api_headers == testing_api_headers
     assert srs.api_key == testing_api_key
     assert os.path.exists(testing_download_path)
     assert os.path.exists(testing_read_path)

@@ -571,7 +571,7 @@ def test_read_trex_spectrograph_bad_file(srs, test_dict):
 @pytest.mark.data_read
 def test_read_trex_spectrograph_badperms_file(srs):
     # set filename
-    f = "%s/20230101_0600_rabb_spect-01_spectra.pgm.gz" % (DATA_DIR)
+    f = "%s/20230101_0600_rabb_spect-01_spectra_badperms.pgm.gz" % (DATA_DIR)
     os.chmod(f, 0o000)
 
     # read file and check problematic files (not quiet mode)

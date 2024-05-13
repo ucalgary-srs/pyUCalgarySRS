@@ -1,9 +1,11 @@
 import os
 import shutil
-from typing import Optional, Union
+from typing import Optional, Union, Dict
 from pathlib import Path
 from .exceptions import SRSInitializationError, SRSPurgeError
 from .data import DataManager
+from .models import ModelsManager
+from . import __version__
 
 
 class PyUCalgarySRS:
@@ -12,28 +14,36 @@ class PyUCalgarySRS:
     """
     DEFAULT_API_BASE_URL = "https://api.phys.ucalgary.ca"
     DEFAULT_API_TIMEOUT = 10
+    DEFAULT_API_HEADERS = {
+        "accept": "application/json",
+        "content-type": "application/json",
+        "user-agent": "python-pyaurorax/%s" % (__version__),
+    }
 
     def __init__(self,
-                 api_base_url: str = DEFAULT_API_BASE_URL,
-                 api_key: Optional[Union[str, None]] = None,
                  download_output_root_path: Optional[str] = None,
                  read_tar_temp_dir: Optional[str] = None,
-                 default_api_timeout: int = DEFAULT_API_TIMEOUT):
+                 api_base_url: str = DEFAULT_API_BASE_URL,
+                 api_key: Optional[Union[str, None]] = None,
+                 api_timeout: int = DEFAULT_API_TIMEOUT,
+                 api_headers: Optional[Dict] = DEFAULT_API_HEADERS):
         # public parameters
         self.api_base_url = api_base_url
         self.api_key = api_key
+        self.api_headers = api_headers
+        self.api_timeout = api_timeout
+        self.in_jupyter_notebook = self.__initialize_jupyter_flag()
 
         # private parameters exposed publicly using decorators
         self.__download_output_root_path = download_output_root_path
         self.__read_tar_temp_dir = read_tar_temp_dir
-        self.__in_jupyter_flag = self.__initialize_jupyter_flag()
-        self.__api_timeout = default_api_timeout
 
-        # initialize paths, in jupyter flag
+        # initialize paths
         self.initialize_paths()
 
-        # sub-modules
+        # initialize sub-modules
         self.data = DataManager(self)
+        self.models = ModelsManager(self)
 
     # special methods
     # -----------------------------
@@ -53,11 +63,15 @@ class PyUCalgarySRS:
         Returns:
             PyUCalgarySRS object representation
         """
-        return "PyUCalgarySRS(api_base_url='%s', download_output_root_path='%s', read_tar_temp_dir='%s')" % (
-            self.api_base_url,
-            self.__download_output_root_path,
-            self.__read_tar_temp_dir,
-        )
+        return ("PyUCalgarySRS(download_output_root_path='%s', read_tar_temp_dir='%s', api_base_url='%s', " +
+                "api_headers=%s, api_timeout=%s, in_jupyter_notebook=%s)") % (
+                    self.__download_output_root_path,
+                    self.__read_tar_temp_dir,
+                    self.api_base_url,
+                    self.api_headers,
+                    self.api_timeout,
+                    self.in_jupyter_notebook,
+                )
 
     def __initialize_jupyter_flag(self):
         """
@@ -96,22 +110,6 @@ class PyUCalgarySRS:
     def read_tar_temp_dir(self, value: str):
         self.__read_tar_temp_dir = value
         self.initialize_paths()
-
-    @property
-    def in_jupyter_notebook(self):
-        return self.__in_jupyter_flag
-
-    @in_jupyter_notebook.setter
-    def in_jupyter_notebook(self, value: bool):
-        self.__in_jupyter_flag = value
-
-    @property
-    def api_timeout(self):
-        return self.__api_timeout
-
-    @api_timeout.setter
-    def api_timeout(self, value: bool):
-        self.__api_timeout = value
 
     # -----------------------------
     # public methods

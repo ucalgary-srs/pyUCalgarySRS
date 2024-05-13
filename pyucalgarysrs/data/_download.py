@@ -10,6 +10,7 @@ def __download_url(
     url,
     prefix,
     output_base_path,
+    headers,
     timeout,
     overwrite=False,
     pbar=None,
@@ -34,7 +35,7 @@ def __download_url(
         pass
 
     # retrieve file and save to disk
-    r = requests.get(url, timeout=timeout)
+    r = requests.get(url, headers=headers, timeout=timeout)
     if (r.status_code == 200):
         this_bytes = len(r.content)
         with open(output_filename, 'wb') as fp:
@@ -74,6 +75,7 @@ def _download_urls(srs_obj,
             file_listing_obj.urls[i],
             path_prefix,
             output_path,
+            srs_obj.api_headers,
             timeout,
             overwrite=overwrite,
             pbar=pbar,
@@ -163,7 +165,7 @@ def _get_urls(srs_obj, dataset_name, start, end, site_uid, timeout):
     # make API request
     url = "%s/api/v1/data_distribution/urls" % (srs_obj.api_base_url)
     try:
-        r = requests.get(url, params=params, timeout=timeout)
+        r = requests.get(url, params=params, headers=srs_obj.api_headers, timeout=timeout)
         res = r.json()
     except Exception as e:  # pragma: nocover
         raise SRSAPIError("Unexpected API error: %s" % (str(e))) from e

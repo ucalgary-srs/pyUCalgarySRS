@@ -1,6 +1,7 @@
 import os
 import pytest
 import numpy as np
+from pyucalgarysrs.data import ProblematicFile
 
 # globals
 DATA_DIR = "%s/../../../test_data/read_trex_rgb/unstable/stream0.colour" % (os.path.dirname(os.path.realpath(__file__)))
@@ -524,3 +525,69 @@ def test_read_trex_rgb_unstable_stream0colour_first_frame_and_no_metadata(srs, t
 
     # check dtype
     assert data.data.dtype == np.uint8
+
+
+@pytest.mark.parametrize("test_dict", [
+    {
+        "filenames": [
+            "some_unexpected_file.txt",
+        ],
+        "expected_success": False,
+        "expected_frames": 1
+    },
+    {
+        "filenames": [
+            "20220512_0711_fsmi_rgb-01_full.png.tar",
+        ],
+        "expected_success": False,
+        "expected_frames": 1
+    },
+])
+@pytest.mark.data_read
+def test_read_trex_rgb_unstable_stream0colour_bad_file(srs, test_dict):
+    # build file list
+    file_list = []
+    for f in test_dict["filenames"]:
+        file_list.append("%s/%s" % (DATA_DIR, f))
+
+    # read file and check problematic files (not quiet mode)
+    data = srs.data.readers.read_trex_rgb(file_list, quiet=False)
+    assert len(data.problematic_files) > 0
+    assert isinstance(data.problematic_files[0], ProblematicFile)
+
+    # read file and check problematic files (quiet mode)
+    data = srs.data.readers.read_trex_rgb(file_list, quiet=True)
+    assert len(data.problematic_files) > 0
+    assert isinstance(data.problematic_files[0], ProblematicFile)
+
+    # read file as single string input if only one file was supplied
+    if (len(test_dict["filenames"]) == 0):
+        # read file and check problematic files (not quiet mode)
+        data = srs.data.readers.read_trex_rgb(test_dict["filenames"][0], quiet=False)
+        assert len(data.problematic_files) > 0
+        assert isinstance(data.problematic_files[0], ProblematicFile)
+
+        # read file and check problematic files (quiet mode)
+        data = srs.data.readers.read_trex_rgb(test_dict["filenames"][0], quiet=True)
+        assert len(data.problematic_files) > 0
+        assert isinstance(data.problematic_files[0], ProblematicFile)
+
+
+@pytest.mark.data_read
+def test_read_trex_rgb_unstable_stream0colour_badperms_file(srs):
+    # set filename
+    f = "%s/20220512_0700_fsmi_rgb-01_full_badperms.png.tar" % (DATA_DIR)
+    os.chmod(f, 0o000)
+
+    # read file and check problematic files (not quiet mode)
+    data = srs.data.readers.read_trex_rgb(f, quiet=False)
+    assert len(data.problematic_files) > 0
+    assert isinstance(data.problematic_files[0], ProblematicFile)
+
+    # read file and check problematic files (quiet mode)
+    data = srs.data.readers.read_trex_rgb(f, quiet=True)
+    assert len(data.problematic_files) > 0
+    assert isinstance(data.problematic_files[0], ProblematicFile)
+
+    # change perms back
+    os.chmod(f, 0o644)

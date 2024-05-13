@@ -17,11 +17,11 @@ class DataManager:
         self.__download = module_download
         self.readers = ReadManager()
 
-    def list_datasets(self, name: Optional[str] = None) -> List[Dataset]:
+    def list_datasets(self, name: Optional[str] = None, timeout: Optional[int] = None) -> List[Dataset]:
         """
         List available datasets
         """
-        return self.__list.list_datasets(self.__srs_obj, name)
+        return self.__list.list_datasets(self.__srs_obj, name, timeout)
 
     def list_supported_read_datasets(self) -> List[str]:
         """

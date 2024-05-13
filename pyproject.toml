@@ -73,6 +73,7 @@ markers = [
     "data_geturls: data distribution get_urls tests",
     "data_download: data distribution download tests",
     "data_read: data distribution read tests",
+    "atm: auroral transport model tests",
 ]
 
 [tool.bandit]
