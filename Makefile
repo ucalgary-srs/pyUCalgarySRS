@@ -1,4 +1,4 @@
-.PHONY: install update get-test-data test test-linting test-ruff test-pycodestyle test-bandit test-pyright test-pytest test-pytest-noread test-pytest-production test-pytest-staging test-pytest-ci test-coverage clean publish
+.PHONY: install update get-test-data docs test test-linting test-ruff test-pycodestyle test-bandit test-pyright test-pytest test-pytest-noread test-pytest-production test-pytest-staging test-pytest-ci test-coverage clean publish
 
 all:
 
@@ -18,6 +18,9 @@ get-test-data:
 	cd tests/test_data && rm -rf read_*
 	cd tests/test_data && wget -O test_data.tar https://aurora.phys.ucalgary.ca/public/github_tests/pyucalgarysrs_test_data.tar
 	cd tests/test_data && tar -xvf test_data.tar && rm test_data.tar
+
+docs:
+	poetry run pdoc3 --html --force --output-dir docs pyucalgarysrs --config "lunr_search={'fuzziness': 1}"
 
 test: test-linting
 

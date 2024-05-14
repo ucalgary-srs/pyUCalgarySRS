@@ -4,8 +4,8 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1" />
 <meta name="generator" content="pdoc 0.10.0" />
-<title>pyucalgarysrs.exceptions API documentation</title>
-<meta name="description" content="The exceptions module contains exceptions unique to the PyAuroraX library" />
+<title>pyucalgarysrs.models API documentation</title>
+<meta name="description" content="" />
 <link rel="preload stylesheet" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/11.0.1/sanitize.min.css" integrity="sha256-PK9q560IAAa6WVRRh76LtCaI8pjTJ2z11v0miyNNjrs=" crossorigin>
 <link rel="preload stylesheet" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/11.0.1/typography.min.css" integrity="sha256-7l/o7C8jubJiy74VsKTidCy1yBkRtiUGbVkYBylBqUg=" crossorigin>
 <link rel="stylesheet preload" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.1.1/styles/github.min.css" crossorigin>
@@ -19,58 +19,21 @@
 <main>
 <article id="content">
 <header>
-<h1 class="title">Module <code>pyucalgarysrs.exceptions</code></h1>
+<h1 class="title">Module <code>pyucalgarysrs.models</code></h1>
 </header>
 <section id="section-intro">
-<p>The exceptions module contains exceptions unique to the PyAuroraX library</p>
 <details class="source">
 <summary>
 <span>Expand source code</span>
 </summary>
-<pre><code class="python">&#34;&#34;&#34;
-The exceptions module contains exceptions unique to the PyAuroraX library
-&#34;&#34;&#34;
+<pre><code class="python">from ._atm import ATMManager
 
 
-class SRSError(Exception):
+class ModelsManager:
 
-    def __init__(self, *args, **kwargs):
-        super(SRSError, self).__init__(*args, **kwargs)  # pragma: no cover
-
-
-class SRSInitializationError(SRSError):
-    &#34;&#34;&#34;
-    Error during library initialization occurred
-    &#34;&#34;&#34;
-    pass
-
-
-class SRSPurgeError(SRSError):
-    &#34;&#34;&#34;
-    Error during purging of download or tar extraction working directory occurred
-    &#34;&#34;&#34;
-    pass
-
-
-class SRSAPIError(SRSError):
-    &#34;&#34;&#34;
-    Error during API call occurred
-    &#34;&#34;&#34;
-    pass
-
-
-class SRSUnsupportedReadError(SRSError):
-    &#34;&#34;&#34;
-    Unsupported dataset for read function
-    &#34;&#34;&#34;
-    pass
-
-
-class SRSDownloadError(SRSError):
-    &#34;&#34;&#34;
-    Unsupported dataset for read function
-    &#34;&#34;&#34;
-    pass</code></pre>
+    def __init__(self, srs_obj):
+        self.__srs_obj = srs_obj
+        self.atm = ATMManager(self.__srs_obj)</code></pre>
 </details>
 </section>
 <section>
@@ -82,149 +45,22 @@ class SRSDownloadError(SRSError):
 <section>
 <h2 class="section-title" id="header-classes">Classes</h2>
 <dl>
-<dt id="pyucalgarysrs.exceptions.SRSAPIError"><code class="flex name class">
-<span>class <span class="ident">SRSAPIError</span></span>
-<span>(</span><span>*args, **kwargs)</span>
+<dt id="pyucalgarysrs.models.ModelsManager"><code class="flex name class">
+<span>class <span class="ident">ModelsManager</span></span>
+<span>(</span><span>srs_obj)</span>
 </code></dt>
 <dd>
-<div class="desc"><p>Error during API call occurred</p></div>
+<div class="desc"></div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
 </summary>
-<pre><code class="python">class SRSAPIError(SRSError):
-    &#34;&#34;&#34;
-    Error during API call occurred
-    &#34;&#34;&#34;
-    pass</code></pre>
-</details>
-<h3>Ancestors</h3>
-<ul class="hlist">
-<li><a title="pyucalgarysrs.exceptions.SRSError" href="#pyucalgarysrs.exceptions.SRSError">SRSError</a></li>
-<li>builtins.Exception</li>
-<li>builtins.BaseException</li>
-</ul>
-</dd>
-<dt id="pyucalgarysrs.exceptions.SRSDownloadError"><code class="flex name class">
-<span>class <span class="ident">SRSDownloadError</span></span>
-<span>(</span><span>*args, **kwargs)</span>
-</code></dt>
-<dd>
-<div class="desc"><p>Unsupported dataset for read function</p></div>
-<details class="source">
-<summary>
-<span>Expand source code</span>
-</summary>
-<pre><code class="python">class SRSDownloadError(SRSError):
-    &#34;&#34;&#34;
-    Unsupported dataset for read function
-    &#34;&#34;&#34;
-    pass</code></pre>
-</details>
-<h3>Ancestors</h3>
-<ul class="hlist">
-<li><a title="pyucalgarysrs.exceptions.SRSError" href="#pyucalgarysrs.exceptions.SRSError">SRSError</a></li>
-<li>builtins.Exception</li>
-<li>builtins.BaseException</li>
-</ul>
-</dd>
-<dt id="pyucalgarysrs.exceptions.SRSError"><code class="flex name class">
-<span>class <span class="ident">SRSError</span></span>
-<span>(</span><span>*args, **kwargs)</span>
-</code></dt>
-<dd>
-<div class="desc"><p>Common base class for all non-exit exceptions.</p></div>
-<details class="source">
-<summary>
-<span>Expand source code</span>
-</summary>
-<pre><code class="python">class SRSError(Exception):
+<pre><code class="python">class ModelsManager:
 
-    def __init__(self, *args, **kwargs):
-        super(SRSError, self).__init__(*args, **kwargs)  # pragma: no cover</code></pre>
+    def __init__(self, srs_obj):
+        self.__srs_obj = srs_obj
+        self.atm = ATMManager(self.__srs_obj)</code></pre>
 </details>
-<h3>Ancestors</h3>
-<ul class="hlist">
-<li>builtins.Exception</li>
-<li>builtins.BaseException</li>
-</ul>
-<h3>Subclasses</h3>
-<ul class="hlist">
-<li><a title="pyucalgarysrs.exceptions.SRSAPIError" href="#pyucalgarysrs.exceptions.SRSAPIError">SRSAPIError</a></li>
-<li><a title="pyucalgarysrs.exceptions.SRSDownloadError" href="#pyucalgarysrs.exceptions.SRSDownloadError">SRSDownloadError</a></li>
-<li><a title="pyucalgarysrs.exceptions.SRSInitializationError" href="#pyucalgarysrs.exceptions.SRSInitializationError">SRSInitializationError</a></li>
-<li><a title="pyucalgarysrs.exceptions.SRSPurgeError" href="#pyucalgarysrs.exceptions.SRSPurgeError">SRSPurgeError</a></li>
-<li><a title="pyucalgarysrs.exceptions.SRSUnsupportedReadError" href="#pyucalgarysrs.exceptions.SRSUnsupportedReadError">SRSUnsupportedReadError</a></li>
-</ul>
-</dd>
-<dt id="pyucalgarysrs.exceptions.SRSInitializationError"><code class="flex name class">
-<span>class <span class="ident">SRSInitializationError</span></span>
-<span>(</span><span>*args, **kwargs)</span>
-</code></dt>
-<dd>
-<div class="desc"><p>Error during library initialization occurred</p></div>
-<details class="source">
-<summary>
-<span>Expand source code</span>
-</summary>
-<pre><code class="python">class SRSInitializationError(SRSError):
-    &#34;&#34;&#34;
-    Error during library initialization occurred
-    &#34;&#34;&#34;
-    pass</code></pre>
-</details>
-<h3>Ancestors</h3>
-<ul class="hlist">
-<li><a title="pyucalgarysrs.exceptions.SRSError" href="#pyucalgarysrs.exceptions.SRSError">SRSError</a></li>
-<li>builtins.Exception</li>
-<li>builtins.BaseException</li>
-</ul>
-</dd>
-<dt id="pyucalgarysrs.exceptions.SRSPurgeError"><code class="flex name class">
-<span>class <span class="ident">SRSPurgeError</span></span>
-<span>(</span><span>*args, **kwargs)</span>
-</code></dt>
-<dd>
-<div class="desc"><p>Error during purging of download or tar extraction working directory occurred</p></div>
-<details class="source">
-<summary>
-<span>Expand source code</span>
-</summary>
-<pre><code class="python">class SRSPurgeError(SRSError):
-    &#34;&#34;&#34;
-    Error during purging of download or tar extraction working directory occurred
-    &#34;&#34;&#34;
-    pass</code></pre>
-</details>
-<h3>Ancestors</h3>
-<ul class="hlist">
-<li><a title="pyucalgarysrs.exceptions.SRSError" href="#pyucalgarysrs.exceptions.SRSError">SRSError</a></li>
-<li>builtins.Exception</li>
-<li>builtins.BaseException</li>
-</ul>
-</dd>
-<dt id="pyucalgarysrs.exceptions.SRSUnsupportedReadError"><code class="flex name class">
-<span>class <span class="ident">SRSUnsupportedReadError</span></span>
-<span>(</span><span>*args, **kwargs)</span>
-</code></dt>
-<dd>
-<div class="desc"><p>Unsupported dataset for read function</p></div>
-<details class="source">
-<summary>
-<span>Expand source code</span>
-</summary>
-<pre><code class="python">class SRSUnsupportedReadError(SRSError):
-    &#34;&#34;&#34;
-    Unsupported dataset for read function
-    &#34;&#34;&#34;
-    pass</code></pre>
-</details>
-<h3>Ancestors</h3>
-<ul class="hlist">
-<li><a title="pyucalgarysrs.exceptions.SRSError" href="#pyucalgarysrs.exceptions.SRSError">SRSError</a></li>
-<li>builtins.Exception</li>
-<li>builtins.BaseException</li>
-</ul>
 </dd>
 </dl>
 </section>
@@ -264,7 +100,7 @@ const query = new URL(window.location).searchParams.get('q');
 if (query)
 search(query);
 function search(query) {
-const url = '../doc-search.html#' + encodeURIComponent(query);
+const url = '../../doc-search.html#' + encodeURIComponent(query);
 new tingle.modal({
 cssClass: ['modal-dialog'],
 onClose: () => {
@@ -283,28 +119,13 @@ setTimeout(() => input.focus(), 100);
 <ul id="index">
 <li><h3>Super-module</h3>
 <ul>
-<li><code><a title="pyucalgarysrs" href="index.html">pyucalgarysrs</a></code></li>
+<li><code><a title="pyucalgarysrs" href="../index.html">pyucalgarysrs</a></code></li>
 </ul>
 </li>
 <li><h3><a href="#header-classes">Classes</a></h3>
 <ul>
 <li>
-<h4><code><a title="pyucalgarysrs.exceptions.SRSAPIError" href="#pyucalgarysrs.exceptions.SRSAPIError">SRSAPIError</a></code></h4>
-</li>
-<li>
-<h4><code><a title="pyucalgarysrs.exceptions.SRSDownloadError" href="#pyucalgarysrs.exceptions.SRSDownloadError">SRSDownloadError</a></code></h4>
-</li>
-<li>
-<h4><code><a title="pyucalgarysrs.exceptions.SRSError" href="#pyucalgarysrs.exceptions.SRSError">SRSError</a></code></h4>
-</li>
-<li>
-<h4><code><a title="pyucalgarysrs.exceptions.SRSInitializationError" href="#pyucalgarysrs.exceptions.SRSInitializationError">SRSInitializationError</a></code></h4>
-</li>
-<li>
-<h4><code><a title="pyucalgarysrs.exceptions.SRSPurgeError" href="#pyucalgarysrs.exceptions.SRSPurgeError">SRSPurgeError</a></code></h4>
-</li>
-<li>
-<h4><code><a title="pyucalgarysrs.exceptions.SRSUnsupportedReadError" href="#pyucalgarysrs.exceptions.SRSUnsupportedReadError">SRSUnsupportedReadError</a></code></h4>
+<h4><code><a title="pyucalgarysrs.models.ModelsManager" href="#pyucalgarysrs.models.ModelsManager">ModelsManager</a></code></h4>
 </li>
 </ul>
 </li>

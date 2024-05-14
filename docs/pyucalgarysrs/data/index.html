@@ -1,0 +1,583 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1" />
+<meta name="generator" content="pdoc 0.10.0" />
+<title>pyucalgarysrs.data API documentation</title>
+<meta name="description" content="" />
+<link rel="preload stylesheet" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/11.0.1/sanitize.min.css" integrity="sha256-PK9q560IAAa6WVRRh76LtCaI8pjTJ2z11v0miyNNjrs=" crossorigin>
+<link rel="preload stylesheet" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/11.0.1/typography.min.css" integrity="sha256-7l/o7C8jubJiy74VsKTidCy1yBkRtiUGbVkYBylBqUg=" crossorigin>
+<link rel="stylesheet preload" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.1.1/styles/github.min.css" crossorigin>
+<style>:root{--highlight-color:#fe9}.flex{display:flex !important}body{line-height:1.5em}#content{padding:20px}#sidebar{padding:30px;overflow:hidden}#sidebar > *:last-child{margin-bottom:2cm}#lunr-search{width:100%;font-size:1em;padding:6px 9px 5px 9px;border:1px solid silver}.http-server-breadcrumbs{font-size:130%;margin:0 0 15px 0}#footer{font-size:.75em;padding:5px 30px;border-top:1px solid #ddd;text-align:right}#footer p{margin:0 0 0 1em;display:inline-block}#footer p:last-child{margin-right:30px}h1,h2,h3,h4,h5{font-weight:300}h1{font-size:2.5em;line-height:1.1em}h2{font-size:1.75em;margin:1em 0 .50em 0}h3{font-size:1.4em;margin:25px 0 10px 0}h4{margin:0;font-size:105%}h1:target,h2:target,h3:target,h4:target,h5:target,h6:target{background:var(--highlight-color);padding:.2em 0}a{color:#058;text-decoration:none;transition:color .3s ease-in-out}a:hover{color:#e82}.title code{font-weight:bold}h2[id^="header-"]{margin-top:2em}.ident{color:#900}pre code{background:#f8f8f8;font-size:.8em;line-height:1.4em}code{background:#f2f2f1;padding:1px 4px;overflow-wrap:break-word}h1 code{background:transparent}pre{background:#f8f8f8;border:0;border-top:1px solid #ccc;border-bottom:1px solid #ccc;margin:1em 0;padding:1ex}#http-server-module-list{display:flex;flex-flow:column}#http-server-module-list div{display:flex}#http-server-module-list dt{min-width:10%}#http-server-module-list p{margin-top:0}.toc ul,#index{list-style-type:none;margin:0;padding:0}#index code{background:transparent}#index h3{border-bottom:1px solid #ddd}#index ul{padding:0}#index h4{margin-top:.6em;font-weight:bold}@media (min-width:200ex){#index .two-column{column-count:2}}@media (min-width:300ex){#index .two-column{column-count:3}}dl{margin-bottom:2em}dl dl:last-child{margin-bottom:4em}dd{margin:0 0 1em 3em}#header-classes + dl > dd{margin-bottom:3em}dd dd{margin-left:2em}dd p{margin:10px 0}.name{background:#eee;font-weight:bold;font-size:.85em;padding:5px 10px;display:inline-block;min-width:40%}.name:hover{background:#e0e0e0}dt:target .name{background:var(--highlight-color)}.name > span:first-child{white-space:nowrap}.name.class > span:nth-child(2){margin-left:.4em}.inherited{color:#999;border-left:5px solid #eee;padding-left:1em}.inheritance em{font-style:normal;font-weight:bold}.desc h2{font-weight:400;font-size:1.25em}.desc h3{font-size:1em}.desc dt code{background:inherit}.source summary,.git-link-div{color:#666;text-align:right;font-weight:400;font-size:.8em;text-transform:uppercase}.source summary > *{white-space:nowrap;cursor:pointer}.git-link{color:inherit;margin-left:1em}.source pre{max-height:500px;overflow:auto;margin:0}.source pre code{font-size:12px;overflow:visible}.hlist{list-style:none}.hlist li{display:inline}.hlist li:after{content:',\2002'}.hlist li:last-child:after{content:none}.hlist .hlist{display:inline;padding-left:1em}img{max-width:100%}td{padding:0 .5em}.admonition{padding:.1em .5em;margin-bottom:1em}.admonition-title{font-weight:bold}.admonition.note,.admonition.info,.admonition.important{background:#aef}.admonition.todo,.admonition.versionadded,.admonition.tip,.admonition.hint{background:#dfd}.admonition.warning,.admonition.versionchanged,.admonition.deprecated{background:#fd4}.admonition.error,.admonition.danger,.admonition.caution{background:lightpink}</style>
+<style media="screen and (min-width: 700px)">@media screen and (min-width:700px){#sidebar{width:30%;height:100vh;overflow:auto;position:sticky;top:0}#content{width:70%;max-width:100ch;padding:3em 4em;border-left:1px solid #ddd}pre code{font-size:1em}.item .name{font-size:1em}main{display:flex;flex-direction:row-reverse;justify-content:flex-end}.toc ul ul,#index ul{padding-left:1.5em}.toc > ul > li{margin-top:.5em}}</style>
+<style media="print">@media print{#sidebar h1{page-break-before:always}.source{display:none}}@media print{*{background:transparent !important;color:#000 !important;box-shadow:none !important;text-shadow:none !important}a[href]:after{content:" (" attr(href) ")";font-size:90%}a[href][title]:after{content:none}abbr[title]:after{content:" (" attr(title) ")"}.ir a:after,a[href^="javascript:"]:after,a[href^="#"]:after{content:""}pre,blockquote{border:1px solid #999;page-break-inside:avoid}thead{display:table-header-group}tr,img{page-break-inside:avoid}img{max-width:100% !important}@page{margin:0.5cm}p,h2,h3{orphans:3;widows:3}h1,h2,h3,h4,h5,h6{page-break-after:avoid}}</style>
+<script defer src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.1.1/highlight.min.js" integrity="sha256-Uv3H6lx7dJmRfRvH8TH6kJD1TSK1aFcwgx+mdg3epi8=" crossorigin></script>
+<script>window.addEventListener('DOMContentLoaded', () => hljs.initHighlighting())</script>
+</head>
+<body>
+<main>
+<article id="content">
+<header>
+<h1 class="title">Module <code>pyucalgarysrs.data</code></h1>
+</header>
+<section id="section-intro">
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">import datetime
+from typing import List, Optional, Union
+from . import _list as module_list
+from . import _download as module_download
+from ._read import ReadManager
+from ._schemas import *
+
+
+class DataManager:
+
+    # defaults
+    __DEFAULT_DOWNLOAD_N_PARALLEL = 5
+
+    def __init__(self, srs_obj):
+        self.__srs_obj = srs_obj
+        self.__list = module_list
+        self.__download = module_download
+        self.readers = ReadManager()
+
+    def list_datasets(self, name: Optional[str] = None, timeout: Optional[int] = None) -&gt; List[Dataset]:
+        &#34;&#34;&#34;
+        List available datasets
+        &#34;&#34;&#34;
+        return self.__list.list_datasets(self.__srs_obj, name, timeout)
+
+    def list_supported_read_datasets(self) -&gt; List[str]:
+        &#34;&#34;&#34;
+        List the datasets which have file reading capabilities supported.
+        &#34;&#34;&#34;
+        return self.readers.list_supported_datasets()
+
+    def check_if_read_supported(self, dataset_name: str) -&gt; bool:
+        &#34;&#34;&#34;
+        Check if a given dataset has file reading support
+        &#34;&#34;&#34;
+        return self.readers.check_if_supported(dataset_name)
+
+    def download(self,
+                 dataset_name: str,
+                 start: datetime.datetime,
+                 end: datetime.datetime,
+                 site_uid: Optional[str] = None,
+                 n_parallel: int = __DEFAULT_DOWNLOAD_N_PARALLEL,
+                 overwrite: bool = False,
+                 progress_bar_disable: bool = False,
+                 progress_bar_ncols: Optional[int] = None,
+                 progress_bar_ascii: Optional[str] = None,
+                 progress_bar_desc: Optional[str] = None,
+                 timeout: Optional[int] = None) -&gt; FileDownloadResult:
+        &#34;&#34;&#34;
+        Download data from UCalgary open data archive
+        &#34;&#34;&#34;
+        return self.__download._download_generic(
+            self.__srs_obj,
+            dataset_name,
+            start,
+            end,
+            site_uid,
+            n_parallel,
+            overwrite,
+            progress_bar_disable,
+            progress_bar_ncols,
+            progress_bar_ascii,
+            progress_bar_desc,
+            timeout,
+        )
+
+    def get_urls(self,
+                 dataset_name: str,
+                 start: datetime.datetime,
+                 end: datetime.datetime,
+                 site_uid: Optional[str] = None,
+                 timeout: Optional[int] = None) -&gt; FileListingResponse:
+        &#34;&#34;&#34;
+        Get URLs of data files
+        &#34;&#34;&#34;
+        return self.__download._get_urls(
+            self.__srs_obj,
+            dataset_name,
+            start,
+            end,
+            site_uid,
+            timeout,
+        )
+
+    def download_using_urls(self,
+                            file_listing_response: FileListingResponse,
+                            n_parallel: int = __DEFAULT_DOWNLOAD_N_PARALLEL,
+                            overwrite: bool = False,
+                            progress_bar_disable: bool = False,
+                            progress_bar_ncols: Optional[int] = None,
+                            progress_bar_ascii: Optional[str] = None,
+                            progress_bar_desc: Optional[str] = None,
+                            timeout: Optional[int] = None) -&gt; FileDownloadResult:
+        &#34;&#34;&#34;
+        Download data from UCalgary open data archive using a FileListingResponse 
+        object. This would be used in cases where more customization is needed than
+        the generic `download` function. For example, use `get_urls` to retrieve the
+        list of URLs available for download, further process this list to fewer files
+        based on some other requirement (ie. time downsampling such as one file per hour),
+        and then use this function to download the custom set URLs.
+        &#34;&#34;&#34;
+        return self.__download._download_using_urls(
+            self.__srs_obj,
+            file_listing_response,
+            n_parallel,
+            overwrite,
+            progress_bar_disable,
+            progress_bar_ncols,
+            progress_bar_ascii,
+            progress_bar_desc,
+            timeout,
+        )
+
+    def read(self,
+             dataset: Dataset,
+             file_list: Union[List[str], str],
+             n_parallel: int = 1,
+             first_record: bool = False,
+             no_metadata: bool = False,
+             quiet: bool = False) -&gt; Union[Data, List[Skymap], List[Calibration]]:
+        &#34;&#34;&#34;
+        Read data files
+        &#34;&#34;&#34;
+        return self.readers.read(
+            dataset,
+            file_list,
+            n_parallel=n_parallel,
+            first_record=first_record,
+            no_metadata=no_metadata,
+            quiet=quiet,
+        )</code></pre>
+</details>
+</section>
+<section>
+</section>
+<section>
+</section>
+<section>
+</section>
+<section>
+<h2 class="section-title" id="header-classes">Classes</h2>
+<dl>
+<dt id="pyucalgarysrs.data.DataManager"><code class="flex name class">
+<span>class <span class="ident">DataManager</span></span>
+<span>(</span><span>srs_obj)</span>
+</code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">class DataManager:
+
+    # defaults
+    __DEFAULT_DOWNLOAD_N_PARALLEL = 5
+
+    def __init__(self, srs_obj):
+        self.__srs_obj = srs_obj
+        self.__list = module_list
+        self.__download = module_download
+        self.readers = ReadManager()
+
+    def list_datasets(self, name: Optional[str] = None, timeout: Optional[int] = None) -&gt; List[Dataset]:
+        &#34;&#34;&#34;
+        List available datasets
+        &#34;&#34;&#34;
+        return self.__list.list_datasets(self.__srs_obj, name, timeout)
+
+    def list_supported_read_datasets(self) -&gt; List[str]:
+        &#34;&#34;&#34;
+        List the datasets which have file reading capabilities supported.
+        &#34;&#34;&#34;
+        return self.readers.list_supported_datasets()
+
+    def check_if_read_supported(self, dataset_name: str) -&gt; bool:
+        &#34;&#34;&#34;
+        Check if a given dataset has file reading support
+        &#34;&#34;&#34;
+        return self.readers.check_if_supported(dataset_name)
+
+    def download(self,
+                 dataset_name: str,
+                 start: datetime.datetime,
+                 end: datetime.datetime,
+                 site_uid: Optional[str] = None,
+                 n_parallel: int = __DEFAULT_DOWNLOAD_N_PARALLEL,
+                 overwrite: bool = False,
+                 progress_bar_disable: bool = False,
+                 progress_bar_ncols: Optional[int] = None,
+                 progress_bar_ascii: Optional[str] = None,
+                 progress_bar_desc: Optional[str] = None,
+                 timeout: Optional[int] = None) -&gt; FileDownloadResult:
+        &#34;&#34;&#34;
+        Download data from UCalgary open data archive
+        &#34;&#34;&#34;
+        return self.__download._download_generic(
+            self.__srs_obj,
+            dataset_name,
+            start,
+            end,
+            site_uid,
+            n_parallel,
+            overwrite,
+            progress_bar_disable,
+            progress_bar_ncols,
+            progress_bar_ascii,
+            progress_bar_desc,
+            timeout,
+        )
+
+    def get_urls(self,
+                 dataset_name: str,
+                 start: datetime.datetime,
+                 end: datetime.datetime,
+                 site_uid: Optional[str] = None,
+                 timeout: Optional[int] = None) -&gt; FileListingResponse:
+        &#34;&#34;&#34;
+        Get URLs of data files
+        &#34;&#34;&#34;
+        return self.__download._get_urls(
+            self.__srs_obj,
+            dataset_name,
+            start,
+            end,
+            site_uid,
+            timeout,
+        )
+
+    def download_using_urls(self,
+                            file_listing_response: FileListingResponse,
+                            n_parallel: int = __DEFAULT_DOWNLOAD_N_PARALLEL,
+                            overwrite: bool = False,
+                            progress_bar_disable: bool = False,
+                            progress_bar_ncols: Optional[int] = None,
+                            progress_bar_ascii: Optional[str] = None,
+                            progress_bar_desc: Optional[str] = None,
+                            timeout: Optional[int] = None) -&gt; FileDownloadResult:
+        &#34;&#34;&#34;
+        Download data from UCalgary open data archive using a FileListingResponse 
+        object. This would be used in cases where more customization is needed than
+        the generic `download` function. For example, use `get_urls` to retrieve the
+        list of URLs available for download, further process this list to fewer files
+        based on some other requirement (ie. time downsampling such as one file per hour),
+        and then use this function to download the custom set URLs.
+        &#34;&#34;&#34;
+        return self.__download._download_using_urls(
+            self.__srs_obj,
+            file_listing_response,
+            n_parallel,
+            overwrite,
+            progress_bar_disable,
+            progress_bar_ncols,
+            progress_bar_ascii,
+            progress_bar_desc,
+            timeout,
+        )
+
+    def read(self,
+             dataset: Dataset,
+             file_list: Union[List[str], str],
+             n_parallel: int = 1,
+             first_record: bool = False,
+             no_metadata: bool = False,
+             quiet: bool = False) -&gt; Union[Data, List[Skymap], List[Calibration]]:
+        &#34;&#34;&#34;
+        Read data files
+        &#34;&#34;&#34;
+        return self.readers.read(
+            dataset,
+            file_list,
+            n_parallel=n_parallel,
+            first_record=first_record,
+            no_metadata=no_metadata,
+            quiet=quiet,
+        )</code></pre>
+</details>
+<h3>Methods</h3>
+<dl>
+<dt id="pyucalgarysrs.data.DataManager.check_if_read_supported"><code class="name flex">
+<span>def <span class="ident">check_if_read_supported</span></span>(<span>self, dataset_name: str) ‑> bool</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Check if a given dataset has file reading support</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def check_if_read_supported(self, dataset_name: str) -&gt; bool:
+    &#34;&#34;&#34;
+    Check if a given dataset has file reading support
+    &#34;&#34;&#34;
+    return self.readers.check_if_supported(dataset_name)</code></pre>
+</details>
+</dd>
+<dt id="pyucalgarysrs.data.DataManager.download"><code class="name flex">
+<span>def <span class="ident">download</span></span>(<span>self, dataset_name: str, start: datetime.datetime, end: datetime.datetime, site_uid: Optional[str] = None, n_parallel: int = 5, overwrite: bool = False, progress_bar_disable: bool = False, progress_bar_ncols: Optional[int] = None, progress_bar_ascii: Optional[str] = None, progress_bar_desc: Optional[str] = None, timeout: Optional[int] = None) ‑> pyucalgarysrs.data._schemas.FileDownloadResult</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Download data from UCalgary open data archive</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def download(self,
+             dataset_name: str,
+             start: datetime.datetime,
+             end: datetime.datetime,
+             site_uid: Optional[str] = None,
+             n_parallel: int = __DEFAULT_DOWNLOAD_N_PARALLEL,
+             overwrite: bool = False,
+             progress_bar_disable: bool = False,
+             progress_bar_ncols: Optional[int] = None,
+             progress_bar_ascii: Optional[str] = None,
+             progress_bar_desc: Optional[str] = None,
+             timeout: Optional[int] = None) -&gt; FileDownloadResult:
+    &#34;&#34;&#34;
+    Download data from UCalgary open data archive
+    &#34;&#34;&#34;
+    return self.__download._download_generic(
+        self.__srs_obj,
+        dataset_name,
+        start,
+        end,
+        site_uid,
+        n_parallel,
+        overwrite,
+        progress_bar_disable,
+        progress_bar_ncols,
+        progress_bar_ascii,
+        progress_bar_desc,
+        timeout,
+    )</code></pre>
+</details>
+</dd>
+<dt id="pyucalgarysrs.data.DataManager.download_using_urls"><code class="name flex">
+<span>def <span class="ident">download_using_urls</span></span>(<span>self, file_listing_response: pyucalgarysrs.data._schemas.FileListingResponse, n_parallel: int = 5, overwrite: bool = False, progress_bar_disable: bool = False, progress_bar_ncols: Optional[int] = None, progress_bar_ascii: Optional[str] = None, progress_bar_desc: Optional[str] = None, timeout: Optional[int] = None) ‑> pyucalgarysrs.data._schemas.FileDownloadResult</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Download data from UCalgary open data archive using a FileListingResponse
+object. This would be used in cases where more customization is needed than
+the generic <code>download</code> function. For example, use <code>get_urls</code> to retrieve the
+list of URLs available for download, further process this list to fewer files
+based on some other requirement (ie. time downsampling such as one file per hour),
+and then use this function to download the custom set URLs.</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def download_using_urls(self,
+                        file_listing_response: FileListingResponse,
+                        n_parallel: int = __DEFAULT_DOWNLOAD_N_PARALLEL,
+                        overwrite: bool = False,
+                        progress_bar_disable: bool = False,
+                        progress_bar_ncols: Optional[int] = None,
+                        progress_bar_ascii: Optional[str] = None,
+                        progress_bar_desc: Optional[str] = None,
+                        timeout: Optional[int] = None) -&gt; FileDownloadResult:
+    &#34;&#34;&#34;
+    Download data from UCalgary open data archive using a FileListingResponse 
+    object. This would be used in cases where more customization is needed than
+    the generic `download` function. For example, use `get_urls` to retrieve the
+    list of URLs available for download, further process this list to fewer files
+    based on some other requirement (ie. time downsampling such as one file per hour),
+    and then use this function to download the custom set URLs.
+    &#34;&#34;&#34;
+    return self.__download._download_using_urls(
+        self.__srs_obj,
+        file_listing_response,
+        n_parallel,
+        overwrite,
+        progress_bar_disable,
+        progress_bar_ncols,
+        progress_bar_ascii,
+        progress_bar_desc,
+        timeout,
+    )</code></pre>
+</details>
+</dd>
+<dt id="pyucalgarysrs.data.DataManager.get_urls"><code class="name flex">
+<span>def <span class="ident">get_urls</span></span>(<span>self, dataset_name: str, start: datetime.datetime, end: datetime.datetime, site_uid: Optional[str] = None, timeout: Optional[int] = None) ‑> pyucalgarysrs.data._schemas.FileListingResponse</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Get URLs of data files</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def get_urls(self,
+             dataset_name: str,
+             start: datetime.datetime,
+             end: datetime.datetime,
+             site_uid: Optional[str] = None,
+             timeout: Optional[int] = None) -&gt; FileListingResponse:
+    &#34;&#34;&#34;
+    Get URLs of data files
+    &#34;&#34;&#34;
+    return self.__download._get_urls(
+        self.__srs_obj,
+        dataset_name,
+        start,
+        end,
+        site_uid,
+        timeout,
+    )</code></pre>
+</details>
+</dd>
+<dt id="pyucalgarysrs.data.DataManager.list_datasets"><code class="name flex">
+<span>def <span class="ident">list_datasets</span></span>(<span>self, name: Optional[str] = None, timeout: Optional[int] = None) ‑> List[pyucalgarysrs.data._schemas.Dataset]</span>
+</code></dt>
+<dd>
+<div class="desc"><p>List available datasets</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def list_datasets(self, name: Optional[str] = None, timeout: Optional[int] = None) -&gt; List[Dataset]:
+    &#34;&#34;&#34;
+    List available datasets
+    &#34;&#34;&#34;
+    return self.__list.list_datasets(self.__srs_obj, name, timeout)</code></pre>
+</details>
+</dd>
+<dt id="pyucalgarysrs.data.DataManager.list_supported_read_datasets"><code class="name flex">
+<span>def <span class="ident">list_supported_read_datasets</span></span>(<span>self) ‑> List[str]</span>
+</code></dt>
+<dd>
+<div class="desc"><p>List the datasets which have file reading capabilities supported.</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def list_supported_read_datasets(self) -&gt; List[str]:
+    &#34;&#34;&#34;
+    List the datasets which have file reading capabilities supported.
+    &#34;&#34;&#34;
+    return self.readers.list_supported_datasets()</code></pre>
+</details>
+</dd>
+<dt id="pyucalgarysrs.data.DataManager.read"><code class="name flex">
+<span>def <span class="ident">read</span></span>(<span>self, dataset: pyucalgarysrs.data._schemas.Dataset, file_list: Union[List[str], str], n_parallel: int = 1, first_record: bool = False, no_metadata: bool = False, quiet: bool = False) ‑> Union[pyucalgarysrs.data._schemas.Data, List[pyucalgarysrs.data._schemas.Skymap], List[pyucalgarysrs.data._schemas.Calibration]]</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Read data files</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def read(self,
+         dataset: Dataset,
+         file_list: Union[List[str], str],
+         n_parallel: int = 1,
+         first_record: bool = False,
+         no_metadata: bool = False,
+         quiet: bool = False) -&gt; Union[Data, List[Skymap], List[Calibration]]:
+    &#34;&#34;&#34;
+    Read data files
+    &#34;&#34;&#34;
+    return self.readers.read(
+        dataset,
+        file_list,
+        n_parallel=n_parallel,
+        first_record=first_record,
+        no_metadata=no_metadata,
+        quiet=quiet,
+    )</code></pre>
+</details>
+</dd>
+</dl>
+</dd>
+</dl>
+</section>
+</article>
+<nav id="sidebar">
+<form>
+<input id="lunr-search" name="q" placeholder="🔎 Search ..." aria-label="Search"
+disabled minlength="2">
+</form>
+<link rel="preload stylesheet" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/tingle/0.15.3/tingle.min.css" integrity="sha512-j1u8eUJ4f23xPPxwOrLUPQaCD2dwzNqqmDDcWS4deWsMv2ohLqmXXuP3hU7g8TyzbMSakP/mMqoNBYWj8AEIFg==" crossorigin>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/tingle/0.15.3/tingle.min.js" integrity="sha512-plGUER9JkeEWPPqQBE4sdLqBoQug5Ap+BCGMc7bJ8BXkm+VVj6QzkpBz5Yv2yPkkq+cqg9IpkBaGCas6uDbW8g==" crossorigin></script>
+<style>
+.modal-dialog iframe {
+width: 100vw;
+height: calc(100vh - 80px);
+}
+@media screen and (min-width: 700px) {
+.modal-dialog iframe {
+width: 70vw;
+height: 80vh;
+}
+}
+.modal-dialog .tingle-modal-box {width: auto;}
+.modal-dialog .tingle-modal-box__content {padding: 0;}
+</style>
+<script>
+const input = document.getElementById('lunr-search');
+input.disabled = false;
+input.form.addEventListener('submit', (ev) => {
+ev.preventDefault();
+const url = new URL(window.location);
+url.searchParams.set('q', input.value);
+history.replaceState({}, null, url.toString());
+search(input.value);
+});
+const query = new URL(window.location).searchParams.get('q');
+if (query)
+search(query);
+function search(query) {
+const url = '../../doc-search.html#' + encodeURIComponent(query);
+new tingle.modal({
+cssClass: ['modal-dialog'],
+onClose: () => {
+const url = new URL(window.location);
+url.searchParams.delete('q');
+history.replaceState({}, null, url.toString());
+setTimeout(() => input.focus(), 100);
+}
+}).setContent('<iframe src="' + url + '"></iframe>').open();
+}
+</script>
+<h1>Index</h1>
+<div class="toc">
+<ul></ul>
+</div>
+<ul id="index">
+<li><h3>Super-module</h3>
+<ul>
+<li><code><a title="pyucalgarysrs" href="../index.html">pyucalgarysrs</a></code></li>
+</ul>
+</li>
+<li><h3><a href="#header-classes">Classes</a></h3>
+<ul>
+<li>
+<h4><code><a title="pyucalgarysrs.data.DataManager" href="#pyucalgarysrs.data.DataManager">DataManager</a></code></h4>
+<ul class="">
+<li><code><a title="pyucalgarysrs.data.DataManager.check_if_read_supported" href="#pyucalgarysrs.data.DataManager.check_if_read_supported">check_if_read_supported</a></code></li>
+<li><code><a title="pyucalgarysrs.data.DataManager.download" href="#pyucalgarysrs.data.DataManager.download">download</a></code></li>
+<li><code><a title="pyucalgarysrs.data.DataManager.download_using_urls" href="#pyucalgarysrs.data.DataManager.download_using_urls">download_using_urls</a></code></li>
+<li><code><a title="pyucalgarysrs.data.DataManager.get_urls" href="#pyucalgarysrs.data.DataManager.get_urls">get_urls</a></code></li>
+<li><code><a title="pyucalgarysrs.data.DataManager.list_datasets" href="#pyucalgarysrs.data.DataManager.list_datasets">list_datasets</a></code></li>
+<li><code><a title="pyucalgarysrs.data.DataManager.list_supported_read_datasets" href="#pyucalgarysrs.data.DataManager.list_supported_read_datasets">list_supported_read_datasets</a></code></li>
+<li><code><a title="pyucalgarysrs.data.DataManager.read" href="#pyucalgarysrs.data.DataManager.read">read</a></code></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</nav>
+</main>
+<footer id="footer">
+<p>Generated by <a href="https://pdoc3.github.io/pdoc" title="pdoc: Python API documentation generator"><cite>pdoc</cite> 0.10.0</a>.</p>
+</footer>
+</body>
+</html>
