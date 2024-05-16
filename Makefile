@@ -66,6 +66,7 @@ test-pytest-ci pytest-ci:
 
 test-coverage coverage:
 	coverage report
+	@tools/update_coverage_file.py
 
 publish:
 	${MAKE} test
