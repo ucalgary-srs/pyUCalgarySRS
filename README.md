@@ -1,6 +1,6 @@
 # PyUCalgarySRS
 
-[![GitHub tests](https://github.com/ucalgary-srs/pyUCalgarySRS/actions/workflows/tests_linux.yml/badge.svg)](https://github.com/ucalgary-srs/pyUCalgarySRS/actions/workflows/tests_linux.yml)
+[![GitHub tests](https://github.com/ucalgary-srs/pyUCalgarySRS/actions/workflows/test_linux.yml/badge.svg)](https://github.com/ucalgary-srs/pyUCalgarySRS/actions/workflows/test_linux.yml)
 [![PyPI version](https://img.shields.io/pypi/v/pyucalgarysrs.svg)](https://pypi.python.org/pypi/pyucalgarysrs/)
 [![PyPI Python versions](https://img.shields.io/pypi/pyversions/pyucalgarysrs)](https://pypi.python.org/pypi/pyucalgarysrs/)
 
