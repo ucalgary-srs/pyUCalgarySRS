@@ -46,9 +46,9 @@ class Dataset:
         """
         A special print output for the dataset's acknowledgement information.
         """
-        print("\nDOI: %s" % (self.doi))
-        print("DOI details: %s" % (self.doi_details))
-        print("Citation: \"%s\"\n" % (self.citation))
+        print("\n%-15s%s" % ("DOI:", self.doi))
+        print("%-15s%s" % ("DOI details:", self.doi_details))
+        print("%-15s\"%s\"\n" % ("Citation:", self.citation))
 
 
 @dataclass

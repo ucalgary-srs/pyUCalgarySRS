@@ -42,13 +42,18 @@ ALL_FILTER_TESTS = [
 
 
 @pytest.mark.data_datasets
-def test_get_datasets(srs):
+def test_get_datasets(srs, capsys):
     # get all datasets
     datasets = srs.data.list_datasets()
 
     # check serialization
     for d in datasets:
         assert isinstance(d, pyucalgarysrs.Dataset) is True
+
+    # check acknowledgement print method
+    datasets[0].show_acknowledgement_info()
+    captured_stdout = capsys.readouterr().out
+    assert captured_stdout != "" and "DOI" in captured_stdout
 
 
 @pytest.mark.data_datasets

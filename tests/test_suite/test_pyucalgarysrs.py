@@ -5,11 +5,15 @@ import string
 import pytest
 import platform
 import pyucalgarysrs
+import warnings
 from pathlib import Path
 
 
 @pytest.mark.top_level
-def test_top_level_class_instantiation_noparams(srs):
+def test_top_level_class_instantiation_noparams():
+    # instantiate
+    srs = pyucalgarysrs.PyUCalgarySRS()
+
     # check paths
     assert os.path.exists(srs.download_output_root_path)
     assert os.path.exists(srs.read_tar_temp_path)
@@ -95,14 +99,45 @@ def test_jupyter_notebook_flag(srs):
     assert srs.in_jupyter_notebook is False
     srs.in_jupyter_notebook = True
     assert srs.in_jupyter_notebook is True
+    srs.in_jupyter_notebook = None
+    assert srs.in_jupyter_notebook is False
+
+
+@pytest.mark.top_level
+def test_api_base_url(srs):
+    # set flag
+    srs.api_base_url = "https://something"
+    assert srs.api_base_url == "https://something"
+    srs.api_base_url = None
+    assert srs.api_base_url != "https://something"
+
+
+@pytest.mark.top_level
+def test_api_headers(srs):
+    # set flag
+    default_headers = srs.api_headers
+    srs.api_headers = {"some": "thing"}
+    assert "some" in srs.api_headers and srs.api_headers["some"] == "thing"
+    srs.api_headers = None
+    assert srs.api_headers == default_headers
+
+    # check warning
+    with warnings.catch_warnings(record=True) as w:
+        warnings.simplefilter("always")  # cause all warnings to always be triggered.
+        srs.api_headers = {"user-agent": "some other value"}
+        assert len(w) == 1
+        assert issubclass(w[-1].category, UserWarning)
+        assert "Cannot override default" in str(w[-1].message)
 
 
 @pytest.mark.top_level
 def test_api_timeout(srs):
     # set flag
-    assert srs.api_timeout == srs.DEFAULT_API_TIMEOUT
+    default_timeout = srs.api_timeout
     srs.api_timeout = 5
     assert srs.api_timeout == 5
+    srs.api_timeout = None
+    assert srs.api_timeout == default_timeout
 
 
 @pytest.mark.top_level

@@ -1,7 +1,7 @@
 import os
 import shutil
 import warnings
-from typing import Optional, Dict, ClassVar
+from typing import Optional, Dict
 from pathlib import Path
 from .exceptions import SRSInitializationError, SRSPurgeError
 from .data import DataManager
@@ -134,7 +134,10 @@ class PyUCalgarySRS:
 
     @api_base_url.setter
     def api_base_url(self, value: str):
-        self.__api_base_url = value
+        if (value is None):
+            self.__api_base_url = self.__DEFAULT_API_BASE_URL
+        else:
+            self.__api_base_url = value
 
     @property
     def api_headers(self):
@@ -150,7 +153,7 @@ class PyUCalgarySRS:
             for k, v in value.items():
                 k = k.lower()
                 if (k in new_headers):
-                    warnings.warn("Cannot override default '%s' header" % (k), UserWarning)
+                    warnings.warn("Cannot override default '%s' header" % (k), UserWarning, stacklevel=1)
                 else:
                     new_headers[k] = v
         self.__api_headers = new_headers
@@ -164,7 +167,10 @@ class PyUCalgarySRS:
 
     @api_timeout.setter
     def api_timeout(self, value: int):
-        self.__api_timeout = value
+        if (value is None):
+            self.__api_timeout = self.__DEFAULT_API_TIMEOUT
+        else:
+            self.__api_timeout = value
 
     @property
     def api_key(self):
@@ -175,7 +181,7 @@ class PyUCalgarySRS:
 
     @api_key.setter
     def api_key(self, value: str):
-        self.__api_key = value
+        self.__api_key = value  # pragma: nocover
 
     @property
     def in_jupyter_notebook(self):
@@ -189,7 +195,10 @@ class PyUCalgarySRS:
 
     @in_jupyter_notebook.setter
     def in_jupyter_notebook(self, value: bool):
-        self.__in_jupyter_notebook = value
+        if (value is None):
+            self.__in_jupyter_notebook = self.initialize_jupyter_flag()
+        else:
+            self.__in_jupyter_notebook = value
 
     @property
     def download_output_root_path(self):
