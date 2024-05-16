@@ -738,7 +738,7 @@ class ReadManager:
                         pass
 
             # parse date time used into datetime
-            date_time_used_dt = datetime.datetime.strftime(item_recarray.generation_info[0].date_time_used.decode(), "%Y%m%d_UT%d")
+            date_time_used_dt = datetime.datetime.strptime(item_recarray.generation_info[0].date_time_used.decode(), "%Y%m%d_UT%H")
 
             # determine the version
             version_str = os.path.splitext(item["filename"])[0].split('_')[-1]

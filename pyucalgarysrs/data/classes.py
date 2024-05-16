@@ -155,14 +155,14 @@ class SkymapGenerationInfo:
         code_used (str): Program name for the code used to generate the skymap
         data_loc (str): Location of the data on the UCalgary data systems used during generation
         date_generated (datetime.datetime): Timestamp of when the skymap was generated
-        date_time_used (str): 
+        date_time_used (datetime.datetime): 
     """
     author: str
     ccd_center: float
     code_used: str
     data_loc: str
     date_generated: datetime.datetime
-    date_time_used: str
+    date_time_used: datetime.datetime
     img_flip: ndarray
     optical_orientation: ndarray
     optical_projection: ndarray
