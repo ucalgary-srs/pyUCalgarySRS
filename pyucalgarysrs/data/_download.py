@@ -1,7 +1,7 @@
 import os
 import requests
 import joblib
-from tqdm import tqdm, tqdm_notebook
+from tqdm.auto import tqdm
 from .classes import FileListingResponse, FileDownloadResult, Dataset
 from ..exceptions import SRSAPIError, SRSDownloadError
 
@@ -103,31 +103,20 @@ def _download_urls(srs_obj,
     if (progress_bar_disable is True):
         parallel_data = __do_parallel_work()
     else:
-        if (srs_obj.in_jupyter_notebook is True):  # pragma: nocover
-            if (progress_bar_format_numurls_nobytes is True):
-                # total bytes could be inaccurate, progress bar should use count of urls
-                # and iterator of 'files' instead of bytes.
-                with tqdm_notebook(total=len(file_listing_obj.urls), desc=desc_str, unit="files") as pbar:
-                    parallel_data = __do_parallel_work(pbar=pbar, pbar_iterator_nfiles=True)
-            else:
-                # total bytes is accurate, show MB/s
-                with tqdm_notebook(total=file_listing_obj.total_bytes, desc=desc_str, unit="B", unit_scale=True) as pbar:
-                    parallel_data = __do_parallel_work(pbar=pbar)
+        if (progress_bar_format_numurls_nobytes is True):
+            # total bytes could be inaccurate, progress bar should use count of urls
+            # and iterator of 'files' instead of bytes.
+            with tqdm(total=len(file_listing_obj.urls), desc=desc_str, unit="files", ncols=progress_bar_ncols, ascii=progress_bar_ascii) as pbar:
+                parallel_data = __do_parallel_work(pbar=pbar, pbar_iterator_nfiles=True)
         else:
-            if (progress_bar_format_numurls_nobytes is True):
-                # total bytes could be inaccurate, progress bar should use count of urls
-                # and iterator of 'files' instead of bytes.
-                with tqdm(total=len(file_listing_obj.urls), desc=desc_str, unit="files", ncols=progress_bar_ncols, ascii=progress_bar_ascii) as pbar:
-                    parallel_data = __do_parallel_work(pbar=pbar, pbar_iterator_nfiles=True)
-            else:
-                # total bytes is accurate, show MB/s
-                with tqdm(total=file_listing_obj.total_bytes,
-                          desc=desc_str,
-                          ncols=progress_bar_ncols,
-                          ascii=progress_bar_ascii,
-                          unit="B",
-                          unit_scale=True) as pbar:
-                    parallel_data = __do_parallel_work(pbar=pbar)
+            # total bytes is accurate, show MB/s
+            with tqdm(total=file_listing_obj.total_bytes,
+                      desc=desc_str,
+                      ncols=progress_bar_ncols,
+                      ascii=progress_bar_ascii,
+                      unit="B",
+                      unit_scale=True) as pbar:
+                parallel_data = __do_parallel_work(pbar=pbar)
 
     # cast into return obj
     filenames_list = []
