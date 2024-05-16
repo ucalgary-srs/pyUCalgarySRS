@@ -1,5 +1,10 @@
 """
-The exceptions module contains exceptions unique to the PyAuroraX library
+The exceptions module contains unique exception classes utilized by PyUCalgarySRS. These 
+exceptions can be used to help trap specific errors raised by the library.
+
+Note that all exceptions are imported at the root level of the library. They
+can be referenced using [`pyucalgarysrs.SRSError`](exceptions.html#pyucalgarysrs.exceptions.SRSError) 
+or `pyucalgarysrs.exceptions.SRSError`.
 """
 
 
@@ -11,21 +16,21 @@ class SRSError(Exception):
 
 class SRSInitializationError(SRSError):
     """
-    Error during library initialization occurred
+    Error occurred during library initialization
     """
     pass
 
 
 class SRSPurgeError(SRSError):
     """
-    Error during purging of download or tar extraction working directory occurred
+    Error occurred during purging of download or tar extraction working directory
     """
     pass
 
 
 class SRSAPIError(SRSError):
     """
-    Error during API call occurred
+    Error occurred during an API call
     """
     pass
 
@@ -39,6 +44,6 @@ class SRSUnsupportedReadError(SRSError):
 
 class SRSDownloadError(SRSError):
     """
-    Unsupported dataset for read function
+    Error occurred during downloading of data
     """
     pass

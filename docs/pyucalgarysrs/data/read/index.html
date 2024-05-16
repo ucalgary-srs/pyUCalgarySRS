@@ -1,0 +1,3241 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1" />
+<meta name="generator" content="pdoc 0.10.0" />
+<title>pyucalgarysrs.data.read API documentation</title>
+<meta name="description" content="Provides functions for reading data for specific datasets" />
+<link rel="preload stylesheet" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/11.0.1/sanitize.min.css" integrity="sha256-PK9q560IAAa6WVRRh76LtCaI8pjTJ2z11v0miyNNjrs=" crossorigin>
+<link rel="preload stylesheet" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/11.0.1/typography.min.css" integrity="sha256-7l/o7C8jubJiy74VsKTidCy1yBkRtiUGbVkYBylBqUg=" crossorigin>
+<link rel="stylesheet preload" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.1.1/styles/github.min.css" crossorigin>
+<style>:root{--highlight-color:#fe9}.flex{display:flex !important}body{line-height:1.5em}#content{padding:20px}#sidebar{padding:30px;overflow:hidden}#sidebar > *:last-child{margin-bottom:2cm}#lunr-search{width:100%;font-size:1em;padding:6px 9px 5px 9px;border:1px solid silver}.http-server-breadcrumbs{font-size:130%;margin:0 0 15px 0}#footer{font-size:.75em;padding:5px 30px;border-top:1px solid #ddd;text-align:right}#footer p{margin:0 0 0 1em;display:inline-block}#footer p:last-child{margin-right:30px}h1,h2,h3,h4,h5{font-weight:300}h1{font-size:2.5em;line-height:1.1em}h2{font-size:1.75em;margin:1em 0 .50em 0}h3{font-size:1.4em;margin:25px 0 10px 0}h4{margin:0;font-size:105%}h1:target,h2:target,h3:target,h4:target,h5:target,h6:target{background:var(--highlight-color);padding:.2em 0}a{color:#058;text-decoration:none;transition:color .3s ease-in-out}a:hover{color:#e82}.title code{font-weight:bold}h2[id^="header-"]{margin-top:2em}.ident{color:#900}pre code{background:#f8f8f8;font-size:.8em;line-height:1.4em}code{background:#f2f2f1;padding:1px 4px;overflow-wrap:break-word}h1 code{background:transparent}pre{background:#f8f8f8;border:0;border-top:1px solid #ccc;border-bottom:1px solid #ccc;margin:1em 0;padding:1ex}#http-server-module-list{display:flex;flex-flow:column}#http-server-module-list div{display:flex}#http-server-module-list dt{min-width:10%}#http-server-module-list p{margin-top:0}.toc ul,#index{list-style-type:none;margin:0;padding:0}#index code{background:transparent}#index h3{border-bottom:1px solid #ddd}#index ul{padding:0}#index h4{margin-top:.6em;font-weight:bold}@media (min-width:200ex){#index .two-column{column-count:2}}@media (min-width:300ex){#index .two-column{column-count:3}}dl{margin-bottom:2em}dl dl:last-child{margin-bottom:4em}dd{margin:0 0 1em 3em}#header-classes + dl > dd{margin-bottom:3em}dd dd{margin-left:2em}dd p{margin:10px 0}.name{background:#eee;font-weight:bold;font-size:.85em;padding:5px 10px;display:inline-block;min-width:40%}.name:hover{background:#e0e0e0}dt:target .name{background:var(--highlight-color)}.name > span:first-child{white-space:nowrap}.name.class > span:nth-child(2){margin-left:.4em}.inherited{color:#999;border-left:5px solid #eee;padding-left:1em}.inheritance em{font-style:normal;font-weight:bold}.desc h2{font-weight:400;font-size:1.25em}.desc h3{font-size:1em}.desc dt code{background:inherit}.source summary,.git-link-div{color:#666;text-align:right;font-weight:400;font-size:.8em;text-transform:uppercase}.source summary > *{white-space:nowrap;cursor:pointer}.git-link{color:inherit;margin-left:1em}.source pre{max-height:500px;overflow:auto;margin:0}.source pre code{font-size:12px;overflow:visible}.hlist{list-style:none}.hlist li{display:inline}.hlist li:after{content:',\2002'}.hlist li:last-child:after{content:none}.hlist .hlist{display:inline;padding-left:1em}img{max-width:100%}td{padding:0 .5em}.admonition{padding:.1em .5em;margin-bottom:1em}.admonition-title{font-weight:bold}.admonition.note,.admonition.info,.admonition.important{background:#aef}.admonition.todo,.admonition.versionadded,.admonition.tip,.admonition.hint{background:#dfd}.admonition.warning,.admonition.versionchanged,.admonition.deprecated{background:#fd4}.admonition.error,.admonition.danger,.admonition.caution{background:lightpink}</style>
+<style media="screen and (min-width: 700px)">@media screen and (min-width:700px){#sidebar{width:30%;height:100vh;overflow:auto;position:sticky;top:0}#content{width:70%;max-width:100ch;padding:3em 4em;border-left:1px solid #ddd}pre code{font-size:1em}.item .name{font-size:1em}main{display:flex;flex-direction:row-reverse;justify-content:flex-end}.toc ul ul,#index ul{padding-left:1.5em}.toc > ul > li{margin-top:.5em}}</style>
+<style media="print">@media print{#sidebar h1{page-break-before:always}.source{display:none}}@media print{*{background:transparent !important;color:#000 !important;box-shadow:none !important;text-shadow:none !important}a[href]:after{content:" (" attr(href) ")";font-size:90%}a[href][title]:after{content:none}abbr[title]:after{content:" (" attr(title) ")"}.ir a:after,a[href^="javascript:"]:after,a[href^="#"]:after{content:""}pre,blockquote{border:1px solid #999;page-break-inside:avoid}thead{display:table-header-group}tr,img{page-break-inside:avoid}img{max-width:100% !important}@page{margin:0.5cm}p,h2,h3{orphans:3;widows:3}h1,h2,h3,h4,h5,h6{page-break-after:avoid}}</style>
+<script defer src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.1.1/highlight.min.js" integrity="sha256-Uv3H6lx7dJmRfRvH8TH6kJD1TSK1aFcwgx+mdg3epi8=" crossorigin></script>
+<script>window.addEventListener('DOMContentLoaded', () => hljs.initHighlighting())</script>
+</head>
+<body>
+<main>
+<article id="content">
+<header>
+<h1 class="title">Module <code>pyucalgarysrs.data.read</code></h1>
+</header>
+<section id="section-intro">
+<p>Provides functions for reading data for specific datasets</p>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">&#34;&#34;&#34;
+Provides functions for reading data for specific datasets
+&#34;&#34;&#34;
+
+import datetime
+import os
+from typing import List, Union, Optional
+from ._themis import read as func_read_themis
+from ._rego import read as func_read_rego
+from ._trex_nir import read as func_read_trex_nir
+from ._trex_blue import read as func_read_trex_blue
+from ._trex_rgb import read as func_read_trex_rgb
+from ._trex_spectrograph import read as func_read_trex_spectrograph
+from ._skymap import read as func_read_skymap
+from ._calibration import read as func_read_calibration
+from ..classes import (
+    Dataset,
+    Data,
+    ProblematicFile,
+    Skymap,
+    SkymapGenerationInfo,
+    Calibration,
+    CalibrationGenerationInfo,
+)
+from ...exceptions import SRSUnsupportedReadError, SRSError
+
+
+class ReadManager:
+    &#34;&#34;&#34;
+    The ReadManager object is initialized within every PyUCalgarySRS.data object. It 
+    acts as a way to access the submodules and carry over configuration information in 
+    the super class.
+    &#34;&#34;&#34;
+
+    __VALID_THEMIS_READFILE_DATASETS = [&#34;THEMIS_ASI_RAW&#34;]
+    __VALID_REGO_READFILE_DATASETS = [&#34;REGO_RAW&#34;]
+    __VALID_TREX_NIR_READFILE_DATASETS = [&#34;TREX_NIR_RAW&#34;]
+    __VALID_TREX_BLUE_READFILE_DATASETS = [&#34;TREX_BLUE_RAW&#34;]
+    __VALID_TREX_RGB_READFILE_DATASETS = [&#34;TREX_RGB_RAW_NOMINAL&#34;, &#34;TREX_RGB_RAW_BURST&#34;]
+    __VALID_SKYMAP_READFILE_DATASETS = [
+        &#34;REGO_SKYMAP_IDLSAV&#34;,
+        &#34;THEMIS_ASI_SKYMAP_IDLSAV&#34;,
+        &#34;TREX_NIR_SKYMAP_IDLSAV&#34;,
+        &#34;TREX_RGB_SKYMAP_IDLSAV&#34;,
+        # &#34;TREX_BLUE_SKYMAP_IDLSAV&#34;,
+    ]
+    __VALID_CALIBRATION_READFILE_DATASETS = [
+        &#34;REGO_CALIBRATION_RAYLEIGHS_IDLSAV&#34;,
+        &#34;REGO_CALIBRATION_FLATFIELD_IDLSAV&#34;,
+        &#34;TREX_NIR_CALIBRATION_RAYLEIGHS_IDLSAV&#34;,
+        &#34;TREX_NIR_CALIBRATION_FLATFIELD_IDLSAV&#34;,
+    ]
+
+    def __init__(self):
+        pass
+
+    def list_supported_datasets(self) -&gt; List[str]:
+        &#34;&#34;&#34;
+        List the datasets which have file reading capabilities supported.
+
+        Returns:
+            A list of the dataset names with file reading support.
+        &#34;&#34;&#34;
+        supported_datasets = []
+        for var in dir(self):
+            var_lower = var.lower()
+            if (&#34;valid&#34; in var_lower and &#34;readfile_datasets&#34; in var_lower):
+                for dataset in getattr(self, var):
+                    supported_datasets.append(dataset)
+        supported_datasets = sorted(supported_datasets)
+        return supported_datasets
+
+    def is_supported(self, dataset_name: str) -&gt; bool:
+        &#34;&#34;&#34;
+        Check if a given dataset has file reading support. 
+        
+        Not all datasets available in the Open Data Platform have special readfile 
+        routines in this library. This is because some datasets are in basic formats
+        such as JPG or PNG, so unique functions aren&#39;t necessary. We leave it up to
+        the user to open these basic files in whichever way they prefer. Use the 
+        `list_supported_read_datasets()` function to see all datasets that have special
+        file reading functionality in this library.
+
+        Args:
+            dataset_name (str): 
+                The dataset name to check if file reading is supported. This parameter 
+                is required.
+        
+        Returns:
+            Boolean indicating if file reading is supported.
+        &#34;&#34;&#34;
+        supported_datasets = self.list_supported_datasets()
+        if (dataset_name in supported_datasets):
+            return True
+        else:
+            return False
+
+    def read(self,
+             dataset: Dataset,
+             file_list: Union[List[str], str],
+             n_parallel: int = 1,
+             first_record: bool = False,
+             no_metadata: bool = False,
+             quiet: bool = False) -&gt; Union[Data, List[Skymap], List[Calibration]]:
+        &#34;&#34;&#34;
+        Read in data files for a given dataset. Note that only one type of dataset&#39;s data
+        should be read in using a single call.
+
+        Args:
+            dataset (Dataset): 
+                The dataset object for which the files are associated with. This parameter is
+                required.
+            
+            file_list (List[str] or str): 
+                The files to read in. Absolute paths are recommended, but not technically
+                necessary. This can be a single string for a file, or a list of strings to read
+                in multiple files. This parameter is required.
+
+            n_parallel (int): 
+                Number of data files to read in parallel using multiprocessing. Default value 
+                is 1. Adjust according to your computer&#39;s available resources. This parameter 
+                is optional.
+            
+            first_record (bool): 
+                Only read in the first record in each file. This is the same as the first_frame
+                parameter in the themis-imager-readfile and trex-imager-readfile libraries, and
+                is a read optimization if you only need one image per minute, as opposed to the
+                full temporal resolution of data (e.g., 3sec cadence). This parameter is optional.
+            
+            no_metadata (bool): 
+                Skip reading of metadata. This is a minor optimization if the metadata is not needed.
+                Default is `False`. This parameter is optional.
+            
+            quiet (bool): 
+                Do not print out errors while reading data files, if any are encountered. Any files
+                that encounter errors will be, as usual, accessible via the `problematic_files` 
+                attribute of the returned `pyucalgarysrs.data.classes.Data` object. This parameter
+                is optional.
+        
+        Returns:
+            A `pyucalgarysrs.data.classes.Data` object containing the data read in, among other
+            values.
+        
+        Raises:
+            pyucalgarysrs.exceptions.SRSUnsupportedReadError: an unsupported dataset was used when
+                trying to read files.
+            pyucalgarysrs.exceptions.SRSError: a generic read error was encountered
+
+        Notes:
+        ---------
+        For users who are familiar with the themis-imager-readfile and trex-imager-readfile
+        libraries, the read function is a wrapper for those routines. Further improvements have 
+        been integrated, and those libraries are anticipated to be deprecated at some point in the
+        future.
+        &#34;&#34;&#34;
+        # verify dataset is valid
+        if (dataset is None):
+            raise SRSUnsupportedReadError(&#34;Must supply a dataset. If not know, please use the srs.data.readers.read_&lt;specific_routine&gt;() function&#34;)
+
+        # read data using the appropriate readfile routine
+        if (dataset.name in self.__VALID_THEMIS_READFILE_DATASETS):
+            return self.read_themis(file_list,
+                                    n_parallel=n_parallel,
+                                    first_record=first_record,
+                                    no_metadata=no_metadata,
+                                    quiet=quiet,
+                                    dataset=dataset)
+        elif (dataset.name in self.__VALID_REGO_READFILE_DATASETS):
+            return self.read_rego(file_list, n_parallel=n_parallel, first_record=first_record, no_metadata=no_metadata, quiet=quiet, dataset=dataset)
+        elif (dataset.name in self.__VALID_TREX_NIR_READFILE_DATASETS):
+            return self.read_trex_nir(file_list,
+                                      n_parallel=n_parallel,
+                                      first_record=first_record,
+                                      no_metadata=no_metadata,
+                                      quiet=quiet,
+                                      dataset=dataset)
+        elif (dataset.name in self.__VALID_TREX_BLUE_READFILE_DATASETS):
+            return self.read_trex_blue(file_list,
+                                       n_parallel=n_parallel,
+                                       first_record=first_record,
+                                       no_metadata=no_metadata,
+                                       quiet=quiet,
+                                       dataset=dataset)
+        elif (dataset.name in self.__VALID_TREX_RGB_READFILE_DATASETS):
+            return self.read_trex_rgb(file_list,
+                                      n_parallel=n_parallel,
+                                      first_record=first_record,
+                                      no_metadata=no_metadata,
+                                      quiet=quiet,
+                                      dataset=dataset)
+        elif (dataset.name in self.__VALID_SKYMAP_READFILE_DATASETS):
+            return self.read_skymap(file_list, n_parallel=n_parallel, quiet=quiet, dataset=dataset)
+        elif (dataset.name in self.__VALID_CALIBRATION_READFILE_DATASETS):
+            return self.read_calibration(file_list, n_parallel=n_parallel, quiet=quiet, dataset=dataset)
+        else:
+            raise SRSUnsupportedReadError(&#34;Dataset does not have a supported read function&#34;)
+
+    def read_themis(self,
+                    file_list: Union[List[str], str],
+                    n_parallel: int = 1,
+                    first_record: bool = False,
+                    no_metadata: bool = False,
+                    quiet: bool = False,
+                    dataset: Optional[Dataset] = None) -&gt; Data:
+        &#34;&#34;&#34;
+        Read in THEMIS ASI raw data (stream0 full.pgm* files).
+
+        Args:
+            file_list (List[str] or str): 
+                The files to read in. Absolute paths are recommended, but not technically
+                necessary. This can be a single string for a file, or a list of strings to read
+                in multiple files. This parameter is required.
+
+            n_parallel (int): 
+                Number of data files to read in parallel using multiprocessing. Default value 
+                is 1. Adjust according to your computer&#39;s available resources. This parameter 
+                is optional.
+            
+            first_record (bool): 
+                Only read in the first record in each file. This is the same as the first_frame
+                parameter in the themis-imager-readfile and trex-imager-readfile libraries, and
+                is a read optimization if you only need one image per minute, as opposed to the
+                full temporal resolution of data (e.g., 3sec cadence). This parameter is optional.
+            
+            no_metadata (bool): 
+                Skip reading of metadata. This is a minor optimization if the metadata is not needed.
+                Default is `False`. This parameter is optional.
+            
+            quiet (bool): 
+                Do not print out errors while reading data files, if any are encountered. Any files
+                that encounter errors will be, as usual, accessible via the `problematic_files` 
+                attribute of the returned `pyucalgarysrs.data.classes.Data` object. This parameter
+                is optional.
+
+            dataset (Dataset): 
+                The dataset object for which the files are associated with. This parameter is
+                optional.
+
+        Returns:
+            A `pyucalgarysrs.data.classes.Data` object containing the data read in, among other
+            values.
+        
+        Raises:
+            pyucalgarysrs.exceptions.SRSError: a generic read error was encountered
+        &#34;&#34;&#34;
+        # read data
+        img, meta, problematic_files = func_read_themis(
+            file_list,
+            n_parallel=n_parallel,
+            first_record=first_record,
+            no_metadata=no_metadata,
+            quiet=quiet,
+        )
+
+        # generate timestamp array
+        timestamp_list = []
+        if (no_metadata is False):
+            for m in meta:
+                timestamp_list.append(datetime.datetime.strptime(m[&#34;Image request start&#34;], &#34;%Y-%m-%d %H:%M:%S.%f UTC&#34;))
+
+        # convert to return type
+        problematic_files_objs = []
+        for p in problematic_files:
+            problematic_files_objs.append(ProblematicFile(p[&#34;filename&#34;], error_message=p[&#34;error_message&#34;], error_type=&#34;error&#34;))
+        ret_obj = Data(
+            data=img,
+            timestamp=timestamp_list,
+            metadata=meta,
+            problematic_files=problematic_files_objs,
+            dataset=dataset,
+        )
+
+        # return
+        return ret_obj
+
+    def read_rego(self,
+                  file_list: Union[List[str], str],
+                  n_parallel: int = 1,
+                  first_record: bool = False,
+                  no_metadata: bool = False,
+                  quiet: bool = False,
+                  dataset: Optional[Dataset] = None) -&gt; Data:
+        &#34;&#34;&#34;
+        Read in REGO raw data (stream0 pgm* files).
+
+        Args:
+            file_list (List[str] or str): 
+                The files to read in. Absolute paths are recommended, but not technically
+                necessary. This can be a single string for a file, or a list of strings to read
+                in multiple files. This parameter is required.
+
+            n_parallel (int): 
+                Number of data files to read in parallel using multiprocessing. Default value 
+                is 1. Adjust according to your computer&#39;s available resources. This parameter 
+                is optional.
+            
+            first_record (bool): 
+                Only read in the first record in each file. This is the same as the first_frame
+                parameter in the themis-imager-readfile and trex-imager-readfile libraries, and
+                is a read optimization if you only need one image per minute, as opposed to the
+                full temporal resolution of data (e.g., 3sec cadence). This parameter is optional.
+            
+            no_metadata (bool): 
+                Skip reading of metadata. This is a minor optimization if the metadata is not needed.
+                Default is `False`. This parameter is optional.
+            
+            quiet (bool): 
+                Do not print out errors while reading data files, if any are encountered. Any files
+                that encounter errors will be, as usual, accessible via the `problematic_files` 
+                attribute of the returned `pyucalgarysrs.data.classes.Data` object. This parameter
+                is optional.
+
+            dataset (Dataset): 
+                The dataset object for which the files are associated with. This parameter is
+                optional.
+
+        Returns:
+            A `pyucalgarysrs.data.classes.Data` object containing the data read in, among other
+            values.
+        
+        Raises:
+            pyucalgarysrs.exceptions.SRSError: a generic read error was encountered
+        &#34;&#34;&#34;
+        # read data
+        img, meta, problematic_files = func_read_rego(
+            file_list,
+            n_parallel=n_parallel,
+            first_record=first_record,
+            no_metadata=no_metadata,
+            quiet=quiet,
+        )
+
+        # generate timestamp array
+        timestamp_list = []
+        if (no_metadata is False):
+            for m in meta:
+                timestamp_list.append(datetime.datetime.strptime(m[&#34;Image request start&#34;], &#34;%Y-%m-%d %H:%M:%S.%f UTC&#34;))
+
+        # convert to return type
+        problematic_files_objs = []
+        for p in problematic_files:
+            problematic_files_objs.append(ProblematicFile(p[&#34;filename&#34;], error_message=p[&#34;error_message&#34;], error_type=&#34;error&#34;))
+        ret_obj = Data(
+            data=img,
+            timestamp=timestamp_list,
+            metadata=meta,
+            problematic_files=problematic_files_objs,
+            dataset=dataset,
+        )
+
+        # return
+        return ret_obj
+
+    def read_trex_nir(self,
+                      file_list: Union[List[str], str],
+                      n_parallel: int = 1,
+                      first_record: bool = False,
+                      no_metadata: bool = False,
+                      quiet: bool = False,
+                      dataset: Optional[Dataset] = None) -&gt; Data:
+        &#34;&#34;&#34;
+        Read in TREx near-infrared (NIR) raw data (stream0 pgm* files).
+
+        Args:
+            file_list (List[str] or str): 
+                The files to read in. Absolute paths are recommended, but not technically
+                necessary. This can be a single string for a file, or a list of strings to read
+                in multiple files. This parameter is required.
+
+            n_parallel (int): 
+                Number of data files to read in parallel using multiprocessing. Default value 
+                is 1. Adjust according to your computer&#39;s available resources. This parameter 
+                is optional.
+            
+            first_record (bool): 
+                Only read in the first record in each file. This is the same as the first_frame
+                parameter in the themis-imager-readfile and trex-imager-readfile libraries, and
+                is a read optimization if you only need one image per minute, as opposed to the
+                full temporal resolution of data (e.g., 3sec cadence). This parameter is optional.
+            
+            no_metadata (bool): 
+                Skip reading of metadata. This is a minor optimization if the metadata is not needed.
+                Default is `False`. This parameter is optional.
+            
+            quiet (bool): 
+                Do not print out errors while reading data files, if any are encountered. Any files
+                that encounter errors will be, as usual, accessible via the `problematic_files` 
+                attribute of the returned `pyucalgarysrs.data.classes.Data` object. This parameter
+                is optional.
+
+            dataset (Dataset): 
+                The dataset object for which the files are associated with. This parameter is
+                optional.
+
+        Returns:
+            A `pyucalgarysrs.data.classes.Data` object containing the data read in, among other
+            values.
+        
+        Raises:
+            pyucalgarysrs.exceptions.SRSError: a generic read error was encountered
+        &#34;&#34;&#34;
+        # read data
+        img, meta, problematic_files = func_read_trex_nir(
+            file_list,
+            n_parallel=n_parallel,
+            first_record=first_record,
+            no_metadata=no_metadata,
+            quiet=quiet,
+        )
+
+        # generate timestamp array
+        timestamp_list = []
+        if (no_metadata is False):
+            for m in meta:
+                timestamp_list.append(datetime.datetime.strptime(m[&#34;Image request start&#34;], &#34;%Y-%m-%d %H:%M:%S.%f UTC&#34;))
+
+        # convert to appropriate return type
+        problematic_files_objs = []
+        for p in problematic_files:
+            problematic_files_objs.append(ProblematicFile(p[&#34;filename&#34;], error_message=p[&#34;error_message&#34;], error_type=&#34;error&#34;))
+        ret_obj = Data(
+            data=img,
+            timestamp=timestamp_list,
+            metadata=meta,
+            problematic_files=problematic_files_objs,
+            dataset=dataset,
+        )
+
+        # return
+        return ret_obj
+
+    def read_trex_blue(self,
+                       file_list: Union[List[str], str],
+                       n_parallel: int = 1,
+                       first_record: bool = False,
+                       no_metadata: bool = False,
+                       quiet: bool = False,
+                       dataset: Optional[Dataset] = None) -&gt; Data:
+        &#34;&#34;&#34;
+        Read in TREx Blueline raw data (stream0 pgm* files).
+
+        Args:
+            file_list (List[str] or str): 
+                The files to read in. Absolute paths are recommended, but not technically
+                necessary. This can be a single string for a file, or a list of strings to read
+                in multiple files. This parameter is required.
+
+            n_parallel (int): 
+                Number of data files to read in parallel using multiprocessing. Default value 
+                is 1. Adjust according to your computer&#39;s available resources. This parameter 
+                is optional.
+            
+            first_record (bool): 
+                Only read in the first record in each file. This is the same as the first_frame
+                parameter in the themis-imager-readfile and trex-imager-readfile libraries, and
+                is a read optimization if you only need one image per minute, as opposed to the
+                full temporal resolution of data (e.g., 3sec cadence). This parameter is optional.
+            
+            no_metadata (bool): 
+                Skip reading of metadata. This is a minor optimization if the metadata is not needed.
+                Default is `False`. This parameter is optional.
+            
+            quiet (bool): 
+                Do not print out errors while reading data files, if any are encountered. Any files
+                that encounter errors will be, as usual, accessible via the `problematic_files` 
+                attribute of the returned `pyucalgarysrs.data.classes.Data` object. This parameter
+                is optional.
+
+            dataset (Dataset): 
+                The dataset object for which the files are associated with. This parameter is
+                optional.
+
+        Returns:
+            A `pyucalgarysrs.data.classes.Data` object containing the data read in, among other
+            values.
+        
+        Raises:
+            pyucalgarysrs.exceptions.SRSError: a generic read error was encountered
+        &#34;&#34;&#34;
+        # read data
+        img, meta, problematic_files = func_read_trex_blue(
+            file_list,
+            n_parallel=n_parallel,
+            first_record=first_record,
+            no_metadata=no_metadata,
+            quiet=quiet,
+        )
+
+        # generate timestamp array
+        timestamp_list = []
+        if (no_metadata is False):
+            for m in meta:
+                timestamp_list.append(datetime.datetime.strptime(m[&#34;Image request start&#34;], &#34;%Y-%m-%d %H:%M:%S.%f UTC&#34;))
+
+        # convert to return type
+        problematic_files_objs = []
+        for p in problematic_files:
+            problematic_files_objs.append(ProblematicFile(p[&#34;filename&#34;], error_message=p[&#34;error_message&#34;], error_type=&#34;error&#34;))
+        ret_obj = Data(
+            data=img,
+            timestamp=timestamp_list,
+            metadata=meta,
+            problematic_files=problematic_files_objs,
+            dataset=dataset,
+        )
+
+        # return
+        return ret_obj
+
+    def read_trex_rgb(self,
+                      file_list: Union[List[str], str],
+                      n_parallel: int = 1,
+                      first_record: bool = False,
+                      no_metadata: bool = False,
+                      quiet: bool = False,
+                      dataset: Optional[Dataset] = None) -&gt; Data:
+        &#34;&#34;&#34;
+        Read in TREx RGB raw data (stream0 h5, stream0.burst png.tar, unstable stream0 and stream0.colour pgm* and png*).
+
+        Args:
+            file_list (List[str] or str): 
+                The files to read in. Absolute paths are recommended, but not technically
+                necessary. This can be a single string for a file, or a list of strings to read
+                in multiple files. This parameter is required.
+
+            n_parallel (int): 
+                Number of data files to read in parallel using multiprocessing. Default value 
+                is 1. Adjust according to your computer&#39;s available resources. This parameter 
+                is optional.
+            
+            first_record (bool): 
+                Only read in the first record in each file. This is the same as the first_frame
+                parameter in the themis-imager-readfile and trex-imager-readfile libraries, and
+                is a read optimization if you only need one image per minute, as opposed to the
+                full temporal resolution of data (e.g., 3sec cadence). This parameter is optional.
+            
+            no_metadata (bool): 
+                Skip reading of metadata. This is a minor optimization if the metadata is not needed.
+                Default is `False`. This parameter is optional.
+            
+            quiet (bool): 
+                Do not print out errors while reading data files, if any are encountered. Any files
+                that encounter errors will be, as usual, accessible via the `problematic_files` 
+                attribute of the returned `pyucalgarysrs.data.classes.Data` object. This parameter
+                is optional.
+
+            dataset (Dataset): 
+                The dataset object for which the files are associated with. This parameter is
+                optional.
+
+        Returns:
+            A `pyucalgarysrs.data.classes.Data` object containing the data read in, among other
+            values.
+        
+        Raises:
+            pyucalgarysrs.exceptions.SRSError: a generic read error was encountered
+        &#34;&#34;&#34;
+        # read data
+        img, meta, problematic_files = func_read_trex_rgb(
+            file_list,
+            n_parallel=n_parallel,
+            first_record=first_record,
+            no_metadata=no_metadata,
+            quiet=quiet,
+        )
+
+        # generate timestamp array
+        timestamp_list = []
+        if (no_metadata is False):
+            for m in meta:
+                if (&#34;image_request_start_timestamp&#34; in m):
+                    timestamp_list.append(datetime.datetime.strptime(m[&#34;image_request_start_timestamp&#34;], &#34;%Y-%m-%d %H:%M:%S.%f UTC&#34;))
+                elif (&#34;Image request start&#34; in m):
+                    timestamp_list.append(datetime.datetime.strptime(m[&#34;Image request start&#34;], &#34;%Y-%m-%d %H:%M:%S.%f UTC&#34;))
+                else:
+                    raise SRSError(&#34;Unexpected timestamp metadata format&#34;)
+
+        # convert to return type
+        problematic_files_objs = []
+        for p in problematic_files:
+            problematic_files_objs.append(ProblematicFile(p[&#34;filename&#34;], error_message=p[&#34;error_message&#34;], error_type=&#34;error&#34;))
+        ret_obj = Data(
+            data=img,
+            timestamp=timestamp_list,
+            metadata=meta,
+            problematic_files=problematic_files_objs,
+            dataset=dataset,
+        )
+
+        # return
+        return ret_obj
+
+    def read_trex_spectrograph(self,
+                               file_list: Union[List[str], str],
+                               n_parallel: int = 1,
+                               first_record: bool = False,
+                               no_metadata: bool = False,
+                               quiet: bool = False,
+                               dataset: Optional[Dataset] = None) -&gt; Data:
+        &#34;&#34;&#34;
+        Read in TREx Spectrograph raw data (stream0 pgm* files).
+
+        Args:
+            file_list (List[str] or str): 
+                The files to read in. Absolute paths are recommended, but not technically
+                necessary. This can be a single string for a file, or a list of strings to read
+                in multiple files. This parameter is required.
+
+            n_parallel (int): 
+                Number of data files to read in parallel using multiprocessing. Default value 
+                is 1. Adjust according to your computer&#39;s available resources. This parameter 
+                is optional.
+            
+            first_record (bool): 
+                Only read in the first record in each file. This is the same as the first_frame
+                parameter in the themis-imager-readfile and trex-imager-readfile libraries, and
+                is a read optimization if you only need one image per minute, as opposed to the
+                full temporal resolution of data (e.g., 3sec cadence). This parameter is optional.
+            
+            no_metadata (bool): 
+                Skip reading of metadata. This is a minor optimization if the metadata is not needed.
+                Default is `False`. This parameter is optional.
+            
+            quiet (bool): 
+                Do not print out errors while reading data files, if any are encountered. Any files
+                that encounter errors will be, as usual, accessible via the `problematic_files` 
+                attribute of the returned `pyucalgarysrs.data.classes.Data` object. This parameter
+                is optional.
+
+            dataset (Dataset): 
+                The dataset object for which the files are associated with. This parameter is
+                optional.
+
+        Returns:
+            A `pyucalgarysrs.data.classes.Data` object containing the data read in, among other
+            values.
+        
+        Raises:
+            pyucalgarysrs.exceptions.SRSError: a generic read error was encountered
+        &#34;&#34;&#34;
+        # read data
+        img, meta, problematic_files = func_read_trex_spectrograph(
+            file_list,
+            n_parallel=n_parallel,
+            first_record=first_record,
+            no_metadata=no_metadata,
+            quiet=quiet,
+        )
+
+        # generate timestamp array
+        timestamp_list = []
+        if (no_metadata is False):
+            for m in meta:
+                timestamp_list.append(datetime.datetime.strptime(m[&#34;Image request start&#34;], &#34;%Y-%m-%d %H:%M:%S.%f UTC&#34;))
+
+        # convert to return type
+        problematic_files_objs = []
+        for p in problematic_files:
+            problematic_files_objs.append(ProblematicFile(p[&#34;filename&#34;], error_message=p[&#34;error_message&#34;], error_type=&#34;error&#34;))
+        ret_obj = Data(
+            data=img,
+            timestamp=timestamp_list,
+            metadata=meta,
+            problematic_files=problematic_files_objs,
+            dataset=dataset,
+        )
+
+        # return
+        return ret_obj
+
+    def read_skymap(self,
+                    file_list: Union[List[str], str],
+                    n_parallel: int = 1,
+                    quiet: bool = False,
+                    dataset: Optional[Dataset] = None) -&gt; List[Skymap]:
+        &#34;&#34;&#34;
+        Read in UCalgary skymap files.
+
+        Args:
+            file_list (List[str] or str): 
+                The files to read in. Absolute paths are recommended, but not technically
+                necessary. This can be a single string for a file, or a list of strings to read
+                in multiple files. This parameter is required.
+
+            n_parallel (int): 
+                Number of data files to read in parallel using multiprocessing. Default value 
+                is 1. Adjust according to your computer&#39;s available resources. This parameter 
+                is optional.
+                                    
+            quiet (bool): 
+                Do not print out errors while reading skymap files, if any are encountered. Any 
+                files that encounter errors will be, as usual, accessible via the `problematic_files` 
+                attribute of the returned `pyucalgarysrs.data.classes.Skymap` object. This parameter
+                is optional.
+
+            dataset (Dataset): 
+                The dataset object for which the files are associated with. This parameter is
+                optional.
+
+        Returns:
+            A list of `pyucalgarysrs.data.classes.Skymap` objects containing the skymap data read 
+            in, among other values.
+        
+        Raises:
+            pyucalgarysrs.exceptions.SRSError: a generic read error was encountered
+        &#34;&#34;&#34;
+        # read data
+        data = func_read_skymap(
+            file_list,
+            n_parallel=n_parallel,
+            quiet=quiet,
+        )
+
+        # convert to return object
+        ret_list = []
+        for item in data:
+            # init item
+            item_recarray = item[&#34;skymap&#34;][0]
+
+            # parse several values into datetimes
+            date_generated_dt = datetime.datetime.strptime(item_recarray.generation_info[0].date_generated.decode(), &#34;%a %b %d %H:%M:%S %Y&#34;)
+            valid_interval_start_dt = datetime.datetime(2000, 1, 1, 0, 0, 0)
+            try:
+                valid_interval_start_dt = datetime.datetime.strptime(item_recarray.generation_info[0].valid_interval_start.decode(), &#34;%Y%m%d%H&#34;)
+            except Exception:
+                try:
+                    valid_interval_start_dt = datetime.datetime.strptime(item_recarray.generation_info[0].valid_interval_start.decode(), &#34;%Y%m%d&#34;)
+                except Exception:
+                    pass
+            valid_interval_stop_dt = None
+            if (item_recarray.generation_info[0].valid_interval_stop.decode() != &#34;+&#34;):
+                try:
+                    valid_interval_stop_dt = datetime.datetime.strptime(item_recarray.generation_info[0].valid_interval_stop.decode(), &#34;%Y%m%d%H&#34;)
+                except Exception:
+                    try:
+                        valid_interval_stop_dt = datetime.datetime.strptime(item_recarray.generation_info[0].valid_interval_stop.decode(), &#34;%Y%m%d&#34;)
+                    except Exception:
+                        pass
+
+            # determine the version
+            version_str = os.path.splitext(item[&#34;filename&#34;])[0].split(&#39;_&#39;)[-1]
+
+            # create generation info dictionary
+            generation_info_obj = SkymapGenerationInfo(
+                author=item_recarray.generation_info[0].author.decode(),
+                ccd_center=item_recarray.generation_info[0].ccd_center,
+                code_used=item_recarray.generation_info[0].code_used.decode(),
+                data_loc=item_recarray.generation_info[0].data_loc.decode(),
+                date_generated=date_generated_dt,
+                date_time_used=item_recarray.generation_info[0].date_time_used.decode(),
+                img_flip=item_recarray.generation_info[0].img_flip,
+                optical_orientation=item_recarray.generation_info[0].optical_orientation,
+                optical_projection=item_recarray.generation_info[0].optical_projection,
+                pixel_aspect_ratio=item_recarray.generation_info[0].pixel_aspect_ratio,
+                valid_interval_start=valid_interval_start_dt,
+                valid_interval_stop=valid_interval_stop_dt,
+            )
+
+            # add in bytscl_values parameter
+            #
+            # NOTE: bytscl_values was not present in early THEMIS skymap files, so
+            # we conditionally add it
+            if (&#34;bytscl_values&#34; in item_recarray.generation_info[0].dtype.names):
+                generation_info_obj.bytscl_values = item_recarray.generation_info[0].bytscl_values
+
+            # create object
+            ret_obj = Skymap(
+                filename=item[&#34;filename&#34;],
+                project_uid=item_recarray.project_uid.decode(),
+                site_uid=item_recarray.site_uid.decode(),
+                imager_uid=item_recarray.imager_uid.decode(),
+                site_map_latitude=item_recarray.site_map_latitude,
+                site_map_longitude=item_recarray.site_map_longitude,
+                site_map_altitude=item_recarray.site_map_altitude,
+                bin_row=item_recarray.bin_row,
+                bin_column=item_recarray.bin_column,
+                bin_elevation=item_recarray.bin_elevation,
+                bin_azimuth=item_recarray.bin_azimuth,
+                bin_map_altitude=item_recarray.bin_map_altitude,
+                bin_map_latitude=item_recarray.bin_map_latitude,
+                bin_map_longitude=item_recarray.bin_map_longitude,
+                full_row=item_recarray.full_row,
+                full_column=item_recarray.full_column,
+                full_ignore=item_recarray.full_ignore,
+                full_subtract=item_recarray.full_subtract,
+                full_multiply=item_recarray.full_multiply,
+                full_elevation=item_recarray.full_elevation,
+                full_azimuth=item_recarray.full_azimuth,
+                full_map_altitude=item_recarray.full_map_altitude,
+                full_map_latitude=item_recarray.full_map_latitude,
+                full_map_longitude=item_recarray.full_map_longitude,
+                full_bin=item_recarray.full_bin,
+                version=version_str,
+                generation_info=generation_info_obj,
+                dataset=dataset,
+            )
+
+            # append object
+            ret_list.append(ret_obj)
+
+        # return
+        return ret_list
+
+    def read_calibration(self,
+                         file_list: Union[List[str], str],
+                         n_parallel: int = 1,
+                         quiet: bool = False,
+                         dataset: Optional[Dataset] = None) -&gt; List[Calibration]:
+        &#34;&#34;&#34;
+        Read in UCalgary calibration files.
+
+        Args:
+            file_list (List[str] or str): 
+                The files to read in. Absolute paths are recommended, but not technically
+                necessary. This can be a single string for a file, or a list of strings to read
+                in multiple files. This parameter is required.
+
+            n_parallel (int): 
+                Number of data files to read in parallel using multiprocessing. Default value 
+                is 1. Adjust according to your computer&#39;s available resources. This parameter 
+                is optional.
+
+            quiet (bool): 
+                Do not print out errors while reading calibration files, if any are encountered. 
+                Any files that encounter errors will be, as usual, accessible via the `problematic_files` 
+                attribute of the returned `pyucalgarysrs.data.classes.Calibration` object. This parameter
+                is optional.
+
+            dataset (Dataset): 
+                The dataset object for which the files are associated with. This parameter is
+                optional.
+
+        Returns:
+            A list of `pyucalgarysrs.data.classes.Calibration` objects containing the calibration data read 
+            in, among other values.
+        
+        Raises:
+            pyucalgarysrs.exceptions.SRSError: a generic read error was encountered
+        &#34;&#34;&#34;
+        # read data
+        data = func_read_calibration(
+            file_list,
+            n_parallel=n_parallel,
+            quiet=quiet,
+        )
+
+        # convert to return object
+        ret_list = []
+        for item in data:
+            # init
+            item_filename = item[&#34;filename&#34;]
+
+            # determine the version
+            version_str = os.path.splitext(item_filename)[0].split(&#39;_&#39;)[-1]
+
+            # parse filename into several values
+            filename_split = os.path.basename(item_filename).split(&#39;_&#39;)
+            filename_times_split = filename_split[3].split(&#39;-&#39;)
+            valid_interval_start_dt = datetime.datetime.strptime(filename_times_split[0], &#34;%Y%m%d&#34;)
+            valid_interval_stop_dt = None
+            if (filename_times_split[1] != &#39;+&#39;):
+                valid_interval_stop_dt = datetime.datetime.strptime(filename_times_split[1], &#34;%Y%m%d&#34;)
+
+            # determine the detector UID
+            detector_uid = filename_split[2]
+            file_type = filename_split[1].lower()
+            flat_field_multiplier_value = None
+            rayleighs_perdn_persecond_value = None
+            if (file_type == &#34;flatfield&#34;):
+                for key in item.keys():
+                    if (&#34;flat_field_multiplier&#34; in key):
+                        flat_field_multiplier_value = item[key]
+                        break
+            elif (file_type == &#34;rayleighs&#34;):
+                for key in item.keys():
+                    if (&#34;rper_dnpersecond&#34; in key):
+                        rayleighs_perdn_persecond_value = item[key]
+                        break
+
+            # set input data dir and skymap filename (may exist in the calibration file, may not)
+            author_str = None
+            input_data_dir_str = None
+            skymap_filename_str = None
+            if (&#34;author&#34; in item):
+                author_str = item[&#34;author&#34;].decode()
+            if (&#34;input_data_dir&#34; in item):
+                input_data_dir_str = item[&#34;input_data_dir&#34;].decode()
+            if (&#34;skymap_filename&#34; in item):
+                skymap_filename_str = item[&#34;skymap_filename&#34;].decode()
+
+            # set generation info object
+            generation_info_obj = CalibrationGenerationInfo(
+                author=author_str,
+                input_data_dir=input_data_dir_str,
+                skymap_filename=skymap_filename_str,
+                valid_interval_start=valid_interval_start_dt,
+                valid_interval_stop=valid_interval_stop_dt,
+            )
+
+            # create object
+            ret_obj = Calibration(
+                filename=item_filename,
+                version=version_str,
+                dataset=dataset,
+                detector_uid=detector_uid,
+                flat_field_multiplier=flat_field_multiplier_value,
+                rayleighs_perdn_persecond=rayleighs_perdn_persecond_value,
+                generation_info=generation_info_obj,
+            )
+
+            # append object
+            ret_list.append(ret_obj)
+
+        # return
+        return ret_list</code></pre>
+</details>
+</section>
+<section>
+</section>
+<section>
+</section>
+<section>
+</section>
+<section>
+<h2 class="section-title" id="header-classes">Classes</h2>
+<dl>
+<dt id="pyucalgarysrs.data.read.ReadManager"><code class="flex name class">
+<span>class <span class="ident">ReadManager</span></span>
+</code></dt>
+<dd>
+<div class="desc"><p>The ReadManager object is initialized within every PyUCalgarySRS.data object. It
+acts as a way to access the submodules and carry over configuration information in
+the super class.</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">class ReadManager:
+    &#34;&#34;&#34;
+    The ReadManager object is initialized within every PyUCalgarySRS.data object. It 
+    acts as a way to access the submodules and carry over configuration information in 
+    the super class.
+    &#34;&#34;&#34;
+
+    __VALID_THEMIS_READFILE_DATASETS = [&#34;THEMIS_ASI_RAW&#34;]
+    __VALID_REGO_READFILE_DATASETS = [&#34;REGO_RAW&#34;]
+    __VALID_TREX_NIR_READFILE_DATASETS = [&#34;TREX_NIR_RAW&#34;]
+    __VALID_TREX_BLUE_READFILE_DATASETS = [&#34;TREX_BLUE_RAW&#34;]
+    __VALID_TREX_RGB_READFILE_DATASETS = [&#34;TREX_RGB_RAW_NOMINAL&#34;, &#34;TREX_RGB_RAW_BURST&#34;]
+    __VALID_SKYMAP_READFILE_DATASETS = [
+        &#34;REGO_SKYMAP_IDLSAV&#34;,
+        &#34;THEMIS_ASI_SKYMAP_IDLSAV&#34;,
+        &#34;TREX_NIR_SKYMAP_IDLSAV&#34;,
+        &#34;TREX_RGB_SKYMAP_IDLSAV&#34;,
+        # &#34;TREX_BLUE_SKYMAP_IDLSAV&#34;,
+    ]
+    __VALID_CALIBRATION_READFILE_DATASETS = [
+        &#34;REGO_CALIBRATION_RAYLEIGHS_IDLSAV&#34;,
+        &#34;REGO_CALIBRATION_FLATFIELD_IDLSAV&#34;,
+        &#34;TREX_NIR_CALIBRATION_RAYLEIGHS_IDLSAV&#34;,
+        &#34;TREX_NIR_CALIBRATION_FLATFIELD_IDLSAV&#34;,
+    ]
+
+    def __init__(self):
+        pass
+
+    def list_supported_datasets(self) -&gt; List[str]:
+        &#34;&#34;&#34;
+        List the datasets which have file reading capabilities supported.
+
+        Returns:
+            A list of the dataset names with file reading support.
+        &#34;&#34;&#34;
+        supported_datasets = []
+        for var in dir(self):
+            var_lower = var.lower()
+            if (&#34;valid&#34; in var_lower and &#34;readfile_datasets&#34; in var_lower):
+                for dataset in getattr(self, var):
+                    supported_datasets.append(dataset)
+        supported_datasets = sorted(supported_datasets)
+        return supported_datasets
+
+    def is_supported(self, dataset_name: str) -&gt; bool:
+        &#34;&#34;&#34;
+        Check if a given dataset has file reading support. 
+        
+        Not all datasets available in the Open Data Platform have special readfile 
+        routines in this library. This is because some datasets are in basic formats
+        such as JPG or PNG, so unique functions aren&#39;t necessary. We leave it up to
+        the user to open these basic files in whichever way they prefer. Use the 
+        `list_supported_read_datasets()` function to see all datasets that have special
+        file reading functionality in this library.
+
+        Args:
+            dataset_name (str): 
+                The dataset name to check if file reading is supported. This parameter 
+                is required.
+        
+        Returns:
+            Boolean indicating if file reading is supported.
+        &#34;&#34;&#34;
+        supported_datasets = self.list_supported_datasets()
+        if (dataset_name in supported_datasets):
+            return True
+        else:
+            return False
+
+    def read(self,
+             dataset: Dataset,
+             file_list: Union[List[str], str],
+             n_parallel: int = 1,
+             first_record: bool = False,
+             no_metadata: bool = False,
+             quiet: bool = False) -&gt; Union[Data, List[Skymap], List[Calibration]]:
+        &#34;&#34;&#34;
+        Read in data files for a given dataset. Note that only one type of dataset&#39;s data
+        should be read in using a single call.
+
+        Args:
+            dataset (Dataset): 
+                The dataset object for which the files are associated with. This parameter is
+                required.
+            
+            file_list (List[str] or str): 
+                The files to read in. Absolute paths are recommended, but not technically
+                necessary. This can be a single string for a file, or a list of strings to read
+                in multiple files. This parameter is required.
+
+            n_parallel (int): 
+                Number of data files to read in parallel using multiprocessing. Default value 
+                is 1. Adjust according to your computer&#39;s available resources. This parameter 
+                is optional.
+            
+            first_record (bool): 
+                Only read in the first record in each file. This is the same as the first_frame
+                parameter in the themis-imager-readfile and trex-imager-readfile libraries, and
+                is a read optimization if you only need one image per minute, as opposed to the
+                full temporal resolution of data (e.g., 3sec cadence). This parameter is optional.
+            
+            no_metadata (bool): 
+                Skip reading of metadata. This is a minor optimization if the metadata is not needed.
+                Default is `False`. This parameter is optional.
+            
+            quiet (bool): 
+                Do not print out errors while reading data files, if any are encountered. Any files
+                that encounter errors will be, as usual, accessible via the `problematic_files` 
+                attribute of the returned `pyucalgarysrs.data.classes.Data` object. This parameter
+                is optional.
+        
+        Returns:
+            A `pyucalgarysrs.data.classes.Data` object containing the data read in, among other
+            values.
+        
+        Raises:
+            pyucalgarysrs.exceptions.SRSUnsupportedReadError: an unsupported dataset was used when
+                trying to read files.
+            pyucalgarysrs.exceptions.SRSError: a generic read error was encountered
+
+        Notes:
+        ---------
+        For users who are familiar with the themis-imager-readfile and trex-imager-readfile
+        libraries, the read function is a wrapper for those routines. Further improvements have 
+        been integrated, and those libraries are anticipated to be deprecated at some point in the
+        future.
+        &#34;&#34;&#34;
+        # verify dataset is valid
+        if (dataset is None):
+            raise SRSUnsupportedReadError(&#34;Must supply a dataset. If not know, please use the srs.data.readers.read_&lt;specific_routine&gt;() function&#34;)
+
+        # read data using the appropriate readfile routine
+        if (dataset.name in self.__VALID_THEMIS_READFILE_DATASETS):
+            return self.read_themis(file_list,
+                                    n_parallel=n_parallel,
+                                    first_record=first_record,
+                                    no_metadata=no_metadata,
+                                    quiet=quiet,
+                                    dataset=dataset)
+        elif (dataset.name in self.__VALID_REGO_READFILE_DATASETS):
+            return self.read_rego(file_list, n_parallel=n_parallel, first_record=first_record, no_metadata=no_metadata, quiet=quiet, dataset=dataset)
+        elif (dataset.name in self.__VALID_TREX_NIR_READFILE_DATASETS):
+            return self.read_trex_nir(file_list,
+                                      n_parallel=n_parallel,
+                                      first_record=first_record,
+                                      no_metadata=no_metadata,
+                                      quiet=quiet,
+                                      dataset=dataset)
+        elif (dataset.name in self.__VALID_TREX_BLUE_READFILE_DATASETS):
+            return self.read_trex_blue(file_list,
+                                       n_parallel=n_parallel,
+                                       first_record=first_record,
+                                       no_metadata=no_metadata,
+                                       quiet=quiet,
+                                       dataset=dataset)
+        elif (dataset.name in self.__VALID_TREX_RGB_READFILE_DATASETS):
+            return self.read_trex_rgb(file_list,
+                                      n_parallel=n_parallel,
+                                      first_record=first_record,
+                                      no_metadata=no_metadata,
+                                      quiet=quiet,
+                                      dataset=dataset)
+        elif (dataset.name in self.__VALID_SKYMAP_READFILE_DATASETS):
+            return self.read_skymap(file_list, n_parallel=n_parallel, quiet=quiet, dataset=dataset)
+        elif (dataset.name in self.__VALID_CALIBRATION_READFILE_DATASETS):
+            return self.read_calibration(file_list, n_parallel=n_parallel, quiet=quiet, dataset=dataset)
+        else:
+            raise SRSUnsupportedReadError(&#34;Dataset does not have a supported read function&#34;)
+
+    def read_themis(self,
+                    file_list: Union[List[str], str],
+                    n_parallel: int = 1,
+                    first_record: bool = False,
+                    no_metadata: bool = False,
+                    quiet: bool = False,
+                    dataset: Optional[Dataset] = None) -&gt; Data:
+        &#34;&#34;&#34;
+        Read in THEMIS ASI raw data (stream0 full.pgm* files).
+
+        Args:
+            file_list (List[str] or str): 
+                The files to read in. Absolute paths are recommended, but not technically
+                necessary. This can be a single string for a file, or a list of strings to read
+                in multiple files. This parameter is required.
+
+            n_parallel (int): 
+                Number of data files to read in parallel using multiprocessing. Default value 
+                is 1. Adjust according to your computer&#39;s available resources. This parameter 
+                is optional.
+            
+            first_record (bool): 
+                Only read in the first record in each file. This is the same as the first_frame
+                parameter in the themis-imager-readfile and trex-imager-readfile libraries, and
+                is a read optimization if you only need one image per minute, as opposed to the
+                full temporal resolution of data (e.g., 3sec cadence). This parameter is optional.
+            
+            no_metadata (bool): 
+                Skip reading of metadata. This is a minor optimization if the metadata is not needed.
+                Default is `False`. This parameter is optional.
+            
+            quiet (bool): 
+                Do not print out errors while reading data files, if any are encountered. Any files
+                that encounter errors will be, as usual, accessible via the `problematic_files` 
+                attribute of the returned `pyucalgarysrs.data.classes.Data` object. This parameter
+                is optional.
+
+            dataset (Dataset): 
+                The dataset object for which the files are associated with. This parameter is
+                optional.
+
+        Returns:
+            A `pyucalgarysrs.data.classes.Data` object containing the data read in, among other
+            values.
+        
+        Raises:
+            pyucalgarysrs.exceptions.SRSError: a generic read error was encountered
+        &#34;&#34;&#34;
+        # read data
+        img, meta, problematic_files = func_read_themis(
+            file_list,
+            n_parallel=n_parallel,
+            first_record=first_record,
+            no_metadata=no_metadata,
+            quiet=quiet,
+        )
+
+        # generate timestamp array
+        timestamp_list = []
+        if (no_metadata is False):
+            for m in meta:
+                timestamp_list.append(datetime.datetime.strptime(m[&#34;Image request start&#34;], &#34;%Y-%m-%d %H:%M:%S.%f UTC&#34;))
+
+        # convert to return type
+        problematic_files_objs = []
+        for p in problematic_files:
+            problematic_files_objs.append(ProblematicFile(p[&#34;filename&#34;], error_message=p[&#34;error_message&#34;], error_type=&#34;error&#34;))
+        ret_obj = Data(
+            data=img,
+            timestamp=timestamp_list,
+            metadata=meta,
+            problematic_files=problematic_files_objs,
+            dataset=dataset,
+        )
+
+        # return
+        return ret_obj
+
+    def read_rego(self,
+                  file_list: Union[List[str], str],
+                  n_parallel: int = 1,
+                  first_record: bool = False,
+                  no_metadata: bool = False,
+                  quiet: bool = False,
+                  dataset: Optional[Dataset] = None) -&gt; Data:
+        &#34;&#34;&#34;
+        Read in REGO raw data (stream0 pgm* files).
+
+        Args:
+            file_list (List[str] or str): 
+                The files to read in. Absolute paths are recommended, but not technically
+                necessary. This can be a single string for a file, or a list of strings to read
+                in multiple files. This parameter is required.
+
+            n_parallel (int): 
+                Number of data files to read in parallel using multiprocessing. Default value 
+                is 1. Adjust according to your computer&#39;s available resources. This parameter 
+                is optional.
+            
+            first_record (bool): 
+                Only read in the first record in each file. This is the same as the first_frame
+                parameter in the themis-imager-readfile and trex-imager-readfile libraries, and
+                is a read optimization if you only need one image per minute, as opposed to the
+                full temporal resolution of data (e.g., 3sec cadence). This parameter is optional.
+            
+            no_metadata (bool): 
+                Skip reading of metadata. This is a minor optimization if the metadata is not needed.
+                Default is `False`. This parameter is optional.
+            
+            quiet (bool): 
+                Do not print out errors while reading data files, if any are encountered. Any files
+                that encounter errors will be, as usual, accessible via the `problematic_files` 
+                attribute of the returned `pyucalgarysrs.data.classes.Data` object. This parameter
+                is optional.
+
+            dataset (Dataset): 
+                The dataset object for which the files are associated with. This parameter is
+                optional.
+
+        Returns:
+            A `pyucalgarysrs.data.classes.Data` object containing the data read in, among other
+            values.
+        
+        Raises:
+            pyucalgarysrs.exceptions.SRSError: a generic read error was encountered
+        &#34;&#34;&#34;
+        # read data
+        img, meta, problematic_files = func_read_rego(
+            file_list,
+            n_parallel=n_parallel,
+            first_record=first_record,
+            no_metadata=no_metadata,
+            quiet=quiet,
+        )
+
+        # generate timestamp array
+        timestamp_list = []
+        if (no_metadata is False):
+            for m in meta:
+                timestamp_list.append(datetime.datetime.strptime(m[&#34;Image request start&#34;], &#34;%Y-%m-%d %H:%M:%S.%f UTC&#34;))
+
+        # convert to return type
+        problematic_files_objs = []
+        for p in problematic_files:
+            problematic_files_objs.append(ProblematicFile(p[&#34;filename&#34;], error_message=p[&#34;error_message&#34;], error_type=&#34;error&#34;))
+        ret_obj = Data(
+            data=img,
+            timestamp=timestamp_list,
+            metadata=meta,
+            problematic_files=problematic_files_objs,
+            dataset=dataset,
+        )
+
+        # return
+        return ret_obj
+
+    def read_trex_nir(self,
+                      file_list: Union[List[str], str],
+                      n_parallel: int = 1,
+                      first_record: bool = False,
+                      no_metadata: bool = False,
+                      quiet: bool = False,
+                      dataset: Optional[Dataset] = None) -&gt; Data:
+        &#34;&#34;&#34;
+        Read in TREx near-infrared (NIR) raw data (stream0 pgm* files).
+
+        Args:
+            file_list (List[str] or str): 
+                The files to read in. Absolute paths are recommended, but not technically
+                necessary. This can be a single string for a file, or a list of strings to read
+                in multiple files. This parameter is required.
+
+            n_parallel (int): 
+                Number of data files to read in parallel using multiprocessing. Default value 
+                is 1. Adjust according to your computer&#39;s available resources. This parameter 
+                is optional.
+            
+            first_record (bool): 
+                Only read in the first record in each file. This is the same as the first_frame
+                parameter in the themis-imager-readfile and trex-imager-readfile libraries, and
+                is a read optimization if you only need one image per minute, as opposed to the
+                full temporal resolution of data (e.g., 3sec cadence). This parameter is optional.
+            
+            no_metadata (bool): 
+                Skip reading of metadata. This is a minor optimization if the metadata is not needed.
+                Default is `False`. This parameter is optional.
+            
+            quiet (bool): 
+                Do not print out errors while reading data files, if any are encountered. Any files
+                that encounter errors will be, as usual, accessible via the `problematic_files` 
+                attribute of the returned `pyucalgarysrs.data.classes.Data` object. This parameter
+                is optional.
+
+            dataset (Dataset): 
+                The dataset object for which the files are associated with. This parameter is
+                optional.
+
+        Returns:
+            A `pyucalgarysrs.data.classes.Data` object containing the data read in, among other
+            values.
+        
+        Raises:
+            pyucalgarysrs.exceptions.SRSError: a generic read error was encountered
+        &#34;&#34;&#34;
+        # read data
+        img, meta, problematic_files = func_read_trex_nir(
+            file_list,
+            n_parallel=n_parallel,
+            first_record=first_record,
+            no_metadata=no_metadata,
+            quiet=quiet,
+        )
+
+        # generate timestamp array
+        timestamp_list = []
+        if (no_metadata is False):
+            for m in meta:
+                timestamp_list.append(datetime.datetime.strptime(m[&#34;Image request start&#34;], &#34;%Y-%m-%d %H:%M:%S.%f UTC&#34;))
+
+        # convert to appropriate return type
+        problematic_files_objs = []
+        for p in problematic_files:
+            problematic_files_objs.append(ProblematicFile(p[&#34;filename&#34;], error_message=p[&#34;error_message&#34;], error_type=&#34;error&#34;))
+        ret_obj = Data(
+            data=img,
+            timestamp=timestamp_list,
+            metadata=meta,
+            problematic_files=problematic_files_objs,
+            dataset=dataset,
+        )
+
+        # return
+        return ret_obj
+
+    def read_trex_blue(self,
+                       file_list: Union[List[str], str],
+                       n_parallel: int = 1,
+                       first_record: bool = False,
+                       no_metadata: bool = False,
+                       quiet: bool = False,
+                       dataset: Optional[Dataset] = None) -&gt; Data:
+        &#34;&#34;&#34;
+        Read in TREx Blueline raw data (stream0 pgm* files).
+
+        Args:
+            file_list (List[str] or str): 
+                The files to read in. Absolute paths are recommended, but not technically
+                necessary. This can be a single string for a file, or a list of strings to read
+                in multiple files. This parameter is required.
+
+            n_parallel (int): 
+                Number of data files to read in parallel using multiprocessing. Default value 
+                is 1. Adjust according to your computer&#39;s available resources. This parameter 
+                is optional.
+            
+            first_record (bool): 
+                Only read in the first record in each file. This is the same as the first_frame
+                parameter in the themis-imager-readfile and trex-imager-readfile libraries, and
+                is a read optimization if you only need one image per minute, as opposed to the
+                full temporal resolution of data (e.g., 3sec cadence). This parameter is optional.
+            
+            no_metadata (bool): 
+                Skip reading of metadata. This is a minor optimization if the metadata is not needed.
+                Default is `False`. This parameter is optional.
+            
+            quiet (bool): 
+                Do not print out errors while reading data files, if any are encountered. Any files
+                that encounter errors will be, as usual, accessible via the `problematic_files` 
+                attribute of the returned `pyucalgarysrs.data.classes.Data` object. This parameter
+                is optional.
+
+            dataset (Dataset): 
+                The dataset object for which the files are associated with. This parameter is
+                optional.
+
+        Returns:
+            A `pyucalgarysrs.data.classes.Data` object containing the data read in, among other
+            values.
+        
+        Raises:
+            pyucalgarysrs.exceptions.SRSError: a generic read error was encountered
+        &#34;&#34;&#34;
+        # read data
+        img, meta, problematic_files = func_read_trex_blue(
+            file_list,
+            n_parallel=n_parallel,
+            first_record=first_record,
+            no_metadata=no_metadata,
+            quiet=quiet,
+        )
+
+        # generate timestamp array
+        timestamp_list = []
+        if (no_metadata is False):
+            for m in meta:
+                timestamp_list.append(datetime.datetime.strptime(m[&#34;Image request start&#34;], &#34;%Y-%m-%d %H:%M:%S.%f UTC&#34;))
+
+        # convert to return type
+        problematic_files_objs = []
+        for p in problematic_files:
+            problematic_files_objs.append(ProblematicFile(p[&#34;filename&#34;], error_message=p[&#34;error_message&#34;], error_type=&#34;error&#34;))
+        ret_obj = Data(
+            data=img,
+            timestamp=timestamp_list,
+            metadata=meta,
+            problematic_files=problematic_files_objs,
+            dataset=dataset,
+        )
+
+        # return
+        return ret_obj
+
+    def read_trex_rgb(self,
+                      file_list: Union[List[str], str],
+                      n_parallel: int = 1,
+                      first_record: bool = False,
+                      no_metadata: bool = False,
+                      quiet: bool = False,
+                      dataset: Optional[Dataset] = None) -&gt; Data:
+        &#34;&#34;&#34;
+        Read in TREx RGB raw data (stream0 h5, stream0.burst png.tar, unstable stream0 and stream0.colour pgm* and png*).
+
+        Args:
+            file_list (List[str] or str): 
+                The files to read in. Absolute paths are recommended, but not technically
+                necessary. This can be a single string for a file, or a list of strings to read
+                in multiple files. This parameter is required.
+
+            n_parallel (int): 
+                Number of data files to read in parallel using multiprocessing. Default value 
+                is 1. Adjust according to your computer&#39;s available resources. This parameter 
+                is optional.
+            
+            first_record (bool): 
+                Only read in the first record in each file. This is the same as the first_frame
+                parameter in the themis-imager-readfile and trex-imager-readfile libraries, and
+                is a read optimization if you only need one image per minute, as opposed to the
+                full temporal resolution of data (e.g., 3sec cadence). This parameter is optional.
+            
+            no_metadata (bool): 
+                Skip reading of metadata. This is a minor optimization if the metadata is not needed.
+                Default is `False`. This parameter is optional.
+            
+            quiet (bool): 
+                Do not print out errors while reading data files, if any are encountered. Any files
+                that encounter errors will be, as usual, accessible via the `problematic_files` 
+                attribute of the returned `pyucalgarysrs.data.classes.Data` object. This parameter
+                is optional.
+
+            dataset (Dataset): 
+                The dataset object for which the files are associated with. This parameter is
+                optional.
+
+        Returns:
+            A `pyucalgarysrs.data.classes.Data` object containing the data read in, among other
+            values.
+        
+        Raises:
+            pyucalgarysrs.exceptions.SRSError: a generic read error was encountered
+        &#34;&#34;&#34;
+        # read data
+        img, meta, problematic_files = func_read_trex_rgb(
+            file_list,
+            n_parallel=n_parallel,
+            first_record=first_record,
+            no_metadata=no_metadata,
+            quiet=quiet,
+        )
+
+        # generate timestamp array
+        timestamp_list = []
+        if (no_metadata is False):
+            for m in meta:
+                if (&#34;image_request_start_timestamp&#34; in m):
+                    timestamp_list.append(datetime.datetime.strptime(m[&#34;image_request_start_timestamp&#34;], &#34;%Y-%m-%d %H:%M:%S.%f UTC&#34;))
+                elif (&#34;Image request start&#34; in m):
+                    timestamp_list.append(datetime.datetime.strptime(m[&#34;Image request start&#34;], &#34;%Y-%m-%d %H:%M:%S.%f UTC&#34;))
+                else:
+                    raise SRSError(&#34;Unexpected timestamp metadata format&#34;)
+
+        # convert to return type
+        problematic_files_objs = []
+        for p in problematic_files:
+            problematic_files_objs.append(ProblematicFile(p[&#34;filename&#34;], error_message=p[&#34;error_message&#34;], error_type=&#34;error&#34;))
+        ret_obj = Data(
+            data=img,
+            timestamp=timestamp_list,
+            metadata=meta,
+            problematic_files=problematic_files_objs,
+            dataset=dataset,
+        )
+
+        # return
+        return ret_obj
+
+    def read_trex_spectrograph(self,
+                               file_list: Union[List[str], str],
+                               n_parallel: int = 1,
+                               first_record: bool = False,
+                               no_metadata: bool = False,
+                               quiet: bool = False,
+                               dataset: Optional[Dataset] = None) -&gt; Data:
+        &#34;&#34;&#34;
+        Read in TREx Spectrograph raw data (stream0 pgm* files).
+
+        Args:
+            file_list (List[str] or str): 
+                The files to read in. Absolute paths are recommended, but not technically
+                necessary. This can be a single string for a file, or a list of strings to read
+                in multiple files. This parameter is required.
+
+            n_parallel (int): 
+                Number of data files to read in parallel using multiprocessing. Default value 
+                is 1. Adjust according to your computer&#39;s available resources. This parameter 
+                is optional.
+            
+            first_record (bool): 
+                Only read in the first record in each file. This is the same as the first_frame
+                parameter in the themis-imager-readfile and trex-imager-readfile libraries, and
+                is a read optimization if you only need one image per minute, as opposed to the
+                full temporal resolution of data (e.g., 3sec cadence). This parameter is optional.
+            
+            no_metadata (bool): 
+                Skip reading of metadata. This is a minor optimization if the metadata is not needed.
+                Default is `False`. This parameter is optional.
+            
+            quiet (bool): 
+                Do not print out errors while reading data files, if any are encountered. Any files
+                that encounter errors will be, as usual, accessible via the `problematic_files` 
+                attribute of the returned `pyucalgarysrs.data.classes.Data` object. This parameter
+                is optional.
+
+            dataset (Dataset): 
+                The dataset object for which the files are associated with. This parameter is
+                optional.
+
+        Returns:
+            A `pyucalgarysrs.data.classes.Data` object containing the data read in, among other
+            values.
+        
+        Raises:
+            pyucalgarysrs.exceptions.SRSError: a generic read error was encountered
+        &#34;&#34;&#34;
+        # read data
+        img, meta, problematic_files = func_read_trex_spectrograph(
+            file_list,
+            n_parallel=n_parallel,
+            first_record=first_record,
+            no_metadata=no_metadata,
+            quiet=quiet,
+        )
+
+        # generate timestamp array
+        timestamp_list = []
+        if (no_metadata is False):
+            for m in meta:
+                timestamp_list.append(datetime.datetime.strptime(m[&#34;Image request start&#34;], &#34;%Y-%m-%d %H:%M:%S.%f UTC&#34;))
+
+        # convert to return type
+        problematic_files_objs = []
+        for p in problematic_files:
+            problematic_files_objs.append(ProblematicFile(p[&#34;filename&#34;], error_message=p[&#34;error_message&#34;], error_type=&#34;error&#34;))
+        ret_obj = Data(
+            data=img,
+            timestamp=timestamp_list,
+            metadata=meta,
+            problematic_files=problematic_files_objs,
+            dataset=dataset,
+        )
+
+        # return
+        return ret_obj
+
+    def read_skymap(self,
+                    file_list: Union[List[str], str],
+                    n_parallel: int = 1,
+                    quiet: bool = False,
+                    dataset: Optional[Dataset] = None) -&gt; List[Skymap]:
+        &#34;&#34;&#34;
+        Read in UCalgary skymap files.
+
+        Args:
+            file_list (List[str] or str): 
+                The files to read in. Absolute paths are recommended, but not technically
+                necessary. This can be a single string for a file, or a list of strings to read
+                in multiple files. This parameter is required.
+
+            n_parallel (int): 
+                Number of data files to read in parallel using multiprocessing. Default value 
+                is 1. Adjust according to your computer&#39;s available resources. This parameter 
+                is optional.
+                                    
+            quiet (bool): 
+                Do not print out errors while reading skymap files, if any are encountered. Any 
+                files that encounter errors will be, as usual, accessible via the `problematic_files` 
+                attribute of the returned `pyucalgarysrs.data.classes.Skymap` object. This parameter
+                is optional.
+
+            dataset (Dataset): 
+                The dataset object for which the files are associated with. This parameter is
+                optional.
+
+        Returns:
+            A list of `pyucalgarysrs.data.classes.Skymap` objects containing the skymap data read 
+            in, among other values.
+        
+        Raises:
+            pyucalgarysrs.exceptions.SRSError: a generic read error was encountered
+        &#34;&#34;&#34;
+        # read data
+        data = func_read_skymap(
+            file_list,
+            n_parallel=n_parallel,
+            quiet=quiet,
+        )
+
+        # convert to return object
+        ret_list = []
+        for item in data:
+            # init item
+            item_recarray = item[&#34;skymap&#34;][0]
+
+            # parse several values into datetimes
+            date_generated_dt = datetime.datetime.strptime(item_recarray.generation_info[0].date_generated.decode(), &#34;%a %b %d %H:%M:%S %Y&#34;)
+            valid_interval_start_dt = datetime.datetime(2000, 1, 1, 0, 0, 0)
+            try:
+                valid_interval_start_dt = datetime.datetime.strptime(item_recarray.generation_info[0].valid_interval_start.decode(), &#34;%Y%m%d%H&#34;)
+            except Exception:
+                try:
+                    valid_interval_start_dt = datetime.datetime.strptime(item_recarray.generation_info[0].valid_interval_start.decode(), &#34;%Y%m%d&#34;)
+                except Exception:
+                    pass
+            valid_interval_stop_dt = None
+            if (item_recarray.generation_info[0].valid_interval_stop.decode() != &#34;+&#34;):
+                try:
+                    valid_interval_stop_dt = datetime.datetime.strptime(item_recarray.generation_info[0].valid_interval_stop.decode(), &#34;%Y%m%d%H&#34;)
+                except Exception:
+                    try:
+                        valid_interval_stop_dt = datetime.datetime.strptime(item_recarray.generation_info[0].valid_interval_stop.decode(), &#34;%Y%m%d&#34;)
+                    except Exception:
+                        pass
+
+            # determine the version
+            version_str = os.path.splitext(item[&#34;filename&#34;])[0].split(&#39;_&#39;)[-1]
+
+            # create generation info dictionary
+            generation_info_obj = SkymapGenerationInfo(
+                author=item_recarray.generation_info[0].author.decode(),
+                ccd_center=item_recarray.generation_info[0].ccd_center,
+                code_used=item_recarray.generation_info[0].code_used.decode(),
+                data_loc=item_recarray.generation_info[0].data_loc.decode(),
+                date_generated=date_generated_dt,
+                date_time_used=item_recarray.generation_info[0].date_time_used.decode(),
+                img_flip=item_recarray.generation_info[0].img_flip,
+                optical_orientation=item_recarray.generation_info[0].optical_orientation,
+                optical_projection=item_recarray.generation_info[0].optical_projection,
+                pixel_aspect_ratio=item_recarray.generation_info[0].pixel_aspect_ratio,
+                valid_interval_start=valid_interval_start_dt,
+                valid_interval_stop=valid_interval_stop_dt,
+            )
+
+            # add in bytscl_values parameter
+            #
+            # NOTE: bytscl_values was not present in early THEMIS skymap files, so
+            # we conditionally add it
+            if (&#34;bytscl_values&#34; in item_recarray.generation_info[0].dtype.names):
+                generation_info_obj.bytscl_values = item_recarray.generation_info[0].bytscl_values
+
+            # create object
+            ret_obj = Skymap(
+                filename=item[&#34;filename&#34;],
+                project_uid=item_recarray.project_uid.decode(),
+                site_uid=item_recarray.site_uid.decode(),
+                imager_uid=item_recarray.imager_uid.decode(),
+                site_map_latitude=item_recarray.site_map_latitude,
+                site_map_longitude=item_recarray.site_map_longitude,
+                site_map_altitude=item_recarray.site_map_altitude,
+                bin_row=item_recarray.bin_row,
+                bin_column=item_recarray.bin_column,
+                bin_elevation=item_recarray.bin_elevation,
+                bin_azimuth=item_recarray.bin_azimuth,
+                bin_map_altitude=item_recarray.bin_map_altitude,
+                bin_map_latitude=item_recarray.bin_map_latitude,
+                bin_map_longitude=item_recarray.bin_map_longitude,
+                full_row=item_recarray.full_row,
+                full_column=item_recarray.full_column,
+                full_ignore=item_recarray.full_ignore,
+                full_subtract=item_recarray.full_subtract,
+                full_multiply=item_recarray.full_multiply,
+                full_elevation=item_recarray.full_elevation,
+                full_azimuth=item_recarray.full_azimuth,
+                full_map_altitude=item_recarray.full_map_altitude,
+                full_map_latitude=item_recarray.full_map_latitude,
+                full_map_longitude=item_recarray.full_map_longitude,
+                full_bin=item_recarray.full_bin,
+                version=version_str,
+                generation_info=generation_info_obj,
+                dataset=dataset,
+            )
+
+            # append object
+            ret_list.append(ret_obj)
+
+        # return
+        return ret_list
+
+    def read_calibration(self,
+                         file_list: Union[List[str], str],
+                         n_parallel: int = 1,
+                         quiet: bool = False,
+                         dataset: Optional[Dataset] = None) -&gt; List[Calibration]:
+        &#34;&#34;&#34;
+        Read in UCalgary calibration files.
+
+        Args:
+            file_list (List[str] or str): 
+                The files to read in. Absolute paths are recommended, but not technically
+                necessary. This can be a single string for a file, or a list of strings to read
+                in multiple files. This parameter is required.
+
+            n_parallel (int): 
+                Number of data files to read in parallel using multiprocessing. Default value 
+                is 1. Adjust according to your computer&#39;s available resources. This parameter 
+                is optional.
+
+            quiet (bool): 
+                Do not print out errors while reading calibration files, if any are encountered. 
+                Any files that encounter errors will be, as usual, accessible via the `problematic_files` 
+                attribute of the returned `pyucalgarysrs.data.classes.Calibration` object. This parameter
+                is optional.
+
+            dataset (Dataset): 
+                The dataset object for which the files are associated with. This parameter is
+                optional.
+
+        Returns:
+            A list of `pyucalgarysrs.data.classes.Calibration` objects containing the calibration data read 
+            in, among other values.
+        
+        Raises:
+            pyucalgarysrs.exceptions.SRSError: a generic read error was encountered
+        &#34;&#34;&#34;
+        # read data
+        data = func_read_calibration(
+            file_list,
+            n_parallel=n_parallel,
+            quiet=quiet,
+        )
+
+        # convert to return object
+        ret_list = []
+        for item in data:
+            # init
+            item_filename = item[&#34;filename&#34;]
+
+            # determine the version
+            version_str = os.path.splitext(item_filename)[0].split(&#39;_&#39;)[-1]
+
+            # parse filename into several values
+            filename_split = os.path.basename(item_filename).split(&#39;_&#39;)
+            filename_times_split = filename_split[3].split(&#39;-&#39;)
+            valid_interval_start_dt = datetime.datetime.strptime(filename_times_split[0], &#34;%Y%m%d&#34;)
+            valid_interval_stop_dt = None
+            if (filename_times_split[1] != &#39;+&#39;):
+                valid_interval_stop_dt = datetime.datetime.strptime(filename_times_split[1], &#34;%Y%m%d&#34;)
+
+            # determine the detector UID
+            detector_uid = filename_split[2]
+            file_type = filename_split[1].lower()
+            flat_field_multiplier_value = None
+            rayleighs_perdn_persecond_value = None
+            if (file_type == &#34;flatfield&#34;):
+                for key in item.keys():
+                    if (&#34;flat_field_multiplier&#34; in key):
+                        flat_field_multiplier_value = item[key]
+                        break
+            elif (file_type == &#34;rayleighs&#34;):
+                for key in item.keys():
+                    if (&#34;rper_dnpersecond&#34; in key):
+                        rayleighs_perdn_persecond_value = item[key]
+                        break
+
+            # set input data dir and skymap filename (may exist in the calibration file, may not)
+            author_str = None
+            input_data_dir_str = None
+            skymap_filename_str = None
+            if (&#34;author&#34; in item):
+                author_str = item[&#34;author&#34;].decode()
+            if (&#34;input_data_dir&#34; in item):
+                input_data_dir_str = item[&#34;input_data_dir&#34;].decode()
+            if (&#34;skymap_filename&#34; in item):
+                skymap_filename_str = item[&#34;skymap_filename&#34;].decode()
+
+            # set generation info object
+            generation_info_obj = CalibrationGenerationInfo(
+                author=author_str,
+                input_data_dir=input_data_dir_str,
+                skymap_filename=skymap_filename_str,
+                valid_interval_start=valid_interval_start_dt,
+                valid_interval_stop=valid_interval_stop_dt,
+            )
+
+            # create object
+            ret_obj = Calibration(
+                filename=item_filename,
+                version=version_str,
+                dataset=dataset,
+                detector_uid=detector_uid,
+                flat_field_multiplier=flat_field_multiplier_value,
+                rayleighs_perdn_persecond=rayleighs_perdn_persecond_value,
+                generation_info=generation_info_obj,
+            )
+
+            # append object
+            ret_list.append(ret_obj)
+
+        # return
+        return ret_list</code></pre>
+</details>
+<h3>Methods</h3>
+<dl>
+<dt id="pyucalgarysrs.data.read.ReadManager.is_supported"><code class="name flex">
+<span>def <span class="ident">is_supported</span></span>(<span>self, dataset_name: str) ‑> bool</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Check if a given dataset has file reading support. </p>
+<p>Not all datasets available in the Open Data Platform have special readfile
+routines in this library. This is because some datasets are in basic formats
+such as JPG or PNG, so unique functions aren't necessary. We leave it up to
+the user to open these basic files in whichever way they prefer. Use the
+<code>list_supported_read_datasets()</code> function to see all datasets that have special
+file reading functionality in this library.</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>dataset_name</code></strong> :&ensp;<code>str</code></dt>
+<dd>The dataset name to check if file reading is supported. This parameter
+is required.</dd>
+</dl>
+<h2 id="returns">Returns</h2>
+<p>Boolean indicating if file reading is supported.</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def is_supported(self, dataset_name: str) -&gt; bool:
+    &#34;&#34;&#34;
+    Check if a given dataset has file reading support. 
+    
+    Not all datasets available in the Open Data Platform have special readfile 
+    routines in this library. This is because some datasets are in basic formats
+    such as JPG or PNG, so unique functions aren&#39;t necessary. We leave it up to
+    the user to open these basic files in whichever way they prefer. Use the 
+    `list_supported_read_datasets()` function to see all datasets that have special
+    file reading functionality in this library.
+
+    Args:
+        dataset_name (str): 
+            The dataset name to check if file reading is supported. This parameter 
+            is required.
+    
+    Returns:
+        Boolean indicating if file reading is supported.
+    &#34;&#34;&#34;
+    supported_datasets = self.list_supported_datasets()
+    if (dataset_name in supported_datasets):
+        return True
+    else:
+        return False</code></pre>
+</details>
+</dd>
+<dt id="pyucalgarysrs.data.read.ReadManager.list_supported_datasets"><code class="name flex">
+<span>def <span class="ident">list_supported_datasets</span></span>(<span>self) ‑> List[str]</span>
+</code></dt>
+<dd>
+<div class="desc"><p>List the datasets which have file reading capabilities supported.</p>
+<h2 id="returns">Returns</h2>
+<p>A list of the dataset names with file reading support.</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def list_supported_datasets(self) -&gt; List[str]:
+    &#34;&#34;&#34;
+    List the datasets which have file reading capabilities supported.
+
+    Returns:
+        A list of the dataset names with file reading support.
+    &#34;&#34;&#34;
+    supported_datasets = []
+    for var in dir(self):
+        var_lower = var.lower()
+        if (&#34;valid&#34; in var_lower and &#34;readfile_datasets&#34; in var_lower):
+            for dataset in getattr(self, var):
+                supported_datasets.append(dataset)
+    supported_datasets = sorted(supported_datasets)
+    return supported_datasets</code></pre>
+</details>
+</dd>
+<dt id="pyucalgarysrs.data.read.ReadManager.read"><code class="name flex">
+<span>def <span class="ident">read</span></span>(<span>self, dataset: <a title="pyucalgarysrs.data.classes.Dataset" href="../classes.html#pyucalgarysrs.data.classes.Dataset">Dataset</a>, file_list: Union[List[str], str], n_parallel: int = 1, first_record: bool = False, no_metadata: bool = False, quiet: bool = False) ‑> Union[<a title="pyucalgarysrs.data.classes.Data" href="../classes.html#pyucalgarysrs.data.classes.Data">Data</a>, List[<a title="pyucalgarysrs.data.classes.Skymap" href="../classes.html#pyucalgarysrs.data.classes.Skymap">Skymap</a>], List[<a title="pyucalgarysrs.data.classes.Calibration" href="../classes.html#pyucalgarysrs.data.classes.Calibration">Calibration</a>]]</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Read in data files for a given dataset. Note that only one type of dataset's data
+should be read in using a single call.</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>dataset</code></strong> :&ensp;<code>Dataset</code></dt>
+<dd>The dataset object for which the files are associated with. This parameter is
+required.</dd>
+<dt><strong><code>file_list</code></strong> :&ensp;<code>List[str]</code> or <code>str</code></dt>
+<dd>The files to read in. Absolute paths are recommended, but not technically
+necessary. This can be a single string for a file, or a list of strings to read
+in multiple files. This parameter is required.</dd>
+<dt><strong><code>n_parallel</code></strong> :&ensp;<code>int</code></dt>
+<dd>Number of data files to read in parallel using multiprocessing. Default value
+is 1. Adjust according to your computer's available resources. This parameter
+is optional.</dd>
+<dt><strong><code>first_record</code></strong> :&ensp;<code>bool</code></dt>
+<dd>Only read in the first record in each file. This is the same as the first_frame
+parameter in the themis-imager-readfile and trex-imager-readfile libraries, and
+is a read optimization if you only need one image per minute, as opposed to the
+full temporal resolution of data (e.g., 3sec cadence). This parameter is optional.</dd>
+<dt><strong><code>no_metadata</code></strong> :&ensp;<code>bool</code></dt>
+<dd>Skip reading of metadata. This is a minor optimization if the metadata is not needed.
+Default is <code>False</code>. This parameter is optional.</dd>
+<dt><strong><code>quiet</code></strong> :&ensp;<code>bool</code></dt>
+<dd>Do not print out errors while reading data files, if any are encountered. Any files
+that encounter errors will be, as usual, accessible via the <code>problematic_files</code>
+attribute of the returned <code><a title="pyucalgarysrs.data.classes.Data" href="../classes.html#pyucalgarysrs.data.classes.Data">Data</a></code> object. This parameter
+is optional.</dd>
+</dl>
+<h2 id="returns">Returns</h2>
+<p>A <code><a title="pyucalgarysrs.data.classes.Data" href="../classes.html#pyucalgarysrs.data.classes.Data">Data</a></code> object containing the data read in, among other
+values.</p>
+<h2 id="raises">Raises</h2>
+<dl>
+<dt><code><a title="pyucalgarysrs.exceptions.SRSUnsupportedReadError" href="../../exceptions.html#pyucalgarysrs.exceptions.SRSUnsupportedReadError">SRSUnsupportedReadError</a></code></dt>
+<dd>an unsupported dataset was used when
+trying to read files.</dd>
+<dt><code><a title="pyucalgarysrs.exceptions.SRSError" href="../../exceptions.html#pyucalgarysrs.exceptions.SRSError">SRSError</a></code></dt>
+<dd>a generic read error was encountered</dd>
+</dl>
+<h2 id="notes">Notes:</h2>
+<p>For users who are familiar with the themis-imager-readfile and trex-imager-readfile
+libraries, the read function is a wrapper for those routines. Further improvements have
+been integrated, and those libraries are anticipated to be deprecated at some point in the
+future.</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def read(self,
+         dataset: Dataset,
+         file_list: Union[List[str], str],
+         n_parallel: int = 1,
+         first_record: bool = False,
+         no_metadata: bool = False,
+         quiet: bool = False) -&gt; Union[Data, List[Skymap], List[Calibration]]:
+    &#34;&#34;&#34;
+    Read in data files for a given dataset. Note that only one type of dataset&#39;s data
+    should be read in using a single call.
+
+    Args:
+        dataset (Dataset): 
+            The dataset object for which the files are associated with. This parameter is
+            required.
+        
+        file_list (List[str] or str): 
+            The files to read in. Absolute paths are recommended, but not technically
+            necessary. This can be a single string for a file, or a list of strings to read
+            in multiple files. This parameter is required.
+
+        n_parallel (int): 
+            Number of data files to read in parallel using multiprocessing. Default value 
+            is 1. Adjust according to your computer&#39;s available resources. This parameter 
+            is optional.
+        
+        first_record (bool): 
+            Only read in the first record in each file. This is the same as the first_frame
+            parameter in the themis-imager-readfile and trex-imager-readfile libraries, and
+            is a read optimization if you only need one image per minute, as opposed to the
+            full temporal resolution of data (e.g., 3sec cadence). This parameter is optional.
+        
+        no_metadata (bool): 
+            Skip reading of metadata. This is a minor optimization if the metadata is not needed.
+            Default is `False`. This parameter is optional.
+        
+        quiet (bool): 
+            Do not print out errors while reading data files, if any are encountered. Any files
+            that encounter errors will be, as usual, accessible via the `problematic_files` 
+            attribute of the returned `pyucalgarysrs.data.classes.Data` object. This parameter
+            is optional.
+    
+    Returns:
+        A `pyucalgarysrs.data.classes.Data` object containing the data read in, among other
+        values.
+    
+    Raises:
+        pyucalgarysrs.exceptions.SRSUnsupportedReadError: an unsupported dataset was used when
+            trying to read files.
+        pyucalgarysrs.exceptions.SRSError: a generic read error was encountered
+
+    Notes:
+    ---------
+    For users who are familiar with the themis-imager-readfile and trex-imager-readfile
+    libraries, the read function is a wrapper for those routines. Further improvements have 
+    been integrated, and those libraries are anticipated to be deprecated at some point in the
+    future.
+    &#34;&#34;&#34;
+    # verify dataset is valid
+    if (dataset is None):
+        raise SRSUnsupportedReadError(&#34;Must supply a dataset. If not know, please use the srs.data.readers.read_&lt;specific_routine&gt;() function&#34;)
+
+    # read data using the appropriate readfile routine
+    if (dataset.name in self.__VALID_THEMIS_READFILE_DATASETS):
+        return self.read_themis(file_list,
+                                n_parallel=n_parallel,
+                                first_record=first_record,
+                                no_metadata=no_metadata,
+                                quiet=quiet,
+                                dataset=dataset)
+    elif (dataset.name in self.__VALID_REGO_READFILE_DATASETS):
+        return self.read_rego(file_list, n_parallel=n_parallel, first_record=first_record, no_metadata=no_metadata, quiet=quiet, dataset=dataset)
+    elif (dataset.name in self.__VALID_TREX_NIR_READFILE_DATASETS):
+        return self.read_trex_nir(file_list,
+                                  n_parallel=n_parallel,
+                                  first_record=first_record,
+                                  no_metadata=no_metadata,
+                                  quiet=quiet,
+                                  dataset=dataset)
+    elif (dataset.name in self.__VALID_TREX_BLUE_READFILE_DATASETS):
+        return self.read_trex_blue(file_list,
+                                   n_parallel=n_parallel,
+                                   first_record=first_record,
+                                   no_metadata=no_metadata,
+                                   quiet=quiet,
+                                   dataset=dataset)
+    elif (dataset.name in self.__VALID_TREX_RGB_READFILE_DATASETS):
+        return self.read_trex_rgb(file_list,
+                                  n_parallel=n_parallel,
+                                  first_record=first_record,
+                                  no_metadata=no_metadata,
+                                  quiet=quiet,
+                                  dataset=dataset)
+    elif (dataset.name in self.__VALID_SKYMAP_READFILE_DATASETS):
+        return self.read_skymap(file_list, n_parallel=n_parallel, quiet=quiet, dataset=dataset)
+    elif (dataset.name in self.__VALID_CALIBRATION_READFILE_DATASETS):
+        return self.read_calibration(file_list, n_parallel=n_parallel, quiet=quiet, dataset=dataset)
+    else:
+        raise SRSUnsupportedReadError(&#34;Dataset does not have a supported read function&#34;)</code></pre>
+</details>
+</dd>
+<dt id="pyucalgarysrs.data.read.ReadManager.read_calibration"><code class="name flex">
+<span>def <span class="ident">read_calibration</span></span>(<span>self, file_list: Union[List[str], str], n_parallel: int = 1, quiet: bool = False, dataset: Optional[<a title="pyucalgarysrs.data.classes.Dataset" href="../classes.html#pyucalgarysrs.data.classes.Dataset">Dataset</a>] = None) ‑> List[<a title="pyucalgarysrs.data.classes.Calibration" href="../classes.html#pyucalgarysrs.data.classes.Calibration">Calibration</a>]</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Read in UCalgary calibration files.</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>file_list</code></strong> :&ensp;<code>List[str]</code> or <code>str</code></dt>
+<dd>The files to read in. Absolute paths are recommended, but not technically
+necessary. This can be a single string for a file, or a list of strings to read
+in multiple files. This parameter is required.</dd>
+<dt><strong><code>n_parallel</code></strong> :&ensp;<code>int</code></dt>
+<dd>Number of data files to read in parallel using multiprocessing. Default value
+is 1. Adjust according to your computer's available resources. This parameter
+is optional.</dd>
+<dt><strong><code>quiet</code></strong> :&ensp;<code>bool</code></dt>
+<dd>Do not print out errors while reading calibration files, if any are encountered.
+Any files that encounter errors will be, as usual, accessible via the <code>problematic_files</code>
+attribute of the returned <code><a title="pyucalgarysrs.data.classes.Calibration" href="../classes.html#pyucalgarysrs.data.classes.Calibration">Calibration</a></code> object. This parameter
+is optional.</dd>
+<dt><strong><code>dataset</code></strong> :&ensp;<code>Dataset</code></dt>
+<dd>The dataset object for which the files are associated with. This parameter is
+optional.</dd>
+</dl>
+<h2 id="returns">Returns</h2>
+<p>A list of <code><a title="pyucalgarysrs.data.classes.Calibration" href="../classes.html#pyucalgarysrs.data.classes.Calibration">Calibration</a></code> objects containing the calibration data read
+in, among other values.</p>
+<h2 id="raises">Raises</h2>
+<dl>
+<dt><code><a title="pyucalgarysrs.exceptions.SRSError" href="../../exceptions.html#pyucalgarysrs.exceptions.SRSError">SRSError</a></code></dt>
+<dd>a generic read error was encountered</dd>
+</dl></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def read_calibration(self,
+                     file_list: Union[List[str], str],
+                     n_parallel: int = 1,
+                     quiet: bool = False,
+                     dataset: Optional[Dataset] = None) -&gt; List[Calibration]:
+    &#34;&#34;&#34;
+    Read in UCalgary calibration files.
+
+    Args:
+        file_list (List[str] or str): 
+            The files to read in. Absolute paths are recommended, but not technically
+            necessary. This can be a single string for a file, or a list of strings to read
+            in multiple files. This parameter is required.
+
+        n_parallel (int): 
+            Number of data files to read in parallel using multiprocessing. Default value 
+            is 1. Adjust according to your computer&#39;s available resources. This parameter 
+            is optional.
+
+        quiet (bool): 
+            Do not print out errors while reading calibration files, if any are encountered. 
+            Any files that encounter errors will be, as usual, accessible via the `problematic_files` 
+            attribute of the returned `pyucalgarysrs.data.classes.Calibration` object. This parameter
+            is optional.
+
+        dataset (Dataset): 
+            The dataset object for which the files are associated with. This parameter is
+            optional.
+
+    Returns:
+        A list of `pyucalgarysrs.data.classes.Calibration` objects containing the calibration data read 
+        in, among other values.
+    
+    Raises:
+        pyucalgarysrs.exceptions.SRSError: a generic read error was encountered
+    &#34;&#34;&#34;
+    # read data
+    data = func_read_calibration(
+        file_list,
+        n_parallel=n_parallel,
+        quiet=quiet,
+    )
+
+    # convert to return object
+    ret_list = []
+    for item in data:
+        # init
+        item_filename = item[&#34;filename&#34;]
+
+        # determine the version
+        version_str = os.path.splitext(item_filename)[0].split(&#39;_&#39;)[-1]
+
+        # parse filename into several values
+        filename_split = os.path.basename(item_filename).split(&#39;_&#39;)
+        filename_times_split = filename_split[3].split(&#39;-&#39;)
+        valid_interval_start_dt = datetime.datetime.strptime(filename_times_split[0], &#34;%Y%m%d&#34;)
+        valid_interval_stop_dt = None
+        if (filename_times_split[1] != &#39;+&#39;):
+            valid_interval_stop_dt = datetime.datetime.strptime(filename_times_split[1], &#34;%Y%m%d&#34;)
+
+        # determine the detector UID
+        detector_uid = filename_split[2]
+        file_type = filename_split[1].lower()
+        flat_field_multiplier_value = None
+        rayleighs_perdn_persecond_value = None
+        if (file_type == &#34;flatfield&#34;):
+            for key in item.keys():
+                if (&#34;flat_field_multiplier&#34; in key):
+                    flat_field_multiplier_value = item[key]
+                    break
+        elif (file_type == &#34;rayleighs&#34;):
+            for key in item.keys():
+                if (&#34;rper_dnpersecond&#34; in key):
+                    rayleighs_perdn_persecond_value = item[key]
+                    break
+
+        # set input data dir and skymap filename (may exist in the calibration file, may not)
+        author_str = None
+        input_data_dir_str = None
+        skymap_filename_str = None
+        if (&#34;author&#34; in item):
+            author_str = item[&#34;author&#34;].decode()
+        if (&#34;input_data_dir&#34; in item):
+            input_data_dir_str = item[&#34;input_data_dir&#34;].decode()
+        if (&#34;skymap_filename&#34; in item):
+            skymap_filename_str = item[&#34;skymap_filename&#34;].decode()
+
+        # set generation info object
+        generation_info_obj = CalibrationGenerationInfo(
+            author=author_str,
+            input_data_dir=input_data_dir_str,
+            skymap_filename=skymap_filename_str,
+            valid_interval_start=valid_interval_start_dt,
+            valid_interval_stop=valid_interval_stop_dt,
+        )
+
+        # create object
+        ret_obj = Calibration(
+            filename=item_filename,
+            version=version_str,
+            dataset=dataset,
+            detector_uid=detector_uid,
+            flat_field_multiplier=flat_field_multiplier_value,
+            rayleighs_perdn_persecond=rayleighs_perdn_persecond_value,
+            generation_info=generation_info_obj,
+        )
+
+        # append object
+        ret_list.append(ret_obj)
+
+    # return
+    return ret_list</code></pre>
+</details>
+</dd>
+<dt id="pyucalgarysrs.data.read.ReadManager.read_rego"><code class="name flex">
+<span>def <span class="ident">read_rego</span></span>(<span>self, file_list: Union[List[str], str], n_parallel: int = 1, first_record: bool = False, no_metadata: bool = False, quiet: bool = False, dataset: Optional[<a title="pyucalgarysrs.data.classes.Dataset" href="../classes.html#pyucalgarysrs.data.classes.Dataset">Dataset</a>] = None) ‑> <a title="pyucalgarysrs.data.classes.Data" href="../classes.html#pyucalgarysrs.data.classes.Data">Data</a></span>
+</code></dt>
+<dd>
+<div class="desc"><p>Read in REGO raw data (stream0 pgm* files).</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>file_list</code></strong> :&ensp;<code>List[str]</code> or <code>str</code></dt>
+<dd>The files to read in. Absolute paths are recommended, but not technically
+necessary. This can be a single string for a file, or a list of strings to read
+in multiple files. This parameter is required.</dd>
+<dt><strong><code>n_parallel</code></strong> :&ensp;<code>int</code></dt>
+<dd>Number of data files to read in parallel using multiprocessing. Default value
+is 1. Adjust according to your computer's available resources. This parameter
+is optional.</dd>
+<dt><strong><code>first_record</code></strong> :&ensp;<code>bool</code></dt>
+<dd>Only read in the first record in each file. This is the same as the first_frame
+parameter in the themis-imager-readfile and trex-imager-readfile libraries, and
+is a read optimization if you only need one image per minute, as opposed to the
+full temporal resolution of data (e.g., 3sec cadence). This parameter is optional.</dd>
+<dt><strong><code>no_metadata</code></strong> :&ensp;<code>bool</code></dt>
+<dd>Skip reading of metadata. This is a minor optimization if the metadata is not needed.
+Default is <code>False</code>. This parameter is optional.</dd>
+<dt><strong><code>quiet</code></strong> :&ensp;<code>bool</code></dt>
+<dd>Do not print out errors while reading data files, if any are encountered. Any files
+that encounter errors will be, as usual, accessible via the <code>problematic_files</code>
+attribute of the returned <code><a title="pyucalgarysrs.data.classes.Data" href="../classes.html#pyucalgarysrs.data.classes.Data">Data</a></code> object. This parameter
+is optional.</dd>
+<dt><strong><code>dataset</code></strong> :&ensp;<code>Dataset</code></dt>
+<dd>The dataset object for which the files are associated with. This parameter is
+optional.</dd>
+</dl>
+<h2 id="returns">Returns</h2>
+<p>A <code><a title="pyucalgarysrs.data.classes.Data" href="../classes.html#pyucalgarysrs.data.classes.Data">Data</a></code> object containing the data read in, among other
+values.</p>
+<h2 id="raises">Raises</h2>
+<dl>
+<dt><code><a title="pyucalgarysrs.exceptions.SRSError" href="../../exceptions.html#pyucalgarysrs.exceptions.SRSError">SRSError</a></code></dt>
+<dd>a generic read error was encountered</dd>
+</dl></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def read_rego(self,
+              file_list: Union[List[str], str],
+              n_parallel: int = 1,
+              first_record: bool = False,
+              no_metadata: bool = False,
+              quiet: bool = False,
+              dataset: Optional[Dataset] = None) -&gt; Data:
+    &#34;&#34;&#34;
+    Read in REGO raw data (stream0 pgm* files).
+
+    Args:
+        file_list (List[str] or str): 
+            The files to read in. Absolute paths are recommended, but not technically
+            necessary. This can be a single string for a file, or a list of strings to read
+            in multiple files. This parameter is required.
+
+        n_parallel (int): 
+            Number of data files to read in parallel using multiprocessing. Default value 
+            is 1. Adjust according to your computer&#39;s available resources. This parameter 
+            is optional.
+        
+        first_record (bool): 
+            Only read in the first record in each file. This is the same as the first_frame
+            parameter in the themis-imager-readfile and trex-imager-readfile libraries, and
+            is a read optimization if you only need one image per minute, as opposed to the
+            full temporal resolution of data (e.g., 3sec cadence). This parameter is optional.
+        
+        no_metadata (bool): 
+            Skip reading of metadata. This is a minor optimization if the metadata is not needed.
+            Default is `False`. This parameter is optional.
+        
+        quiet (bool): 
+            Do not print out errors while reading data files, if any are encountered. Any files
+            that encounter errors will be, as usual, accessible via the `problematic_files` 
+            attribute of the returned `pyucalgarysrs.data.classes.Data` object. This parameter
+            is optional.
+
+        dataset (Dataset): 
+            The dataset object for which the files are associated with. This parameter is
+            optional.
+
+    Returns:
+        A `pyucalgarysrs.data.classes.Data` object containing the data read in, among other
+        values.
+    
+    Raises:
+        pyucalgarysrs.exceptions.SRSError: a generic read error was encountered
+    &#34;&#34;&#34;
+    # read data
+    img, meta, problematic_files = func_read_rego(
+        file_list,
+        n_parallel=n_parallel,
+        first_record=first_record,
+        no_metadata=no_metadata,
+        quiet=quiet,
+    )
+
+    # generate timestamp array
+    timestamp_list = []
+    if (no_metadata is False):
+        for m in meta:
+            timestamp_list.append(datetime.datetime.strptime(m[&#34;Image request start&#34;], &#34;%Y-%m-%d %H:%M:%S.%f UTC&#34;))
+
+    # convert to return type
+    problematic_files_objs = []
+    for p in problematic_files:
+        problematic_files_objs.append(ProblematicFile(p[&#34;filename&#34;], error_message=p[&#34;error_message&#34;], error_type=&#34;error&#34;))
+    ret_obj = Data(
+        data=img,
+        timestamp=timestamp_list,
+        metadata=meta,
+        problematic_files=problematic_files_objs,
+        dataset=dataset,
+    )
+
+    # return
+    return ret_obj</code></pre>
+</details>
+</dd>
+<dt id="pyucalgarysrs.data.read.ReadManager.read_skymap"><code class="name flex">
+<span>def <span class="ident">read_skymap</span></span>(<span>self, file_list: Union[List[str], str], n_parallel: int = 1, quiet: bool = False, dataset: Optional[<a title="pyucalgarysrs.data.classes.Dataset" href="../classes.html#pyucalgarysrs.data.classes.Dataset">Dataset</a>] = None) ‑> List[<a title="pyucalgarysrs.data.classes.Skymap" href="../classes.html#pyucalgarysrs.data.classes.Skymap">Skymap</a>]</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Read in UCalgary skymap files.</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>file_list</code></strong> :&ensp;<code>List[str]</code> or <code>str</code></dt>
+<dd>The files to read in. Absolute paths are recommended, but not technically
+necessary. This can be a single string for a file, or a list of strings to read
+in multiple files. This parameter is required.</dd>
+<dt><strong><code>n_parallel</code></strong> :&ensp;<code>int</code></dt>
+<dd>Number of data files to read in parallel using multiprocessing. Default value
+is 1. Adjust according to your computer's available resources. This parameter
+is optional.</dd>
+<dt><strong><code>quiet</code></strong> :&ensp;<code>bool</code></dt>
+<dd>Do not print out errors while reading skymap files, if any are encountered. Any
+files that encounter errors will be, as usual, accessible via the <code>problematic_files</code>
+attribute of the returned <code><a title="pyucalgarysrs.data.classes.Skymap" href="../classes.html#pyucalgarysrs.data.classes.Skymap">Skymap</a></code> object. This parameter
+is optional.</dd>
+<dt><strong><code>dataset</code></strong> :&ensp;<code>Dataset</code></dt>
+<dd>The dataset object for which the files are associated with. This parameter is
+optional.</dd>
+</dl>
+<h2 id="returns">Returns</h2>
+<p>A list of <code><a title="pyucalgarysrs.data.classes.Skymap" href="../classes.html#pyucalgarysrs.data.classes.Skymap">Skymap</a></code> objects containing the skymap data read
+in, among other values.</p>
+<h2 id="raises">Raises</h2>
+<dl>
+<dt><code><a title="pyucalgarysrs.exceptions.SRSError" href="../../exceptions.html#pyucalgarysrs.exceptions.SRSError">SRSError</a></code></dt>
+<dd>a generic read error was encountered</dd>
+</dl></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def read_skymap(self,
+                file_list: Union[List[str], str],
+                n_parallel: int = 1,
+                quiet: bool = False,
+                dataset: Optional[Dataset] = None) -&gt; List[Skymap]:
+    &#34;&#34;&#34;
+    Read in UCalgary skymap files.
+
+    Args:
+        file_list (List[str] or str): 
+            The files to read in. Absolute paths are recommended, but not technically
+            necessary. This can be a single string for a file, or a list of strings to read
+            in multiple files. This parameter is required.
+
+        n_parallel (int): 
+            Number of data files to read in parallel using multiprocessing. Default value 
+            is 1. Adjust according to your computer&#39;s available resources. This parameter 
+            is optional.
+                                
+        quiet (bool): 
+            Do not print out errors while reading skymap files, if any are encountered. Any 
+            files that encounter errors will be, as usual, accessible via the `problematic_files` 
+            attribute of the returned `pyucalgarysrs.data.classes.Skymap` object. This parameter
+            is optional.
+
+        dataset (Dataset): 
+            The dataset object for which the files are associated with. This parameter is
+            optional.
+
+    Returns:
+        A list of `pyucalgarysrs.data.classes.Skymap` objects containing the skymap data read 
+        in, among other values.
+    
+    Raises:
+        pyucalgarysrs.exceptions.SRSError: a generic read error was encountered
+    &#34;&#34;&#34;
+    # read data
+    data = func_read_skymap(
+        file_list,
+        n_parallel=n_parallel,
+        quiet=quiet,
+    )
+
+    # convert to return object
+    ret_list = []
+    for item in data:
+        # init item
+        item_recarray = item[&#34;skymap&#34;][0]
+
+        # parse several values into datetimes
+        date_generated_dt = datetime.datetime.strptime(item_recarray.generation_info[0].date_generated.decode(), &#34;%a %b %d %H:%M:%S %Y&#34;)
+        valid_interval_start_dt = datetime.datetime(2000, 1, 1, 0, 0, 0)
+        try:
+            valid_interval_start_dt = datetime.datetime.strptime(item_recarray.generation_info[0].valid_interval_start.decode(), &#34;%Y%m%d%H&#34;)
+        except Exception:
+            try:
+                valid_interval_start_dt = datetime.datetime.strptime(item_recarray.generation_info[0].valid_interval_start.decode(), &#34;%Y%m%d&#34;)
+            except Exception:
+                pass
+        valid_interval_stop_dt = None
+        if (item_recarray.generation_info[0].valid_interval_stop.decode() != &#34;+&#34;):
+            try:
+                valid_interval_stop_dt = datetime.datetime.strptime(item_recarray.generation_info[0].valid_interval_stop.decode(), &#34;%Y%m%d%H&#34;)
+            except Exception:
+                try:
+                    valid_interval_stop_dt = datetime.datetime.strptime(item_recarray.generation_info[0].valid_interval_stop.decode(), &#34;%Y%m%d&#34;)
+                except Exception:
+                    pass
+
+        # determine the version
+        version_str = os.path.splitext(item[&#34;filename&#34;])[0].split(&#39;_&#39;)[-1]
+
+        # create generation info dictionary
+        generation_info_obj = SkymapGenerationInfo(
+            author=item_recarray.generation_info[0].author.decode(),
+            ccd_center=item_recarray.generation_info[0].ccd_center,
+            code_used=item_recarray.generation_info[0].code_used.decode(),
+            data_loc=item_recarray.generation_info[0].data_loc.decode(),
+            date_generated=date_generated_dt,
+            date_time_used=item_recarray.generation_info[0].date_time_used.decode(),
+            img_flip=item_recarray.generation_info[0].img_flip,
+            optical_orientation=item_recarray.generation_info[0].optical_orientation,
+            optical_projection=item_recarray.generation_info[0].optical_projection,
+            pixel_aspect_ratio=item_recarray.generation_info[0].pixel_aspect_ratio,
+            valid_interval_start=valid_interval_start_dt,
+            valid_interval_stop=valid_interval_stop_dt,
+        )
+
+        # add in bytscl_values parameter
+        #
+        # NOTE: bytscl_values was not present in early THEMIS skymap files, so
+        # we conditionally add it
+        if (&#34;bytscl_values&#34; in item_recarray.generation_info[0].dtype.names):
+            generation_info_obj.bytscl_values = item_recarray.generation_info[0].bytscl_values
+
+        # create object
+        ret_obj = Skymap(
+            filename=item[&#34;filename&#34;],
+            project_uid=item_recarray.project_uid.decode(),
+            site_uid=item_recarray.site_uid.decode(),
+            imager_uid=item_recarray.imager_uid.decode(),
+            site_map_latitude=item_recarray.site_map_latitude,
+            site_map_longitude=item_recarray.site_map_longitude,
+            site_map_altitude=item_recarray.site_map_altitude,
+            bin_row=item_recarray.bin_row,
+            bin_column=item_recarray.bin_column,
+            bin_elevation=item_recarray.bin_elevation,
+            bin_azimuth=item_recarray.bin_azimuth,
+            bin_map_altitude=item_recarray.bin_map_altitude,
+            bin_map_latitude=item_recarray.bin_map_latitude,
+            bin_map_longitude=item_recarray.bin_map_longitude,
+            full_row=item_recarray.full_row,
+            full_column=item_recarray.full_column,
+            full_ignore=item_recarray.full_ignore,
+            full_subtract=item_recarray.full_subtract,
+            full_multiply=item_recarray.full_multiply,
+            full_elevation=item_recarray.full_elevation,
+            full_azimuth=item_recarray.full_azimuth,
+            full_map_altitude=item_recarray.full_map_altitude,
+            full_map_latitude=item_recarray.full_map_latitude,
+            full_map_longitude=item_recarray.full_map_longitude,
+            full_bin=item_recarray.full_bin,
+            version=version_str,
+            generation_info=generation_info_obj,
+            dataset=dataset,
+        )
+
+        # append object
+        ret_list.append(ret_obj)
+
+    # return
+    return ret_list</code></pre>
+</details>
+</dd>
+<dt id="pyucalgarysrs.data.read.ReadManager.read_themis"><code class="name flex">
+<span>def <span class="ident">read_themis</span></span>(<span>self, file_list: Union[List[str], str], n_parallel: int = 1, first_record: bool = False, no_metadata: bool = False, quiet: bool = False, dataset: Optional[<a title="pyucalgarysrs.data.classes.Dataset" href="../classes.html#pyucalgarysrs.data.classes.Dataset">Dataset</a>] = None) ‑> <a title="pyucalgarysrs.data.classes.Data" href="../classes.html#pyucalgarysrs.data.classes.Data">Data</a></span>
+</code></dt>
+<dd>
+<div class="desc"><p>Read in THEMIS ASI raw data (stream0 full.pgm* files).</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>file_list</code></strong> :&ensp;<code>List[str]</code> or <code>str</code></dt>
+<dd>The files to read in. Absolute paths are recommended, but not technically
+necessary. This can be a single string for a file, or a list of strings to read
+in multiple files. This parameter is required.</dd>
+<dt><strong><code>n_parallel</code></strong> :&ensp;<code>int</code></dt>
+<dd>Number of data files to read in parallel using multiprocessing. Default value
+is 1. Adjust according to your computer's available resources. This parameter
+is optional.</dd>
+<dt><strong><code>first_record</code></strong> :&ensp;<code>bool</code></dt>
+<dd>Only read in the first record in each file. This is the same as the first_frame
+parameter in the themis-imager-readfile and trex-imager-readfile libraries, and
+is a read optimization if you only need one image per minute, as opposed to the
+full temporal resolution of data (e.g., 3sec cadence). This parameter is optional.</dd>
+<dt><strong><code>no_metadata</code></strong> :&ensp;<code>bool</code></dt>
+<dd>Skip reading of metadata. This is a minor optimization if the metadata is not needed.
+Default is <code>False</code>. This parameter is optional.</dd>
+<dt><strong><code>quiet</code></strong> :&ensp;<code>bool</code></dt>
+<dd>Do not print out errors while reading data files, if any are encountered. Any files
+that encounter errors will be, as usual, accessible via the <code>problematic_files</code>
+attribute of the returned <code><a title="pyucalgarysrs.data.classes.Data" href="../classes.html#pyucalgarysrs.data.classes.Data">Data</a></code> object. This parameter
+is optional.</dd>
+<dt><strong><code>dataset</code></strong> :&ensp;<code>Dataset</code></dt>
+<dd>The dataset object for which the files are associated with. This parameter is
+optional.</dd>
+</dl>
+<h2 id="returns">Returns</h2>
+<p>A <code><a title="pyucalgarysrs.data.classes.Data" href="../classes.html#pyucalgarysrs.data.classes.Data">Data</a></code> object containing the data read in, among other
+values.</p>
+<h2 id="raises">Raises</h2>
+<dl>
+<dt><code><a title="pyucalgarysrs.exceptions.SRSError" href="../../exceptions.html#pyucalgarysrs.exceptions.SRSError">SRSError</a></code></dt>
+<dd>a generic read error was encountered</dd>
+</dl></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def read_themis(self,
+                file_list: Union[List[str], str],
+                n_parallel: int = 1,
+                first_record: bool = False,
+                no_metadata: bool = False,
+                quiet: bool = False,
+                dataset: Optional[Dataset] = None) -&gt; Data:
+    &#34;&#34;&#34;
+    Read in THEMIS ASI raw data (stream0 full.pgm* files).
+
+    Args:
+        file_list (List[str] or str): 
+            The files to read in. Absolute paths are recommended, but not technically
+            necessary. This can be a single string for a file, or a list of strings to read
+            in multiple files. This parameter is required.
+
+        n_parallel (int): 
+            Number of data files to read in parallel using multiprocessing. Default value 
+            is 1. Adjust according to your computer&#39;s available resources. This parameter 
+            is optional.
+        
+        first_record (bool): 
+            Only read in the first record in each file. This is the same as the first_frame
+            parameter in the themis-imager-readfile and trex-imager-readfile libraries, and
+            is a read optimization if you only need one image per minute, as opposed to the
+            full temporal resolution of data (e.g., 3sec cadence). This parameter is optional.
+        
+        no_metadata (bool): 
+            Skip reading of metadata. This is a minor optimization if the metadata is not needed.
+            Default is `False`. This parameter is optional.
+        
+        quiet (bool): 
+            Do not print out errors while reading data files, if any are encountered. Any files
+            that encounter errors will be, as usual, accessible via the `problematic_files` 
+            attribute of the returned `pyucalgarysrs.data.classes.Data` object. This parameter
+            is optional.
+
+        dataset (Dataset): 
+            The dataset object for which the files are associated with. This parameter is
+            optional.
+
+    Returns:
+        A `pyucalgarysrs.data.classes.Data` object containing the data read in, among other
+        values.
+    
+    Raises:
+        pyucalgarysrs.exceptions.SRSError: a generic read error was encountered
+    &#34;&#34;&#34;
+    # read data
+    img, meta, problematic_files = func_read_themis(
+        file_list,
+        n_parallel=n_parallel,
+        first_record=first_record,
+        no_metadata=no_metadata,
+        quiet=quiet,
+    )
+
+    # generate timestamp array
+    timestamp_list = []
+    if (no_metadata is False):
+        for m in meta:
+            timestamp_list.append(datetime.datetime.strptime(m[&#34;Image request start&#34;], &#34;%Y-%m-%d %H:%M:%S.%f UTC&#34;))
+
+    # convert to return type
+    problematic_files_objs = []
+    for p in problematic_files:
+        problematic_files_objs.append(ProblematicFile(p[&#34;filename&#34;], error_message=p[&#34;error_message&#34;], error_type=&#34;error&#34;))
+    ret_obj = Data(
+        data=img,
+        timestamp=timestamp_list,
+        metadata=meta,
+        problematic_files=problematic_files_objs,
+        dataset=dataset,
+    )
+
+    # return
+    return ret_obj</code></pre>
+</details>
+</dd>
+<dt id="pyucalgarysrs.data.read.ReadManager.read_trex_blue"><code class="name flex">
+<span>def <span class="ident">read_trex_blue</span></span>(<span>self, file_list: Union[List[str], str], n_parallel: int = 1, first_record: bool = False, no_metadata: bool = False, quiet: bool = False, dataset: Optional[<a title="pyucalgarysrs.data.classes.Dataset" href="../classes.html#pyucalgarysrs.data.classes.Dataset">Dataset</a>] = None) ‑> <a title="pyucalgarysrs.data.classes.Data" href="../classes.html#pyucalgarysrs.data.classes.Data">Data</a></span>
+</code></dt>
+<dd>
+<div class="desc"><p>Read in TREx Blueline raw data (stream0 pgm* files).</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>file_list</code></strong> :&ensp;<code>List[str]</code> or <code>str</code></dt>
+<dd>The files to read in. Absolute paths are recommended, but not technically
+necessary. This can be a single string for a file, or a list of strings to read
+in multiple files. This parameter is required.</dd>
+<dt><strong><code>n_parallel</code></strong> :&ensp;<code>int</code></dt>
+<dd>Number of data files to read in parallel using multiprocessing. Default value
+is 1. Adjust according to your computer's available resources. This parameter
+is optional.</dd>
+<dt><strong><code>first_record</code></strong> :&ensp;<code>bool</code></dt>
+<dd>Only read in the first record in each file. This is the same as the first_frame
+parameter in the themis-imager-readfile and trex-imager-readfile libraries, and
+is a read optimization if you only need one image per minute, as opposed to the
+full temporal resolution of data (e.g., 3sec cadence). This parameter is optional.</dd>
+<dt><strong><code>no_metadata</code></strong> :&ensp;<code>bool</code></dt>
+<dd>Skip reading of metadata. This is a minor optimization if the metadata is not needed.
+Default is <code>False</code>. This parameter is optional.</dd>
+<dt><strong><code>quiet</code></strong> :&ensp;<code>bool</code></dt>
+<dd>Do not print out errors while reading data files, if any are encountered. Any files
+that encounter errors will be, as usual, accessible via the <code>problematic_files</code>
+attribute of the returned <code><a title="pyucalgarysrs.data.classes.Data" href="../classes.html#pyucalgarysrs.data.classes.Data">Data</a></code> object. This parameter
+is optional.</dd>
+<dt><strong><code>dataset</code></strong> :&ensp;<code>Dataset</code></dt>
+<dd>The dataset object for which the files are associated with. This parameter is
+optional.</dd>
+</dl>
+<h2 id="returns">Returns</h2>
+<p>A <code><a title="pyucalgarysrs.data.classes.Data" href="../classes.html#pyucalgarysrs.data.classes.Data">Data</a></code> object containing the data read in, among other
+values.</p>
+<h2 id="raises">Raises</h2>
+<dl>
+<dt><code><a title="pyucalgarysrs.exceptions.SRSError" href="../../exceptions.html#pyucalgarysrs.exceptions.SRSError">SRSError</a></code></dt>
+<dd>a generic read error was encountered</dd>
+</dl></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def read_trex_blue(self,
+                   file_list: Union[List[str], str],
+                   n_parallel: int = 1,
+                   first_record: bool = False,
+                   no_metadata: bool = False,
+                   quiet: bool = False,
+                   dataset: Optional[Dataset] = None) -&gt; Data:
+    &#34;&#34;&#34;
+    Read in TREx Blueline raw data (stream0 pgm* files).
+
+    Args:
+        file_list (List[str] or str): 
+            The files to read in. Absolute paths are recommended, but not technically
+            necessary. This can be a single string for a file, or a list of strings to read
+            in multiple files. This parameter is required.
+
+        n_parallel (int): 
+            Number of data files to read in parallel using multiprocessing. Default value 
+            is 1. Adjust according to your computer&#39;s available resources. This parameter 
+            is optional.
+        
+        first_record (bool): 
+            Only read in the first record in each file. This is the same as the first_frame
+            parameter in the themis-imager-readfile and trex-imager-readfile libraries, and
+            is a read optimization if you only need one image per minute, as opposed to the
+            full temporal resolution of data (e.g., 3sec cadence). This parameter is optional.
+        
+        no_metadata (bool): 
+            Skip reading of metadata. This is a minor optimization if the metadata is not needed.
+            Default is `False`. This parameter is optional.
+        
+        quiet (bool): 
+            Do not print out errors while reading data files, if any are encountered. Any files
+            that encounter errors will be, as usual, accessible via the `problematic_files` 
+            attribute of the returned `pyucalgarysrs.data.classes.Data` object. This parameter
+            is optional.
+
+        dataset (Dataset): 
+            The dataset object for which the files are associated with. This parameter is
+            optional.
+
+    Returns:
+        A `pyucalgarysrs.data.classes.Data` object containing the data read in, among other
+        values.
+    
+    Raises:
+        pyucalgarysrs.exceptions.SRSError: a generic read error was encountered
+    &#34;&#34;&#34;
+    # read data
+    img, meta, problematic_files = func_read_trex_blue(
+        file_list,
+        n_parallel=n_parallel,
+        first_record=first_record,
+        no_metadata=no_metadata,
+        quiet=quiet,
+    )
+
+    # generate timestamp array
+    timestamp_list = []
+    if (no_metadata is False):
+        for m in meta:
+            timestamp_list.append(datetime.datetime.strptime(m[&#34;Image request start&#34;], &#34;%Y-%m-%d %H:%M:%S.%f UTC&#34;))
+
+    # convert to return type
+    problematic_files_objs = []
+    for p in problematic_files:
+        problematic_files_objs.append(ProblematicFile(p[&#34;filename&#34;], error_message=p[&#34;error_message&#34;], error_type=&#34;error&#34;))
+    ret_obj = Data(
+        data=img,
+        timestamp=timestamp_list,
+        metadata=meta,
+        problematic_files=problematic_files_objs,
+        dataset=dataset,
+    )
+
+    # return
+    return ret_obj</code></pre>
+</details>
+</dd>
+<dt id="pyucalgarysrs.data.read.ReadManager.read_trex_nir"><code class="name flex">
+<span>def <span class="ident">read_trex_nir</span></span>(<span>self, file_list: Union[List[str], str], n_parallel: int = 1, first_record: bool = False, no_metadata: bool = False, quiet: bool = False, dataset: Optional[<a title="pyucalgarysrs.data.classes.Dataset" href="../classes.html#pyucalgarysrs.data.classes.Dataset">Dataset</a>] = None) ‑> <a title="pyucalgarysrs.data.classes.Data" href="../classes.html#pyucalgarysrs.data.classes.Data">Data</a></span>
+</code></dt>
+<dd>
+<div class="desc"><p>Read in TREx near-infrared (NIR) raw data (stream0 pgm* files).</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>file_list</code></strong> :&ensp;<code>List[str]</code> or <code>str</code></dt>
+<dd>The files to read in. Absolute paths are recommended, but not technically
+necessary. This can be a single string for a file, or a list of strings to read
+in multiple files. This parameter is required.</dd>
+<dt><strong><code>n_parallel</code></strong> :&ensp;<code>int</code></dt>
+<dd>Number of data files to read in parallel using multiprocessing. Default value
+is 1. Adjust according to your computer's available resources. This parameter
+is optional.</dd>
+<dt><strong><code>first_record</code></strong> :&ensp;<code>bool</code></dt>
+<dd>Only read in the first record in each file. This is the same as the first_frame
+parameter in the themis-imager-readfile and trex-imager-readfile libraries, and
+is a read optimization if you only need one image per minute, as opposed to the
+full temporal resolution of data (e.g., 3sec cadence). This parameter is optional.</dd>
+<dt><strong><code>no_metadata</code></strong> :&ensp;<code>bool</code></dt>
+<dd>Skip reading of metadata. This is a minor optimization if the metadata is not needed.
+Default is <code>False</code>. This parameter is optional.</dd>
+<dt><strong><code>quiet</code></strong> :&ensp;<code>bool</code></dt>
+<dd>Do not print out errors while reading data files, if any are encountered. Any files
+that encounter errors will be, as usual, accessible via the <code>problematic_files</code>
+attribute of the returned <code><a title="pyucalgarysrs.data.classes.Data" href="../classes.html#pyucalgarysrs.data.classes.Data">Data</a></code> object. This parameter
+is optional.</dd>
+<dt><strong><code>dataset</code></strong> :&ensp;<code>Dataset</code></dt>
+<dd>The dataset object for which the files are associated with. This parameter is
+optional.</dd>
+</dl>
+<h2 id="returns">Returns</h2>
+<p>A <code><a title="pyucalgarysrs.data.classes.Data" href="../classes.html#pyucalgarysrs.data.classes.Data">Data</a></code> object containing the data read in, among other
+values.</p>
+<h2 id="raises">Raises</h2>
+<dl>
+<dt><code><a title="pyucalgarysrs.exceptions.SRSError" href="../../exceptions.html#pyucalgarysrs.exceptions.SRSError">SRSError</a></code></dt>
+<dd>a generic read error was encountered</dd>
+</dl></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def read_trex_nir(self,
+                  file_list: Union[List[str], str],
+                  n_parallel: int = 1,
+                  first_record: bool = False,
+                  no_metadata: bool = False,
+                  quiet: bool = False,
+                  dataset: Optional[Dataset] = None) -&gt; Data:
+    &#34;&#34;&#34;
+    Read in TREx near-infrared (NIR) raw data (stream0 pgm* files).
+
+    Args:
+        file_list (List[str] or str): 
+            The files to read in. Absolute paths are recommended, but not technically
+            necessary. This can be a single string for a file, or a list of strings to read
+            in multiple files. This parameter is required.
+
+        n_parallel (int): 
+            Number of data files to read in parallel using multiprocessing. Default value 
+            is 1. Adjust according to your computer&#39;s available resources. This parameter 
+            is optional.
+        
+        first_record (bool): 
+            Only read in the first record in each file. This is the same as the first_frame
+            parameter in the themis-imager-readfile and trex-imager-readfile libraries, and
+            is a read optimization if you only need one image per minute, as opposed to the
+            full temporal resolution of data (e.g., 3sec cadence). This parameter is optional.
+        
+        no_metadata (bool): 
+            Skip reading of metadata. This is a minor optimization if the metadata is not needed.
+            Default is `False`. This parameter is optional.
+        
+        quiet (bool): 
+            Do not print out errors while reading data files, if any are encountered. Any files
+            that encounter errors will be, as usual, accessible via the `problematic_files` 
+            attribute of the returned `pyucalgarysrs.data.classes.Data` object. This parameter
+            is optional.
+
+        dataset (Dataset): 
+            The dataset object for which the files are associated with. This parameter is
+            optional.
+
+    Returns:
+        A `pyucalgarysrs.data.classes.Data` object containing the data read in, among other
+        values.
+    
+    Raises:
+        pyucalgarysrs.exceptions.SRSError: a generic read error was encountered
+    &#34;&#34;&#34;
+    # read data
+    img, meta, problematic_files = func_read_trex_nir(
+        file_list,
+        n_parallel=n_parallel,
+        first_record=first_record,
+        no_metadata=no_metadata,
+        quiet=quiet,
+    )
+
+    # generate timestamp array
+    timestamp_list = []
+    if (no_metadata is False):
+        for m in meta:
+            timestamp_list.append(datetime.datetime.strptime(m[&#34;Image request start&#34;], &#34;%Y-%m-%d %H:%M:%S.%f UTC&#34;))
+
+    # convert to appropriate return type
+    problematic_files_objs = []
+    for p in problematic_files:
+        problematic_files_objs.append(ProblematicFile(p[&#34;filename&#34;], error_message=p[&#34;error_message&#34;], error_type=&#34;error&#34;))
+    ret_obj = Data(
+        data=img,
+        timestamp=timestamp_list,
+        metadata=meta,
+        problematic_files=problematic_files_objs,
+        dataset=dataset,
+    )
+
+    # return
+    return ret_obj</code></pre>
+</details>
+</dd>
+<dt id="pyucalgarysrs.data.read.ReadManager.read_trex_rgb"><code class="name flex">
+<span>def <span class="ident">read_trex_rgb</span></span>(<span>self, file_list: Union[List[str], str], n_parallel: int = 1, first_record: bool = False, no_metadata: bool = False, quiet: bool = False, dataset: Optional[<a title="pyucalgarysrs.data.classes.Dataset" href="../classes.html#pyucalgarysrs.data.classes.Dataset">Dataset</a>] = None) ‑> <a title="pyucalgarysrs.data.classes.Data" href="../classes.html#pyucalgarysrs.data.classes.Data">Data</a></span>
+</code></dt>
+<dd>
+<div class="desc"><p>Read in TREx RGB raw data (stream0 h5, stream0.burst png.tar, unstable stream0 and stream0.colour pgm<em> and png</em>).</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>file_list</code></strong> :&ensp;<code>List[str]</code> or <code>str</code></dt>
+<dd>The files to read in. Absolute paths are recommended, but not technically
+necessary. This can be a single string for a file, or a list of strings to read
+in multiple files. This parameter is required.</dd>
+<dt><strong><code>n_parallel</code></strong> :&ensp;<code>int</code></dt>
+<dd>Number of data files to read in parallel using multiprocessing. Default value
+is 1. Adjust according to your computer's available resources. This parameter
+is optional.</dd>
+<dt><strong><code>first_record</code></strong> :&ensp;<code>bool</code></dt>
+<dd>Only read in the first record in each file. This is the same as the first_frame
+parameter in the themis-imager-readfile and trex-imager-readfile libraries, and
+is a read optimization if you only need one image per minute, as opposed to the
+full temporal resolution of data (e.g., 3sec cadence). This parameter is optional.</dd>
+<dt><strong><code>no_metadata</code></strong> :&ensp;<code>bool</code></dt>
+<dd>Skip reading of metadata. This is a minor optimization if the metadata is not needed.
+Default is <code>False</code>. This parameter is optional.</dd>
+<dt><strong><code>quiet</code></strong> :&ensp;<code>bool</code></dt>
+<dd>Do not print out errors while reading data files, if any are encountered. Any files
+that encounter errors will be, as usual, accessible via the <code>problematic_files</code>
+attribute of the returned <code><a title="pyucalgarysrs.data.classes.Data" href="../classes.html#pyucalgarysrs.data.classes.Data">Data</a></code> object. This parameter
+is optional.</dd>
+<dt><strong><code>dataset</code></strong> :&ensp;<code>Dataset</code></dt>
+<dd>The dataset object for which the files are associated with. This parameter is
+optional.</dd>
+</dl>
+<h2 id="returns">Returns</h2>
+<p>A <code><a title="pyucalgarysrs.data.classes.Data" href="../classes.html#pyucalgarysrs.data.classes.Data">Data</a></code> object containing the data read in, among other
+values.</p>
+<h2 id="raises">Raises</h2>
+<dl>
+<dt><code><a title="pyucalgarysrs.exceptions.SRSError" href="../../exceptions.html#pyucalgarysrs.exceptions.SRSError">SRSError</a></code></dt>
+<dd>a generic read error was encountered</dd>
+</dl></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def read_trex_rgb(self,
+                  file_list: Union[List[str], str],
+                  n_parallel: int = 1,
+                  first_record: bool = False,
+                  no_metadata: bool = False,
+                  quiet: bool = False,
+                  dataset: Optional[Dataset] = None) -&gt; Data:
+    &#34;&#34;&#34;
+    Read in TREx RGB raw data (stream0 h5, stream0.burst png.tar, unstable stream0 and stream0.colour pgm* and png*).
+
+    Args:
+        file_list (List[str] or str): 
+            The files to read in. Absolute paths are recommended, but not technically
+            necessary. This can be a single string for a file, or a list of strings to read
+            in multiple files. This parameter is required.
+
+        n_parallel (int): 
+            Number of data files to read in parallel using multiprocessing. Default value 
+            is 1. Adjust according to your computer&#39;s available resources. This parameter 
+            is optional.
+        
+        first_record (bool): 
+            Only read in the first record in each file. This is the same as the first_frame
+            parameter in the themis-imager-readfile and trex-imager-readfile libraries, and
+            is a read optimization if you only need one image per minute, as opposed to the
+            full temporal resolution of data (e.g., 3sec cadence). This parameter is optional.
+        
+        no_metadata (bool): 
+            Skip reading of metadata. This is a minor optimization if the metadata is not needed.
+            Default is `False`. This parameter is optional.
+        
+        quiet (bool): 
+            Do not print out errors while reading data files, if any are encountered. Any files
+            that encounter errors will be, as usual, accessible via the `problematic_files` 
+            attribute of the returned `pyucalgarysrs.data.classes.Data` object. This parameter
+            is optional.
+
+        dataset (Dataset): 
+            The dataset object for which the files are associated with. This parameter is
+            optional.
+
+    Returns:
+        A `pyucalgarysrs.data.classes.Data` object containing the data read in, among other
+        values.
+    
+    Raises:
+        pyucalgarysrs.exceptions.SRSError: a generic read error was encountered
+    &#34;&#34;&#34;
+    # read data
+    img, meta, problematic_files = func_read_trex_rgb(
+        file_list,
+        n_parallel=n_parallel,
+        first_record=first_record,
+        no_metadata=no_metadata,
+        quiet=quiet,
+    )
+
+    # generate timestamp array
+    timestamp_list = []
+    if (no_metadata is False):
+        for m in meta:
+            if (&#34;image_request_start_timestamp&#34; in m):
+                timestamp_list.append(datetime.datetime.strptime(m[&#34;image_request_start_timestamp&#34;], &#34;%Y-%m-%d %H:%M:%S.%f UTC&#34;))
+            elif (&#34;Image request start&#34; in m):
+                timestamp_list.append(datetime.datetime.strptime(m[&#34;Image request start&#34;], &#34;%Y-%m-%d %H:%M:%S.%f UTC&#34;))
+            else:
+                raise SRSError(&#34;Unexpected timestamp metadata format&#34;)
+
+    # convert to return type
+    problematic_files_objs = []
+    for p in problematic_files:
+        problematic_files_objs.append(ProblematicFile(p[&#34;filename&#34;], error_message=p[&#34;error_message&#34;], error_type=&#34;error&#34;))
+    ret_obj = Data(
+        data=img,
+        timestamp=timestamp_list,
+        metadata=meta,
+        problematic_files=problematic_files_objs,
+        dataset=dataset,
+    )
+
+    # return
+    return ret_obj</code></pre>
+</details>
+</dd>
+<dt id="pyucalgarysrs.data.read.ReadManager.read_trex_spectrograph"><code class="name flex">
+<span>def <span class="ident">read_trex_spectrograph</span></span>(<span>self, file_list: Union[List[str], str], n_parallel: int = 1, first_record: bool = False, no_metadata: bool = False, quiet: bool = False, dataset: Optional[<a title="pyucalgarysrs.data.classes.Dataset" href="../classes.html#pyucalgarysrs.data.classes.Dataset">Dataset</a>] = None) ‑> <a title="pyucalgarysrs.data.classes.Data" href="../classes.html#pyucalgarysrs.data.classes.Data">Data</a></span>
+</code></dt>
+<dd>
+<div class="desc"><p>Read in TREx Spectrograph raw data (stream0 pgm* files).</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>file_list</code></strong> :&ensp;<code>List[str]</code> or <code>str</code></dt>
+<dd>The files to read in. Absolute paths are recommended, but not technically
+necessary. This can be a single string for a file, or a list of strings to read
+in multiple files. This parameter is required.</dd>
+<dt><strong><code>n_parallel</code></strong> :&ensp;<code>int</code></dt>
+<dd>Number of data files to read in parallel using multiprocessing. Default value
+is 1. Adjust according to your computer's available resources. This parameter
+is optional.</dd>
+<dt><strong><code>first_record</code></strong> :&ensp;<code>bool</code></dt>
+<dd>Only read in the first record in each file. This is the same as the first_frame
+parameter in the themis-imager-readfile and trex-imager-readfile libraries, and
+is a read optimization if you only need one image per minute, as opposed to the
+full temporal resolution of data (e.g., 3sec cadence). This parameter is optional.</dd>
+<dt><strong><code>no_metadata</code></strong> :&ensp;<code>bool</code></dt>
+<dd>Skip reading of metadata. This is a minor optimization if the metadata is not needed.
+Default is <code>False</code>. This parameter is optional.</dd>
+<dt><strong><code>quiet</code></strong> :&ensp;<code>bool</code></dt>
+<dd>Do not print out errors while reading data files, if any are encountered. Any files
+that encounter errors will be, as usual, accessible via the <code>problematic_files</code>
+attribute of the returned <code><a title="pyucalgarysrs.data.classes.Data" href="../classes.html#pyucalgarysrs.data.classes.Data">Data</a></code> object. This parameter
+is optional.</dd>
+<dt><strong><code>dataset</code></strong> :&ensp;<code>Dataset</code></dt>
+<dd>The dataset object for which the files are associated with. This parameter is
+optional.</dd>
+</dl>
+<h2 id="returns">Returns</h2>
+<p>A <code><a title="pyucalgarysrs.data.classes.Data" href="../classes.html#pyucalgarysrs.data.classes.Data">Data</a></code> object containing the data read in, among other
+values.</p>
+<h2 id="raises">Raises</h2>
+<dl>
+<dt><code><a title="pyucalgarysrs.exceptions.SRSError" href="../../exceptions.html#pyucalgarysrs.exceptions.SRSError">SRSError</a></code></dt>
+<dd>a generic read error was encountered</dd>
+</dl></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def read_trex_spectrograph(self,
+                           file_list: Union[List[str], str],
+                           n_parallel: int = 1,
+                           first_record: bool = False,
+                           no_metadata: bool = False,
+                           quiet: bool = False,
+                           dataset: Optional[Dataset] = None) -&gt; Data:
+    &#34;&#34;&#34;
+    Read in TREx Spectrograph raw data (stream0 pgm* files).
+
+    Args:
+        file_list (List[str] or str): 
+            The files to read in. Absolute paths are recommended, but not technically
+            necessary. This can be a single string for a file, or a list of strings to read
+            in multiple files. This parameter is required.
+
+        n_parallel (int): 
+            Number of data files to read in parallel using multiprocessing. Default value 
+            is 1. Adjust according to your computer&#39;s available resources. This parameter 
+            is optional.
+        
+        first_record (bool): 
+            Only read in the first record in each file. This is the same as the first_frame
+            parameter in the themis-imager-readfile and trex-imager-readfile libraries, and
+            is a read optimization if you only need one image per minute, as opposed to the
+            full temporal resolution of data (e.g., 3sec cadence). This parameter is optional.
+        
+        no_metadata (bool): 
+            Skip reading of metadata. This is a minor optimization if the metadata is not needed.
+            Default is `False`. This parameter is optional.
+        
+        quiet (bool): 
+            Do not print out errors while reading data files, if any are encountered. Any files
+            that encounter errors will be, as usual, accessible via the `problematic_files` 
+            attribute of the returned `pyucalgarysrs.data.classes.Data` object. This parameter
+            is optional.
+
+        dataset (Dataset): 
+            The dataset object for which the files are associated with. This parameter is
+            optional.
+
+    Returns:
+        A `pyucalgarysrs.data.classes.Data` object containing the data read in, among other
+        values.
+    
+    Raises:
+        pyucalgarysrs.exceptions.SRSError: a generic read error was encountered
+    &#34;&#34;&#34;
+    # read data
+    img, meta, problematic_files = func_read_trex_spectrograph(
+        file_list,
+        n_parallel=n_parallel,
+        first_record=first_record,
+        no_metadata=no_metadata,
+        quiet=quiet,
+    )
+
+    # generate timestamp array
+    timestamp_list = []
+    if (no_metadata is False):
+        for m in meta:
+            timestamp_list.append(datetime.datetime.strptime(m[&#34;Image request start&#34;], &#34;%Y-%m-%d %H:%M:%S.%f UTC&#34;))
+
+    # convert to return type
+    problematic_files_objs = []
+    for p in problematic_files:
+        problematic_files_objs.append(ProblematicFile(p[&#34;filename&#34;], error_message=p[&#34;error_message&#34;], error_type=&#34;error&#34;))
+    ret_obj = Data(
+        data=img,
+        timestamp=timestamp_list,
+        metadata=meta,
+        problematic_files=problematic_files_objs,
+        dataset=dataset,
+    )
+
+    # return
+    return ret_obj</code></pre>
+</details>
+</dd>
+</dl>
+</dd>
+</dl>
+</section>
+</article>
+<nav id="sidebar">
+<form>
+<input id="lunr-search" name="q" placeholder="🔎 Search ..." aria-label="Search"
+disabled minlength="2">
+</form>
+<link rel="preload stylesheet" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/tingle/0.15.3/tingle.min.css" integrity="sha512-j1u8eUJ4f23xPPxwOrLUPQaCD2dwzNqqmDDcWS4deWsMv2ohLqmXXuP3hU7g8TyzbMSakP/mMqoNBYWj8AEIFg==" crossorigin>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/tingle/0.15.3/tingle.min.js" integrity="sha512-plGUER9JkeEWPPqQBE4sdLqBoQug5Ap+BCGMc7bJ8BXkm+VVj6QzkpBz5Yv2yPkkq+cqg9IpkBaGCas6uDbW8g==" crossorigin></script>
+<style>
+.modal-dialog iframe {
+width: 100vw;
+height: calc(100vh - 80px);
+}
+@media screen and (min-width: 700px) {
+.modal-dialog iframe {
+width: 70vw;
+height: 80vh;
+}
+}
+.modal-dialog .tingle-modal-box {width: auto;}
+.modal-dialog .tingle-modal-box__content {padding: 0;}
+</style>
+<script>
+const input = document.getElementById('lunr-search');
+input.disabled = false;
+input.form.addEventListener('submit', (ev) => {
+ev.preventDefault();
+const url = new URL(window.location);
+url.searchParams.set('q', input.value);
+history.replaceState({}, null, url.toString());
+search(input.value);
+});
+const query = new URL(window.location).searchParams.get('q');
+if (query)
+search(query);
+function search(query) {
+const url = '../../../doc-search.html#' + encodeURIComponent(query);
+new tingle.modal({
+cssClass: ['modal-dialog'],
+onClose: () => {
+const url = new URL(window.location);
+url.searchParams.delete('q');
+history.replaceState({}, null, url.toString());
+setTimeout(() => input.focus(), 100);
+}
+}).setContent('<iframe src="' + url + '"></iframe>').open();
+}
+</script>
+<h1>Index</h1>
+<div class="toc">
+<ul></ul>
+</div>
+<ul id="index">
+<li><h3>Super-module</h3>
+<ul>
+<li><code><a title="pyucalgarysrs.data" href="../index.html">pyucalgarysrs.data</a></code></li>
+</ul>
+</li>
+<li><h3><a href="#header-classes">Classes</a></h3>
+<ul>
+<li>
+<h4><code><a title="pyucalgarysrs.data.read.ReadManager" href="#pyucalgarysrs.data.read.ReadManager">ReadManager</a></code></h4>
+<ul class="">
+<li><code><a title="pyucalgarysrs.data.read.ReadManager.is_supported" href="#pyucalgarysrs.data.read.ReadManager.is_supported">is_supported</a></code></li>
+<li><code><a title="pyucalgarysrs.data.read.ReadManager.list_supported_datasets" href="#pyucalgarysrs.data.read.ReadManager.list_supported_datasets">list_supported_datasets</a></code></li>
+<li><code><a title="pyucalgarysrs.data.read.ReadManager.read" href="#pyucalgarysrs.data.read.ReadManager.read">read</a></code></li>
+<li><code><a title="pyucalgarysrs.data.read.ReadManager.read_calibration" href="#pyucalgarysrs.data.read.ReadManager.read_calibration">read_calibration</a></code></li>
+<li><code><a title="pyucalgarysrs.data.read.ReadManager.read_rego" href="#pyucalgarysrs.data.read.ReadManager.read_rego">read_rego</a></code></li>
+<li><code><a title="pyucalgarysrs.data.read.ReadManager.read_skymap" href="#pyucalgarysrs.data.read.ReadManager.read_skymap">read_skymap</a></code></li>
+<li><code><a title="pyucalgarysrs.data.read.ReadManager.read_themis" href="#pyucalgarysrs.data.read.ReadManager.read_themis">read_themis</a></code></li>
+<li><code><a title="pyucalgarysrs.data.read.ReadManager.read_trex_blue" href="#pyucalgarysrs.data.read.ReadManager.read_trex_blue">read_trex_blue</a></code></li>
+<li><code><a title="pyucalgarysrs.data.read.ReadManager.read_trex_nir" href="#pyucalgarysrs.data.read.ReadManager.read_trex_nir">read_trex_nir</a></code></li>
+<li><code><a title="pyucalgarysrs.data.read.ReadManager.read_trex_rgb" href="#pyucalgarysrs.data.read.ReadManager.read_trex_rgb">read_trex_rgb</a></code></li>
+<li><code><a title="pyucalgarysrs.data.read.ReadManager.read_trex_spectrograph" href="#pyucalgarysrs.data.read.ReadManager.read_trex_spectrograph">read_trex_spectrograph</a></code></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</nav>
+</main>
+<footer id="footer">
+<p>Generated by <a href="https://pdoc3.github.io/pdoc" title="pdoc: Python API documentation generator"><cite>pdoc</cite> 0.10.0</a>.</p>
+</footer>
+</body>
+</html>

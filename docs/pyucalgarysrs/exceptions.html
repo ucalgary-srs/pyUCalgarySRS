@@ -5,7 +5,8 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1" />
 <meta name="generator" content="pdoc 0.10.0" />
 <title>pyucalgarysrs.exceptions API documentation</title>
-<meta name="description" content="The exceptions module contains exceptions unique to the PyAuroraX library" />
+<meta name="description" content="The exceptions module contains unique exception classes utilized by PyUCalgarySRS. These
+exceptions can be used to help trap specific errors raised …" />
 <link rel="preload stylesheet" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/11.0.1/sanitize.min.css" integrity="sha256-PK9q560IAAa6WVRRh76LtCaI8pjTJ2z11v0miyNNjrs=" crossorigin>
 <link rel="preload stylesheet" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/11.0.1/typography.min.css" integrity="sha256-7l/o7C8jubJiy74VsKTidCy1yBkRtiUGbVkYBylBqUg=" crossorigin>
 <link rel="stylesheet preload" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.1.1/styles/github.min.css" crossorigin>
@@ -22,13 +23,22 @@
 <h1 class="title">Module <code>pyucalgarysrs.exceptions</code></h1>
 </header>
 <section id="section-intro">
-<p>The exceptions module contains exceptions unique to the PyAuroraX library</p>
+<p>The exceptions module contains unique exception classes utilized by PyUCalgarySRS. These
+exceptions can be used to help trap specific errors raised by the library.</p>
+<p>Note that all exceptions are imported at the root level of the library. They
+can be referenced using <a href="exceptions.html#pyucalgarysrs.exceptions.SRSError"><code>pyucalgarysrs.SRSError</code></a>
+or <code><a title="pyucalgarysrs.exceptions.SRSError" href="#pyucalgarysrs.exceptions.SRSError">SRSError</a></code>.</p>
 <details class="source">
 <summary>
 <span>Expand source code</span>
 </summary>
 <pre><code class="python">&#34;&#34;&#34;
-The exceptions module contains exceptions unique to the PyAuroraX library
+The exceptions module contains unique exception classes utilized by PyUCalgarySRS. These 
+exceptions can be used to help trap specific errors raised by the library.
+
+Note that all exceptions are imported at the root level of the library. They
+can be referenced using [`pyucalgarysrs.SRSError`](exceptions.html#pyucalgarysrs.exceptions.SRSError) 
+or `pyucalgarysrs.exceptions.SRSError`.
 &#34;&#34;&#34;
 
 
@@ -40,21 +50,21 @@ class SRSError(Exception):
 
 class SRSInitializationError(SRSError):
     &#34;&#34;&#34;
-    Error during library initialization occurred
+    Error occurred during library initialization
     &#34;&#34;&#34;
     pass
 
 
 class SRSPurgeError(SRSError):
     &#34;&#34;&#34;
-    Error during purging of download or tar extraction working directory occurred
+    Error occurred during purging of download or tar extraction working directory
     &#34;&#34;&#34;
     pass
 
 
 class SRSAPIError(SRSError):
     &#34;&#34;&#34;
-    Error during API call occurred
+    Error occurred during an API call
     &#34;&#34;&#34;
     pass
 
@@ -68,7 +78,7 @@ class SRSUnsupportedReadError(SRSError):
 
 class SRSDownloadError(SRSError):
     &#34;&#34;&#34;
-    Unsupported dataset for read function
+    Error occurred during downloading of data
     &#34;&#34;&#34;
     pass</code></pre>
 </details>
@@ -87,14 +97,14 @@ class SRSDownloadError(SRSError):
 <span>(</span><span>*args, **kwargs)</span>
 </code></dt>
 <dd>
-<div class="desc"><p>Error during API call occurred</p></div>
+<div class="desc"><p>Error occurred during an API call</p></div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
 </summary>
 <pre><code class="python">class SRSAPIError(SRSError):
     &#34;&#34;&#34;
-    Error during API call occurred
+    Error occurred during an API call
     &#34;&#34;&#34;
     pass</code></pre>
 </details>
@@ -110,14 +120,14 @@ class SRSDownloadError(SRSError):
 <span>(</span><span>*args, **kwargs)</span>
 </code></dt>
 <dd>
-<div class="desc"><p>Unsupported dataset for read function</p></div>
+<div class="desc"><p>Error occurred during downloading of data</p></div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
 </summary>
 <pre><code class="python">class SRSDownloadError(SRSError):
     &#34;&#34;&#34;
-    Unsupported dataset for read function
+    Error occurred during downloading of data
     &#34;&#34;&#34;
     pass</code></pre>
 </details>
@@ -162,14 +172,14 @@ class SRSDownloadError(SRSError):
 <span>(</span><span>*args, **kwargs)</span>
 </code></dt>
 <dd>
-<div class="desc"><p>Error during library initialization occurred</p></div>
+<div class="desc"><p>Error occurred during library initialization</p></div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
 </summary>
 <pre><code class="python">class SRSInitializationError(SRSError):
     &#34;&#34;&#34;
-    Error during library initialization occurred
+    Error occurred during library initialization
     &#34;&#34;&#34;
     pass</code></pre>
 </details>
@@ -185,14 +195,14 @@ class SRSDownloadError(SRSError):
 <span>(</span><span>*args, **kwargs)</span>
 </code></dt>
 <dd>
-<div class="desc"><p>Error during purging of download or tar extraction working directory occurred</p></div>
+<div class="desc"><p>Error occurred during purging of download or tar extraction working directory</p></div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
 </summary>
 <pre><code class="python">class SRSPurgeError(SRSError):
     &#34;&#34;&#34;
-    Error during purging of download or tar extraction working directory occurred
+    Error occurred during purging of download or tar extraction working directory
     &#34;&#34;&#34;
     pass</code></pre>
 </details>

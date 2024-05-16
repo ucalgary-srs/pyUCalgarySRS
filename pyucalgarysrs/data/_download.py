@@ -2,8 +2,8 @@ import os
 import requests
 import joblib
 from tqdm import tqdm, tqdm_notebook
+from .classes import FileListingResponse, FileDownloadResult, Dataset
 from ..exceptions import SRSAPIError, SRSDownloadError
-from ._schemas import FileListingResponse, FileDownloadResult, Dataset
 
 
 def __download_url(

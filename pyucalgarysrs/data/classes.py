@@ -1,3 +1,8 @@
+"""
+Classes for representing data download and reading operations. All
+classes in this module are included at the top level of this library.
+"""
+
 import datetime
 from dataclasses import dataclass
 from typing import Optional, List, Dict, Literal
@@ -6,6 +11,26 @@ from numpy import ndarray
 
 @dataclass
 class Dataset:
+    """
+    A dataset available from the UCalgary Space Remote Sensing API, with possibly
+    support for downloading and/or reading.
+
+    Attributes:
+        name (str): Dataset name
+        short_description (str): A short description about the dataset
+        long_description (str): A longer description about the dataset
+        data_tree_url (str): The data tree URL prefix. Used for saving data locally with a 
+            similar data tree structure compared to the UCalgary Open Data archive.
+        file_listing_supported (bool): Flag indicating if file listing (downloading) is 
+            supported for this dataset.
+        file_reading_supported (bool): Flag indicating if file reading is supported for this
+            dataset.
+        level (str): Dataset level as per L0/L1/L2/etc standards.
+        doi (str): Dataset DOI unique identifier.
+        doi_details (str): Further details about the DOI.
+        citation (str): String to use when citing usage of the dataset.
+    """
+
     name: str
     short_description: str
     long_description: str
@@ -17,9 +42,20 @@ class Dataset:
     doi_details: Optional[str] = None
     citation: Optional[str] = None
 
+    def show_acknowledgement_info(self):
+        """
+        A special print output for the dataset's acknowledgement information.
+        """
+        print("\nDOI: %s" % (self.doi))
+        print("DOI details: %s" % (self.doi_details))
+        print("Citation: \"%s\"\n" % (self.citation))
+
 
 @dataclass
 class FileListingResponse:
+    """
+    
+    """
     urls: List[str]
     path_prefix: str
     count: int
@@ -29,6 +65,10 @@ class FileListingResponse:
 
 @dataclass
 class FileDownloadResult:
+    """
+    A file download result
+    """
+
     filenames: List[str]
     count: int
     total_bytes: int

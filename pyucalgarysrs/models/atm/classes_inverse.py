@@ -1,3 +1,8 @@
+"""
+Classes for representing ATM inverse calculation requests and responses. All
+classes in this module are included at the top level of this library.
+"""
+
 import datetime
 from dataclasses import dataclass
 from typing import Optional, Literal

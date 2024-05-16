@@ -1,6 +1,7 @@
 import os
 import shutil
-from typing import Optional, Union, Dict
+import warnings
+from typing import Optional, Dict, ClassVar
 from pathlib import Path
 from .exceptions import SRSInitializationError, SRSPurgeError
 from .data import DataManager
@@ -10,73 +11,293 @@ from . import __version__
 
 class PyUCalgarySRS:
     """
-    Top-level class for interacting with UCalgary SRS data tools
+    The `PyUCalgarySRS` class is the primary entry point for utilizing
+    this library. It is used to initialize a session, capturing details
+    about API connectivity, environment, and more. All submodules are 
+    encapsulated within this class, so any usage of the library starts 
+    with creating this object.
+
+    ```python
+    import pyucalgarysrs
+    srs = pyucalgarysrs.PyUCalgarySRS()
+    ```
+
+    When working this this object, you can set configuration parameters, such 
+    as the destination directory for downloaded data, or API special settings 
+    (e.g., timeout, HTTP headers). These parameters can be set when instantiating 
+    the object, or after instantiating using the self-contained accessible variables.
     """
-    DEFAULT_API_BASE_URL = "https://api.phys.ucalgary.ca"
-    DEFAULT_API_TIMEOUT = 10
-    DEFAULT_API_HEADERS = {
-        "accept": "application/json",
+
+    __DEFAULT_API_BASE_URL = "https://api.phys.ucalgary.ca"
+    __DEFAULT_API_TIMEOUT = 10
+    __DEFAULT_API_HEADERS = {
         "content-type": "application/json",
         "user-agent": "python-pyaurorax/%s" % (__version__),
-    }
+    }  # NOTE: these MUST be lowercase so that the decorator logic cannot be overridden
 
     def __init__(self,
                  download_output_root_path: Optional[str] = None,
-                 read_tar_temp_dir: Optional[str] = None,
-                 api_base_url: str = DEFAULT_API_BASE_URL,
-                 api_key: Optional[Union[str, None]] = None,
-                 api_timeout: int = DEFAULT_API_TIMEOUT,
-                 api_headers: Optional[Dict] = DEFAULT_API_HEADERS):
-        # public parameters
-        self.api_base_url = api_base_url
-        self.api_key = api_key
-        self.api_headers = api_headers
-        self.api_timeout = api_timeout
-        self.in_jupyter_notebook = self.__initialize_jupyter_flag()
+                 read_tar_temp_path: Optional[str] = None,
+                 api_base_url: Optional[str] = None,
+                 api_timeout: Optional[int] = None,
+                 api_headers: Optional[Dict] = None,
+                 api_key: Optional[str] = None):
+        """
+        Attributes:
+            download_output_root_path (str): 
+                Destination directory for downloaded data. The default for this path is a 
+                subfolder in the user's home directory, such  as `/home/user/pyucalgarysrs_data` 
+                in Linux. In Windows and Mac, it is similar.
 
-        # private parameters exposed publicly using decorators
+            read_tar_temp_path (str): 
+                Temporary directory used for tar extraction phases during file reading (e.g., 
+                reading TREx RGB Burst data). The default for this is `<download_output_root_path>/.tar_temp_working`. 
+                For faster performance when reading tar-based data, one option on Linux is 
+                to set this to use RAM directly at `/dev/shm/pyucalgarysrs_tar_temp_working`.
+
+            api_base_url (str): 
+                URL prefix to use when interacting with the UCalgary Space Remote Sensing API. By
+                default this is set to `https://api.phys.ucalgary.ca`. This parameter is primarily
+                used by the development team to test and build new functions using the private staging
+                API.
+
+            api_timeout (int): 
+                The timeout used when communicating with the UCalgary Space Remote Sensing API. This 
+                value is represented in seconds, and by default is `10 seconds`.
+            
+            api_headers (Dict): 
+                HTTP headers used when communicating with the UCalgary Space Remote Sensing API. The 
+                default for this value consists of several standard headers. Any changes to this 
+                parameter are in addition to the default standard headers.
+
+            api_key (str): 
+                API key to use when interacting with the UCalgary Space Remote Sensing API. The default
+                value is None. Please note that an API key is currently not required for using the API,
+                and this parameter is implemented purely for future-proofing. It is presently not utilized.
+        
+        Raises:
+            pyucalgarysrs.exceptions.SRSInitializationError: an error was encountered during
+                initialization of the paths
+        """
+        # initialize path parameters
         self.__download_output_root_path = download_output_root_path
-        self.__read_tar_temp_dir = read_tar_temp_dir
+        self.__read_tar_temp_path = read_tar_temp_path
+
+        # initialize api parameters
+        self.__api_base_url = api_base_url
+        if (api_base_url is None):
+            self.__api_base_url = self.__DEFAULT_API_BASE_URL
+        self.__api_headers = api_headers
+        if (api_headers is None):
+            self.__api_headers = self.__DEFAULT_API_HEADERS
+        self.__api_timeout = api_timeout
+        if (api_timeout is None):
+            self.__api_timeout = self.__DEFAULT_API_TIMEOUT
+        self.__api_key = api_key
+
+        # initialize jupyter notebook flag
+        self.__in_jupyter_notebook = self.initialize_jupyter_flag()
 
         # initialize paths
         self.initialize_paths()
 
         # initialize sub-modules
-        self.data = DataManager(self)
-        self.models = ModelsManager(self)
+        self.__data = DataManager(self)
+        self.__models = ModelsManager(self)
+
+    # ------------------------------------------
+    # properties for submodule managers
+    # ------------------------------------------
+    @property
+    def data(self):
+        """
+        Access to the `data` submodule from within a PyUCalgarySRS object.
+        """
+        return self.__data
+
+    @property
+    def models(self):
+        """
+        Access to the `models` submodule from within a PyUCalgarySRS object.
+        """
+        return self.__models
+
+    # ------------------------------------------
+    # properties for configuration parameters
+    # ------------------------------------------
+    @property
+    def api_base_url(self):
+        """
+        Property for the API base URL. See above for details.
+        """
+        return self.__api_base_url
+
+    @api_base_url.setter
+    def api_base_url(self, value: str):
+        self.__api_base_url = value
+
+    @property
+    def api_headers(self):
+        """
+        Property for the API headers. See above for details.
+        """
+        return self.__api_headers
+
+    @api_headers.setter
+    def api_headers(self, value: Dict):
+        new_headers = self.__DEFAULT_API_HEADERS
+        if (value is not None):
+            for k, v in value.items():
+                k = k.lower()
+                if (k in new_headers):
+                    warnings.warn("Cannot override default '%s' header" % (k), UserWarning)
+                else:
+                    new_headers[k] = v
+        self.__api_headers = new_headers
+
+    @property
+    def api_timeout(self):
+        """
+        Property for the API timeout. See above for details.
+        """
+        return self.__api_timeout
+
+    @api_timeout.setter
+    def api_timeout(self, value: int):
+        self.__api_timeout = value
+
+    @property
+    def api_key(self):
+        """
+        Property for the API key. See above for details.
+        """
+        return self.__api_key
+
+    @api_key.setter
+    def api_key(self, value: str):
+        self.__api_key = value
+
+    @property
+    def in_jupyter_notebook(self):
+        """
+        Property for the Jupyter notebook flag. This value is used by various 
+        routines which utilize progress bars. If run from within a Jupyter notebook, 
+        then the specific tqdm Jupyter notebook progress bar is used. Otherwise the 
+        tqdm standard console progress bar is used.
+        """
+        return self.__in_jupyter_notebook
+
+    @in_jupyter_notebook.setter
+    def in_jupyter_notebook(self, value: bool):
+        self.__in_jupyter_notebook = value
+
+    @property
+    def download_output_root_path(self):
+        """
+        Property for the download output root path. See above for details.
+        """
+        return str(self.__download_output_root_path)
+
+    @download_output_root_path.setter
+    def download_output_root_path(self, value: str):
+        self.__download_output_root_path = value
+        self.initialize_paths()
+
+    @property
+    def read_tar_temp_path(self):
+        """
+        Property for the read tar temp path. See above for details.
+        """
+        return str(self.__read_tar_temp_path)
+
+    @read_tar_temp_path.setter
+    def read_tar_temp_path(self, value: str):
+        self.__read_tar_temp_path = value
+        self.initialize_paths()
 
     # special methods
     # -----------------------------
     def __str__(self) -> str:
-        """
-        String method
-
-        Returns:
-            string format of PyUCalgarySRS object
-        """
         return self.__repr__()
 
     def __repr__(self) -> str:
-        """
-        Object representation
-
-        Returns:
-            PyUCalgarySRS object representation
-        """
-        return ("PyUCalgarySRS(download_output_root_path='%s', read_tar_temp_dir='%s', api_base_url='%s', " +
+        return ("PyUCalgarySRS(download_output_root_path='%s', read_tar_temp_path='%s', api_base_url='%s', " +
                 "api_headers=%s, api_timeout=%s, in_jupyter_notebook=%s)") % (
                     self.__download_output_root_path,
-                    self.__read_tar_temp_dir,
+                    self.__read_tar_temp_path,
                     self.api_base_url,
                     self.api_headers,
                     self.api_timeout,
                     self.in_jupyter_notebook,
                 )
 
-    def __initialize_jupyter_flag(self):
+    # -----------------------------
+    # public methods
+    # -----------------------------
+    def purge_download_output_root_path(self):
         """
-        Check if class has been instantiated within a Jupyter notebook. If so, we will use
-        tqdm progress bars for notebooks specifically, among other future things.
+        Delete all files in the `download_output_root_path` directory. Since the
+        library downloads data to this directory, over time it can grow too large
+        and the user can risk running out of space. This method is here to assist
+        with easily clearing out this directory.
+
+        Raises:
+            pyucalgarysrs.exceptions.SRSPurgeError: an error was encountered during the purge operation
+        """
+        try:
+            for item in os.listdir(self.download_output_root_path):
+                item = "%s/%s" % (self.download_output_root_path, item)
+                if (os.path.isdir(item) is True):
+                    shutil.rmtree(item)
+                elif (os.path.isfile(item) is True):
+                    os.remove(item)
+        except Exception as e:  # pragma: nocover
+            raise SRSPurgeError("Error while purging download output root path: %s" % (str(e))) from e
+
+    def purge_read_tar_temp_path(self):
+        """
+        Delete all files in the `read_tar_temp_path` directory. Since the library 
+        extracts temporary data to this directory, sometime issues during reading 
+        can cause this directory to contain residual files that aren't deleted during 
+        the normal read routine. Though this is very rare, it is still possible. 
+        Therefore, this method is here to assist with easily clearing out this 
+        directory.
+
+        Raises:
+            pyucalgarysrs.exceptions.SRSPurgeError: an error was encountered during the purge operation
+        """
+        try:
+            for item in os.listdir(self.read_tar_temp_path):
+                item = "%s/%s" % (self.read_tar_temp_path, item)
+                if (os.path.isdir(item) is True):
+                    shutil.rmtree(item)
+                elif (os.path.isfile(item) is True):
+                    os.remove(item)
+        except Exception as e:  # pragma: nocover
+            raise SRSPurgeError("Error while purging read tar temp path: %s" % (str(e))) from e
+
+    def initialize_paths(self):
+        """
+        Initialize the `download_output_root_path` and `read_tar_temp_path` directories.
+
+        Raises:
+            pyucalgarysrs.exceptions.SRSInitializationError: an error was encountered during
+                initialization of the paths
+        """
+        if (self.__download_output_root_path is None):
+            self.__download_output_root_path = Path("%s/pyucalgarysrs_data" % (str(Path.home())))
+        if (self.__read_tar_temp_path is None):
+            self.__read_tar_temp_path = Path("%s/.tar_temp_working" % (self.__download_output_root_path))
+        try:
+            os.makedirs(self.download_output_root_path, exist_ok=True)
+            os.makedirs(self.read_tar_temp_path, exist_ok=True)
+        except IOError as e:  # pragma: nocover
+            raise SRSInitializationError("Error during output path creation: %s" % str(e)) from e
+
+    def initialize_jupyter_flag(self):
+        """
+        Initialize the Jupyter notebook flag, which indicates to the PyUCalgarySRS object whether to 
+        use special progress bars for Jupyter notebooks or not.
         """
         try:
             from IPython import get_ipython  # type: ignore
@@ -89,60 +310,3 @@ class PyUCalgarySRS:
                 return False  # other unknown type
         except (ImportError, NameError):  # pragma: nocover
             return False  # probably standard Python interpreter
-
-    # -----------------------------
-    # properties
-    # -----------------------------
-    @property
-    def download_output_root_path(self):
-        return str(self.__download_output_root_path)
-
-    @download_output_root_path.setter
-    def download_output_root_path(self, value: str):
-        self.__download_output_root_path = value
-        self.initialize_paths()
-
-    @property
-    def read_tar_temp_dir(self):
-        return str(self.__read_tar_temp_dir)
-
-    @read_tar_temp_dir.setter
-    def read_tar_temp_dir(self, value: str):
-        self.__read_tar_temp_dir = value
-        self.initialize_paths()
-
-    # -----------------------------
-    # public methods
-    # -----------------------------
-    def purge_download_output_root_path(self):
-        try:
-            for item in os.listdir(self.download_output_root_path):
-                item = "%s/%s" % (self.download_output_root_path, item)
-                if (os.path.isdir(item) is True):
-                    shutil.rmtree(item)
-                elif (os.path.isfile(item) is True):
-                    os.remove(item)
-        except Exception as e:  # pragma: nocover
-            raise SRSPurgeError("Error while purging download output root path: %s" % (str(e))) from e
-
-    def purge_read_tar_temp_dir(self):
-        try:
-            for item in os.listdir(self.read_tar_temp_dir):
-                item = "%s/%s" % (self.read_tar_temp_dir, item)
-                if (os.path.isdir(item) is True):
-                    shutil.rmtree(item)
-                elif (os.path.isfile(item) is True):
-                    os.remove(item)
-        except Exception as e:  # pragma: nocover
-            raise SRSPurgeError("Error while purging read tar temp dir: %s" % (str(e))) from e
-
-    def initialize_paths(self):
-        if (self.__download_output_root_path is None):
-            self.__download_output_root_path = Path("%s/pyucalgarysrs_data" % (str(Path.home())))
-        if (self.__read_tar_temp_dir is None):
-            self.__read_tar_temp_dir = Path("%s/.tar_temp_working" % (self.__download_output_root_path))
-        try:
-            os.makedirs(self.download_output_root_path, exist_ok=True)
-            os.makedirs(self.read_tar_temp_dir, exist_ok=True)
-        except IOError as e:  # pragma: nocover
-            raise SRSInitializationError("Error during output path creation: %s" % str(e)) from e

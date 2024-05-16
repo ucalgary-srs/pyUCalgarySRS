@@ -1,6 +1,6 @@
 import requests
 import numpy as np
-from ._schemas_forward import ATMForwardResult, ATMForwardResultRequestInfo, ATMForwardRequest
+from .classes_forward import ATMForwardResult, ATMForwardResultRequestInfo, ATMForwardRequest
 from ...exceptions import SRSAPIError
 
 

@@ -1,5 +1,30 @@
+"""
+The PyUCalgarySRS library provides a way to interact with the UCalgary Space
+Remote Sensing (SRS) Open Data Platform. Primarily, it allows users to 
+programmatically download and read data. It also provides functionality to utilize
+the TREx Auroral Transport Model (ATM). This library leverages the UCalgary SRS API. 
+
+For more information about the data available and usage examples, visit the 
+[Open Data Platform website](https://data.phys.ucalgary.ca).
+
+Installation:
+```console
+$ pip install pyucalgarysrs
+```
+
+Basic usage:
+```python
+> import pyucalgarysrs
+> srs = pyucalgarysrs.PyUCalgarySRS()
+```
+"""
+
 # versioning info
 __version__ = "0.0.1"
+
+# documentation
+__pdoc__ = {"pyucalgarysrs": False}
+__all__ = ["PyUCalgarySRS"]
 
 # pull in top level class
 from .pyucalgarysrs import PyUCalgarySRS
@@ -15,7 +40,7 @@ from .exceptions import (
 )
 
 # pull in schemas
-from .data._schemas import (
+from .data.classes import (
     Dataset,
     FileListingResponse,
     FileDownloadResult,
@@ -26,13 +51,13 @@ from .data._schemas import (
     SkymapGenerationInfo,
     ProblematicFile,
 )
-from .models._atm._schemas_forward import (
+from .models.atm.classes_forward import (
     ATMForwardOutputFlags,
     ATMForwardRequest,
     ATMForwardResult,
     ATMForwardResultRequestInfo,
 )
-from .models._atm._schemas_inverse import (
+from .models.atm.classes_inverse import (
     ATMInverseForwardParams,
     ATMInverseOutputFlags,
     ATMInverseRequest,

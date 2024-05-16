@@ -129,5 +129,5 @@ def test_list_supported_read_datasets(srs):
     },
 ])
 @pytest.mark.data_read
-def test_check_if_read_supported(srs, test_dict):
-    assert srs.data.check_if_read_supported(test_dict["dataset_name"]) is test_dict["expected_success"]
+def test_is_read_supported(srs, test_dict):
+    assert srs.data.is_read_supported(test_dict["dataset_name"]) is test_dict["expected_success"]

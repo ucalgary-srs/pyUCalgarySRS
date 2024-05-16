@@ -12,7 +12,7 @@ from pathlib import Path
 def test_top_level_class_instantiation_noparams(srs):
     # check paths
     assert os.path.exists(srs.download_output_root_path)
-    assert os.path.exists(srs.read_tar_temp_dir)
+    assert os.path.exists(srs.read_tar_temp_path)
 
     # change download root path
     new_path = str("%s/pyucalgarysrs_data_download_testing_%s" % (Path.home(), ''.join(random.choices(string.ascii_lowercase + string.digits, k=8))))
@@ -23,8 +23,8 @@ def test_top_level_class_instantiation_noparams(srs):
 
     # change tar temp path
     new_path = str("%s/pyucalgarysrs_data_tar_testing%s" % (Path.home(), ''.join(random.choices(string.ascii_lowercase + string.digits, k=8))))
-    srs.read_tar_temp_dir = new_path
-    assert srs.read_tar_temp_dir == new_path
+    srs.read_tar_temp_path = new_path
+    assert srs.read_tar_temp_path == new_path
     assert os.path.exists(new_path)
     shutil.rmtree(new_path, ignore_errors=True)
 
@@ -54,13 +54,13 @@ def test_top_level_class_instantiation_usingparams():
     srs = pyucalgarysrs.PyUCalgarySRS(
         api_base_url=testing_url,
         download_output_root_path=testing_download_path,
-        read_tar_temp_dir=testing_read_path,
+        read_tar_temp_path=testing_read_path,
         api_key=testing_api_key,
         api_timeout=testing_api_timeout,
         api_headers=testing_api_headers,
     )
     assert srs.download_output_root_path == testing_download_path
-    assert srs.read_tar_temp_dir == testing_read_path
+    assert srs.read_tar_temp_path == testing_read_path
     assert srs.api_base_url == testing_url
     assert srs.api_timeout == testing_api_timeout
     assert srs.api_headers == testing_api_headers
@@ -85,7 +85,7 @@ def test_bad_paths_noparams(srs):
             srs.download_output_root_path = new_path
         assert "Error during output path creation" in str(e_info)
         with pytest.raises(pyucalgarysrs.SRSInitializationError) as e_info:
-            srs.read_tar_temp_dir = new_path
+            srs.read_tar_temp_path = new_path
         assert "Error during output path creation" in str(e_info)
 
 
@@ -139,20 +139,20 @@ def test_purge_tar_temp_path(srs):
     # set up object
     new_path = str("%s/pyucalgarysrs_data_purge_tartemp_testing_%s" %
                    (Path.home(), ''.join(random.choices(string.ascii_lowercase + string.digits, k=8))))
-    srs.read_tar_temp_dir = new_path
-    assert srs.read_tar_temp_dir == new_path
-    assert os.path.exists(srs.read_tar_temp_dir)
+    srs.read_tar_temp_path = new_path
+    assert srs.read_tar_temp_path == new_path
+    assert os.path.exists(srs.read_tar_temp_path)
 
     # create some dummy files and folders
-    os.makedirs("%s/testing1" % (srs.read_tar_temp_dir), exist_ok=True)
-    os.makedirs("%s/testing2" % (srs.read_tar_temp_dir), exist_ok=True)
-    os.makedirs("%s/testing2/testing3" % (srs.read_tar_temp_dir), exist_ok=True)
-    Path("%s/testing.txt" % (srs.read_tar_temp_dir)).touch()
-    Path("%s/testing1/testing.txt" % (srs.read_tar_temp_dir)).touch()
+    os.makedirs("%s/testing1" % (srs.read_tar_temp_path), exist_ok=True)
+    os.makedirs("%s/testing2" % (srs.read_tar_temp_path), exist_ok=True)
+    os.makedirs("%s/testing2/testing3" % (srs.read_tar_temp_path), exist_ok=True)
+    Path("%s/testing.txt" % (srs.read_tar_temp_path)).touch()
+    Path("%s/testing1/testing.txt" % (srs.read_tar_temp_path)).touch()
 
     # check purge function
-    srs.purge_read_tar_temp_dir()
-    assert len(os.listdir(srs.read_tar_temp_dir)) == 0
+    srs.purge_read_tar_temp_path()
+    assert len(os.listdir(srs.read_tar_temp_path)) == 0
 
     # cleanup
-    shutil.rmtree(srs.read_tar_temp_dir, ignore_errors=True)
+    shutil.rmtree(srs.read_tar_temp_path, ignore_errors=True)

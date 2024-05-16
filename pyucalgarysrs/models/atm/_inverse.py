@@ -1,6 +1,6 @@
 import requests
 import numpy as np
-from ._schemas_inverse import ATMInverseResult, ATMInverseResultRequestInfo, ATMInverseRequest, ATMInverseForwardParams
+from .classes_inverse import ATMInverseResult, ATMInverseResultRequestInfo, ATMInverseRequest, ATMInverseForwardParams
 from ...exceptions import SRSAPIError
 
 

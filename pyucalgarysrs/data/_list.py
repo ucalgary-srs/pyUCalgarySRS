@@ -1,5 +1,5 @@
 import requests
-from ._schemas import Dataset
+from .classes import Dataset
 from ..exceptions import SRSAPIError
 
 

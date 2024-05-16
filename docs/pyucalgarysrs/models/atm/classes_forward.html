@@ -1,0 +1,1344 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1" />
+<meta name="generator" content="pdoc 0.10.0" />
+<title>pyucalgarysrs.models.atm.classes_forward API documentation</title>
+<meta name="description" content="Classes for representing ATM forward calculation requests and responses. All
+classes in this module are included at the top level of this library." />
+<link rel="preload stylesheet" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/11.0.1/sanitize.min.css" integrity="sha256-PK9q560IAAa6WVRRh76LtCaI8pjTJ2z11v0miyNNjrs=" crossorigin>
+<link rel="preload stylesheet" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/11.0.1/typography.min.css" integrity="sha256-7l/o7C8jubJiy74VsKTidCy1yBkRtiUGbVkYBylBqUg=" crossorigin>
+<link rel="stylesheet preload" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.1.1/styles/github.min.css" crossorigin>
+<style>:root{--highlight-color:#fe9}.flex{display:flex !important}body{line-height:1.5em}#content{padding:20px}#sidebar{padding:30px;overflow:hidden}#sidebar > *:last-child{margin-bottom:2cm}#lunr-search{width:100%;font-size:1em;padding:6px 9px 5px 9px;border:1px solid silver}.http-server-breadcrumbs{font-size:130%;margin:0 0 15px 0}#footer{font-size:.75em;padding:5px 30px;border-top:1px solid #ddd;text-align:right}#footer p{margin:0 0 0 1em;display:inline-block}#footer p:last-child{margin-right:30px}h1,h2,h3,h4,h5{font-weight:300}h1{font-size:2.5em;line-height:1.1em}h2{font-size:1.75em;margin:1em 0 .50em 0}h3{font-size:1.4em;margin:25px 0 10px 0}h4{margin:0;font-size:105%}h1:target,h2:target,h3:target,h4:target,h5:target,h6:target{background:var(--highlight-color);padding:.2em 0}a{color:#058;text-decoration:none;transition:color .3s ease-in-out}a:hover{color:#e82}.title code{font-weight:bold}h2[id^="header-"]{margin-top:2em}.ident{color:#900}pre code{background:#f8f8f8;font-size:.8em;line-height:1.4em}code{background:#f2f2f1;padding:1px 4px;overflow-wrap:break-word}h1 code{background:transparent}pre{background:#f8f8f8;border:0;border-top:1px solid #ccc;border-bottom:1px solid #ccc;margin:1em 0;padding:1ex}#http-server-module-list{display:flex;flex-flow:column}#http-server-module-list div{display:flex}#http-server-module-list dt{min-width:10%}#http-server-module-list p{margin-top:0}.toc ul,#index{list-style-type:none;margin:0;padding:0}#index code{background:transparent}#index h3{border-bottom:1px solid #ddd}#index ul{padding:0}#index h4{margin-top:.6em;font-weight:bold}@media (min-width:200ex){#index .two-column{column-count:2}}@media (min-width:300ex){#index .two-column{column-count:3}}dl{margin-bottom:2em}dl dl:last-child{margin-bottom:4em}dd{margin:0 0 1em 3em}#header-classes + dl > dd{margin-bottom:3em}dd dd{margin-left:2em}dd p{margin:10px 0}.name{background:#eee;font-weight:bold;font-size:.85em;padding:5px 10px;display:inline-block;min-width:40%}.name:hover{background:#e0e0e0}dt:target .name{background:var(--highlight-color)}.name > span:first-child{white-space:nowrap}.name.class > span:nth-child(2){margin-left:.4em}.inherited{color:#999;border-left:5px solid #eee;padding-left:1em}.inheritance em{font-style:normal;font-weight:bold}.desc h2{font-weight:400;font-size:1.25em}.desc h3{font-size:1em}.desc dt code{background:inherit}.source summary,.git-link-div{color:#666;text-align:right;font-weight:400;font-size:.8em;text-transform:uppercase}.source summary > *{white-space:nowrap;cursor:pointer}.git-link{color:inherit;margin-left:1em}.source pre{max-height:500px;overflow:auto;margin:0}.source pre code{font-size:12px;overflow:visible}.hlist{list-style:none}.hlist li{display:inline}.hlist li:after{content:',\2002'}.hlist li:last-child:after{content:none}.hlist .hlist{display:inline;padding-left:1em}img{max-width:100%}td{padding:0 .5em}.admonition{padding:.1em .5em;margin-bottom:1em}.admonition-title{font-weight:bold}.admonition.note,.admonition.info,.admonition.important{background:#aef}.admonition.todo,.admonition.versionadded,.admonition.tip,.admonition.hint{background:#dfd}.admonition.warning,.admonition.versionchanged,.admonition.deprecated{background:#fd4}.admonition.error,.admonition.danger,.admonition.caution{background:lightpink}</style>
+<style media="screen and (min-width: 700px)">@media screen and (min-width:700px){#sidebar{width:30%;height:100vh;overflow:auto;position:sticky;top:0}#content{width:70%;max-width:100ch;padding:3em 4em;border-left:1px solid #ddd}pre code{font-size:1em}.item .name{font-size:1em}main{display:flex;flex-direction:row-reverse;justify-content:flex-end}.toc ul ul,#index ul{padding-left:1.5em}.toc > ul > li{margin-top:.5em}}</style>
+<style media="print">@media print{#sidebar h1{page-break-before:always}.source{display:none}}@media print{*{background:transparent !important;color:#000 !important;box-shadow:none !important;text-shadow:none !important}a[href]:after{content:" (" attr(href) ")";font-size:90%}a[href][title]:after{content:none}abbr[title]:after{content:" (" attr(title) ")"}.ir a:after,a[href^="javascript:"]:after,a[href^="#"]:after{content:""}pre,blockquote{border:1px solid #999;page-break-inside:avoid}thead{display:table-header-group}tr,img{page-break-inside:avoid}img{max-width:100% !important}@page{margin:0.5cm}p,h2,h3{orphans:3;widows:3}h1,h2,h3,h4,h5,h6{page-break-after:avoid}}</style>
+<script defer src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.1.1/highlight.min.js" integrity="sha256-Uv3H6lx7dJmRfRvH8TH6kJD1TSK1aFcwgx+mdg3epi8=" crossorigin></script>
+<script>window.addEventListener('DOMContentLoaded', () => hljs.initHighlighting())</script>
+</head>
+<body>
+<main>
+<article id="content">
+<header>
+<h1 class="title">Module <code>pyucalgarysrs.models.atm.classes_forward</code></h1>
+</header>
+<section id="section-intro">
+<p>Classes for representing ATM forward calculation requests and responses. All
+classes in this module are included at the top level of this library.</p>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">&#34;&#34;&#34;
+Classes for representing ATM forward calculation requests and responses. All
+classes in this module are included at the top level of this library.
+&#34;&#34;&#34;
+
+import datetime
+from dataclasses import dataclass
+from typing import Optional, Literal
+from numpy import ndarray
+
+
+@dataclass
+class ATMForwardOutputFlags:
+    &#34;&#34;&#34;
+    Class to represent all output values included in an ATM forward calculation.
+    ATM calculations are performed in a way where you can toggle ON/OFF whichever
+    pieces of information you do or don&#39;t want. This improves efficiency of the 
+    calculation routine resulting in faster queries.
+
+    By default, all output flags are set to False. There exist several helper methods
+    to toggle all to True, toggle all to False, or toggle only height-integrated Rayleighs 
+    flags to True. See the below Methods section for details.
+
+    Details about each output value can be found in the documentation for the 
+    [`ATMForwardResult`](classes_forward.html#pyucalgarysrs.models.atm.classes_forward.ATMForwardResult)
+    object.
+    &#34;&#34;&#34;
+
+    height_integrated_rayleighs_4278: bool = False
+    height_integrated_rayleighs_5577: bool = False
+    height_integrated_rayleighs_6300: bool = False
+    height_integrated_rayleighs_8446: bool = False
+    height_integrated_rayleighs_lbh: bool = False
+    height_integrated_rayleighs_1304: bool = False
+    height_integrated_rayleighs_1356: bool = False
+    altitudes: bool = False
+    emission_4278: bool = False
+    emission_5577: bool = False
+    emission_6300: bool = False
+    emission_8446: bool = False
+    emission_lbh: bool = False
+    emission_1304: bool = False
+    emission_1356: bool = False
+    plasma_electron_density: bool = False
+    plasma_o2plus_density: bool = False
+    plasma_oplus_density: bool = False
+    plasma_noplus_density: bool = False
+    plasma_ionisation_rate: bool = False
+    plasma_electron_temperature: bool = False
+    plasma_ion_temperature: bool = False
+    plasma_pederson_conductivity: bool = False
+    plasma_hall_conductivity: bool = False
+    neutral_o2_density: bool = False
+    neutral_o_density: bool = False
+    neutral_n2_density: bool = False
+    neutral_n_density: bool = False
+    neutral_temperature: bool = False
+
+    def set_all_true(self):
+        &#34;&#34;&#34;
+        Sets all flags to `True`.
+        &#34;&#34;&#34;
+        excluded_items = [&#34;set_all_true&#34;, &#34;set_all_false&#34;, &#34;enable_only_height_integrated_rayleighs&#34;]
+        for var_name in dir(self):
+            if (not var_name.startswith(&#34;__&#34;) and var_name not in excluded_items):
+                setattr(self, var_name, True)
+
+    def set_all_false(self):
+        &#34;&#34;&#34;
+        Sets all flags to `False`.
+        &#34;&#34;&#34;
+        excluded_items = [&#34;set_all_true&#34;, &#34;set_all_false&#34;, &#34;enable_only_height_integrated_rayleighs&#34;]
+        for var_name in dir(self):
+            if (not var_name.startswith(&#34;__&#34;) and var_name not in excluded_items):
+                setattr(self, var_name, False)
+
+    def enable_only_height_integrated_rayleighs(self):
+        &#34;&#34;&#34;
+        Sets only height-integrated Rayleighs values to `True`.
+        &#34;&#34;&#34;
+        for var_name in filter(lambda x: x.startswith(&#34;height_integrated_rayleighs&#34;), dir(self)):
+            setattr(self, var_name, True)
+
+
+@dataclass
+class ATMForwardRequest:
+    &#34;&#34;&#34;
+    Class that represents the UCalgary Space Remote Sensing API request when 
+    performing an ATM forward calculation. This object is included in any
+    [`ATMForwardResultRequestInfo`](classes_forward.html#pyucalgarysrs.models.atm.classes_forward.ATMForwardResultRequestInfo) 
+    and [`ATMForwardResult`](classes_forward.html#pyucalgarysrs.models.atm.classes_forward.ATMForwardResult) 
+    objects.
+    &#34;&#34;&#34;
+
+    atm_model_version: Literal[&#34;1.0&#34;]
+    timestamp: datetime.datetime
+    geodetic_latitude: float
+    geodetic_longitude: float
+    maxwellian_energy_flux: float
+    gaussian_energy_flux: float
+    maxwellian_characteristic_energy: float
+    gaussian_peak_energy: float
+    gaussian_spectral_width: float
+    nrlmsis_model_version: Literal[&#34;00&#34;, &#34;2.0&#34;]
+    oxygen_correction_factor: float
+    timescale_auroral: int
+    timescale_transport: int
+    custom_spectrum: Optional[ndarray]
+    output: ATMForwardOutputFlags
+    no_cache: bool
+
+
+@dataclass
+class ATMForwardResultRequestInfo:
+    &#34;&#34;&#34;
+    Class containing details about interacting with the UCalgary Space Remote Sensing
+    API when performing an ATM forward calculation. It contains the API request itself,
+    and other information returned by the API.
+
+    An instance of this is included in any
+    [`ATMForwardResult`](classes_forward.html#pyucalgarysrs.models.atm.classes_forward.ATMForwardResult) 
+    object.
+
+    Attributes:
+        request (ATMForwardRequest): 
+            Instance of class that represents the lower-leve API request when performing 
+            an ATM forward calculation.
+
+        calculation_duration_ms (float): 
+            Duration the the API spent performing the ATM forward calculation. Represented
+            in milliseconds.
+    &#34;&#34;&#34;
+
+    request: ATMForwardRequest
+    calculation_duration_ms: float
+
+
+@dataclass
+class ATMForwardResult:
+    &#34;&#34;&#34;
+    Class containing all data from an ATM forward calculation. This class also includes
+    details about the input parameters to the forward calculation routine (`request_info`),
+    along with all output data values.
+    
+    Based on the request&#39;s output flags, if flags were set to False then the values will 
+    be None types. If flags were set to True then the values will be their respective 
+    types (e.g., float, numpy ndarray).
+
+    Attributes:
+        request_info (ATMForwardResultRequestInfo): 
+            Information about the API request made to perform the ATM forward calculation.
+        
+        height_integrated_rayleighs_4278 (float): 
+            Height-integrated Rayleighs value for the 427.8nm emission (blue).
+
+        height_integrated_rayleighs_5577 (float): 
+            Height-integrated Rayleighs value for the 557.7nm emission (green).
+            
+        height_integrated_rayleighs_6300 (float): 
+            Height-integrated Rayleighs value for the 630.0nm emission(red).
+        
+        height_integrated_rayleighs_8446 (float): 
+            Height-integrated Rayleighs value for the 844.6nm emission (near infrared).
+
+        height_integrated_rayleighs_lbh (float): 
+            Height-integrated Rayleighs value for the Lyman-Birge-Hopfield emission.
+
+        height_integrated_rayleighs_1304 (float): 
+            Height-integrated Rayleighs value for the 130.4nm emission.
+
+        height_integrated_rayleighs_1356 (float): 
+            Height-integrated Rayleighs value for the 135.6nm emission.
+
+        altitudes (ndarray): 
+            1-dimensional numpy array for the altitudes in kilometers.
+
+        emission_4278 (ndarray): 
+            1-dimensional numpy array for the 427.8nm volume emission rate (1/cm^3/s).
+
+        emission_5577 (ndarray): 
+            1-dimensional numpy array for the 557.7nm volume emission rate (1/cm^3/s).
+
+        emission_6300 (ndarray): 
+            1-dimensional numpy array for the 630.0nm volume emission rate (1/cm^3/s).
+
+        emission_8446 (ndarray): 
+            1-dimensional numpy array for the 844.6nm volume emission rate (1/cm^3/s).
+
+        emission_lbh (ndarray): 
+            1-dimensional numpy array for the Lyman-Birge-Hopfield volume emission rate (1/cm^3/s).
+
+        emission_1304 (ndarray): 
+            1-dimensional numpy array for the 130.4nm volume emission rate (1/cm^3/s).
+
+        emission_1356 (ndarray): 
+            1-dimensional numpy array for the 135.6nm volume emission rate (1/cm^3/s).
+
+        plasma_electron_density (ndarray): 
+            1-dimensional numpy array for the plasma electron density (cm^-3).
+
+        plasma_o2plus_density (ndarray): 
+            1-dimensional numpy array for the plasma O2+ density (cm^-3).
+
+        plasma_noplus_density (ndarray): 
+            1-dimensional numpy array for the plasma NO+ density (cm^-3).
+
+        plasma_oplus_density (ndarray): 
+            1-dimensional numpy array for the plasma O+ density (cm^-3).
+
+        plasma_ionisation_rate (ndarray): 
+            1-dimensional numpy array for the plasma ionisation rate (1/cm^3/s).
+
+        plasma_electron_temperature (ndarray): 
+            1-dimensional numpy array for the plasma electron temperature (Kelvin).
+
+        plasma_ion_temperature (ndarray): 
+            1-dimensional numpy array for the plasma ion temperature (Kelvin).
+
+        plasma_pederson_conductivity (ndarray): 
+            1-dimensional numpy array for the Peterson plasma conductivity (S/m).
+
+        plasma_hall_conductivity (ndarray): 
+            1-dimensional numpy array for the hall plasma conductivity (S/m).
+
+        neutral_o2_density (ndarray): 
+            1-dimensional numpy array for the neutral O2 density (cm^-3).
+
+        neutral_o_density (ndarray): 
+            1-dimensional numpy array for the neutral O density (cm^-3).
+
+        neutral_n2_density (ndarray): 
+            1-dimensional numpy array for the neutral N2 density (cm^-3).
+
+        neutral_n_density (ndarray): 
+            1-dimensional numpy array for the neutral N density (cm^-3).
+
+        neutral_temperature (ndarray): 
+            1-dimensional numpy array for the neutral temperature (Kelvin).
+    &#34;&#34;&#34;
+
+    request_info: ATMForwardResultRequestInfo
+    height_integrated_rayleighs_4278: Optional[float] = None
+    height_integrated_rayleighs_5577: Optional[float] = None
+    height_integrated_rayleighs_6300: Optional[float] = None
+    height_integrated_rayleighs_8446: Optional[float] = None
+    height_integrated_rayleighs_lbh: Optional[float] = None
+    height_integrated_rayleighs_1304: Optional[float] = None
+    height_integrated_rayleighs_1356: Optional[float] = None
+    altitudes: Optional[ndarray] = None
+    emission_4278: Optional[ndarray] = None
+    emission_5577: Optional[ndarray] = None
+    emission_6300: Optional[ndarray] = None
+    emission_8446: Optional[ndarray] = None
+    emission_lbh: Optional[ndarray] = None
+    emission_1304: Optional[ndarray] = None
+    emission_1356: Optional[ndarray] = None
+    plasma_electron_density: Optional[ndarray] = None
+    plasma_o2plus_density: Optional[ndarray] = None
+    plasma_noplus_density: Optional[ndarray] = None
+    plasma_oplus_density: Optional[ndarray] = None
+    plasma_ionisation_rate: Optional[ndarray] = None
+    plasma_electron_temperature: Optional[ndarray] = None
+    plasma_ion_temperature: Optional[ndarray] = None
+    plasma_pederson_conductivity: Optional[ndarray] = None
+    plasma_hall_conductivity: Optional[ndarray] = None
+    neutral_o2_density: Optional[ndarray] = None
+    neutral_o_density: Optional[ndarray] = None
+    neutral_n2_density: Optional[ndarray] = None
+    neutral_n_density: Optional[ndarray] = None
+    neutral_temperature: Optional[ndarray] = None
+
+    def pretty_print(self):
+        &#34;&#34;&#34;
+        A special print output for this class.
+        &#34;&#34;&#34;
+        print(&#34;ATMForwardResult:&#34;)
+        for var_name in dir(self):
+            # exclude methods
+            if (var_name.startswith(&#34;__&#34;) or var_name == &#34;pretty_print&#34;):
+                continue
+
+            # convert var to string format we want
+            var_value = getattr(self, var_name)
+            var_str = &#34;None&#34;
+            if (var_name == &#34;request_info&#34;):
+                var_str = &#34;ATMForwardResultRequestInfo(...)&#34;
+            if (var_value is not None):
+                if (isinstance(var_value, float)):
+                    var_str = &#34;%f&#34; % (var_value)
+                elif (isinstance(var_value, ndarray)):
+                    var_str = &#34;%s ...])&#34; % (var_value.__repr__()[0:60])
+
+            # print string for this var
+            print(&#34;  %-35s: %s&#34; % (var_name, var_str))</code></pre>
+</details>
+</section>
+<section>
+</section>
+<section>
+</section>
+<section>
+</section>
+<section>
+<h2 class="section-title" id="header-classes">Classes</h2>
+<dl>
+<dt id="pyucalgarysrs.models.atm.classes_forward.ATMForwardOutputFlags"><code class="flex name class">
+<span>class <span class="ident">ATMForwardOutputFlags</span></span>
+<span>(</span><span>height_integrated_rayleighs_4278: bool = False, height_integrated_rayleighs_5577: bool = False, height_integrated_rayleighs_6300: bool = False, height_integrated_rayleighs_8446: bool = False, height_integrated_rayleighs_lbh: bool = False, height_integrated_rayleighs_1304: bool = False, height_integrated_rayleighs_1356: bool = False, altitudes: bool = False, emission_4278: bool = False, emission_5577: bool = False, emission_6300: bool = False, emission_8446: bool = False, emission_lbh: bool = False, emission_1304: bool = False, emission_1356: bool = False, plasma_electron_density: bool = False, plasma_o2plus_density: bool = False, plasma_oplus_density: bool = False, plasma_noplus_density: bool = False, plasma_ionisation_rate: bool = False, plasma_electron_temperature: bool = False, plasma_ion_temperature: bool = False, plasma_pederson_conductivity: bool = False, plasma_hall_conductivity: bool = False, neutral_o2_density: bool = False, neutral_o_density: bool = False, neutral_n2_density: bool = False, neutral_n_density: bool = False, neutral_temperature: bool = False)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Class to represent all output values included in an ATM forward calculation.
+ATM calculations are performed in a way where you can toggle ON/OFF whichever
+pieces of information you do or don't want. This improves efficiency of the
+calculation routine resulting in faster queries.</p>
+<p>By default, all output flags are set to False. There exist several helper methods
+to toggle all to True, toggle all to False, or toggle only height-integrated Rayleighs
+flags to True. See the below Methods section for details.</p>
+<p>Details about each output value can be found in the documentation for the
+<a href="classes_forward.html#pyucalgarysrs.models.atm.classes_forward.ATMForwardResult"><code>ATMForwardResult</code></a>
+object.</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">@dataclass
+class ATMForwardOutputFlags:
+    &#34;&#34;&#34;
+    Class to represent all output values included in an ATM forward calculation.
+    ATM calculations are performed in a way where you can toggle ON/OFF whichever
+    pieces of information you do or don&#39;t want. This improves efficiency of the 
+    calculation routine resulting in faster queries.
+
+    By default, all output flags are set to False. There exist several helper methods
+    to toggle all to True, toggle all to False, or toggle only height-integrated Rayleighs 
+    flags to True. See the below Methods section for details.
+
+    Details about each output value can be found in the documentation for the 
+    [`ATMForwardResult`](classes_forward.html#pyucalgarysrs.models.atm.classes_forward.ATMForwardResult)
+    object.
+    &#34;&#34;&#34;
+
+    height_integrated_rayleighs_4278: bool = False
+    height_integrated_rayleighs_5577: bool = False
+    height_integrated_rayleighs_6300: bool = False
+    height_integrated_rayleighs_8446: bool = False
+    height_integrated_rayleighs_lbh: bool = False
+    height_integrated_rayleighs_1304: bool = False
+    height_integrated_rayleighs_1356: bool = False
+    altitudes: bool = False
+    emission_4278: bool = False
+    emission_5577: bool = False
+    emission_6300: bool = False
+    emission_8446: bool = False
+    emission_lbh: bool = False
+    emission_1304: bool = False
+    emission_1356: bool = False
+    plasma_electron_density: bool = False
+    plasma_o2plus_density: bool = False
+    plasma_oplus_density: bool = False
+    plasma_noplus_density: bool = False
+    plasma_ionisation_rate: bool = False
+    plasma_electron_temperature: bool = False
+    plasma_ion_temperature: bool = False
+    plasma_pederson_conductivity: bool = False
+    plasma_hall_conductivity: bool = False
+    neutral_o2_density: bool = False
+    neutral_o_density: bool = False
+    neutral_n2_density: bool = False
+    neutral_n_density: bool = False
+    neutral_temperature: bool = False
+
+    def set_all_true(self):
+        &#34;&#34;&#34;
+        Sets all flags to `True`.
+        &#34;&#34;&#34;
+        excluded_items = [&#34;set_all_true&#34;, &#34;set_all_false&#34;, &#34;enable_only_height_integrated_rayleighs&#34;]
+        for var_name in dir(self):
+            if (not var_name.startswith(&#34;__&#34;) and var_name not in excluded_items):
+                setattr(self, var_name, True)
+
+    def set_all_false(self):
+        &#34;&#34;&#34;
+        Sets all flags to `False`.
+        &#34;&#34;&#34;
+        excluded_items = [&#34;set_all_true&#34;, &#34;set_all_false&#34;, &#34;enable_only_height_integrated_rayleighs&#34;]
+        for var_name in dir(self):
+            if (not var_name.startswith(&#34;__&#34;) and var_name not in excluded_items):
+                setattr(self, var_name, False)
+
+    def enable_only_height_integrated_rayleighs(self):
+        &#34;&#34;&#34;
+        Sets only height-integrated Rayleighs values to `True`.
+        &#34;&#34;&#34;
+        for var_name in filter(lambda x: x.startswith(&#34;height_integrated_rayleighs&#34;), dir(self)):
+            setattr(self, var_name, True)</code></pre>
+</details>
+<h3>Class variables</h3>
+<dl>
+<dt id="pyucalgarysrs.models.atm.classes_forward.ATMForwardOutputFlags.altitudes"><code class="name">var <span class="ident">altitudes</span> : bool</code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="pyucalgarysrs.models.atm.classes_forward.ATMForwardOutputFlags.emission_1304"><code class="name">var <span class="ident">emission_1304</span> : bool</code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="pyucalgarysrs.models.atm.classes_forward.ATMForwardOutputFlags.emission_1356"><code class="name">var <span class="ident">emission_1356</span> : bool</code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="pyucalgarysrs.models.atm.classes_forward.ATMForwardOutputFlags.emission_4278"><code class="name">var <span class="ident">emission_4278</span> : bool</code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="pyucalgarysrs.models.atm.classes_forward.ATMForwardOutputFlags.emission_5577"><code class="name">var <span class="ident">emission_5577</span> : bool</code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="pyucalgarysrs.models.atm.classes_forward.ATMForwardOutputFlags.emission_6300"><code class="name">var <span class="ident">emission_6300</span> : bool</code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="pyucalgarysrs.models.atm.classes_forward.ATMForwardOutputFlags.emission_8446"><code class="name">var <span class="ident">emission_8446</span> : bool</code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="pyucalgarysrs.models.atm.classes_forward.ATMForwardOutputFlags.emission_lbh"><code class="name">var <span class="ident">emission_lbh</span> : bool</code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="pyucalgarysrs.models.atm.classes_forward.ATMForwardOutputFlags.height_integrated_rayleighs_1304"><code class="name">var <span class="ident">height_integrated_rayleighs_1304</span> : bool</code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="pyucalgarysrs.models.atm.classes_forward.ATMForwardOutputFlags.height_integrated_rayleighs_1356"><code class="name">var <span class="ident">height_integrated_rayleighs_1356</span> : bool</code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="pyucalgarysrs.models.atm.classes_forward.ATMForwardOutputFlags.height_integrated_rayleighs_4278"><code class="name">var <span class="ident">height_integrated_rayleighs_4278</span> : bool</code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="pyucalgarysrs.models.atm.classes_forward.ATMForwardOutputFlags.height_integrated_rayleighs_5577"><code class="name">var <span class="ident">height_integrated_rayleighs_5577</span> : bool</code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="pyucalgarysrs.models.atm.classes_forward.ATMForwardOutputFlags.height_integrated_rayleighs_6300"><code class="name">var <span class="ident">height_integrated_rayleighs_6300</span> : bool</code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="pyucalgarysrs.models.atm.classes_forward.ATMForwardOutputFlags.height_integrated_rayleighs_8446"><code class="name">var <span class="ident">height_integrated_rayleighs_8446</span> : bool</code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="pyucalgarysrs.models.atm.classes_forward.ATMForwardOutputFlags.height_integrated_rayleighs_lbh"><code class="name">var <span class="ident">height_integrated_rayleighs_lbh</span> : bool</code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="pyucalgarysrs.models.atm.classes_forward.ATMForwardOutputFlags.neutral_n2_density"><code class="name">var <span class="ident">neutral_n2_density</span> : bool</code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="pyucalgarysrs.models.atm.classes_forward.ATMForwardOutputFlags.neutral_n_density"><code class="name">var <span class="ident">neutral_n_density</span> : bool</code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="pyucalgarysrs.models.atm.classes_forward.ATMForwardOutputFlags.neutral_o2_density"><code class="name">var <span class="ident">neutral_o2_density</span> : bool</code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="pyucalgarysrs.models.atm.classes_forward.ATMForwardOutputFlags.neutral_o_density"><code class="name">var <span class="ident">neutral_o_density</span> : bool</code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="pyucalgarysrs.models.atm.classes_forward.ATMForwardOutputFlags.neutral_temperature"><code class="name">var <span class="ident">neutral_temperature</span> : bool</code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="pyucalgarysrs.models.atm.classes_forward.ATMForwardOutputFlags.plasma_electron_density"><code class="name">var <span class="ident">plasma_electron_density</span> : bool</code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="pyucalgarysrs.models.atm.classes_forward.ATMForwardOutputFlags.plasma_electron_temperature"><code class="name">var <span class="ident">plasma_electron_temperature</span> : bool</code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="pyucalgarysrs.models.atm.classes_forward.ATMForwardOutputFlags.plasma_hall_conductivity"><code class="name">var <span class="ident">plasma_hall_conductivity</span> : bool</code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="pyucalgarysrs.models.atm.classes_forward.ATMForwardOutputFlags.plasma_ion_temperature"><code class="name">var <span class="ident">plasma_ion_temperature</span> : bool</code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="pyucalgarysrs.models.atm.classes_forward.ATMForwardOutputFlags.plasma_ionisation_rate"><code class="name">var <span class="ident">plasma_ionisation_rate</span> : bool</code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="pyucalgarysrs.models.atm.classes_forward.ATMForwardOutputFlags.plasma_noplus_density"><code class="name">var <span class="ident">plasma_noplus_density</span> : bool</code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="pyucalgarysrs.models.atm.classes_forward.ATMForwardOutputFlags.plasma_o2plus_density"><code class="name">var <span class="ident">plasma_o2plus_density</span> : bool</code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="pyucalgarysrs.models.atm.classes_forward.ATMForwardOutputFlags.plasma_oplus_density"><code class="name">var <span class="ident">plasma_oplus_density</span> : bool</code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="pyucalgarysrs.models.atm.classes_forward.ATMForwardOutputFlags.plasma_pederson_conductivity"><code class="name">var <span class="ident">plasma_pederson_conductivity</span> : bool</code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+</dl>
+<h3>Methods</h3>
+<dl>
+<dt id="pyucalgarysrs.models.atm.classes_forward.ATMForwardOutputFlags.enable_only_height_integrated_rayleighs"><code class="name flex">
+<span>def <span class="ident">enable_only_height_integrated_rayleighs</span></span>(<span>self)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Sets only height-integrated Rayleighs values to <code>True</code>.</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def enable_only_height_integrated_rayleighs(self):
+    &#34;&#34;&#34;
+    Sets only height-integrated Rayleighs values to `True`.
+    &#34;&#34;&#34;
+    for var_name in filter(lambda x: x.startswith(&#34;height_integrated_rayleighs&#34;), dir(self)):
+        setattr(self, var_name, True)</code></pre>
+</details>
+</dd>
+<dt id="pyucalgarysrs.models.atm.classes_forward.ATMForwardOutputFlags.set_all_false"><code class="name flex">
+<span>def <span class="ident">set_all_false</span></span>(<span>self)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Sets all flags to <code>False</code>.</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def set_all_false(self):
+    &#34;&#34;&#34;
+    Sets all flags to `False`.
+    &#34;&#34;&#34;
+    excluded_items = [&#34;set_all_true&#34;, &#34;set_all_false&#34;, &#34;enable_only_height_integrated_rayleighs&#34;]
+    for var_name in dir(self):
+        if (not var_name.startswith(&#34;__&#34;) and var_name not in excluded_items):
+            setattr(self, var_name, False)</code></pre>
+</details>
+</dd>
+<dt id="pyucalgarysrs.models.atm.classes_forward.ATMForwardOutputFlags.set_all_true"><code class="name flex">
+<span>def <span class="ident">set_all_true</span></span>(<span>self)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Sets all flags to <code>True</code>.</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def set_all_true(self):
+    &#34;&#34;&#34;
+    Sets all flags to `True`.
+    &#34;&#34;&#34;
+    excluded_items = [&#34;set_all_true&#34;, &#34;set_all_false&#34;, &#34;enable_only_height_integrated_rayleighs&#34;]
+    for var_name in dir(self):
+        if (not var_name.startswith(&#34;__&#34;) and var_name not in excluded_items):
+            setattr(self, var_name, True)</code></pre>
+</details>
+</dd>
+</dl>
+</dd>
+<dt id="pyucalgarysrs.models.atm.classes_forward.ATMForwardRequest"><code class="flex name class">
+<span>class <span class="ident">ATMForwardRequest</span></span>
+<span>(</span><span>atm_model_version: Literal['1.0'], timestamp: datetime.datetime, geodetic_latitude: float, geodetic_longitude: float, maxwellian_energy_flux: float, gaussian_energy_flux: float, maxwellian_characteristic_energy: float, gaussian_peak_energy: float, gaussian_spectral_width: float, nrlmsis_model_version: Literal['00', '2.0'], oxygen_correction_factor: float, timescale_auroral: int, timescale_transport: int, custom_spectrum: Optional[numpy.ndarray], output: <a title="pyucalgarysrs.models.atm.classes_forward.ATMForwardOutputFlags" href="#pyucalgarysrs.models.atm.classes_forward.ATMForwardOutputFlags">ATMForwardOutputFlags</a>, no_cache: bool)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Class that represents the UCalgary Space Remote Sensing API request when
+performing an ATM forward calculation. This object is included in any
+<a href="classes_forward.html#pyucalgarysrs.models.atm.classes_forward.ATMForwardResultRequestInfo"><code>ATMForwardResultRequestInfo</code></a>
+and <a href="classes_forward.html#pyucalgarysrs.models.atm.classes_forward.ATMForwardResult"><code>ATMForwardResult</code></a>
+objects.</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">@dataclass
+class ATMForwardRequest:
+    &#34;&#34;&#34;
+    Class that represents the UCalgary Space Remote Sensing API request when 
+    performing an ATM forward calculation. This object is included in any
+    [`ATMForwardResultRequestInfo`](classes_forward.html#pyucalgarysrs.models.atm.classes_forward.ATMForwardResultRequestInfo) 
+    and [`ATMForwardResult`](classes_forward.html#pyucalgarysrs.models.atm.classes_forward.ATMForwardResult) 
+    objects.
+    &#34;&#34;&#34;
+
+    atm_model_version: Literal[&#34;1.0&#34;]
+    timestamp: datetime.datetime
+    geodetic_latitude: float
+    geodetic_longitude: float
+    maxwellian_energy_flux: float
+    gaussian_energy_flux: float
+    maxwellian_characteristic_energy: float
+    gaussian_peak_energy: float
+    gaussian_spectral_width: float
+    nrlmsis_model_version: Literal[&#34;00&#34;, &#34;2.0&#34;]
+    oxygen_correction_factor: float
+    timescale_auroral: int
+    timescale_transport: int
+    custom_spectrum: Optional[ndarray]
+    output: ATMForwardOutputFlags
+    no_cache: bool</code></pre>
+</details>
+<h3>Class variables</h3>
+<dl>
+<dt id="pyucalgarysrs.models.atm.classes_forward.ATMForwardRequest.atm_model_version"><code class="name">var <span class="ident">atm_model_version</span> : Literal['1.0']</code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="pyucalgarysrs.models.atm.classes_forward.ATMForwardRequest.custom_spectrum"><code class="name">var <span class="ident">custom_spectrum</span> : Optional[numpy.ndarray]</code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="pyucalgarysrs.models.atm.classes_forward.ATMForwardRequest.gaussian_energy_flux"><code class="name">var <span class="ident">gaussian_energy_flux</span> : float</code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="pyucalgarysrs.models.atm.classes_forward.ATMForwardRequest.gaussian_peak_energy"><code class="name">var <span class="ident">gaussian_peak_energy</span> : float</code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="pyucalgarysrs.models.atm.classes_forward.ATMForwardRequest.gaussian_spectral_width"><code class="name">var <span class="ident">gaussian_spectral_width</span> : float</code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="pyucalgarysrs.models.atm.classes_forward.ATMForwardRequest.geodetic_latitude"><code class="name">var <span class="ident">geodetic_latitude</span> : float</code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="pyucalgarysrs.models.atm.classes_forward.ATMForwardRequest.geodetic_longitude"><code class="name">var <span class="ident">geodetic_longitude</span> : float</code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="pyucalgarysrs.models.atm.classes_forward.ATMForwardRequest.maxwellian_characteristic_energy"><code class="name">var <span class="ident">maxwellian_characteristic_energy</span> : float</code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="pyucalgarysrs.models.atm.classes_forward.ATMForwardRequest.maxwellian_energy_flux"><code class="name">var <span class="ident">maxwellian_energy_flux</span> : float</code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="pyucalgarysrs.models.atm.classes_forward.ATMForwardRequest.no_cache"><code class="name">var <span class="ident">no_cache</span> : bool</code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="pyucalgarysrs.models.atm.classes_forward.ATMForwardRequest.nrlmsis_model_version"><code class="name">var <span class="ident">nrlmsis_model_version</span> : Literal['00', '2.0']</code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="pyucalgarysrs.models.atm.classes_forward.ATMForwardRequest.output"><code class="name">var <span class="ident">output</span> : <a title="pyucalgarysrs.models.atm.classes_forward.ATMForwardOutputFlags" href="#pyucalgarysrs.models.atm.classes_forward.ATMForwardOutputFlags">ATMForwardOutputFlags</a></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="pyucalgarysrs.models.atm.classes_forward.ATMForwardRequest.oxygen_correction_factor"><code class="name">var <span class="ident">oxygen_correction_factor</span> : float</code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="pyucalgarysrs.models.atm.classes_forward.ATMForwardRequest.timescale_auroral"><code class="name">var <span class="ident">timescale_auroral</span> : int</code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="pyucalgarysrs.models.atm.classes_forward.ATMForwardRequest.timescale_transport"><code class="name">var <span class="ident">timescale_transport</span> : int</code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="pyucalgarysrs.models.atm.classes_forward.ATMForwardRequest.timestamp"><code class="name">var <span class="ident">timestamp</span> : datetime.datetime</code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+</dl>
+</dd>
+<dt id="pyucalgarysrs.models.atm.classes_forward.ATMForwardResult"><code class="flex name class">
+<span>class <span class="ident">ATMForwardResult</span></span>
+<span>(</span><span>request_info: <a title="pyucalgarysrs.models.atm.classes_forward.ATMForwardResultRequestInfo" href="#pyucalgarysrs.models.atm.classes_forward.ATMForwardResultRequestInfo">ATMForwardResultRequestInfo</a>, height_integrated_rayleighs_4278: Optional[float] = None, height_integrated_rayleighs_5577: Optional[float] = None, height_integrated_rayleighs_6300: Optional[float] = None, height_integrated_rayleighs_8446: Optional[float] = None, height_integrated_rayleighs_lbh: Optional[float] = None, height_integrated_rayleighs_1304: Optional[float] = None, height_integrated_rayleighs_1356: Optional[float] = None, altitudes: Optional[numpy.ndarray] = None, emission_4278: Optional[numpy.ndarray] = None, emission_5577: Optional[numpy.ndarray] = None, emission_6300: Optional[numpy.ndarray] = None, emission_8446: Optional[numpy.ndarray] = None, emission_lbh: Optional[numpy.ndarray] = None, emission_1304: Optional[numpy.ndarray] = None, emission_1356: Optional[numpy.ndarray] = None, plasma_electron_density: Optional[numpy.ndarray] = None, plasma_o2plus_density: Optional[numpy.ndarray] = None, plasma_noplus_density: Optional[numpy.ndarray] = None, plasma_oplus_density: Optional[numpy.ndarray] = None, plasma_ionisation_rate: Optional[numpy.ndarray] = None, plasma_electron_temperature: Optional[numpy.ndarray] = None, plasma_ion_temperature: Optional[numpy.ndarray] = None, plasma_pederson_conductivity: Optional[numpy.ndarray] = None, plasma_hall_conductivity: Optional[numpy.ndarray] = None, neutral_o2_density: Optional[numpy.ndarray] = None, neutral_o_density: Optional[numpy.ndarray] = None, neutral_n2_density: Optional[numpy.ndarray] = None, neutral_n_density: Optional[numpy.ndarray] = None, neutral_temperature: Optional[numpy.ndarray] = None)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Class containing all data from an ATM forward calculation. This class also includes
+details about the input parameters to the forward calculation routine (<code>request_info</code>),
+along with all output data values.</p>
+<p>Based on the request's output flags, if flags were set to False then the values will
+be None types. If flags were set to True then the values will be their respective
+types (e.g., float, numpy ndarray).</p>
+<h2 id="attributes">Attributes</h2>
+<dl>
+<dt><strong><code>request_info</code></strong> :&ensp;<code><a title="pyucalgarysrs.models.atm.classes_forward.ATMForwardResultRequestInfo" href="#pyucalgarysrs.models.atm.classes_forward.ATMForwardResultRequestInfo">ATMForwardResultRequestInfo</a></code></dt>
+<dd>Information about the API request made to perform the ATM forward calculation.</dd>
+<dt><strong><code>height_integrated_rayleighs_4278</code></strong> :&ensp;<code>float</code></dt>
+<dd>Height-integrated Rayleighs value for the 427.8nm emission (blue).</dd>
+<dt><strong><code>height_integrated_rayleighs_5577</code></strong> :&ensp;<code>float</code></dt>
+<dd>Height-integrated Rayleighs value for the 557.7nm emission (green).</dd>
+<dt><strong><code>height_integrated_rayleighs_6300</code></strong> :&ensp;<code>float</code></dt>
+<dd>Height-integrated Rayleighs value for the 630.0nm emission(red).</dd>
+<dt><strong><code>height_integrated_rayleighs_8446</code></strong> :&ensp;<code>float</code></dt>
+<dd>Height-integrated Rayleighs value for the 844.6nm emission (near infrared).</dd>
+<dt><strong><code>height_integrated_rayleighs_lbh</code></strong> :&ensp;<code>float</code></dt>
+<dd>Height-integrated Rayleighs value for the Lyman-Birge-Hopfield emission.</dd>
+<dt><strong><code>height_integrated_rayleighs_1304</code></strong> :&ensp;<code>float</code></dt>
+<dd>Height-integrated Rayleighs value for the 130.4nm emission.</dd>
+<dt><strong><code>height_integrated_rayleighs_1356</code></strong> :&ensp;<code>float</code></dt>
+<dd>Height-integrated Rayleighs value for the 135.6nm emission.</dd>
+<dt><strong><code>altitudes</code></strong> :&ensp;<code>ndarray</code></dt>
+<dd>1-dimensional numpy array for the altitudes in kilometers.</dd>
+<dt><strong><code>emission_4278</code></strong> :&ensp;<code>ndarray</code></dt>
+<dd>1-dimensional numpy array for the 427.8nm volume emission rate (1/cm^3/s).</dd>
+<dt><strong><code>emission_5577</code></strong> :&ensp;<code>ndarray</code></dt>
+<dd>1-dimensional numpy array for the 557.7nm volume emission rate (1/cm^3/s).</dd>
+<dt><strong><code>emission_6300</code></strong> :&ensp;<code>ndarray</code></dt>
+<dd>1-dimensional numpy array for the 630.0nm volume emission rate (1/cm^3/s).</dd>
+<dt><strong><code>emission_8446</code></strong> :&ensp;<code>ndarray</code></dt>
+<dd>1-dimensional numpy array for the 844.6nm volume emission rate (1/cm^3/s).</dd>
+<dt><strong><code>emission_lbh</code></strong> :&ensp;<code>ndarray</code></dt>
+<dd>1-dimensional numpy array for the Lyman-Birge-Hopfield volume emission rate (1/cm^3/s).</dd>
+<dt><strong><code>emission_1304</code></strong> :&ensp;<code>ndarray</code></dt>
+<dd>1-dimensional numpy array for the 130.4nm volume emission rate (1/cm^3/s).</dd>
+<dt><strong><code>emission_1356</code></strong> :&ensp;<code>ndarray</code></dt>
+<dd>1-dimensional numpy array for the 135.6nm volume emission rate (1/cm^3/s).</dd>
+<dt><strong><code>plasma_electron_density</code></strong> :&ensp;<code>ndarray</code></dt>
+<dd>1-dimensional numpy array for the plasma electron density (cm^-3).</dd>
+<dt><strong><code>plasma_o2plus_density</code></strong> :&ensp;<code>ndarray</code></dt>
+<dd>1-dimensional numpy array for the plasma O2+ density (cm^-3).</dd>
+<dt><strong><code>plasma_noplus_density</code></strong> :&ensp;<code>ndarray</code></dt>
+<dd>1-dimensional numpy array for the plasma NO+ density (cm^-3).</dd>
+<dt><strong><code>plasma_oplus_density</code></strong> :&ensp;<code>ndarray</code></dt>
+<dd>1-dimensional numpy array for the plasma O+ density (cm^-3).</dd>
+<dt><strong><code>plasma_ionisation_rate</code></strong> :&ensp;<code>ndarray</code></dt>
+<dd>1-dimensional numpy array for the plasma ionisation rate (1/cm^3/s).</dd>
+<dt><strong><code>plasma_electron_temperature</code></strong> :&ensp;<code>ndarray</code></dt>
+<dd>1-dimensional numpy array for the plasma electron temperature (Kelvin).</dd>
+<dt><strong><code>plasma_ion_temperature</code></strong> :&ensp;<code>ndarray</code></dt>
+<dd>1-dimensional numpy array for the plasma ion temperature (Kelvin).</dd>
+<dt><strong><code>plasma_pederson_conductivity</code></strong> :&ensp;<code>ndarray</code></dt>
+<dd>1-dimensional numpy array for the Peterson plasma conductivity (S/m).</dd>
+<dt><strong><code>plasma_hall_conductivity</code></strong> :&ensp;<code>ndarray</code></dt>
+<dd>1-dimensional numpy array for the hall plasma conductivity (S/m).</dd>
+<dt><strong><code>neutral_o2_density</code></strong> :&ensp;<code>ndarray</code></dt>
+<dd>1-dimensional numpy array for the neutral O2 density (cm^-3).</dd>
+<dt><strong><code>neutral_o_density</code></strong> :&ensp;<code>ndarray</code></dt>
+<dd>1-dimensional numpy array for the neutral O density (cm^-3).</dd>
+<dt><strong><code>neutral_n2_density</code></strong> :&ensp;<code>ndarray</code></dt>
+<dd>1-dimensional numpy array for the neutral N2 density (cm^-3).</dd>
+<dt><strong><code>neutral_n_density</code></strong> :&ensp;<code>ndarray</code></dt>
+<dd>1-dimensional numpy array for the neutral N density (cm^-3).</dd>
+<dt><strong><code>neutral_temperature</code></strong> :&ensp;<code>ndarray</code></dt>
+<dd>1-dimensional numpy array for the neutral temperature (Kelvin).</dd>
+</dl></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">@dataclass
+class ATMForwardResult:
+    &#34;&#34;&#34;
+    Class containing all data from an ATM forward calculation. This class also includes
+    details about the input parameters to the forward calculation routine (`request_info`),
+    along with all output data values.
+    
+    Based on the request&#39;s output flags, if flags were set to False then the values will 
+    be None types. If flags were set to True then the values will be their respective 
+    types (e.g., float, numpy ndarray).
+
+    Attributes:
+        request_info (ATMForwardResultRequestInfo): 
+            Information about the API request made to perform the ATM forward calculation.
+        
+        height_integrated_rayleighs_4278 (float): 
+            Height-integrated Rayleighs value for the 427.8nm emission (blue).
+
+        height_integrated_rayleighs_5577 (float): 
+            Height-integrated Rayleighs value for the 557.7nm emission (green).
+            
+        height_integrated_rayleighs_6300 (float): 
+            Height-integrated Rayleighs value for the 630.0nm emission(red).
+        
+        height_integrated_rayleighs_8446 (float): 
+            Height-integrated Rayleighs value for the 844.6nm emission (near infrared).
+
+        height_integrated_rayleighs_lbh (float): 
+            Height-integrated Rayleighs value for the Lyman-Birge-Hopfield emission.
+
+        height_integrated_rayleighs_1304 (float): 
+            Height-integrated Rayleighs value for the 130.4nm emission.
+
+        height_integrated_rayleighs_1356 (float): 
+            Height-integrated Rayleighs value for the 135.6nm emission.
+
+        altitudes (ndarray): 
+            1-dimensional numpy array for the altitudes in kilometers.
+
+        emission_4278 (ndarray): 
+            1-dimensional numpy array for the 427.8nm volume emission rate (1/cm^3/s).
+
+        emission_5577 (ndarray): 
+            1-dimensional numpy array for the 557.7nm volume emission rate (1/cm^3/s).
+
+        emission_6300 (ndarray): 
+            1-dimensional numpy array for the 630.0nm volume emission rate (1/cm^3/s).
+
+        emission_8446 (ndarray): 
+            1-dimensional numpy array for the 844.6nm volume emission rate (1/cm^3/s).
+
+        emission_lbh (ndarray): 
+            1-dimensional numpy array for the Lyman-Birge-Hopfield volume emission rate (1/cm^3/s).
+
+        emission_1304 (ndarray): 
+            1-dimensional numpy array for the 130.4nm volume emission rate (1/cm^3/s).
+
+        emission_1356 (ndarray): 
+            1-dimensional numpy array for the 135.6nm volume emission rate (1/cm^3/s).
+
+        plasma_electron_density (ndarray): 
+            1-dimensional numpy array for the plasma electron density (cm^-3).
+
+        plasma_o2plus_density (ndarray): 
+            1-dimensional numpy array for the plasma O2+ density (cm^-3).
+
+        plasma_noplus_density (ndarray): 
+            1-dimensional numpy array for the plasma NO+ density (cm^-3).
+
+        plasma_oplus_density (ndarray): 
+            1-dimensional numpy array for the plasma O+ density (cm^-3).
+
+        plasma_ionisation_rate (ndarray): 
+            1-dimensional numpy array for the plasma ionisation rate (1/cm^3/s).
+
+        plasma_electron_temperature (ndarray): 
+            1-dimensional numpy array for the plasma electron temperature (Kelvin).
+
+        plasma_ion_temperature (ndarray): 
+            1-dimensional numpy array for the plasma ion temperature (Kelvin).
+
+        plasma_pederson_conductivity (ndarray): 
+            1-dimensional numpy array for the Peterson plasma conductivity (S/m).
+
+        plasma_hall_conductivity (ndarray): 
+            1-dimensional numpy array for the hall plasma conductivity (S/m).
+
+        neutral_o2_density (ndarray): 
+            1-dimensional numpy array for the neutral O2 density (cm^-3).
+
+        neutral_o_density (ndarray): 
+            1-dimensional numpy array for the neutral O density (cm^-3).
+
+        neutral_n2_density (ndarray): 
+            1-dimensional numpy array for the neutral N2 density (cm^-3).
+
+        neutral_n_density (ndarray): 
+            1-dimensional numpy array for the neutral N density (cm^-3).
+
+        neutral_temperature (ndarray): 
+            1-dimensional numpy array for the neutral temperature (Kelvin).
+    &#34;&#34;&#34;
+
+    request_info: ATMForwardResultRequestInfo
+    height_integrated_rayleighs_4278: Optional[float] = None
+    height_integrated_rayleighs_5577: Optional[float] = None
+    height_integrated_rayleighs_6300: Optional[float] = None
+    height_integrated_rayleighs_8446: Optional[float] = None
+    height_integrated_rayleighs_lbh: Optional[float] = None
+    height_integrated_rayleighs_1304: Optional[float] = None
+    height_integrated_rayleighs_1356: Optional[float] = None
+    altitudes: Optional[ndarray] = None
+    emission_4278: Optional[ndarray] = None
+    emission_5577: Optional[ndarray] = None
+    emission_6300: Optional[ndarray] = None
+    emission_8446: Optional[ndarray] = None
+    emission_lbh: Optional[ndarray] = None
+    emission_1304: Optional[ndarray] = None
+    emission_1356: Optional[ndarray] = None
+    plasma_electron_density: Optional[ndarray] = None
+    plasma_o2plus_density: Optional[ndarray] = None
+    plasma_noplus_density: Optional[ndarray] = None
+    plasma_oplus_density: Optional[ndarray] = None
+    plasma_ionisation_rate: Optional[ndarray] = None
+    plasma_electron_temperature: Optional[ndarray] = None
+    plasma_ion_temperature: Optional[ndarray] = None
+    plasma_pederson_conductivity: Optional[ndarray] = None
+    plasma_hall_conductivity: Optional[ndarray] = None
+    neutral_o2_density: Optional[ndarray] = None
+    neutral_o_density: Optional[ndarray] = None
+    neutral_n2_density: Optional[ndarray] = None
+    neutral_n_density: Optional[ndarray] = None
+    neutral_temperature: Optional[ndarray] = None
+
+    def pretty_print(self):
+        &#34;&#34;&#34;
+        A special print output for this class.
+        &#34;&#34;&#34;
+        print(&#34;ATMForwardResult:&#34;)
+        for var_name in dir(self):
+            # exclude methods
+            if (var_name.startswith(&#34;__&#34;) or var_name == &#34;pretty_print&#34;):
+                continue
+
+            # convert var to string format we want
+            var_value = getattr(self, var_name)
+            var_str = &#34;None&#34;
+            if (var_name == &#34;request_info&#34;):
+                var_str = &#34;ATMForwardResultRequestInfo(...)&#34;
+            if (var_value is not None):
+                if (isinstance(var_value, float)):
+                    var_str = &#34;%f&#34; % (var_value)
+                elif (isinstance(var_value, ndarray)):
+                    var_str = &#34;%s ...])&#34; % (var_value.__repr__()[0:60])
+
+            # print string for this var
+            print(&#34;  %-35s: %s&#34; % (var_name, var_str))</code></pre>
+</details>
+<h3>Class variables</h3>
+<dl>
+<dt id="pyucalgarysrs.models.atm.classes_forward.ATMForwardResult.altitudes"><code class="name">var <span class="ident">altitudes</span> : Optional[numpy.ndarray]</code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="pyucalgarysrs.models.atm.classes_forward.ATMForwardResult.emission_1304"><code class="name">var <span class="ident">emission_1304</span> : Optional[numpy.ndarray]</code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="pyucalgarysrs.models.atm.classes_forward.ATMForwardResult.emission_1356"><code class="name">var <span class="ident">emission_1356</span> : Optional[numpy.ndarray]</code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="pyucalgarysrs.models.atm.classes_forward.ATMForwardResult.emission_4278"><code class="name">var <span class="ident">emission_4278</span> : Optional[numpy.ndarray]</code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="pyucalgarysrs.models.atm.classes_forward.ATMForwardResult.emission_5577"><code class="name">var <span class="ident">emission_5577</span> : Optional[numpy.ndarray]</code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="pyucalgarysrs.models.atm.classes_forward.ATMForwardResult.emission_6300"><code class="name">var <span class="ident">emission_6300</span> : Optional[numpy.ndarray]</code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="pyucalgarysrs.models.atm.classes_forward.ATMForwardResult.emission_8446"><code class="name">var <span class="ident">emission_8446</span> : Optional[numpy.ndarray]</code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="pyucalgarysrs.models.atm.classes_forward.ATMForwardResult.emission_lbh"><code class="name">var <span class="ident">emission_lbh</span> : Optional[numpy.ndarray]</code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="pyucalgarysrs.models.atm.classes_forward.ATMForwardResult.height_integrated_rayleighs_1304"><code class="name">var <span class="ident">height_integrated_rayleighs_1304</span> : Optional[float]</code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="pyucalgarysrs.models.atm.classes_forward.ATMForwardResult.height_integrated_rayleighs_1356"><code class="name">var <span class="ident">height_integrated_rayleighs_1356</span> : Optional[float]</code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="pyucalgarysrs.models.atm.classes_forward.ATMForwardResult.height_integrated_rayleighs_4278"><code class="name">var <span class="ident">height_integrated_rayleighs_4278</span> : Optional[float]</code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="pyucalgarysrs.models.atm.classes_forward.ATMForwardResult.height_integrated_rayleighs_5577"><code class="name">var <span class="ident">height_integrated_rayleighs_5577</span> : Optional[float]</code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="pyucalgarysrs.models.atm.classes_forward.ATMForwardResult.height_integrated_rayleighs_6300"><code class="name">var <span class="ident">height_integrated_rayleighs_6300</span> : Optional[float]</code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="pyucalgarysrs.models.atm.classes_forward.ATMForwardResult.height_integrated_rayleighs_8446"><code class="name">var <span class="ident">height_integrated_rayleighs_8446</span> : Optional[float]</code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="pyucalgarysrs.models.atm.classes_forward.ATMForwardResult.height_integrated_rayleighs_lbh"><code class="name">var <span class="ident">height_integrated_rayleighs_lbh</span> : Optional[float]</code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="pyucalgarysrs.models.atm.classes_forward.ATMForwardResult.neutral_n2_density"><code class="name">var <span class="ident">neutral_n2_density</span> : Optional[numpy.ndarray]</code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="pyucalgarysrs.models.atm.classes_forward.ATMForwardResult.neutral_n_density"><code class="name">var <span class="ident">neutral_n_density</span> : Optional[numpy.ndarray]</code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="pyucalgarysrs.models.atm.classes_forward.ATMForwardResult.neutral_o2_density"><code class="name">var <span class="ident">neutral_o2_density</span> : Optional[numpy.ndarray]</code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="pyucalgarysrs.models.atm.classes_forward.ATMForwardResult.neutral_o_density"><code class="name">var <span class="ident">neutral_o_density</span> : Optional[numpy.ndarray]</code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="pyucalgarysrs.models.atm.classes_forward.ATMForwardResult.neutral_temperature"><code class="name">var <span class="ident">neutral_temperature</span> : Optional[numpy.ndarray]</code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="pyucalgarysrs.models.atm.classes_forward.ATMForwardResult.plasma_electron_density"><code class="name">var <span class="ident">plasma_electron_density</span> : Optional[numpy.ndarray]</code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="pyucalgarysrs.models.atm.classes_forward.ATMForwardResult.plasma_electron_temperature"><code class="name">var <span class="ident">plasma_electron_temperature</span> : Optional[numpy.ndarray]</code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="pyucalgarysrs.models.atm.classes_forward.ATMForwardResult.plasma_hall_conductivity"><code class="name">var <span class="ident">plasma_hall_conductivity</span> : Optional[numpy.ndarray]</code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="pyucalgarysrs.models.atm.classes_forward.ATMForwardResult.plasma_ion_temperature"><code class="name">var <span class="ident">plasma_ion_temperature</span> : Optional[numpy.ndarray]</code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="pyucalgarysrs.models.atm.classes_forward.ATMForwardResult.plasma_ionisation_rate"><code class="name">var <span class="ident">plasma_ionisation_rate</span> : Optional[numpy.ndarray]</code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="pyucalgarysrs.models.atm.classes_forward.ATMForwardResult.plasma_noplus_density"><code class="name">var <span class="ident">plasma_noplus_density</span> : Optional[numpy.ndarray]</code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="pyucalgarysrs.models.atm.classes_forward.ATMForwardResult.plasma_o2plus_density"><code class="name">var <span class="ident">plasma_o2plus_density</span> : Optional[numpy.ndarray]</code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="pyucalgarysrs.models.atm.classes_forward.ATMForwardResult.plasma_oplus_density"><code class="name">var <span class="ident">plasma_oplus_density</span> : Optional[numpy.ndarray]</code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="pyucalgarysrs.models.atm.classes_forward.ATMForwardResult.plasma_pederson_conductivity"><code class="name">var <span class="ident">plasma_pederson_conductivity</span> : Optional[numpy.ndarray]</code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="pyucalgarysrs.models.atm.classes_forward.ATMForwardResult.request_info"><code class="name">var <span class="ident">request_info</span> : <a title="pyucalgarysrs.models.atm.classes_forward.ATMForwardResultRequestInfo" href="#pyucalgarysrs.models.atm.classes_forward.ATMForwardResultRequestInfo">ATMForwardResultRequestInfo</a></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+</dl>
+<h3>Methods</h3>
+<dl>
+<dt id="pyucalgarysrs.models.atm.classes_forward.ATMForwardResult.pretty_print"><code class="name flex">
+<span>def <span class="ident">pretty_print</span></span>(<span>self)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>A special print output for this class.</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def pretty_print(self):
+    &#34;&#34;&#34;
+    A special print output for this class.
+    &#34;&#34;&#34;
+    print(&#34;ATMForwardResult:&#34;)
+    for var_name in dir(self):
+        # exclude methods
+        if (var_name.startswith(&#34;__&#34;) or var_name == &#34;pretty_print&#34;):
+            continue
+
+        # convert var to string format we want
+        var_value = getattr(self, var_name)
+        var_str = &#34;None&#34;
+        if (var_name == &#34;request_info&#34;):
+            var_str = &#34;ATMForwardResultRequestInfo(...)&#34;
+        if (var_value is not None):
+            if (isinstance(var_value, float)):
+                var_str = &#34;%f&#34; % (var_value)
+            elif (isinstance(var_value, ndarray)):
+                var_str = &#34;%s ...])&#34; % (var_value.__repr__()[0:60])
+
+        # print string for this var
+        print(&#34;  %-35s: %s&#34; % (var_name, var_str))</code></pre>
+</details>
+</dd>
+</dl>
+</dd>
+<dt id="pyucalgarysrs.models.atm.classes_forward.ATMForwardResultRequestInfo"><code class="flex name class">
+<span>class <span class="ident">ATMForwardResultRequestInfo</span></span>
+<span>(</span><span>request: <a title="pyucalgarysrs.models.atm.classes_forward.ATMForwardRequest" href="#pyucalgarysrs.models.atm.classes_forward.ATMForwardRequest">ATMForwardRequest</a>, calculation_duration_ms: float)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Class containing details about interacting with the UCalgary Space Remote Sensing
+API when performing an ATM forward calculation. It contains the API request itself,
+and other information returned by the API.</p>
+<p>An instance of this is included in any
+<a href="classes_forward.html#pyucalgarysrs.models.atm.classes_forward.ATMForwardResult"><code>ATMForwardResult</code></a>
+object.</p>
+<h2 id="attributes">Attributes</h2>
+<dl>
+<dt><strong><code>request</code></strong> :&ensp;<code><a title="pyucalgarysrs.models.atm.classes_forward.ATMForwardRequest" href="#pyucalgarysrs.models.atm.classes_forward.ATMForwardRequest">ATMForwardRequest</a></code></dt>
+<dd>Instance of class that represents the lower-leve API request when performing
+an ATM forward calculation.</dd>
+<dt><strong><code>calculation_duration_ms</code></strong> :&ensp;<code>float</code></dt>
+<dd>Duration the the API spent performing the ATM forward calculation. Represented
+in milliseconds.</dd>
+</dl></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">@dataclass
+class ATMForwardResultRequestInfo:
+    &#34;&#34;&#34;
+    Class containing details about interacting with the UCalgary Space Remote Sensing
+    API when performing an ATM forward calculation. It contains the API request itself,
+    and other information returned by the API.
+
+    An instance of this is included in any
+    [`ATMForwardResult`](classes_forward.html#pyucalgarysrs.models.atm.classes_forward.ATMForwardResult) 
+    object.
+
+    Attributes:
+        request (ATMForwardRequest): 
+            Instance of class that represents the lower-leve API request when performing 
+            an ATM forward calculation.
+
+        calculation_duration_ms (float): 
+            Duration the the API spent performing the ATM forward calculation. Represented
+            in milliseconds.
+    &#34;&#34;&#34;
+
+    request: ATMForwardRequest
+    calculation_duration_ms: float</code></pre>
+</details>
+<h3>Class variables</h3>
+<dl>
+<dt id="pyucalgarysrs.models.atm.classes_forward.ATMForwardResultRequestInfo.calculation_duration_ms"><code class="name">var <span class="ident">calculation_duration_ms</span> : float</code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="pyucalgarysrs.models.atm.classes_forward.ATMForwardResultRequestInfo.request"><code class="name">var <span class="ident">request</span> : <a title="pyucalgarysrs.models.atm.classes_forward.ATMForwardRequest" href="#pyucalgarysrs.models.atm.classes_forward.ATMForwardRequest">ATMForwardRequest</a></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+</dl>
+</dd>
+</dl>
+</section>
+</article>
+<nav id="sidebar">
+<form>
+<input id="lunr-search" name="q" placeholder="🔎 Search ..." aria-label="Search"
+disabled minlength="2">
+</form>
+<link rel="preload stylesheet" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/tingle/0.15.3/tingle.min.css" integrity="sha512-j1u8eUJ4f23xPPxwOrLUPQaCD2dwzNqqmDDcWS4deWsMv2ohLqmXXuP3hU7g8TyzbMSakP/mMqoNBYWj8AEIFg==" crossorigin>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/tingle/0.15.3/tingle.min.js" integrity="sha512-plGUER9JkeEWPPqQBE4sdLqBoQug5Ap+BCGMc7bJ8BXkm+VVj6QzkpBz5Yv2yPkkq+cqg9IpkBaGCas6uDbW8g==" crossorigin></script>
+<style>
+.modal-dialog iframe {
+width: 100vw;
+height: calc(100vh - 80px);
+}
+@media screen and (min-width: 700px) {
+.modal-dialog iframe {
+width: 70vw;
+height: 80vh;
+}
+}
+.modal-dialog .tingle-modal-box {width: auto;}
+.modal-dialog .tingle-modal-box__content {padding: 0;}
+</style>
+<script>
+const input = document.getElementById('lunr-search');
+input.disabled = false;
+input.form.addEventListener('submit', (ev) => {
+ev.preventDefault();
+const url = new URL(window.location);
+url.searchParams.set('q', input.value);
+history.replaceState({}, null, url.toString());
+search(input.value);
+});
+const query = new URL(window.location).searchParams.get('q');
+if (query)
+search(query);
+function search(query) {
+const url = '../../../doc-search.html#' + encodeURIComponent(query);
+new tingle.modal({
+cssClass: ['modal-dialog'],
+onClose: () => {
+const url = new URL(window.location);
+url.searchParams.delete('q');
+history.replaceState({}, null, url.toString());
+setTimeout(() => input.focus(), 100);
+}
+}).setContent('<iframe src="' + url + '"></iframe>').open();
+}
+</script>
+<h1>Index</h1>
+<div class="toc">
+<ul></ul>
+</div>
+<ul id="index">
+<li><h3>Super-module</h3>
+<ul>
+<li><code><a title="pyucalgarysrs.models.atm" href="index.html">pyucalgarysrs.models.atm</a></code></li>
+</ul>
+</li>
+<li><h3><a href="#header-classes">Classes</a></h3>
+<ul>
+<li>
+<h4><code><a title="pyucalgarysrs.models.atm.classes_forward.ATMForwardOutputFlags" href="#pyucalgarysrs.models.atm.classes_forward.ATMForwardOutputFlags">ATMForwardOutputFlags</a></code></h4>
+<ul class="">
+<li><code><a title="pyucalgarysrs.models.atm.classes_forward.ATMForwardOutputFlags.altitudes" href="#pyucalgarysrs.models.atm.classes_forward.ATMForwardOutputFlags.altitudes">altitudes</a></code></li>
+<li><code><a title="pyucalgarysrs.models.atm.classes_forward.ATMForwardOutputFlags.emission_1304" href="#pyucalgarysrs.models.atm.classes_forward.ATMForwardOutputFlags.emission_1304">emission_1304</a></code></li>
+<li><code><a title="pyucalgarysrs.models.atm.classes_forward.ATMForwardOutputFlags.emission_1356" href="#pyucalgarysrs.models.atm.classes_forward.ATMForwardOutputFlags.emission_1356">emission_1356</a></code></li>
+<li><code><a title="pyucalgarysrs.models.atm.classes_forward.ATMForwardOutputFlags.emission_4278" href="#pyucalgarysrs.models.atm.classes_forward.ATMForwardOutputFlags.emission_4278">emission_4278</a></code></li>
+<li><code><a title="pyucalgarysrs.models.atm.classes_forward.ATMForwardOutputFlags.emission_5577" href="#pyucalgarysrs.models.atm.classes_forward.ATMForwardOutputFlags.emission_5577">emission_5577</a></code></li>
+<li><code><a title="pyucalgarysrs.models.atm.classes_forward.ATMForwardOutputFlags.emission_6300" href="#pyucalgarysrs.models.atm.classes_forward.ATMForwardOutputFlags.emission_6300">emission_6300</a></code></li>
+<li><code><a title="pyucalgarysrs.models.atm.classes_forward.ATMForwardOutputFlags.emission_8446" href="#pyucalgarysrs.models.atm.classes_forward.ATMForwardOutputFlags.emission_8446">emission_8446</a></code></li>
+<li><code><a title="pyucalgarysrs.models.atm.classes_forward.ATMForwardOutputFlags.emission_lbh" href="#pyucalgarysrs.models.atm.classes_forward.ATMForwardOutputFlags.emission_lbh">emission_lbh</a></code></li>
+<li><code><a title="pyucalgarysrs.models.atm.classes_forward.ATMForwardOutputFlags.enable_only_height_integrated_rayleighs" href="#pyucalgarysrs.models.atm.classes_forward.ATMForwardOutputFlags.enable_only_height_integrated_rayleighs">enable_only_height_integrated_rayleighs</a></code></li>
+<li><code><a title="pyucalgarysrs.models.atm.classes_forward.ATMForwardOutputFlags.height_integrated_rayleighs_1304" href="#pyucalgarysrs.models.atm.classes_forward.ATMForwardOutputFlags.height_integrated_rayleighs_1304">height_integrated_rayleighs_1304</a></code></li>
+<li><code><a title="pyucalgarysrs.models.atm.classes_forward.ATMForwardOutputFlags.height_integrated_rayleighs_1356" href="#pyucalgarysrs.models.atm.classes_forward.ATMForwardOutputFlags.height_integrated_rayleighs_1356">height_integrated_rayleighs_1356</a></code></li>
+<li><code><a title="pyucalgarysrs.models.atm.classes_forward.ATMForwardOutputFlags.height_integrated_rayleighs_4278" href="#pyucalgarysrs.models.atm.classes_forward.ATMForwardOutputFlags.height_integrated_rayleighs_4278">height_integrated_rayleighs_4278</a></code></li>
+<li><code><a title="pyucalgarysrs.models.atm.classes_forward.ATMForwardOutputFlags.height_integrated_rayleighs_5577" href="#pyucalgarysrs.models.atm.classes_forward.ATMForwardOutputFlags.height_integrated_rayleighs_5577">height_integrated_rayleighs_5577</a></code></li>
+<li><code><a title="pyucalgarysrs.models.atm.classes_forward.ATMForwardOutputFlags.height_integrated_rayleighs_6300" href="#pyucalgarysrs.models.atm.classes_forward.ATMForwardOutputFlags.height_integrated_rayleighs_6300">height_integrated_rayleighs_6300</a></code></li>
+<li><code><a title="pyucalgarysrs.models.atm.classes_forward.ATMForwardOutputFlags.height_integrated_rayleighs_8446" href="#pyucalgarysrs.models.atm.classes_forward.ATMForwardOutputFlags.height_integrated_rayleighs_8446">height_integrated_rayleighs_8446</a></code></li>
+<li><code><a title="pyucalgarysrs.models.atm.classes_forward.ATMForwardOutputFlags.height_integrated_rayleighs_lbh" href="#pyucalgarysrs.models.atm.classes_forward.ATMForwardOutputFlags.height_integrated_rayleighs_lbh">height_integrated_rayleighs_lbh</a></code></li>
+<li><code><a title="pyucalgarysrs.models.atm.classes_forward.ATMForwardOutputFlags.neutral_n2_density" href="#pyucalgarysrs.models.atm.classes_forward.ATMForwardOutputFlags.neutral_n2_density">neutral_n2_density</a></code></li>
+<li><code><a title="pyucalgarysrs.models.atm.classes_forward.ATMForwardOutputFlags.neutral_n_density" href="#pyucalgarysrs.models.atm.classes_forward.ATMForwardOutputFlags.neutral_n_density">neutral_n_density</a></code></li>
+<li><code><a title="pyucalgarysrs.models.atm.classes_forward.ATMForwardOutputFlags.neutral_o2_density" href="#pyucalgarysrs.models.atm.classes_forward.ATMForwardOutputFlags.neutral_o2_density">neutral_o2_density</a></code></li>
+<li><code><a title="pyucalgarysrs.models.atm.classes_forward.ATMForwardOutputFlags.neutral_o_density" href="#pyucalgarysrs.models.atm.classes_forward.ATMForwardOutputFlags.neutral_o_density">neutral_o_density</a></code></li>
+<li><code><a title="pyucalgarysrs.models.atm.classes_forward.ATMForwardOutputFlags.neutral_temperature" href="#pyucalgarysrs.models.atm.classes_forward.ATMForwardOutputFlags.neutral_temperature">neutral_temperature</a></code></li>
+<li><code><a title="pyucalgarysrs.models.atm.classes_forward.ATMForwardOutputFlags.plasma_electron_density" href="#pyucalgarysrs.models.atm.classes_forward.ATMForwardOutputFlags.plasma_electron_density">plasma_electron_density</a></code></li>
+<li><code><a title="pyucalgarysrs.models.atm.classes_forward.ATMForwardOutputFlags.plasma_electron_temperature" href="#pyucalgarysrs.models.atm.classes_forward.ATMForwardOutputFlags.plasma_electron_temperature">plasma_electron_temperature</a></code></li>
+<li><code><a title="pyucalgarysrs.models.atm.classes_forward.ATMForwardOutputFlags.plasma_hall_conductivity" href="#pyucalgarysrs.models.atm.classes_forward.ATMForwardOutputFlags.plasma_hall_conductivity">plasma_hall_conductivity</a></code></li>
+<li><code><a title="pyucalgarysrs.models.atm.classes_forward.ATMForwardOutputFlags.plasma_ion_temperature" href="#pyucalgarysrs.models.atm.classes_forward.ATMForwardOutputFlags.plasma_ion_temperature">plasma_ion_temperature</a></code></li>
+<li><code><a title="pyucalgarysrs.models.atm.classes_forward.ATMForwardOutputFlags.plasma_ionisation_rate" href="#pyucalgarysrs.models.atm.classes_forward.ATMForwardOutputFlags.plasma_ionisation_rate">plasma_ionisation_rate</a></code></li>
+<li><code><a title="pyucalgarysrs.models.atm.classes_forward.ATMForwardOutputFlags.plasma_noplus_density" href="#pyucalgarysrs.models.atm.classes_forward.ATMForwardOutputFlags.plasma_noplus_density">plasma_noplus_density</a></code></li>
+<li><code><a title="pyucalgarysrs.models.atm.classes_forward.ATMForwardOutputFlags.plasma_o2plus_density" href="#pyucalgarysrs.models.atm.classes_forward.ATMForwardOutputFlags.plasma_o2plus_density">plasma_o2plus_density</a></code></li>
+<li><code><a title="pyucalgarysrs.models.atm.classes_forward.ATMForwardOutputFlags.plasma_oplus_density" href="#pyucalgarysrs.models.atm.classes_forward.ATMForwardOutputFlags.plasma_oplus_density">plasma_oplus_density</a></code></li>
+<li><code><a title="pyucalgarysrs.models.atm.classes_forward.ATMForwardOutputFlags.plasma_pederson_conductivity" href="#pyucalgarysrs.models.atm.classes_forward.ATMForwardOutputFlags.plasma_pederson_conductivity">plasma_pederson_conductivity</a></code></li>
+<li><code><a title="pyucalgarysrs.models.atm.classes_forward.ATMForwardOutputFlags.set_all_false" href="#pyucalgarysrs.models.atm.classes_forward.ATMForwardOutputFlags.set_all_false">set_all_false</a></code></li>
+<li><code><a title="pyucalgarysrs.models.atm.classes_forward.ATMForwardOutputFlags.set_all_true" href="#pyucalgarysrs.models.atm.classes_forward.ATMForwardOutputFlags.set_all_true">set_all_true</a></code></li>
+</ul>
+</li>
+<li>
+<h4><code><a title="pyucalgarysrs.models.atm.classes_forward.ATMForwardRequest" href="#pyucalgarysrs.models.atm.classes_forward.ATMForwardRequest">ATMForwardRequest</a></code></h4>
+<ul class="">
+<li><code><a title="pyucalgarysrs.models.atm.classes_forward.ATMForwardRequest.atm_model_version" href="#pyucalgarysrs.models.atm.classes_forward.ATMForwardRequest.atm_model_version">atm_model_version</a></code></li>
+<li><code><a title="pyucalgarysrs.models.atm.classes_forward.ATMForwardRequest.custom_spectrum" href="#pyucalgarysrs.models.atm.classes_forward.ATMForwardRequest.custom_spectrum">custom_spectrum</a></code></li>
+<li><code><a title="pyucalgarysrs.models.atm.classes_forward.ATMForwardRequest.gaussian_energy_flux" href="#pyucalgarysrs.models.atm.classes_forward.ATMForwardRequest.gaussian_energy_flux">gaussian_energy_flux</a></code></li>
+<li><code><a title="pyucalgarysrs.models.atm.classes_forward.ATMForwardRequest.gaussian_peak_energy" href="#pyucalgarysrs.models.atm.classes_forward.ATMForwardRequest.gaussian_peak_energy">gaussian_peak_energy</a></code></li>
+<li><code><a title="pyucalgarysrs.models.atm.classes_forward.ATMForwardRequest.gaussian_spectral_width" href="#pyucalgarysrs.models.atm.classes_forward.ATMForwardRequest.gaussian_spectral_width">gaussian_spectral_width</a></code></li>
+<li><code><a title="pyucalgarysrs.models.atm.classes_forward.ATMForwardRequest.geodetic_latitude" href="#pyucalgarysrs.models.atm.classes_forward.ATMForwardRequest.geodetic_latitude">geodetic_latitude</a></code></li>
+<li><code><a title="pyucalgarysrs.models.atm.classes_forward.ATMForwardRequest.geodetic_longitude" href="#pyucalgarysrs.models.atm.classes_forward.ATMForwardRequest.geodetic_longitude">geodetic_longitude</a></code></li>
+<li><code><a title="pyucalgarysrs.models.atm.classes_forward.ATMForwardRequest.maxwellian_characteristic_energy" href="#pyucalgarysrs.models.atm.classes_forward.ATMForwardRequest.maxwellian_characteristic_energy">maxwellian_characteristic_energy</a></code></li>
+<li><code><a title="pyucalgarysrs.models.atm.classes_forward.ATMForwardRequest.maxwellian_energy_flux" href="#pyucalgarysrs.models.atm.classes_forward.ATMForwardRequest.maxwellian_energy_flux">maxwellian_energy_flux</a></code></li>
+<li><code><a title="pyucalgarysrs.models.atm.classes_forward.ATMForwardRequest.no_cache" href="#pyucalgarysrs.models.atm.classes_forward.ATMForwardRequest.no_cache">no_cache</a></code></li>
+<li><code><a title="pyucalgarysrs.models.atm.classes_forward.ATMForwardRequest.nrlmsis_model_version" href="#pyucalgarysrs.models.atm.classes_forward.ATMForwardRequest.nrlmsis_model_version">nrlmsis_model_version</a></code></li>
+<li><code><a title="pyucalgarysrs.models.atm.classes_forward.ATMForwardRequest.output" href="#pyucalgarysrs.models.atm.classes_forward.ATMForwardRequest.output">output</a></code></li>
+<li><code><a title="pyucalgarysrs.models.atm.classes_forward.ATMForwardRequest.oxygen_correction_factor" href="#pyucalgarysrs.models.atm.classes_forward.ATMForwardRequest.oxygen_correction_factor">oxygen_correction_factor</a></code></li>
+<li><code><a title="pyucalgarysrs.models.atm.classes_forward.ATMForwardRequest.timescale_auroral" href="#pyucalgarysrs.models.atm.classes_forward.ATMForwardRequest.timescale_auroral">timescale_auroral</a></code></li>
+<li><code><a title="pyucalgarysrs.models.atm.classes_forward.ATMForwardRequest.timescale_transport" href="#pyucalgarysrs.models.atm.classes_forward.ATMForwardRequest.timescale_transport">timescale_transport</a></code></li>
+<li><code><a title="pyucalgarysrs.models.atm.classes_forward.ATMForwardRequest.timestamp" href="#pyucalgarysrs.models.atm.classes_forward.ATMForwardRequest.timestamp">timestamp</a></code></li>
+</ul>
+</li>
+<li>
+<h4><code><a title="pyucalgarysrs.models.atm.classes_forward.ATMForwardResult" href="#pyucalgarysrs.models.atm.classes_forward.ATMForwardResult">ATMForwardResult</a></code></h4>
+<ul class="">
+<li><code><a title="pyucalgarysrs.models.atm.classes_forward.ATMForwardResult.altitudes" href="#pyucalgarysrs.models.atm.classes_forward.ATMForwardResult.altitudes">altitudes</a></code></li>
+<li><code><a title="pyucalgarysrs.models.atm.classes_forward.ATMForwardResult.emission_1304" href="#pyucalgarysrs.models.atm.classes_forward.ATMForwardResult.emission_1304">emission_1304</a></code></li>
+<li><code><a title="pyucalgarysrs.models.atm.classes_forward.ATMForwardResult.emission_1356" href="#pyucalgarysrs.models.atm.classes_forward.ATMForwardResult.emission_1356">emission_1356</a></code></li>
+<li><code><a title="pyucalgarysrs.models.atm.classes_forward.ATMForwardResult.emission_4278" href="#pyucalgarysrs.models.atm.classes_forward.ATMForwardResult.emission_4278">emission_4278</a></code></li>
+<li><code><a title="pyucalgarysrs.models.atm.classes_forward.ATMForwardResult.emission_5577" href="#pyucalgarysrs.models.atm.classes_forward.ATMForwardResult.emission_5577">emission_5577</a></code></li>
+<li><code><a title="pyucalgarysrs.models.atm.classes_forward.ATMForwardResult.emission_6300" href="#pyucalgarysrs.models.atm.classes_forward.ATMForwardResult.emission_6300">emission_6300</a></code></li>
+<li><code><a title="pyucalgarysrs.models.atm.classes_forward.ATMForwardResult.emission_8446" href="#pyucalgarysrs.models.atm.classes_forward.ATMForwardResult.emission_8446">emission_8446</a></code></li>
+<li><code><a title="pyucalgarysrs.models.atm.classes_forward.ATMForwardResult.emission_lbh" href="#pyucalgarysrs.models.atm.classes_forward.ATMForwardResult.emission_lbh">emission_lbh</a></code></li>
+<li><code><a title="pyucalgarysrs.models.atm.classes_forward.ATMForwardResult.height_integrated_rayleighs_1304" href="#pyucalgarysrs.models.atm.classes_forward.ATMForwardResult.height_integrated_rayleighs_1304">height_integrated_rayleighs_1304</a></code></li>
+<li><code><a title="pyucalgarysrs.models.atm.classes_forward.ATMForwardResult.height_integrated_rayleighs_1356" href="#pyucalgarysrs.models.atm.classes_forward.ATMForwardResult.height_integrated_rayleighs_1356">height_integrated_rayleighs_1356</a></code></li>
+<li><code><a title="pyucalgarysrs.models.atm.classes_forward.ATMForwardResult.height_integrated_rayleighs_4278" href="#pyucalgarysrs.models.atm.classes_forward.ATMForwardResult.height_integrated_rayleighs_4278">height_integrated_rayleighs_4278</a></code></li>
+<li><code><a title="pyucalgarysrs.models.atm.classes_forward.ATMForwardResult.height_integrated_rayleighs_5577" href="#pyucalgarysrs.models.atm.classes_forward.ATMForwardResult.height_integrated_rayleighs_5577">height_integrated_rayleighs_5577</a></code></li>
+<li><code><a title="pyucalgarysrs.models.atm.classes_forward.ATMForwardResult.height_integrated_rayleighs_6300" href="#pyucalgarysrs.models.atm.classes_forward.ATMForwardResult.height_integrated_rayleighs_6300">height_integrated_rayleighs_6300</a></code></li>
+<li><code><a title="pyucalgarysrs.models.atm.classes_forward.ATMForwardResult.height_integrated_rayleighs_8446" href="#pyucalgarysrs.models.atm.classes_forward.ATMForwardResult.height_integrated_rayleighs_8446">height_integrated_rayleighs_8446</a></code></li>
+<li><code><a title="pyucalgarysrs.models.atm.classes_forward.ATMForwardResult.height_integrated_rayleighs_lbh" href="#pyucalgarysrs.models.atm.classes_forward.ATMForwardResult.height_integrated_rayleighs_lbh">height_integrated_rayleighs_lbh</a></code></li>
+<li><code><a title="pyucalgarysrs.models.atm.classes_forward.ATMForwardResult.neutral_n2_density" href="#pyucalgarysrs.models.atm.classes_forward.ATMForwardResult.neutral_n2_density">neutral_n2_density</a></code></li>
+<li><code><a title="pyucalgarysrs.models.atm.classes_forward.ATMForwardResult.neutral_n_density" href="#pyucalgarysrs.models.atm.classes_forward.ATMForwardResult.neutral_n_density">neutral_n_density</a></code></li>
+<li><code><a title="pyucalgarysrs.models.atm.classes_forward.ATMForwardResult.neutral_o2_density" href="#pyucalgarysrs.models.atm.classes_forward.ATMForwardResult.neutral_o2_density">neutral_o2_density</a></code></li>
+<li><code><a title="pyucalgarysrs.models.atm.classes_forward.ATMForwardResult.neutral_o_density" href="#pyucalgarysrs.models.atm.classes_forward.ATMForwardResult.neutral_o_density">neutral_o_density</a></code></li>
+<li><code><a title="pyucalgarysrs.models.atm.classes_forward.ATMForwardResult.neutral_temperature" href="#pyucalgarysrs.models.atm.classes_forward.ATMForwardResult.neutral_temperature">neutral_temperature</a></code></li>
+<li><code><a title="pyucalgarysrs.models.atm.classes_forward.ATMForwardResult.plasma_electron_density" href="#pyucalgarysrs.models.atm.classes_forward.ATMForwardResult.plasma_electron_density">plasma_electron_density</a></code></li>
+<li><code><a title="pyucalgarysrs.models.atm.classes_forward.ATMForwardResult.plasma_electron_temperature" href="#pyucalgarysrs.models.atm.classes_forward.ATMForwardResult.plasma_electron_temperature">plasma_electron_temperature</a></code></li>
+<li><code><a title="pyucalgarysrs.models.atm.classes_forward.ATMForwardResult.plasma_hall_conductivity" href="#pyucalgarysrs.models.atm.classes_forward.ATMForwardResult.plasma_hall_conductivity">plasma_hall_conductivity</a></code></li>
+<li><code><a title="pyucalgarysrs.models.atm.classes_forward.ATMForwardResult.plasma_ion_temperature" href="#pyucalgarysrs.models.atm.classes_forward.ATMForwardResult.plasma_ion_temperature">plasma_ion_temperature</a></code></li>
+<li><code><a title="pyucalgarysrs.models.atm.classes_forward.ATMForwardResult.plasma_ionisation_rate" href="#pyucalgarysrs.models.atm.classes_forward.ATMForwardResult.plasma_ionisation_rate">plasma_ionisation_rate</a></code></li>
+<li><code><a title="pyucalgarysrs.models.atm.classes_forward.ATMForwardResult.plasma_noplus_density" href="#pyucalgarysrs.models.atm.classes_forward.ATMForwardResult.plasma_noplus_density">plasma_noplus_density</a></code></li>
+<li><code><a title="pyucalgarysrs.models.atm.classes_forward.ATMForwardResult.plasma_o2plus_density" href="#pyucalgarysrs.models.atm.classes_forward.ATMForwardResult.plasma_o2plus_density">plasma_o2plus_density</a></code></li>
+<li><code><a title="pyucalgarysrs.models.atm.classes_forward.ATMForwardResult.plasma_oplus_density" href="#pyucalgarysrs.models.atm.classes_forward.ATMForwardResult.plasma_oplus_density">plasma_oplus_density</a></code></li>
+<li><code><a title="pyucalgarysrs.models.atm.classes_forward.ATMForwardResult.plasma_pederson_conductivity" href="#pyucalgarysrs.models.atm.classes_forward.ATMForwardResult.plasma_pederson_conductivity">plasma_pederson_conductivity</a></code></li>
+<li><code><a title="pyucalgarysrs.models.atm.classes_forward.ATMForwardResult.pretty_print" href="#pyucalgarysrs.models.atm.classes_forward.ATMForwardResult.pretty_print">pretty_print</a></code></li>
+<li><code><a title="pyucalgarysrs.models.atm.classes_forward.ATMForwardResult.request_info" href="#pyucalgarysrs.models.atm.classes_forward.ATMForwardResult.request_info">request_info</a></code></li>
+</ul>
+</li>
+<li>
+<h4><code><a title="pyucalgarysrs.models.atm.classes_forward.ATMForwardResultRequestInfo" href="#pyucalgarysrs.models.atm.classes_forward.ATMForwardResultRequestInfo">ATMForwardResultRequestInfo</a></code></h4>
+<ul class="">
+<li><code><a title="pyucalgarysrs.models.atm.classes_forward.ATMForwardResultRequestInfo.calculation_duration_ms" href="#pyucalgarysrs.models.atm.classes_forward.ATMForwardResultRequestInfo.calculation_duration_ms">calculation_duration_ms</a></code></li>
+<li><code><a title="pyucalgarysrs.models.atm.classes_forward.ATMForwardResultRequestInfo.request" href="#pyucalgarysrs.models.atm.classes_forward.ATMForwardResultRequestInfo.request">request</a></code></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</nav>
+</main>
+<footer id="footer">
+<p>Generated by <a href="https://pdoc3.github.io/pdoc" title="pdoc: Python API documentation generator"><cite>pdoc</cite> 0.10.0</a>.</p>
+</footer>
+</body>
+</html>

@@ -1,0 +1,1011 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1" />
+<meta name="generator" content="pdoc 0.10.0" />
+<title>pyucalgarysrs.data.schemas API documentation</title>
+<meta name="description" content="" />
+<link rel="preload stylesheet" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/11.0.1/sanitize.min.css" integrity="sha256-PK9q560IAAa6WVRRh76LtCaI8pjTJ2z11v0miyNNjrs=" crossorigin>
+<link rel="preload stylesheet" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/11.0.1/typography.min.css" integrity="sha256-7l/o7C8jubJiy74VsKTidCy1yBkRtiUGbVkYBylBqUg=" crossorigin>
+<link rel="stylesheet preload" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.1.1/styles/github.min.css" crossorigin>
+<style>:root{--highlight-color:#fe9}.flex{display:flex !important}body{line-height:1.5em}#content{padding:20px}#sidebar{padding:30px;overflow:hidden}#sidebar > *:last-child{margin-bottom:2cm}#lunr-search{width:100%;font-size:1em;padding:6px 9px 5px 9px;border:1px solid silver}.http-server-breadcrumbs{font-size:130%;margin:0 0 15px 0}#footer{font-size:.75em;padding:5px 30px;border-top:1px solid #ddd;text-align:right}#footer p{margin:0 0 0 1em;display:inline-block}#footer p:last-child{margin-right:30px}h1,h2,h3,h4,h5{font-weight:300}h1{font-size:2.5em;line-height:1.1em}h2{font-size:1.75em;margin:1em 0 .50em 0}h3{font-size:1.4em;margin:25px 0 10px 0}h4{margin:0;font-size:105%}h1:target,h2:target,h3:target,h4:target,h5:target,h6:target{background:var(--highlight-color);padding:.2em 0}a{color:#058;text-decoration:none;transition:color .3s ease-in-out}a:hover{color:#e82}.title code{font-weight:bold}h2[id^="header-"]{margin-top:2em}.ident{color:#900}pre code{background:#f8f8f8;font-size:.8em;line-height:1.4em}code{background:#f2f2f1;padding:1px 4px;overflow-wrap:break-word}h1 code{background:transparent}pre{background:#f8f8f8;border:0;border-top:1px solid #ccc;border-bottom:1px solid #ccc;margin:1em 0;padding:1ex}#http-server-module-list{display:flex;flex-flow:column}#http-server-module-list div{display:flex}#http-server-module-list dt{min-width:10%}#http-server-module-list p{margin-top:0}.toc ul,#index{list-style-type:none;margin:0;padding:0}#index code{background:transparent}#index h3{border-bottom:1px solid #ddd}#index ul{padding:0}#index h4{margin-top:.6em;font-weight:bold}@media (min-width:200ex){#index .two-column{column-count:2}}@media (min-width:300ex){#index .two-column{column-count:3}}dl{margin-bottom:2em}dl dl:last-child{margin-bottom:4em}dd{margin:0 0 1em 3em}#header-classes + dl > dd{margin-bottom:3em}dd dd{margin-left:2em}dd p{margin:10px 0}.name{background:#eee;font-weight:bold;font-size:.85em;padding:5px 10px;display:inline-block;min-width:40%}.name:hover{background:#e0e0e0}dt:target .name{background:var(--highlight-color)}.name > span:first-child{white-space:nowrap}.name.class > span:nth-child(2){margin-left:.4em}.inherited{color:#999;border-left:5px solid #eee;padding-left:1em}.inheritance em{font-style:normal;font-weight:bold}.desc h2{font-weight:400;font-size:1.25em}.desc h3{font-size:1em}.desc dt code{background:inherit}.source summary,.git-link-div{color:#666;text-align:right;font-weight:400;font-size:.8em;text-transform:uppercase}.source summary > *{white-space:nowrap;cursor:pointer}.git-link{color:inherit;margin-left:1em}.source pre{max-height:500px;overflow:auto;margin:0}.source pre code{font-size:12px;overflow:visible}.hlist{list-style:none}.hlist li{display:inline}.hlist li:after{content:',\2002'}.hlist li:last-child:after{content:none}.hlist .hlist{display:inline;padding-left:1em}img{max-width:100%}td{padding:0 .5em}.admonition{padding:.1em .5em;margin-bottom:1em}.admonition-title{font-weight:bold}.admonition.note,.admonition.info,.admonition.important{background:#aef}.admonition.todo,.admonition.versionadded,.admonition.tip,.admonition.hint{background:#dfd}.admonition.warning,.admonition.versionchanged,.admonition.deprecated{background:#fd4}.admonition.error,.admonition.danger,.admonition.caution{background:lightpink}</style>
+<style media="screen and (min-width: 700px)">@media screen and (min-width:700px){#sidebar{width:30%;height:100vh;overflow:auto;position:sticky;top:0}#content{width:70%;max-width:100ch;padding:3em 4em;border-left:1px solid #ddd}pre code{font-size:1em}.item .name{font-size:1em}main{display:flex;flex-direction:row-reverse;justify-content:flex-end}.toc ul ul,#index ul{padding-left:1.5em}.toc > ul > li{margin-top:.5em}}</style>
+<style media="print">@media print{#sidebar h1{page-break-before:always}.source{display:none}}@media print{*{background:transparent !important;color:#000 !important;box-shadow:none !important;text-shadow:none !important}a[href]:after{content:" (" attr(href) ")";font-size:90%}a[href][title]:after{content:none}abbr[title]:after{content:" (" attr(title) ")"}.ir a:after,a[href^="javascript:"]:after,a[href^="#"]:after{content:""}pre,blockquote{border:1px solid #999;page-break-inside:avoid}thead{display:table-header-group}tr,img{page-break-inside:avoid}img{max-width:100% !important}@page{margin:0.5cm}p,h2,h3{orphans:3;widows:3}h1,h2,h3,h4,h5,h6{page-break-after:avoid}}</style>
+<script defer src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.1.1/highlight.min.js" integrity="sha256-Uv3H6lx7dJmRfRvH8TH6kJD1TSK1aFcwgx+mdg3epi8=" crossorigin></script>
+<script>window.addEventListener('DOMContentLoaded', () => hljs.initHighlighting())</script>
+</head>
+<body>
+<main>
+<article id="content">
+<header>
+<h1 class="title">Module <code>pyucalgarysrs.data.schemas</code></h1>
+</header>
+<section id="section-intro">
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">import datetime
+from dataclasses import dataclass
+from typing import Optional, List, Dict, Literal
+from numpy import ndarray
+
+# # pdoc init
+# __pdoc__: Dict = {}
+
+
+@dataclass
+class Dataset:
+    name: str
+    short_description: str
+    long_description: str
+    data_tree_url: str
+    file_listing_supported: bool
+    file_reading_supported: bool
+    level: str
+    doi: Optional[str] = None
+    doi_details: Optional[str] = None
+    citation: Optional[str] = None
+
+
+@dataclass
+class FileListingResponse:
+    urls: List[str]
+    path_prefix: str
+    count: int
+    dataset: Dataset
+    total_bytes: Optional[int] = None
+
+
+@dataclass
+class FileDownloadResult:
+    &#34;&#34;&#34;
+    A file download result
+    &#34;&#34;&#34;
+
+    filenames: List[str]
+    count: int
+    total_bytes: int
+    output_root_path: str
+    dataset: Dataset
+
+
+@dataclass
+class ProblematicFile:
+    filename: str
+    error_message: str
+    error_type: Literal[&#34;error&#34;, &#34;warning&#34;]
+
+
+@dataclass
+class Data:
+    data: ndarray
+    timestamp: List[datetime.datetime]
+    metadata: List[Dict]
+    problematic_files: List[ProblematicFile]
+    dataset: Optional[Dataset] = None
+
+    def __str__(self) -&gt; str:
+        return self.__repr__()
+
+    def __repr__(self) -&gt; str:
+        data_str = &#34;array(dims=%s, dtype=%s)&#34; % (self.data.shape, self.data.dtype)
+        timestamp_str = &#34;[%d datetime objects]&#34; % (len(self.timestamp))
+        metadata_str = &#34;[%d dictionaries]&#34; % (len(self.metadata))
+        problematic_files_str = self.problematic_files.__repr__()
+        dataset_str = &#34;unknown&#34; if self.dataset is None else self.dataset.__repr__()[0:75] + &#34;...)&#34;
+
+        return &#34;Data(data=%s, timestamp=%s, metadata=%s, problematic_files=%s, dataset=%s)&#34; % (
+            data_str,
+            timestamp_str,
+            metadata_str,
+            problematic_files_str,
+            dataset_str,
+        )
+
+
+@dataclass
+class SkymapGenerationInfo:
+    author: str
+    ccd_center: float
+    code_used: str
+    data_loc: str
+    date_generated: datetime.datetime
+    date_time_used: int
+    img_flip: ndarray
+    optical_orientation: ndarray
+    optical_projection: ndarray
+    pixel_aspect_ratio: float
+    valid_interval_start: datetime.datetime
+    valid_interval_stop: Optional[datetime.datetime] = None
+    bytscl_values: Optional[ndarray] = None
+
+    def __str__(self) -&gt; str:
+        return self.__repr__()
+
+    def __repr__(self) -&gt; str:
+        return &#34;SkymapGenerationInfo(date_generated=%s, author=%s, ccd_center=%s, ...)&#34; % (
+            str(self.date_generated.__repr__()),
+            self.author,
+            self.ccd_center,
+        )
+
+
+@dataclass
+class Skymap:
+    filename: str
+    project_uid: str
+    site_uid: str
+    imager_uid: str
+    site_map_latitude: float
+    site_map_longitude: float
+    site_map_altitude: float
+    bin_row: ndarray
+    bin_column: ndarray
+    bin_elevation: ndarray
+    bin_azimuth: ndarray
+    bin_map_altitude: float
+    bin_map_latitude: ndarray
+    bin_map_longitude: ndarray
+    full_row: ndarray
+    full_column: ndarray
+    full_ignore: ndarray
+    full_subtract: ndarray
+    full_multiply: ndarray
+    full_elevation: ndarray
+    full_azimuth: ndarray
+    full_map_altitude: ndarray
+    full_map_latitude: ndarray
+    full_map_longitude: ndarray
+    full_bin: ndarray
+    generation_info: SkymapGenerationInfo
+    version: str
+    dataset: Optional[Dataset] = None
+
+    def __str__(self) -&gt; str:
+        return self.__repr__()
+
+    def __repr__(self) -&gt; str:
+        dataset_str = &#34;unknown&#34; if self.dataset is None else self.dataset.__repr__()[0:75] + &#34;...)&#34;
+        return &#34;Skymap(project_uid=%s, site_uid=%s, imager_uid=%s, site_map_latitude=%f, site_map_longitude=%f, dataset=%s, ...)&#34; % (
+            self.project_uid,
+            self.site_uid,
+            self.imager_uid,
+            self.site_map_latitude,
+            self.site_map_longitude,
+            dataset_str,
+        )
+
+
+@dataclass
+class CalibrationGenerationInfo:
+    valid_interval_start: datetime.datetime
+    author: Optional[str] = None
+    valid_interval_stop: Optional[datetime.datetime] = None
+    input_data_dir: Optional[str] = None
+    skymap_filename: Optional[str] = None
+
+
+@dataclass
+class Calibration:
+    filename: str
+    detector_uid: str
+    version: str
+    generation_info: CalibrationGenerationInfo
+    rayleighs_perdn_persecond: Optional[float] = None
+    flat_field_multiplier: Optional[ndarray] = None
+    dataset: Optional[Dataset] = None</code></pre>
+</details>
+</section>
+<section>
+</section>
+<section>
+</section>
+<section>
+</section>
+<section>
+<h2 class="section-title" id="header-classes">Classes</h2>
+<dl>
+<dt id="pyucalgarysrs.data.schemas.Calibration"><code class="flex name class">
+<span>class <span class="ident">Calibration</span></span>
+<span>(</span><span>filename: str, detector_uid: str, version: str, generation_info: <a title="pyucalgarysrs.data.schemas.CalibrationGenerationInfo" href="#pyucalgarysrs.data.schemas.CalibrationGenerationInfo">CalibrationGenerationInfo</a>, rayleighs_perdn_persecond: Optional[float] = None, flat_field_multiplier: Optional[numpy.ndarray] = None, dataset: Optional[<a title="pyucalgarysrs.data.schemas.Dataset" href="#pyucalgarysrs.data.schemas.Dataset">Dataset</a>] = None)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Calibration(filename: str, detector_uid: str, version: str, generation_info: pyucalgarysrs.data.schemas.CalibrationGenerationInfo, rayleighs_perdn_persecond: Optional[float] = None, flat_field_multiplier: Optional[numpy.ndarray] = None, dataset: Optional[pyucalgarysrs.data.schemas.Dataset] = None)</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">@dataclass
+class Calibration:
+    filename: str
+    detector_uid: str
+    version: str
+    generation_info: CalibrationGenerationInfo
+    rayleighs_perdn_persecond: Optional[float] = None
+    flat_field_multiplier: Optional[ndarray] = None
+    dataset: Optional[Dataset] = None</code></pre>
+</details>
+<h3>Class variables</h3>
+<dl>
+<dt id="pyucalgarysrs.data.schemas.Calibration.dataset"><code class="name">var <span class="ident">dataset</span> : Optional[<a title="pyucalgarysrs.data.schemas.Dataset" href="#pyucalgarysrs.data.schemas.Dataset">Dataset</a>]</code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="pyucalgarysrs.data.schemas.Calibration.detector_uid"><code class="name">var <span class="ident">detector_uid</span> : str</code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="pyucalgarysrs.data.schemas.Calibration.filename"><code class="name">var <span class="ident">filename</span> : str</code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="pyucalgarysrs.data.schemas.Calibration.flat_field_multiplier"><code class="name">var <span class="ident">flat_field_multiplier</span> : Optional[numpy.ndarray]</code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="pyucalgarysrs.data.schemas.Calibration.generation_info"><code class="name">var <span class="ident">generation_info</span> : <a title="pyucalgarysrs.data.schemas.CalibrationGenerationInfo" href="#pyucalgarysrs.data.schemas.CalibrationGenerationInfo">CalibrationGenerationInfo</a></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="pyucalgarysrs.data.schemas.Calibration.rayleighs_perdn_persecond"><code class="name">var <span class="ident">rayleighs_perdn_persecond</span> : Optional[float]</code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="pyucalgarysrs.data.schemas.Calibration.version"><code class="name">var <span class="ident">version</span> : str</code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+</dl>
+</dd>
+<dt id="pyucalgarysrs.data.schemas.CalibrationGenerationInfo"><code class="flex name class">
+<span>class <span class="ident">CalibrationGenerationInfo</span></span>
+<span>(</span><span>valid_interval_start: datetime.datetime, author: Optional[str] = None, valid_interval_stop: Optional[datetime.datetime] = None, input_data_dir: Optional[str] = None, skymap_filename: Optional[str] = None)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>CalibrationGenerationInfo(valid_interval_start: datetime.datetime, author: Optional[str] = None, valid_interval_stop: Optional[datetime.datetime] = None, input_data_dir: Optional[str] = None, skymap_filename: Optional[str] = None)</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">@dataclass
+class CalibrationGenerationInfo:
+    valid_interval_start: datetime.datetime
+    author: Optional[str] = None
+    valid_interval_stop: Optional[datetime.datetime] = None
+    input_data_dir: Optional[str] = None
+    skymap_filename: Optional[str] = None</code></pre>
+</details>
+<h3>Class variables</h3>
+<dl>
+<dt id="pyucalgarysrs.data.schemas.CalibrationGenerationInfo.author"><code class="name">var <span class="ident">author</span> : Optional[str]</code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="pyucalgarysrs.data.schemas.CalibrationGenerationInfo.input_data_dir"><code class="name">var <span class="ident">input_data_dir</span> : Optional[str]</code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="pyucalgarysrs.data.schemas.CalibrationGenerationInfo.skymap_filename"><code class="name">var <span class="ident">skymap_filename</span> : Optional[str]</code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="pyucalgarysrs.data.schemas.CalibrationGenerationInfo.valid_interval_start"><code class="name">var <span class="ident">valid_interval_start</span> : datetime.datetime</code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="pyucalgarysrs.data.schemas.CalibrationGenerationInfo.valid_interval_stop"><code class="name">var <span class="ident">valid_interval_stop</span> : Optional[datetime.datetime]</code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+</dl>
+</dd>
+<dt id="pyucalgarysrs.data.schemas.Data"><code class="flex name class">
+<span>class <span class="ident">Data</span></span>
+<span>(</span><span>data: numpy.ndarray, timestamp: List[datetime.datetime], metadata: List[Dict], problematic_files: List[<a title="pyucalgarysrs.data.schemas.ProblematicFile" href="#pyucalgarysrs.data.schemas.ProblematicFile">ProblematicFile</a>], dataset: Optional[<a title="pyucalgarysrs.data.schemas.Dataset" href="#pyucalgarysrs.data.schemas.Dataset">Dataset</a>] = None)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Data(data: numpy.ndarray, timestamp: List[datetime.datetime], metadata: List[Dict], problematic_files: List[pyucalgarysrs.data.schemas.ProblematicFile], dataset: Optional[pyucalgarysrs.data.schemas.Dataset] = None)</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">@dataclass
+class Data:
+    data: ndarray
+    timestamp: List[datetime.datetime]
+    metadata: List[Dict]
+    problematic_files: List[ProblematicFile]
+    dataset: Optional[Dataset] = None
+
+    def __str__(self) -&gt; str:
+        return self.__repr__()
+
+    def __repr__(self) -&gt; str:
+        data_str = &#34;array(dims=%s, dtype=%s)&#34; % (self.data.shape, self.data.dtype)
+        timestamp_str = &#34;[%d datetime objects]&#34; % (len(self.timestamp))
+        metadata_str = &#34;[%d dictionaries]&#34; % (len(self.metadata))
+        problematic_files_str = self.problematic_files.__repr__()
+        dataset_str = &#34;unknown&#34; if self.dataset is None else self.dataset.__repr__()[0:75] + &#34;...)&#34;
+
+        return &#34;Data(data=%s, timestamp=%s, metadata=%s, problematic_files=%s, dataset=%s)&#34; % (
+            data_str,
+            timestamp_str,
+            metadata_str,
+            problematic_files_str,
+            dataset_str,
+        )</code></pre>
+</details>
+<h3>Class variables</h3>
+<dl>
+<dt id="pyucalgarysrs.data.schemas.Data.data"><code class="name">var <span class="ident">data</span> : numpy.ndarray</code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="pyucalgarysrs.data.schemas.Data.dataset"><code class="name">var <span class="ident">dataset</span> : Optional[<a title="pyucalgarysrs.data.schemas.Dataset" href="#pyucalgarysrs.data.schemas.Dataset">Dataset</a>]</code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="pyucalgarysrs.data.schemas.Data.metadata"><code class="name">var <span class="ident">metadata</span> : List[Dict]</code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="pyucalgarysrs.data.schemas.Data.problematic_files"><code class="name">var <span class="ident">problematic_files</span> : List[<a title="pyucalgarysrs.data.schemas.ProblematicFile" href="#pyucalgarysrs.data.schemas.ProblematicFile">ProblematicFile</a>]</code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="pyucalgarysrs.data.schemas.Data.timestamp"><code class="name">var <span class="ident">timestamp</span> : List[datetime.datetime]</code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+</dl>
+</dd>
+<dt id="pyucalgarysrs.data.schemas.Dataset"><code class="flex name class">
+<span>class <span class="ident">Dataset</span></span>
+<span>(</span><span>name: str, short_description: str, long_description: str, data_tree_url: str, file_listing_supported: bool, file_reading_supported: bool, level: str, doi: Optional[str] = None, doi_details: Optional[str] = None, citation: Optional[str] = None)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Dataset(name: str, short_description: str, long_description: str, data_tree_url: str, file_listing_supported: bool, file_reading_supported: bool, level: str, doi: Optional[str] = None, doi_details: Optional[str] = None, citation: Optional[str] = None)</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">@dataclass
+class Dataset:
+    name: str
+    short_description: str
+    long_description: str
+    data_tree_url: str
+    file_listing_supported: bool
+    file_reading_supported: bool
+    level: str
+    doi: Optional[str] = None
+    doi_details: Optional[str] = None
+    citation: Optional[str] = None</code></pre>
+</details>
+<h3>Class variables</h3>
+<dl>
+<dt id="pyucalgarysrs.data.schemas.Dataset.citation"><code class="name">var <span class="ident">citation</span> : Optional[str]</code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="pyucalgarysrs.data.schemas.Dataset.data_tree_url"><code class="name">var <span class="ident">data_tree_url</span> : str</code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="pyucalgarysrs.data.schemas.Dataset.doi"><code class="name">var <span class="ident">doi</span> : Optional[str]</code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="pyucalgarysrs.data.schemas.Dataset.doi_details"><code class="name">var <span class="ident">doi_details</span> : Optional[str]</code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="pyucalgarysrs.data.schemas.Dataset.file_listing_supported"><code class="name">var <span class="ident">file_listing_supported</span> : bool</code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="pyucalgarysrs.data.schemas.Dataset.file_reading_supported"><code class="name">var <span class="ident">file_reading_supported</span> : bool</code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="pyucalgarysrs.data.schemas.Dataset.level"><code class="name">var <span class="ident">level</span> : str</code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="pyucalgarysrs.data.schemas.Dataset.long_description"><code class="name">var <span class="ident">long_description</span> : str</code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="pyucalgarysrs.data.schemas.Dataset.name"><code class="name">var <span class="ident">name</span> : str</code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="pyucalgarysrs.data.schemas.Dataset.short_description"><code class="name">var <span class="ident">short_description</span> : str</code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+</dl>
+</dd>
+<dt id="pyucalgarysrs.data.schemas.FileDownloadResult"><code class="flex name class">
+<span>class <span class="ident">FileDownloadResult</span></span>
+<span>(</span><span>filenames: List[str], count: int, total_bytes: int, output_root_path: str, dataset: <a title="pyucalgarysrs.data.schemas.Dataset" href="#pyucalgarysrs.data.schemas.Dataset">Dataset</a>)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>A file download result</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">@dataclass
+class FileDownloadResult:
+    &#34;&#34;&#34;
+    A file download result
+    &#34;&#34;&#34;
+
+    filenames: List[str]
+    count: int
+    total_bytes: int
+    output_root_path: str
+    dataset: Dataset</code></pre>
+</details>
+<h3>Class variables</h3>
+<dl>
+<dt id="pyucalgarysrs.data.schemas.FileDownloadResult.count"><code class="name">var <span class="ident">count</span> : int</code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="pyucalgarysrs.data.schemas.FileDownloadResult.dataset"><code class="name">var <span class="ident">dataset</span> : <a title="pyucalgarysrs.data.schemas.Dataset" href="#pyucalgarysrs.data.schemas.Dataset">Dataset</a></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="pyucalgarysrs.data.schemas.FileDownloadResult.filenames"><code class="name">var <span class="ident">filenames</span> : List[str]</code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="pyucalgarysrs.data.schemas.FileDownloadResult.output_root_path"><code class="name">var <span class="ident">output_root_path</span> : str</code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="pyucalgarysrs.data.schemas.FileDownloadResult.total_bytes"><code class="name">var <span class="ident">total_bytes</span> : int</code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+</dl>
+</dd>
+<dt id="pyucalgarysrs.data.schemas.FileListingResponse"><code class="flex name class">
+<span>class <span class="ident">FileListingResponse</span></span>
+<span>(</span><span>urls: List[str], path_prefix: str, count: int, dataset: <a title="pyucalgarysrs.data.schemas.Dataset" href="#pyucalgarysrs.data.schemas.Dataset">Dataset</a>, total_bytes: Optional[int] = None)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>FileListingResponse(urls: List[str], path_prefix: str, count: int, dataset: pyucalgarysrs.data.schemas.Dataset, total_bytes: Optional[int] = None)</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">@dataclass
+class FileListingResponse:
+    urls: List[str]
+    path_prefix: str
+    count: int
+    dataset: Dataset
+    total_bytes: Optional[int] = None</code></pre>
+</details>
+<h3>Class variables</h3>
+<dl>
+<dt id="pyucalgarysrs.data.schemas.FileListingResponse.count"><code class="name">var <span class="ident">count</span> : int</code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="pyucalgarysrs.data.schemas.FileListingResponse.dataset"><code class="name">var <span class="ident">dataset</span> : <a title="pyucalgarysrs.data.schemas.Dataset" href="#pyucalgarysrs.data.schemas.Dataset">Dataset</a></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="pyucalgarysrs.data.schemas.FileListingResponse.path_prefix"><code class="name">var <span class="ident">path_prefix</span> : str</code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="pyucalgarysrs.data.schemas.FileListingResponse.total_bytes"><code class="name">var <span class="ident">total_bytes</span> : Optional[int]</code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="pyucalgarysrs.data.schemas.FileListingResponse.urls"><code class="name">var <span class="ident">urls</span> : List[str]</code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+</dl>
+</dd>
+<dt id="pyucalgarysrs.data.schemas.ProblematicFile"><code class="flex name class">
+<span>class <span class="ident">ProblematicFile</span></span>
+<span>(</span><span>filename: str, error_message: str, error_type: Literal['error', 'warning'])</span>
+</code></dt>
+<dd>
+<div class="desc"><p>ProblematicFile(filename: str, error_message: str, error_type: Literal['error', 'warning'])</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">@dataclass
+class ProblematicFile:
+    filename: str
+    error_message: str
+    error_type: Literal[&#34;error&#34;, &#34;warning&#34;]</code></pre>
+</details>
+<h3>Class variables</h3>
+<dl>
+<dt id="pyucalgarysrs.data.schemas.ProblematicFile.error_message"><code class="name">var <span class="ident">error_message</span> : str</code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="pyucalgarysrs.data.schemas.ProblematicFile.error_type"><code class="name">var <span class="ident">error_type</span> : Literal['error', 'warning']</code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="pyucalgarysrs.data.schemas.ProblematicFile.filename"><code class="name">var <span class="ident">filename</span> : str</code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+</dl>
+</dd>
+<dt id="pyucalgarysrs.data.schemas.Skymap"><code class="flex name class">
+<span>class <span class="ident">Skymap</span></span>
+<span>(</span><span>filename: str, project_uid: str, site_uid: str, imager_uid: str, site_map_latitude: float, site_map_longitude: float, site_map_altitude: float, bin_row: numpy.ndarray, bin_column: numpy.ndarray, bin_elevation: numpy.ndarray, bin_azimuth: numpy.ndarray, bin_map_altitude: float, bin_map_latitude: numpy.ndarray, bin_map_longitude: numpy.ndarray, full_row: numpy.ndarray, full_column: numpy.ndarray, full_ignore: numpy.ndarray, full_subtract: numpy.ndarray, full_multiply: numpy.ndarray, full_elevation: numpy.ndarray, full_azimuth: numpy.ndarray, full_map_altitude: numpy.ndarray, full_map_latitude: numpy.ndarray, full_map_longitude: numpy.ndarray, full_bin: numpy.ndarray, generation_info: <a title="pyucalgarysrs.data.schemas.SkymapGenerationInfo" href="#pyucalgarysrs.data.schemas.SkymapGenerationInfo">SkymapGenerationInfo</a>, version: str, dataset: Optional[<a title="pyucalgarysrs.data.schemas.Dataset" href="#pyucalgarysrs.data.schemas.Dataset">Dataset</a>] = None)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Skymap(filename: str, project_uid: str, site_uid: str, imager_uid: str, site_map_latitude: float, site_map_longitude: float, site_map_altitude: float, bin_row: numpy.ndarray, bin_column: numpy.ndarray, bin_elevation: numpy.ndarray, bin_azimuth: numpy.ndarray, bin_map_altitude: float, bin_map_latitude: numpy.ndarray, bin_map_longitude: numpy.ndarray, full_row: numpy.ndarray, full_column: numpy.ndarray, full_ignore: numpy.ndarray, full_subtract: numpy.ndarray, full_multiply: numpy.ndarray, full_elevation: numpy.ndarray, full_azimuth: numpy.ndarray, full_map_altitude: numpy.ndarray, full_map_latitude: numpy.ndarray, full_map_longitude: numpy.ndarray, full_bin: numpy.ndarray, generation_info: pyucalgarysrs.data.schemas.SkymapGenerationInfo, version: str, dataset: Optional[pyucalgarysrs.data.schemas.Dataset] = None)</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">@dataclass
+class Skymap:
+    filename: str
+    project_uid: str
+    site_uid: str
+    imager_uid: str
+    site_map_latitude: float
+    site_map_longitude: float
+    site_map_altitude: float
+    bin_row: ndarray
+    bin_column: ndarray
+    bin_elevation: ndarray
+    bin_azimuth: ndarray
+    bin_map_altitude: float
+    bin_map_latitude: ndarray
+    bin_map_longitude: ndarray
+    full_row: ndarray
+    full_column: ndarray
+    full_ignore: ndarray
+    full_subtract: ndarray
+    full_multiply: ndarray
+    full_elevation: ndarray
+    full_azimuth: ndarray
+    full_map_altitude: ndarray
+    full_map_latitude: ndarray
+    full_map_longitude: ndarray
+    full_bin: ndarray
+    generation_info: SkymapGenerationInfo
+    version: str
+    dataset: Optional[Dataset] = None
+
+    def __str__(self) -&gt; str:
+        return self.__repr__()
+
+    def __repr__(self) -&gt; str:
+        dataset_str = &#34;unknown&#34; if self.dataset is None else self.dataset.__repr__()[0:75] + &#34;...)&#34;
+        return &#34;Skymap(project_uid=%s, site_uid=%s, imager_uid=%s, site_map_latitude=%f, site_map_longitude=%f, dataset=%s, ...)&#34; % (
+            self.project_uid,
+            self.site_uid,
+            self.imager_uid,
+            self.site_map_latitude,
+            self.site_map_longitude,
+            dataset_str,
+        )</code></pre>
+</details>
+<h3>Class variables</h3>
+<dl>
+<dt id="pyucalgarysrs.data.schemas.Skymap.bin_azimuth"><code class="name">var <span class="ident">bin_azimuth</span> : numpy.ndarray</code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="pyucalgarysrs.data.schemas.Skymap.bin_column"><code class="name">var <span class="ident">bin_column</span> : numpy.ndarray</code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="pyucalgarysrs.data.schemas.Skymap.bin_elevation"><code class="name">var <span class="ident">bin_elevation</span> : numpy.ndarray</code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="pyucalgarysrs.data.schemas.Skymap.bin_map_altitude"><code class="name">var <span class="ident">bin_map_altitude</span> : float</code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="pyucalgarysrs.data.schemas.Skymap.bin_map_latitude"><code class="name">var <span class="ident">bin_map_latitude</span> : numpy.ndarray</code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="pyucalgarysrs.data.schemas.Skymap.bin_map_longitude"><code class="name">var <span class="ident">bin_map_longitude</span> : numpy.ndarray</code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="pyucalgarysrs.data.schemas.Skymap.bin_row"><code class="name">var <span class="ident">bin_row</span> : numpy.ndarray</code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="pyucalgarysrs.data.schemas.Skymap.dataset"><code class="name">var <span class="ident">dataset</span> : Optional[<a title="pyucalgarysrs.data.schemas.Dataset" href="#pyucalgarysrs.data.schemas.Dataset">Dataset</a>]</code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="pyucalgarysrs.data.schemas.Skymap.filename"><code class="name">var <span class="ident">filename</span> : str</code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="pyucalgarysrs.data.schemas.Skymap.full_azimuth"><code class="name">var <span class="ident">full_azimuth</span> : numpy.ndarray</code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="pyucalgarysrs.data.schemas.Skymap.full_bin"><code class="name">var <span class="ident">full_bin</span> : numpy.ndarray</code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="pyucalgarysrs.data.schemas.Skymap.full_column"><code class="name">var <span class="ident">full_column</span> : numpy.ndarray</code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="pyucalgarysrs.data.schemas.Skymap.full_elevation"><code class="name">var <span class="ident">full_elevation</span> : numpy.ndarray</code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="pyucalgarysrs.data.schemas.Skymap.full_ignore"><code class="name">var <span class="ident">full_ignore</span> : numpy.ndarray</code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="pyucalgarysrs.data.schemas.Skymap.full_map_altitude"><code class="name">var <span class="ident">full_map_altitude</span> : numpy.ndarray</code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="pyucalgarysrs.data.schemas.Skymap.full_map_latitude"><code class="name">var <span class="ident">full_map_latitude</span> : numpy.ndarray</code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="pyucalgarysrs.data.schemas.Skymap.full_map_longitude"><code class="name">var <span class="ident">full_map_longitude</span> : numpy.ndarray</code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="pyucalgarysrs.data.schemas.Skymap.full_multiply"><code class="name">var <span class="ident">full_multiply</span> : numpy.ndarray</code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="pyucalgarysrs.data.schemas.Skymap.full_row"><code class="name">var <span class="ident">full_row</span> : numpy.ndarray</code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="pyucalgarysrs.data.schemas.Skymap.full_subtract"><code class="name">var <span class="ident">full_subtract</span> : numpy.ndarray</code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="pyucalgarysrs.data.schemas.Skymap.generation_info"><code class="name">var <span class="ident">generation_info</span> : <a title="pyucalgarysrs.data.schemas.SkymapGenerationInfo" href="#pyucalgarysrs.data.schemas.SkymapGenerationInfo">SkymapGenerationInfo</a></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="pyucalgarysrs.data.schemas.Skymap.imager_uid"><code class="name">var <span class="ident">imager_uid</span> : str</code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="pyucalgarysrs.data.schemas.Skymap.project_uid"><code class="name">var <span class="ident">project_uid</span> : str</code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="pyucalgarysrs.data.schemas.Skymap.site_map_altitude"><code class="name">var <span class="ident">site_map_altitude</span> : float</code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="pyucalgarysrs.data.schemas.Skymap.site_map_latitude"><code class="name">var <span class="ident">site_map_latitude</span> : float</code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="pyucalgarysrs.data.schemas.Skymap.site_map_longitude"><code class="name">var <span class="ident">site_map_longitude</span> : float</code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="pyucalgarysrs.data.schemas.Skymap.site_uid"><code class="name">var <span class="ident">site_uid</span> : str</code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="pyucalgarysrs.data.schemas.Skymap.version"><code class="name">var <span class="ident">version</span> : str</code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+</dl>
+</dd>
+<dt id="pyucalgarysrs.data.schemas.SkymapGenerationInfo"><code class="flex name class">
+<span>class <span class="ident">SkymapGenerationInfo</span></span>
+<span>(</span><span>author: str, ccd_center: float, code_used: str, data_loc: str, date_generated: datetime.datetime, date_time_used: int, img_flip: numpy.ndarray, optical_orientation: numpy.ndarray, optical_projection: numpy.ndarray, pixel_aspect_ratio: float, valid_interval_start: datetime.datetime, valid_interval_stop: Optional[datetime.datetime] = None, bytscl_values: Optional[numpy.ndarray] = None)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>SkymapGenerationInfo(author: str, ccd_center: float, code_used: str, data_loc: str, date_generated: datetime.datetime, date_time_used: int, img_flip: numpy.ndarray, optical_orientation: numpy.ndarray, optical_projection: numpy.ndarray, pixel_aspect_ratio: float, valid_interval_start: datetime.datetime, valid_interval_stop: Optional[datetime.datetime] = None, bytscl_values: Optional[numpy.ndarray] = None)</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">@dataclass
+class SkymapGenerationInfo:
+    author: str
+    ccd_center: float
+    code_used: str
+    data_loc: str
+    date_generated: datetime.datetime
+    date_time_used: int
+    img_flip: ndarray
+    optical_orientation: ndarray
+    optical_projection: ndarray
+    pixel_aspect_ratio: float
+    valid_interval_start: datetime.datetime
+    valid_interval_stop: Optional[datetime.datetime] = None
+    bytscl_values: Optional[ndarray] = None
+
+    def __str__(self) -&gt; str:
+        return self.__repr__()
+
+    def __repr__(self) -&gt; str:
+        return &#34;SkymapGenerationInfo(date_generated=%s, author=%s, ccd_center=%s, ...)&#34; % (
+            str(self.date_generated.__repr__()),
+            self.author,
+            self.ccd_center,
+        )</code></pre>
+</details>
+<h3>Class variables</h3>
+<dl>
+<dt id="pyucalgarysrs.data.schemas.SkymapGenerationInfo.author"><code class="name">var <span class="ident">author</span> : str</code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="pyucalgarysrs.data.schemas.SkymapGenerationInfo.bytscl_values"><code class="name">var <span class="ident">bytscl_values</span> : Optional[numpy.ndarray]</code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="pyucalgarysrs.data.schemas.SkymapGenerationInfo.ccd_center"><code class="name">var <span class="ident">ccd_center</span> : float</code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="pyucalgarysrs.data.schemas.SkymapGenerationInfo.code_used"><code class="name">var <span class="ident">code_used</span> : str</code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="pyucalgarysrs.data.schemas.SkymapGenerationInfo.data_loc"><code class="name">var <span class="ident">data_loc</span> : str</code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="pyucalgarysrs.data.schemas.SkymapGenerationInfo.date_generated"><code class="name">var <span class="ident">date_generated</span> : datetime.datetime</code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="pyucalgarysrs.data.schemas.SkymapGenerationInfo.date_time_used"><code class="name">var <span class="ident">date_time_used</span> : int</code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="pyucalgarysrs.data.schemas.SkymapGenerationInfo.img_flip"><code class="name">var <span class="ident">img_flip</span> : numpy.ndarray</code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="pyucalgarysrs.data.schemas.SkymapGenerationInfo.optical_orientation"><code class="name">var <span class="ident">optical_orientation</span> : numpy.ndarray</code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="pyucalgarysrs.data.schemas.SkymapGenerationInfo.optical_projection"><code class="name">var <span class="ident">optical_projection</span> : numpy.ndarray</code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="pyucalgarysrs.data.schemas.SkymapGenerationInfo.pixel_aspect_ratio"><code class="name">var <span class="ident">pixel_aspect_ratio</span> : float</code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="pyucalgarysrs.data.schemas.SkymapGenerationInfo.valid_interval_start"><code class="name">var <span class="ident">valid_interval_start</span> : datetime.datetime</code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="pyucalgarysrs.data.schemas.SkymapGenerationInfo.valid_interval_stop"><code class="name">var <span class="ident">valid_interval_stop</span> : Optional[datetime.datetime]</code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+</dl>
+</dd>
+</dl>
+</section>
+</article>
+<nav id="sidebar">
+<form>
+<input id="lunr-search" name="q" placeholder="🔎 Search ..." aria-label="Search"
+disabled minlength="2">
+</form>
+<link rel="preload stylesheet" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/tingle/0.15.3/tingle.min.css" integrity="sha512-j1u8eUJ4f23xPPxwOrLUPQaCD2dwzNqqmDDcWS4deWsMv2ohLqmXXuP3hU7g8TyzbMSakP/mMqoNBYWj8AEIFg==" crossorigin>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/tingle/0.15.3/tingle.min.js" integrity="sha512-plGUER9JkeEWPPqQBE4sdLqBoQug5Ap+BCGMc7bJ8BXkm+VVj6QzkpBz5Yv2yPkkq+cqg9IpkBaGCas6uDbW8g==" crossorigin></script>
+<style>
+.modal-dialog iframe {
+width: 100vw;
+height: calc(100vh - 80px);
+}
+@media screen and (min-width: 700px) {
+.modal-dialog iframe {
+width: 70vw;
+height: 80vh;
+}
+}
+.modal-dialog .tingle-modal-box {width: auto;}
+.modal-dialog .tingle-modal-box__content {padding: 0;}
+</style>
+<script>
+const input = document.getElementById('lunr-search');
+input.disabled = false;
+input.form.addEventListener('submit', (ev) => {
+ev.preventDefault();
+const url = new URL(window.location);
+url.searchParams.set('q', input.value);
+history.replaceState({}, null, url.toString());
+search(input.value);
+});
+const query = new URL(window.location).searchParams.get('q');
+if (query)
+search(query);
+function search(query) {
+const url = '../../doc-search.html#' + encodeURIComponent(query);
+new tingle.modal({
+cssClass: ['modal-dialog'],
+onClose: () => {
+const url = new URL(window.location);
+url.searchParams.delete('q');
+history.replaceState({}, null, url.toString());
+setTimeout(() => input.focus(), 100);
+}
+}).setContent('<iframe src="' + url + '"></iframe>').open();
+}
+</script>
+<h1>Index</h1>
+<div class="toc">
+<ul></ul>
+</div>
+<ul id="index">
+<li><h3>Super-module</h3>
+<ul>
+<li><code><a title="pyucalgarysrs.data" href="index.html">pyucalgarysrs.data</a></code></li>
+</ul>
+</li>
+<li><h3><a href="#header-classes">Classes</a></h3>
+<ul>
+<li>
+<h4><code><a title="pyucalgarysrs.data.schemas.Calibration" href="#pyucalgarysrs.data.schemas.Calibration">Calibration</a></code></h4>
+<ul class="">
+<li><code><a title="pyucalgarysrs.data.schemas.Calibration.dataset" href="#pyucalgarysrs.data.schemas.Calibration.dataset">dataset</a></code></li>
+<li><code><a title="pyucalgarysrs.data.schemas.Calibration.detector_uid" href="#pyucalgarysrs.data.schemas.Calibration.detector_uid">detector_uid</a></code></li>
+<li><code><a title="pyucalgarysrs.data.schemas.Calibration.filename" href="#pyucalgarysrs.data.schemas.Calibration.filename">filename</a></code></li>
+<li><code><a title="pyucalgarysrs.data.schemas.Calibration.flat_field_multiplier" href="#pyucalgarysrs.data.schemas.Calibration.flat_field_multiplier">flat_field_multiplier</a></code></li>
+<li><code><a title="pyucalgarysrs.data.schemas.Calibration.generation_info" href="#pyucalgarysrs.data.schemas.Calibration.generation_info">generation_info</a></code></li>
+<li><code><a title="pyucalgarysrs.data.schemas.Calibration.rayleighs_perdn_persecond" href="#pyucalgarysrs.data.schemas.Calibration.rayleighs_perdn_persecond">rayleighs_perdn_persecond</a></code></li>
+<li><code><a title="pyucalgarysrs.data.schemas.Calibration.version" href="#pyucalgarysrs.data.schemas.Calibration.version">version</a></code></li>
+</ul>
+</li>
+<li>
+<h4><code><a title="pyucalgarysrs.data.schemas.CalibrationGenerationInfo" href="#pyucalgarysrs.data.schemas.CalibrationGenerationInfo">CalibrationGenerationInfo</a></code></h4>
+<ul class="">
+<li><code><a title="pyucalgarysrs.data.schemas.CalibrationGenerationInfo.author" href="#pyucalgarysrs.data.schemas.CalibrationGenerationInfo.author">author</a></code></li>
+<li><code><a title="pyucalgarysrs.data.schemas.CalibrationGenerationInfo.input_data_dir" href="#pyucalgarysrs.data.schemas.CalibrationGenerationInfo.input_data_dir">input_data_dir</a></code></li>
+<li><code><a title="pyucalgarysrs.data.schemas.CalibrationGenerationInfo.skymap_filename" href="#pyucalgarysrs.data.schemas.CalibrationGenerationInfo.skymap_filename">skymap_filename</a></code></li>
+<li><code><a title="pyucalgarysrs.data.schemas.CalibrationGenerationInfo.valid_interval_start" href="#pyucalgarysrs.data.schemas.CalibrationGenerationInfo.valid_interval_start">valid_interval_start</a></code></li>
+<li><code><a title="pyucalgarysrs.data.schemas.CalibrationGenerationInfo.valid_interval_stop" href="#pyucalgarysrs.data.schemas.CalibrationGenerationInfo.valid_interval_stop">valid_interval_stop</a></code></li>
+</ul>
+</li>
+<li>
+<h4><code><a title="pyucalgarysrs.data.schemas.Data" href="#pyucalgarysrs.data.schemas.Data">Data</a></code></h4>
+<ul class="">
+<li><code><a title="pyucalgarysrs.data.schemas.Data.data" href="#pyucalgarysrs.data.schemas.Data.data">data</a></code></li>
+<li><code><a title="pyucalgarysrs.data.schemas.Data.dataset" href="#pyucalgarysrs.data.schemas.Data.dataset">dataset</a></code></li>
+<li><code><a title="pyucalgarysrs.data.schemas.Data.metadata" href="#pyucalgarysrs.data.schemas.Data.metadata">metadata</a></code></li>
+<li><code><a title="pyucalgarysrs.data.schemas.Data.problematic_files" href="#pyucalgarysrs.data.schemas.Data.problematic_files">problematic_files</a></code></li>
+<li><code><a title="pyucalgarysrs.data.schemas.Data.timestamp" href="#pyucalgarysrs.data.schemas.Data.timestamp">timestamp</a></code></li>
+</ul>
+</li>
+<li>
+<h4><code><a title="pyucalgarysrs.data.schemas.Dataset" href="#pyucalgarysrs.data.schemas.Dataset">Dataset</a></code></h4>
+<ul class="">
+<li><code><a title="pyucalgarysrs.data.schemas.Dataset.citation" href="#pyucalgarysrs.data.schemas.Dataset.citation">citation</a></code></li>
+<li><code><a title="pyucalgarysrs.data.schemas.Dataset.data_tree_url" href="#pyucalgarysrs.data.schemas.Dataset.data_tree_url">data_tree_url</a></code></li>
+<li><code><a title="pyucalgarysrs.data.schemas.Dataset.doi" href="#pyucalgarysrs.data.schemas.Dataset.doi">doi</a></code></li>
+<li><code><a title="pyucalgarysrs.data.schemas.Dataset.doi_details" href="#pyucalgarysrs.data.schemas.Dataset.doi_details">doi_details</a></code></li>
+<li><code><a title="pyucalgarysrs.data.schemas.Dataset.file_listing_supported" href="#pyucalgarysrs.data.schemas.Dataset.file_listing_supported">file_listing_supported</a></code></li>
+<li><code><a title="pyucalgarysrs.data.schemas.Dataset.file_reading_supported" href="#pyucalgarysrs.data.schemas.Dataset.file_reading_supported">file_reading_supported</a></code></li>
+<li><code><a title="pyucalgarysrs.data.schemas.Dataset.level" href="#pyucalgarysrs.data.schemas.Dataset.level">level</a></code></li>
+<li><code><a title="pyucalgarysrs.data.schemas.Dataset.long_description" href="#pyucalgarysrs.data.schemas.Dataset.long_description">long_description</a></code></li>
+<li><code><a title="pyucalgarysrs.data.schemas.Dataset.name" href="#pyucalgarysrs.data.schemas.Dataset.name">name</a></code></li>
+<li><code><a title="pyucalgarysrs.data.schemas.Dataset.short_description" href="#pyucalgarysrs.data.schemas.Dataset.short_description">short_description</a></code></li>
+</ul>
+</li>
+<li>
+<h4><code><a title="pyucalgarysrs.data.schemas.FileDownloadResult" href="#pyucalgarysrs.data.schemas.FileDownloadResult">FileDownloadResult</a></code></h4>
+<ul class="">
+<li><code><a title="pyucalgarysrs.data.schemas.FileDownloadResult.count" href="#pyucalgarysrs.data.schemas.FileDownloadResult.count">count</a></code></li>
+<li><code><a title="pyucalgarysrs.data.schemas.FileDownloadResult.dataset" href="#pyucalgarysrs.data.schemas.FileDownloadResult.dataset">dataset</a></code></li>
+<li><code><a title="pyucalgarysrs.data.schemas.FileDownloadResult.filenames" href="#pyucalgarysrs.data.schemas.FileDownloadResult.filenames">filenames</a></code></li>
+<li><code><a title="pyucalgarysrs.data.schemas.FileDownloadResult.output_root_path" href="#pyucalgarysrs.data.schemas.FileDownloadResult.output_root_path">output_root_path</a></code></li>
+<li><code><a title="pyucalgarysrs.data.schemas.FileDownloadResult.total_bytes" href="#pyucalgarysrs.data.schemas.FileDownloadResult.total_bytes">total_bytes</a></code></li>
+</ul>
+</li>
+<li>
+<h4><code><a title="pyucalgarysrs.data.schemas.FileListingResponse" href="#pyucalgarysrs.data.schemas.FileListingResponse">FileListingResponse</a></code></h4>
+<ul class="">
+<li><code><a title="pyucalgarysrs.data.schemas.FileListingResponse.count" href="#pyucalgarysrs.data.schemas.FileListingResponse.count">count</a></code></li>
+<li><code><a title="pyucalgarysrs.data.schemas.FileListingResponse.dataset" href="#pyucalgarysrs.data.schemas.FileListingResponse.dataset">dataset</a></code></li>
+<li><code><a title="pyucalgarysrs.data.schemas.FileListingResponse.path_prefix" href="#pyucalgarysrs.data.schemas.FileListingResponse.path_prefix">path_prefix</a></code></li>
+<li><code><a title="pyucalgarysrs.data.schemas.FileListingResponse.total_bytes" href="#pyucalgarysrs.data.schemas.FileListingResponse.total_bytes">total_bytes</a></code></li>
+<li><code><a title="pyucalgarysrs.data.schemas.FileListingResponse.urls" href="#pyucalgarysrs.data.schemas.FileListingResponse.urls">urls</a></code></li>
+</ul>
+</li>
+<li>
+<h4><code><a title="pyucalgarysrs.data.schemas.ProblematicFile" href="#pyucalgarysrs.data.schemas.ProblematicFile">ProblematicFile</a></code></h4>
+<ul class="">
+<li><code><a title="pyucalgarysrs.data.schemas.ProblematicFile.error_message" href="#pyucalgarysrs.data.schemas.ProblematicFile.error_message">error_message</a></code></li>
+<li><code><a title="pyucalgarysrs.data.schemas.ProblematicFile.error_type" href="#pyucalgarysrs.data.schemas.ProblematicFile.error_type">error_type</a></code></li>
+<li><code><a title="pyucalgarysrs.data.schemas.ProblematicFile.filename" href="#pyucalgarysrs.data.schemas.ProblematicFile.filename">filename</a></code></li>
+</ul>
+</li>
+<li>
+<h4><code><a title="pyucalgarysrs.data.schemas.Skymap" href="#pyucalgarysrs.data.schemas.Skymap">Skymap</a></code></h4>
+<ul class="two-column">
+<li><code><a title="pyucalgarysrs.data.schemas.Skymap.bin_azimuth" href="#pyucalgarysrs.data.schemas.Skymap.bin_azimuth">bin_azimuth</a></code></li>
+<li><code><a title="pyucalgarysrs.data.schemas.Skymap.bin_column" href="#pyucalgarysrs.data.schemas.Skymap.bin_column">bin_column</a></code></li>
+<li><code><a title="pyucalgarysrs.data.schemas.Skymap.bin_elevation" href="#pyucalgarysrs.data.schemas.Skymap.bin_elevation">bin_elevation</a></code></li>
+<li><code><a title="pyucalgarysrs.data.schemas.Skymap.bin_map_altitude" href="#pyucalgarysrs.data.schemas.Skymap.bin_map_altitude">bin_map_altitude</a></code></li>
+<li><code><a title="pyucalgarysrs.data.schemas.Skymap.bin_map_latitude" href="#pyucalgarysrs.data.schemas.Skymap.bin_map_latitude">bin_map_latitude</a></code></li>
+<li><code><a title="pyucalgarysrs.data.schemas.Skymap.bin_map_longitude" href="#pyucalgarysrs.data.schemas.Skymap.bin_map_longitude">bin_map_longitude</a></code></li>
+<li><code><a title="pyucalgarysrs.data.schemas.Skymap.bin_row" href="#pyucalgarysrs.data.schemas.Skymap.bin_row">bin_row</a></code></li>
+<li><code><a title="pyucalgarysrs.data.schemas.Skymap.dataset" href="#pyucalgarysrs.data.schemas.Skymap.dataset">dataset</a></code></li>
+<li><code><a title="pyucalgarysrs.data.schemas.Skymap.filename" href="#pyucalgarysrs.data.schemas.Skymap.filename">filename</a></code></li>
+<li><code><a title="pyucalgarysrs.data.schemas.Skymap.full_azimuth" href="#pyucalgarysrs.data.schemas.Skymap.full_azimuth">full_azimuth</a></code></li>
+<li><code><a title="pyucalgarysrs.data.schemas.Skymap.full_bin" href="#pyucalgarysrs.data.schemas.Skymap.full_bin">full_bin</a></code></li>
+<li><code><a title="pyucalgarysrs.data.schemas.Skymap.full_column" href="#pyucalgarysrs.data.schemas.Skymap.full_column">full_column</a></code></li>
+<li><code><a title="pyucalgarysrs.data.schemas.Skymap.full_elevation" href="#pyucalgarysrs.data.schemas.Skymap.full_elevation">full_elevation</a></code></li>
+<li><code><a title="pyucalgarysrs.data.schemas.Skymap.full_ignore" href="#pyucalgarysrs.data.schemas.Skymap.full_ignore">full_ignore</a></code></li>
+<li><code><a title="pyucalgarysrs.data.schemas.Skymap.full_map_altitude" href="#pyucalgarysrs.data.schemas.Skymap.full_map_altitude">full_map_altitude</a></code></li>
+<li><code><a title="pyucalgarysrs.data.schemas.Skymap.full_map_latitude" href="#pyucalgarysrs.data.schemas.Skymap.full_map_latitude">full_map_latitude</a></code></li>
+<li><code><a title="pyucalgarysrs.data.schemas.Skymap.full_map_longitude" href="#pyucalgarysrs.data.schemas.Skymap.full_map_longitude">full_map_longitude</a></code></li>
+<li><code><a title="pyucalgarysrs.data.schemas.Skymap.full_multiply" href="#pyucalgarysrs.data.schemas.Skymap.full_multiply">full_multiply</a></code></li>
+<li><code><a title="pyucalgarysrs.data.schemas.Skymap.full_row" href="#pyucalgarysrs.data.schemas.Skymap.full_row">full_row</a></code></li>
+<li><code><a title="pyucalgarysrs.data.schemas.Skymap.full_subtract" href="#pyucalgarysrs.data.schemas.Skymap.full_subtract">full_subtract</a></code></li>
+<li><code><a title="pyucalgarysrs.data.schemas.Skymap.generation_info" href="#pyucalgarysrs.data.schemas.Skymap.generation_info">generation_info</a></code></li>
+<li><code><a title="pyucalgarysrs.data.schemas.Skymap.imager_uid" href="#pyucalgarysrs.data.schemas.Skymap.imager_uid">imager_uid</a></code></li>
+<li><code><a title="pyucalgarysrs.data.schemas.Skymap.project_uid" href="#pyucalgarysrs.data.schemas.Skymap.project_uid">project_uid</a></code></li>
+<li><code><a title="pyucalgarysrs.data.schemas.Skymap.site_map_altitude" href="#pyucalgarysrs.data.schemas.Skymap.site_map_altitude">site_map_altitude</a></code></li>
+<li><code><a title="pyucalgarysrs.data.schemas.Skymap.site_map_latitude" href="#pyucalgarysrs.data.schemas.Skymap.site_map_latitude">site_map_latitude</a></code></li>
+<li><code><a title="pyucalgarysrs.data.schemas.Skymap.site_map_longitude" href="#pyucalgarysrs.data.schemas.Skymap.site_map_longitude">site_map_longitude</a></code></li>
+<li><code><a title="pyucalgarysrs.data.schemas.Skymap.site_uid" href="#pyucalgarysrs.data.schemas.Skymap.site_uid">site_uid</a></code></li>
+<li><code><a title="pyucalgarysrs.data.schemas.Skymap.version" href="#pyucalgarysrs.data.schemas.Skymap.version">version</a></code></li>
+</ul>
+</li>
+<li>
+<h4><code><a title="pyucalgarysrs.data.schemas.SkymapGenerationInfo" href="#pyucalgarysrs.data.schemas.SkymapGenerationInfo">SkymapGenerationInfo</a></code></h4>
+<ul class="">
+<li><code><a title="pyucalgarysrs.data.schemas.SkymapGenerationInfo.author" href="#pyucalgarysrs.data.schemas.SkymapGenerationInfo.author">author</a></code></li>
+<li><code><a title="pyucalgarysrs.data.schemas.SkymapGenerationInfo.bytscl_values" href="#pyucalgarysrs.data.schemas.SkymapGenerationInfo.bytscl_values">bytscl_values</a></code></li>
+<li><code><a title="pyucalgarysrs.data.schemas.SkymapGenerationInfo.ccd_center" href="#pyucalgarysrs.data.schemas.SkymapGenerationInfo.ccd_center">ccd_center</a></code></li>
+<li><code><a title="pyucalgarysrs.data.schemas.SkymapGenerationInfo.code_used" href="#pyucalgarysrs.data.schemas.SkymapGenerationInfo.code_used">code_used</a></code></li>
+<li><code><a title="pyucalgarysrs.data.schemas.SkymapGenerationInfo.data_loc" href="#pyucalgarysrs.data.schemas.SkymapGenerationInfo.data_loc">data_loc</a></code></li>
+<li><code><a title="pyucalgarysrs.data.schemas.SkymapGenerationInfo.date_generated" href="#pyucalgarysrs.data.schemas.SkymapGenerationInfo.date_generated">date_generated</a></code></li>
+<li><code><a title="pyucalgarysrs.data.schemas.SkymapGenerationInfo.date_time_used" href="#pyucalgarysrs.data.schemas.SkymapGenerationInfo.date_time_used">date_time_used</a></code></li>
+<li><code><a title="pyucalgarysrs.data.schemas.SkymapGenerationInfo.img_flip" href="#pyucalgarysrs.data.schemas.SkymapGenerationInfo.img_flip">img_flip</a></code></li>
+<li><code><a title="pyucalgarysrs.data.schemas.SkymapGenerationInfo.optical_orientation" href="#pyucalgarysrs.data.schemas.SkymapGenerationInfo.optical_orientation">optical_orientation</a></code></li>
+<li><code><a title="pyucalgarysrs.data.schemas.SkymapGenerationInfo.optical_projection" href="#pyucalgarysrs.data.schemas.SkymapGenerationInfo.optical_projection">optical_projection</a></code></li>
+<li><code><a title="pyucalgarysrs.data.schemas.SkymapGenerationInfo.pixel_aspect_ratio" href="#pyucalgarysrs.data.schemas.SkymapGenerationInfo.pixel_aspect_ratio">pixel_aspect_ratio</a></code></li>
+<li><code><a title="pyucalgarysrs.data.schemas.SkymapGenerationInfo.valid_interval_start" href="#pyucalgarysrs.data.schemas.SkymapGenerationInfo.valid_interval_start">valid_interval_start</a></code></li>
+<li><code><a title="pyucalgarysrs.data.schemas.SkymapGenerationInfo.valid_interval_stop" href="#pyucalgarysrs.data.schemas.SkymapGenerationInfo.valid_interval_stop">valid_interval_stop</a></code></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</nav>
+</main>
+<footer id="footer">
+<p>Generated by <a href="https://pdoc3.github.io/pdoc" title="pdoc: Python API documentation generator"><cite>pdoc</cite> 0.10.0</a>.</p>
+</footer>
+</body>
+</html>

@@ -5,7 +5,8 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1" />
 <meta name="generator" content="pdoc 0.10.0" />
 <title>pyucalgarysrs.data API documentation</title>
-<meta name="description" content="" />
+<meta name="description" content="Provides capabilities for downloading and reading data from the UCalgary Space Remote
+Sensing Open Data Platform." />
 <link rel="preload stylesheet" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/11.0.1/sanitize.min.css" integrity="sha256-PK9q560IAAa6WVRRh76LtCaI8pjTJ2z11v0miyNNjrs=" crossorigin>
 <link rel="preload stylesheet" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/11.0.1/typography.min.css" integrity="sha256-7l/o7C8jubJiy74VsKTidCy1yBkRtiUGbVkYBylBqUg=" crossorigin>
 <link rel="stylesheet preload" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.1.1/styles/github.min.css" crossorigin>
@@ -22,19 +23,31 @@
 <h1 class="title">Module <code>pyucalgarysrs.data</code></h1>
 </header>
 <section id="section-intro">
+<p>Provides capabilities for downloading and reading data from the UCalgary Space Remote
+Sensing Open Data Platform.</p>
 <details class="source">
 <summary>
 <span>Expand source code</span>
 </summary>
-<pre><code class="python">import datetime
+<pre><code class="python">&#34;&#34;&#34;
+Provides capabilities for downloading and reading data from the UCalgary Space Remote 
+Sensing Open Data Platform.
+&#34;&#34;&#34;
+
+import datetime
 from typing import List, Optional, Union
 from . import _list as module_list
 from . import _download as module_download
-from ._read import ReadManager
-from ._schemas import *
+from .read import ReadManager
+from .classes import *
 
 
 class DataManager:
+    &#34;&#34;&#34;
+    The DataManager object is initialized within every PyUCalgarySRS object. It acts 
+    as a way to access the submodules and carry over configuration information in the 
+    super class.
+    &#34;&#34;&#34;
 
     # defaults
     __DEFAULT_DOWNLOAD_N_PARALLEL = 5
@@ -43,25 +56,68 @@ class DataManager:
         self.__srs_obj = srs_obj
         self.__list = module_list
         self.__download = module_download
-        self.readers = ReadManager()
+        self.__readers = ReadManager()
+
+    @property
+    def readers(self):
+        &#34;&#34;&#34;
+        Access to the `read` submodule from within a PyUCalgarySRS object.
+        &#34;&#34;&#34;
+        return self.__readers
 
     def list_datasets(self, name: Optional[str] = None, timeout: Optional[int] = None) -&gt; List[Dataset]:
         &#34;&#34;&#34;
         List available datasets
+
+        Args:
+            name (str): 
+                Supply a name used for filtering. If that name is found in the available dataset 
+                names received from the API, it will be included in the results. This parameter is
+                optional.
+            
+            timeout (int): 
+                Represents how many seconds to wait for the API to send data before giving up. The 
+                default is 10 seconds, or the `api_timeout` value in the super class&#39; `pyucalgarysrs.PyUCalgarySRS`
+                object. This parameter is optional.
+            
+        Returns:
+            A list of [`Dataset`](classes.html#pyucalgarysrs.data.classes.Dataset)
+            objects.
+        
+        Raises:
+            pyucalgary.exceptions.SRSAPIError: An API error was encountered.
         &#34;&#34;&#34;
         return self.__list.list_datasets(self.__srs_obj, name, timeout)
 
     def list_supported_read_datasets(self) -&gt; List[str]:
         &#34;&#34;&#34;
         List the datasets which have file reading capabilities supported.
+
+        Returns:
+            A list of the dataset names with file reading support.
         &#34;&#34;&#34;
         return self.readers.list_supported_datasets()
 
-    def check_if_read_supported(self, dataset_name: str) -&gt; bool:
+    def is_read_supported(self, dataset_name: str) -&gt; bool:
         &#34;&#34;&#34;
-        Check if a given dataset has file reading support
+        Check if a given dataset has file reading support. 
+        
+        Not all datasets available in the Open Data Platform have special readfile 
+        routines in this library. This is because some datasets are in basic formats
+        such as JPG or PNG, so unique functions aren&#39;t necessary. We leave it up to
+        the user to open these basic files in whichever way they prefer. Use the 
+        `list_supported_read_datasets()` function to see all datasets that have special
+        file reading functionality in this library.
+
+        Args:
+            dataset_name (str): 
+                The dataset name to check if file reading is supported. This parameter 
+                is required.
+        
+        Returns:
+            Boolean indicating if file reading is supported.
         &#34;&#34;&#34;
-        return self.readers.check_if_supported(dataset_name)
+        return self.readers.is_supported(dataset_name)
 
     def download(self,
                  dataset_name: str,
@@ -76,7 +132,89 @@ class DataManager:
                  progress_bar_desc: Optional[str] = None,
                  timeout: Optional[int] = None) -&gt; FileDownloadResult:
         &#34;&#34;&#34;
-        Download data from UCalgary open data archive
+        Download data from UCalgary Space Remote Sensing Open Data Platform.
+
+        The parameters `dataset_name`, `start`, and `end` are required. All other parameters
+        are optional.
+
+        Args:
+            dataset_name (str): 
+                Name of the dataset to download data for. Use the `list_datasets()` function
+                to get the possible values for this parameter. One example is &#34;THEMIS_ASI_RAW&#34;. 
+                Note that dataset names are case sensitive. This parameter is required.
+
+            start (datetime.datetime): 
+                Start timestamp to use (inclusive), expected to be in UTC. Any timezone data 
+                will be ignored. This parameter is required.
+
+            end (datetime.datetime): 
+                End timestamp to use (inclusive), expected to be in UTC. Any timezone data 
+                will be ignored. This parameter is required.
+
+            site_uid (str): 
+                The site UID to filter for. If specified, data will be downloaded for only the 
+                site matching the given value. If excluded, data for all available sites will 
+                be downloaded. An example value could be &#39;atha&#39;, meaning all data from the 
+                Athabasca observatory will be downloaded for the given dataset name, start, and 
+                end times. This parameter is optional.
+
+            n_parallel (int): 
+                Number of data files to download in parallel. Default value is 5. Adjust as needed 
+                for your internet connection. This parameter is optional.
+
+            overwrite (bool): 
+                By default, data will not be re-downloaded if it already exists locally. Use 
+                the `overwrite` parameter to force re-downloading. Default is `False`. This 
+                parameter is optional.
+
+            progress_bar_disable (bool): 
+                Disable the progress bar. Default is `False`. This parameter is optional.
+
+            progress_bar_ncols (int): 
+                Number of columns for the progress bar (straight passthrough of the `ncols` 
+                parameter in a tqdm progress bar). This parameter is optional. See Notes section
+                below for further information.
+            
+            progress_bar_ascii (str): 
+                ASCII value to use when constructing the visual aspect of the progress bar (straight 
+                passthrough of the `ascii` parameter in a tqdm progress bar). This parameter is 
+                optional. See Notes section below for further details.
+
+            timeout (int): 
+                Represents how many seconds to wait for the API to send data before giving up. The 
+                default is 10 seconds, or the `api_timeout` value in the super class&#39; `pyucalgarysrs.PyUCalgarySRS`
+                object. This parameter is optional.
+
+        Returns:
+             A `pyucalgarysrs.data.classes.FileDownloadResult` object containing details about what
+             data files were downloaded.
+
+        Raises:
+            pyucalgarysrs.exceptions.SRSDownloadError: an error was encountered while downloading a 
+                specific file
+            pyucalgarysrs.exceptions.SRSAPIError: an API error was encountered
+
+        Notes:
+        --------
+        The `progress_bar_*` parameters can be used to enable/disable/adjust the progress bar. 
+        Excluding the `progress_bar_disable` parameter, all others are straight pass-throughs 
+        to the tqdm progress bar function. The `progress_bar_ncols` parameter allows for 
+        adjusting the width. The `progress_bar_ascii` parameter allows for adjusting the appearance 
+        of the progress bar. And the `progress_bar_desc` parameter allows for adjusting the 
+        description at the beginning of the progress bar. Further details can be found on the
+        [tqdm documentation](https://tqdm.github.io/docs/tqdm/#tqdm-objects).
+
+        Data downloading will use the `download_data_root_path` variable within the super class&#39;
+        object ([`PyUCalgarySRS`](../pyucalgarysrs.html)) to determine where to save data to. If 
+        you&#39;d like to change this path to somewhere else you can change that variable before your
+        download() call, like so:
+
+        ```python
+        import pyucalgarysrs
+        srs = pyucalgarysrs.PyUCalgarySRS()
+        srs.data_download_root_path = &#34;some_new_path&#34;
+        srs.data.download(dataset_name, start, end)
+        ```
         &#34;&#34;&#34;
         return self.__download._download_generic(
             self.__srs_obj,
@@ -84,6 +222,101 @@ class DataManager:
             start,
             end,
             site_uid,
+            n_parallel,
+            overwrite,
+            progress_bar_disable,
+            progress_bar_ncols,
+            progress_bar_ascii,
+            progress_bar_desc,
+            timeout,
+        )
+
+    def download_using_urls(self,
+                            file_listing_response: FileListingResponse,
+                            n_parallel: int = __DEFAULT_DOWNLOAD_N_PARALLEL,
+                            overwrite: bool = False,
+                            progress_bar_disable: bool = False,
+                            progress_bar_ncols: Optional[int] = None,
+                            progress_bar_ascii: Optional[str] = None,
+                            progress_bar_desc: Optional[str] = None,
+                            timeout: Optional[int] = None) -&gt; FileDownloadResult:
+        &#34;&#34;&#34;
+        Download data from UCalgary open data archive using a FileListingResponse 
+        object. This would be used in cases where more customization is needed than
+        the generic `download()` function. 
+        
+        One example of using this function would start by using `get_urls()` to retrieve the
+        list of URLs available for download, then further process this list to fewer files
+        based on some other requirement (ie. time down-sampling such as one file per hour). 
+        Lastly using this function to download the new custom set URLs.
+
+        Args:
+            file_listing_response (FileListingResponse): 
+                A `pyucalgarysrs.data.classes.FileListingResponse` object returned from a 
+                `get_urls()` call, which contains a list of URLs to download for a specific 
+                dataset. This parameter is required.
+
+            n_parallel (int): 
+                Number of data files to download in parallel. Default value is 5. Adjust as needed 
+                for your internet connection. This parameter is optional.
+
+            overwrite (bool): 
+                By default, data will not be re-downloaded if it already exists locally. Use 
+                the `overwrite` parameter to force re-downloading. Default is `False`. This 
+                parameter is optional.
+
+            progress_bar_disable (bool): 
+                Disable the progress bar. Default is `False`. This parameter is optional.
+
+            progress_bar_ncols (int): 
+                Number of columns for the progress bar (straight passthrough of the `ncols` 
+                parameter in a tqdm progress bar). This parameter is optional. See Notes section
+                below for further information.
+            
+            progress_bar_ascii (str): 
+                ASCII value to use when constructing the visual aspect of the progress bar (straight 
+                passthrough of the `ascii` parameter in a tqdm progress bar). This parameter is 
+                optional. See Notes section below for further details.
+
+            timeout (int): 
+                Represents how many seconds to wait for the API to send data before giving up. The 
+                default is 10 seconds, or the `api_timeout` value in the super class&#39; `pyucalgarysrs.PyUCalgarySRS`
+                object. This parameter is optional.
+
+        Returns:
+             A `pyucalgarysrs.data.classes.FileDownloadResult` object containing details about what
+             data files were downloaded.
+
+        Raises:
+            pyucalgarysrs.exceptions.SRSDownloadError: an error was encountered while downloading a 
+                specific file
+            pyucalgarysrs.exceptions.SRSAPIError: an API error was encountered
+
+        Notes:
+        --------
+        The `progress_bar_*` parameters can be used to enable/disable/adjust the progress bar. 
+        Excluding the `progress_bar_disable` parameter, all others are straight pass-throughs 
+        to the tqdm progress bar function. The `progress_bar_ncols` parameter allows for 
+        adjusting the width. The `progress_bar_ascii` parameter allows for adjusting the appearance 
+        of the progress bar. And the `progress_bar_desc` parameter allows for adjusting the 
+        description at the beginning of the progress bar. Further details can be found on the
+        [tqdm documentation](https://tqdm.github.io/docs/tqdm/#tqdm-objects).
+
+        Data downloading will use the `download_data_root_path` variable within the super class&#39;
+        object ([`PyUCalgarySRS`](../pyucalgarysrs.html)) to determine where to save data to. If 
+        you&#39;d like to change this path to somewhere else you can change that variable before your
+        download() call, like so:
+
+        ```python
+        import pyucalgarysrs
+        srs = pyucalgarysrs.PyUCalgarySRS()
+        srs.data_download_root_path = &#34;some_new_path&#34;
+        srs.data.download(dataset_name, start, end)
+        ``` 
+        &#34;&#34;&#34;
+        return self.__download._download_using_urls(
+            self.__srs_obj,
+            file_listing_response,
             n_parallel,
             overwrite,
             progress_bar_disable,
@@ -101,6 +334,39 @@ class DataManager:
                  timeout: Optional[int] = None) -&gt; FileListingResponse:
         &#34;&#34;&#34;
         Get URLs of data files
+
+        Args:
+            dataset_name (str): 
+                Name of the dataset to download data for. Use the `list_datasets()` function
+                to get the possible values for this parameter. One example is &#34;THEMIS_ASI_RAW&#34;. 
+                Note that dataset names are case sensitive. This parameter is required.
+
+            start (datetime.datetime): 
+                Start timestamp to use (inclusive), expected to be in UTC. Any timezone data 
+                will be ignored. This parameter is required.
+
+            end (datetime.datetime): 
+                End timestamp to use (inclusive), expected to be in UTC. Any timezone data 
+                will be ignored. This parameter is required.
+
+            site_uid (str): 
+                The site UID to filter for. If specified, data will be downloaded for only the 
+                site matching the given value. If excluded, data for all available sites will 
+                be downloaded. An example value could be &#39;atha&#39;, meaning all data from the 
+                Athabasca observatory will be downloaded for the given dataset name, start, and 
+                end times. This parameter is optional.
+
+            timeout (int): 
+                Represents how many seconds to wait for the API to send data before giving up. The 
+                default is 10 seconds, or the `api_timeout` value in the super class&#39; `pyucalgarysrs.PyUCalgarySRS`
+                object. This parameter is optional.
+    
+        Returns:
+            A `pyucalgarysrs.data.classes.FileListingResponse` object containing a list of the available URLS,
+            among other values.
+
+        Raises:
+            pyucalgarysrs.exceptions.SRSAPIError: an API error was encountered
         &#34;&#34;&#34;
         return self.__download._get_urls(
             self.__srs_obj,
@@ -108,35 +374,6 @@ class DataManager:
             start,
             end,
             site_uid,
-            timeout,
-        )
-
-    def download_using_urls(self,
-                            file_listing_response: FileListingResponse,
-                            n_parallel: int = __DEFAULT_DOWNLOAD_N_PARALLEL,
-                            overwrite: bool = False,
-                            progress_bar_disable: bool = False,
-                            progress_bar_ncols: Optional[int] = None,
-                            progress_bar_ascii: Optional[str] = None,
-                            progress_bar_desc: Optional[str] = None,
-                            timeout: Optional[int] = None) -&gt; FileDownloadResult:
-        &#34;&#34;&#34;
-        Download data from UCalgary open data archive using a FileListingResponse 
-        object. This would be used in cases where more customization is needed than
-        the generic `download` function. For example, use `get_urls` to retrieve the
-        list of URLs available for download, further process this list to fewer files
-        based on some other requirement (ie. time downsampling such as one file per hour),
-        and then use this function to download the custom set URLs.
-        &#34;&#34;&#34;
-        return self.__download._download_using_urls(
-            self.__srs_obj,
-            file_listing_response,
-            n_parallel,
-            overwrite,
-            progress_bar_disable,
-            progress_bar_ncols,
-            progress_bar_ascii,
-            progress_bar_desc,
             timeout,
         )
 
@@ -148,7 +385,55 @@ class DataManager:
              no_metadata: bool = False,
              quiet: bool = False) -&gt; Union[Data, List[Skymap], List[Calibration]]:
         &#34;&#34;&#34;
-        Read data files
+        Read in data files for a given dataset. Note that only one type of dataset&#39;s data
+        should be read in using a single call.
+
+        Args:
+            dataset (Dataset): 
+                The dataset object for which the files are associated with. This parameter is
+                required.
+            
+            file_list (List[str] or str): 
+                The files to read in. Absolute paths are recommended, but not technically
+                necessary. This can be a single string for a file, or a list of strings to read
+                in multiple files. This parameter is required.
+
+            n_parallel (int): 
+                Number of data files to read in parallel using multiprocessing. Default value 
+                is 1. Adjust according to your computer&#39;s available resources. This parameter 
+                is optional.
+            
+            first_record (bool): 
+                Only read in the first record in each file. This is the same as the first_frame
+                parameter in the themis-imager-readfile and trex-imager-readfile libraries, and
+                is a read optimization if you only need one image per minute, as opposed to the
+                full temporal resolution of data (e.g., 3sec cadence). This parameter is optional.
+            
+            no_metadata (bool): 
+                Skip reading of metadata. This is a minor optimization if the metadata is not needed.
+                Default is `False`. This parameter is optional.
+            
+            quiet (bool): 
+                Do not print out errors while reading data files, if any are encountered. Any files
+                that encounter errors will be, as usual, accessible via the `problematic_files` 
+                attribute of the returned `pyucalgarysrs.data.classes.Data` object. This parameter
+                is optional.
+        
+        Returns:
+            A `pyucalgarysrs.data.classes.Data` object containing the data read in, among other
+            values.
+        
+        Raises:
+            pyucalgarysrs.exceptions.SRSUnsupportedReadError: an unsupported dataset was used when
+                trying to read files.
+            pyucalgarysrs.exceptions.SRSError: a generic read error was encountered
+
+        Notes:
+        ---------
+        For users who are familiar with the themis-imager-readfile and trex-imager-readfile
+        libraries, the read function is a wrapper for those routines. Further improvements have 
+        been integrated, and those libraries are anticipated to be deprecated at some point in the
+        future.
         &#34;&#34;&#34;
         return self.readers.read(
             dataset,
@@ -161,6 +446,18 @@ class DataManager:
 </details>
 </section>
 <section>
+<h2 class="section-title" id="header-submodules">Sub-modules</h2>
+<dl>
+<dt><code class="name"><a title="pyucalgarysrs.data.classes" href="classes.html">pyucalgarysrs.data.classes</a></code></dt>
+<dd>
+<div class="desc"><p>Classes for representing data download and reading operations. All
+classes in this module are included at the top level of this library.</p></div>
+</dd>
+<dt><code class="name"><a title="pyucalgarysrs.data.read" href="read/index.html">pyucalgarysrs.data.read</a></code></dt>
+<dd>
+<div class="desc"><p>Provides functions for reading data for specific datasets</p></div>
+</dd>
+</dl>
 </section>
 <section>
 </section>
@@ -174,12 +471,19 @@ class DataManager:
 <span>(</span><span>srs_obj)</span>
 </code></dt>
 <dd>
-<div class="desc"></div>
+<div class="desc"><p>The DataManager object is initialized within every PyUCalgarySRS object. It acts
+as a way to access the submodules and carry over configuration information in the
+super class.</p></div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
 </summary>
 <pre><code class="python">class DataManager:
+    &#34;&#34;&#34;
+    The DataManager object is initialized within every PyUCalgarySRS object. It acts 
+    as a way to access the submodules and carry over configuration information in the 
+    super class.
+    &#34;&#34;&#34;
 
     # defaults
     __DEFAULT_DOWNLOAD_N_PARALLEL = 5
@@ -188,25 +492,68 @@ class DataManager:
         self.__srs_obj = srs_obj
         self.__list = module_list
         self.__download = module_download
-        self.readers = ReadManager()
+        self.__readers = ReadManager()
+
+    @property
+    def readers(self):
+        &#34;&#34;&#34;
+        Access to the `read` submodule from within a PyUCalgarySRS object.
+        &#34;&#34;&#34;
+        return self.__readers
 
     def list_datasets(self, name: Optional[str] = None, timeout: Optional[int] = None) -&gt; List[Dataset]:
         &#34;&#34;&#34;
         List available datasets
+
+        Args:
+            name (str): 
+                Supply a name used for filtering. If that name is found in the available dataset 
+                names received from the API, it will be included in the results. This parameter is
+                optional.
+            
+            timeout (int): 
+                Represents how many seconds to wait for the API to send data before giving up. The 
+                default is 10 seconds, or the `api_timeout` value in the super class&#39; `pyucalgarysrs.PyUCalgarySRS`
+                object. This parameter is optional.
+            
+        Returns:
+            A list of [`Dataset`](classes.html#pyucalgarysrs.data.classes.Dataset)
+            objects.
+        
+        Raises:
+            pyucalgary.exceptions.SRSAPIError: An API error was encountered.
         &#34;&#34;&#34;
         return self.__list.list_datasets(self.__srs_obj, name, timeout)
 
     def list_supported_read_datasets(self) -&gt; List[str]:
         &#34;&#34;&#34;
         List the datasets which have file reading capabilities supported.
+
+        Returns:
+            A list of the dataset names with file reading support.
         &#34;&#34;&#34;
         return self.readers.list_supported_datasets()
 
-    def check_if_read_supported(self, dataset_name: str) -&gt; bool:
+    def is_read_supported(self, dataset_name: str) -&gt; bool:
         &#34;&#34;&#34;
-        Check if a given dataset has file reading support
+        Check if a given dataset has file reading support. 
+        
+        Not all datasets available in the Open Data Platform have special readfile 
+        routines in this library. This is because some datasets are in basic formats
+        such as JPG or PNG, so unique functions aren&#39;t necessary. We leave it up to
+        the user to open these basic files in whichever way they prefer. Use the 
+        `list_supported_read_datasets()` function to see all datasets that have special
+        file reading functionality in this library.
+
+        Args:
+            dataset_name (str): 
+                The dataset name to check if file reading is supported. This parameter 
+                is required.
+        
+        Returns:
+            Boolean indicating if file reading is supported.
         &#34;&#34;&#34;
-        return self.readers.check_if_supported(dataset_name)
+        return self.readers.is_supported(dataset_name)
 
     def download(self,
                  dataset_name: str,
@@ -221,7 +568,89 @@ class DataManager:
                  progress_bar_desc: Optional[str] = None,
                  timeout: Optional[int] = None) -&gt; FileDownloadResult:
         &#34;&#34;&#34;
-        Download data from UCalgary open data archive
+        Download data from UCalgary Space Remote Sensing Open Data Platform.
+
+        The parameters `dataset_name`, `start`, and `end` are required. All other parameters
+        are optional.
+
+        Args:
+            dataset_name (str): 
+                Name of the dataset to download data for. Use the `list_datasets()` function
+                to get the possible values for this parameter. One example is &#34;THEMIS_ASI_RAW&#34;. 
+                Note that dataset names are case sensitive. This parameter is required.
+
+            start (datetime.datetime): 
+                Start timestamp to use (inclusive), expected to be in UTC. Any timezone data 
+                will be ignored. This parameter is required.
+
+            end (datetime.datetime): 
+                End timestamp to use (inclusive), expected to be in UTC. Any timezone data 
+                will be ignored. This parameter is required.
+
+            site_uid (str): 
+                The site UID to filter for. If specified, data will be downloaded for only the 
+                site matching the given value. If excluded, data for all available sites will 
+                be downloaded. An example value could be &#39;atha&#39;, meaning all data from the 
+                Athabasca observatory will be downloaded for the given dataset name, start, and 
+                end times. This parameter is optional.
+
+            n_parallel (int): 
+                Number of data files to download in parallel. Default value is 5. Adjust as needed 
+                for your internet connection. This parameter is optional.
+
+            overwrite (bool): 
+                By default, data will not be re-downloaded if it already exists locally. Use 
+                the `overwrite` parameter to force re-downloading. Default is `False`. This 
+                parameter is optional.
+
+            progress_bar_disable (bool): 
+                Disable the progress bar. Default is `False`. This parameter is optional.
+
+            progress_bar_ncols (int): 
+                Number of columns for the progress bar (straight passthrough of the `ncols` 
+                parameter in a tqdm progress bar). This parameter is optional. See Notes section
+                below for further information.
+            
+            progress_bar_ascii (str): 
+                ASCII value to use when constructing the visual aspect of the progress bar (straight 
+                passthrough of the `ascii` parameter in a tqdm progress bar). This parameter is 
+                optional. See Notes section below for further details.
+
+            timeout (int): 
+                Represents how many seconds to wait for the API to send data before giving up. The 
+                default is 10 seconds, or the `api_timeout` value in the super class&#39; `pyucalgarysrs.PyUCalgarySRS`
+                object. This parameter is optional.
+
+        Returns:
+             A `pyucalgarysrs.data.classes.FileDownloadResult` object containing details about what
+             data files were downloaded.
+
+        Raises:
+            pyucalgarysrs.exceptions.SRSDownloadError: an error was encountered while downloading a 
+                specific file
+            pyucalgarysrs.exceptions.SRSAPIError: an API error was encountered
+
+        Notes:
+        --------
+        The `progress_bar_*` parameters can be used to enable/disable/adjust the progress bar. 
+        Excluding the `progress_bar_disable` parameter, all others are straight pass-throughs 
+        to the tqdm progress bar function. The `progress_bar_ncols` parameter allows for 
+        adjusting the width. The `progress_bar_ascii` parameter allows for adjusting the appearance 
+        of the progress bar. And the `progress_bar_desc` parameter allows for adjusting the 
+        description at the beginning of the progress bar. Further details can be found on the
+        [tqdm documentation](https://tqdm.github.io/docs/tqdm/#tqdm-objects).
+
+        Data downloading will use the `download_data_root_path` variable within the super class&#39;
+        object ([`PyUCalgarySRS`](../pyucalgarysrs.html)) to determine where to save data to. If 
+        you&#39;d like to change this path to somewhere else you can change that variable before your
+        download() call, like so:
+
+        ```python
+        import pyucalgarysrs
+        srs = pyucalgarysrs.PyUCalgarySRS()
+        srs.data_download_root_path = &#34;some_new_path&#34;
+        srs.data.download(dataset_name, start, end)
+        ```
         &#34;&#34;&#34;
         return self.__download._download_generic(
             self.__srs_obj,
@@ -229,6 +658,101 @@ class DataManager:
             start,
             end,
             site_uid,
+            n_parallel,
+            overwrite,
+            progress_bar_disable,
+            progress_bar_ncols,
+            progress_bar_ascii,
+            progress_bar_desc,
+            timeout,
+        )
+
+    def download_using_urls(self,
+                            file_listing_response: FileListingResponse,
+                            n_parallel: int = __DEFAULT_DOWNLOAD_N_PARALLEL,
+                            overwrite: bool = False,
+                            progress_bar_disable: bool = False,
+                            progress_bar_ncols: Optional[int] = None,
+                            progress_bar_ascii: Optional[str] = None,
+                            progress_bar_desc: Optional[str] = None,
+                            timeout: Optional[int] = None) -&gt; FileDownloadResult:
+        &#34;&#34;&#34;
+        Download data from UCalgary open data archive using a FileListingResponse 
+        object. This would be used in cases where more customization is needed than
+        the generic `download()` function. 
+        
+        One example of using this function would start by using `get_urls()` to retrieve the
+        list of URLs available for download, then further process this list to fewer files
+        based on some other requirement (ie. time down-sampling such as one file per hour). 
+        Lastly using this function to download the new custom set URLs.
+
+        Args:
+            file_listing_response (FileListingResponse): 
+                A `pyucalgarysrs.data.classes.FileListingResponse` object returned from a 
+                `get_urls()` call, which contains a list of URLs to download for a specific 
+                dataset. This parameter is required.
+
+            n_parallel (int): 
+                Number of data files to download in parallel. Default value is 5. Adjust as needed 
+                for your internet connection. This parameter is optional.
+
+            overwrite (bool): 
+                By default, data will not be re-downloaded if it already exists locally. Use 
+                the `overwrite` parameter to force re-downloading. Default is `False`. This 
+                parameter is optional.
+
+            progress_bar_disable (bool): 
+                Disable the progress bar. Default is `False`. This parameter is optional.
+
+            progress_bar_ncols (int): 
+                Number of columns for the progress bar (straight passthrough of the `ncols` 
+                parameter in a tqdm progress bar). This parameter is optional. See Notes section
+                below for further information.
+            
+            progress_bar_ascii (str): 
+                ASCII value to use when constructing the visual aspect of the progress bar (straight 
+                passthrough of the `ascii` parameter in a tqdm progress bar). This parameter is 
+                optional. See Notes section below for further details.
+
+            timeout (int): 
+                Represents how many seconds to wait for the API to send data before giving up. The 
+                default is 10 seconds, or the `api_timeout` value in the super class&#39; `pyucalgarysrs.PyUCalgarySRS`
+                object. This parameter is optional.
+
+        Returns:
+             A `pyucalgarysrs.data.classes.FileDownloadResult` object containing details about what
+             data files were downloaded.
+
+        Raises:
+            pyucalgarysrs.exceptions.SRSDownloadError: an error was encountered while downloading a 
+                specific file
+            pyucalgarysrs.exceptions.SRSAPIError: an API error was encountered
+
+        Notes:
+        --------
+        The `progress_bar_*` parameters can be used to enable/disable/adjust the progress bar. 
+        Excluding the `progress_bar_disable` parameter, all others are straight pass-throughs 
+        to the tqdm progress bar function. The `progress_bar_ncols` parameter allows for 
+        adjusting the width. The `progress_bar_ascii` parameter allows for adjusting the appearance 
+        of the progress bar. And the `progress_bar_desc` parameter allows for adjusting the 
+        description at the beginning of the progress bar. Further details can be found on the
+        [tqdm documentation](https://tqdm.github.io/docs/tqdm/#tqdm-objects).
+
+        Data downloading will use the `download_data_root_path` variable within the super class&#39;
+        object ([`PyUCalgarySRS`](../pyucalgarysrs.html)) to determine where to save data to. If 
+        you&#39;d like to change this path to somewhere else you can change that variable before your
+        download() call, like so:
+
+        ```python
+        import pyucalgarysrs
+        srs = pyucalgarysrs.PyUCalgarySRS()
+        srs.data_download_root_path = &#34;some_new_path&#34;
+        srs.data.download(dataset_name, start, end)
+        ``` 
+        &#34;&#34;&#34;
+        return self.__download._download_using_urls(
+            self.__srs_obj,
+            file_listing_response,
             n_parallel,
             overwrite,
             progress_bar_disable,
@@ -246,6 +770,39 @@ class DataManager:
                  timeout: Optional[int] = None) -&gt; FileListingResponse:
         &#34;&#34;&#34;
         Get URLs of data files
+
+        Args:
+            dataset_name (str): 
+                Name of the dataset to download data for. Use the `list_datasets()` function
+                to get the possible values for this parameter. One example is &#34;THEMIS_ASI_RAW&#34;. 
+                Note that dataset names are case sensitive. This parameter is required.
+
+            start (datetime.datetime): 
+                Start timestamp to use (inclusive), expected to be in UTC. Any timezone data 
+                will be ignored. This parameter is required.
+
+            end (datetime.datetime): 
+                End timestamp to use (inclusive), expected to be in UTC. Any timezone data 
+                will be ignored. This parameter is required.
+
+            site_uid (str): 
+                The site UID to filter for. If specified, data will be downloaded for only the 
+                site matching the given value. If excluded, data for all available sites will 
+                be downloaded. An example value could be &#39;atha&#39;, meaning all data from the 
+                Athabasca observatory will be downloaded for the given dataset name, start, and 
+                end times. This parameter is optional.
+
+            timeout (int): 
+                Represents how many seconds to wait for the API to send data before giving up. The 
+                default is 10 seconds, or the `api_timeout` value in the super class&#39; `pyucalgarysrs.PyUCalgarySRS`
+                object. This parameter is optional.
+    
+        Returns:
+            A `pyucalgarysrs.data.classes.FileListingResponse` object containing a list of the available URLS,
+            among other values.
+
+        Raises:
+            pyucalgarysrs.exceptions.SRSAPIError: an API error was encountered
         &#34;&#34;&#34;
         return self.__download._get_urls(
             self.__srs_obj,
@@ -253,35 +810,6 @@ class DataManager:
             start,
             end,
             site_uid,
-            timeout,
-        )
-
-    def download_using_urls(self,
-                            file_listing_response: FileListingResponse,
-                            n_parallel: int = __DEFAULT_DOWNLOAD_N_PARALLEL,
-                            overwrite: bool = False,
-                            progress_bar_disable: bool = False,
-                            progress_bar_ncols: Optional[int] = None,
-                            progress_bar_ascii: Optional[str] = None,
-                            progress_bar_desc: Optional[str] = None,
-                            timeout: Optional[int] = None) -&gt; FileDownloadResult:
-        &#34;&#34;&#34;
-        Download data from UCalgary open data archive using a FileListingResponse 
-        object. This would be used in cases where more customization is needed than
-        the generic `download` function. For example, use `get_urls` to retrieve the
-        list of URLs available for download, further process this list to fewer files
-        based on some other requirement (ie. time downsampling such as one file per hour),
-        and then use this function to download the custom set URLs.
-        &#34;&#34;&#34;
-        return self.__download._download_using_urls(
-            self.__srs_obj,
-            file_listing_response,
-            n_parallel,
-            overwrite,
-            progress_bar_disable,
-            progress_bar_ncols,
-            progress_bar_ascii,
-            progress_bar_desc,
             timeout,
         )
 
@@ -293,7 +821,55 @@ class DataManager:
              no_metadata: bool = False,
              quiet: bool = False) -&gt; Union[Data, List[Skymap], List[Calibration]]:
         &#34;&#34;&#34;
-        Read data files
+        Read in data files for a given dataset. Note that only one type of dataset&#39;s data
+        should be read in using a single call.
+
+        Args:
+            dataset (Dataset): 
+                The dataset object for which the files are associated with. This parameter is
+                required.
+            
+            file_list (List[str] or str): 
+                The files to read in. Absolute paths are recommended, but not technically
+                necessary. This can be a single string for a file, or a list of strings to read
+                in multiple files. This parameter is required.
+
+            n_parallel (int): 
+                Number of data files to read in parallel using multiprocessing. Default value 
+                is 1. Adjust according to your computer&#39;s available resources. This parameter 
+                is optional.
+            
+            first_record (bool): 
+                Only read in the first record in each file. This is the same as the first_frame
+                parameter in the themis-imager-readfile and trex-imager-readfile libraries, and
+                is a read optimization if you only need one image per minute, as opposed to the
+                full temporal resolution of data (e.g., 3sec cadence). This parameter is optional.
+            
+            no_metadata (bool): 
+                Skip reading of metadata. This is a minor optimization if the metadata is not needed.
+                Default is `False`. This parameter is optional.
+            
+            quiet (bool): 
+                Do not print out errors while reading data files, if any are encountered. Any files
+                that encounter errors will be, as usual, accessible via the `problematic_files` 
+                attribute of the returned `pyucalgarysrs.data.classes.Data` object. This parameter
+                is optional.
+        
+        Returns:
+            A `pyucalgarysrs.data.classes.Data` object containing the data read in, among other
+            values.
+        
+        Raises:
+            pyucalgarysrs.exceptions.SRSUnsupportedReadError: an unsupported dataset was used when
+                trying to read files.
+            pyucalgarysrs.exceptions.SRSError: a generic read error was encountered
+
+        Notes:
+        ---------
+        For users who are familiar with the themis-imager-readfile and trex-imager-readfile
+        libraries, the read function is a wrapper for those routines. Further improvements have 
+        been integrated, and those libraries are anticipated to be deprecated at some point in the
+        future.
         &#34;&#34;&#34;
         return self.readers.read(
             dataset,
@@ -304,29 +880,101 @@ class DataManager:
             quiet=quiet,
         )</code></pre>
 </details>
-<h3>Methods</h3>
+<h3>Instance variables</h3>
 <dl>
-<dt id="pyucalgarysrs.data.DataManager.check_if_read_supported"><code class="name flex">
-<span>def <span class="ident">check_if_read_supported</span></span>(<span>self, dataset_name: str) ‑> bool</span>
-</code></dt>
+<dt id="pyucalgarysrs.data.DataManager.readers"><code class="name">var <span class="ident">readers</span></code></dt>
 <dd>
-<div class="desc"><p>Check if a given dataset has file reading support</p></div>
+<div class="desc"><p>Access to the <code><a title="pyucalgarysrs.data.read" href="read/index.html">pyucalgarysrs.data.read</a></code> submodule from within a PyUCalgarySRS object.</p></div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
 </summary>
-<pre><code class="python">def check_if_read_supported(self, dataset_name: str) -&gt; bool:
+<pre><code class="python">@property
+def readers(self):
     &#34;&#34;&#34;
-    Check if a given dataset has file reading support
+    Access to the `read` submodule from within a PyUCalgarySRS object.
     &#34;&#34;&#34;
-    return self.readers.check_if_supported(dataset_name)</code></pre>
+    return self.__readers</code></pre>
 </details>
 </dd>
+</dl>
+<h3>Methods</h3>
+<dl>
 <dt id="pyucalgarysrs.data.DataManager.download"><code class="name flex">
-<span>def <span class="ident">download</span></span>(<span>self, dataset_name: str, start: datetime.datetime, end: datetime.datetime, site_uid: Optional[str] = None, n_parallel: int = 5, overwrite: bool = False, progress_bar_disable: bool = False, progress_bar_ncols: Optional[int] = None, progress_bar_ascii: Optional[str] = None, progress_bar_desc: Optional[str] = None, timeout: Optional[int] = None) ‑> pyucalgarysrs.data._schemas.FileDownloadResult</span>
+<span>def <span class="ident">download</span></span>(<span>self, dataset_name: str, start: datetime.datetime, end: datetime.datetime, site_uid: Optional[str] = None, n_parallel: int = 5, overwrite: bool = False, progress_bar_disable: bool = False, progress_bar_ncols: Optional[int] = None, progress_bar_ascii: Optional[str] = None, progress_bar_desc: Optional[str] = None, timeout: Optional[int] = None) ‑> <a title="pyucalgarysrs.data.classes.FileDownloadResult" href="classes.html#pyucalgarysrs.data.classes.FileDownloadResult">FileDownloadResult</a></span>
 </code></dt>
 <dd>
-<div class="desc"><p>Download data from UCalgary open data archive</p></div>
+<div class="desc"><p>Download data from UCalgary Space Remote Sensing Open Data Platform.</p>
+<p>The parameters <code>dataset_name</code>, <code>start</code>, and <code>end</code> are required. All other parameters
+are optional.</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>dataset_name</code></strong> :&ensp;<code>str</code></dt>
+<dd>Name of the dataset to download data for. Use the <code>list_datasets()</code> function
+to get the possible values for this parameter. One example is "THEMIS_ASI_RAW".
+Note that dataset names are case sensitive. This parameter is required.</dd>
+<dt><strong><code>start</code></strong> :&ensp;<code>datetime.datetime</code></dt>
+<dd>Start timestamp to use (inclusive), expected to be in UTC. Any timezone data
+will be ignored. This parameter is required.</dd>
+<dt><strong><code>end</code></strong> :&ensp;<code>datetime.datetime</code></dt>
+<dd>End timestamp to use (inclusive), expected to be in UTC. Any timezone data
+will be ignored. This parameter is required.</dd>
+<dt><strong><code>site_uid</code></strong> :&ensp;<code>str</code></dt>
+<dd>The site UID to filter for. If specified, data will be downloaded for only the
+site matching the given value. If excluded, data for all available sites will
+be downloaded. An example value could be 'atha', meaning all data from the
+Athabasca observatory will be downloaded for the given dataset name, start, and
+end times. This parameter is optional.</dd>
+<dt><strong><code>n_parallel</code></strong> :&ensp;<code>int</code></dt>
+<dd>Number of data files to download in parallel. Default value is 5. Adjust as needed
+for your internet connection. This parameter is optional.</dd>
+<dt><strong><code>overwrite</code></strong> :&ensp;<code>bool</code></dt>
+<dd>By default, data will not be re-downloaded if it already exists locally. Use
+the <code>overwrite</code> parameter to force re-downloading. Default is <code>False</code>. This
+parameter is optional.</dd>
+<dt><strong><code>progress_bar_disable</code></strong> :&ensp;<code>bool</code></dt>
+<dd>Disable the progress bar. Default is <code>False</code>. This parameter is optional.</dd>
+<dt><strong><code>progress_bar_ncols</code></strong> :&ensp;<code>int</code></dt>
+<dd>Number of columns for the progress bar (straight passthrough of the <code>ncols</code>
+parameter in a tqdm progress bar). This parameter is optional. See Notes section
+below for further information.</dd>
+<dt><strong><code>progress_bar_ascii</code></strong> :&ensp;<code>str</code></dt>
+<dd>ASCII value to use when constructing the visual aspect of the progress bar (straight
+passthrough of the <code>ascii</code> parameter in a tqdm progress bar). This parameter is
+optional. See Notes section below for further details.</dd>
+<dt><strong><code>timeout</code></strong> :&ensp;<code>int</code></dt>
+<dd>Represents how many seconds to wait for the API to send data before giving up. The
+default is 10 seconds, or the <code>api_timeout</code> value in the super class' <code><a title="pyucalgarysrs.PyUCalgarySRS" href="../index.html#pyucalgarysrs.PyUCalgarySRS">PyUCalgarySRS</a></code>
+object. This parameter is optional.</dd>
+</dl>
+<h2 id="returns">Returns</h2>
+<p>A <code><a title="pyucalgarysrs.data.classes.FileDownloadResult" href="classes.html#pyucalgarysrs.data.classes.FileDownloadResult">FileDownloadResult</a></code> object containing details about what
+data files were downloaded.</p>
+<h2 id="raises">Raises</h2>
+<dl>
+<dt><code><a title="pyucalgarysrs.exceptions.SRSDownloadError" href="../exceptions.html#pyucalgarysrs.exceptions.SRSDownloadError">SRSDownloadError</a></code></dt>
+<dd>an error was encountered while downloading a
+specific file</dd>
+<dt><code><a title="pyucalgarysrs.exceptions.SRSAPIError" href="../exceptions.html#pyucalgarysrs.exceptions.SRSAPIError">SRSAPIError</a></code></dt>
+<dd>an API error was encountered</dd>
+</dl>
+<h2 id="notes">Notes:</h2>
+<p>The <code>progress_bar_*</code> parameters can be used to enable/disable/adjust the progress bar.
+Excluding the <code>progress_bar_disable</code> parameter, all others are straight pass-throughs
+to the tqdm progress bar function. The <code>progress_bar_ncols</code> parameter allows for
+adjusting the width. The <code>progress_bar_ascii</code> parameter allows for adjusting the appearance
+of the progress bar. And the <code>progress_bar_desc</code> parameter allows for adjusting the
+description at the beginning of the progress bar. Further details can be found on the
+<a href="https://tqdm.github.io/docs/tqdm/#tqdm-objects">tqdm documentation</a>.</p>
+<p>Data downloading will use the <code>download_data_root_path</code> variable within the super class'
+object (<a href="../pyucalgarysrs.html"><code>PyUCalgarySRS</code></a>) to determine where to save data to. If
+you'd like to change this path to somewhere else you can change that variable before your
+download() call, like so:</p>
+<pre><code class="language-python">import pyucalgarysrs
+srs = pyucalgarysrs.PyUCalgarySRS()
+srs.data_download_root_path = &quot;some_new_path&quot;
+srs.data.download(dataset_name, start, end)
+</code></pre></div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
@@ -344,7 +992,89 @@ class DataManager:
              progress_bar_desc: Optional[str] = None,
              timeout: Optional[int] = None) -&gt; FileDownloadResult:
     &#34;&#34;&#34;
-    Download data from UCalgary open data archive
+    Download data from UCalgary Space Remote Sensing Open Data Platform.
+
+    The parameters `dataset_name`, `start`, and `end` are required. All other parameters
+    are optional.
+
+    Args:
+        dataset_name (str): 
+            Name of the dataset to download data for. Use the `list_datasets()` function
+            to get the possible values for this parameter. One example is &#34;THEMIS_ASI_RAW&#34;. 
+            Note that dataset names are case sensitive. This parameter is required.
+
+        start (datetime.datetime): 
+            Start timestamp to use (inclusive), expected to be in UTC. Any timezone data 
+            will be ignored. This parameter is required.
+
+        end (datetime.datetime): 
+            End timestamp to use (inclusive), expected to be in UTC. Any timezone data 
+            will be ignored. This parameter is required.
+
+        site_uid (str): 
+            The site UID to filter for. If specified, data will be downloaded for only the 
+            site matching the given value. If excluded, data for all available sites will 
+            be downloaded. An example value could be &#39;atha&#39;, meaning all data from the 
+            Athabasca observatory will be downloaded for the given dataset name, start, and 
+            end times. This parameter is optional.
+
+        n_parallel (int): 
+            Number of data files to download in parallel. Default value is 5. Adjust as needed 
+            for your internet connection. This parameter is optional.
+
+        overwrite (bool): 
+            By default, data will not be re-downloaded if it already exists locally. Use 
+            the `overwrite` parameter to force re-downloading. Default is `False`. This 
+            parameter is optional.
+
+        progress_bar_disable (bool): 
+            Disable the progress bar. Default is `False`. This parameter is optional.
+
+        progress_bar_ncols (int): 
+            Number of columns for the progress bar (straight passthrough of the `ncols` 
+            parameter in a tqdm progress bar). This parameter is optional. See Notes section
+            below for further information.
+        
+        progress_bar_ascii (str): 
+            ASCII value to use when constructing the visual aspect of the progress bar (straight 
+            passthrough of the `ascii` parameter in a tqdm progress bar). This parameter is 
+            optional. See Notes section below for further details.
+
+        timeout (int): 
+            Represents how many seconds to wait for the API to send data before giving up. The 
+            default is 10 seconds, or the `api_timeout` value in the super class&#39; `pyucalgarysrs.PyUCalgarySRS`
+            object. This parameter is optional.
+
+    Returns:
+         A `pyucalgarysrs.data.classes.FileDownloadResult` object containing details about what
+         data files were downloaded.
+
+    Raises:
+        pyucalgarysrs.exceptions.SRSDownloadError: an error was encountered while downloading a 
+            specific file
+        pyucalgarysrs.exceptions.SRSAPIError: an API error was encountered
+
+    Notes:
+    --------
+    The `progress_bar_*` parameters can be used to enable/disable/adjust the progress bar. 
+    Excluding the `progress_bar_disable` parameter, all others are straight pass-throughs 
+    to the tqdm progress bar function. The `progress_bar_ncols` parameter allows for 
+    adjusting the width. The `progress_bar_ascii` parameter allows for adjusting the appearance 
+    of the progress bar. And the `progress_bar_desc` parameter allows for adjusting the 
+    description at the beginning of the progress bar. Further details can be found on the
+    [tqdm documentation](https://tqdm.github.io/docs/tqdm/#tqdm-objects).
+
+    Data downloading will use the `download_data_root_path` variable within the super class&#39;
+    object ([`PyUCalgarySRS`](../pyucalgarysrs.html)) to determine where to save data to. If 
+    you&#39;d like to change this path to somewhere else you can change that variable before your
+    download() call, like so:
+
+    ```python
+    import pyucalgarysrs
+    srs = pyucalgarysrs.PyUCalgarySRS()
+    srs.data_download_root_path = &#34;some_new_path&#34;
+    srs.data.download(dataset_name, start, end)
+    ```
     &#34;&#34;&#34;
     return self.__download._download_generic(
         self.__srs_obj,
@@ -363,15 +1093,72 @@ class DataManager:
 </details>
 </dd>
 <dt id="pyucalgarysrs.data.DataManager.download_using_urls"><code class="name flex">
-<span>def <span class="ident">download_using_urls</span></span>(<span>self, file_listing_response: pyucalgarysrs.data._schemas.FileListingResponse, n_parallel: int = 5, overwrite: bool = False, progress_bar_disable: bool = False, progress_bar_ncols: Optional[int] = None, progress_bar_ascii: Optional[str] = None, progress_bar_desc: Optional[str] = None, timeout: Optional[int] = None) ‑> pyucalgarysrs.data._schemas.FileDownloadResult</span>
+<span>def <span class="ident">download_using_urls</span></span>(<span>self, file_listing_response: <a title="pyucalgarysrs.data.classes.FileListingResponse" href="classes.html#pyucalgarysrs.data.classes.FileListingResponse">FileListingResponse</a>, n_parallel: int = 5, overwrite: bool = False, progress_bar_disable: bool = False, progress_bar_ncols: Optional[int] = None, progress_bar_ascii: Optional[str] = None, progress_bar_desc: Optional[str] = None, timeout: Optional[int] = None) ‑> <a title="pyucalgarysrs.data.classes.FileDownloadResult" href="classes.html#pyucalgarysrs.data.classes.FileDownloadResult">FileDownloadResult</a></span>
 </code></dt>
 <dd>
 <div class="desc"><p>Download data from UCalgary open data archive using a FileListingResponse
 object. This would be used in cases where more customization is needed than
-the generic <code>download</code> function. For example, use <code>get_urls</code> to retrieve the
-list of URLs available for download, further process this list to fewer files
-based on some other requirement (ie. time downsampling such as one file per hour),
-and then use this function to download the custom set URLs.</p></div>
+the generic <code>download()</code> function. </p>
+<p>One example of using this function would start by using <code>get_urls()</code> to retrieve the
+list of URLs available for download, then further process this list to fewer files
+based on some other requirement (ie. time down-sampling such as one file per hour).
+Lastly using this function to download the new custom set URLs.</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>file_listing_response</code></strong> :&ensp;<code>FileListingResponse</code></dt>
+<dd>A <code><a title="pyucalgarysrs.data.classes.FileListingResponse" href="classes.html#pyucalgarysrs.data.classes.FileListingResponse">FileListingResponse</a></code> object returned from a
+<code>get_urls()</code> call, which contains a list of URLs to download for a specific
+dataset. This parameter is required.</dd>
+<dt><strong><code>n_parallel</code></strong> :&ensp;<code>int</code></dt>
+<dd>Number of data files to download in parallel. Default value is 5. Adjust as needed
+for your internet connection. This parameter is optional.</dd>
+<dt><strong><code>overwrite</code></strong> :&ensp;<code>bool</code></dt>
+<dd>By default, data will not be re-downloaded if it already exists locally. Use
+the <code>overwrite</code> parameter to force re-downloading. Default is <code>False</code>. This
+parameter is optional.</dd>
+<dt><strong><code>progress_bar_disable</code></strong> :&ensp;<code>bool</code></dt>
+<dd>Disable the progress bar. Default is <code>False</code>. This parameter is optional.</dd>
+<dt><strong><code>progress_bar_ncols</code></strong> :&ensp;<code>int</code></dt>
+<dd>Number of columns for the progress bar (straight passthrough of the <code>ncols</code>
+parameter in a tqdm progress bar). This parameter is optional. See Notes section
+below for further information.</dd>
+<dt><strong><code>progress_bar_ascii</code></strong> :&ensp;<code>str</code></dt>
+<dd>ASCII value to use when constructing the visual aspect of the progress bar (straight
+passthrough of the <code>ascii</code> parameter in a tqdm progress bar). This parameter is
+optional. See Notes section below for further details.</dd>
+<dt><strong><code>timeout</code></strong> :&ensp;<code>int</code></dt>
+<dd>Represents how many seconds to wait for the API to send data before giving up. The
+default is 10 seconds, or the <code>api_timeout</code> value in the super class' <code><a title="pyucalgarysrs.PyUCalgarySRS" href="../index.html#pyucalgarysrs.PyUCalgarySRS">PyUCalgarySRS</a></code>
+object. This parameter is optional.</dd>
+</dl>
+<h2 id="returns">Returns</h2>
+<p>A <code><a title="pyucalgarysrs.data.classes.FileDownloadResult" href="classes.html#pyucalgarysrs.data.classes.FileDownloadResult">FileDownloadResult</a></code> object containing details about what
+data files were downloaded.</p>
+<h2 id="raises">Raises</h2>
+<dl>
+<dt><code><a title="pyucalgarysrs.exceptions.SRSDownloadError" href="../exceptions.html#pyucalgarysrs.exceptions.SRSDownloadError">SRSDownloadError</a></code></dt>
+<dd>an error was encountered while downloading a
+specific file</dd>
+<dt><code><a title="pyucalgarysrs.exceptions.SRSAPIError" href="../exceptions.html#pyucalgarysrs.exceptions.SRSAPIError">SRSAPIError</a></code></dt>
+<dd>an API error was encountered</dd>
+</dl>
+<h2 id="notes">Notes:</h2>
+<p>The <code>progress_bar_*</code> parameters can be used to enable/disable/adjust the progress bar.
+Excluding the <code>progress_bar_disable</code> parameter, all others are straight pass-throughs
+to the tqdm progress bar function. The <code>progress_bar_ncols</code> parameter allows for
+adjusting the width. The <code>progress_bar_ascii</code> parameter allows for adjusting the appearance
+of the progress bar. And the <code>progress_bar_desc</code> parameter allows for adjusting the
+description at the beginning of the progress bar. Further details can be found on the
+<a href="https://tqdm.github.io/docs/tqdm/#tqdm-objects">tqdm documentation</a>.</p>
+<p>Data downloading will use the <code>download_data_root_path</code> variable within the super class'
+object (<a href="../pyucalgarysrs.html"><code>PyUCalgarySRS</code></a>) to determine where to save data to. If
+you'd like to change this path to somewhere else you can change that variable before your
+download() call, like so:</p>
+<pre><code class="language-python">import pyucalgarysrs
+srs = pyucalgarysrs.PyUCalgarySRS()
+srs.data_download_root_path = &quot;some_new_path&quot;
+srs.data.download(dataset_name, start, end)
+</code></pre></div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
@@ -388,10 +1175,76 @@ and then use this function to download the custom set URLs.</p></div>
     &#34;&#34;&#34;
     Download data from UCalgary open data archive using a FileListingResponse 
     object. This would be used in cases where more customization is needed than
-    the generic `download` function. For example, use `get_urls` to retrieve the
-    list of URLs available for download, further process this list to fewer files
-    based on some other requirement (ie. time downsampling such as one file per hour),
-    and then use this function to download the custom set URLs.
+    the generic `download()` function. 
+    
+    One example of using this function would start by using `get_urls()` to retrieve the
+    list of URLs available for download, then further process this list to fewer files
+    based on some other requirement (ie. time down-sampling such as one file per hour). 
+    Lastly using this function to download the new custom set URLs.
+
+    Args:
+        file_listing_response (FileListingResponse): 
+            A `pyucalgarysrs.data.classes.FileListingResponse` object returned from a 
+            `get_urls()` call, which contains a list of URLs to download for a specific 
+            dataset. This parameter is required.
+
+        n_parallel (int): 
+            Number of data files to download in parallel. Default value is 5. Adjust as needed 
+            for your internet connection. This parameter is optional.
+
+        overwrite (bool): 
+            By default, data will not be re-downloaded if it already exists locally. Use 
+            the `overwrite` parameter to force re-downloading. Default is `False`. This 
+            parameter is optional.
+
+        progress_bar_disable (bool): 
+            Disable the progress bar. Default is `False`. This parameter is optional.
+
+        progress_bar_ncols (int): 
+            Number of columns for the progress bar (straight passthrough of the `ncols` 
+            parameter in a tqdm progress bar). This parameter is optional. See Notes section
+            below for further information.
+        
+        progress_bar_ascii (str): 
+            ASCII value to use when constructing the visual aspect of the progress bar (straight 
+            passthrough of the `ascii` parameter in a tqdm progress bar). This parameter is 
+            optional. See Notes section below for further details.
+
+        timeout (int): 
+            Represents how many seconds to wait for the API to send data before giving up. The 
+            default is 10 seconds, or the `api_timeout` value in the super class&#39; `pyucalgarysrs.PyUCalgarySRS`
+            object. This parameter is optional.
+
+    Returns:
+         A `pyucalgarysrs.data.classes.FileDownloadResult` object containing details about what
+         data files were downloaded.
+
+    Raises:
+        pyucalgarysrs.exceptions.SRSDownloadError: an error was encountered while downloading a 
+            specific file
+        pyucalgarysrs.exceptions.SRSAPIError: an API error was encountered
+
+    Notes:
+    --------
+    The `progress_bar_*` parameters can be used to enable/disable/adjust the progress bar. 
+    Excluding the `progress_bar_disable` parameter, all others are straight pass-throughs 
+    to the tqdm progress bar function. The `progress_bar_ncols` parameter allows for 
+    adjusting the width. The `progress_bar_ascii` parameter allows for adjusting the appearance 
+    of the progress bar. And the `progress_bar_desc` parameter allows for adjusting the 
+    description at the beginning of the progress bar. Further details can be found on the
+    [tqdm documentation](https://tqdm.github.io/docs/tqdm/#tqdm-objects).
+
+    Data downloading will use the `download_data_root_path` variable within the super class&#39;
+    object ([`PyUCalgarySRS`](../pyucalgarysrs.html)) to determine where to save data to. If 
+    you&#39;d like to change this path to somewhere else you can change that variable before your
+    download() call, like so:
+
+    ```python
+    import pyucalgarysrs
+    srs = pyucalgarysrs.PyUCalgarySRS()
+    srs.data_download_root_path = &#34;some_new_path&#34;
+    srs.data.download(dataset_name, start, end)
+    ``` 
     &#34;&#34;&#34;
     return self.__download._download_using_urls(
         self.__srs_obj,
@@ -407,10 +1260,41 @@ and then use this function to download the custom set URLs.</p></div>
 </details>
 </dd>
 <dt id="pyucalgarysrs.data.DataManager.get_urls"><code class="name flex">
-<span>def <span class="ident">get_urls</span></span>(<span>self, dataset_name: str, start: datetime.datetime, end: datetime.datetime, site_uid: Optional[str] = None, timeout: Optional[int] = None) ‑> pyucalgarysrs.data._schemas.FileListingResponse</span>
+<span>def <span class="ident">get_urls</span></span>(<span>self, dataset_name: str, start: datetime.datetime, end: datetime.datetime, site_uid: Optional[str] = None, timeout: Optional[int] = None) ‑> <a title="pyucalgarysrs.data.classes.FileListingResponse" href="classes.html#pyucalgarysrs.data.classes.FileListingResponse">FileListingResponse</a></span>
 </code></dt>
 <dd>
-<div class="desc"><p>Get URLs of data files</p></div>
+<div class="desc"><p>Get URLs of data files</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>dataset_name</code></strong> :&ensp;<code>str</code></dt>
+<dd>Name of the dataset to download data for. Use the <code>list_datasets()</code> function
+to get the possible values for this parameter. One example is "THEMIS_ASI_RAW".
+Note that dataset names are case sensitive. This parameter is required.</dd>
+<dt><strong><code>start</code></strong> :&ensp;<code>datetime.datetime</code></dt>
+<dd>Start timestamp to use (inclusive), expected to be in UTC. Any timezone data
+will be ignored. This parameter is required.</dd>
+<dt><strong><code>end</code></strong> :&ensp;<code>datetime.datetime</code></dt>
+<dd>End timestamp to use (inclusive), expected to be in UTC. Any timezone data
+will be ignored. This parameter is required.</dd>
+<dt><strong><code>site_uid</code></strong> :&ensp;<code>str</code></dt>
+<dd>The site UID to filter for. If specified, data will be downloaded for only the
+site matching the given value. If excluded, data for all available sites will
+be downloaded. An example value could be 'atha', meaning all data from the
+Athabasca observatory will be downloaded for the given dataset name, start, and
+end times. This parameter is optional.</dd>
+<dt><strong><code>timeout</code></strong> :&ensp;<code>int</code></dt>
+<dd>Represents how many seconds to wait for the API to send data before giving up. The
+default is 10 seconds, or the <code>api_timeout</code> value in the super class' <code><a title="pyucalgarysrs.PyUCalgarySRS" href="../index.html#pyucalgarysrs.PyUCalgarySRS">PyUCalgarySRS</a></code>
+object. This parameter is optional.</dd>
+</dl>
+<h2 id="returns">Returns</h2>
+<p>A <code><a title="pyucalgarysrs.data.classes.FileListingResponse" href="classes.html#pyucalgarysrs.data.classes.FileListingResponse">FileListingResponse</a></code> object containing a list of the available URLS,
+among other values.</p>
+<h2 id="raises">Raises</h2>
+<dl>
+<dt><code><a title="pyucalgarysrs.exceptions.SRSAPIError" href="../exceptions.html#pyucalgarysrs.exceptions.SRSAPIError">SRSAPIError</a></code></dt>
+<dd>an API error was encountered</dd>
+</dl></div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
@@ -423,6 +1307,39 @@ and then use this function to download the custom set URLs.</p></div>
              timeout: Optional[int] = None) -&gt; FileListingResponse:
     &#34;&#34;&#34;
     Get URLs of data files
+
+    Args:
+        dataset_name (str): 
+            Name of the dataset to download data for. Use the `list_datasets()` function
+            to get the possible values for this parameter. One example is &#34;THEMIS_ASI_RAW&#34;. 
+            Note that dataset names are case sensitive. This parameter is required.
+
+        start (datetime.datetime): 
+            Start timestamp to use (inclusive), expected to be in UTC. Any timezone data 
+            will be ignored. This parameter is required.
+
+        end (datetime.datetime): 
+            End timestamp to use (inclusive), expected to be in UTC. Any timezone data 
+            will be ignored. This parameter is required.
+
+        site_uid (str): 
+            The site UID to filter for. If specified, data will be downloaded for only the 
+            site matching the given value. If excluded, data for all available sites will 
+            be downloaded. An example value could be &#39;atha&#39;, meaning all data from the 
+            Athabasca observatory will be downloaded for the given dataset name, start, and 
+            end times. This parameter is optional.
+
+        timeout (int): 
+            Represents how many seconds to wait for the API to send data before giving up. The 
+            default is 10 seconds, or the `api_timeout` value in the super class&#39; `pyucalgarysrs.PyUCalgarySRS`
+            object. This parameter is optional.
+
+    Returns:
+        A `pyucalgarysrs.data.classes.FileListingResponse` object containing a list of the available URLS,
+        among other values.
+
+    Raises:
+        pyucalgarysrs.exceptions.SRSAPIError: an API error was encountered
     &#34;&#34;&#34;
     return self.__download._get_urls(
         self.__srs_obj,
@@ -434,11 +1351,75 @@ and then use this function to download the custom set URLs.</p></div>
     )</code></pre>
 </details>
 </dd>
-<dt id="pyucalgarysrs.data.DataManager.list_datasets"><code class="name flex">
-<span>def <span class="ident">list_datasets</span></span>(<span>self, name: Optional[str] = None, timeout: Optional[int] = None) ‑> List[pyucalgarysrs.data._schemas.Dataset]</span>
+<dt id="pyucalgarysrs.data.DataManager.is_read_supported"><code class="name flex">
+<span>def <span class="ident">is_read_supported</span></span>(<span>self, dataset_name: str) ‑> bool</span>
 </code></dt>
 <dd>
-<div class="desc"><p>List available datasets</p></div>
+<div class="desc"><p>Check if a given dataset has file reading support. </p>
+<p>Not all datasets available in the Open Data Platform have special readfile
+routines in this library. This is because some datasets are in basic formats
+such as JPG or PNG, so unique functions aren't necessary. We leave it up to
+the user to open these basic files in whichever way they prefer. Use the
+<code>list_supported_read_datasets()</code> function to see all datasets that have special
+file reading functionality in this library.</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>dataset_name</code></strong> :&ensp;<code>str</code></dt>
+<dd>The dataset name to check if file reading is supported. This parameter
+is required.</dd>
+</dl>
+<h2 id="returns">Returns</h2>
+<p>Boolean indicating if file reading is supported.</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def is_read_supported(self, dataset_name: str) -&gt; bool:
+    &#34;&#34;&#34;
+    Check if a given dataset has file reading support. 
+    
+    Not all datasets available in the Open Data Platform have special readfile 
+    routines in this library. This is because some datasets are in basic formats
+    such as JPG or PNG, so unique functions aren&#39;t necessary. We leave it up to
+    the user to open these basic files in whichever way they prefer. Use the 
+    `list_supported_read_datasets()` function to see all datasets that have special
+    file reading functionality in this library.
+
+    Args:
+        dataset_name (str): 
+            The dataset name to check if file reading is supported. This parameter 
+            is required.
+    
+    Returns:
+        Boolean indicating if file reading is supported.
+    &#34;&#34;&#34;
+    return self.readers.is_supported(dataset_name)</code></pre>
+</details>
+</dd>
+<dt id="pyucalgarysrs.data.DataManager.list_datasets"><code class="name flex">
+<span>def <span class="ident">list_datasets</span></span>(<span>self, name: Optional[str] = None, timeout: Optional[int] = None) ‑> List[<a title="pyucalgarysrs.data.classes.Dataset" href="classes.html#pyucalgarysrs.data.classes.Dataset">Dataset</a>]</span>
+</code></dt>
+<dd>
+<div class="desc"><p>List available datasets</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>name</code></strong> :&ensp;<code>str</code></dt>
+<dd>Supply a name used for filtering. If that name is found in the available dataset
+names received from the API, it will be included in the results. This parameter is
+optional.</dd>
+<dt><strong><code>timeout</code></strong> :&ensp;<code>int</code></dt>
+<dd>Represents how many seconds to wait for the API to send data before giving up. The
+default is 10 seconds, or the <code>api_timeout</code> value in the super class' <code><a title="pyucalgarysrs.PyUCalgarySRS" href="../index.html#pyucalgarysrs.PyUCalgarySRS">PyUCalgarySRS</a></code>
+object. This parameter is optional.</dd>
+</dl>
+<h2 id="returns">Returns</h2>
+<p>A list of <a href="classes.html#pyucalgarysrs.data.classes.Dataset"><code>Dataset</code></a>
+objects.</p>
+<h2 id="raises">Raises</h2>
+<dl>
+<dt><code>pyucalgary.exceptions.SRSAPIError</code></dt>
+<dd>An API error was encountered.</dd>
+</dl></div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
@@ -446,6 +1427,24 @@ and then use this function to download the custom set URLs.</p></div>
 <pre><code class="python">def list_datasets(self, name: Optional[str] = None, timeout: Optional[int] = None) -&gt; List[Dataset]:
     &#34;&#34;&#34;
     List available datasets
+
+    Args:
+        name (str): 
+            Supply a name used for filtering. If that name is found in the available dataset 
+            names received from the API, it will be included in the results. This parameter is
+            optional.
+        
+        timeout (int): 
+            Represents how many seconds to wait for the API to send data before giving up. The 
+            default is 10 seconds, or the `api_timeout` value in the super class&#39; `pyucalgarysrs.PyUCalgarySRS`
+            object. This parameter is optional.
+        
+    Returns:
+        A list of [`Dataset`](classes.html#pyucalgarysrs.data.classes.Dataset)
+        objects.
+    
+    Raises:
+        pyucalgary.exceptions.SRSAPIError: An API error was encountered.
     &#34;&#34;&#34;
     return self.__list.list_datasets(self.__srs_obj, name, timeout)</code></pre>
 </details>
@@ -454,7 +1453,9 @@ and then use this function to download the custom set URLs.</p></div>
 <span>def <span class="ident">list_supported_read_datasets</span></span>(<span>self) ‑> List[str]</span>
 </code></dt>
 <dd>
-<div class="desc"><p>List the datasets which have file reading capabilities supported.</p></div>
+<div class="desc"><p>List the datasets which have file reading capabilities supported.</p>
+<h2 id="returns">Returns</h2>
+<p>A list of the dataset names with file reading support.</p></div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
@@ -462,15 +1463,62 @@ and then use this function to download the custom set URLs.</p></div>
 <pre><code class="python">def list_supported_read_datasets(self) -&gt; List[str]:
     &#34;&#34;&#34;
     List the datasets which have file reading capabilities supported.
+
+    Returns:
+        A list of the dataset names with file reading support.
     &#34;&#34;&#34;
     return self.readers.list_supported_datasets()</code></pre>
 </details>
 </dd>
 <dt id="pyucalgarysrs.data.DataManager.read"><code class="name flex">
-<span>def <span class="ident">read</span></span>(<span>self, dataset: pyucalgarysrs.data._schemas.Dataset, file_list: Union[List[str], str], n_parallel: int = 1, first_record: bool = False, no_metadata: bool = False, quiet: bool = False) ‑> Union[pyucalgarysrs.data._schemas.Data, List[pyucalgarysrs.data._schemas.Skymap], List[pyucalgarysrs.data._schemas.Calibration]]</span>
+<span>def <span class="ident">read</span></span>(<span>self, dataset: <a title="pyucalgarysrs.data.classes.Dataset" href="classes.html#pyucalgarysrs.data.classes.Dataset">Dataset</a>, file_list: Union[List[str], str], n_parallel: int = 1, first_record: bool = False, no_metadata: bool = False, quiet: bool = False) ‑> Union[<a title="pyucalgarysrs.data.classes.Data" href="classes.html#pyucalgarysrs.data.classes.Data">Data</a>, List[<a title="pyucalgarysrs.data.classes.Skymap" href="classes.html#pyucalgarysrs.data.classes.Skymap">Skymap</a>], List[<a title="pyucalgarysrs.data.classes.Calibration" href="classes.html#pyucalgarysrs.data.classes.Calibration">Calibration</a>]]</span>
 </code></dt>
 <dd>
-<div class="desc"><p>Read data files</p></div>
+<div class="desc"><p>Read in data files for a given dataset. Note that only one type of dataset's data
+should be read in using a single call.</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>dataset</code></strong> :&ensp;<code>Dataset</code></dt>
+<dd>The dataset object for which the files are associated with. This parameter is
+required.</dd>
+<dt><strong><code>file_list</code></strong> :&ensp;<code>List[str]</code> or <code>str</code></dt>
+<dd>The files to read in. Absolute paths are recommended, but not technically
+necessary. This can be a single string for a file, or a list of strings to read
+in multiple files. This parameter is required.</dd>
+<dt><strong><code>n_parallel</code></strong> :&ensp;<code>int</code></dt>
+<dd>Number of data files to read in parallel using multiprocessing. Default value
+is 1. Adjust according to your computer's available resources. This parameter
+is optional.</dd>
+<dt><strong><code>first_record</code></strong> :&ensp;<code>bool</code></dt>
+<dd>Only read in the first record in each file. This is the same as the first_frame
+parameter in the themis-imager-readfile and trex-imager-readfile libraries, and
+is a read optimization if you only need one image per minute, as opposed to the
+full temporal resolution of data (e.g., 3sec cadence). This parameter is optional.</dd>
+<dt><strong><code>no_metadata</code></strong> :&ensp;<code>bool</code></dt>
+<dd>Skip reading of metadata. This is a minor optimization if the metadata is not needed.
+Default is <code>False</code>. This parameter is optional.</dd>
+<dt><strong><code>quiet</code></strong> :&ensp;<code>bool</code></dt>
+<dd>Do not print out errors while reading data files, if any are encountered. Any files
+that encounter errors will be, as usual, accessible via the <code>problematic_files</code>
+attribute of the returned <code><a title="pyucalgarysrs.data.classes.Data" href="classes.html#pyucalgarysrs.data.classes.Data">Data</a></code> object. This parameter
+is optional.</dd>
+</dl>
+<h2 id="returns">Returns</h2>
+<p>A <code><a title="pyucalgarysrs.data.classes.Data" href="classes.html#pyucalgarysrs.data.classes.Data">Data</a></code> object containing the data read in, among other
+values.</p>
+<h2 id="raises">Raises</h2>
+<dl>
+<dt><code><a title="pyucalgarysrs.exceptions.SRSUnsupportedReadError" href="../exceptions.html#pyucalgarysrs.exceptions.SRSUnsupportedReadError">SRSUnsupportedReadError</a></code></dt>
+<dd>an unsupported dataset was used when
+trying to read files.</dd>
+<dt><code><a title="pyucalgarysrs.exceptions.SRSError" href="../exceptions.html#pyucalgarysrs.exceptions.SRSError">SRSError</a></code></dt>
+<dd>a generic read error was encountered</dd>
+</dl>
+<h2 id="notes">Notes:</h2>
+<p>For users who are familiar with the themis-imager-readfile and trex-imager-readfile
+libraries, the read function is a wrapper for those routines. Further improvements have
+been integrated, and those libraries are anticipated to be deprecated at some point in the
+future.</p></div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
@@ -483,7 +1531,55 @@ and then use this function to download the custom set URLs.</p></div>
          no_metadata: bool = False,
          quiet: bool = False) -&gt; Union[Data, List[Skymap], List[Calibration]]:
     &#34;&#34;&#34;
-    Read data files
+    Read in data files for a given dataset. Note that only one type of dataset&#39;s data
+    should be read in using a single call.
+
+    Args:
+        dataset (Dataset): 
+            The dataset object for which the files are associated with. This parameter is
+            required.
+        
+        file_list (List[str] or str): 
+            The files to read in. Absolute paths are recommended, but not technically
+            necessary. This can be a single string for a file, or a list of strings to read
+            in multiple files. This parameter is required.
+
+        n_parallel (int): 
+            Number of data files to read in parallel using multiprocessing. Default value 
+            is 1. Adjust according to your computer&#39;s available resources. This parameter 
+            is optional.
+        
+        first_record (bool): 
+            Only read in the first record in each file. This is the same as the first_frame
+            parameter in the themis-imager-readfile and trex-imager-readfile libraries, and
+            is a read optimization if you only need one image per minute, as opposed to the
+            full temporal resolution of data (e.g., 3sec cadence). This parameter is optional.
+        
+        no_metadata (bool): 
+            Skip reading of metadata. This is a minor optimization if the metadata is not needed.
+            Default is `False`. This parameter is optional.
+        
+        quiet (bool): 
+            Do not print out errors while reading data files, if any are encountered. Any files
+            that encounter errors will be, as usual, accessible via the `problematic_files` 
+            attribute of the returned `pyucalgarysrs.data.classes.Data` object. This parameter
+            is optional.
+    
+    Returns:
+        A `pyucalgarysrs.data.classes.Data` object containing the data read in, among other
+        values.
+    
+    Raises:
+        pyucalgarysrs.exceptions.SRSUnsupportedReadError: an unsupported dataset was used when
+            trying to read files.
+        pyucalgarysrs.exceptions.SRSError: a generic read error was encountered
+
+    Notes:
+    ---------
+    For users who are familiar with the themis-imager-readfile and trex-imager-readfile
+    libraries, the read function is a wrapper for those routines. Further improvements have 
+    been integrated, and those libraries are anticipated to be deprecated at some point in the
+    future.
     &#34;&#34;&#34;
     return self.readers.read(
         dataset,
@@ -557,18 +1653,25 @@ setTimeout(() => input.focus(), 100);
 <li><code><a title="pyucalgarysrs" href="../index.html">pyucalgarysrs</a></code></li>
 </ul>
 </li>
+<li><h3><a href="#header-submodules">Sub-modules</a></h3>
+<ul>
+<li><code><a title="pyucalgarysrs.data.classes" href="classes.html">pyucalgarysrs.data.classes</a></code></li>
+<li><code><a title="pyucalgarysrs.data.read" href="read/index.html">pyucalgarysrs.data.read</a></code></li>
+</ul>
+</li>
 <li><h3><a href="#header-classes">Classes</a></h3>
 <ul>
 <li>
 <h4><code><a title="pyucalgarysrs.data.DataManager" href="#pyucalgarysrs.data.DataManager">DataManager</a></code></h4>
 <ul class="">
-<li><code><a title="pyucalgarysrs.data.DataManager.check_if_read_supported" href="#pyucalgarysrs.data.DataManager.check_if_read_supported">check_if_read_supported</a></code></li>
 <li><code><a title="pyucalgarysrs.data.DataManager.download" href="#pyucalgarysrs.data.DataManager.download">download</a></code></li>
 <li><code><a title="pyucalgarysrs.data.DataManager.download_using_urls" href="#pyucalgarysrs.data.DataManager.download_using_urls">download_using_urls</a></code></li>
 <li><code><a title="pyucalgarysrs.data.DataManager.get_urls" href="#pyucalgarysrs.data.DataManager.get_urls">get_urls</a></code></li>
+<li><code><a title="pyucalgarysrs.data.DataManager.is_read_supported" href="#pyucalgarysrs.data.DataManager.is_read_supported">is_read_supported</a></code></li>
 <li><code><a title="pyucalgarysrs.data.DataManager.list_datasets" href="#pyucalgarysrs.data.DataManager.list_datasets">list_datasets</a></code></li>
 <li><code><a title="pyucalgarysrs.data.DataManager.list_supported_read_datasets" href="#pyucalgarysrs.data.DataManager.list_supported_read_datasets">list_supported_read_datasets</a></code></li>
 <li><code><a title="pyucalgarysrs.data.DataManager.read" href="#pyucalgarysrs.data.DataManager.read">read</a></code></li>
+<li><code><a title="pyucalgarysrs.data.DataManager.readers" href="#pyucalgarysrs.data.DataManager.readers">readers</a></code></li>
 </ul>
 </li>
 </ul>
