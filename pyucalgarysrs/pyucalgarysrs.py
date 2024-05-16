@@ -95,9 +95,6 @@ class PyUCalgarySRS:
             self.__api_timeout = self.__DEFAULT_API_TIMEOUT
         self.__api_key = api_key
 
-        # initialize jupyter notebook flag
-        self.__in_jupyter_notebook = self.initialize_jupyter_flag()
-
         # initialize paths
         self.initialize_paths()
 
@@ -184,23 +181,6 @@ class PyUCalgarySRS:
         self.__api_key = value  # pragma: nocover
 
     @property
-    def in_jupyter_notebook(self):
-        """
-        Property for the Jupyter notebook flag. This value is used by various 
-        routines which utilize progress bars. If run from within a Jupyter notebook, 
-        then the specific tqdm Jupyter notebook progress bar is used. Otherwise the 
-        tqdm standard console progress bar is used.
-        """
-        return self.__in_jupyter_notebook
-
-    @in_jupyter_notebook.setter
-    def in_jupyter_notebook(self, value: bool):
-        if (value is None):
-            self.__in_jupyter_notebook = self.initialize_jupyter_flag()
-        else:
-            self.__in_jupyter_notebook = value
-
-    @property
     def download_output_root_path(self):
         """
         Property for the download output root path. See above for details.
@@ -230,15 +210,13 @@ class PyUCalgarySRS:
         return self.__repr__()
 
     def __repr__(self) -> str:
-        return ("PyUCalgarySRS(download_output_root_path='%s', read_tar_temp_path='%s', api_base_url='%s', " +
-                "api_headers=%s, api_timeout=%s, in_jupyter_notebook=%s)") % (
-                    self.__download_output_root_path,
-                    self.__read_tar_temp_path,
-                    self.api_base_url,
-                    self.api_headers,
-                    self.api_timeout,
-                    self.in_jupyter_notebook,
-                )
+        return ("PyUCalgarySRS(download_output_root_path='%s', read_tar_temp_path='%s', api_base_url='%s', " + "api_headers=%s, api_timeout=%s)") % (
+            self.__download_output_root_path,
+            self.__read_tar_temp_path,
+            self.api_base_url,
+            self.api_headers,
+            self.api_timeout,
+        )
 
     # -----------------------------
     # public methods
@@ -302,20 +280,3 @@ class PyUCalgarySRS:
             os.makedirs(self.read_tar_temp_path, exist_ok=True)
         except IOError as e:  # pragma: nocover
             raise SRSInitializationError("Error during output path creation: %s" % str(e)) from e
-
-    def initialize_jupyter_flag(self):
-        """
-        Initialize the Jupyter notebook flag, which indicates to the PyUCalgarySRS object whether to 
-        use special progress bars for Jupyter notebooks or not.
-        """
-        try:
-            from IPython import get_ipython  # type: ignore
-            shell = get_ipython().__class__.__name__
-            if (shell == "ZMQInteractiveShell"):  # pragma: nocover
-                return True  # jupyter notebook or qtconsole
-            elif (shell == "TerminalInteractiveShell"):  # pragma: nocover
-                return False  # terminal running IPython
-            else:
-                return False  # other unknown type
-        except (ImportError, NameError):  # pragma: nocover
-            return False  # probably standard Python interpreter

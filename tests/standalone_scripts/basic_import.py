@@ -11,5 +11,3 @@ print(srs)
 srs.download_output_root_path = "/dev/shm/pyucalgarysrs_data"
 
 print(srs)
-
-print(srs.in_jupyter_notebook)

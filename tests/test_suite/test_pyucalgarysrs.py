@@ -32,13 +32,6 @@ def test_top_level_class_instantiation_noparams():
     assert os.path.exists(new_path)
     shutil.rmtree(new_path, ignore_errors=True)
 
-    # check inside jupyter notebook
-    #
-    # NOTE: not the easiest thing to have pytest run tests
-    # to make sure we're in a jupyter notebook. Relying
-    # on manual testing for this, for now.
-    assert srs.in_jupyter_notebook is False
-
     # check str and repr methods
     assert isinstance(str(srs), str) is True
     assert isinstance(repr(srs), str) is True
@@ -91,16 +84,6 @@ def test_bad_paths_noparams(srs):
         with pytest.raises(pyucalgarysrs.SRSInitializationError) as e_info:
             srs.read_tar_temp_path = new_path
         assert "Error during output path creation" in str(e_info)
-
-
-@pytest.mark.top_level
-def test_jupyter_notebook_flag(srs):
-    # set flag
-    assert srs.in_jupyter_notebook is False
-    srs.in_jupyter_notebook = True
-    assert srs.in_jupyter_notebook is True
-    srs.in_jupyter_notebook = None
-    assert srs.in_jupyter_notebook is False
 
 
 @pytest.mark.top_level
