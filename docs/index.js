@@ -215,7 +215,7 @@ INDEX=[
 {
 "ref":"pyucalgarysrs.data.classes.FileListingResponse",
 "url":2,
-"doc":""
+"doc":"Representation of the file listing response from the UCalgary Space Remote Sensing API. Attributes: urls (List[str]): A list of URLs for available data files. path_prefix (str): The URL prefix, which is sed for saving data locally with a similar data tree structure compared to the UCalgary Open Data archive. count (int): The number of URLs available. dataset (Dataset): The  Dataset object for this data. total_bytes (int): The cumulative amount of bytes for the available URLs."
 },
 {
 "ref":"pyucalgarysrs.data.classes.FileListingResponse.urls",
@@ -245,7 +245,7 @@ INDEX=[
 {
 "ref":"pyucalgarysrs.data.classes.FileDownloadResult",
 "url":2,
-"doc":"A file download result"
+"doc":"Representation of the results from a data download call. Attributes: filenames (List[str]): List of downloaded files, as absolute paths of their location on the local machine. count (int): Number of files downloaded total_bytes (int): Cumulative amount of bytes saved on the local machine. output_root_path (str): The root path of where the data was saved to on the local machine. dataset (Dataset): The  Dataset object for this data."
 },
 {
 "ref":"pyucalgarysrs.data.classes.FileDownloadResult.filenames",
@@ -275,7 +275,7 @@ INDEX=[
 {
 "ref":"pyucalgarysrs.data.classes.ProblematicFile",
 "url":2,
-"doc":"ProblematicFile(filename: str, error_message: str, error_type: Literal['error', 'warning'])"
+"doc":"Representation about a file that had issues being read. Attributes: filename (str): Filename of the problematic file. error_message (str): Error message that was encountered while attempting to read the file. error_type (str): Error type encountered. Possible values are 'error' or 'warning'."
 },
 {
 "ref":"pyucalgarysrs.data.classes.ProblematicFile.filename",
@@ -295,7 +295,7 @@ INDEX=[
 {
 "ref":"pyucalgarysrs.data.classes.Data",
 "url":2,
-"doc":"Data(data: numpy.ndarray, timestamp: List[datetime.datetime], metadata: List[Dict], problematic_files: List[pyucalgarysrs.data.classes.ProblematicFile], dataset: Optional[pyucalgarysrs.data.classes.Dataset] = None)"
+"doc":"Representation of the data read in from a  read call. Attributes: data (ndarray): Numpy n-dimensional array containing the data read in. timestamp (List[datetime.datetime]): List of timestamps for the read in data. metadata (List[Dict]): List of dictionaries containing metadata specific to each timestamp/image/record. problematic_files (List[ProblematicFiles]): A list detailing any files that encountered issues during reading. dataset (Dataset): The  Dataset object for this data."
 },
 {
 "ref":"pyucalgarysrs.data.classes.Data.data",

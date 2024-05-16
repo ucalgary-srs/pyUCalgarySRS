@@ -717,7 +717,7 @@ class ReadManager:
             # init item
             item_recarray = item["skymap"][0]
 
-            # parse several values into datetimes
+            # parse valid start and end times into datetimes
             date_generated_dt = datetime.datetime.strptime(item_recarray.generation_info[0].date_generated.decode(), "%a %b %d %H:%M:%S %Y")
             valid_interval_start_dt = datetime.datetime(2000, 1, 1, 0, 0, 0)
             try:
@@ -737,6 +737,9 @@ class ReadManager:
                     except Exception:
                         pass
 
+            # parse date time used into datetime
+            date_time_used_dt = datetime.datetime.strftime(item_recarray.generation_info[0].date_time_used.decode(), "%Y%m%d_UT%d")
+
             # determine the version
             version_str = os.path.splitext(item["filename"])[0].split('_')[-1]
 
@@ -747,7 +750,7 @@ class ReadManager:
                 code_used=item_recarray.generation_info[0].code_used.decode(),
                 data_loc=item_recarray.generation_info[0].data_loc.decode(),
                 date_generated=date_generated_dt,
-                date_time_used=item_recarray.generation_info[0].date_time_used.decode(),
+                date_time_used=date_time_used_dt,
                 img_flip=item_recarray.generation_info[0].img_flip,
                 optical_orientation=item_recarray.generation_info[0].optical_orientation,
                 optical_projection=item_recarray.generation_info[0].optical_projection,

@@ -30,7 +30,6 @@ class Dataset:
         doi_details (str): Further details about the DOI.
         citation (str): String to use when citing usage of the dataset.
     """
-
     name: str
     short_description: str
     long_description: str
@@ -54,7 +53,15 @@ class Dataset:
 @dataclass
 class FileListingResponse:
     """
-    
+    Representation of the file listing response from the UCalgary Space Remote Sensing API.
+
+    Attributes:
+        urls (List[str]): A list of URLs for available data files.
+        path_prefix (str): The URL prefix, which is sed for saving data locally with a 
+            similar data tree structure compared to the UCalgary Open Data archive.
+        count (int): The number of URLs available.
+        dataset (Dataset): The `Dataset` object for this data.
+        total_bytes (int): The cumulative amount of bytes for the available URLs.
     """
     urls: List[str]
     path_prefix: str
@@ -66,9 +73,16 @@ class FileListingResponse:
 @dataclass
 class FileDownloadResult:
     """
-    A file download result
-    """
+    Representation of the results from a data download call.
 
+    Attributes:
+        filenames (List[str]): List of downloaded files, as absolute paths of their location on 
+            the local machine.
+        count (int): Number of files downloaded
+        total_bytes (int): Cumulative amount of bytes saved on the local machine.
+        output_root_path (str): The root path of where the data was saved to on the local machine.
+        dataset (Dataset): The `Dataset` object for this data.
+    """
     filenames: List[str]
     count: int
     total_bytes: int
@@ -78,6 +92,14 @@ class FileDownloadResult:
 
 @dataclass
 class ProblematicFile:
+    """
+    Representation about a file that had issues being read.
+
+    Attributes:
+        filename (str): Filename of the problematic file.
+        error_message (str): Error message that was encountered while attempting to read the file.
+        error_type (str): Error type encountered. Possible values are 'error' or 'warning'.
+    """
     filename: str
     error_message: str
     error_type: Literal["error", "warning"]
@@ -85,6 +107,18 @@ class ProblematicFile:
 
 @dataclass
 class Data:
+    """
+    Representation of the data read in from a `read` call.
+
+    Attributes:
+        data (ndarray): Numpy n-dimensional array containing the data read in.
+        timestamp (List[datetime.datetime]): List of timestamps for the read in data.
+        metadata (List[Dict]): List of dictionaries containing metadata specific to each
+            timestamp/image/record.
+        problematic_files (List[ProblematicFiles]): A list detailing any files that encountered
+            issues during reading.
+        dataset (Dataset): The `Dataset` object for this data.
+    """
     data: ndarray
     timestamp: List[datetime.datetime]
     metadata: List[Dict]
@@ -112,12 +146,23 @@ class Data:
 
 @dataclass
 class SkymapGenerationInfo:
+    """
+    Representation of generation details for a specific skymap file.
+
+    Attributes:
+        author (str): Name of individual who created the skymap
+        ccd_center (float): Center pixels of the CCD
+        code_used (str): Program name for the code used to generate the skymap
+        data_loc (str): Location of the data on the UCalgary data systems used during generation
+        date_generated (datetime.datetime): Timestamp of when the skymap was generated
+        date_time_used (str): 
+    """
     author: str
     ccd_center: float
     code_used: str
     data_loc: str
     date_generated: datetime.datetime
-    date_time_used: int
+    date_time_used: str
     img_flip: ndarray
     optical_orientation: ndarray
     optical_projection: ndarray

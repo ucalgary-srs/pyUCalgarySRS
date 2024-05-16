@@ -18,7 +18,6 @@ class DataManager:
     super class.
     """
 
-    # defaults
     __DEFAULT_DOWNLOAD_N_PARALLEL = 5
 
     def __init__(self, srs_obj):

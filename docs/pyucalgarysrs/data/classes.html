@@ -61,7 +61,6 @@ class Dataset:
         doi_details (str): Further details about the DOI.
         citation (str): String to use when citing usage of the dataset.
     &#34;&#34;&#34;
-
     name: str
     short_description: str
     long_description: str
@@ -77,15 +76,23 @@ class Dataset:
         &#34;&#34;&#34;
         A special print output for the dataset&#39;s acknowledgement information.
         &#34;&#34;&#34;
-        print(&#34;\nDOI: %s&#34; % (self.doi))
-        print(&#34;DOI details: %s&#34; % (self.doi_details))
-        print(&#34;Citation: \&#34;%s\&#34;\n&#34; % (self.citation))
+        print(&#34;\n%-15s%s&#34; % (&#34;DOI:&#34;, self.doi))
+        print(&#34;%-15s%s&#34; % (&#34;DOI details:&#34;, self.doi_details))
+        print(&#34;%-15s\&#34;%s\&#34;\n&#34; % (&#34;Citation:&#34;, self.citation))
 
 
 @dataclass
 class FileListingResponse:
     &#34;&#34;&#34;
-    
+    Representation of the file listing response from the UCalgary Space Remote Sensing API.
+
+    Attributes:
+        urls (List[str]): A list of URLs for available data files.
+        path_prefix (str): The URL prefix, which is sed for saving data locally with a 
+            similar data tree structure compared to the UCalgary Open Data archive.
+        count (int): The number of URLs available.
+        dataset (Dataset): The `Dataset` object for this data.
+        total_bytes (int): The cumulative amount of bytes for the available URLs.
     &#34;&#34;&#34;
     urls: List[str]
     path_prefix: str
@@ -97,9 +104,16 @@ class FileListingResponse:
 @dataclass
 class FileDownloadResult:
     &#34;&#34;&#34;
-    A file download result
-    &#34;&#34;&#34;
+    Representation of the results from a data download call.
 
+    Attributes:
+        filenames (List[str]): List of downloaded files, as absolute paths of their location on 
+            the local machine.
+        count (int): Number of files downloaded
+        total_bytes (int): Cumulative amount of bytes saved on the local machine.
+        output_root_path (str): The root path of where the data was saved to on the local machine.
+        dataset (Dataset): The `Dataset` object for this data.
+    &#34;&#34;&#34;
     filenames: List[str]
     count: int
     total_bytes: int
@@ -109,6 +123,14 @@ class FileDownloadResult:
 
 @dataclass
 class ProblematicFile:
+    &#34;&#34;&#34;
+    Representation about a file that had issues being read.
+
+    Attributes:
+        filename (str): Filename of the problematic file.
+        error_message (str): Error message that was encountered while attempting to read the file.
+        error_type (str): Error type encountered. Possible values are &#39;error&#39; or &#39;warning&#39;.
+    &#34;&#34;&#34;
     filename: str
     error_message: str
     error_type: Literal[&#34;error&#34;, &#34;warning&#34;]
@@ -116,6 +138,18 @@ class ProblematicFile:
 
 @dataclass
 class Data:
+    &#34;&#34;&#34;
+    Representation of the data read in from a `read` call.
+
+    Attributes:
+        data (ndarray): Numpy n-dimensional array containing the data read in.
+        timestamp (List[datetime.datetime]): List of timestamps for the read in data.
+        metadata (List[Dict]): List of dictionaries containing metadata specific to each
+            timestamp/image/record.
+        problematic_files (List[ProblematicFiles]): A list detailing any files that encountered
+            issues during reading.
+        dataset (Dataset): The `Dataset` object for this data.
+    &#34;&#34;&#34;
     data: ndarray
     timestamp: List[datetime.datetime]
     metadata: List[Dict]
@@ -342,13 +376,40 @@ class CalibrationGenerationInfo:
 <span>(</span><span>data: numpy.ndarray, timestamp: List[datetime.datetime], metadata: List[Dict], problematic_files: List[<a title="pyucalgarysrs.data.classes.ProblematicFile" href="#pyucalgarysrs.data.classes.ProblematicFile">ProblematicFile</a>], dataset: Optional[<a title="pyucalgarysrs.data.classes.Dataset" href="#pyucalgarysrs.data.classes.Dataset">Dataset</a>] = None)</span>
 </code></dt>
 <dd>
-<div class="desc"><p>Data(data: numpy.ndarray, timestamp: List[datetime.datetime], metadata: List[Dict], problematic_files: List[pyucalgarysrs.data.classes.ProblematicFile], dataset: Optional[pyucalgarysrs.data.classes.Dataset] = None)</p></div>
+<div class="desc"><p>Representation of the data read in from a <code>read</code> call.</p>
+<h2 id="attributes">Attributes</h2>
+<dl>
+<dt><strong><code>data</code></strong> :&ensp;<code>ndarray</code></dt>
+<dd>Numpy n-dimensional array containing the data read in.</dd>
+<dt><strong><code>timestamp</code></strong> :&ensp;<code>List[datetime.datetime]</code></dt>
+<dd>List of timestamps for the read in data.</dd>
+<dt><strong><code>metadata</code></strong> :&ensp;<code>List[Dict]</code></dt>
+<dd>List of dictionaries containing metadata specific to each
+timestamp/image/record.</dd>
+<dt><strong><code>problematic_files</code></strong> :&ensp;<code>List[ProblematicFiles]</code></dt>
+<dd>A list detailing any files that encountered
+issues during reading.</dd>
+<dt><strong><code>dataset</code></strong> :&ensp;<code><a title="pyucalgarysrs.data.classes.Dataset" href="#pyucalgarysrs.data.classes.Dataset">Dataset</a></code></dt>
+<dd>The <code><a title="pyucalgarysrs.data.classes.Dataset" href="#pyucalgarysrs.data.classes.Dataset">Dataset</a></code> object for this data.</dd>
+</dl></div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
 </summary>
 <pre><code class="python">@dataclass
 class Data:
+    &#34;&#34;&#34;
+    Representation of the data read in from a `read` call.
+
+    Attributes:
+        data (ndarray): Numpy n-dimensional array containing the data read in.
+        timestamp (List[datetime.datetime]): List of timestamps for the read in data.
+        metadata (List[Dict]): List of dictionaries containing metadata specific to each
+            timestamp/image/record.
+        problematic_files (List[ProblematicFiles]): A list detailing any files that encountered
+            issues during reading.
+        dataset (Dataset): The `Dataset` object for this data.
+    &#34;&#34;&#34;
     data: ndarray
     timestamp: List[datetime.datetime]
     metadata: List[Dict]
@@ -455,7 +516,6 @@ class Dataset:
         doi_details (str): Further details about the DOI.
         citation (str): String to use when citing usage of the dataset.
     &#34;&#34;&#34;
-
     name: str
     short_description: str
     long_description: str
@@ -471,9 +531,9 @@ class Dataset:
         &#34;&#34;&#34;
         A special print output for the dataset&#39;s acknowledgement information.
         &#34;&#34;&#34;
-        print(&#34;\nDOI: %s&#34; % (self.doi))
-        print(&#34;DOI details: %s&#34; % (self.doi_details))
-        print(&#34;Citation: \&#34;%s\&#34;\n&#34; % (self.citation))</code></pre>
+        print(&#34;\n%-15s%s&#34; % (&#34;DOI:&#34;, self.doi))
+        print(&#34;%-15s%s&#34; % (&#34;DOI details:&#34;, self.doi_details))
+        print(&#34;%-15s\&#34;%s\&#34;\n&#34; % (&#34;Citation:&#34;, self.citation))</code></pre>
 </details>
 <h3>Class variables</h3>
 <dl>
@@ -533,9 +593,9 @@ class Dataset:
     &#34;&#34;&#34;
     A special print output for the dataset&#39;s acknowledgement information.
     &#34;&#34;&#34;
-    print(&#34;\nDOI: %s&#34; % (self.doi))
-    print(&#34;DOI details: %s&#34; % (self.doi_details))
-    print(&#34;Citation: \&#34;%s\&#34;\n&#34; % (self.citation))</code></pre>
+    print(&#34;\n%-15s%s&#34; % (&#34;DOI:&#34;, self.doi))
+    print(&#34;%-15s%s&#34; % (&#34;DOI details:&#34;, self.doi_details))
+    print(&#34;%-15s\&#34;%s\&#34;\n&#34; % (&#34;Citation:&#34;, self.citation))</code></pre>
 </details>
 </dd>
 </dl>
@@ -545,7 +605,21 @@ class Dataset:
 <span>(</span><span>filenames: List[str], count: int, total_bytes: int, output_root_path: str, dataset: <a title="pyucalgarysrs.data.classes.Dataset" href="#pyucalgarysrs.data.classes.Dataset">Dataset</a>)</span>
 </code></dt>
 <dd>
-<div class="desc"><p>A file download result</p></div>
+<div class="desc"><p>Representation of the results from a data download call.</p>
+<h2 id="attributes">Attributes</h2>
+<dl>
+<dt><strong><code>filenames</code></strong> :&ensp;<code>List[str]</code></dt>
+<dd>List of downloaded files, as absolute paths of their location on
+the local machine.</dd>
+<dt><strong><code>count</code></strong> :&ensp;<code>int</code></dt>
+<dd>Number of files downloaded</dd>
+<dt><strong><code>total_bytes</code></strong> :&ensp;<code>int</code></dt>
+<dd>Cumulative amount of bytes saved on the local machine.</dd>
+<dt><strong><code>output_root_path</code></strong> :&ensp;<code>str</code></dt>
+<dd>The root path of where the data was saved to on the local machine.</dd>
+<dt><strong><code>dataset</code></strong> :&ensp;<code><a title="pyucalgarysrs.data.classes.Dataset" href="#pyucalgarysrs.data.classes.Dataset">Dataset</a></code></dt>
+<dd>The <code><a title="pyucalgarysrs.data.classes.Dataset" href="#pyucalgarysrs.data.classes.Dataset">Dataset</a></code> object for this data.</dd>
+</dl></div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
@@ -553,9 +627,16 @@ class Dataset:
 <pre><code class="python">@dataclass
 class FileDownloadResult:
     &#34;&#34;&#34;
-    A file download result
-    &#34;&#34;&#34;
+    Representation of the results from a data download call.
 
+    Attributes:
+        filenames (List[str]): List of downloaded files, as absolute paths of their location on 
+            the local machine.
+        count (int): Number of files downloaded
+        total_bytes (int): Cumulative amount of bytes saved on the local machine.
+        output_root_path (str): The root path of where the data was saved to on the local machine.
+        dataset (Dataset): The `Dataset` object for this data.
+    &#34;&#34;&#34;
     filenames: List[str]
     count: int
     total_bytes: int
@@ -591,7 +672,21 @@ class FileDownloadResult:
 <span>(</span><span>urls: List[str], path_prefix: str, count: int, dataset: <a title="pyucalgarysrs.data.classes.Dataset" href="#pyucalgarysrs.data.classes.Dataset">Dataset</a>, total_bytes: Optional[int] = None)</span>
 </code></dt>
 <dd>
-<div class="desc"></div>
+<div class="desc"><p>Representation of the file listing response from the UCalgary Space Remote Sensing API.</p>
+<h2 id="attributes">Attributes</h2>
+<dl>
+<dt><strong><code>urls</code></strong> :&ensp;<code>List[str]</code></dt>
+<dd>A list of URLs for available data files.</dd>
+<dt><strong><code>path_prefix</code></strong> :&ensp;<code>str</code></dt>
+<dd>The URL prefix, which is sed for saving data locally with a
+similar data tree structure compared to the UCalgary Open Data archive.</dd>
+<dt><strong><code>count</code></strong> :&ensp;<code>int</code></dt>
+<dd>The number of URLs available.</dd>
+<dt><strong><code>dataset</code></strong> :&ensp;<code><a title="pyucalgarysrs.data.classes.Dataset" href="#pyucalgarysrs.data.classes.Dataset">Dataset</a></code></dt>
+<dd>The <code><a title="pyucalgarysrs.data.classes.Dataset" href="#pyucalgarysrs.data.classes.Dataset">Dataset</a></code> object for this data.</dd>
+<dt><strong><code>total_bytes</code></strong> :&ensp;<code>int</code></dt>
+<dd>The cumulative amount of bytes for the available URLs.</dd>
+</dl></div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
@@ -599,7 +694,15 @@ class FileDownloadResult:
 <pre><code class="python">@dataclass
 class FileListingResponse:
     &#34;&#34;&#34;
-    
+    Representation of the file listing response from the UCalgary Space Remote Sensing API.
+
+    Attributes:
+        urls (List[str]): A list of URLs for available data files.
+        path_prefix (str): The URL prefix, which is sed for saving data locally with a 
+            similar data tree structure compared to the UCalgary Open Data archive.
+        count (int): The number of URLs available.
+        dataset (Dataset): The `Dataset` object for this data.
+        total_bytes (int): The cumulative amount of bytes for the available URLs.
     &#34;&#34;&#34;
     urls: List[str]
     path_prefix: str
@@ -636,13 +739,30 @@ class FileListingResponse:
 <span>(</span><span>filename: str, error_message: str, error_type: Literal['error', 'warning'])</span>
 </code></dt>
 <dd>
-<div class="desc"><p>ProblematicFile(filename: str, error_message: str, error_type: Literal['error', 'warning'])</p></div>
+<div class="desc"><p>Representation about a file that had issues being read.</p>
+<h2 id="attributes">Attributes</h2>
+<dl>
+<dt><strong><code>filename</code></strong> :&ensp;<code>str</code></dt>
+<dd>Filename of the problematic file.</dd>
+<dt><strong><code>error_message</code></strong> :&ensp;<code>str</code></dt>
+<dd>Error message that was encountered while attempting to read the file.</dd>
+<dt><strong><code>error_type</code></strong> :&ensp;<code>str</code></dt>
+<dd>Error type encountered. Possible values are 'error' or 'warning'.</dd>
+</dl></div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
 </summary>
 <pre><code class="python">@dataclass
 class ProblematicFile:
+    &#34;&#34;&#34;
+    Representation about a file that had issues being read.
+
+    Attributes:
+        filename (str): Filename of the problematic file.
+        error_message (str): Error message that was encountered while attempting to read the file.
+        error_type (str): Error type encountered. Possible values are &#39;error&#39; or &#39;warning&#39;.
+    &#34;&#34;&#34;
     filename: str
     error_message: str
     error_type: Literal[&#34;error&#34;, &#34;warning&#34;]</code></pre>

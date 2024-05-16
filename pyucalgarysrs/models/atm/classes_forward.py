@@ -25,7 +25,6 @@ class ATMForwardOutputFlags:
     [`ATMForwardResult`](classes_forward.html#pyucalgarysrs.models.atm.classes_forward.ATMForwardResult)
     object.
     """
-
     height_integrated_rayleighs_4278: bool = False
     height_integrated_rayleighs_5577: bool = False
     height_integrated_rayleighs_6300: bool = False
@@ -91,7 +90,6 @@ class ATMForwardRequest:
     and [`ATMForwardResult`](classes_forward.html#pyucalgarysrs.models.atm.classes_forward.ATMForwardResult) 
     objects.
     """
-
     atm_model_version: Literal["1.0"]
     timestamp: datetime.datetime
     geodetic_latitude: float
@@ -130,7 +128,6 @@ class ATMForwardResultRequestInfo:
             Duration the the API spent performing the ATM forward calculation. Represented
             in milliseconds.
     """
-
     request: ATMForwardRequest
     calculation_duration_ms: float
 
@@ -237,7 +234,6 @@ class ATMForwardResult:
         neutral_temperature (ndarray): 
             1-dimensional numpy array for the neutral temperature (Kelvin).
     """
-
     request_info: ATMForwardResultRequestInfo
     height_integrated_rayleighs_4278: Optional[float] = None
     height_integrated_rayleighs_5577: Optional[float] = None
