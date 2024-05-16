@@ -1,5 +1,5 @@
 """
-Provides functions for interacting with UCalgary Space Remote Sensing models. One such 
+Functions for interacting with UCalgary Space Remote Sensing models. One such 
 model is the TREx Auroral Transport Model (ATM).
 """
 

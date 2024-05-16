@@ -1,8 +1,8 @@
 """
 The PyUCalgarySRS library provides a way to interact with the UCalgary Space
-Remote Sensing (SRS) Open Data Platform. Primarily, it allows users to 
-programmatically download and read data. It also provides functionality to utilize
-the TREx Auroral Transport Model (ATM). This library leverages the UCalgary SRS API. 
+Remote Sensing (SRS) Open Data Platform. It enables users to programmatically
+download and read data, and utilize the TREx Auroral Transport Model (ATM). 
+This library leverages the UCalgary SRS API for some functions.
 
 For more information about the data available and usage examples, visit the 
 [Open Data Platform website](https://data.phys.ucalgary.ca).

@@ -4,10 +4,9 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1" />
 <meta name="generator" content="pdoc 0.10.0" />
-<title>pyucalgarysrs.pyucalgarysrs API documentation</title>
-<meta name="description" content="The `PyUCalgarySRS` class is the primary entry point for utilizing
-this library. It is used to initialize a session, capturing details
-about API …" />
+<title>pyucalgarysrs API documentation</title>
+<meta name="description" content="The PyUCalgarySRS library provides a way to interact with the UCalgary Space
+Remote Sensing (SRS) Open Data Platform. It enables users to …" />
 <link rel="preload stylesheet" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/11.0.1/sanitize.min.css" integrity="sha256-PK9q560IAAa6WVRRh76LtCaI8pjTJ2z11v0miyNNjrs=" crossorigin>
 <link rel="preload stylesheet" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/11.0.1/typography.min.css" integrity="sha256-7l/o7C8jubJiy74VsKTidCy1yBkRtiUGbVkYBylBqUg=" crossorigin>
 <link rel="stylesheet preload" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.1.1/styles/github.min.css" crossorigin>
@@ -16,317 +15,137 @@ about API …" />
 <style media="print">@media print{#sidebar h1{page-break-before:always}.source{display:none}}@media print{*{background:transparent !important;color:#000 !important;box-shadow:none !important;text-shadow:none !important}a[href]:after{content:" (" attr(href) ")";font-size:90%}a[href][title]:after{content:none}abbr[title]:after{content:" (" attr(title) ")"}.ir a:after,a[href^="javascript:"]:after,a[href^="#"]:after{content:""}pre,blockquote{border:1px solid #999;page-break-inside:avoid}thead{display:table-header-group}tr,img{page-break-inside:avoid}img{max-width:100% !important}@page{margin:0.5cm}p,h2,h3{orphans:3;widows:3}h1,h2,h3,h4,h5,h6{page-break-after:avoid}}</style>
 <script defer src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.1.1/highlight.min.js" integrity="sha256-Uv3H6lx7dJmRfRvH8TH6kJD1TSK1aFcwgx+mdg3epi8=" crossorigin></script>
 <script>window.addEventListener('DOMContentLoaded', () => hljs.initHighlighting())</script>
+<style>
+@media screen and (max-width: 699px) {
+#content {
+padding-left: 2em;
+padding-right: 2em;
+padding-top: 0;
+}
+}
+@media screen and (min-width: 700px) {
+#content {
+width: 80%;
+max-width: 120ch;
+padding-left: 3em;
+padding-right: 3em;
+padding-top: 1em;
+border-left: 1px solid #ddd;
+}
+}
+</style>
 </head>
 <body>
 <main>
 <article id="content">
 <header>
-<h1 class="title">Module <code>pyucalgarysrs.pyucalgarysrs</code></h1>
+<h1 class="title">Package <code>pyucalgarysrs</code></h1>
 </header>
 <section id="section-intro">
-<p>The <code><a title="pyucalgarysrs.pyucalgarysrs.PyUCalgarySRS" href="#pyucalgarysrs.pyucalgarysrs.PyUCalgarySRS">PyUCalgarySRS</a></code> class is the primary entry point for utilizing
-this library. It is used to initialize a session, capturing details
-about API connectivity, environment, and more. All submodules are
-encapsulated within this class, so any usage of the library starts
-with creating this object.</p>
+<p>The PyUCalgarySRS library provides a way to interact with the UCalgary Space
+Remote Sensing (SRS) Open Data Platform. It enables users to programmatically
+download and read data, and utilize the TREx Auroral Transport Model (ATM).
+This library leverages the UCalgary SRS API for some functions.</p>
+<p>For more information about the data available and usage examples, visit the
+<a href="https://data.phys.ucalgary.ca">Open Data Platform website</a>.</p>
+<p>Installation:</p>
+<pre><code class="language-console">$ pip install pyucalgarysrs
+</code></pre>
+<p>Basic usage:</p>
 <pre><code class="language-python">&gt; import pyucalgarysrs
 &gt; srs = pyucalgarysrs.PyUCalgarySRS()
 </code></pre>
-<p>When working this this object, you can set configuration parameters, such
-as the destination directory for downloaded data, or API special settings
-(e.g., timeout, HTTP headers). These parameters can be set when instantiating
-the object, or after instantiating using the self-contained accessible variables.</p>
 <details class="source">
 <summary>
 <span>Expand source code</span>
 </summary>
 <pre><code class="python">&#34;&#34;&#34;
-The `PyUCalgarySRS` class is the primary entry point for utilizing
-this library. It is used to initialize a session, capturing details
-about API connectivity, environment, and more. All submodules are 
-encapsulated within this class, so any usage of the library starts 
-with creating this object.
+The PyUCalgarySRS library provides a way to interact with the UCalgary Space
+Remote Sensing (SRS) Open Data Platform. It enables users to programmatically
+download and read data, and utilize the TREx Auroral Transport Model (ATM). 
+This library leverages the UCalgary SRS API for some functions.
 
+For more information about the data available and usage examples, visit the 
+[Open Data Platform website](https://data.phys.ucalgary.ca).
+
+Installation:
+```console
+$ pip install pyucalgarysrs
+```
+
+Basic usage:
 ```python
 &gt; import pyucalgarysrs
 &gt; srs = pyucalgarysrs.PyUCalgarySRS()
 ```
-
-When working this this object, you can set configuration parameters, such 
-as the destination directory for downloaded data, or API special settings 
-(e.g., timeout, HTTP headers). These parameters can be set when instantiating 
-the object, or after instantiating using the self-contained accessible variables.
 &#34;&#34;&#34;
 
-import os
-import shutil
-import warnings
-from typing import Optional, Dict
-from pathlib import Path
-from .exceptions import SRSInitializationError, SRSPurgeError
-from .data import DataManager
-from .models import ModelsManager
-from . import __version__
+# versioning info
+__version__ = &#34;0.0.1&#34;
 
+# documentation
+__pdoc__ = {&#34;pyucalgarysrs&#34;: False}
+__all__ = [&#34;PyUCalgarySRS&#34;]
 
-class PyUCalgarySRS:
-    &#34;&#34;&#34;
-    Top-level class for interacting with the available PyUCalgarySRS functions
-    &#34;&#34;&#34;
-    __DEFAULT_API_BASE_URL = &#34;https://api.phys.ucalgary.ca&#34;
-    __DEFAULT_API_TIMEOUT = 10
-    __DEFAULT_API_HEADERS = {
-        &#34;content-type&#34;: &#34;application/json&#34;,
-        &#34;user-agent&#34;: &#34;python-pyaurorax/%s&#34; % (__version__),
-    }  # NOTE: these MUST be lowercase so that the decorator logic cannot be overridden
+# pull in top level class
+from .pyucalgarysrs import PyUCalgarySRS
 
-    def __init__(self,
-                 download_output_root_path: Optional[str] = None,
-                 read_tar_temp_path: Optional[str] = None,
-                 api_base_url: Optional[str] = None,
-                 api_timeout: Optional[int] = None,
-                 api_headers: Optional[Dict] = None,
-                 api_key: Optional[str] = None):
-        &#34;&#34;&#34;
-        Attributes:
-            download_output_root_path: 
-                Destination directory for downloaded data. The default for this path is a 
-                subfolder in the user&#39;s home directory, such  as `/home/user/pyucalgarysrs_data` 
-                in Linux. In Windows and Mac, it is similar.
+# pull in exceptions
+from .exceptions import (
+    SRSError,
+    SRSInitializationError,
+    SRSPurgeError,
+    SRSAPIError,
+    SRSUnsupportedReadError,
+    SRSDownloadError,
+)
 
-            read_tar_temp_path: 
-                Temporary directory used for tar extraction phases during file reading (e.g., 
-                reading TREx RGB Burst data). The default for this is `&lt;download_output_root_path&gt;/.tar_temp_working`. 
-                For faster performance when reading tar-based data, one option on Linux is 
-                to set this to use RAM directly at `/dev/shm/pyucalgarysrs_tar_temp_working`.
-
-            api_base_url: 
-                URL prefix to use when interacting with the UCalgary Space Remote Sensing API. By
-                default this is set to `https://api.phys.ucalgary.ca`. This parameter is primarily
-                used by the development team to test and build new functions using the private staging
-                API.
-
-            api_timeout: 
-                The timeout used when communicating with the UCalgary Space Remote Sensing API. This 
-                value is represented in seconds, and by default is `10 seconds`.
-            
-            api_headers: 
-                HTTP headers used when communicating with the UCalgary Space Remote Sensing API. The 
-                default for this value consists of several standard headers. Any changes to this 
-                parameter are in addition to the default standard headers.
-
-            api_key: 
-                API key to use when interacting with the UCalgary Space Remote Sensing API. The default
-                value is None. Please note that an API key is currently not required for using the API,
-                and this parameter is implemented purely for future-proofing. It is presently not utilized.
-        &#34;&#34;&#34;
-        # initialize path parameters
-        self.__download_output_root_path = download_output_root_path
-        self.__read_tar_temp_path = read_tar_temp_path
-
-        # initialize api parameters
-        self.__api_base_url = api_base_url
-        if (api_base_url is None):
-            self.__api_base_url = self.__DEFAULT_API_BASE_URL
-        self.__api_headers = api_headers
-        if (api_headers is None):
-            self.__api_headers = self.__DEFAULT_API_HEADERS
-        self.__api_timeout = api_timeout
-        if (api_timeout is None):
-            self.__api_timeout = self.__DEFAULT_API_TIMEOUT
-        self.__api_key = api_key
-
-        # initialize jupyter notebook flag
-        self.__in_jupyter_notebook = self.initialize_jupyter_flag()
-
-        # initialize paths
-        self.initialize_paths()
-
-        # initialize sub-modules
-        self.data = DataManager(self)
-        self.models = ModelsManager(self)
-
-    # -----------------------------
-    # properties
-    # -----------------------------
-    @property
-    def api_base_url(self):
-        &#34;&#34;&#34;
-        Property for the API base URL. See above for details.
-        &#34;&#34;&#34;
-        return self.__api_base_url
-
-    @api_base_url.setter
-    def api_base_url(self, value: str):
-        self.__api_base_url = value
-
-    @property
-    def api_headers(self):
-        &#34;&#34;&#34;
-        Property for the API headers. See above for details.
-        &#34;&#34;&#34;
-        return self.__api_headers
-
-    @api_headers.setter
-    def api_headers(self, value: Dict):
-        new_headers = self.__DEFAULT_API_HEADERS
-        if (value is not None):
-            for k, v in value.items():
-                k = k.lower()
-                if (k in new_headers):
-                    warnings.warn(&#34;Cannot override default &#39;%s&#39; header&#34; % (k), UserWarning)
-                else:
-                    new_headers[k] = v
-        self.__api_headers = new_headers
-
-    @property
-    def api_timeout(self):
-        &#34;&#34;&#34;
-        Property for the API timeout. See above for details.
-        &#34;&#34;&#34;
-        return self.__api_timeout
-
-    @api_timeout.setter
-    def api_timeout(self, value: int):
-        self.__api_timeout = value
-
-    @property
-    def api_key(self):
-        &#34;&#34;&#34;
-        Property for the API key. See above for details.
-        &#34;&#34;&#34;
-        return self.__api_key
-
-    @api_key.setter
-    def api_key(self, value: str):
-        self.__api_key = value
-
-    @property
-    def in_jupyter_notebook(self):
-        &#34;&#34;&#34;
-        Property for the Jupyter notebook flag. This value is used by various 
-        routines which utilize progress bars. If run from within a Jupyter notebook, 
-        then the specific tqdm Jupyter notebook progress bar is used. Otherwise the 
-        tqdm standard console progress bar is used.
-        &#34;&#34;&#34;
-        return self.__in_jupyter_notebook
-
-    @in_jupyter_notebook.setter
-    def in_jupyter_notebook(self, value: bool):
-        self.__in_jupyter_notebook = value
-
-    @property
-    def download_output_root_path(self):
-        &#34;&#34;&#34;
-        Property for the download output root path. See above for details.
-        &#34;&#34;&#34;
-        return str(self.__download_output_root_path)
-
-    @download_output_root_path.setter
-    def download_output_root_path(self, value: str):
-        self.__download_output_root_path = value
-        self.initialize_paths()
-
-    @property
-    def read_tar_temp_path(self):
-        &#34;&#34;&#34;
-        Property for the read tar temp path. See above for details.
-        &#34;&#34;&#34;
-        return str(self.__read_tar_temp_path)
-
-    @read_tar_temp_path.setter
-    def read_tar_temp_path(self, value: str):
-        self.__read_tar_temp_path = value
-        self.initialize_paths()
-
-    # special methods
-    # -----------------------------
-    def __str__(self) -&gt; str:
-        return self.__repr__()
-
-    def __repr__(self) -&gt; str:
-        return (&#34;PyUCalgarySRS(download_output_root_path=&#39;%s&#39;, read_tar_temp_path=&#39;%s&#39;, api_base_url=&#39;%s&#39;, &#34; +
-                &#34;api_headers=%s, api_timeout=%s, in_jupyter_notebook=%s)&#34;) % (
-                    self.__download_output_root_path,
-                    self.__read_tar_temp_path,
-                    self.api_base_url,
-                    self.api_headers,
-                    self.api_timeout,
-                    self.in_jupyter_notebook,
-                )
-
-    # -----------------------------
-    # public methods
-    # -----------------------------
-    def purge_download_output_root_path(self):
-        &#34;&#34;&#34;
-        Delete all files in the `download_output_root_path` directory. Since the
-        library downloads data to this directory, over time it can grow too large
-        and the user can risk running out of space. This method is here to assist
-        with easily clearing out this directory.
-        &#34;&#34;&#34;
-        try:
-            for item in os.listdir(self.download_output_root_path):
-                item = &#34;%s/%s&#34; % (self.download_output_root_path, item)
-                if (os.path.isdir(item) is True):
-                    shutil.rmtree(item)
-                elif (os.path.isfile(item) is True):
-                    os.remove(item)
-        except Exception as e:  # pragma: nocover
-            raise SRSPurgeError(&#34;Error while purging download output root path: %s&#34; % (str(e))) from e
-
-    def purge_read_tar_temp_path(self):
-        &#34;&#34;&#34;
-        Delete all files in the `read_tar_temp_path` directory. Since the library 
-        extracts temporary data to this directory, sometime issues during reading 
-        can cause this directory to contain residual files that aren&#39;t deleted during 
-        the normal read routine. Though this is very rare, it is still possible. 
-        Therefore, this method is here to assist with easily clearing out this 
-        directory.
-        &#34;&#34;&#34;
-        try:
-            for item in os.listdir(self.read_tar_temp_path):
-                item = &#34;%s/%s&#34; % (self.read_tar_temp_path, item)
-                if (os.path.isdir(item) is True):
-                    shutil.rmtree(item)
-                elif (os.path.isfile(item) is True):
-                    os.remove(item)
-        except Exception as e:  # pragma: nocover
-            raise SRSPurgeError(&#34;Error while purging read tar temp path: %s&#34; % (str(e))) from e
-
-    def initialize_paths(self):
-        &#34;&#34;&#34;
-        Initialize the `download_output_root_path` and `read_tar_temp_path` directories. 
-        &#34;&#34;&#34;
-        if (self.__download_output_root_path is None):
-            self.__download_output_root_path = Path(&#34;%s/pyucalgarysrs_data&#34; % (str(Path.home())))
-        if (self.__read_tar_temp_path is None):
-            self.__read_tar_temp_path = Path(&#34;%s/.tar_temp_working&#34; % (self.__download_output_root_path))
-        try:
-            os.makedirs(self.download_output_root_path, exist_ok=True)
-            os.makedirs(self.read_tar_temp_path, exist_ok=True)
-        except IOError as e:  # pragma: nocover
-            raise SRSInitializationError(&#34;Error during output path creation: %s&#34; % str(e)) from e
-
-    def initialize_jupyter_flag(self):
-        &#34;&#34;&#34;
-        Initialize the Jupyter notebook flag, which indicates to the PyUCalgarySRS object whether to 
-        use special progress bars for Jupyter notebooks or not.
-        &#34;&#34;&#34;
-        try:
-            from IPython import get_ipython  # type: ignore
-            shell = get_ipython().__class__.__name__
-            if (shell == &#34;ZMQInteractiveShell&#34;):  # pragma: nocover
-                return True  # jupyter notebook or qtconsole
-            elif (shell == &#34;TerminalInteractiveShell&#34;):  # pragma: nocover
-                return False  # terminal running IPython
-            else:
-                return False  # other unknown type
-        except (ImportError, NameError):  # pragma: nocover
-            return False  # probably standard Python interpreter</code></pre>
+# pull in schemas
+from .data.classes import (
+    Dataset,
+    FileListingResponse,
+    FileDownloadResult,
+    Calibration,
+    CalibrationGenerationInfo,
+    Data,
+    Skymap,
+    SkymapGenerationInfo,
+    ProblematicFile,
+)
+from .models.atm.classes_forward import (
+    ATMForwardOutputFlags,
+    ATMForwardRequest,
+    ATMForwardResult,
+    ATMForwardResultRequestInfo,
+)
+from .models.atm.classes_inverse import (
+    ATMInverseForwardParams,
+    ATMInverseOutputFlags,
+    ATMInverseRequest,
+    ATMInverseResult,
+    ATMInverseResultRequestInfo,
+)</code></pre>
 </details>
 </section>
 <section>
+<h2 class="section-title" id="header-submodules">Sub-modules</h2>
+<dl>
+<dt><code class="name"><a title="pyucalgarysrs.data" href="data/index.html">pyucalgarysrs.data</a></code></dt>
+<dd>
+<div class="desc"><p>Provides capabilities for downloading and reading data from the UCalgary Space Remote
+Sensing Open Data Platform.</p></div>
+</dd>
+<dt><code class="name"><a title="pyucalgarysrs.exceptions" href="exceptions.html">pyucalgarysrs.exceptions</a></code></dt>
+<dd>
+<div class="desc"><p>The exceptions module contains unique exception classes utilized by PyUCalgarySRS. These
+exceptions can be used to help trap specific errors raised …</p></div>
+</dd>
+<dt><code class="name"><a title="pyucalgarysrs.models" href="models/index.html">pyucalgarysrs.models</a></code></dt>
+<dd>
+<div class="desc"><p>Functions for interacting with UCalgary Space Remote Sensing models. One such
+model is the TREx Auroral Transport Model (ATM).</p></div>
+</dd>
+</dl>
 </section>
 <section>
 </section>
@@ -335,40 +154,57 @@ class PyUCalgarySRS:
 <section>
 <h2 class="section-title" id="header-classes">Classes</h2>
 <dl>
-<dt id="pyucalgarysrs.pyucalgarysrs.PyUCalgarySRS"><code class="flex name class">
+<dt id="pyucalgarysrs.PyUCalgarySRS"><code class="flex name class">
 <span>class <span class="ident">PyUCalgarySRS</span></span>
 <span>(</span><span>download_output_root_path: Optional[str] = None, read_tar_temp_path: Optional[str] = None, api_base_url: Optional[str] = None, api_timeout: Optional[int] = None, api_headers: Optional[Dict] = None, api_key: Optional[str] = None)</span>
 </code></dt>
 <dd>
-<div class="desc"><p>Top-level class for interacting with the available PyUCalgarySRS functions</p>
+<div class="desc"><p>The <code><a title="pyucalgarysrs.PyUCalgarySRS" href="#pyucalgarysrs.PyUCalgarySRS">PyUCalgarySRS</a></code> class is the primary entry point for utilizing
+this library. It is used to initialize a session, capturing details
+about API connectivity, environment, and more. All submodules are
+encapsulated within this class, so any usage of the library starts
+with creating this object.</p>
+<pre><code class="language-python">import pyucalgarysrs
+srs = pyucalgarysrs.PyUCalgarySRS()
+</code></pre>
+<p>When working this this object, you can set configuration parameters, such
+as the destination directory for downloaded data, or API special settings
+(e.g., timeout, HTTP headers). These parameters can be set when instantiating
+the object, or after instantiating using the self-contained accessible variables.</p>
 <h2 id="attributes">Attributes</h2>
 <dl>
-<dt><strong><code>download_output_root_path</code></strong></dt>
+<dt><strong><code>download_output_root_path</code></strong> :&ensp;<code>str</code></dt>
 <dd>Destination directory for downloaded data. The default for this path is a
 subfolder in the user's home directory, such
 as <code>/home/user/pyucalgarysrs_data</code>
 in Linux. In Windows and Mac, it is similar.</dd>
-<dt><strong><code>read_tar_temp_path</code></strong></dt>
+<dt><strong><code>read_tar_temp_path</code></strong> :&ensp;<code>str</code></dt>
 <dd>Temporary directory used for tar extraction phases during file reading (e.g.,
 reading TREx RGB Burst data). The default for this is <code>&lt;download_output_root_path&gt;/.tar_temp_working</code>.
 For faster performance when reading tar-based data, one option on Linux is
 to set this to use RAM directly at <code>/dev/shm/pyucalgarysrs_tar_temp_working</code>.</dd>
-<dt><strong><code>api_base_url</code></strong></dt>
+<dt><strong><code>api_base_url</code></strong> :&ensp;<code>str</code></dt>
 <dd>URL prefix to use when interacting with the UCalgary Space Remote Sensing API. By
 default this is set to <code>https://api.phys.ucalgary.ca</code>. This parameter is primarily
 used by the development team to test and build new functions using the private staging
 API.</dd>
-<dt><strong><code>api_timeout</code></strong></dt>
+<dt><strong><code>api_timeout</code></strong> :&ensp;<code>int</code></dt>
 <dd>The timeout used when communicating with the UCalgary Space Remote Sensing API. This
 value is represented in seconds, and by default is <code>10 seconds</code>.</dd>
-<dt><strong><code>api_headers</code></strong></dt>
+<dt><strong><code>api_headers</code></strong> :&ensp;<code>Dict</code></dt>
 <dd>HTTP headers used when communicating with the UCalgary Space Remote Sensing API. The
 default for this value consists of several standard headers. Any changes to this
 parameter are in addition to the default standard headers.</dd>
-<dt><strong><code>api_key</code></strong></dt>
+<dt><strong><code>api_key</code></strong> :&ensp;<code>str</code></dt>
 <dd>API key to use when interacting with the UCalgary Space Remote Sensing API. The default
 value is None. Please note that an API key is currently not required for using the API,
 and this parameter is implemented purely for future-proofing. It is presently not utilized.</dd>
+</dl>
+<h2 id="raises">Raises</h2>
+<dl>
+<dt><code><a title="pyucalgarysrs.exceptions.SRSInitializationError" href="exceptions.html#pyucalgarysrs.exceptions.SRSInitializationError">SRSInitializationError</a></code></dt>
+<dd>an error was encountered during
+initialization of the paths</dd>
 </dl></div>
 <details class="source">
 <summary>
@@ -376,8 +212,23 @@ and this parameter is implemented purely for future-proofing. It is presently no
 </summary>
 <pre><code class="python">class PyUCalgarySRS:
     &#34;&#34;&#34;
-    Top-level class for interacting with the available PyUCalgarySRS functions
+    The `PyUCalgarySRS` class is the primary entry point for utilizing
+    this library. It is used to initialize a session, capturing details
+    about API connectivity, environment, and more. All submodules are 
+    encapsulated within this class, so any usage of the library starts 
+    with creating this object.
+
+    ```python
+    import pyucalgarysrs
+    srs = pyucalgarysrs.PyUCalgarySRS()
+    ```
+
+    When working this this object, you can set configuration parameters, such 
+    as the destination directory for downloaded data, or API special settings 
+    (e.g., timeout, HTTP headers). These parameters can be set when instantiating 
+    the object, or after instantiating using the self-contained accessible variables.
     &#34;&#34;&#34;
+
     __DEFAULT_API_BASE_URL = &#34;https://api.phys.ucalgary.ca&#34;
     __DEFAULT_API_TIMEOUT = 10
     __DEFAULT_API_HEADERS = {
@@ -394,36 +245,40 @@ and this parameter is implemented purely for future-proofing. It is presently no
                  api_key: Optional[str] = None):
         &#34;&#34;&#34;
         Attributes:
-            download_output_root_path: 
+            download_output_root_path (str): 
                 Destination directory for downloaded data. The default for this path is a 
                 subfolder in the user&#39;s home directory, such  as `/home/user/pyucalgarysrs_data` 
                 in Linux. In Windows and Mac, it is similar.
 
-            read_tar_temp_path: 
+            read_tar_temp_path (str): 
                 Temporary directory used for tar extraction phases during file reading (e.g., 
                 reading TREx RGB Burst data). The default for this is `&lt;download_output_root_path&gt;/.tar_temp_working`. 
                 For faster performance when reading tar-based data, one option on Linux is 
                 to set this to use RAM directly at `/dev/shm/pyucalgarysrs_tar_temp_working`.
 
-            api_base_url: 
+            api_base_url (str): 
                 URL prefix to use when interacting with the UCalgary Space Remote Sensing API. By
                 default this is set to `https://api.phys.ucalgary.ca`. This parameter is primarily
                 used by the development team to test and build new functions using the private staging
                 API.
 
-            api_timeout: 
+            api_timeout (int): 
                 The timeout used when communicating with the UCalgary Space Remote Sensing API. This 
                 value is represented in seconds, and by default is `10 seconds`.
             
-            api_headers: 
+            api_headers (Dict): 
                 HTTP headers used when communicating with the UCalgary Space Remote Sensing API. The 
                 default for this value consists of several standard headers. Any changes to this 
                 parameter are in addition to the default standard headers.
 
-            api_key: 
+            api_key (str): 
                 API key to use when interacting with the UCalgary Space Remote Sensing API. The default
                 value is None. Please note that an API key is currently not required for using the API,
                 and this parameter is implemented purely for future-proofing. It is presently not utilized.
+        
+        Raises:
+            pyucalgarysrs.exceptions.SRSInitializationError: an error was encountered during
+                initialization of the paths
         &#34;&#34;&#34;
         # initialize path parameters
         self.__download_output_root_path = download_output_root_path
@@ -448,12 +303,29 @@ and this parameter is implemented purely for future-proofing. It is presently no
         self.initialize_paths()
 
         # initialize sub-modules
-        self.data = DataManager(self)
-        self.models = ModelsManager(self)
+        self.__data = DataManager(self)
+        self.__models = ModelsManager(self)
 
-    # -----------------------------
-    # properties
-    # -----------------------------
+    # ------------------------------------------
+    # properties for submodule managers
+    # ------------------------------------------
+    @property
+    def data(self):
+        &#34;&#34;&#34;
+        Access to the `data` submodule from within a PyUCalgarySRS object.
+        &#34;&#34;&#34;
+        return self.__data
+
+    @property
+    def models(self):
+        &#34;&#34;&#34;
+        Access to the `models` submodule from within a PyUCalgarySRS object.
+        &#34;&#34;&#34;
+        return self.__models
+
+    # ------------------------------------------
+    # properties for configuration parameters
+    # ------------------------------------------
     @property
     def api_base_url(self):
         &#34;&#34;&#34;
@@ -463,7 +335,10 @@ and this parameter is implemented purely for future-proofing. It is presently no
 
     @api_base_url.setter
     def api_base_url(self, value: str):
-        self.__api_base_url = value
+        if (value is None):
+            self.__api_base_url = self.__DEFAULT_API_BASE_URL
+        else:
+            self.__api_base_url = value
 
     @property
     def api_headers(self):
@@ -479,7 +354,7 @@ and this parameter is implemented purely for future-proofing. It is presently no
             for k, v in value.items():
                 k = k.lower()
                 if (k in new_headers):
-                    warnings.warn(&#34;Cannot override default &#39;%s&#39; header&#34; % (k), UserWarning)
+                    warnings.warn(&#34;Cannot override default &#39;%s&#39; header&#34; % (k), UserWarning, stacklevel=1)
                 else:
                     new_headers[k] = v
         self.__api_headers = new_headers
@@ -493,7 +368,10 @@ and this parameter is implemented purely for future-proofing. It is presently no
 
     @api_timeout.setter
     def api_timeout(self, value: int):
-        self.__api_timeout = value
+        if (value is None):
+            self.__api_timeout = self.__DEFAULT_API_TIMEOUT
+        else:
+            self.__api_timeout = value
 
     @property
     def api_key(self):
@@ -504,7 +382,7 @@ and this parameter is implemented purely for future-proofing. It is presently no
 
     @api_key.setter
     def api_key(self, value: str):
-        self.__api_key = value
+        self.__api_key = value  # pragma: nocover
 
     @property
     def in_jupyter_notebook(self):
@@ -518,7 +396,10 @@ and this parameter is implemented purely for future-proofing. It is presently no
 
     @in_jupyter_notebook.setter
     def in_jupyter_notebook(self, value: bool):
-        self.__in_jupyter_notebook = value
+        if (value is None):
+            self.__in_jupyter_notebook = self.initialize_jupyter_flag()
+        else:
+            self.__in_jupyter_notebook = value
 
     @property
     def download_output_root_path(self):
@@ -569,6 +450,9 @@ and this parameter is implemented purely for future-proofing. It is presently no
         library downloads data to this directory, over time it can grow too large
         and the user can risk running out of space. This method is here to assist
         with easily clearing out this directory.
+
+        Raises:
+            pyucalgarysrs.exceptions.SRSPurgeError: an error was encountered during the purge operation
         &#34;&#34;&#34;
         try:
             for item in os.listdir(self.download_output_root_path):
@@ -588,6 +472,9 @@ and this parameter is implemented purely for future-proofing. It is presently no
         the normal read routine. Though this is very rare, it is still possible. 
         Therefore, this method is here to assist with easily clearing out this 
         directory.
+
+        Raises:
+            pyucalgarysrs.exceptions.SRSPurgeError: an error was encountered during the purge operation
         &#34;&#34;&#34;
         try:
             for item in os.listdir(self.read_tar_temp_path):
@@ -601,7 +488,11 @@ and this parameter is implemented purely for future-proofing. It is presently no
 
     def initialize_paths(self):
         &#34;&#34;&#34;
-        Initialize the `download_output_root_path` and `read_tar_temp_path` directories. 
+        Initialize the `download_output_root_path` and `read_tar_temp_path` directories.
+
+        Raises:
+            pyucalgarysrs.exceptions.SRSInitializationError: an error was encountered during
+                initialization of the paths
         &#34;&#34;&#34;
         if (self.__download_output_root_path is None):
             self.__download_output_root_path = Path(&#34;%s/pyucalgarysrs_data&#34; % (str(Path.home())))
@@ -632,7 +523,7 @@ and this parameter is implemented purely for future-proofing. It is presently no
 </details>
 <h3>Instance variables</h3>
 <dl>
-<dt id="pyucalgarysrs.pyucalgarysrs.PyUCalgarySRS.api_base_url"><code class="name">var <span class="ident">api_base_url</span></code></dt>
+<dt id="pyucalgarysrs.PyUCalgarySRS.api_base_url"><code class="name">var <span class="ident">api_base_url</span></code></dt>
 <dd>
 <div class="desc"><p>Property for the API base URL. See above for details.</p></div>
 <details class="source">
@@ -647,7 +538,7 @@ def api_base_url(self):
     return self.__api_base_url</code></pre>
 </details>
 </dd>
-<dt id="pyucalgarysrs.pyucalgarysrs.PyUCalgarySRS.api_headers"><code class="name">var <span class="ident">api_headers</span></code></dt>
+<dt id="pyucalgarysrs.PyUCalgarySRS.api_headers"><code class="name">var <span class="ident">api_headers</span></code></dt>
 <dd>
 <div class="desc"><p>Property for the API headers. See above for details.</p></div>
 <details class="source">
@@ -662,7 +553,7 @@ def api_headers(self):
     return self.__api_headers</code></pre>
 </details>
 </dd>
-<dt id="pyucalgarysrs.pyucalgarysrs.PyUCalgarySRS.api_key"><code class="name">var <span class="ident">api_key</span></code></dt>
+<dt id="pyucalgarysrs.PyUCalgarySRS.api_key"><code class="name">var <span class="ident">api_key</span></code></dt>
 <dd>
 <div class="desc"><p>Property for the API key. See above for details.</p></div>
 <details class="source">
@@ -677,7 +568,7 @@ def api_key(self):
     return self.__api_key</code></pre>
 </details>
 </dd>
-<dt id="pyucalgarysrs.pyucalgarysrs.PyUCalgarySRS.api_timeout"><code class="name">var <span class="ident">api_timeout</span></code></dt>
+<dt id="pyucalgarysrs.PyUCalgarySRS.api_timeout"><code class="name">var <span class="ident">api_timeout</span></code></dt>
 <dd>
 <div class="desc"><p>Property for the API timeout. See above for details.</p></div>
 <details class="source">
@@ -692,7 +583,22 @@ def api_timeout(self):
     return self.__api_timeout</code></pre>
 </details>
 </dd>
-<dt id="pyucalgarysrs.pyucalgarysrs.PyUCalgarySRS.download_output_root_path"><code class="name">var <span class="ident">download_output_root_path</span></code></dt>
+<dt id="pyucalgarysrs.PyUCalgarySRS.data"><code class="name">var <span class="ident">data</span></code></dt>
+<dd>
+<div class="desc"><p>Access to the <code><a title="pyucalgarysrs.data" href="data/index.html">pyucalgarysrs.data</a></code> submodule from within a PyUCalgarySRS object.</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">@property
+def data(self):
+    &#34;&#34;&#34;
+    Access to the `data` submodule from within a PyUCalgarySRS object.
+    &#34;&#34;&#34;
+    return self.__data</code></pre>
+</details>
+</dd>
+<dt id="pyucalgarysrs.PyUCalgarySRS.download_output_root_path"><code class="name">var <span class="ident">download_output_root_path</span></code></dt>
 <dd>
 <div class="desc"><p>Property for the download output root path. See above for details.</p></div>
 <details class="source">
@@ -707,7 +613,7 @@ def download_output_root_path(self):
     return str(self.__download_output_root_path)</code></pre>
 </details>
 </dd>
-<dt id="pyucalgarysrs.pyucalgarysrs.PyUCalgarySRS.in_jupyter_notebook"><code class="name">var <span class="ident">in_jupyter_notebook</span></code></dt>
+<dt id="pyucalgarysrs.PyUCalgarySRS.in_jupyter_notebook"><code class="name">var <span class="ident">in_jupyter_notebook</span></code></dt>
 <dd>
 <div class="desc"><p>Property for the Jupyter notebook flag. This value is used by various
 routines which utilize progress bars. If run from within a Jupyter notebook,
@@ -728,7 +634,22 @@ def in_jupyter_notebook(self):
     return self.__in_jupyter_notebook</code></pre>
 </details>
 </dd>
-<dt id="pyucalgarysrs.pyucalgarysrs.PyUCalgarySRS.read_tar_temp_path"><code class="name">var <span class="ident">read_tar_temp_path</span></code></dt>
+<dt id="pyucalgarysrs.PyUCalgarySRS.models"><code class="name">var <span class="ident">models</span></code></dt>
+<dd>
+<div class="desc"><p>Access to the <code><a title="pyucalgarysrs.models" href="models/index.html">pyucalgarysrs.models</a></code> submodule from within a PyUCalgarySRS object.</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">@property
+def models(self):
+    &#34;&#34;&#34;
+    Access to the `models` submodule from within a PyUCalgarySRS object.
+    &#34;&#34;&#34;
+    return self.__models</code></pre>
+</details>
+</dd>
+<dt id="pyucalgarysrs.PyUCalgarySRS.read_tar_temp_path"><code class="name">var <span class="ident">read_tar_temp_path</span></code></dt>
 <dd>
 <div class="desc"><p>Property for the read tar temp path. See above for details.</p></div>
 <details class="source">
@@ -746,7 +667,7 @@ def read_tar_temp_path(self):
 </dl>
 <h3>Methods</h3>
 <dl>
-<dt id="pyucalgarysrs.pyucalgarysrs.PyUCalgarySRS.initialize_jupyter_flag"><code class="name flex">
+<dt id="pyucalgarysrs.PyUCalgarySRS.initialize_jupyter_flag"><code class="name flex">
 <span>def <span class="ident">initialize_jupyter_flag</span></span>(<span>self)</span>
 </code></dt>
 <dd>
@@ -774,18 +695,28 @@ use special progress bars for Jupyter notebooks or not.</p></div>
         return False  # probably standard Python interpreter</code></pre>
 </details>
 </dd>
-<dt id="pyucalgarysrs.pyucalgarysrs.PyUCalgarySRS.initialize_paths"><code class="name flex">
+<dt id="pyucalgarysrs.PyUCalgarySRS.initialize_paths"><code class="name flex">
 <span>def <span class="ident">initialize_paths</span></span>(<span>self)</span>
 </code></dt>
 <dd>
-<div class="desc"><p>Initialize the <code>download_output_root_path</code> and <code>read_tar_temp_path</code> directories.</p></div>
+<div class="desc"><p>Initialize the <code>download_output_root_path</code> and <code>read_tar_temp_path</code> directories.</p>
+<h2 id="raises">Raises</h2>
+<dl>
+<dt><code><a title="pyucalgarysrs.exceptions.SRSInitializationError" href="exceptions.html#pyucalgarysrs.exceptions.SRSInitializationError">SRSInitializationError</a></code></dt>
+<dd>an error was encountered during
+initialization of the paths</dd>
+</dl></div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
 </summary>
 <pre><code class="python">def initialize_paths(self):
     &#34;&#34;&#34;
-    Initialize the `download_output_root_path` and `read_tar_temp_path` directories. 
+    Initialize the `download_output_root_path` and `read_tar_temp_path` directories.
+
+    Raises:
+        pyucalgarysrs.exceptions.SRSInitializationError: an error was encountered during
+            initialization of the paths
     &#34;&#34;&#34;
     if (self.__download_output_root_path is None):
         self.__download_output_root_path = Path(&#34;%s/pyucalgarysrs_data&#34; % (str(Path.home())))
@@ -798,14 +729,19 @@ use special progress bars for Jupyter notebooks or not.</p></div>
         raise SRSInitializationError(&#34;Error during output path creation: %s&#34; % str(e)) from e</code></pre>
 </details>
 </dd>
-<dt id="pyucalgarysrs.pyucalgarysrs.PyUCalgarySRS.purge_download_output_root_path"><code class="name flex">
+<dt id="pyucalgarysrs.PyUCalgarySRS.purge_download_output_root_path"><code class="name flex">
 <span>def <span class="ident">purge_download_output_root_path</span></span>(<span>self)</span>
 </code></dt>
 <dd>
 <div class="desc"><p>Delete all files in the <code>download_output_root_path</code> directory. Since the
 library downloads data to this directory, over time it can grow too large
 and the user can risk running out of space. This method is here to assist
-with easily clearing out this directory.</p></div>
+with easily clearing out this directory.</p>
+<h2 id="raises">Raises</h2>
+<dl>
+<dt><code><a title="pyucalgarysrs.exceptions.SRSPurgeError" href="exceptions.html#pyucalgarysrs.exceptions.SRSPurgeError">SRSPurgeError</a></code></dt>
+<dd>an error was encountered during the purge operation</dd>
+</dl></div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
@@ -816,6 +752,9 @@ with easily clearing out this directory.</p></div>
     library downloads data to this directory, over time it can grow too large
     and the user can risk running out of space. This method is here to assist
     with easily clearing out this directory.
+
+    Raises:
+        pyucalgarysrs.exceptions.SRSPurgeError: an error was encountered during the purge operation
     &#34;&#34;&#34;
     try:
         for item in os.listdir(self.download_output_root_path):
@@ -828,7 +767,7 @@ with easily clearing out this directory.</p></div>
         raise SRSPurgeError(&#34;Error while purging download output root path: %s&#34; % (str(e))) from e</code></pre>
 </details>
 </dd>
-<dt id="pyucalgarysrs.pyucalgarysrs.PyUCalgarySRS.purge_read_tar_temp_path"><code class="name flex">
+<dt id="pyucalgarysrs.PyUCalgarySRS.purge_read_tar_temp_path"><code class="name flex">
 <span>def <span class="ident">purge_read_tar_temp_path</span></span>(<span>self)</span>
 </code></dt>
 <dd>
@@ -837,7 +776,12 @@ extracts temporary data to this directory, sometime issues during reading
 can cause this directory to contain residual files that aren't deleted during
 the normal read routine. Though this is very rare, it is still possible.
 Therefore, this method is here to assist with easily clearing out this
-directory.</p></div>
+directory.</p>
+<h2 id="raises">Raises</h2>
+<dl>
+<dt><code><a title="pyucalgarysrs.exceptions.SRSPurgeError" href="exceptions.html#pyucalgarysrs.exceptions.SRSPurgeError">SRSPurgeError</a></code></dt>
+<dd>an error was encountered during the purge operation</dd>
+</dl></div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
@@ -850,6 +794,9 @@ directory.</p></div>
     the normal read routine. Though this is very rare, it is still possible. 
     Therefore, this method is here to assist with easily clearing out this 
     directory.
+
+    Raises:
+        pyucalgarysrs.exceptions.SRSPurgeError: an error was encountered during the purge operation
     &#34;&#34;&#34;
     try:
         for item in os.listdir(self.read_tar_temp_path):
@@ -919,27 +866,31 @@ setTimeout(() => input.focus(), 100);
 <ul></ul>
 </div>
 <ul id="index">
-<li><h3>Super-module</h3>
+<li><h3><a href="#header-submodules">Sub-modules</a></h3>
 <ul>
-<li><code><a title="pyucalgarysrs" href="index.html">pyucalgarysrs</a></code></li>
+<li><code><a title="pyucalgarysrs.data" href="data/index.html">pyucalgarysrs.data</a></code></li>
+<li><code><a title="pyucalgarysrs.exceptions" href="exceptions.html">pyucalgarysrs.exceptions</a></code></li>
+<li><code><a title="pyucalgarysrs.models" href="models/index.html">pyucalgarysrs.models</a></code></li>
 </ul>
 </li>
 <li><h3><a href="#header-classes">Classes</a></h3>
 <ul>
 <li>
-<h4><code><a title="pyucalgarysrs.pyucalgarysrs.PyUCalgarySRS" href="#pyucalgarysrs.pyucalgarysrs.PyUCalgarySRS">PyUCalgarySRS</a></code></h4>
+<h4><code><a title="pyucalgarysrs.PyUCalgarySRS" href="#pyucalgarysrs.PyUCalgarySRS">PyUCalgarySRS</a></code></h4>
 <ul class="">
-<li><code><a title="pyucalgarysrs.pyucalgarysrs.PyUCalgarySRS.api_base_url" href="#pyucalgarysrs.pyucalgarysrs.PyUCalgarySRS.api_base_url">api_base_url</a></code></li>
-<li><code><a title="pyucalgarysrs.pyucalgarysrs.PyUCalgarySRS.api_headers" href="#pyucalgarysrs.pyucalgarysrs.PyUCalgarySRS.api_headers">api_headers</a></code></li>
-<li><code><a title="pyucalgarysrs.pyucalgarysrs.PyUCalgarySRS.api_key" href="#pyucalgarysrs.pyucalgarysrs.PyUCalgarySRS.api_key">api_key</a></code></li>
-<li><code><a title="pyucalgarysrs.pyucalgarysrs.PyUCalgarySRS.api_timeout" href="#pyucalgarysrs.pyucalgarysrs.PyUCalgarySRS.api_timeout">api_timeout</a></code></li>
-<li><code><a title="pyucalgarysrs.pyucalgarysrs.PyUCalgarySRS.download_output_root_path" href="#pyucalgarysrs.pyucalgarysrs.PyUCalgarySRS.download_output_root_path">download_output_root_path</a></code></li>
-<li><code><a title="pyucalgarysrs.pyucalgarysrs.PyUCalgarySRS.in_jupyter_notebook" href="#pyucalgarysrs.pyucalgarysrs.PyUCalgarySRS.in_jupyter_notebook">in_jupyter_notebook</a></code></li>
-<li><code><a title="pyucalgarysrs.pyucalgarysrs.PyUCalgarySRS.initialize_jupyter_flag" href="#pyucalgarysrs.pyucalgarysrs.PyUCalgarySRS.initialize_jupyter_flag">initialize_jupyter_flag</a></code></li>
-<li><code><a title="pyucalgarysrs.pyucalgarysrs.PyUCalgarySRS.initialize_paths" href="#pyucalgarysrs.pyucalgarysrs.PyUCalgarySRS.initialize_paths">initialize_paths</a></code></li>
-<li><code><a title="pyucalgarysrs.pyucalgarysrs.PyUCalgarySRS.purge_download_output_root_path" href="#pyucalgarysrs.pyucalgarysrs.PyUCalgarySRS.purge_download_output_root_path">purge_download_output_root_path</a></code></li>
-<li><code><a title="pyucalgarysrs.pyucalgarysrs.PyUCalgarySRS.purge_read_tar_temp_path" href="#pyucalgarysrs.pyucalgarysrs.PyUCalgarySRS.purge_read_tar_temp_path">purge_read_tar_temp_path</a></code></li>
-<li><code><a title="pyucalgarysrs.pyucalgarysrs.PyUCalgarySRS.read_tar_temp_path" href="#pyucalgarysrs.pyucalgarysrs.PyUCalgarySRS.read_tar_temp_path">read_tar_temp_path</a></code></li>
+<li><code><a title="pyucalgarysrs.PyUCalgarySRS.api_base_url" href="#pyucalgarysrs.PyUCalgarySRS.api_base_url">api_base_url</a></code></li>
+<li><code><a title="pyucalgarysrs.PyUCalgarySRS.api_headers" href="#pyucalgarysrs.PyUCalgarySRS.api_headers">api_headers</a></code></li>
+<li><code><a title="pyucalgarysrs.PyUCalgarySRS.api_key" href="#pyucalgarysrs.PyUCalgarySRS.api_key">api_key</a></code></li>
+<li><code><a title="pyucalgarysrs.PyUCalgarySRS.api_timeout" href="#pyucalgarysrs.PyUCalgarySRS.api_timeout">api_timeout</a></code></li>
+<li><code><a title="pyucalgarysrs.PyUCalgarySRS.data" href="#pyucalgarysrs.PyUCalgarySRS.data">data</a></code></li>
+<li><code><a title="pyucalgarysrs.PyUCalgarySRS.download_output_root_path" href="#pyucalgarysrs.PyUCalgarySRS.download_output_root_path">download_output_root_path</a></code></li>
+<li><code><a title="pyucalgarysrs.PyUCalgarySRS.in_jupyter_notebook" href="#pyucalgarysrs.PyUCalgarySRS.in_jupyter_notebook">in_jupyter_notebook</a></code></li>
+<li><code><a title="pyucalgarysrs.PyUCalgarySRS.initialize_jupyter_flag" href="#pyucalgarysrs.PyUCalgarySRS.initialize_jupyter_flag">initialize_jupyter_flag</a></code></li>
+<li><code><a title="pyucalgarysrs.PyUCalgarySRS.initialize_paths" href="#pyucalgarysrs.PyUCalgarySRS.initialize_paths">initialize_paths</a></code></li>
+<li><code><a title="pyucalgarysrs.PyUCalgarySRS.models" href="#pyucalgarysrs.PyUCalgarySRS.models">models</a></code></li>
+<li><code><a title="pyucalgarysrs.PyUCalgarySRS.purge_download_output_root_path" href="#pyucalgarysrs.PyUCalgarySRS.purge_download_output_root_path">purge_download_output_root_path</a></code></li>
+<li><code><a title="pyucalgarysrs.PyUCalgarySRS.purge_read_tar_temp_path" href="#pyucalgarysrs.PyUCalgarySRS.purge_read_tar_temp_path">purge_read_tar_temp_path</a></code></li>
+<li><code><a title="pyucalgarysrs.PyUCalgarySRS.read_tar_temp_path" href="#pyucalgarysrs.PyUCalgarySRS.read_tar_temp_path">read_tar_temp_path</a></code></li>
 </ul>
 </li>
 </ul>

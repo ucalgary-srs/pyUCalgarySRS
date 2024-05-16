@@ -155,7 +155,14 @@ class SkymapGenerationInfo:
         code_used (str): Program name for the code used to generate the skymap
         data_loc (str): Location of the data on the UCalgary data systems used during generation
         date_generated (datetime.datetime): Timestamp of when the skymap was generated
-        date_time_used (datetime.datetime): 
+        date_time_used (datetime.datetime): Timestamp of what hour was used during generation
+        img_flip (ndarray): Image flipping specifics
+        optical_orientation (ndarray): Image orientation details
+        optical_projection (ndarray): Image projection details
+        pixel_aspect_ratio (float): Aspect ratio details
+        valid_interval_start (datetime.datetime): Valid start time for this skymap
+        valid_interval_end (datetime.datetime): Valid end time for this skymap. If None, then end time
+            is unbounded and valid up until the next newest skymap.
     """
     author: str
     ccd_center: float
@@ -184,6 +191,40 @@ class SkymapGenerationInfo:
 
 @dataclass
 class Skymap:
+    """
+    Representation for a skymap file.
+
+    Attributes:
+        filename (str): Filename for the skymap file, as an absolute path of its location on 
+            the local machine.
+        project_uid (str): Project unique identifier
+        site_uid (str): Site unique identifier
+        imager_uid (str): Imager/device unique identifier
+        site_map_latitude (float): Geodetic latitude of instrument
+        site_map_longitude (float): Geodetic longitude of instrument
+        site_map_altitude (float): Altitude of the instrument (in meters)
+        bin_row (ndarray): 
+        bin_column (ndarray): 
+        bin_elevation (ndarray): 
+        bin_azimuth (ndarray): 
+        bin_map_altitude (float): 
+        bin_map_latitude (ndarray): 
+        bin_map_longitude (ndarray): 
+        full_row (ndarray): 
+        full_column (ndarray): 
+        full_ignore (ndarray): 
+        full_subtract (ndarray): 
+        full_multiply (ndarray): 
+        full_elevation (ndarray): 
+        full_azimuth (ndarray): 
+        full_map_altitude (ndarray): 
+        full_map_latitude (ndarray): 
+        full_map_longitude (ndarray): 
+        full_bin (ndarray): 
+        generation_info (SkymapGenerationInfo): Metadata describing details about this skymap's generation process
+        version (str): Version of the skymap
+        dataset (Dataset): The `Dataset` object for this data.
+    """
     filename: str
     project_uid: str
     site_uid: str
@@ -230,15 +271,44 @@ class Skymap:
 
 @dataclass
 class CalibrationGenerationInfo:
+    """
+    Representation of generation details for a specific calibration file.
+
+    Attributes:
+        valid_interval_start (datetime.datetime): Valid start timestamp for this calibration file
+        valid_interval_end (datetime.datetime):  Valid end time for this calibration file. If None, then 
+            end time is unbounded and valid up until the next newest calibration for this detector UID.
+        author (str): Individual who generated the calibration file
+        input_data_dir (str): Path on UCalgary data system to the raw calibration files
+        skymap_filename (str): Path to skymap file used to assist with calibration process. If None, no 
+            skymap file was used.
+    """
     valid_interval_start: datetime.datetime
-    author: Optional[str] = None
     valid_interval_stop: Optional[datetime.datetime] = None
+    author: Optional[str] = None
     input_data_dir: Optional[str] = None
     skymap_filename: Optional[str] = None
 
 
 @dataclass
 class Calibration:
+    """
+    Representation for a calibration file.
+
+    Attributes:
+        filename (str): Filename for the calibration file, as an absolute path of its location on 
+            the local machine.
+        detector_uid (str): Detector/imager/camera unique identifier
+        version (str): Version number of the calibration file
+        generation_info (CalibrationGenerationInfo): Metadata describing details about this 
+            calibration's generation process
+        rayleighs_perdn_persecond (float): Calibrated value for Rayleighs per data number per second 
+            (R/dn/s). This value will be None if a flatfield calibration file was read instead of a 
+            rayleighs calibration file.
+        flat_field_multiplier (ndarray): Calibrated flat field array. This value will be None if a 
+            rayleighs calibration file was read instead of a flatfield calibration file.
+        dataset (Dataset): The `Dataset` object for this data.
+    """
     filename: str
     detector_uid: str
     version: str

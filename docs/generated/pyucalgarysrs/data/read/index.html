@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1" />
 <meta name="generator" content="pdoc 0.10.0" />
 <title>pyucalgarysrs.data.read API documentation</title>
-<meta name="description" content="Provides functions for reading data for specific datasets" />
+<meta name="description" content="Functions for reading data for specific datasets." />
 <link rel="preload stylesheet" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/11.0.1/sanitize.min.css" integrity="sha256-PK9q560IAAa6WVRRh76LtCaI8pjTJ2z11v0miyNNjrs=" crossorigin>
 <link rel="preload stylesheet" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/11.0.1/typography.min.css" integrity="sha256-7l/o7C8jubJiy74VsKTidCy1yBkRtiUGbVkYBylBqUg=" crossorigin>
 <link rel="stylesheet preload" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.1.1/styles/github.min.css" crossorigin>
@@ -14,6 +14,25 @@
 <style media="print">@media print{#sidebar h1{page-break-before:always}.source{display:none}}@media print{*{background:transparent !important;color:#000 !important;box-shadow:none !important;text-shadow:none !important}a[href]:after{content:" (" attr(href) ")";font-size:90%}a[href][title]:after{content:none}abbr[title]:after{content:" (" attr(title) ")"}.ir a:after,a[href^="javascript:"]:after,a[href^="#"]:after{content:""}pre,blockquote{border:1px solid #999;page-break-inside:avoid}thead{display:table-header-group}tr,img{page-break-inside:avoid}img{max-width:100% !important}@page{margin:0.5cm}p,h2,h3{orphans:3;widows:3}h1,h2,h3,h4,h5,h6{page-break-after:avoid}}</style>
 <script defer src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.1.1/highlight.min.js" integrity="sha256-Uv3H6lx7dJmRfRvH8TH6kJD1TSK1aFcwgx+mdg3epi8=" crossorigin></script>
 <script>window.addEventListener('DOMContentLoaded', () => hljs.initHighlighting())</script>
+<style>
+@media screen and (max-width: 699px) {
+#content {
+padding-left: 2em;
+padding-right: 2em;
+padding-top: 0;
+}
+}
+@media screen and (min-width: 700px) {
+#content {
+width: 80%;
+max-width: 120ch;
+padding-left: 3em;
+padding-right: 3em;
+padding-top: 1em;
+border-left: 1px solid #ddd;
+}
+}
+</style>
 </head>
 <body>
 <main>
@@ -22,13 +41,13 @@
 <h1 class="title">Module <code>pyucalgarysrs.data.read</code></h1>
 </header>
 <section id="section-intro">
-<p>Provides functions for reading data for specific datasets</p>
+<p>Functions for reading data for specific datasets.</p>
 <details class="source">
 <summary>
 <span>Expand source code</span>
 </summary>
 <pre><code class="python">&#34;&#34;&#34;
-Provides functions for reading data for specific datasets
+Functions for reading data for specific datasets.
 &#34;&#34;&#34;
 
 import datetime
@@ -136,7 +155,7 @@ class ReadManager:
         should be read in using a single call.
 
         Args:
-            dataset (Dataset): 
+            dataset (pyucalgarysrs.data.classes.Dataset): 
                 The dataset object for which the files are associated with. This parameter is
                 required.
             
@@ -261,7 +280,7 @@ class ReadManager:
                 attribute of the returned `pyucalgarysrs.data.classes.Data` object. This parameter
                 is optional.
 
-            dataset (Dataset): 
+            dataset (pyucalgarysrs.data.classes.Dataset): 
                 The dataset object for which the files are associated with. This parameter is
                 optional.
 
@@ -339,7 +358,7 @@ class ReadManager:
                 attribute of the returned `pyucalgarysrs.data.classes.Data` object. This parameter
                 is optional.
 
-            dataset (Dataset): 
+            dataset (pyucalgarysrs.data.classes.Dataset): 
                 The dataset object for which the files are associated with. This parameter is
                 optional.
 
@@ -417,7 +436,7 @@ class ReadManager:
                 attribute of the returned `pyucalgarysrs.data.classes.Data` object. This parameter
                 is optional.
 
-            dataset (Dataset): 
+            dataset (pyucalgarysrs.data.classes.Dataset): 
                 The dataset object for which the files are associated with. This parameter is
                 optional.
 
@@ -495,7 +514,7 @@ class ReadManager:
                 attribute of the returned `pyucalgarysrs.data.classes.Data` object. This parameter
                 is optional.
 
-            dataset (Dataset): 
+            dataset (pyucalgarysrs.data.classes.Dataset): 
                 The dataset object for which the files are associated with. This parameter is
                 optional.
 
@@ -573,7 +592,7 @@ class ReadManager:
                 attribute of the returned `pyucalgarysrs.data.classes.Data` object. This parameter
                 is optional.
 
-            dataset (Dataset): 
+            dataset (pyucalgarysrs.data.classes.Dataset): 
                 The dataset object for which the files are associated with. This parameter is
                 optional.
 
@@ -656,7 +675,7 @@ class ReadManager:
                 attribute of the returned `pyucalgarysrs.data.classes.Data` object. This parameter
                 is optional.
 
-            dataset (Dataset): 
+            dataset (pyucalgarysrs.data.classes.Dataset): 
                 The dataset object for which the files are associated with. This parameter is
                 optional.
 
@@ -722,7 +741,7 @@ class ReadManager:
                 attribute of the returned `pyucalgarysrs.data.classes.Skymap` object. This parameter
                 is optional.
 
-            dataset (Dataset): 
+            dataset (pyucalgarysrs.data.classes.Dataset): 
                 The dataset object for which the files are associated with. This parameter is
                 optional.
 
@@ -746,7 +765,7 @@ class ReadManager:
             # init item
             item_recarray = item[&#34;skymap&#34;][0]
 
-            # parse several values into datetimes
+            # parse valid start and end times into datetimes
             date_generated_dt = datetime.datetime.strptime(item_recarray.generation_info[0].date_generated.decode(), &#34;%a %b %d %H:%M:%S %Y&#34;)
             valid_interval_start_dt = datetime.datetime(2000, 1, 1, 0, 0, 0)
             try:
@@ -766,6 +785,9 @@ class ReadManager:
                     except Exception:
                         pass
 
+            # parse date time used into datetime
+            date_time_used_dt = datetime.datetime.strptime(item_recarray.generation_info[0].date_time_used.decode(), &#34;%Y%m%d_UT%H&#34;)
+
             # determine the version
             version_str = os.path.splitext(item[&#34;filename&#34;])[0].split(&#39;_&#39;)[-1]
 
@@ -776,7 +798,7 @@ class ReadManager:
                 code_used=item_recarray.generation_info[0].code_used.decode(),
                 data_loc=item_recarray.generation_info[0].data_loc.decode(),
                 date_generated=date_generated_dt,
-                date_time_used=item_recarray.generation_info[0].date_time_used.decode(),
+                date_time_used=date_time_used_dt,
                 img_flip=item_recarray.generation_info[0].img_flip,
                 optical_orientation=item_recarray.generation_info[0].optical_orientation,
                 optical_projection=item_recarray.generation_info[0].optical_projection,
@@ -855,7 +877,7 @@ class ReadManager:
                 attribute of the returned `pyucalgarysrs.data.classes.Calibration` object. This parameter
                 is optional.
 
-            dataset (Dataset): 
+            dataset (pyucalgarysrs.data.classes.Dataset): 
                 The dataset object for which the files are associated with. This parameter is
                 optional.
 
@@ -1046,7 +1068,7 @@ the super class.</p></div>
         should be read in using a single call.
 
         Args:
-            dataset (Dataset): 
+            dataset (pyucalgarysrs.data.classes.Dataset): 
                 The dataset object for which the files are associated with. This parameter is
                 required.
             
@@ -1171,7 +1193,7 @@ the super class.</p></div>
                 attribute of the returned `pyucalgarysrs.data.classes.Data` object. This parameter
                 is optional.
 
-            dataset (Dataset): 
+            dataset (pyucalgarysrs.data.classes.Dataset): 
                 The dataset object for which the files are associated with. This parameter is
                 optional.
 
@@ -1249,7 +1271,7 @@ the super class.</p></div>
                 attribute of the returned `pyucalgarysrs.data.classes.Data` object. This parameter
                 is optional.
 
-            dataset (Dataset): 
+            dataset (pyucalgarysrs.data.classes.Dataset): 
                 The dataset object for which the files are associated with. This parameter is
                 optional.
 
@@ -1327,7 +1349,7 @@ the super class.</p></div>
                 attribute of the returned `pyucalgarysrs.data.classes.Data` object. This parameter
                 is optional.
 
-            dataset (Dataset): 
+            dataset (pyucalgarysrs.data.classes.Dataset): 
                 The dataset object for which the files are associated with. This parameter is
                 optional.
 
@@ -1405,7 +1427,7 @@ the super class.</p></div>
                 attribute of the returned `pyucalgarysrs.data.classes.Data` object. This parameter
                 is optional.
 
-            dataset (Dataset): 
+            dataset (pyucalgarysrs.data.classes.Dataset): 
                 The dataset object for which the files are associated with. This parameter is
                 optional.
 
@@ -1483,7 +1505,7 @@ the super class.</p></div>
                 attribute of the returned `pyucalgarysrs.data.classes.Data` object. This parameter
                 is optional.
 
-            dataset (Dataset): 
+            dataset (pyucalgarysrs.data.classes.Dataset): 
                 The dataset object for which the files are associated with. This parameter is
                 optional.
 
@@ -1566,7 +1588,7 @@ the super class.</p></div>
                 attribute of the returned `pyucalgarysrs.data.classes.Data` object. This parameter
                 is optional.
 
-            dataset (Dataset): 
+            dataset (pyucalgarysrs.data.classes.Dataset): 
                 The dataset object for which the files are associated with. This parameter is
                 optional.
 
@@ -1632,7 +1654,7 @@ the super class.</p></div>
                 attribute of the returned `pyucalgarysrs.data.classes.Skymap` object. This parameter
                 is optional.
 
-            dataset (Dataset): 
+            dataset (pyucalgarysrs.data.classes.Dataset): 
                 The dataset object for which the files are associated with. This parameter is
                 optional.
 
@@ -1656,7 +1678,7 @@ the super class.</p></div>
             # init item
             item_recarray = item[&#34;skymap&#34;][0]
 
-            # parse several values into datetimes
+            # parse valid start and end times into datetimes
             date_generated_dt = datetime.datetime.strptime(item_recarray.generation_info[0].date_generated.decode(), &#34;%a %b %d %H:%M:%S %Y&#34;)
             valid_interval_start_dt = datetime.datetime(2000, 1, 1, 0, 0, 0)
             try:
@@ -1676,6 +1698,9 @@ the super class.</p></div>
                     except Exception:
                         pass
 
+            # parse date time used into datetime
+            date_time_used_dt = datetime.datetime.strptime(item_recarray.generation_info[0].date_time_used.decode(), &#34;%Y%m%d_UT%H&#34;)
+
             # determine the version
             version_str = os.path.splitext(item[&#34;filename&#34;])[0].split(&#39;_&#39;)[-1]
 
@@ -1686,7 +1711,7 @@ the super class.</p></div>
                 code_used=item_recarray.generation_info[0].code_used.decode(),
                 data_loc=item_recarray.generation_info[0].data_loc.decode(),
                 date_generated=date_generated_dt,
-                date_time_used=item_recarray.generation_info[0].date_time_used.decode(),
+                date_time_used=date_time_used_dt,
                 img_flip=item_recarray.generation_info[0].img_flip,
                 optical_orientation=item_recarray.generation_info[0].optical_orientation,
                 optical_projection=item_recarray.generation_info[0].optical_projection,
@@ -1765,7 +1790,7 @@ the super class.</p></div>
                 attribute of the returned `pyucalgarysrs.data.classes.Calibration` object. This parameter
                 is optional.
 
-            dataset (Dataset): 
+            dataset (pyucalgarysrs.data.classes.Dataset): 
                 The dataset object for which the files are associated with. This parameter is
                 optional.
 
@@ -1940,7 +1965,7 @@ is required.</dd>
 should be read in using a single call.</p>
 <h2 id="args">Args</h2>
 <dl>
-<dt><strong><code>dataset</code></strong> :&ensp;<code>Dataset</code></dt>
+<dt><strong><code>dataset</code></strong> :&ensp;<code><a title="pyucalgarysrs.data.classes.Dataset" href="../classes.html#pyucalgarysrs.data.classes.Dataset">Dataset</a></code></dt>
 <dd>The dataset object for which the files are associated with. This parameter is
 required.</dd>
 <dt><strong><code>file_list</code></strong> :&ensp;<code>List[str]</code> or <code>str</code></dt>
@@ -1997,7 +2022,7 @@ future.</p></div>
     should be read in using a single call.
 
     Args:
-        dataset (Dataset): 
+        dataset (pyucalgarysrs.data.classes.Dataset): 
             The dataset object for which the files are associated with. This parameter is
             required.
         
@@ -2106,7 +2131,7 @@ is optional.</dd>
 Any files that encounter errors will be, as usual, accessible via the <code>problematic_files</code>
 attribute of the returned <code><a title="pyucalgarysrs.data.classes.Calibration" href="../classes.html#pyucalgarysrs.data.classes.Calibration">Calibration</a></code> object. This parameter
 is optional.</dd>
-<dt><strong><code>dataset</code></strong> :&ensp;<code>Dataset</code></dt>
+<dt><strong><code>dataset</code></strong> :&ensp;<code><a title="pyucalgarysrs.data.classes.Dataset" href="../classes.html#pyucalgarysrs.data.classes.Dataset">Dataset</a></code></dt>
 <dd>The dataset object for which the files are associated with. This parameter is
 optional.</dd>
 </dl>
@@ -2147,7 +2172,7 @@ in, among other values.</p>
             attribute of the returned `pyucalgarysrs.data.classes.Calibration` object. This parameter
             is optional.
 
-        dataset (Dataset): 
+        dataset (pyucalgarysrs.data.classes.Dataset): 
             The dataset object for which the files are associated with. This parameter is
             optional.
 
@@ -2264,7 +2289,7 @@ Default is <code>False</code>. This parameter is optional.</dd>
 that encounter errors will be, as usual, accessible via the <code>problematic_files</code>
 attribute of the returned <code><a title="pyucalgarysrs.data.classes.Data" href="../classes.html#pyucalgarysrs.data.classes.Data">Data</a></code> object. This parameter
 is optional.</dd>
-<dt><strong><code>dataset</code></strong> :&ensp;<code>Dataset</code></dt>
+<dt><strong><code>dataset</code></strong> :&ensp;<code><a title="pyucalgarysrs.data.classes.Dataset" href="../classes.html#pyucalgarysrs.data.classes.Dataset">Dataset</a></code></dt>
 <dd>The dataset object for which the files are associated with. This parameter is
 optional.</dd>
 </dl>
@@ -2317,7 +2342,7 @@ values.</p>
             attribute of the returned `pyucalgarysrs.data.classes.Data` object. This parameter
             is optional.
 
-        dataset (Dataset): 
+        dataset (pyucalgarysrs.data.classes.Dataset): 
             The dataset object for which the files are associated with. This parameter is
             optional.
 
@@ -2379,7 +2404,7 @@ is optional.</dd>
 files that encounter errors will be, as usual, accessible via the <code>problematic_files</code>
 attribute of the returned <code><a title="pyucalgarysrs.data.classes.Skymap" href="../classes.html#pyucalgarysrs.data.classes.Skymap">Skymap</a></code> object. This parameter
 is optional.</dd>
-<dt><strong><code>dataset</code></strong> :&ensp;<code>Dataset</code></dt>
+<dt><strong><code>dataset</code></strong> :&ensp;<code><a title="pyucalgarysrs.data.classes.Dataset" href="../classes.html#pyucalgarysrs.data.classes.Dataset">Dataset</a></code></dt>
 <dd>The dataset object for which the files are associated with. This parameter is
 optional.</dd>
 </dl>
@@ -2420,7 +2445,7 @@ in, among other values.</p>
             attribute of the returned `pyucalgarysrs.data.classes.Skymap` object. This parameter
             is optional.
 
-        dataset (Dataset): 
+        dataset (pyucalgarysrs.data.classes.Dataset): 
             The dataset object for which the files are associated with. This parameter is
             optional.
 
@@ -2444,7 +2469,7 @@ in, among other values.</p>
         # init item
         item_recarray = item[&#34;skymap&#34;][0]
 
-        # parse several values into datetimes
+        # parse valid start and end times into datetimes
         date_generated_dt = datetime.datetime.strptime(item_recarray.generation_info[0].date_generated.decode(), &#34;%a %b %d %H:%M:%S %Y&#34;)
         valid_interval_start_dt = datetime.datetime(2000, 1, 1, 0, 0, 0)
         try:
@@ -2464,6 +2489,9 @@ in, among other values.</p>
                 except Exception:
                     pass
 
+        # parse date time used into datetime
+        date_time_used_dt = datetime.datetime.strptime(item_recarray.generation_info[0].date_time_used.decode(), &#34;%Y%m%d_UT%H&#34;)
+
         # determine the version
         version_str = os.path.splitext(item[&#34;filename&#34;])[0].split(&#39;_&#39;)[-1]
 
@@ -2474,7 +2502,7 @@ in, among other values.</p>
             code_used=item_recarray.generation_info[0].code_used.decode(),
             data_loc=item_recarray.generation_info[0].data_loc.decode(),
             date_generated=date_generated_dt,
-            date_time_used=item_recarray.generation_info[0].date_time_used.decode(),
+            date_time_used=date_time_used_dt,
             img_flip=item_recarray.generation_info[0].img_flip,
             optical_orientation=item_recarray.generation_info[0].optical_orientation,
             optical_projection=item_recarray.generation_info[0].optical_projection,
@@ -2557,7 +2585,7 @@ Default is <code>False</code>. This parameter is optional.</dd>
 that encounter errors will be, as usual, accessible via the <code>problematic_files</code>
 attribute of the returned <code><a title="pyucalgarysrs.data.classes.Data" href="../classes.html#pyucalgarysrs.data.classes.Data">Data</a></code> object. This parameter
 is optional.</dd>
-<dt><strong><code>dataset</code></strong> :&ensp;<code>Dataset</code></dt>
+<dt><strong><code>dataset</code></strong> :&ensp;<code><a title="pyucalgarysrs.data.classes.Dataset" href="../classes.html#pyucalgarysrs.data.classes.Dataset">Dataset</a></code></dt>
 <dd>The dataset object for which the files are associated with. This parameter is
 optional.</dd>
 </dl>
@@ -2610,7 +2638,7 @@ values.</p>
             attribute of the returned `pyucalgarysrs.data.classes.Data` object. This parameter
             is optional.
 
-        dataset (Dataset): 
+        dataset (pyucalgarysrs.data.classes.Dataset): 
             The dataset object for which the files are associated with. This parameter is
             optional.
 
@@ -2680,7 +2708,7 @@ Default is <code>False</code>. This parameter is optional.</dd>
 that encounter errors will be, as usual, accessible via the <code>problematic_files</code>
 attribute of the returned <code><a title="pyucalgarysrs.data.classes.Data" href="../classes.html#pyucalgarysrs.data.classes.Data">Data</a></code> object. This parameter
 is optional.</dd>
-<dt><strong><code>dataset</code></strong> :&ensp;<code>Dataset</code></dt>
+<dt><strong><code>dataset</code></strong> :&ensp;<code><a title="pyucalgarysrs.data.classes.Dataset" href="../classes.html#pyucalgarysrs.data.classes.Dataset">Dataset</a></code></dt>
 <dd>The dataset object for which the files are associated with. This parameter is
 optional.</dd>
 </dl>
@@ -2733,7 +2761,7 @@ values.</p>
             attribute of the returned `pyucalgarysrs.data.classes.Data` object. This parameter
             is optional.
 
-        dataset (Dataset): 
+        dataset (pyucalgarysrs.data.classes.Dataset): 
             The dataset object for which the files are associated with. This parameter is
             optional.
 
@@ -2803,7 +2831,7 @@ Default is <code>False</code>. This parameter is optional.</dd>
 that encounter errors will be, as usual, accessible via the <code>problematic_files</code>
 attribute of the returned <code><a title="pyucalgarysrs.data.classes.Data" href="../classes.html#pyucalgarysrs.data.classes.Data">Data</a></code> object. This parameter
 is optional.</dd>
-<dt><strong><code>dataset</code></strong> :&ensp;<code>Dataset</code></dt>
+<dt><strong><code>dataset</code></strong> :&ensp;<code><a title="pyucalgarysrs.data.classes.Dataset" href="../classes.html#pyucalgarysrs.data.classes.Dataset">Dataset</a></code></dt>
 <dd>The dataset object for which the files are associated with. This parameter is
 optional.</dd>
 </dl>
@@ -2856,7 +2884,7 @@ values.</p>
             attribute of the returned `pyucalgarysrs.data.classes.Data` object. This parameter
             is optional.
 
-        dataset (Dataset): 
+        dataset (pyucalgarysrs.data.classes.Dataset): 
             The dataset object for which the files are associated with. This parameter is
             optional.
 
@@ -2926,7 +2954,7 @@ Default is <code>False</code>. This parameter is optional.</dd>
 that encounter errors will be, as usual, accessible via the <code>problematic_files</code>
 attribute of the returned <code><a title="pyucalgarysrs.data.classes.Data" href="../classes.html#pyucalgarysrs.data.classes.Data">Data</a></code> object. This parameter
 is optional.</dd>
-<dt><strong><code>dataset</code></strong> :&ensp;<code>Dataset</code></dt>
+<dt><strong><code>dataset</code></strong> :&ensp;<code><a title="pyucalgarysrs.data.classes.Dataset" href="../classes.html#pyucalgarysrs.data.classes.Dataset">Dataset</a></code></dt>
 <dd>The dataset object for which the files are associated with. This parameter is
 optional.</dd>
 </dl>
@@ -2979,7 +3007,7 @@ values.</p>
             attribute of the returned `pyucalgarysrs.data.classes.Data` object. This parameter
             is optional.
 
-        dataset (Dataset): 
+        dataset (pyucalgarysrs.data.classes.Dataset): 
             The dataset object for which the files are associated with. This parameter is
             optional.
 
@@ -3054,7 +3082,7 @@ Default is <code>False</code>. This parameter is optional.</dd>
 that encounter errors will be, as usual, accessible via the <code>problematic_files</code>
 attribute of the returned <code><a title="pyucalgarysrs.data.classes.Data" href="../classes.html#pyucalgarysrs.data.classes.Data">Data</a></code> object. This parameter
 is optional.</dd>
-<dt><strong><code>dataset</code></strong> :&ensp;<code>Dataset</code></dt>
+<dt><strong><code>dataset</code></strong> :&ensp;<code><a title="pyucalgarysrs.data.classes.Dataset" href="../classes.html#pyucalgarysrs.data.classes.Dataset">Dataset</a></code></dt>
 <dd>The dataset object for which the files are associated with. This parameter is
 optional.</dd>
 </dl>
@@ -3107,7 +3135,7 @@ values.</p>
             attribute of the returned `pyucalgarysrs.data.classes.Data` object. This parameter
             is optional.
 
-        dataset (Dataset): 
+        dataset (pyucalgarysrs.data.classes.Dataset): 
             The dataset object for which the files are associated with. This parameter is
             optional.
 

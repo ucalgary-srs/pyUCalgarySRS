@@ -15,6 +15,25 @@ classes in this module are included at the top level of this library." />
 <style media="print">@media print{#sidebar h1{page-break-before:always}.source{display:none}}@media print{*{background:transparent !important;color:#000 !important;box-shadow:none !important;text-shadow:none !important}a[href]:after{content:" (" attr(href) ")";font-size:90%}a[href][title]:after{content:none}abbr[title]:after{content:" (" attr(title) ")"}.ir a:after,a[href^="javascript:"]:after,a[href^="#"]:after{content:""}pre,blockquote{border:1px solid #999;page-break-inside:avoid}thead{display:table-header-group}tr,img{page-break-inside:avoid}img{max-width:100% !important}@page{margin:0.5cm}p,h2,h3{orphans:3;widows:3}h1,h2,h3,h4,h5,h6{page-break-after:avoid}}</style>
 <script defer src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.1.1/highlight.min.js" integrity="sha256-Uv3H6lx7dJmRfRvH8TH6kJD1TSK1aFcwgx+mdg3epi8=" crossorigin></script>
 <script>window.addEventListener('DOMContentLoaded', () => hljs.initHighlighting())</script>
+<style>
+@media screen and (max-width: 699px) {
+#content {
+padding-left: 2em;
+padding-right: 2em;
+padding-top: 0;
+}
+}
+@media screen and (min-width: 700px) {
+#content {
+width: 80%;
+max-width: 120ch;
+padding-left: 3em;
+padding-right: 3em;
+padding-top: 1em;
+border-left: 1px solid #ddd;
+}
+}
+</style>
 </head>
 <body>
 <main>
@@ -177,12 +196,30 @@ class Data:
 
 @dataclass
 class SkymapGenerationInfo:
+    &#34;&#34;&#34;
+    Representation of generation details for a specific skymap file.
+
+    Attributes:
+        author (str): Name of individual who created the skymap
+        ccd_center (float): Center pixels of the CCD
+        code_used (str): Program name for the code used to generate the skymap
+        data_loc (str): Location of the data on the UCalgary data systems used during generation
+        date_generated (datetime.datetime): Timestamp of when the skymap was generated
+        date_time_used (datetime.datetime): Timestamp of what hour was used during generation
+        img_flip (ndarray): Image flipping specifics
+        optical_orientation (ndarray): Image orientation details
+        optical_projection (ndarray): Image projection details
+        pixel_aspect_ratio (float): Aspect ratio details
+        valid_interval_start (datetime.datetime): Valid start time for this skymap
+        valid_interval_end (datetime.datetime): Valid end time for this skymap. If None, then end time
+            is unbounded and valid up until the next newest skymap.
+    &#34;&#34;&#34;
     author: str
     ccd_center: float
     code_used: str
     data_loc: str
     date_generated: datetime.datetime
-    date_time_used: int
+    date_time_used: datetime.datetime
     img_flip: ndarray
     optical_orientation: ndarray
     optical_projection: ndarray
@@ -204,6 +241,40 @@ class SkymapGenerationInfo:
 
 @dataclass
 class Skymap:
+    &#34;&#34;&#34;
+    Representation for a skymap file.
+
+    Attributes:
+        filename (str): Filename for the skymap file, as an absolute path of its location on 
+            the local machine.
+        project_uid (str): Project unique identifier
+        site_uid (str): Site unique identifier
+        imager_uid (str): Imager/device unique identifier
+        site_map_latitude (float): Geodetic latitude of instrument
+        site_map_longitude (float): Geodetic longitude of instrument
+        site_map_altitude (float): Altitude of the instrument (in meters)
+        bin_row (ndarray): 
+        bin_column (ndarray): 
+        bin_elevation (ndarray): 
+        bin_azimuth (ndarray): 
+        bin_map_altitude (float): 
+        bin_map_latitude (ndarray): 
+        bin_map_longitude (ndarray): 
+        full_row (ndarray): 
+        full_column (ndarray): 
+        full_ignore (ndarray): 
+        full_subtract (ndarray): 
+        full_multiply (ndarray): 
+        full_elevation (ndarray): 
+        full_azimuth (ndarray): 
+        full_map_altitude (ndarray): 
+        full_map_latitude (ndarray): 
+        full_map_longitude (ndarray): 
+        full_bin (ndarray): 
+        generation_info (SkymapGenerationInfo): Metadata describing details about this skymap&#39;s generation process
+        version (str): Version of the skymap
+        dataset (Dataset): The `Dataset` object for this data.
+    &#34;&#34;&#34;
     filename: str
     project_uid: str
     site_uid: str
@@ -250,15 +321,44 @@ class Skymap:
 
 @dataclass
 class CalibrationGenerationInfo:
+    &#34;&#34;&#34;
+    Representation of generation details for a specific calibration file.
+
+    Attributes:
+        valid_interval_start (datetime.datetime): Valid start timestamp for this calibration file
+        valid_interval_end (datetime.datetime):  Valid end time for this calibration file. If None, then 
+            end time is unbounded and valid up until the next newest calibration for this detector UID.
+        author (str): Individual who generated the calibration file
+        input_data_dir (str): Path on UCalgary data system to the raw calibration files
+        skymap_filename (str): Path to skymap file used to assist with calibration process. If None, no 
+            skymap file was used.
+    &#34;&#34;&#34;
     valid_interval_start: datetime.datetime
-    author: Optional[str] = None
     valid_interval_stop: Optional[datetime.datetime] = None
+    author: Optional[str] = None
     input_data_dir: Optional[str] = None
     skymap_filename: Optional[str] = None
 
 
 @dataclass
 class Calibration:
+    &#34;&#34;&#34;
+    Representation for a calibration file.
+
+    Attributes:
+        filename (str): Filename for the calibration file, as an absolute path of its location on 
+            the local machine.
+        detector_uid (str): Detector/imager/camera unique identifier
+        version (str): Version number of the calibration file
+        generation_info (CalibrationGenerationInfo): Metadata describing details about this 
+            calibration&#39;s generation process
+        rayleighs_perdn_persecond (float): Calibrated value for Rayleighs per data number per second 
+            (R/dn/s). This value will be None if a flatfield calibration file was read instead of a 
+            rayleighs calibration file.
+        flat_field_multiplier (ndarray): Calibrated flat field array. This value will be None if a 
+            rayleighs calibration file was read instead of a flatfield calibration file.
+        dataset (Dataset): The `Dataset` object for this data.
+    &#34;&#34;&#34;
     filename: str
     detector_uid: str
     version: str
@@ -282,13 +382,52 @@ class Calibration:
 <span>(</span><span>filename: str, detector_uid: str, version: str, generation_info: <a title="pyucalgarysrs.data.classes.CalibrationGenerationInfo" href="#pyucalgarysrs.data.classes.CalibrationGenerationInfo">CalibrationGenerationInfo</a>, rayleighs_perdn_persecond: Optional[float] = None, flat_field_multiplier: Optional[numpy.ndarray] = None, dataset: Optional[<a title="pyucalgarysrs.data.classes.Dataset" href="#pyucalgarysrs.data.classes.Dataset">Dataset</a>] = None)</span>
 </code></dt>
 <dd>
-<div class="desc"><p>Calibration(filename: str, detector_uid: str, version: str, generation_info: pyucalgarysrs.data.classes.CalibrationGenerationInfo, rayleighs_perdn_persecond: Optional[float] = None, flat_field_multiplier: Optional[numpy.ndarray] = None, dataset: Optional[pyucalgarysrs.data.classes.Dataset] = None)</p></div>
+<div class="desc"><p>Representation for a calibration file.</p>
+<h2 id="attributes">Attributes</h2>
+<dl>
+<dt><strong><code>filename</code></strong> :&ensp;<code>str</code></dt>
+<dd>Filename for the calibration file, as an absolute path of its location on
+the local machine.</dd>
+<dt><strong><code>detector_uid</code></strong> :&ensp;<code>str</code></dt>
+<dd>Detector/imager/camera unique identifier</dd>
+<dt><strong><code>version</code></strong> :&ensp;<code>str</code></dt>
+<dd>Version number of the calibration file</dd>
+<dt><strong><code>generation_info</code></strong> :&ensp;<code><a title="pyucalgarysrs.data.classes.CalibrationGenerationInfo" href="#pyucalgarysrs.data.classes.CalibrationGenerationInfo">CalibrationGenerationInfo</a></code></dt>
+<dd>Metadata describing details about this
+calibration's generation process</dd>
+<dt><strong><code>rayleighs_perdn_persecond</code></strong> :&ensp;<code>float</code></dt>
+<dd>Calibrated value for Rayleighs per data number per second
+(R/dn/s). This value will be None if a flatfield calibration file was read instead of a
+rayleighs calibration file.</dd>
+<dt><strong><code>flat_field_multiplier</code></strong> :&ensp;<code>ndarray</code></dt>
+<dd>Calibrated flat field array. This value will be None if a
+rayleighs calibration file was read instead of a flatfield calibration file.</dd>
+<dt><strong><code>dataset</code></strong> :&ensp;<code><a title="pyucalgarysrs.data.classes.Dataset" href="#pyucalgarysrs.data.classes.Dataset">Dataset</a></code></dt>
+<dd>The <code><a title="pyucalgarysrs.data.classes.Dataset" href="#pyucalgarysrs.data.classes.Dataset">Dataset</a></code> object for this data.</dd>
+</dl></div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
 </summary>
 <pre><code class="python">@dataclass
 class Calibration:
+    &#34;&#34;&#34;
+    Representation for a calibration file.
+
+    Attributes:
+        filename (str): Filename for the calibration file, as an absolute path of its location on 
+            the local machine.
+        detector_uid (str): Detector/imager/camera unique identifier
+        version (str): Version number of the calibration file
+        generation_info (CalibrationGenerationInfo): Metadata describing details about this 
+            calibration&#39;s generation process
+        rayleighs_perdn_persecond (float): Calibrated value for Rayleighs per data number per second 
+            (R/dn/s). This value will be None if a flatfield calibration file was read instead of a 
+            rayleighs calibration file.
+        flat_field_multiplier (ndarray): Calibrated flat field array. This value will be None if a 
+            rayleighs calibration file was read instead of a flatfield calibration file.
+        dataset (Dataset): The `Dataset` object for this data.
+    &#34;&#34;&#34;
     filename: str
     detector_uid: str
     version: str
@@ -331,19 +470,46 @@ class Calibration:
 </dd>
 <dt id="pyucalgarysrs.data.classes.CalibrationGenerationInfo"><code class="flex name class">
 <span>class <span class="ident">CalibrationGenerationInfo</span></span>
-<span>(</span><span>valid_interval_start: datetime.datetime, author: Optional[str] = None, valid_interval_stop: Optional[datetime.datetime] = None, input_data_dir: Optional[str] = None, skymap_filename: Optional[str] = None)</span>
+<span>(</span><span>valid_interval_start: datetime.datetime, valid_interval_stop: Optional[datetime.datetime] = None, author: Optional[str] = None, input_data_dir: Optional[str] = None, skymap_filename: Optional[str] = None)</span>
 </code></dt>
 <dd>
-<div class="desc"><p>CalibrationGenerationInfo(valid_interval_start: datetime.datetime, author: Optional[str] = None, valid_interval_stop: Optional[datetime.datetime] = None, input_data_dir: Optional[str] = None, skymap_filename: Optional[str] = None)</p></div>
+<div class="desc"><p>Representation of generation details for a specific calibration file.</p>
+<h2 id="attributes">Attributes</h2>
+<dl>
+<dt><strong><code>valid_interval_start</code></strong> :&ensp;<code>datetime.datetime</code></dt>
+<dd>Valid start timestamp for this calibration file</dd>
+<dt><strong><code>valid_interval_end</code></strong> :&ensp;<code>datetime.datetime</code></dt>
+<dd>Valid end time for this calibration file. If None, then
+end time is unbounded and valid up until the next newest calibration for this detector UID.</dd>
+<dt><strong><code>author</code></strong> :&ensp;<code>str</code></dt>
+<dd>Individual who generated the calibration file</dd>
+<dt><strong><code>input_data_dir</code></strong> :&ensp;<code>str</code></dt>
+<dd>Path on UCalgary data system to the raw calibration files</dd>
+<dt><strong><code>skymap_filename</code></strong> :&ensp;<code>str</code></dt>
+<dd>Path to skymap file used to assist with calibration process. If None, no
+skymap file was used.</dd>
+</dl></div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
 </summary>
 <pre><code class="python">@dataclass
 class CalibrationGenerationInfo:
+    &#34;&#34;&#34;
+    Representation of generation details for a specific calibration file.
+
+    Attributes:
+        valid_interval_start (datetime.datetime): Valid start timestamp for this calibration file
+        valid_interval_end (datetime.datetime):  Valid end time for this calibration file. If None, then 
+            end time is unbounded and valid up until the next newest calibration for this detector UID.
+        author (str): Individual who generated the calibration file
+        input_data_dir (str): Path on UCalgary data system to the raw calibration files
+        skymap_filename (str): Path to skymap file used to assist with calibration process. If None, no 
+            skymap file was used.
+    &#34;&#34;&#34;
     valid_interval_start: datetime.datetime
-    author: Optional[str] = None
     valid_interval_stop: Optional[datetime.datetime] = None
+    author: Optional[str] = None
     input_data_dir: Optional[str] = None
     skymap_filename: Optional[str] = None</code></pre>
 </details>
@@ -788,13 +954,107 @@ class ProblematicFile:
 <span>(</span><span>filename: str, project_uid: str, site_uid: str, imager_uid: str, site_map_latitude: float, site_map_longitude: float, site_map_altitude: float, bin_row: numpy.ndarray, bin_column: numpy.ndarray, bin_elevation: numpy.ndarray, bin_azimuth: numpy.ndarray, bin_map_altitude: float, bin_map_latitude: numpy.ndarray, bin_map_longitude: numpy.ndarray, full_row: numpy.ndarray, full_column: numpy.ndarray, full_ignore: numpy.ndarray, full_subtract: numpy.ndarray, full_multiply: numpy.ndarray, full_elevation: numpy.ndarray, full_azimuth: numpy.ndarray, full_map_altitude: numpy.ndarray, full_map_latitude: numpy.ndarray, full_map_longitude: numpy.ndarray, full_bin: numpy.ndarray, generation_info: <a title="pyucalgarysrs.data.classes.SkymapGenerationInfo" href="#pyucalgarysrs.data.classes.SkymapGenerationInfo">SkymapGenerationInfo</a>, version: str, dataset: Optional[<a title="pyucalgarysrs.data.classes.Dataset" href="#pyucalgarysrs.data.classes.Dataset">Dataset</a>] = None)</span>
 </code></dt>
 <dd>
-<div class="desc"><p>Skymap(filename: str, project_uid: str, site_uid: str, imager_uid: str, site_map_latitude: float, site_map_longitude: float, site_map_altitude: float, bin_row: numpy.ndarray, bin_column: numpy.ndarray, bin_elevation: numpy.ndarray, bin_azimuth: numpy.ndarray, bin_map_altitude: float, bin_map_latitude: numpy.ndarray, bin_map_longitude: numpy.ndarray, full_row: numpy.ndarray, full_column: numpy.ndarray, full_ignore: numpy.ndarray, full_subtract: numpy.ndarray, full_multiply: numpy.ndarray, full_elevation: numpy.ndarray, full_azimuth: numpy.ndarray, full_map_altitude: numpy.ndarray, full_map_latitude: numpy.ndarray, full_map_longitude: numpy.ndarray, full_bin: numpy.ndarray, generation_info: pyucalgarysrs.data.classes.SkymapGenerationInfo, version: str, dataset: Optional[pyucalgarysrs.data.classes.Dataset] = None)</p></div>
+<div class="desc"><p>Representation for a skymap file.</p>
+<h2 id="attributes">Attributes</h2>
+<dl>
+<dt><strong><code>filename</code></strong> :&ensp;<code>str</code></dt>
+<dd>Filename for the skymap file, as an absolute path of its location on
+the local machine.</dd>
+<dt><strong><code>project_uid</code></strong> :&ensp;<code>str</code></dt>
+<dd>Project unique identifier</dd>
+<dt><strong><code>site_uid</code></strong> :&ensp;<code>str</code></dt>
+<dd>Site unique identifier</dd>
+<dt><strong><code>imager_uid</code></strong> :&ensp;<code>str</code></dt>
+<dd>Imager/device unique identifier</dd>
+<dt><strong><code>site_map_latitude</code></strong> :&ensp;<code>float</code></dt>
+<dd>Geodetic latitude of instrument</dd>
+<dt><strong><code>site_map_longitude</code></strong> :&ensp;<code>float</code></dt>
+<dd>Geodetic longitude of instrument</dd>
+<dt><strong><code>site_map_altitude</code></strong> :&ensp;<code>float</code></dt>
+<dd>Altitude of the instrument (in meters)</dd>
+<dt><strong><code>bin_row</code></strong> :&ensp;<code>ndarray</code></dt>
+<dd>&nbsp;</dd>
+<dt><strong><code>bin_column</code></strong> :&ensp;<code>ndarray</code></dt>
+<dd>&nbsp;</dd>
+<dt><strong><code>bin_elevation</code></strong> :&ensp;<code>ndarray</code></dt>
+<dd>&nbsp;</dd>
+<dt><strong><code>bin_azimuth</code></strong> :&ensp;<code>ndarray</code></dt>
+<dd>&nbsp;</dd>
+<dt><strong><code>bin_map_altitude</code></strong> :&ensp;<code>float</code></dt>
+<dd>&nbsp;</dd>
+<dt><strong><code>bin_map_latitude</code></strong> :&ensp;<code>ndarray</code></dt>
+<dd>&nbsp;</dd>
+<dt><strong><code>bin_map_longitude</code></strong> :&ensp;<code>ndarray</code></dt>
+<dd>&nbsp;</dd>
+<dt><strong><code>full_row</code></strong> :&ensp;<code>ndarray</code></dt>
+<dd>&nbsp;</dd>
+<dt><strong><code>full_column</code></strong> :&ensp;<code>ndarray</code></dt>
+<dd>&nbsp;</dd>
+<dt><strong><code>full_ignore</code></strong> :&ensp;<code>ndarray</code></dt>
+<dd>&nbsp;</dd>
+<dt><strong><code>full_subtract</code></strong> :&ensp;<code>ndarray</code></dt>
+<dd>&nbsp;</dd>
+<dt><strong><code>full_multiply</code></strong> :&ensp;<code>ndarray</code></dt>
+<dd>&nbsp;</dd>
+<dt><strong><code>full_elevation</code></strong> :&ensp;<code>ndarray</code></dt>
+<dd>&nbsp;</dd>
+<dt><strong><code>full_azimuth</code></strong> :&ensp;<code>ndarray</code></dt>
+<dd>&nbsp;</dd>
+<dt><strong><code>full_map_altitude</code></strong> :&ensp;<code>ndarray</code></dt>
+<dd>&nbsp;</dd>
+<dt><strong><code>full_map_latitude</code></strong> :&ensp;<code>ndarray</code></dt>
+<dd>&nbsp;</dd>
+<dt><strong><code>full_map_longitude</code></strong> :&ensp;<code>ndarray</code></dt>
+<dd>&nbsp;</dd>
+<dt><strong><code>full_bin</code></strong> :&ensp;<code>ndarray</code></dt>
+<dd>&nbsp;</dd>
+<dt><strong><code>generation_info</code></strong> :&ensp;<code><a title="pyucalgarysrs.data.classes.SkymapGenerationInfo" href="#pyucalgarysrs.data.classes.SkymapGenerationInfo">SkymapGenerationInfo</a></code></dt>
+<dd>Metadata describing details about this skymap's generation process</dd>
+<dt><strong><code>version</code></strong> :&ensp;<code>str</code></dt>
+<dd>Version of the skymap</dd>
+<dt><strong><code>dataset</code></strong> :&ensp;<code><a title="pyucalgarysrs.data.classes.Dataset" href="#pyucalgarysrs.data.classes.Dataset">Dataset</a></code></dt>
+<dd>The <code><a title="pyucalgarysrs.data.classes.Dataset" href="#pyucalgarysrs.data.classes.Dataset">Dataset</a></code> object for this data.</dd>
+</dl></div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
 </summary>
 <pre><code class="python">@dataclass
 class Skymap:
+    &#34;&#34;&#34;
+    Representation for a skymap file.
+
+    Attributes:
+        filename (str): Filename for the skymap file, as an absolute path of its location on 
+            the local machine.
+        project_uid (str): Project unique identifier
+        site_uid (str): Site unique identifier
+        imager_uid (str): Imager/device unique identifier
+        site_map_latitude (float): Geodetic latitude of instrument
+        site_map_longitude (float): Geodetic longitude of instrument
+        site_map_altitude (float): Altitude of the instrument (in meters)
+        bin_row (ndarray): 
+        bin_column (ndarray): 
+        bin_elevation (ndarray): 
+        bin_azimuth (ndarray): 
+        bin_map_altitude (float): 
+        bin_map_latitude (ndarray): 
+        bin_map_longitude (ndarray): 
+        full_row (ndarray): 
+        full_column (ndarray): 
+        full_ignore (ndarray): 
+        full_subtract (ndarray): 
+        full_multiply (ndarray): 
+        full_elevation (ndarray): 
+        full_azimuth (ndarray): 
+        full_map_altitude (ndarray): 
+        full_map_latitude (ndarray): 
+        full_map_longitude (ndarray): 
+        full_bin (ndarray): 
+        generation_info (SkymapGenerationInfo): Metadata describing details about this skymap&#39;s generation process
+        version (str): Version of the skymap
+        dataset (Dataset): The `Dataset` object for this data.
+    &#34;&#34;&#34;
     filename: str
     project_uid: str
     site_uid: str
@@ -956,22 +1216,68 @@ class Skymap:
 </dd>
 <dt id="pyucalgarysrs.data.classes.SkymapGenerationInfo"><code class="flex name class">
 <span>class <span class="ident">SkymapGenerationInfo</span></span>
-<span>(</span><span>author: str, ccd_center: float, code_used: str, data_loc: str, date_generated: datetime.datetime, date_time_used: int, img_flip: numpy.ndarray, optical_orientation: numpy.ndarray, optical_projection: numpy.ndarray, pixel_aspect_ratio: float, valid_interval_start: datetime.datetime, valid_interval_stop: Optional[datetime.datetime] = None, bytscl_values: Optional[numpy.ndarray] = None)</span>
+<span>(</span><span>author: str, ccd_center: float, code_used: str, data_loc: str, date_generated: datetime.datetime, date_time_used: datetime.datetime, img_flip: numpy.ndarray, optical_orientation: numpy.ndarray, optical_projection: numpy.ndarray, pixel_aspect_ratio: float, valid_interval_start: datetime.datetime, valid_interval_stop: Optional[datetime.datetime] = None, bytscl_values: Optional[numpy.ndarray] = None)</span>
 </code></dt>
 <dd>
-<div class="desc"><p>SkymapGenerationInfo(author: str, ccd_center: float, code_used: str, data_loc: str, date_generated: datetime.datetime, date_time_used: int, img_flip: numpy.ndarray, optical_orientation: numpy.ndarray, optical_projection: numpy.ndarray, pixel_aspect_ratio: float, valid_interval_start: datetime.datetime, valid_interval_stop: Optional[datetime.datetime] = None, bytscl_values: Optional[numpy.ndarray] = None)</p></div>
+<div class="desc"><p>Representation of generation details for a specific skymap file.</p>
+<h2 id="attributes">Attributes</h2>
+<dl>
+<dt><strong><code>author</code></strong> :&ensp;<code>str</code></dt>
+<dd>Name of individual who created the skymap</dd>
+<dt><strong><code>ccd_center</code></strong> :&ensp;<code>float</code></dt>
+<dd>Center pixels of the CCD</dd>
+<dt><strong><code>code_used</code></strong> :&ensp;<code>str</code></dt>
+<dd>Program name for the code used to generate the skymap</dd>
+<dt><strong><code>data_loc</code></strong> :&ensp;<code>str</code></dt>
+<dd>Location of the data on the UCalgary data systems used during generation</dd>
+<dt><strong><code>date_generated</code></strong> :&ensp;<code>datetime.datetime</code></dt>
+<dd>Timestamp of when the skymap was generated</dd>
+<dt><strong><code>date_time_used</code></strong> :&ensp;<code>datetime.datetime</code></dt>
+<dd>Timestamp of what hour was used during generation</dd>
+<dt><strong><code>img_flip</code></strong> :&ensp;<code>ndarray</code></dt>
+<dd>Image flipping specifics</dd>
+<dt><strong><code>optical_orientation</code></strong> :&ensp;<code>ndarray</code></dt>
+<dd>Image orientation details</dd>
+<dt><strong><code>optical_projection</code></strong> :&ensp;<code>ndarray</code></dt>
+<dd>Image projection details</dd>
+<dt><strong><code>pixel_aspect_ratio</code></strong> :&ensp;<code>float</code></dt>
+<dd>Aspect ratio details</dd>
+<dt><strong><code>valid_interval_start</code></strong> :&ensp;<code>datetime.datetime</code></dt>
+<dd>Valid start time for this skymap</dd>
+<dt><strong><code>valid_interval_end</code></strong> :&ensp;<code>datetime.datetime</code></dt>
+<dd>Valid end time for this skymap. If None, then end time
+is unbounded and valid up until the next newest skymap.</dd>
+</dl></div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
 </summary>
 <pre><code class="python">@dataclass
 class SkymapGenerationInfo:
+    &#34;&#34;&#34;
+    Representation of generation details for a specific skymap file.
+
+    Attributes:
+        author (str): Name of individual who created the skymap
+        ccd_center (float): Center pixels of the CCD
+        code_used (str): Program name for the code used to generate the skymap
+        data_loc (str): Location of the data on the UCalgary data systems used during generation
+        date_generated (datetime.datetime): Timestamp of when the skymap was generated
+        date_time_used (datetime.datetime): Timestamp of what hour was used during generation
+        img_flip (ndarray): Image flipping specifics
+        optical_orientation (ndarray): Image orientation details
+        optical_projection (ndarray): Image projection details
+        pixel_aspect_ratio (float): Aspect ratio details
+        valid_interval_start (datetime.datetime): Valid start time for this skymap
+        valid_interval_end (datetime.datetime): Valid end time for this skymap. If None, then end time
+            is unbounded and valid up until the next newest skymap.
+    &#34;&#34;&#34;
     author: str
     ccd_center: float
     code_used: str
     data_loc: str
     date_generated: datetime.datetime
-    date_time_used: int
+    date_time_used: datetime.datetime
     img_flip: ndarray
     optical_orientation: ndarray
     optical_projection: ndarray
@@ -1016,7 +1322,7 @@ class SkymapGenerationInfo:
 <dd>
 <div class="desc"></div>
 </dd>
-<dt id="pyucalgarysrs.data.classes.SkymapGenerationInfo.date_time_used"><code class="name">var <span class="ident">date_time_used</span> : int</code></dt>
+<dt id="pyucalgarysrs.data.classes.SkymapGenerationInfo.date_time_used"><code class="name">var <span class="ident">date_time_used</span> : datetime.datetime</code></dt>
 <dd>
 <div class="desc"></div>
 </dd>

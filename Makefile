@@ -20,7 +20,7 @@ get-test-data:
 	cd tests/test_data && tar -xvf test_data.tar && rm test_data.tar
 
 docs:
-	poetry run pdoc3 --html --force --output-dir docs pyucalgarysrs --config "lunr_search={'fuzziness': 1}"
+	poetry run pdoc3 --html --force --output-dir docs/generated pyucalgarysrs --config "lunr_search={'fuzziness': 1}" --template-dir docs/templates
 
 test: test-linting
 

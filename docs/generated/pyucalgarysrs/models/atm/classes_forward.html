@@ -15,6 +15,25 @@ classes in this module are included at the top level of this library." />
 <style media="print">@media print{#sidebar h1{page-break-before:always}.source{display:none}}@media print{*{background:transparent !important;color:#000 !important;box-shadow:none !important;text-shadow:none !important}a[href]:after{content:" (" attr(href) ")";font-size:90%}a[href][title]:after{content:none}abbr[title]:after{content:" (" attr(title) ")"}.ir a:after,a[href^="javascript:"]:after,a[href^="#"]:after{content:""}pre,blockquote{border:1px solid #999;page-break-inside:avoid}thead{display:table-header-group}tr,img{page-break-inside:avoid}img{max-width:100% !important}@page{margin:0.5cm}p,h2,h3{orphans:3;widows:3}h1,h2,h3,h4,h5,h6{page-break-after:avoid}}</style>
 <script defer src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.1.1/highlight.min.js" integrity="sha256-Uv3H6lx7dJmRfRvH8TH6kJD1TSK1aFcwgx+mdg3epi8=" crossorigin></script>
 <script>window.addEventListener('DOMContentLoaded', () => hljs.initHighlighting())</script>
+<style>
+@media screen and (max-width: 699px) {
+#content {
+padding-left: 2em;
+padding-right: 2em;
+padding-top: 0;
+}
+}
+@media screen and (min-width: 700px) {
+#content {
+width: 80%;
+max-width: 120ch;
+padding-left: 3em;
+padding-right: 3em;
+padding-top: 1em;
+border-left: 1px solid #ddd;
+}
+}
+</style>
 </head>
 <body>
 <main>
@@ -152,7 +171,7 @@ class ATMForwardResultRequestInfo:
 
     Attributes:
         request (ATMForwardRequest): 
-            Instance of class that represents the lower-leve API request when performing 
+            Instance of class that represents the lower-level API request when performing 
             an ATM forward calculation.
 
         calculation_duration_ms (float): 
@@ -1116,7 +1135,7 @@ object.</p>
 <h2 id="attributes">Attributes</h2>
 <dl>
 <dt><strong><code>request</code></strong> :&ensp;<code><a title="pyucalgarysrs.models.atm.classes_forward.ATMForwardRequest" href="#pyucalgarysrs.models.atm.classes_forward.ATMForwardRequest">ATMForwardRequest</a></code></dt>
-<dd>Instance of class that represents the lower-leve API request when performing
+<dd>Instance of class that represents the lower-level API request when performing
 an ATM forward calculation.</dd>
 <dt><strong><code>calculation_duration_ms</code></strong> :&ensp;<code>float</code></dt>
 <dd>Duration the the API spent performing the ATM forward calculation. Represented
@@ -1139,7 +1158,7 @@ class ATMForwardResultRequestInfo:
 
     Attributes:
         request (ATMForwardRequest): 
-            Instance of class that represents the lower-leve API request when performing 
+            Instance of class that represents the lower-level API request when performing 
             an ATM forward calculation.
 
         calculation_duration_ms (float): 

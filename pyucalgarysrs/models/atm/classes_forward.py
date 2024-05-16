@@ -121,7 +121,7 @@ class ATMForwardResultRequestInfo:
 
     Attributes:
         request (ATMForwardRequest): 
-            Instance of class that represents the lower-leve API request when performing 
+            Instance of class that represents the lower-level API request when performing 
             an ATM forward calculation.
 
         calculation_duration_ms (float): 

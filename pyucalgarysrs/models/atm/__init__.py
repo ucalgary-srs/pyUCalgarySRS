@@ -1,5 +1,5 @@
 """
-Provides functions for running TREx Auroral Transport Model (ATM) calculations
+Functions for running TREx Auroral Transport Model (ATM) calculations.
 """
 
 import datetime

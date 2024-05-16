@@ -1,5 +1,5 @@
 """
-Provides functions for reading data for specific datasets
+Functions for reading data for specific datasets.
 """
 
 import datetime
@@ -107,7 +107,7 @@ class ReadManager:
         should be read in using a single call.
 
         Args:
-            dataset (Dataset): 
+            dataset (pyucalgarysrs.data.classes.Dataset): 
                 The dataset object for which the files are associated with. This parameter is
                 required.
             
@@ -232,7 +232,7 @@ class ReadManager:
                 attribute of the returned `pyucalgarysrs.data.classes.Data` object. This parameter
                 is optional.
 
-            dataset (Dataset): 
+            dataset (pyucalgarysrs.data.classes.Dataset): 
                 The dataset object for which the files are associated with. This parameter is
                 optional.
 
@@ -310,7 +310,7 @@ class ReadManager:
                 attribute of the returned `pyucalgarysrs.data.classes.Data` object. This parameter
                 is optional.
 
-            dataset (Dataset): 
+            dataset (pyucalgarysrs.data.classes.Dataset): 
                 The dataset object for which the files are associated with. This parameter is
                 optional.
 
@@ -388,7 +388,7 @@ class ReadManager:
                 attribute of the returned `pyucalgarysrs.data.classes.Data` object. This parameter
                 is optional.
 
-            dataset (Dataset): 
+            dataset (pyucalgarysrs.data.classes.Dataset): 
                 The dataset object for which the files are associated with. This parameter is
                 optional.
 
@@ -466,7 +466,7 @@ class ReadManager:
                 attribute of the returned `pyucalgarysrs.data.classes.Data` object. This parameter
                 is optional.
 
-            dataset (Dataset): 
+            dataset (pyucalgarysrs.data.classes.Dataset): 
                 The dataset object for which the files are associated with. This parameter is
                 optional.
 
@@ -544,7 +544,7 @@ class ReadManager:
                 attribute of the returned `pyucalgarysrs.data.classes.Data` object. This parameter
                 is optional.
 
-            dataset (Dataset): 
+            dataset (pyucalgarysrs.data.classes.Dataset): 
                 The dataset object for which the files are associated with. This parameter is
                 optional.
 
@@ -627,7 +627,7 @@ class ReadManager:
                 attribute of the returned `pyucalgarysrs.data.classes.Data` object. This parameter
                 is optional.
 
-            dataset (Dataset): 
+            dataset (pyucalgarysrs.data.classes.Dataset): 
                 The dataset object for which the files are associated with. This parameter is
                 optional.
 
@@ -693,7 +693,7 @@ class ReadManager:
                 attribute of the returned `pyucalgarysrs.data.classes.Skymap` object. This parameter
                 is optional.
 
-            dataset (Dataset): 
+            dataset (pyucalgarysrs.data.classes.Dataset): 
                 The dataset object for which the files are associated with. This parameter is
                 optional.
 
@@ -829,7 +829,7 @@ class ReadManager:
                 attribute of the returned `pyucalgarysrs.data.classes.Calibration` object. This parameter
                 is optional.
 
-            dataset (Dataset): 
+            dataset (pyucalgarysrs.data.classes.Dataset): 
                 The dataset object for which the files are associated with. This parameter is
                 optional.
 
