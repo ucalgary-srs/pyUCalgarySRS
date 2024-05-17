@@ -51,11 +51,6 @@ INDEX=[
 "doc":"Property for the API key. See above for details."
 },
 {
-"ref":"pyucalgarysrs.PyUCalgarySRS.in_jupyter_notebook",
-"url":0,
-"doc":"Property for the Jupyter notebook flag. This value is used by various routines which utilize progress bars. If run from within a Jupyter notebook, then the specific tqdm Jupyter notebook progress bar is used. Otherwise the tqdm standard console progress bar is used."
-},
-{
 "ref":"pyucalgarysrs.PyUCalgarySRS.download_output_root_path",
 "url":0,
 "doc":"Property for the download output root path. See above for details."
@@ -81,12 +76,6 @@ INDEX=[
 "ref":"pyucalgarysrs.PyUCalgarySRS.initialize_paths",
 "url":0,
 "doc":"Initialize the  download_output_root_path and  read_tar_temp_path directories. Raises: pyucalgarysrs.exceptions.SRSInitializationError: an error was encountered during initialization of the paths",
-"func":1
-},
-{
-"ref":"pyucalgarysrs.PyUCalgarySRS.initialize_jupyter_flag",
-"url":0,
-"doc":"Initialize the Jupyter notebook flag, which indicates to the PyUCalgarySRS object whether to use special progress bars for Jupyter notebooks or not.",
 "func":1
 },
 {
@@ -395,7 +384,7 @@ INDEX=[
 {
 "ref":"pyucalgarysrs.data.classes.Skymap",
 "url":2,
-"doc":"Representation for a skymap file. Attributes: filename (str): Filename for the skymap file, as an absolute path of its location on the local machine. project_uid (str): Project unique identifier site_uid (str): Site unique identifier imager_uid (str): Imager/device unique identifier site_map_latitude (float): Geodetic latitude of instrument site_map_longitude (float): Geodetic longitude of instrument site_map_altitude (float): Altitude of the instrument (in meters) bin_row (ndarray): bin_column (ndarray): bin_elevation (ndarray): bin_azimuth (ndarray): bin_map_altitude (float): bin_map_latitude (ndarray): bin_map_longitude (ndarray): full_row (ndarray): full_column (ndarray): full_ignore (ndarray): full_subtract (ndarray): full_multiply (ndarray): full_elevation (ndarray): full_azimuth (ndarray): full_map_altitude (ndarray): full_map_latitude (ndarray): full_map_longitude (ndarray): full_bin (ndarray): generation_info (SkymapGenerationInfo): Metadata describing details about this skymap's generation process version (str): Version of the skymap dataset (Dataset): The  Dataset object for this data."
+"doc":"Representation for a skymap file. Attributes: filename (str): Filename for the skymap file, as an absolute path of its location on the local machine. project_uid (str): Project unique identifier site_uid (str): Site unique identifier imager_uid (str): Imager/device unique identifier site_map_latitude (float): Geodetic latitude of instrument site_map_longitude (float): Geodetic longitude of instrument site_map_altitude (float): Altitude of the instrument (in meters) bin_row (ndarray): bin_column (ndarray): bin_elevation (ndarray): bin_azimuth (ndarray): bin_map_altitude (float): bin_map_latitude (ndarray): bin_map_longitude (ndarray): full_row (ndarray): full_column (ndarray): full_ignore (ndarray): full_subtract (ndarray): full_multiply (ndarray): full_elevation (ndarray): Elevation angle from horizon, for each image pixel (in degrees) full_azimuth (ndarray): full_map_altitude (ndarray): Altitudes that image coordinates are mapped to (in kilometers) full_map_latitude (ndarray): Geodetic latitudes of pixel corners, mapped to various altitudes (specified by  full_map_altitude ) full_map_longitude (ndarray): Geodetic longitudes of pixel corners, mapped to various altitudes (specified by  full_map_altitude ) full_bin (ndarray): generation_info (SkymapGenerationInfo): Metadata describing details about this skymap's generation process version (str): Version of the skymap dataset (Dataset): The  Dataset object for this data."
 },
 {
 "ref":"pyucalgarysrs.data.classes.Skymap.filename",

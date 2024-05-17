@@ -215,11 +215,11 @@ class Skymap:
         full_ignore (ndarray): 
         full_subtract (ndarray): 
         full_multiply (ndarray): 
-        full_elevation (ndarray): 
+        full_elevation (ndarray): Elevation angle from horizon, for each image pixel (in degrees)
         full_azimuth (ndarray): 
-        full_map_altitude (ndarray): 
-        full_map_latitude (ndarray): 
-        full_map_longitude (ndarray): 
+        full_map_altitude (ndarray): Altitudes that image coordinates are mapped to (in kilometers)
+        full_map_latitude (ndarray): Geodetic latitudes of pixel corners, mapped to various altitudes (specified by `full_map_altitude`)
+        full_map_longitude (ndarray): Geodetic longitudes of pixel corners, mapped to various altitudes (specified by `full_map_altitude`)
         full_bin (ndarray): 
         generation_info (SkymapGenerationInfo): Metadata describing details about this skymap's generation process
         version (str): Version of the skymap

@@ -265,11 +265,11 @@ class Skymap:
         full_ignore (ndarray): 
         full_subtract (ndarray): 
         full_multiply (ndarray): 
-        full_elevation (ndarray): 
+        full_elevation (ndarray): Elevation angle from horizon, for each image pixel (in degrees)
         full_azimuth (ndarray): 
-        full_map_altitude (ndarray): 
-        full_map_latitude (ndarray): 
-        full_map_longitude (ndarray): 
+        full_map_altitude (ndarray): Altitudes that image coordinates are mapped to (in kilometers)
+        full_map_latitude (ndarray): Geodetic latitudes of pixel corners, mapped to various altitudes (specified by `full_map_altitude`)
+        full_map_longitude (ndarray): Geodetic longitudes of pixel corners, mapped to various altitudes (specified by `full_map_altitude`)
         full_bin (ndarray): 
         generation_info (SkymapGenerationInfo): Metadata describing details about this skymap&#39;s generation process
         version (str): Version of the skymap
@@ -997,15 +997,15 @@ the local machine.</dd>
 <dt><strong><code>full_multiply</code></strong> :&ensp;<code>ndarray</code></dt>
 <dd>&nbsp;</dd>
 <dt><strong><code>full_elevation</code></strong> :&ensp;<code>ndarray</code></dt>
-<dd>&nbsp;</dd>
+<dd>Elevation angle from horizon, for each image pixel (in degrees)</dd>
 <dt><strong><code>full_azimuth</code></strong> :&ensp;<code>ndarray</code></dt>
 <dd>&nbsp;</dd>
 <dt><strong><code>full_map_altitude</code></strong> :&ensp;<code>ndarray</code></dt>
-<dd>&nbsp;</dd>
+<dd>Altitudes that image coordinates are mapped to (in kilometers)</dd>
 <dt><strong><code>full_map_latitude</code></strong> :&ensp;<code>ndarray</code></dt>
-<dd>&nbsp;</dd>
+<dd>Geodetic latitudes of pixel corners, mapped to various altitudes (specified by <code>full_map_altitude</code>)</dd>
 <dt><strong><code>full_map_longitude</code></strong> :&ensp;<code>ndarray</code></dt>
-<dd>&nbsp;</dd>
+<dd>Geodetic longitudes of pixel corners, mapped to various altitudes (specified by <code>full_map_altitude</code>)</dd>
 <dt><strong><code>full_bin</code></strong> :&ensp;<code>ndarray</code></dt>
 <dd>&nbsp;</dd>
 <dt><strong><code>generation_info</code></strong> :&ensp;<code><a title="pyucalgarysrs.data.classes.SkymapGenerationInfo" href="#pyucalgarysrs.data.classes.SkymapGenerationInfo">SkymapGenerationInfo</a></code></dt>
@@ -1045,11 +1045,11 @@ class Skymap:
         full_ignore (ndarray): 
         full_subtract (ndarray): 
         full_multiply (ndarray): 
-        full_elevation (ndarray): 
+        full_elevation (ndarray): Elevation angle from horizon, for each image pixel (in degrees)
         full_azimuth (ndarray): 
-        full_map_altitude (ndarray): 
-        full_map_latitude (ndarray): 
-        full_map_longitude (ndarray): 
+        full_map_altitude (ndarray): Altitudes that image coordinates are mapped to (in kilometers)
+        full_map_latitude (ndarray): Geodetic latitudes of pixel corners, mapped to various altitudes (specified by `full_map_altitude`)
+        full_map_longitude (ndarray): Geodetic longitudes of pixel corners, mapped to various altitudes (specified by `full_map_altitude`)
         full_bin (ndarray): 
         generation_info (SkymapGenerationInfo): Metadata describing details about this skymap&#39;s generation process
         version (str): Version of the skymap
