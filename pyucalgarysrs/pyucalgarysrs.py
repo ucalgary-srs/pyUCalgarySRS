@@ -96,7 +96,7 @@ class PyUCalgarySRS:
         self.__api_key = api_key
 
         # initialize paths
-        self.initialize_paths()
+        self.__initialize_paths()
 
         # initialize sub-modules
         self.__data = DataManager(self)
@@ -190,7 +190,7 @@ class PyUCalgarySRS:
     @download_output_root_path.setter
     def download_output_root_path(self, value: str):
         self.__download_output_root_path = value
-        self.initialize_paths()
+        self.__initialize_paths()
 
     @property
     def read_tar_temp_path(self):
@@ -202,8 +202,9 @@ class PyUCalgarySRS:
     @read_tar_temp_path.setter
     def read_tar_temp_path(self, value: str):
         self.__read_tar_temp_path = value
-        self.initialize_paths()
+        self.__initialize_paths()
 
+    # -----------------------------
     # special methods
     # -----------------------------
     def __str__(self) -> str:
@@ -217,6 +218,23 @@ class PyUCalgarySRS:
             self.api_headers,
             self.api_timeout,
         )
+
+    # -----------------------------
+    # private methods
+    # -----------------------------
+    def __initialize_paths(self):
+        """
+        Initialize the `download_output_root_path` and `read_tar_temp_path` directories.
+        """
+        if (self.__download_output_root_path is None):
+            self.__download_output_root_path = Path("%s/pyucalgarysrs_data" % (str(Path.home())))
+        if (self.__read_tar_temp_path is None):
+            self.__read_tar_temp_path = Path("%s/.tar_temp_working" % (self.__download_output_root_path))
+        try:
+            os.makedirs(self.download_output_root_path, exist_ok=True)
+            os.makedirs(self.read_tar_temp_path, exist_ok=True)
+        except IOError as e:  # pragma: nocover
+            raise SRSInitializationError("Error during output path creation: %s" % str(e)) from e
 
     # -----------------------------
     # public methods
@@ -262,21 +280,3 @@ class PyUCalgarySRS:
                     os.remove(item)
         except Exception as e:  # pragma: nocover
             raise SRSPurgeError("Error while purging read tar temp path: %s" % (str(e))) from e
-
-    def initialize_paths(self):
-        """
-        Initialize the `download_output_root_path` and `read_tar_temp_path` directories.
-
-        Raises:
-            pyucalgarysrs.exceptions.SRSInitializationError: an error was encountered during
-                initialization of the paths
-        """
-        if (self.__download_output_root_path is None):
-            self.__download_output_root_path = Path("%s/pyucalgarysrs_data" % (str(Path.home())))
-        if (self.__read_tar_temp_path is None):
-            self.__read_tar_temp_path = Path("%s/.tar_temp_working" % (self.__download_output_root_path))
-        try:
-            os.makedirs(self.download_output_root_path, exist_ok=True)
-            os.makedirs(self.read_tar_temp_path, exist_ok=True)
-        except IOError as e:  # pragma: nocover
-            raise SRSInitializationError("Error during output path creation: %s" % str(e)) from e
