@@ -297,7 +297,7 @@ initialization of the paths</dd>
         self.__api_key = api_key
 
         # initialize paths
-        self.initialize_paths()
+        self.__initialize_paths()
 
         # initialize sub-modules
         self.__data = DataManager(self)
@@ -391,7 +391,7 @@ initialization of the paths</dd>
     @download_output_root_path.setter
     def download_output_root_path(self, value: str):
         self.__download_output_root_path = value
-        self.initialize_paths()
+        self.__initialize_paths()
 
     @property
     def read_tar_temp_path(self):
@@ -403,8 +403,9 @@ initialization of the paths</dd>
     @read_tar_temp_path.setter
     def read_tar_temp_path(self, value: str):
         self.__read_tar_temp_path = value
-        self.initialize_paths()
+        self.__initialize_paths()
 
+    # -----------------------------
     # special methods
     # -----------------------------
     def __str__(self) -&gt; str:
@@ -418,6 +419,23 @@ initialization of the paths</dd>
             self.api_headers,
             self.api_timeout,
         )
+
+    # -----------------------------
+    # private methods
+    # -----------------------------
+    def __initialize_paths(self):
+        &#34;&#34;&#34;
+        Initialize the `download_output_root_path` and `read_tar_temp_path` directories.
+        &#34;&#34;&#34;
+        if (self.__download_output_root_path is None):
+            self.__download_output_root_path = Path(&#34;%s/pyucalgarysrs_data&#34; % (str(Path.home())))
+        if (self.__read_tar_temp_path is None):
+            self.__read_tar_temp_path = Path(&#34;%s/.tar_temp_working&#34; % (self.__download_output_root_path))
+        try:
+            os.makedirs(self.download_output_root_path, exist_ok=True)
+            os.makedirs(self.read_tar_temp_path, exist_ok=True)
+        except IOError as e:  # pragma: nocover
+            raise SRSInitializationError(&#34;Error during output path creation: %s&#34; % str(e)) from e
 
     # -----------------------------
     # public methods
@@ -462,25 +480,7 @@ initialization of the paths</dd>
                 elif (os.path.isfile(item) is True):
                     os.remove(item)
         except Exception as e:  # pragma: nocover
-            raise SRSPurgeError(&#34;Error while purging read tar temp path: %s&#34; % (str(e))) from e
-
-    def initialize_paths(self):
-        &#34;&#34;&#34;
-        Initialize the `download_output_root_path` and `read_tar_temp_path` directories.
-
-        Raises:
-            pyucalgarysrs.exceptions.SRSInitializationError: an error was encountered during
-                initialization of the paths
-        &#34;&#34;&#34;
-        if (self.__download_output_root_path is None):
-            self.__download_output_root_path = Path(&#34;%s/pyucalgarysrs_data&#34; % (str(Path.home())))
-        if (self.__read_tar_temp_path is None):
-            self.__read_tar_temp_path = Path(&#34;%s/.tar_temp_working&#34; % (self.__download_output_root_path))
-        try:
-            os.makedirs(self.download_output_root_path, exist_ok=True)
-            os.makedirs(self.read_tar_temp_path, exist_ok=True)
-        except IOError as e:  # pragma: nocover
-            raise SRSInitializationError(&#34;Error during output path creation: %s&#34; % str(e)) from e</code></pre>
+            raise SRSPurgeError(&#34;Error while purging read tar temp path: %s&#34; % (str(e))) from e</code></pre>
 </details>
 <h3>Instance variables</h3>
 <dl>
@@ -607,40 +607,6 @@ def read_tar_temp_path(self):
 </dl>
 <h3>Methods</h3>
 <dl>
-<dt id="pyucalgarysrs.PyUCalgarySRS.initialize_paths"><code class="name flex">
-<span>def <span class="ident">initialize_paths</span></span>(<span>self)</span>
-</code></dt>
-<dd>
-<div class="desc"><p>Initialize the <code>download_output_root_path</code> and <code>read_tar_temp_path</code> directories.</p>
-<h2 id="raises">Raises</h2>
-<dl>
-<dt><code><a title="pyucalgarysrs.exceptions.SRSInitializationError" href="exceptions.html#pyucalgarysrs.exceptions.SRSInitializationError">SRSInitializationError</a></code></dt>
-<dd>an error was encountered during
-initialization of the paths</dd>
-</dl></div>
-<details class="source">
-<summary>
-<span>Expand source code</span>
-</summary>
-<pre><code class="python">def initialize_paths(self):
-    &#34;&#34;&#34;
-    Initialize the `download_output_root_path` and `read_tar_temp_path` directories.
-
-    Raises:
-        pyucalgarysrs.exceptions.SRSInitializationError: an error was encountered during
-            initialization of the paths
-    &#34;&#34;&#34;
-    if (self.__download_output_root_path is None):
-        self.__download_output_root_path = Path(&#34;%s/pyucalgarysrs_data&#34; % (str(Path.home())))
-    if (self.__read_tar_temp_path is None):
-        self.__read_tar_temp_path = Path(&#34;%s/.tar_temp_working&#34; % (self.__download_output_root_path))
-    try:
-        os.makedirs(self.download_output_root_path, exist_ok=True)
-        os.makedirs(self.read_tar_temp_path, exist_ok=True)
-    except IOError as e:  # pragma: nocover
-        raise SRSInitializationError(&#34;Error during output path creation: %s&#34; % str(e)) from e</code></pre>
-</details>
-</dd>
 <dt id="pyucalgarysrs.PyUCalgarySRS.purge_download_output_root_path"><code class="name flex">
 <span>def <span class="ident">purge_download_output_root_path</span></span>(<span>self)</span>
 </code></dt>
@@ -796,7 +762,6 @@ setTimeout(() => input.focus(), 100);
 <li><code><a title="pyucalgarysrs.PyUCalgarySRS.api_timeout" href="#pyucalgarysrs.PyUCalgarySRS.api_timeout">api_timeout</a></code></li>
 <li><code><a title="pyucalgarysrs.PyUCalgarySRS.data" href="#pyucalgarysrs.PyUCalgarySRS.data">data</a></code></li>
 <li><code><a title="pyucalgarysrs.PyUCalgarySRS.download_output_root_path" href="#pyucalgarysrs.PyUCalgarySRS.download_output_root_path">download_output_root_path</a></code></li>
-<li><code><a title="pyucalgarysrs.PyUCalgarySRS.initialize_paths" href="#pyucalgarysrs.PyUCalgarySRS.initialize_paths">initialize_paths</a></code></li>
 <li><code><a title="pyucalgarysrs.PyUCalgarySRS.models" href="#pyucalgarysrs.PyUCalgarySRS.models">models</a></code></li>
 <li><code><a title="pyucalgarysrs.PyUCalgarySRS.purge_download_output_root_path" href="#pyucalgarysrs.PyUCalgarySRS.purge_download_output_root_path">purge_download_output_root_path</a></code></li>
 <li><code><a title="pyucalgarysrs.PyUCalgarySRS.purge_read_tar_temp_path" href="#pyucalgarysrs.PyUCalgarySRS.purge_read_tar_temp_path">purge_read_tar_temp_path</a></code></li>

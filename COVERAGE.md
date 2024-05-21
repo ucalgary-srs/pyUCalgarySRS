@@ -5,7 +5,7 @@ Name                                            Stmts   Miss  Cover   Missing
 -----------------------------------------------------------------------------
 pyucalgarysrs/__init__.py                           8      0   100%
 pyucalgarysrs/data/__init__.py                     30      0   100%
-pyucalgarysrs/data/_download.py                    79      1    99%   55
+pyucalgarysrs/data/_download.py                    79      2    97%   24, 55
 pyucalgarysrs/data/_list.py                        20      0   100%
 pyucalgarysrs/data/classes.py                     125      0   100%
 pyucalgarysrs/data/read/__init__.py               195      9    95%   576, 728-729, 734-738, 767
@@ -26,5 +26,5 @@ pyucalgarysrs/models/atm/classes_forward.py       117      0   100%
 pyucalgarysrs/models/atm/classes_inverse.py       116      0   100%
 pyucalgarysrs/pyucalgarysrs.py                    111      0   100%
 -----------------------------------------------------------------------------
-TOTAL                                            2123    138    93%
+TOTAL                                            2123    139    93%
 ```
