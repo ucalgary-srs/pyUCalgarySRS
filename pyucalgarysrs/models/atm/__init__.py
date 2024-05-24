@@ -178,15 +178,19 @@ class ATMManager:
 
         Args:
             timestamp (datetime.datetime): 
-                Timestamp for the calculation. This value is expected to be in UTC, and is valid for 
-                any value up to the end of the previous day. Any timezone data will be ignored. This 
-                parameter is required.
+                Timestamp for the calculation. This value is expected to be in UTC, and is valid a pre-defined 
+                timeframe. An error will be raised if outside of the valid timeframe. Any timezone data will be 
+                ignored. This parameter is required.
 
             geodetic_latitude (float): 
-                Latitude in geodetic coordinates: -90.0 to 90.0. This parameter is required.
+                Latitude in geodetic coordinates. Currently limited to the Transition Region Explorer (TREx)
+                region of >=50.0 and <61.5 degrees. An error will be raised if outside of this range. This 
+                parameter is required.
 
             geodetic_longitude (float): 
-                Longitude in geodetic coordinates: -180.0 to 180.0. This parameter is required.
+                Longitude in geodetic coordinates. Currently limited to the Transition Region Explorer (TREx)
+                region of >=-110 and <-70 degrees. An error will be raised if outside of this range. This 
+                parameter is required.
 
             intensity_4278 (float): 
                 Intensity of the 427.8nm (blue) wavelength in Rayleighs. This parameter is required.                
