@@ -41,13 +41,13 @@ class Dataset:
     doi_details: Optional[str] = None
     citation: Optional[str] = None
 
-    def show_acknowledgement_info(self):
+    def print_acknowledgement_info(self):
         """
         A special print output for the dataset's acknowledgement information.
         """
-        print("\n%-15s%s" % ("DOI:", self.doi))
+        print("%-15s%s" % ("DOI:", self.doi))
         print("%-15s%s" % ("DOI details:", self.doi_details))
-        print("%-15s\"%s\"\n" % ("Citation:", self.citation))
+        print("%-15s\"%s\"" % ("Citation:", self.citation))
 
 
 @dataclass
@@ -316,3 +316,20 @@ class Calibration:
     rayleighs_perdn_persecond: Optional[float] = None
     flat_field_multiplier: Optional[ndarray] = None
     dataset: Optional[Dataset] = None
+
+
+@dataclass
+class Site:
+    """
+    Representation for a site.
+
+    Attributes:
+        uid (str): 4-letter site unique identifier
+        full_name (str): full location string for the site
+        geodetic_latitude (float): geodetic latitude for the site, in decimal format (-90 to 90)
+        geodetic_longitude (float): geodetic longitude for the site, in decimal format (-180 to 180)
+    """
+    uid: str
+    full_name: str
+    geodetic_latitude: float
+    geodetic_longitude: float

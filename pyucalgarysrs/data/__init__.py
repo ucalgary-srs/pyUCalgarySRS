@@ -57,6 +57,34 @@ class DataManager:
         """
         return self.__list.list_datasets(self.__srs_obj, name, timeout)
 
+    def list_sites(self, instrument_array: str, uid: Optional[str] = None, timeout: Optional[int] = None) -> List[Site]:
+        """
+        List information about instrument sites
+
+        Args:
+            instrument_array (str): 
+                The instrument array to list sites for. Valid values are: themis_asi, rego, trex_rgb, trex_nir, 
+                and trex_blue.
+
+            uid (str): 
+                Supply a site unique identifier used for filtering. If that UID is found in the available 
+                sites received from the API, it will be included in the results. This parameter is
+                optional.
+            
+            timeout (int): 
+                Represents how many seconds to wait for the API to send data before giving up. The 
+                default is 10 seconds, or the `api_timeout` value in the super class' `pyucalgarysrs.PyUCalgarySRS`
+                object. This parameter is optional.
+            
+        Returns:
+            A list of [`Site`](classes.html#pyucalgarysrs.data.classes.Site)
+            objects.
+        
+        Raises:
+            pyucalgary.exceptions.SRSAPIError: An API error was encountered.
+        """
+        return self.__list.list_sites(self.__srs_obj, instrument_array, uid, timeout)
+
     def list_supported_read_datasets(self) -> List[str]:
         """
         List the datasets which have file reading capabilities supported.

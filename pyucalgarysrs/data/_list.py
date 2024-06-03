@@ -1,12 +1,9 @@
 import requests
-from .classes import Dataset
+from .classes import Dataset, Site
 from ..exceptions import SRSAPIError
 
 
 def list_datasets(srs_obj, name, timeout):
-    # init
-    datasets = []
-
     # set timeout
     if (timeout is None):
         timeout = srs_obj.api_timeout
@@ -40,3 +37,30 @@ def list_datasets(srs_obj, name, timeout):
 
     # return
     return datasets
+
+
+def list_sites(srs_obj, instrument_array, uid, timeout):
+    # set timeout
+    if (timeout is None):
+        timeout = srs_obj.api_timeout
+
+    # set up request
+    params = {"instrument_array": instrument_array}
+    if (uid is not None):
+        params["uid"] = uid
+
+    # make request
+    url = "%s/api/v1/data_distribution/sites" % (srs_obj.api_base_url)
+    try:
+        r = requests.get(url, params=params, headers=srs_obj.api_headers, timeout=timeout)
+        res = r.json()
+    except Exception as e:  # pragma: nocover
+        raise SRSAPIError("Unexpected API error: %s" % (str(e))) from e
+    if (r.status_code != 200):  # pragma: nocover
+        raise SRSAPIError("API error code %d: %s" % (r.status_code, res["detail"]))
+
+    # cast response into dataset objects
+    sites = [Site(**x) for x in res]
+
+    # return
+    return sites
