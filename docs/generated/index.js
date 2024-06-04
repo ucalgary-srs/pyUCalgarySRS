@@ -94,6 +94,12 @@ INDEX=[
 "func":1
 },
 {
+"ref":"pyucalgarysrs.data.DataManager.list_observatories",
+"url":1,
+"doc":"List information about observatories Args: instrument_array (str): The instrument array to list observatories for. Valid values are: themis_asi, rego, trex_rgb, trex_nir, and trex_blue. uid (str): Supply a observatory unique identifier used for filtering (usually 4-letter site code). If that UID is found in the available observatories received from the API, it will be included in the results. This parameter is optional. timeout (int): Represents how many seconds to wait for the API to send data before giving up. The default is 10 seconds, or the  api_timeout value in the super class'  pyucalgarysrs.PyUCalgarySRS object. This parameter is optional. Returns: A list of [ Observatory ](classes.html pyucalgarysrs.data.classes.Observatory) objects. Raises: pyucalgary.exceptions.SRSAPIError: An API error was encountered.",
+"func":1
+},
+{
 "ref":"pyucalgarysrs.data.DataManager.list_supported_read_datasets",
 "url":1,
 "doc":"List the datasets which have file reading capabilities supported. Returns: A list of the dataset names with file reading support.",
@@ -108,7 +114,7 @@ INDEX=[
 {
 "ref":"pyucalgarysrs.data.DataManager.download",
 "url":1,
-"doc":"Download data from UCalgary Space Remote Sensing Open Data Platform. The parameters  dataset_name ,  start , and  end are required. All other parameters are optional. Args: dataset_name (str): Name of the dataset to download data for. Use the  list_datasets() function to get the possible values for this parameter. One example is \"THEMIS_ASI_RAW\". Note that dataset names are case sensitive. This parameter is required. start (datetime.datetime): Start timestamp to use (inclusive), expected to be in UTC. Any timezone data will be ignored. This parameter is required. end (datetime.datetime): End timestamp to use (inclusive), expected to be in UTC. Any timezone data will be ignored. This parameter is required. site_uid (str): The site UID to filter for. If specified, data will be downloaded for only the site matching the given value. If excluded, data for all available sites will be downloaded. An example value could be 'atha', meaning all data from the Athabasca observatory will be downloaded for the given dataset name, start, and end times. This parameter is optional. n_parallel (int): Number of data files to download in parallel. Default value is 5. Adjust as needed for your internet connection. This parameter is optional. overwrite (bool): By default, data will not be re-downloaded if it already exists locally. Use the  overwrite parameter to force re-downloading. Default is  False . This parameter is optional. progress_bar_disable (bool): Disable the progress bar. Default is  False . This parameter is optional. progress_bar_ncols (int): Number of columns for the progress bar (straight passthrough of the  ncols parameter in a tqdm progress bar). This parameter is optional. See Notes section below for further information. progress_bar_ascii (str): ASCII value to use when constructing the visual aspect of the progress bar (straight passthrough of the  ascii parameter in a tqdm progress bar). This parameter is optional. See Notes section below for further details. timeout (int): Represents how many seconds to wait for the API to send data before giving up. The default is 10 seconds, or the  api_timeout value in the super class'  pyucalgarysrs.PyUCalgarySRS object. This parameter is optional. Returns: A  pyucalgarysrs.data.classes.FileDownloadResult object containing details about what data files were downloaded. Raises: pyucalgarysrs.exceptions.SRSDownloadError: an error was encountered while downloading a specific file pyucalgarysrs.exceptions.SRSAPIError: an API error was encountered Notes:     The  progress_bar_ parameters can be used to enable/disable/adjust the progress bar. Excluding the  progress_bar_disable parameter, all others are straight pass-throughs to the tqdm progress bar function. The  progress_bar_ncols parameter allows for adjusting the width. The  progress_bar_ascii parameter allows for adjusting the appearance of the progress bar. And the  progress_bar_desc parameter allows for adjusting the description at the beginning of the progress bar. Further details can be found on the [tqdm documentation](https: tqdm.github.io/docs/tqdm/ tqdm-objects). Data downloading will use the  download_data_root_path variable within the super class' object ([ PyUCalgarySRS ]( /pyucalgarysrs.html to determine where to save data to. If you'd like to change this path to somewhere else you can change that variable before your download() call, like so:   import pyucalgarysrs srs = pyucalgarysrs.PyUCalgarySRS() srs.data_download_root_path = \"some_new_path\" srs.data.download(dataset_name, start, end)  ",
+"doc":"Download data from UCalgary Space Remote Sensing Open Data Platform. The parameters  dataset_name ,  start , and  end are required. All other parameters are optional. Note that usage of the site and device UID filters applies differently to some datasets. For example, both fields can be used for most raw and keogram data, but only site UID can be used for skymap datasets, and only device UID can be used for calibration datasets. If fields are specified during a call in which site or device UID is not used, a UserWarning is display to provide the user with feedback about this detail. Args: dataset_name (str): Name of the dataset to download data for. Use the  list_datasets() function to get the possible values for this parameter. One example is \"THEMIS_ASI_RAW\". Note that dataset names are case sensitive. This parameter is required. start (datetime.datetime): Start timestamp to use (inclusive), expected to be in UTC. Any timezone data will be ignored. This parameter is required. end (datetime.datetime): End timestamp to use (inclusive), expected to be in UTC. Any timezone data will be ignored. This parameter is required. site_uid (str): The site UID to filter for. If specified, data will be downloaded for only the site matching the given value. If excluded, data for all available sites will be downloaded. An example value could be 'atha', meaning all data from the Athabasca observatory will be downloaded for the given dataset name, start, and end times. This parameter is optional. device_uid (str): The device UID to filter for. If specified, data will be downloaded for only the device matching the given value. If excluded, data for all available devices will be downloaded. An example value could be 'themis02', meaning all data matching that device will be downloaded for the given dataset name, start, and end times. This parameter is optional. n_parallel (int): Number of data files to download in parallel. Default value is 5. Adjust as needed for your internet connection. This parameter is optional. overwrite (bool): By default, data will not be re-downloaded if it already exists locally. Use the  overwrite parameter to force re-downloading. Default is  False . This parameter is optional. progress_bar_disable (bool): Disable the progress bar. Default is  False . This parameter is optional. progress_bar_ncols (int): Number of columns for the progress bar (straight passthrough of the  ncols parameter in a tqdm progress bar). This parameter is optional. See Notes section below for further information. progress_bar_ascii (str): ASCII value to use when constructing the visual aspect of the progress bar (straight passthrough of the  ascii parameter in a tqdm progress bar). This parameter is optional. See Notes section below for further details. timeout (int): Represents how many seconds to wait for the API to send data before giving up. The default is 10 seconds, or the  api_timeout value in the super class'  pyucalgarysrs.PyUCalgarySRS object. This parameter is optional. Returns: A  pyucalgarysrs.data.classes.FileDownloadResult object containing details about what data files were downloaded. Raises: pyucalgarysrs.exceptions.SRSDownloadError: an error was encountered while downloading a specific file pyucalgarysrs.exceptions.SRSAPIError: an API error was encountered Notes:     The  progress_bar_ parameters can be used to enable/disable/adjust the progress bar. Excluding the  progress_bar_disable parameter, all others are straight pass-throughs to the tqdm progress bar function. The  progress_bar_ncols parameter allows for adjusting the width. The  progress_bar_ascii parameter allows for adjusting the appearance of the progress bar. And the  progress_bar_desc parameter allows for adjusting the description at the beginning of the progress bar. Further details can be found on the [tqdm documentation](https: tqdm.github.io/docs/tqdm/ tqdm-objects). Data downloading will use the  download_data_root_path variable within the super class' object ([ PyUCalgarySRS ]( /pyucalgarysrs.html to determine where to save data to. If you'd like to change this path to somewhere else you can change that variable before your download() call, like so:   import pyucalgarysrs srs = pyucalgarysrs.PyUCalgarySRS() srs.data_download_root_path = \"some_new_path\" srs.data.download(dataset_name, start, end)  ",
 "func":1
 },
 {
@@ -120,7 +126,7 @@ INDEX=[
 {
 "ref":"pyucalgarysrs.data.DataManager.get_urls",
 "url":1,
-"doc":"Get URLs of data files Args: dataset_name (str): Name of the dataset to download data for. Use the  list_datasets() function to get the possible values for this parameter. One example is \"THEMIS_ASI_RAW\". Note that dataset names are case sensitive. This parameter is required. start (datetime.datetime): Start timestamp to use (inclusive), expected to be in UTC. Any timezone data will be ignored. This parameter is required. end (datetime.datetime): End timestamp to use (inclusive), expected to be in UTC. Any timezone data will be ignored. This parameter is required. site_uid (str): The site UID to filter for. If specified, data will be downloaded for only the site matching the given value. If excluded, data for all available sites will be downloaded. An example value could be 'atha', meaning all data from the Athabasca observatory will be downloaded for the given dataset name, start, and end times. This parameter is optional. timeout (int): Represents how many seconds to wait for the API to send data before giving up. The default is 10 seconds, or the  api_timeout value in the super class'  pyucalgarysrs.PyUCalgarySRS object. This parameter is optional. Returns: A  pyucalgarysrs.data.classes.FileListingResponse object containing a list of the available URLS, among other values. Raises: pyucalgarysrs.exceptions.SRSAPIError: an API error was encountered",
+"doc":"Get URLs of data files The parameters  dataset_name ,  start , and  end are required. All other parameters are optional. Note that usage of the site and device UID filters applies differently to some datasets. For example, both fields can be used for most raw and keogram data, but only site UID can be used for skymap datasets, and only device UID can be used for calibration datasets. If fields are specified during a call in which site or device UID is not used, a UserWarning is display to provide the user with feedback about this detail. Args: dataset_name (str): Name of the dataset to download data for. Use the  list_datasets() function to get the possible values for this parameter. One example is \"THEMIS_ASI_RAW\". Note that dataset names are case sensitive. This parameter is required. start (datetime.datetime): Start timestamp to use (inclusive), expected to be in UTC. Any timezone data will be ignored. This parameter is required. end (datetime.datetime): End timestamp to use (inclusive), expected to be in UTC. Any timezone data will be ignored. This parameter is required. site_uid (str): The site UID to filter for. If specified, data will be downloaded for only the site matching the given value. If excluded, data for all available sites will be downloaded. An example value could be 'atha', meaning all data from the Athabasca observatory will be downloaded for the given dataset name, start, and end times. This parameter is optional. device_uid (str): The device UID to filter for. If specified, data will be downloaded for only the device matching the given value. If excluded, data for all available devices will be downloaded. An example value could be 'themis02', meaning all data matching that device will be downloaded for the given dataset name, start, and end times. This parameter is optional. timeout (int): Represents how many seconds to wait for the API to send data before giving up. The default is 10 seconds, or the  api_timeout value in the super class'  pyucalgarysrs.PyUCalgarySRS object. This parameter is optional. Returns: A  pyucalgarysrs.data.classes.FileListingResponse object containing a list of the available URLS, among other values. Raises: pyucalgarysrs.exceptions.SRSAPIError: an API error was encountered",
 "func":1
 },
 {
@@ -190,7 +196,7 @@ INDEX=[
 "doc":""
 },
 {
-"ref":"pyucalgarysrs.data.classes.Dataset.show_acknowledgement_info",
+"ref":"pyucalgarysrs.data.classes.Dataset.print_acknowledgement_info",
 "url":2,
 "doc":"A special print output for the dataset's acknowledgement information.",
 "func":1
@@ -587,6 +593,31 @@ INDEX=[
 },
 {
 "ref":"pyucalgarysrs.data.classes.Calibration.dataset",
+"url":2,
+"doc":""
+},
+{
+"ref":"pyucalgarysrs.data.classes.Observatory",
+"url":2,
+"doc":"Representation for an observatory. Attributes: uid (str): 4-letter unique identifier (traditionally referred to as the site UID) full_name (str): full location string for the observatory geodetic_latitude (float): geodetic latitude for the observatory, in decimal format (-90 to 90) geodetic_longitude (float): geodetic longitude for the observatory, in decimal format (-180 to 180)"
+},
+{
+"ref":"pyucalgarysrs.data.classes.Observatory.uid",
+"url":2,
+"doc":""
+},
+{
+"ref":"pyucalgarysrs.data.classes.Observatory.full_name",
+"url":2,
+"doc":""
+},
+{
+"ref":"pyucalgarysrs.data.classes.Observatory.geodetic_latitude",
+"url":2,
+"doc":""
+},
+{
+"ref":"pyucalgarysrs.data.classes.Observatory.geodetic_longitude",
 "url":2,
 "doc":""
 },
