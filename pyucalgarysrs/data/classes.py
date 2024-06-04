@@ -319,15 +319,15 @@ class Calibration:
 
 
 @dataclass
-class Site:
+class Observatory:
     """
-    Representation for a site.
+    Representation for an observatory.
 
     Attributes:
-        uid (str): 4-letter site unique identifier
-        full_name (str): full location string for the site
-        geodetic_latitude (float): geodetic latitude for the site, in decimal format (-90 to 90)
-        geodetic_longitude (float): geodetic longitude for the site, in decimal format (-180 to 180)
+        uid (str): 4-letter unique identifier (traditionally referred to as the site UID)
+        full_name (str): full location string for the observatory
+        geodetic_latitude (float): geodetic latitude for the observatory, in decimal format (-90 to 90)
+        geodetic_longitude (float): geodetic longitude for the observatory, in decimal format (-180 to 180)
     """
     uid: str
     full_name: str

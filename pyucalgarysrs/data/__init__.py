@@ -57,19 +57,19 @@ class DataManager:
         """
         return self.__list.list_datasets(self.__srs_obj, name, timeout)
 
-    def list_sites(self, instrument_array: str, uid: Optional[str] = None, timeout: Optional[int] = None) -> List[Site]:
+    def list_observatories(self, instrument_array: str, uid: Optional[str] = None, timeout: Optional[int] = None) -> List[Observatory]:
         """
-        List information about instrument sites
+        List information about observatories
 
         Args:
             instrument_array (str): 
-                The instrument array to list sites for. Valid values are: themis_asi, rego, trex_rgb, trex_nir, 
-                and trex_blue.
+                The instrument array to list observatories for. Valid values are: themis_asi, rego, 
+                trex_rgb, trex_nir, and trex_blue.
 
             uid (str): 
-                Supply a site unique identifier used for filtering. If that UID is found in the available 
-                sites received from the API, it will be included in the results. This parameter is
-                optional.
+                Supply a observatory unique identifier used for filtering (usually 4-letter site code). If that UID 
+                is found in the available observatories received from the API, it will be included in the results. This 
+                parameter is optional.
             
             timeout (int): 
                 Represents how many seconds to wait for the API to send data before giving up. The 
@@ -77,13 +77,13 @@ class DataManager:
                 object. This parameter is optional.
             
         Returns:
-            A list of [`Site`](classes.html#pyucalgarysrs.data.classes.Site)
+            A list of [`Observatory`](classes.html#pyucalgarysrs.data.classes.Observatory)
             objects.
         
         Raises:
             pyucalgary.exceptions.SRSAPIError: An API error was encountered.
         """
-        return self.__list.list_sites(self.__srs_obj, instrument_array, uid, timeout)
+        return self.__list.list_observatories(self.__srs_obj, instrument_array, uid, timeout)
 
     def list_supported_read_datasets(self) -> List[str]:
         """
@@ -120,6 +120,7 @@ class DataManager:
                  start: datetime.datetime,
                  end: datetime.datetime,
                  site_uid: Optional[str] = None,
+                 device_uid: Optional[str] = None,
                  n_parallel: int = __DEFAULT_DOWNLOAD_N_PARALLEL,
                  overwrite: bool = False,
                  progress_bar_disable: bool = False,
@@ -132,6 +133,12 @@ class DataManager:
 
         The parameters `dataset_name`, `start`, and `end` are required. All other parameters
         are optional.
+
+        Note that usage of the site and device UID filters applies differently to some datasets.
+        For example, both fields can be used for most raw and keogram data, but only site UID can
+        be used for skymap datasets, and only device UID can be used for calibration datasets. If 
+        fields are specified during a call in which site or device UID is not used, a UserWarning
+        is display to provide the user with feedback about this detail.
 
         Args:
             dataset_name (str): 
@@ -153,6 +160,13 @@ class DataManager:
                 be downloaded. An example value could be 'atha', meaning all data from the 
                 Athabasca observatory will be downloaded for the given dataset name, start, and 
                 end times. This parameter is optional.
+
+            device_uid (str): 
+                The device UID to filter for. If specified, data will be downloaded for only the
+                device matching the given value. If excluded, data for all available devices will
+                be downloaded. An example value could be 'themis02', meaning all data matching that
+                device will be downloaded for the given dataset name, start, and end times. This
+                parameter is optional.
 
             n_parallel (int): 
                 Number of data files to download in parallel. Default value is 5. Adjust as needed 
@@ -212,12 +226,13 @@ class DataManager:
         srs.data.download(dataset_name, start, end)
         ```
         """
-        return self.__download._download_generic(
+        return self.__download.download_generic(
             self.__srs_obj,
             dataset_name,
             start,
             end,
             site_uid,
+            device_uid,
             n_parallel,
             overwrite,
             progress_bar_disable,
@@ -310,7 +325,7 @@ class DataManager:
         srs.data.download(dataset_name, start, end)
         ``` 
         """
-        return self.__download._download_using_urls(
+        return self.__download.download_using_urls(
             self.__srs_obj,
             file_listing_response,
             n_parallel,
@@ -327,9 +342,19 @@ class DataManager:
                  start: datetime.datetime,
                  end: datetime.datetime,
                  site_uid: Optional[str] = None,
+                 device_uid: Optional[str] = None,
                  timeout: Optional[int] = None) -> FileListingResponse:
         """
         Get URLs of data files
+
+        The parameters `dataset_name`, `start`, and `end` are required. All other parameters
+        are optional.
+
+        Note that usage of the site and device UID filters applies differently to some datasets.
+        For example, both fields can be used for most raw and keogram data, but only site UID can
+        be used for skymap datasets, and only device UID can be used for calibration datasets. If 
+        fields are specified during a call in which site or device UID is not used, a UserWarning
+        is display to provide the user with feedback about this detail.
 
         Args:
             dataset_name (str): 
@@ -352,6 +377,13 @@ class DataManager:
                 Athabasca observatory will be downloaded for the given dataset name, start, and 
                 end times. This parameter is optional.
 
+            device_uid (str): 
+                The device UID to filter for. If specified, data will be downloaded for only the
+                device matching the given value. If excluded, data for all available devices will
+                be downloaded. An example value could be 'themis02', meaning all data matching that
+                device will be downloaded for the given dataset name, start, and end times. This
+                parameter is optional.
+
             timeout (int): 
                 Represents how many seconds to wait for the API to send data before giving up. The 
                 default is 10 seconds, or the `api_timeout` value in the super class' `pyucalgarysrs.PyUCalgarySRS`
@@ -364,12 +396,13 @@ class DataManager:
         Raises:
             pyucalgarysrs.exceptions.SRSAPIError: an API error was encountered
         """
-        return self.__download._get_urls(
+        return self.__download.get_urls(
             self.__srs_obj,
             dataset_name,
             start,
             end,
             site_uid,
+            device_uid,
             timeout,
         )
 

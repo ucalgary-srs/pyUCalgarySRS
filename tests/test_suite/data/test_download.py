@@ -10,6 +10,7 @@ ALL_TESTS = [
             "start": datetime.datetime(2023, 1, 3, 6, 0, 0),
             "end": datetime.datetime(2023, 1, 3, 6, 9, 0),
             "site_uid": "atha",
+            "device_uid": None,
         },
         "expected_file_count": 10,
     },
@@ -19,6 +20,17 @@ ALL_TESTS = [
             "start": datetime.datetime(2023, 1, 15, 0, 0, 0),
             "end": datetime.datetime(2023, 1, 19, 23, 59, 59),
             "site_uid": "gill",
+            "device_uid": None,
+        },
+        "expected_file_count": 5,
+    },
+    {
+        "request": {
+            "dataset_name": "TREX_RGB_DAILY_KEOGRAM",
+            "start": datetime.datetime(2023, 1, 15, 0, 0, 0),
+            "end": datetime.datetime(2023, 1, 19, 23, 59, 59),
+            "site_uid": "gill",
+            "device_uid": "rgb-04"
         },
         "expected_file_count": 5,
     },
@@ -34,6 +46,7 @@ def test_download(srs, test_dict):
         test_dict["request"]["start"],
         test_dict["request"]["end"],
         site_uid=test_dict["request"]["site_uid"],
+        device_uid=test_dict["request"]["device_uid"],
         n_parallel=1,
         overwrite=True,
     )

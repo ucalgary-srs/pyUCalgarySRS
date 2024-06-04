@@ -1,6 +1,7 @@
 import os
 import requests
 import joblib
+import warnings
 from tqdm.auto import tqdm
 from .classes import FileListingResponse, FileDownloadResult, Dataset
 from ..exceptions import SRSAPIError, SRSDownloadError
@@ -59,16 +60,16 @@ def __download_url(
     return {"filename": output_filename, "bytes_downloaded": this_bytes}
 
 
-def _download_urls(srs_obj,
-                   file_listing_obj,
-                   n_parallel,
-                   overwrite,
-                   progress_bar_disable,
-                   progress_bar_ncols,
-                   progress_bar_ascii,
-                   progress_bar_desc,
-                   timeout,
-                   progress_bar_format_numurls_nobytes=False):
+def __download_urls(srs_obj,
+                    file_listing_obj,
+                    n_parallel,
+                    overwrite,
+                    progress_bar_disable,
+                    progress_bar_ncols,
+                    progress_bar_ascii,
+                    progress_bar_desc,
+                    timeout,
+                    progress_bar_format_numurls_nobytes=False):
 
     def __do_parallel_work(pbar=None, pbar_iterator_nfiles=False):
         job_data = joblib.Parallel(n_jobs=n_parallel, prefer="threads")(joblib.delayed(__download_url)(
@@ -136,7 +137,7 @@ def _download_urls(srs_obj,
     return download_obj
 
 
-def _get_urls(srs_obj, dataset_name, start, end, site_uid, timeout):
+def get_urls(srs_obj, dataset_name, start, end, site_uid, device_uid, timeout, warning_stack_level=3):
     # set timeout
     if (timeout is None):
         timeout = srs_obj.api_timeout
@@ -150,6 +151,22 @@ def _get_urls(srs_obj, dataset_name, start, end, site_uid, timeout):
     }
     if (site_uid is not None):
         params["site_uid"] = site_uid
+    if (device_uid is not None):
+        params["device_uid"] = device_uid
+
+    # check warnings about site and device being supplied
+    if (site_uid is not None and "calibration" in dataset_name.lower()):
+        warnings.warn("The site_uid filter was used when retrieving URLs for the dataset %s. Please note "
+                      "that the site_uid field is not used when filtering in this dataset. Consider removing "
+                      "it from your function call." % (dataset_name),
+                      UserWarning,
+                      stacklevel=warning_stack_level)
+    if (device_uid is not None and "skymap" in dataset_name.lower()):
+        warnings.warn("The device_uid filter was used when retrieving URLs for the dataset %s. Please note "
+                      "that the device_uid field is not used when filtering in this dataset. Consider removing "
+                      "it from your function call." % (dataset_name),
+                      UserWarning,
+                      stacklevel=warning_stack_level)
 
     # make API request
     url = "%s/api/v1/data_distribution/urls" % (srs_obj.api_base_url)
@@ -175,13 +192,13 @@ def _get_urls(srs_obj, dataset_name, start, end, site_uid, timeout):
     return file_listing_obj
 
 
-def _download_generic(srs_obj, dataset_name, start, end, site_uid, n_parallel, overwrite, progress_bar_disable, progress_bar_ncols,
-                      progress_bar_ascii, progress_bar_desc, timeout):
+def download_generic(srs_obj, dataset_name, start, end, site_uid, device_uid, n_parallel, overwrite, progress_bar_disable, progress_bar_ncols,
+                     progress_bar_ascii, progress_bar_desc, timeout):
     # get file listing
-    file_listing_obj = _get_urls(srs_obj, dataset_name, start, end, site_uid, timeout)
+    file_listing_obj = get_urls(srs_obj, dataset_name, start, end, site_uid, device_uid, timeout, warning_stack_level=4)
 
     # download the urls
-    download_obj = _download_urls(
+    download_obj = __download_urls(
         srs_obj,
         file_listing_obj,
         n_parallel,
@@ -197,19 +214,19 @@ def _download_generic(srs_obj, dataset_name, start, end, site_uid, n_parallel, o
     return download_obj
 
 
-def _download_using_urls(srs_obj, file_listing_obj, n_parallel, overwrite, progress_bar_disable, progress_bar_ncols, progress_bar_ascii,
-                         progress_bar_desc, timeout):
+def download_using_urls(srs_obj, file_listing_obj, n_parallel, overwrite, progress_bar_disable, progress_bar_ncols, progress_bar_ascii,
+                        progress_bar_desc, timeout):
     # download the urls
-    download_obj = _download_urls(srs_obj,
-                                  file_listing_obj,
-                                  n_parallel,
-                                  overwrite,
-                                  progress_bar_disable,
-                                  progress_bar_ncols,
-                                  progress_bar_ascii,
-                                  progress_bar_desc,
-                                  timeout,
-                                  progress_bar_format_numurls_nobytes=True)
+    download_obj = __download_urls(srs_obj,
+                                   file_listing_obj,
+                                   n_parallel,
+                                   overwrite,
+                                   progress_bar_disable,
+                                   progress_bar_ncols,
+                                   progress_bar_ascii,
+                                   progress_bar_desc,
+                                   timeout,
+                                   progress_bar_format_numurls_nobytes=True)
 
     # return
     return download_obj

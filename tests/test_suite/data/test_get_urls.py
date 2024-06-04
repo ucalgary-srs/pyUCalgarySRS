@@ -17,6 +17,7 @@ ALL_TESTS = [
         "expected_num_urls": 60,
         "expected_status": 200,
         "expected_error_message": None,
+        "expected_warning": False,
     },
     {
         "request": {
@@ -28,6 +29,7 @@ ALL_TESTS = [
         "expected_num_urls": 814,
         "expected_status": 200,
         "expected_error_message": None,
+        "expected_warning": False,
     },
     {
         "request": {
@@ -39,6 +41,7 @@ ALL_TESTS = [
         "expected_num_urls": 80,
         "expected_status": 200,
         "expected_error_message": None,
+        "expected_warning": False,
     },
     {
         "request": {
@@ -49,6 +52,7 @@ ALL_TESTS = [
         "expected_num_urls": 5 * 11,
         "expected_status": 200,
         "expected_error_message": None,
+        "expected_warning": False,
     },
     {
         "request": {
@@ -59,6 +63,7 @@ ALL_TESTS = [
         "expected_num_urls": 15,
         "expected_status": 200,
         "expected_error_message": None,
+        "expected_warning": False,
     },
     {
         "request": {
@@ -72,6 +77,7 @@ ALL_TESTS = [
         "expected_status": 200,
         "expected_total_bytes": 21668977,
         "expected_error_message": None,
+        "expected_warning": False,
     },
     {
         "request": {
@@ -84,6 +90,7 @@ ALL_TESTS = [
         "expected_status": 200,
         "expected_total_bytes": 255415,
         "expected_error_message": None,
+        "expected_warning": False,
     },
     {
         "request": {
@@ -95,6 +102,7 @@ ALL_TESTS = [
         "expected_num_urls": 25,
         "expected_status": 200,
         "expected_error_message": None,
+        "expected_warning": False,
     },
     {
         "request": {
@@ -105,6 +113,7 @@ ALL_TESTS = [
         "expected_num_urls": 16,
         "expected_status": 200,
         "expected_error_message": None,
+        "expected_warning": False,
     },
     {
         "request": {
@@ -116,6 +125,20 @@ ALL_TESTS = [
         "expected_num_urls": 1,
         "expected_status": 200,
         "expected_error_message": None,
+        "expected_warning": False,
+    },
+    {
+        "request": {
+            "name": "THEMIS_ASI_SKYMAP_IDLSAV",
+            "start": "2010-01-01T00:00:00",
+            "end": "2010-12-31T23:59:59",
+            "site_uid": "gill",
+            "device_uid": "themisXX",
+        },
+        "expected_num_urls": 1,
+        "expected_status": 200,
+        "expected_error_message": None,
+        "expected_warning": True,
     },
     {
         "request": {
@@ -129,6 +152,7 @@ ALL_TESTS = [
         "expected_status": 200,
         "expected_total_bytes": 3540232,
         "expected_error_message": None,
+        "expected_warning": False,
     },
     {
         "request": {
@@ -140,6 +164,7 @@ ALL_TESTS = [
         "expected_num_urls": 0,
         "expected_status": 200,
         "expected_error_message": None,
+        "expected_warning": False,
     },
     {
         "request": {
@@ -150,6 +175,7 @@ ALL_TESTS = [
         "expected_num_urls": 6,
         "expected_status": 200,
         "expected_error_message": None,
+        "expected_warning": False,
     },
     {
         "request": {
@@ -160,6 +186,7 @@ ALL_TESTS = [
         "expected_num_urls": 6,
         "expected_status": 200,
         "expected_error_message": None,
+        "expected_warning": False,
     },
     {
         "request": {
@@ -172,6 +199,20 @@ ALL_TESTS = [
         "expected_status": 200,
         "expected_total_bytes": 12591528,
         "expected_error_message": None,
+        "expected_warning": False,
+    },
+    {
+        "request": {
+            "name": "REGO_CALIBRATION_FLATFIELD_IDLSAV",
+            "start": "2014-01-01T00:00:00",
+            "end": "2014-12-31T23:59:59",
+            "device_uid": "15649",
+        },
+        "expected_num_urls": 1,
+        "expected_status": 200,
+        "expected_total_bytes": 12591528,
+        "expected_error_message": None,
+        "expected_warning": False,
     },
     {
         "request": {
@@ -183,6 +224,7 @@ ALL_TESTS = [
         "expected_num_urls": 6,
         "expected_status": 200,
         "expected_error_message": None,
+        "expected_warning": True,
     },
 
     # --------------------------------------
@@ -198,6 +240,7 @@ ALL_TESTS = [
         "expected_num_urls": 0,
         "expected_status": 200,
         "expected_error_message": None,
+        "expected_warning": False,
     },
     {
         "request": {
@@ -209,6 +252,7 @@ ALL_TESTS = [
         "expected_num_urls": 0,
         "expected_status": 200,
         "expected_error_message": None,
+        "expected_warning": False,
     },
 
     # ---------------------------------
@@ -261,6 +305,7 @@ ALL_TESTS = [
         "expected_num_urls": 60,
         "expected_status": 200,
         "expected_error_message": None,
+        "expected_warning": False,
     },
     {
         "request": {
@@ -272,6 +317,7 @@ ALL_TESTS = [
         "expected_num_urls": 2,
         "expected_status": 200,
         "expected_error_message": None,
+        "expected_warning": False,
     },
     {
         "request": {
@@ -283,6 +329,7 @@ ALL_TESTS = [
         "expected_num_urls": 2,
         "expected_status": 200,
         "expected_error_message": None,
+        "expected_warning": False,
     },
     {
         "request": {
@@ -294,6 +341,7 @@ ALL_TESTS = [
         "expected_num_urls": 2,
         "expected_status": 200,
         "expected_error_message": None,
+        "expected_warning": False,
     },
     {
         "request": {
@@ -305,6 +353,7 @@ ALL_TESTS = [
         "expected_num_urls": 2,
         "expected_status": 200,
         "expected_error_message": None,
+        "expected_warning": False,
     },
     {
         "request": {
@@ -316,6 +365,7 @@ ALL_TESTS = [
         "expected_num_urls": 2,
         "expected_status": 200,
         "expected_error_message": None,
+        "expected_warning": False,
     },
     {
         "request": {
@@ -327,6 +377,7 @@ ALL_TESTS = [
         "expected_num_urls": 2,
         "expected_status": 200,
         "expected_error_message": None,
+        "expected_warning": False,
     },
     {
         "request": {
@@ -338,6 +389,7 @@ ALL_TESTS = [
         "expected_num_urls": 5,
         "expected_status": 200,
         "expected_error_message": None,
+        "expected_warning": False,
     },
     {
         "request": {
@@ -349,6 +401,7 @@ ALL_TESTS = [
         "expected_num_urls": 5,
         "expected_status": 200,
         "expected_error_message": None,
+        "expected_warning": False,
     },
     {
         "request": {
@@ -360,6 +413,7 @@ ALL_TESTS = [
         "expected_num_urls": 5,
         "expected_status": 200,
         "expected_error_message": None,
+        "expected_warning": False,
     },
     {
         "request": {
@@ -371,6 +425,7 @@ ALL_TESTS = [
         "expected_num_urls": 5,
         "expected_status": 200,
         "expected_error_message": None,
+        "expected_warning": False,
     },
     {
         "request": {
@@ -382,6 +437,7 @@ ALL_TESTS = [
         "expected_num_urls": 5,
         "expected_status": 200,
         "expected_error_message": None,
+        "expected_warning": False,
     },
     {
         "request": {
@@ -393,6 +449,7 @@ ALL_TESTS = [
         "expected_num_urls": 5,
         "expected_status": 200,
         "expected_error_message": None,
+        "expected_warning": False,
     },
     {
         "request": {
@@ -404,6 +461,7 @@ ALL_TESTS = [
         "expected_num_urls": 3,
         "expected_status": 200,
         "expected_error_message": None,
+        "expected_warning": False,
     },
     {
         "request": {
@@ -414,6 +472,7 @@ ALL_TESTS = [
         "expected_num_urls": 8,
         "expected_status": 200,
         "expected_error_message": None,
+        "expected_warning": False,
     },
     {
         "request": {
@@ -424,6 +483,7 @@ ALL_TESTS = [
         "expected_num_urls": 8,
         "expected_status": 200,
         "expected_error_message": None,
+        "expected_warning": False,
     },
     {
         "request": {
@@ -435,6 +495,7 @@ ALL_TESTS = [
         "expected_num_urls": 60,
         "expected_status": 200,
         "expected_error_message": None,
+        "expected_warning": False,
     },
     {
         "request": {
@@ -446,6 +507,7 @@ ALL_TESTS = [
         "expected_num_urls": 2,
         "expected_status": 200,
         "expected_error_message": None,
+        "expected_warning": False,
     },
     {
         "request": {
@@ -457,6 +519,7 @@ ALL_TESTS = [
         "expected_num_urls": 4,
         "expected_status": 200,
         "expected_error_message": None,
+        "expected_warning": False,
     },
     {
         "request": {
@@ -468,6 +531,7 @@ ALL_TESTS = [
         "expected_num_urls": 2,
         "expected_status": 200,
         "expected_error_message": None,
+        "expected_warning": False,
     },
     {
         "request": {
@@ -479,6 +543,7 @@ ALL_TESTS = [
         "expected_num_urls": 2,
         "expected_status": 200,
         "expected_error_message": None,
+        "expected_warning": False,
     },
     {
         "request": {
@@ -490,6 +555,7 @@ ALL_TESTS = [
         "expected_num_urls": 2,
         "expected_status": 200,
         "expected_error_message": None,
+        "expected_warning": False,
     },
     {
         "request": {
@@ -501,6 +567,7 @@ ALL_TESTS = [
         "expected_num_urls": 2,
         "expected_status": 200,
         "expected_error_message": None,
+        "expected_warning": False,
     },
     {
         "request": {
@@ -512,6 +579,7 @@ ALL_TESTS = [
         "expected_num_urls": 2,
         "expected_status": 200,
         "expected_error_message": None,
+        "expected_warning": False,
     },
     {
         "request": {
@@ -523,6 +591,7 @@ ALL_TESTS = [
         "expected_num_urls": 2,
         "expected_status": 200,
         "expected_error_message": None,
+        "expected_warning": False,
     },
     {
         "request": {
@@ -534,6 +603,7 @@ ALL_TESTS = [
         "expected_num_urls": 10,
         "expected_status": 200,
         "expected_error_message": None,
+        "expected_warning": False,
     },
     {
         "request": {
@@ -545,6 +615,7 @@ ALL_TESTS = [
         "expected_num_urls": 5,
         "expected_status": 200,
         "expected_error_message": None,
+        "expected_warning": False,
     },
     {
         "request": {
@@ -556,6 +627,7 @@ ALL_TESTS = [
         "expected_num_urls": 10,
         "expected_status": 200,
         "expected_error_message": None,
+        "expected_warning": False,
     },
     {
         "request": {
@@ -567,6 +639,7 @@ ALL_TESTS = [
         "expected_num_urls": 5,
         "expected_status": 200,
         "expected_error_message": None,
+        "expected_warning": False,
     },
     {
         "request": {
@@ -578,6 +651,7 @@ ALL_TESTS = [
         "expected_num_urls": 2,
         "expected_status": 200,
         "expected_error_message": None,
+        "expected_warning": False,
     },
     {
         "request": {
@@ -589,6 +663,7 @@ ALL_TESTS = [
         "expected_num_urls": 2,
         "expected_status": 200,
         "expected_error_message": None,
+        "expected_warning": False,
     },
     {
         "request": {
@@ -600,6 +675,7 @@ ALL_TESTS = [
         "expected_num_urls": 2,
         "expected_status": 200,
         "expected_error_message": None,
+        "expected_warning": False,
     },
     {
         "request": {
@@ -611,6 +687,7 @@ ALL_TESTS = [
         "expected_num_urls": 45,
         "expected_status": 200,
         "expected_error_message": None,
+        "expected_warning": False,
     },
     {
         "request": {
@@ -622,6 +699,7 @@ ALL_TESTS = [
         "expected_num_urls": 60,
         "expected_status": 200,
         "expected_error_message": None,
+        "expected_warning": False,
     },
     {
         "request": {
@@ -633,6 +711,7 @@ ALL_TESTS = [
         "expected_num_urls": 2,
         "expected_status": 200,
         "expected_error_message": None,
+        "expected_warning": False,
     },
     {
         "request": {
@@ -644,6 +723,7 @@ ALL_TESTS = [
         "expected_num_urls": 2,
         "expected_status": 200,
         "expected_error_message": None,
+        "expected_warning": False,
     },
     {
         "request": {
@@ -655,6 +735,7 @@ ALL_TESTS = [
         "expected_num_urls": 5,
         "expected_status": 200,
         "expected_error_message": None,
+        "expected_warning": False,
     },
     {
         "request": {
@@ -666,6 +747,7 @@ ALL_TESTS = [
         "expected_num_urls": 5,
         "expected_status": 200,
         "expected_error_message": None,
+        "expected_warning": False,
     },
     {
         "request": {
@@ -677,6 +759,7 @@ ALL_TESTS = [
         "expected_num_urls": 60,
         "expected_status": 200,
         "expected_error_message": None,
+        "expected_warning": False,
     },
     {
         "request": {
@@ -688,6 +771,7 @@ ALL_TESTS = [
         "expected_num_urls": 2,
         "expected_status": 200,
         "expected_error_message": None,
+        "expected_warning": False,
     },
     {
         "request": {
@@ -699,6 +783,7 @@ ALL_TESTS = [
         "expected_num_urls": 2,
         "expected_status": 200,
         "expected_error_message": None,
+        "expected_warning": False,
     },
     {
         "request": {
@@ -710,6 +795,7 @@ ALL_TESTS = [
         "expected_num_urls": 2,
         "expected_status": 200,
         "expected_error_message": None,
+        "expected_warning": False,
     },
     {
         "request": {
@@ -721,6 +807,7 @@ ALL_TESTS = [
         "expected_num_urls": 2,
         "expected_status": 200,
         "expected_error_message": None,
+        "expected_warning": False,
     },
     {
         "request": {
@@ -732,6 +819,7 @@ ALL_TESTS = [
         "expected_num_urls": 5,
         "expected_status": 200,
         "expected_error_message": None,
+        "expected_warning": False,
     },
     {
         "request": {
@@ -743,6 +831,7 @@ ALL_TESTS = [
         "expected_num_urls": 5,
         "expected_status": 200,
         "expected_error_message": None,
+        "expected_warning": False,
     },
     {
         "request": {
@@ -754,6 +843,7 @@ ALL_TESTS = [
         "expected_num_urls": 5,
         "expected_status": 200,
         "expected_error_message": None,
+        "expected_warning": False,
     },
     {
         "request": {
@@ -765,6 +855,7 @@ ALL_TESTS = [
         "expected_num_urls": 5,
         "expected_status": 200,
         "expected_error_message": None,
+        "expected_warning": False,
     },
     {
         "request": {
@@ -776,6 +867,7 @@ ALL_TESTS = [
         "expected_num_urls": 3,
         "expected_status": 200,
         "expected_error_message": None,
+        "expected_warning": False,
     },
     {
         "request": {
@@ -786,6 +878,7 @@ ALL_TESTS = [
         "expected_num_urls": 7,
         "expected_status": 200,
         "expected_error_message": None,
+        "expected_warning": False,
     },
     {
         "request": {
@@ -796,6 +889,7 @@ ALL_TESTS = [
         "expected_num_urls": 7,
         "expected_status": 200,
         "expected_error_message": None,
+        "expected_warning": False,
     },
     {
         "request": {
@@ -807,6 +901,7 @@ ALL_TESTS = [
         "expected_num_urls": 60,
         "expected_status": 200,
         "expected_error_message": None,
+        "expected_warning": False,
     },
     {
         "request": {
@@ -818,6 +913,7 @@ ALL_TESTS = [
         "expected_num_urls": 2,
         "expected_status": 200,
         "expected_error_message": None,
+        "expected_warning": False,
     },
     {
         "request": {
@@ -829,6 +925,7 @@ ALL_TESTS = [
         "expected_num_urls": 2,
         "expected_status": 200,
         "expected_error_message": None,
+        "expected_warning": False,
     },
     {
         "request": {
@@ -840,6 +937,7 @@ ALL_TESTS = [
         "expected_num_urls": 2,
         "expected_status": 200,
         "expected_error_message": None,
+        "expected_warning": False,
     },
     {
         "request": {
@@ -851,6 +949,7 @@ ALL_TESTS = [
         "expected_num_urls": 2,
         "expected_status": 200,
         "expected_error_message": None,
+        "expected_warning": False,
     },
     {
         "request": {
@@ -862,6 +961,7 @@ ALL_TESTS = [
         "expected_num_urls": 5,
         "expected_status": 200,
         "expected_error_message": None,
+        "expected_warning": False,
     },
     {
         "request": {
@@ -873,6 +973,7 @@ ALL_TESTS = [
         "expected_num_urls": 5,
         "expected_status": 200,
         "expected_error_message": None,
+        "expected_warning": False,
     },
     {
         "request": {
@@ -884,6 +985,7 @@ ALL_TESTS = [
         "expected_num_urls": 5,
         "expected_status": 200,
         "expected_error_message": None,
+        "expected_warning": False,
     },
     {
         "request": {
@@ -895,6 +997,7 @@ ALL_TESTS = [
         "expected_num_urls": 5,
         "expected_status": 200,
         "expected_error_message": None,
+        "expected_warning": False,
     },
 ]
 
@@ -905,12 +1008,25 @@ def test_get_urls(srs, test_dict):
     # get urls
     url_obj = None
     if (test_dict["expected_status"] == 200):
-        url_obj = srs.data.get_urls(
-            test_dict["request"]["name"],
-            datetime.datetime.fromisoformat(test_dict["request"]["start"]),
-            datetime.datetime.fromisoformat(test_dict["request"]["end"]),
-            site_uid=None if "site_uid" not in test_dict["request"] else test_dict["request"]["site_uid"],
-        )
+        if (test_dict["expected_warning"] is True):
+            with pytest.warns(UserWarning) as w_info:
+                url_obj = srs.data.get_urls(
+                    test_dict["request"]["name"],
+                    datetime.datetime.fromisoformat(test_dict["request"]["start"]),
+                    datetime.datetime.fromisoformat(test_dict["request"]["end"]),
+                    site_uid=None if "site_uid" not in test_dict["request"] else test_dict["request"]["site_uid"],
+                    device_uid=None if "device_uid" not in test_dict["request"] else test_dict["request"]["device_uid"],
+                )
+            assert len(w_info) == 1
+            assert "field is not used when filtering in this dataset" in str(w_info[0].message).lower()
+        else:
+            url_obj = srs.data.get_urls(
+                test_dict["request"]["name"],
+                datetime.datetime.fromisoformat(test_dict["request"]["start"]),
+                datetime.datetime.fromisoformat(test_dict["request"]["end"]),
+                site_uid=None if "site_uid" not in test_dict["request"] else test_dict["request"]["site_uid"],
+                device_uid=None if "device_uid" not in test_dict["request"] else test_dict["request"]["device_uid"],
+            )
     else:
         with pytest.raises(pyucalgarysrs.SRSAPIError) as e_info:
             url_obj = srs.data.get_urls(
@@ -918,6 +1034,7 @@ def test_get_urls(srs, test_dict):
                 datetime.datetime.fromisoformat(test_dict["request"]["start"]),
                 datetime.datetime.fromisoformat(test_dict["request"]["end"]),
                 site_uid=test_dict["request"]["site_uid"],
+                device_uid=None if "device_uid" not in test_dict["request"] else test_dict["request"]["device_uid"],
             )
             try:
                 if (test_dict["expected_error_message"][0] == '~'):

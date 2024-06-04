@@ -3,9 +3,9 @@ import pyucalgarysrs
 srs = pyucalgarysrs.PyUCalgarySRS()
 srs.api_base_url = "https://api-staging.phys.ucalgary.ca"
 
-sites = srs.data.list_sites("themis_asi", uid="fs")
+sites = srs.data.list_observatories("themis_asi")
 
-print("\nFound %d datasets matching the uid filter\n" % (len(sites)))
+print("\nFound %d sites\n" % (len(sites)))
 for s in sites:
     print(s)
 print()

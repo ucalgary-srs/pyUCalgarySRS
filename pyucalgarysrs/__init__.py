@@ -20,7 +20,7 @@ Basic usage:
 """
 
 # versioning info
-__version__ = "0.0.5"
+__version__ = "0.0.6"
 
 # documentation
 __pdoc__ = {"pyucalgarysrs": False}
@@ -50,7 +50,7 @@ from .data.classes import (
     Skymap,
     SkymapGenerationInfo,
     ProblematicFile,
-    Site,
+    Observatory,
 )
 from .models.atm.classes_forward import (
     ATMForwardOutputFlags,

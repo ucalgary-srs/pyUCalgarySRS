@@ -4,7 +4,7 @@ build-backend = "poetry.core.masonry.api"
 
 [tool.poetry]
 name = "pyucalgarysrs"
-version = "0.0.5"
+version = "0.0.6"
 description = "Tools for interacting with UCalgary Space Remote Sensing data"
 readme = "README.md"
 homepage = "https://github.com/ucalgary-srs/pyUCalgarySRS"
@@ -71,7 +71,7 @@ testpaths = [
 markers = [
     "top_level: top level PyUCalgarySRS object tests",
     "data_datasets: data distribution dataset tests",
-    "data_sites: data distribution site tests",
+    "data_observatories: data distribution observatory tests",
     "data_geturls: data distribution get_urls tests",
     "data_download: data distribution download tests",
     "data_read: data distribution read tests",
