@@ -81,7 +81,7 @@ Basic usage:
 &#34;&#34;&#34;
 
 # versioning info
-__version__ = &#34;0.0.6&#34;
+__version__ = &#34;0.0.7&#34;
 
 # documentation
 __pdoc__ = {&#34;pyucalgarysrs&#34;: False}
@@ -234,7 +234,7 @@ initialization of the paths</dd>
     __DEFAULT_API_TIMEOUT = 10
     __DEFAULT_API_HEADERS = {
         &#34;content-type&#34;: &#34;application/json&#34;,
-        &#34;user-agent&#34;: &#34;python-pyaurorax/%s&#34; % (__version__),
+        &#34;user-agent&#34;: &#34;python-pyucalgarysrs/%s&#34; % (__version__),
     }  # NOTE: these MUST be lowercase so that the decorator logic cannot be overridden
 
     def __init__(self,
@@ -352,7 +352,11 @@ initialization of the paths</dd>
             for k, v in value.items():
                 k = k.lower()
                 if (k in new_headers):
-                    warnings.warn(&#34;Cannot override default &#39;%s&#39; header&#34; % (k), UserWarning, stacklevel=1)
+                    if (k == &#34;user-agent&#34; and &#34;python-pyaurorax/&#34; not in v):
+                        warnings.warn(&#34;Cannot override default &#39;%s&#39; header&#34; % (k), UserWarning, stacklevel=1)
+                    else:
+                        # allow pyaurorax to change the user agent
+                        new_headers[k] = v
                 else:
                     new_headers[k] = v
         self.__api_headers = new_headers
