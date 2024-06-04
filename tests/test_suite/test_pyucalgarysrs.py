@@ -104,6 +104,11 @@ def test_api_headers(srs):
     srs.api_headers = None
     assert srs.api_headers == default_headers
 
+    # set user-agent header as if we were pyaurorax
+    pyaurorax_useragent = "python-pyaurorax/someversion"
+    srs.api_headers = {"user-agent": pyaurorax_useragent}
+    assert srs.api_headers["user-agent"] == pyaurorax_useragent
+
     # check warning
     with warnings.catch_warnings(record=True) as w:
         warnings.simplefilter("always")  # cause all warnings to always be triggered.

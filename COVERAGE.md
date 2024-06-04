@@ -24,7 +24,7 @@ pyucalgarysrs/models/atm/_forward.py               18      0   100%
 pyucalgarysrs/models/atm/_inverse.py               19      0   100%
 pyucalgarysrs/models/atm/classes_forward.py       117      0   100%
 pyucalgarysrs/models/atm/classes_inverse.py       116      0   100%
-pyucalgarysrs/pyucalgarysrs.py                    111      0   100%
+pyucalgarysrs/pyucalgarysrs.py                    113      0   100%
 -----------------------------------------------------------------------------
-TOTAL                                            2149    138    94%
+TOTAL                                            2151    138    94%
 ```

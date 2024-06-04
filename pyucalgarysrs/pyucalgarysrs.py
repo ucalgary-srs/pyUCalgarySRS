@@ -32,7 +32,7 @@ class PyUCalgarySRS:
     __DEFAULT_API_TIMEOUT = 10
     __DEFAULT_API_HEADERS = {
         "content-type": "application/json",
-        "user-agent": "python-pyaurorax/%s" % (__version__),
+        "user-agent": "python-pyucalgarysrs/%s" % (__version__),
     }  # NOTE: these MUST be lowercase so that the decorator logic cannot be overridden
 
     def __init__(self,
@@ -150,7 +150,11 @@ class PyUCalgarySRS:
             for k, v in value.items():
                 k = k.lower()
                 if (k in new_headers):
-                    warnings.warn("Cannot override default '%s' header" % (k), UserWarning, stacklevel=1)
+                    if (k == "user-agent" and "python-pyaurorax/" not in v):
+                        warnings.warn("Cannot override default '%s' header" % (k), UserWarning, stacklevel=1)
+                    else:
+                        # allow pyaurorax to change the user agent
+                        new_headers[k] = v
                 else:
                     new_headers[k] = v
         self.__api_headers = new_headers
