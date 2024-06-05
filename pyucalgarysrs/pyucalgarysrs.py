@@ -22,7 +22,7 @@ class PyUCalgarySRS:
     srs = pyucalgarysrs.PyUCalgarySRS()
     ```
 
-    When working this this object, you can set configuration parameters, such 
+    When working with this object, you can set configuration parameters, such 
     as the destination directory for downloaded data, or API special settings 
     (e.g., timeout, HTTP headers). These parameters can be set when instantiating 
     the object, or after instantiating using the self-contained accessible variables.
