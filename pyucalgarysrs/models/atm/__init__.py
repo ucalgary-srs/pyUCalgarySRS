@@ -16,17 +16,17 @@ class ATMManager:
     the super class.
     """
 
-    __ATM_DEFAULT_MAXWELLIAN_ENERGY_FLUX = 10.0
-    __ATM_DEFAULT_GAUSSIAN_ENERGY_FLUX = 0.0
-    __ATM_DEFAULT_MAXWELLIAN_CHARACTERISTIC_ENERGY = 5000.0
-    __ATM_DEFAULT_GAUSSIAN_PEAK_ENERGY = 1000.0
-    __ATM_DEFAULT_GAUSSIAN_SPECTRAL_WIDTH = 100.0
-    __ATM_DEFAULT_NRLMSIS_MODEL_VERSION = "2.0"
-    __ATM_DEFAULT_OXYGEN_CORRECTION_FACTOR = 1.0
-    __ATM_DEFAULT_TIMESCALE_AURORAL = 600
-    __ATM_DEFAULT_TIMESCALE_TRANSPORT = 300
-    __ATM_DEFAULT_MODEL_VERSION = "1.0"
-    __ATM_DEFAULT_PRECIPITATION_SPECTRAL_FLUX_TYPE = "gaussian"
+    ATM_DEFAULT_MAXWELLIAN_ENERGY_FLUX = 10.0
+    ATM_DEFAULT_GAUSSIAN_ENERGY_FLUX = 0.0
+    ATM_DEFAULT_MAXWELLIAN_CHARACTERISTIC_ENERGY = 5000.0
+    ATM_DEFAULT_GAUSSIAN_PEAK_ENERGY = 1000.0
+    ATM_DEFAULT_GAUSSIAN_SPECTRAL_WIDTH = 100.0
+    ATM_DEFAULT_NRLMSIS_MODEL_VERSION = "2.0"
+    ATM_DEFAULT_OXYGEN_CORRECTION_FACTOR = 1.0
+    ATM_DEFAULT_TIMESCALE_AURORAL = 600
+    ATM_DEFAULT_TIMESCALE_TRANSPORT = 300
+    ATM_DEFAULT_MODEL_VERSION = "1.0"
+    ATM_DEFAULT_PRECIPITATION_SPECTRAL_FLUX_TYPE = "gaussian"
 
     def __init__(self, srs_obj):
         self.__srs_obj = srs_obj
@@ -36,16 +36,16 @@ class ATMManager:
                 geodetic_latitude: float,
                 geodetic_longitude: float,
                 output: ATMForwardOutputFlags,
-                maxwellian_energy_flux: float = __ATM_DEFAULT_MAXWELLIAN_ENERGY_FLUX,
-                gaussian_energy_flux: float = __ATM_DEFAULT_GAUSSIAN_ENERGY_FLUX,
-                maxwellian_characteristic_energy: float = __ATM_DEFAULT_MAXWELLIAN_CHARACTERISTIC_ENERGY,
-                gaussian_peak_energy: float = __ATM_DEFAULT_GAUSSIAN_PEAK_ENERGY,
-                gaussian_spectral_width: float = __ATM_DEFAULT_GAUSSIAN_SPECTRAL_WIDTH,
-                nrlmsis_model_version: Literal["00", "2.0"] = __ATM_DEFAULT_NRLMSIS_MODEL_VERSION,
-                oxygen_correction_factor: float = __ATM_DEFAULT_OXYGEN_CORRECTION_FACTOR,
-                timescale_auroral: int = __ATM_DEFAULT_TIMESCALE_AURORAL,
-                timescale_transport: int = __ATM_DEFAULT_TIMESCALE_TRANSPORT,
-                atm_model_version: Literal["1.0"] = __ATM_DEFAULT_MODEL_VERSION,
+                maxwellian_energy_flux: float = ATM_DEFAULT_MAXWELLIAN_ENERGY_FLUX,
+                gaussian_energy_flux: float = ATM_DEFAULT_GAUSSIAN_ENERGY_FLUX,
+                maxwellian_characteristic_energy: float = ATM_DEFAULT_MAXWELLIAN_CHARACTERISTIC_ENERGY,
+                gaussian_peak_energy: float = ATM_DEFAULT_GAUSSIAN_PEAK_ENERGY,
+                gaussian_spectral_width: float = ATM_DEFAULT_GAUSSIAN_SPECTRAL_WIDTH,
+                nrlmsis_model_version: Literal["00", "2.0"] = ATM_DEFAULT_NRLMSIS_MODEL_VERSION,
+                oxygen_correction_factor: float = ATM_DEFAULT_OXYGEN_CORRECTION_FACTOR,
+                timescale_auroral: int = ATM_DEFAULT_TIMESCALE_AURORAL,
+                timescale_transport: int = ATM_DEFAULT_TIMESCALE_TRANSPORT,
+                atm_model_version: Literal["1.0"] = ATM_DEFAULT_MODEL_VERSION,
                 custom_spectrum: Optional[ndarray] = None,
                 no_cache: bool = False,
                 timeout: Optional[int] = None) -> ATMForwardResult:
@@ -166,9 +166,9 @@ class ATMManager:
                 intensity_6300: float,
                 intensity_8446: float,
                 output: ATMInverseOutputFlags,
-                precipitation_flux_spectral_type: Literal["gaussian", "maxwellian"] = __ATM_DEFAULT_PRECIPITATION_SPECTRAL_FLUX_TYPE,
-                nrlmsis_model_version: Literal["00", "2.0"] = __ATM_DEFAULT_NRLMSIS_MODEL_VERSION,
-                atm_model_version: Literal["1.0"] = __ATM_DEFAULT_MODEL_VERSION,
+                precipitation_flux_spectral_type: Literal["gaussian", "maxwellian"] = ATM_DEFAULT_PRECIPITATION_SPECTRAL_FLUX_TYPE,
+                nrlmsis_model_version: Literal["00", "2.0"] = ATM_DEFAULT_NRLMSIS_MODEL_VERSION,
+                atm_model_version: Literal["1.0"] = ATM_DEFAULT_MODEL_VERSION,
                 no_cache: bool = False,
                 timeout: Optional[int] = None) -> ATMInverseResult:
         """
