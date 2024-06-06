@@ -74,10 +74,10 @@ class ReadManager:
         """
         Check if a given dataset has file reading support. 
         
-        Not all datasets available in the Open Data Platform have special readfile 
-        routines in this library. This is because some datasets are in basic formats
-        such as JPG or PNG, so unique functions aren't necessary. We leave it up to
-        the user to open these basic files in whichever way they prefer. Use the 
+        Not all datasets available in the UCalgary Space Remote Sensing Open Data Platform 
+        have special readfile routines in this library. This is because some datasets are 
+        in basic formats such as JPG or PNG, so unique functions aren't necessary. We leave 
+        it up to the user to open these basic files in whichever way they prefer. Use the 
         `list_supported_read_datasets()` function to see all datasets that have special
         file reading functionality in this library.
 

@@ -179,7 +179,7 @@ class DataManager:
                  progress_bar_desc: Optional[str] = None,
                  timeout: Optional[int] = None) -&gt; FileDownloadResult:
         &#34;&#34;&#34;
-        Download data from UCalgary Space Remote Sensing Open Data Platform.
+        Download data from the UCalgary Space Remote Sensing Open Data Platform.
 
         The parameters `dataset_name`, `start`, and `end` are required. All other parameters
         are optional.
@@ -265,7 +265,7 @@ class DataManager:
         [tqdm documentation](https://tqdm.github.io/docs/tqdm/#tqdm-objects).
 
         Data downloading will use the `download_data_root_path` variable within the super class&#39;
-        object ([`PyUCalgarySRS`](../pyucalgarysrs.html)) to determine where to save data to. If 
+        object ([`PyUCalgarySRS`](../index.html#pyucalgarysrs.PyUCalgarySRS)) to determine where to save data to. If 
         you&#39;d like to change this path to somewhere else you can change that variable before your
         download() call, like so:
 
@@ -675,7 +675,7 @@ super class.</p></div>
                  progress_bar_desc: Optional[str] = None,
                  timeout: Optional[int] = None) -&gt; FileDownloadResult:
         &#34;&#34;&#34;
-        Download data from UCalgary Space Remote Sensing Open Data Platform.
+        Download data from the UCalgary Space Remote Sensing Open Data Platform.
 
         The parameters `dataset_name`, `start`, and `end` are required. All other parameters
         are optional.
@@ -761,7 +761,7 @@ super class.</p></div>
         [tqdm documentation](https://tqdm.github.io/docs/tqdm/#tqdm-objects).
 
         Data downloading will use the `download_data_root_path` variable within the super class&#39;
-        object ([`PyUCalgarySRS`](../pyucalgarysrs.html)) to determine where to save data to. If 
+        object ([`PyUCalgarySRS`](../index.html#pyucalgarysrs.PyUCalgarySRS)) to determine where to save data to. If 
         you&#39;d like to change this path to somewhere else you can change that variable before your
         download() call, like so:
 
@@ -1043,7 +1043,7 @@ def readers(self):
 <span>def <span class="ident">download</span></span>(<span>self, dataset_name: str, start: datetime.datetime, end: datetime.datetime, site_uid: Optional[str] = None, device_uid: Optional[str] = None, n_parallel: int = 5, overwrite: bool = False, progress_bar_disable: bool = False, progress_bar_ncols: Optional[int] = None, progress_bar_ascii: Optional[str] = None, progress_bar_desc: Optional[str] = None, timeout: Optional[int] = None) ‑> <a title="pyucalgarysrs.data.classes.FileDownloadResult" href="classes.html#pyucalgarysrs.data.classes.FileDownloadResult">FileDownloadResult</a></span>
 </code></dt>
 <dd>
-<div class="desc"><p>Download data from UCalgary Space Remote Sensing Open Data Platform.</p>
+<div class="desc"><p>Download data from the UCalgary Space Remote Sensing Open Data Platform.</p>
 <p>The parameters <code>dataset_name</code>, <code>start</code>, and <code>end</code> are required. All other parameters
 are optional.</p>
 <p>Note that usage of the site and device UID filters applies differently to some datasets.
@@ -1117,7 +1117,7 @@ of the progress bar. And the <code>progress_bar_desc</code> parameter allows for
 description at the beginning of the progress bar. Further details can be found on the
 <a href="https://tqdm.github.io/docs/tqdm/#tqdm-objects">tqdm documentation</a>.</p>
 <p>Data downloading will use the <code>download_data_root_path</code> variable within the super class'
-object (<a href="../pyucalgarysrs.html"><code>PyUCalgarySRS</code></a>) to determine where to save data to. If
+object (<a href="../index.html#pyucalgarysrs.PyUCalgarySRS"><code>PyUCalgarySRS</code></a>) to determine where to save data to. If
 you'd like to change this path to somewhere else you can change that variable before your
 download() call, like so:</p>
 <pre><code class="language-python">import pyucalgarysrs
@@ -1143,7 +1143,7 @@ srs.data.download(dataset_name, start, end)
              progress_bar_desc: Optional[str] = None,
              timeout: Optional[int] = None) -&gt; FileDownloadResult:
     &#34;&#34;&#34;
-    Download data from UCalgary Space Remote Sensing Open Data Platform.
+    Download data from the UCalgary Space Remote Sensing Open Data Platform.
 
     The parameters `dataset_name`, `start`, and `end` are required. All other parameters
     are optional.
@@ -1229,7 +1229,7 @@ srs.data.download(dataset_name, start, end)
     [tqdm documentation](https://tqdm.github.io/docs/tqdm/#tqdm-objects).
 
     Data downloading will use the `download_data_root_path` variable within the super class&#39;
-    object ([`PyUCalgarySRS`](../pyucalgarysrs.html)) to determine where to save data to. If 
+    object ([`PyUCalgarySRS`](../index.html#pyucalgarysrs.PyUCalgarySRS)) to determine where to save data to. If 
     you&#39;d like to change this path to somewhere else you can change that variable before your
     download() call, like so:
 

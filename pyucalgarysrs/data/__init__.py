@@ -98,10 +98,10 @@ class DataManager:
         """
         Check if a given dataset has file reading support. 
         
-        Not all datasets available in the Open Data Platform have special readfile 
-        routines in this library. This is because some datasets are in basic formats
-        such as JPG or PNG, so unique functions aren't necessary. We leave it up to
-        the user to open these basic files in whichever way they prefer. Use the 
+        Not all datasets available in the UCalgary Space Remote Sensing Open Data Platform 
+        have special readfile routines in this library. This is because some datasets are 
+        in basic formats such as JPG or PNG, so unique functions aren't necessary. We leave 
+        it up to the user to open these basic files in whichever way they prefer. Use the 
         `list_supported_read_datasets()` function to see all datasets that have special
         file reading functionality in this library.
 
@@ -129,7 +129,7 @@ class DataManager:
                  progress_bar_desc: Optional[str] = None,
                  timeout: Optional[int] = None) -> FileDownloadResult:
         """
-        Download data from UCalgary Space Remote Sensing Open Data Platform.
+        Download data from the UCalgary Space Remote Sensing Open Data Platform.
 
         The parameters `dataset_name`, `start`, and `end` are required. All other parameters
         are optional.
@@ -215,7 +215,7 @@ class DataManager:
         [tqdm documentation](https://tqdm.github.io/docs/tqdm/#tqdm-objects).
 
         Data downloading will use the `download_data_root_path` variable within the super class'
-        object ([`PyUCalgarySRS`](../pyucalgarysrs.html)) to determine where to save data to. If 
+        object ([`PyUCalgarySRS`](../index.html#pyucalgarysrs.PyUCalgarySRS)) to determine where to save data to. If 
         you'd like to change this path to somewhere else you can change that variable before your
         download() call, like so:
 
@@ -252,9 +252,9 @@ class DataManager:
                             progress_bar_desc: Optional[str] = None,
                             timeout: Optional[int] = None) -> FileDownloadResult:
         """
-        Download data from UCalgary open data archive using a FileListingResponse 
-        object. This would be used in cases where more customization is needed than
-        the generic `download()` function. 
+        Download data from the UCalgary Space Remote Sensing Open Data Platform using 
+        a FileListingResponse object. This would be used in cases where more customization 
+        is needed than the generic `download()` function. 
         
         One example of using this function would start by using `get_urls()` to retrieve the
         list of URLs available for download, then further process this list to fewer files
