@@ -253,24 +253,11 @@ class Skymap:
         site_map_latitude (float): Geodetic latitude of instrument
         site_map_longitude (float): Geodetic longitude of instrument
         site_map_altitude (float): Altitude of the instrument (in meters)
-        bin_row (ndarray): 
-        bin_column (ndarray): 
-        bin_elevation (ndarray): 
-        bin_azimuth (ndarray): 
-        bin_map_altitude (float): 
-        bin_map_latitude (ndarray): 
-        bin_map_longitude (ndarray): 
-        full_row (ndarray): 
-        full_column (ndarray): 
-        full_ignore (ndarray): 
-        full_subtract (ndarray): 
-        full_multiply (ndarray): 
         full_elevation (ndarray): Elevation angle from horizon, for each image pixel (in degrees)
-        full_azimuth (ndarray): 
+        full_azimuth (ndarray): Local azimuth angle from 0 degrees north, positive moving east (in degrees)
         full_map_altitude (ndarray): Altitudes that image coordinates are mapped to (in kilometers)
         full_map_latitude (ndarray): Geodetic latitudes of pixel corners, mapped to various altitudes (specified by `full_map_altitude`)
         full_map_longitude (ndarray): Geodetic longitudes of pixel corners, mapped to various altitudes (specified by `full_map_altitude`)
-        full_bin (ndarray): 
         generation_info (SkymapGenerationInfo): Metadata describing details about this skymap&#39;s generation process
         version (str): Version of the skymap
         dataset (Dataset): The `Dataset` object for this data.
@@ -282,24 +269,11 @@ class Skymap:
     site_map_latitude: float
     site_map_longitude: float
     site_map_altitude: float
-    bin_row: ndarray
-    bin_column: ndarray
-    bin_elevation: ndarray
-    bin_azimuth: ndarray
-    bin_map_altitude: float
-    bin_map_latitude: ndarray
-    bin_map_longitude: ndarray
-    full_row: ndarray
-    full_column: ndarray
-    full_ignore: ndarray
-    full_subtract: ndarray
-    full_multiply: ndarray
     full_elevation: ndarray
     full_azimuth: ndarray
     full_map_altitude: ndarray
     full_map_latitude: ndarray
     full_map_longitude: ndarray
-    full_bin: ndarray
     generation_info: SkymapGenerationInfo
     version: str
     dataset: Optional[Dataset] = None
@@ -1025,7 +999,7 @@ class ProblematicFile:
 </dd>
 <dt id="pyucalgarysrs.data.classes.Skymap"><code class="flex name class">
 <span>class <span class="ident">Skymap</span></span>
-<span>(</span><span>filename: str, project_uid: str, site_uid: str, imager_uid: str, site_map_latitude: float, site_map_longitude: float, site_map_altitude: float, bin_row: numpy.ndarray, bin_column: numpy.ndarray, bin_elevation: numpy.ndarray, bin_azimuth: numpy.ndarray, bin_map_altitude: float, bin_map_latitude: numpy.ndarray, bin_map_longitude: numpy.ndarray, full_row: numpy.ndarray, full_column: numpy.ndarray, full_ignore: numpy.ndarray, full_subtract: numpy.ndarray, full_multiply: numpy.ndarray, full_elevation: numpy.ndarray, full_azimuth: numpy.ndarray, full_map_altitude: numpy.ndarray, full_map_latitude: numpy.ndarray, full_map_longitude: numpy.ndarray, full_bin: numpy.ndarray, generation_info: <a title="pyucalgarysrs.data.classes.SkymapGenerationInfo" href="#pyucalgarysrs.data.classes.SkymapGenerationInfo">SkymapGenerationInfo</a>, version: str, dataset: Optional[<a title="pyucalgarysrs.data.classes.Dataset" href="#pyucalgarysrs.data.classes.Dataset">Dataset</a>] = None)</span>
+<span>(</span><span>filename: str, project_uid: str, site_uid: str, imager_uid: str, site_map_latitude: float, site_map_longitude: float, site_map_altitude: float, full_elevation: numpy.ndarray, full_azimuth: numpy.ndarray, full_map_altitude: numpy.ndarray, full_map_latitude: numpy.ndarray, full_map_longitude: numpy.ndarray, generation_info: <a title="pyucalgarysrs.data.classes.SkymapGenerationInfo" href="#pyucalgarysrs.data.classes.SkymapGenerationInfo">SkymapGenerationInfo</a>, version: str, dataset: Optional[<a title="pyucalgarysrs.data.classes.Dataset" href="#pyucalgarysrs.data.classes.Dataset">Dataset</a>] = None)</span>
 </code></dt>
 <dd>
 <div class="desc"><p>Representation for a skymap file.</p>
@@ -1046,42 +1020,16 @@ the local machine.</dd>
 <dd>Geodetic longitude of instrument</dd>
 <dt><strong><code>site_map_altitude</code></strong> :&ensp;<code>float</code></dt>
 <dd>Altitude of the instrument (in meters)</dd>
-<dt><strong><code>bin_row</code></strong> :&ensp;<code>ndarray</code></dt>
-<dd>&nbsp;</dd>
-<dt><strong><code>bin_column</code></strong> :&ensp;<code>ndarray</code></dt>
-<dd>&nbsp;</dd>
-<dt><strong><code>bin_elevation</code></strong> :&ensp;<code>ndarray</code></dt>
-<dd>&nbsp;</dd>
-<dt><strong><code>bin_azimuth</code></strong> :&ensp;<code>ndarray</code></dt>
-<dd>&nbsp;</dd>
-<dt><strong><code>bin_map_altitude</code></strong> :&ensp;<code>float</code></dt>
-<dd>&nbsp;</dd>
-<dt><strong><code>bin_map_latitude</code></strong> :&ensp;<code>ndarray</code></dt>
-<dd>&nbsp;</dd>
-<dt><strong><code>bin_map_longitude</code></strong> :&ensp;<code>ndarray</code></dt>
-<dd>&nbsp;</dd>
-<dt><strong><code>full_row</code></strong> :&ensp;<code>ndarray</code></dt>
-<dd>&nbsp;</dd>
-<dt><strong><code>full_column</code></strong> :&ensp;<code>ndarray</code></dt>
-<dd>&nbsp;</dd>
-<dt><strong><code>full_ignore</code></strong> :&ensp;<code>ndarray</code></dt>
-<dd>&nbsp;</dd>
-<dt><strong><code>full_subtract</code></strong> :&ensp;<code>ndarray</code></dt>
-<dd>&nbsp;</dd>
-<dt><strong><code>full_multiply</code></strong> :&ensp;<code>ndarray</code></dt>
-<dd>&nbsp;</dd>
 <dt><strong><code>full_elevation</code></strong> :&ensp;<code>ndarray</code></dt>
 <dd>Elevation angle from horizon, for each image pixel (in degrees)</dd>
 <dt><strong><code>full_azimuth</code></strong> :&ensp;<code>ndarray</code></dt>
-<dd>&nbsp;</dd>
+<dd>Local azimuth angle from 0 degrees north, positive moving east (in degrees)</dd>
 <dt><strong><code>full_map_altitude</code></strong> :&ensp;<code>ndarray</code></dt>
 <dd>Altitudes that image coordinates are mapped to (in kilometers)</dd>
 <dt><strong><code>full_map_latitude</code></strong> :&ensp;<code>ndarray</code></dt>
 <dd>Geodetic latitudes of pixel corners, mapped to various altitudes (specified by <code>full_map_altitude</code>)</dd>
 <dt><strong><code>full_map_longitude</code></strong> :&ensp;<code>ndarray</code></dt>
 <dd>Geodetic longitudes of pixel corners, mapped to various altitudes (specified by <code>full_map_altitude</code>)</dd>
-<dt><strong><code>full_bin</code></strong> :&ensp;<code>ndarray</code></dt>
-<dd>&nbsp;</dd>
 <dt><strong><code>generation_info</code></strong> :&ensp;<code><a title="pyucalgarysrs.data.classes.SkymapGenerationInfo" href="#pyucalgarysrs.data.classes.SkymapGenerationInfo">SkymapGenerationInfo</a></code></dt>
 <dd>Metadata describing details about this skymap's generation process</dd>
 <dt><strong><code>version</code></strong> :&ensp;<code>str</code></dt>
@@ -1107,24 +1055,11 @@ class Skymap:
         site_map_latitude (float): Geodetic latitude of instrument
         site_map_longitude (float): Geodetic longitude of instrument
         site_map_altitude (float): Altitude of the instrument (in meters)
-        bin_row (ndarray): 
-        bin_column (ndarray): 
-        bin_elevation (ndarray): 
-        bin_azimuth (ndarray): 
-        bin_map_altitude (float): 
-        bin_map_latitude (ndarray): 
-        bin_map_longitude (ndarray): 
-        full_row (ndarray): 
-        full_column (ndarray): 
-        full_ignore (ndarray): 
-        full_subtract (ndarray): 
-        full_multiply (ndarray): 
         full_elevation (ndarray): Elevation angle from horizon, for each image pixel (in degrees)
-        full_azimuth (ndarray): 
+        full_azimuth (ndarray): Local azimuth angle from 0 degrees north, positive moving east (in degrees)
         full_map_altitude (ndarray): Altitudes that image coordinates are mapped to (in kilometers)
         full_map_latitude (ndarray): Geodetic latitudes of pixel corners, mapped to various altitudes (specified by `full_map_altitude`)
         full_map_longitude (ndarray): Geodetic longitudes of pixel corners, mapped to various altitudes (specified by `full_map_altitude`)
-        full_bin (ndarray): 
         generation_info (SkymapGenerationInfo): Metadata describing details about this skymap&#39;s generation process
         version (str): Version of the skymap
         dataset (Dataset): The `Dataset` object for this data.
@@ -1136,24 +1071,11 @@ class Skymap:
     site_map_latitude: float
     site_map_longitude: float
     site_map_altitude: float
-    bin_row: ndarray
-    bin_column: ndarray
-    bin_elevation: ndarray
-    bin_azimuth: ndarray
-    bin_map_altitude: float
-    bin_map_latitude: ndarray
-    bin_map_longitude: ndarray
-    full_row: ndarray
-    full_column: ndarray
-    full_ignore: ndarray
-    full_subtract: ndarray
-    full_multiply: ndarray
     full_elevation: ndarray
     full_azimuth: ndarray
     full_map_altitude: ndarray
     full_map_latitude: ndarray
     full_map_longitude: ndarray
-    full_bin: ndarray
     generation_info: SkymapGenerationInfo
     version: str
     dataset: Optional[Dataset] = None
@@ -1174,34 +1096,6 @@ class Skymap:
 </details>
 <h3>Class variables</h3>
 <dl>
-<dt id="pyucalgarysrs.data.classes.Skymap.bin_azimuth"><code class="name">var <span class="ident">bin_azimuth</span> : numpy.ndarray</code></dt>
-<dd>
-<div class="desc"></div>
-</dd>
-<dt id="pyucalgarysrs.data.classes.Skymap.bin_column"><code class="name">var <span class="ident">bin_column</span> : numpy.ndarray</code></dt>
-<dd>
-<div class="desc"></div>
-</dd>
-<dt id="pyucalgarysrs.data.classes.Skymap.bin_elevation"><code class="name">var <span class="ident">bin_elevation</span> : numpy.ndarray</code></dt>
-<dd>
-<div class="desc"></div>
-</dd>
-<dt id="pyucalgarysrs.data.classes.Skymap.bin_map_altitude"><code class="name">var <span class="ident">bin_map_altitude</span> : float</code></dt>
-<dd>
-<div class="desc"></div>
-</dd>
-<dt id="pyucalgarysrs.data.classes.Skymap.bin_map_latitude"><code class="name">var <span class="ident">bin_map_latitude</span> : numpy.ndarray</code></dt>
-<dd>
-<div class="desc"></div>
-</dd>
-<dt id="pyucalgarysrs.data.classes.Skymap.bin_map_longitude"><code class="name">var <span class="ident">bin_map_longitude</span> : numpy.ndarray</code></dt>
-<dd>
-<div class="desc"></div>
-</dd>
-<dt id="pyucalgarysrs.data.classes.Skymap.bin_row"><code class="name">var <span class="ident">bin_row</span> : numpy.ndarray</code></dt>
-<dd>
-<div class="desc"></div>
-</dd>
 <dt id="pyucalgarysrs.data.classes.Skymap.dataset"><code class="name">var <span class="ident">dataset</span> : Optional[<a title="pyucalgarysrs.data.classes.Dataset" href="#pyucalgarysrs.data.classes.Dataset">Dataset</a>]</code></dt>
 <dd>
 <div class="desc"></div>
@@ -1214,19 +1108,7 @@ class Skymap:
 <dd>
 <div class="desc"></div>
 </dd>
-<dt id="pyucalgarysrs.data.classes.Skymap.full_bin"><code class="name">var <span class="ident">full_bin</span> : numpy.ndarray</code></dt>
-<dd>
-<div class="desc"></div>
-</dd>
-<dt id="pyucalgarysrs.data.classes.Skymap.full_column"><code class="name">var <span class="ident">full_column</span> : numpy.ndarray</code></dt>
-<dd>
-<div class="desc"></div>
-</dd>
 <dt id="pyucalgarysrs.data.classes.Skymap.full_elevation"><code class="name">var <span class="ident">full_elevation</span> : numpy.ndarray</code></dt>
-<dd>
-<div class="desc"></div>
-</dd>
-<dt id="pyucalgarysrs.data.classes.Skymap.full_ignore"><code class="name">var <span class="ident">full_ignore</span> : numpy.ndarray</code></dt>
 <dd>
 <div class="desc"></div>
 </dd>
@@ -1239,18 +1121,6 @@ class Skymap:
 <div class="desc"></div>
 </dd>
 <dt id="pyucalgarysrs.data.classes.Skymap.full_map_longitude"><code class="name">var <span class="ident">full_map_longitude</span> : numpy.ndarray</code></dt>
-<dd>
-<div class="desc"></div>
-</dd>
-<dt id="pyucalgarysrs.data.classes.Skymap.full_multiply"><code class="name">var <span class="ident">full_multiply</span> : numpy.ndarray</code></dt>
-<dd>
-<div class="desc"></div>
-</dd>
-<dt id="pyucalgarysrs.data.classes.Skymap.full_row"><code class="name">var <span class="ident">full_row</span> : numpy.ndarray</code></dt>
-<dd>
-<div class="desc"></div>
-</dd>
-<dt id="pyucalgarysrs.data.classes.Skymap.full_subtract"><code class="name">var <span class="ident">full_subtract</span> : numpy.ndarray</code></dt>
 <dd>
 <div class="desc"></div>
 </dd>
@@ -1576,26 +1446,13 @@ setTimeout(() => input.focus(), 100);
 <li>
 <h4><code><a title="pyucalgarysrs.data.classes.Skymap" href="#pyucalgarysrs.data.classes.Skymap">Skymap</a></code></h4>
 <ul class="two-column">
-<li><code><a title="pyucalgarysrs.data.classes.Skymap.bin_azimuth" href="#pyucalgarysrs.data.classes.Skymap.bin_azimuth">bin_azimuth</a></code></li>
-<li><code><a title="pyucalgarysrs.data.classes.Skymap.bin_column" href="#pyucalgarysrs.data.classes.Skymap.bin_column">bin_column</a></code></li>
-<li><code><a title="pyucalgarysrs.data.classes.Skymap.bin_elevation" href="#pyucalgarysrs.data.classes.Skymap.bin_elevation">bin_elevation</a></code></li>
-<li><code><a title="pyucalgarysrs.data.classes.Skymap.bin_map_altitude" href="#pyucalgarysrs.data.classes.Skymap.bin_map_altitude">bin_map_altitude</a></code></li>
-<li><code><a title="pyucalgarysrs.data.classes.Skymap.bin_map_latitude" href="#pyucalgarysrs.data.classes.Skymap.bin_map_latitude">bin_map_latitude</a></code></li>
-<li><code><a title="pyucalgarysrs.data.classes.Skymap.bin_map_longitude" href="#pyucalgarysrs.data.classes.Skymap.bin_map_longitude">bin_map_longitude</a></code></li>
-<li><code><a title="pyucalgarysrs.data.classes.Skymap.bin_row" href="#pyucalgarysrs.data.classes.Skymap.bin_row">bin_row</a></code></li>
 <li><code><a title="pyucalgarysrs.data.classes.Skymap.dataset" href="#pyucalgarysrs.data.classes.Skymap.dataset">dataset</a></code></li>
 <li><code><a title="pyucalgarysrs.data.classes.Skymap.filename" href="#pyucalgarysrs.data.classes.Skymap.filename">filename</a></code></li>
 <li><code><a title="pyucalgarysrs.data.classes.Skymap.full_azimuth" href="#pyucalgarysrs.data.classes.Skymap.full_azimuth">full_azimuth</a></code></li>
-<li><code><a title="pyucalgarysrs.data.classes.Skymap.full_bin" href="#pyucalgarysrs.data.classes.Skymap.full_bin">full_bin</a></code></li>
-<li><code><a title="pyucalgarysrs.data.classes.Skymap.full_column" href="#pyucalgarysrs.data.classes.Skymap.full_column">full_column</a></code></li>
 <li><code><a title="pyucalgarysrs.data.classes.Skymap.full_elevation" href="#pyucalgarysrs.data.classes.Skymap.full_elevation">full_elevation</a></code></li>
-<li><code><a title="pyucalgarysrs.data.classes.Skymap.full_ignore" href="#pyucalgarysrs.data.classes.Skymap.full_ignore">full_ignore</a></code></li>
 <li><code><a title="pyucalgarysrs.data.classes.Skymap.full_map_altitude" href="#pyucalgarysrs.data.classes.Skymap.full_map_altitude">full_map_altitude</a></code></li>
 <li><code><a title="pyucalgarysrs.data.classes.Skymap.full_map_latitude" href="#pyucalgarysrs.data.classes.Skymap.full_map_latitude">full_map_latitude</a></code></li>
 <li><code><a title="pyucalgarysrs.data.classes.Skymap.full_map_longitude" href="#pyucalgarysrs.data.classes.Skymap.full_map_longitude">full_map_longitude</a></code></li>
-<li><code><a title="pyucalgarysrs.data.classes.Skymap.full_multiply" href="#pyucalgarysrs.data.classes.Skymap.full_multiply">full_multiply</a></code></li>
-<li><code><a title="pyucalgarysrs.data.classes.Skymap.full_row" href="#pyucalgarysrs.data.classes.Skymap.full_row">full_row</a></code></li>
-<li><code><a title="pyucalgarysrs.data.classes.Skymap.full_subtract" href="#pyucalgarysrs.data.classes.Skymap.full_subtract">full_subtract</a></code></li>
 <li><code><a title="pyucalgarysrs.data.classes.Skymap.generation_info" href="#pyucalgarysrs.data.classes.Skymap.generation_info">generation_info</a></code></li>
 <li><code><a title="pyucalgarysrs.data.classes.Skymap.imager_uid" href="#pyucalgarysrs.data.classes.Skymap.imager_uid">imager_uid</a></code></li>
 <li><code><a title="pyucalgarysrs.data.classes.Skymap.project_uid" href="#pyucalgarysrs.data.classes.Skymap.project_uid">project_uid</a></code></li>

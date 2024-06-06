@@ -148,10 +148,10 @@ class DataManager:
         &#34;&#34;&#34;
         Check if a given dataset has file reading support. 
         
-        Not all datasets available in the Open Data Platform have special readfile 
-        routines in this library. This is because some datasets are in basic formats
-        such as JPG or PNG, so unique functions aren&#39;t necessary. We leave it up to
-        the user to open these basic files in whichever way they prefer. Use the 
+        Not all datasets available in the UCalgary Space Remote Sensing Open Data Platform 
+        have special readfile routines in this library. This is because some datasets are 
+        in basic formats such as JPG or PNG, so unique functions aren&#39;t necessary. We leave 
+        it up to the user to open these basic files in whichever way they prefer. Use the 
         `list_supported_read_datasets()` function to see all datasets that have special
         file reading functionality in this library.
 
@@ -302,9 +302,9 @@ class DataManager:
                             progress_bar_desc: Optional[str] = None,
                             timeout: Optional[int] = None) -&gt; FileDownloadResult:
         &#34;&#34;&#34;
-        Download data from UCalgary open data archive using a FileListingResponse 
-        object. This would be used in cases where more customization is needed than
-        the generic `download()` function. 
+        Download data from the UCalgary Space Remote Sensing Open Data Platform using 
+        a FileListingResponse object. This would be used in cases where more customization 
+        is needed than the generic `download()` function. 
         
         One example of using this function would start by using `get_urls()` to retrieve the
         list of URLs available for download, then further process this list to fewer files
@@ -644,10 +644,10 @@ super class.</p></div>
         &#34;&#34;&#34;
         Check if a given dataset has file reading support. 
         
-        Not all datasets available in the Open Data Platform have special readfile 
-        routines in this library. This is because some datasets are in basic formats
-        such as JPG or PNG, so unique functions aren&#39;t necessary. We leave it up to
-        the user to open these basic files in whichever way they prefer. Use the 
+        Not all datasets available in the UCalgary Space Remote Sensing Open Data Platform 
+        have special readfile routines in this library. This is because some datasets are 
+        in basic formats such as JPG or PNG, so unique functions aren&#39;t necessary. We leave 
+        it up to the user to open these basic files in whichever way they prefer. Use the 
         `list_supported_read_datasets()` function to see all datasets that have special
         file reading functionality in this library.
 
@@ -798,9 +798,9 @@ super class.</p></div>
                             progress_bar_desc: Optional[str] = None,
                             timeout: Optional[int] = None) -&gt; FileDownloadResult:
         &#34;&#34;&#34;
-        Download data from UCalgary open data archive using a FileListingResponse 
-        object. This would be used in cases where more customization is needed than
-        the generic `download()` function. 
+        Download data from the UCalgary Space Remote Sensing Open Data Platform using 
+        a FileListingResponse object. This would be used in cases where more customization 
+        is needed than the generic `download()` function. 
         
         One example of using this function would start by using `get_urls()` to retrieve the
         list of URLs available for download, then further process this list to fewer files
@@ -1261,9 +1261,9 @@ srs.data.download(dataset_name, start, end)
 <span>def <span class="ident">download_using_urls</span></span>(<span>self, file_listing_response: <a title="pyucalgarysrs.data.classes.FileListingResponse" href="classes.html#pyucalgarysrs.data.classes.FileListingResponse">FileListingResponse</a>, n_parallel: int = 5, overwrite: bool = False, progress_bar_disable: bool = False, progress_bar_ncols: Optional[int] = None, progress_bar_ascii: Optional[str] = None, progress_bar_desc: Optional[str] = None, timeout: Optional[int] = None) ‑> <a title="pyucalgarysrs.data.classes.FileDownloadResult" href="classes.html#pyucalgarysrs.data.classes.FileDownloadResult">FileDownloadResult</a></span>
 </code></dt>
 <dd>
-<div class="desc"><p>Download data from UCalgary open data archive using a FileListingResponse
-object. This would be used in cases where more customization is needed than
-the generic <code>download()</code> function. </p>
+<div class="desc"><p>Download data from the UCalgary Space Remote Sensing Open Data Platform using
+a FileListingResponse object. This would be used in cases where more customization
+is needed than the generic <code>download()</code> function. </p>
 <p>One example of using this function would start by using <code>get_urls()</code> to retrieve the
 list of URLs available for download, then further process this list to fewer files
 based on some other requirement (ie. time down-sampling such as one file per hour).
@@ -1338,9 +1338,9 @@ srs.data.download(dataset_name, start, end)
                         progress_bar_desc: Optional[str] = None,
                         timeout: Optional[int] = None) -&gt; FileDownloadResult:
     &#34;&#34;&#34;
-    Download data from UCalgary open data archive using a FileListingResponse 
-    object. This would be used in cases where more customization is needed than
-    the generic `download()` function. 
+    Download data from the UCalgary Space Remote Sensing Open Data Platform using 
+    a FileListingResponse object. This would be used in cases where more customization 
+    is needed than the generic `download()` function. 
     
     One example of using this function would start by using `get_urls()` to retrieve the
     list of URLs available for download, then further process this list to fewer files
@@ -1552,10 +1552,10 @@ among other values.</p>
 </code></dt>
 <dd>
 <div class="desc"><p>Check if a given dataset has file reading support. </p>
-<p>Not all datasets available in the Open Data Platform have special readfile
-routines in this library. This is because some datasets are in basic formats
-such as JPG or PNG, so unique functions aren't necessary. We leave it up to
-the user to open these basic files in whichever way they prefer. Use the
+<p>Not all datasets available in the UCalgary Space Remote Sensing Open Data Platform
+have special readfile routines in this library. This is because some datasets are
+in basic formats such as JPG or PNG, so unique functions aren't necessary. We leave
+it up to the user to open these basic files in whichever way they prefer. Use the
 <code>list_supported_read_datasets()</code> function to see all datasets that have special
 file reading functionality in this library.</p>
 <h2 id="args">Args</h2>
@@ -1574,10 +1574,10 @@ is required.</dd>
     &#34;&#34;&#34;
     Check if a given dataset has file reading support. 
     
-    Not all datasets available in the Open Data Platform have special readfile 
-    routines in this library. This is because some datasets are in basic formats
-    such as JPG or PNG, so unique functions aren&#39;t necessary. We leave it up to
-    the user to open these basic files in whichever way they prefer. Use the 
+    Not all datasets available in the UCalgary Space Remote Sensing Open Data Platform 
+    have special readfile routines in this library. This is because some datasets are 
+    in basic formats such as JPG or PNG, so unique functions aren&#39;t necessary. We leave 
+    it up to the user to open these basic files in whichever way they prefer. Use the 
     `list_supported_read_datasets()` function to see all datasets that have special
     file reading functionality in this library.
 

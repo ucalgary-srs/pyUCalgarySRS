@@ -81,7 +81,7 @@ Basic usage:
 &#34;&#34;&#34;
 
 # versioning info
-__version__ = &#34;0.0.9&#34;
+__version__ = &#34;0.0.11&#34;
 
 # documentation
 __pdoc__ = {&#34;pyucalgarysrs&#34;: False}
@@ -435,7 +435,7 @@ initialization of the paths</dd>
         if (self.__download_output_root_path is None):
             self.__download_output_root_path = Path(&#34;%s/pyucalgarysrs_data&#34; % (str(Path.home())))
         if (self.__read_tar_temp_path is None):
-            self.__read_tar_temp_path = Path(&#34;%s/.tar_temp_working&#34; % (self.__download_output_root_path))
+            self.__read_tar_temp_path = Path(&#34;%s/tar_temp_working&#34; % (self.__download_output_root_path))
         try:
             os.makedirs(self.download_output_root_path, exist_ok=True)
             os.makedirs(self.read_tar_temp_path, exist_ok=True)
@@ -458,7 +458,7 @@ initialization of the paths</dd>
         try:
             for item in os.listdir(self.download_output_root_path):
                 item = &#34;%s/%s&#34; % (self.download_output_root_path, item)
-                if (os.path.isdir(item) is True):
+                if (os.path.isdir(item) is True and self.read_tar_temp_path not in item):
                     shutil.rmtree(item)
                 elif (os.path.isfile(item) is True):
                     os.remove(item)
@@ -642,7 +642,7 @@ with easily clearing out this directory.</p>
     try:
         for item in os.listdir(self.download_output_root_path):
             item = &#34;%s/%s&#34; % (self.download_output_root_path, item)
-            if (os.path.isdir(item) is True):
+            if (os.path.isdir(item) is True and self.read_tar_temp_path not in item):
                 shutil.rmtree(item)
             elif (os.path.isfile(item) is True):
                 os.remove(item)
