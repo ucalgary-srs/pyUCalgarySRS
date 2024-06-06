@@ -203,24 +203,11 @@ class Skymap:
         site_map_latitude (float): Geodetic latitude of instrument
         site_map_longitude (float): Geodetic longitude of instrument
         site_map_altitude (float): Altitude of the instrument (in meters)
-        bin_row (ndarray): 
-        bin_column (ndarray): 
-        bin_elevation (ndarray): 
-        bin_azimuth (ndarray): 
-        bin_map_altitude (float): 
-        bin_map_latitude (ndarray): 
-        bin_map_longitude (ndarray): 
-        full_row (ndarray): 
-        full_column (ndarray): 
-        full_ignore (ndarray): 
-        full_subtract (ndarray): 
-        full_multiply (ndarray): 
         full_elevation (ndarray): Elevation angle from horizon, for each image pixel (in degrees)
-        full_azimuth (ndarray): 
+        full_azimuth (ndarray): Local azimuth angle from 0 degrees north, positive moving east (in degrees)
         full_map_altitude (ndarray): Altitudes that image coordinates are mapped to (in kilometers)
         full_map_latitude (ndarray): Geodetic latitudes of pixel corners, mapped to various altitudes (specified by `full_map_altitude`)
         full_map_longitude (ndarray): Geodetic longitudes of pixel corners, mapped to various altitudes (specified by `full_map_altitude`)
-        full_bin (ndarray): 
         generation_info (SkymapGenerationInfo): Metadata describing details about this skymap's generation process
         version (str): Version of the skymap
         dataset (Dataset): The `Dataset` object for this data.
@@ -232,24 +219,11 @@ class Skymap:
     site_map_latitude: float
     site_map_longitude: float
     site_map_altitude: float
-    bin_row: ndarray
-    bin_column: ndarray
-    bin_elevation: ndarray
-    bin_azimuth: ndarray
-    bin_map_altitude: float
-    bin_map_latitude: ndarray
-    bin_map_longitude: ndarray
-    full_row: ndarray
-    full_column: ndarray
-    full_ignore: ndarray
-    full_subtract: ndarray
-    full_multiply: ndarray
     full_elevation: ndarray
     full_azimuth: ndarray
     full_map_altitude: ndarray
     full_map_latitude: ndarray
     full_map_longitude: ndarray
-    full_bin: ndarray
     generation_info: SkymapGenerationInfo
     version: str
     dataset: Optional[Dataset] = None
