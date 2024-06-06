@@ -233,7 +233,7 @@ class PyUCalgarySRS:
         if (self.__download_output_root_path is None):
             self.__download_output_root_path = Path("%s/pyucalgarysrs_data" % (str(Path.home())))
         if (self.__read_tar_temp_path is None):
-            self.__read_tar_temp_path = Path("%s/.tar_temp_working" % (self.__download_output_root_path))
+            self.__read_tar_temp_path = Path("%s/tar_temp_working" % (self.__download_output_root_path))
         try:
             os.makedirs(self.download_output_root_path, exist_ok=True)
             os.makedirs(self.read_tar_temp_path, exist_ok=True)
@@ -256,7 +256,7 @@ class PyUCalgarySRS:
         try:
             for item in os.listdir(self.download_output_root_path):
                 item = "%s/%s" % (self.download_output_root_path, item)
-                if (os.path.isdir(item) is True):
+                if (os.path.isdir(item) is True and self.read_tar_temp_path not in item):
                     shutil.rmtree(item)
                 elif (os.path.isfile(item) is True):
                     os.remove(item)
