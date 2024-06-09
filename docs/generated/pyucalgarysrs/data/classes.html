@@ -232,7 +232,7 @@ class SkymapGenerationInfo:
         return self.__repr__()
 
     def __repr__(self) -&gt; str:
-        return &#34;SkymapGenerationInfo(date_generated=%s, author=%s, ccd_center=%s, ...)&#34; % (
+        return &#34;SkymapGenerationInfo(date_generated=%s, author=&#39;%s&#39;, ccd_center=%s, ...)&#34; % (
             str(self.date_generated.__repr__()),
             self.author,
             self.ccd_center,
@@ -292,6 +292,30 @@ class Skymap:
             dataset_str,
         )
 
+    def pretty_print(self):
+        &#34;&#34;&#34;
+        A special print output for this class.
+        &#34;&#34;&#34;
+        print(&#34;Skymap:&#34;)
+        for var_name in dir(self):
+            # exclude methods
+            if (var_name.startswith(&#34;__&#34;) or var_name == &#34;pretty_print&#34;):
+                continue
+
+            # convert var to string format we want
+            var_value = getattr(self, var_name)
+            var_str = &#34;None&#34;
+            if (var_name == &#34;generation_info&#34;):
+                var_str = &#34;SkymapGenerationInfo(...)&#34;
+            elif (var_value is not None):
+                if (isinstance(var_value, ndarray)):
+                    var_str = &#34;array(dims=%s, dtype=%s)&#34; % (var_value.shape, var_value.dtype)
+                else:
+                    var_str = var_value
+
+            # print string for this var
+            print(&#34;  %-22s: %s&#34; % (var_name, var_str))
+
 
 @dataclass
 class CalibrationGenerationInfo:
@@ -340,6 +364,30 @@ class Calibration:
     rayleighs_perdn_persecond: Optional[float] = None
     flat_field_multiplier: Optional[ndarray] = None
     dataset: Optional[Dataset] = None
+
+    def pretty_print(self):
+        &#34;&#34;&#34;
+        A special print output for this class.
+        &#34;&#34;&#34;
+        print(&#34;Calibration:&#34;)
+        for var_name in dir(self):
+            # exclude methods
+            if (var_name.startswith(&#34;__&#34;) or var_name == &#34;pretty_print&#34;):
+                continue
+
+            # convert var to string format we want
+            var_value = getattr(self, var_name)
+            var_str = &#34;None&#34;
+            if (var_name == &#34;generation_info&#34;):
+                var_str = &#34;CalibrationGenerationInfo(...)&#34;
+            elif (var_value is not None):
+                if (isinstance(var_value, ndarray)):
+                    var_str = &#34;array(dims=%s, dtype=%s)&#34; % (var_value.shape, var_value.dtype)
+                else:
+                    var_str = var_value
+
+            # print string for this var
+            print(&#34;  %-30s: %s&#34; % (var_name, var_str))
 
 
 @dataclass
@@ -425,7 +473,31 @@ class Calibration:
     generation_info: CalibrationGenerationInfo
     rayleighs_perdn_persecond: Optional[float] = None
     flat_field_multiplier: Optional[ndarray] = None
-    dataset: Optional[Dataset] = None</code></pre>
+    dataset: Optional[Dataset] = None
+
+    def pretty_print(self):
+        &#34;&#34;&#34;
+        A special print output for this class.
+        &#34;&#34;&#34;
+        print(&#34;Calibration:&#34;)
+        for var_name in dir(self):
+            # exclude methods
+            if (var_name.startswith(&#34;__&#34;) or var_name == &#34;pretty_print&#34;):
+                continue
+
+            # convert var to string format we want
+            var_value = getattr(self, var_name)
+            var_str = &#34;None&#34;
+            if (var_name == &#34;generation_info&#34;):
+                var_str = &#34;CalibrationGenerationInfo(...)&#34;
+            elif (var_value is not None):
+                if (isinstance(var_value, ndarray)):
+                    var_str = &#34;array(dims=%s, dtype=%s)&#34; % (var_value.shape, var_value.dtype)
+                else:
+                    var_str = var_value
+
+            # print string for this var
+            print(&#34;  %-30s: %s&#34; % (var_name, var_str))</code></pre>
 </details>
 <h3>Class variables</h3>
 <dl>
@@ -456,6 +528,43 @@ class Calibration:
 <dt id="pyucalgarysrs.data.classes.Calibration.version"><code class="name">var <span class="ident">version</span> : str</code></dt>
 <dd>
 <div class="desc"></div>
+</dd>
+</dl>
+<h3>Methods</h3>
+<dl>
+<dt id="pyucalgarysrs.data.classes.Calibration.pretty_print"><code class="name flex">
+<span>def <span class="ident">pretty_print</span></span>(<span>self)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>A special print output for this class.</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def pretty_print(self):
+    &#34;&#34;&#34;
+    A special print output for this class.
+    &#34;&#34;&#34;
+    print(&#34;Calibration:&#34;)
+    for var_name in dir(self):
+        # exclude methods
+        if (var_name.startswith(&#34;__&#34;) or var_name == &#34;pretty_print&#34;):
+            continue
+
+        # convert var to string format we want
+        var_value = getattr(self, var_name)
+        var_str = &#34;None&#34;
+        if (var_name == &#34;generation_info&#34;):
+            var_str = &#34;CalibrationGenerationInfo(...)&#34;
+        elif (var_value is not None):
+            if (isinstance(var_value, ndarray)):
+                var_str = &#34;array(dims=%s, dtype=%s)&#34; % (var_value.shape, var_value.dtype)
+            else:
+                var_str = var_value
+
+        # print string for this var
+        print(&#34;  %-30s: %s&#34; % (var_name, var_str))</code></pre>
+</details>
 </dd>
 </dl>
 </dd>
@@ -1092,7 +1201,31 @@ class Skymap:
             self.site_map_latitude,
             self.site_map_longitude,
             dataset_str,
-        )</code></pre>
+        )
+
+    def pretty_print(self):
+        &#34;&#34;&#34;
+        A special print output for this class.
+        &#34;&#34;&#34;
+        print(&#34;Skymap:&#34;)
+        for var_name in dir(self):
+            # exclude methods
+            if (var_name.startswith(&#34;__&#34;) or var_name == &#34;pretty_print&#34;):
+                continue
+
+            # convert var to string format we want
+            var_value = getattr(self, var_name)
+            var_str = &#34;None&#34;
+            if (var_name == &#34;generation_info&#34;):
+                var_str = &#34;SkymapGenerationInfo(...)&#34;
+            elif (var_value is not None):
+                if (isinstance(var_value, ndarray)):
+                    var_str = &#34;array(dims=%s, dtype=%s)&#34; % (var_value.shape, var_value.dtype)
+                else:
+                    var_str = var_value
+
+            # print string for this var
+            print(&#34;  %-22s: %s&#34; % (var_name, var_str))</code></pre>
 </details>
 <h3>Class variables</h3>
 <dl>
@@ -1155,6 +1288,43 @@ class Skymap:
 <dt id="pyucalgarysrs.data.classes.Skymap.version"><code class="name">var <span class="ident">version</span> : str</code></dt>
 <dd>
 <div class="desc"></div>
+</dd>
+</dl>
+<h3>Methods</h3>
+<dl>
+<dt id="pyucalgarysrs.data.classes.Skymap.pretty_print"><code class="name flex">
+<span>def <span class="ident">pretty_print</span></span>(<span>self)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>A special print output for this class.</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def pretty_print(self):
+    &#34;&#34;&#34;
+    A special print output for this class.
+    &#34;&#34;&#34;
+    print(&#34;Skymap:&#34;)
+    for var_name in dir(self):
+        # exclude methods
+        if (var_name.startswith(&#34;__&#34;) or var_name == &#34;pretty_print&#34;):
+            continue
+
+        # convert var to string format we want
+        var_value = getattr(self, var_name)
+        var_str = &#34;None&#34;
+        if (var_name == &#34;generation_info&#34;):
+            var_str = &#34;SkymapGenerationInfo(...)&#34;
+        elif (var_value is not None):
+            if (isinstance(var_value, ndarray)):
+                var_str = &#34;array(dims=%s, dtype=%s)&#34; % (var_value.shape, var_value.dtype)
+            else:
+                var_str = var_value
+
+        # print string for this var
+        print(&#34;  %-22s: %s&#34; % (var_name, var_str))</code></pre>
+</details>
 </dd>
 </dl>
 </dd>
@@ -1234,7 +1404,7 @@ class SkymapGenerationInfo:
         return self.__repr__()
 
     def __repr__(self) -&gt; str:
-        return &#34;SkymapGenerationInfo(date_generated=%s, author=%s, ccd_center=%s, ...)&#34; % (
+        return &#34;SkymapGenerationInfo(date_generated=%s, author=&#39;%s&#39;, ccd_center=%s, ...)&#34; % (
             str(self.date_generated.__repr__()),
             self.author,
             self.ccd_center,
@@ -1366,6 +1536,7 @@ setTimeout(() => input.focus(), 100);
 <li><code><a title="pyucalgarysrs.data.classes.Calibration.filename" href="#pyucalgarysrs.data.classes.Calibration.filename">filename</a></code></li>
 <li><code><a title="pyucalgarysrs.data.classes.Calibration.flat_field_multiplier" href="#pyucalgarysrs.data.classes.Calibration.flat_field_multiplier">flat_field_multiplier</a></code></li>
 <li><code><a title="pyucalgarysrs.data.classes.Calibration.generation_info" href="#pyucalgarysrs.data.classes.Calibration.generation_info">generation_info</a></code></li>
+<li><code><a title="pyucalgarysrs.data.classes.Calibration.pretty_print" href="#pyucalgarysrs.data.classes.Calibration.pretty_print">pretty_print</a></code></li>
 <li><code><a title="pyucalgarysrs.data.classes.Calibration.rayleighs_perdn_persecond" href="#pyucalgarysrs.data.classes.Calibration.rayleighs_perdn_persecond">rayleighs_perdn_persecond</a></code></li>
 <li><code><a title="pyucalgarysrs.data.classes.Calibration.version" href="#pyucalgarysrs.data.classes.Calibration.version">version</a></code></li>
 </ul>
@@ -1455,6 +1626,7 @@ setTimeout(() => input.focus(), 100);
 <li><code><a title="pyucalgarysrs.data.classes.Skymap.full_map_longitude" href="#pyucalgarysrs.data.classes.Skymap.full_map_longitude">full_map_longitude</a></code></li>
 <li><code><a title="pyucalgarysrs.data.classes.Skymap.generation_info" href="#pyucalgarysrs.data.classes.Skymap.generation_info">generation_info</a></code></li>
 <li><code><a title="pyucalgarysrs.data.classes.Skymap.imager_uid" href="#pyucalgarysrs.data.classes.Skymap.imager_uid">imager_uid</a></code></li>
+<li><code><a title="pyucalgarysrs.data.classes.Skymap.pretty_print" href="#pyucalgarysrs.data.classes.Skymap.pretty_print">pretty_print</a></code></li>
 <li><code><a title="pyucalgarysrs.data.classes.Skymap.project_uid" href="#pyucalgarysrs.data.classes.Skymap.project_uid">project_uid</a></code></li>
 <li><code><a title="pyucalgarysrs.data.classes.Skymap.site_map_altitude" href="#pyucalgarysrs.data.classes.Skymap.site_map_altitude">site_map_altitude</a></code></li>
 <li><code><a title="pyucalgarysrs.data.classes.Skymap.site_map_latitude" href="#pyucalgarysrs.data.classes.Skymap.site_map_latitude">site_map_latitude</a></code></li>

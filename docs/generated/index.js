@@ -538,6 +538,12 @@ INDEX=[
 "doc":""
 },
 {
+"ref":"pyucalgarysrs.data.classes.Skymap.pretty_print",
+"url":3,
+"doc":"A special print output for this class.",
+"func":1
+},
+{
 "ref":"pyucalgarysrs.data.classes.CalibrationGenerationInfo",
 "url":3,
 "doc":"Representation of generation details for a specific calibration file. Attributes: valid_interval_start (datetime.datetime): Valid start timestamp for this calibration file valid_interval_end (datetime.datetime): Valid end time for this calibration file. If None, then end time is unbounded and valid up until the next newest calibration for this detector UID. author (str): Individual who generated the calibration file input_data_dir (str): Path on UCalgary data system to the raw calibration files skymap_filename (str): Path to skymap file used to assist with calibration process. If None, no skymap file was used."
@@ -606,6 +612,12 @@ INDEX=[
 "ref":"pyucalgarysrs.data.classes.Calibration.dataset",
 "url":3,
 "doc":""
+},
+{
+"ref":"pyucalgarysrs.data.classes.Calibration.pretty_print",
+"url":3,
+"doc":"A special print output for this class.",
+"func":1
 },
 {
 "ref":"pyucalgarysrs.data.classes.Observatory",
