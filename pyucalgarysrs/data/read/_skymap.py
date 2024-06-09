@@ -90,5 +90,6 @@ def __skymap_readfile_worker(file, quiet=False):
         return {}, problematic, file, error_message
 
     # return
-    # data, problematic flag, filename, error message
+    #
+    # NOTE: order is --> data, problematic flag, filename, error message
     return data_recarray, False, file, None

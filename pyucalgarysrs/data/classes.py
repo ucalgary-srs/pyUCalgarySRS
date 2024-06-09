@@ -143,6 +143,23 @@ class Data:
             dataset_str,
         )
 
+    def pretty_print(self):
+        """
+        A special print output for this class.
+        """
+        data_str = "array(dims=%s, dtype=%s)" % (self.data.shape, self.data.dtype)
+        timestamp_str = "[%d datetime objects]" % (len(self.timestamp))
+        metadata_str = "[%d dictionaries]" % (len(self.metadata))
+        problematic_files_str = self.problematic_files.__repr__()
+        dataset_str = "unknown" if self.dataset is None else self.dataset.__repr__()[0:75] + "...)"
+
+        print("Data:")
+        print("  %-21s: %s" % ("data", data_str))
+        print("  %-21s: %s" % ("timestamp", timestamp_str))
+        print("  %-21s: %s" % ("metadata", metadata_str))
+        print("  %-21s: %s" % ("problematic_files", problematic_files_str))
+        print("  %-21s: %s" % ("dataset", dataset_str))
+
 
 @dataclass
 class SkymapGenerationInfo:
@@ -187,6 +204,28 @@ class SkymapGenerationInfo:
             self.author,
             self.ccd_center,
         )
+
+    def pretty_print(self):
+        """
+        A special print output for this class.
+        """
+        print("SkymapGenerationInfo:")
+        for var_name in dir(self):
+            # exclude methods
+            if (var_name.startswith("__") or var_name == "pretty_print"):
+                continue
+
+            # convert var to string format we want
+            var_value = getattr(self, var_name)
+            var_str = "None"
+            if (var_value is not None):
+                if (isinstance(var_value, ndarray)):
+                    var_str = "array(dims=%s, dtype=%s)" % (var_value.shape, var_value.dtype)
+                else:
+                    var_str = var_value
+
+            # print string for this var
+            print("  %-24s: %s" % (var_name, var_str))
 
 
 @dataclass
@@ -287,6 +326,23 @@ class CalibrationGenerationInfo:
     input_data_dir: Optional[str] = None
     skymap_filename: Optional[str] = None
 
+    def pretty_print(self):
+        """
+        A special print output for this class.
+        """
+        print("CalibrationGenerationInfo:")
+        for var_name in dir(self):
+            # exclude methods
+            if (var_name.startswith("__") or var_name == "pretty_print"):
+                continue
+
+            # convert var to string format we want
+            var_value = getattr(self, var_name)
+            var_str = "None" if var_value is None else var_value
+
+            # print string for this var
+            print("  %-25s: %s" % (var_name, var_str))
+
 
 @dataclass
 class Calibration:
@@ -337,7 +393,7 @@ class Calibration:
                     var_str = var_value
 
             # print string for this var
-            print("  %-30s: %s" % (var_name, var_str))
+            print("  %-29s: %s" % (var_name, var_str))
 
 
 @dataclass

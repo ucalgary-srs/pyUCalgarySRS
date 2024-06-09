@@ -65,7 +65,7 @@ from ...conftest import find_dataset
     },
 ])
 @pytest.mark.data_read
-def test_read_generic(srs, all_datasets, test_dict):
+def test_read_generic(srs, capsys, all_datasets, test_dict):
     # set dataset
     dataset = find_dataset(all_datasets, test_dict["dataset_name"])
 
@@ -88,6 +88,11 @@ def test_read_generic(srs, all_datasets, test_dict):
     # check __str__ and __repr__
     print_str = str(data)
     assert print_str != ""
+
+    # check pretty print method
+    data.pretty_print()
+    captured_stdout = capsys.readouterr().out
+    assert captured_stdout != ""
 
 
 @pytest.mark.data_read

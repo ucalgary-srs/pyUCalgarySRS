@@ -719,23 +719,32 @@ class ReadManager:
 
             # parse valid start and end times into datetimes
             date_generated_dt = datetime.datetime.strptime(item_recarray.generation_info[0].date_generated.decode(), "%a %b %d %H:%M:%S %Y")
-            valid_interval_start_dt = datetime.datetime(2000, 1, 1, 0, 0, 0)
-            try:
-                valid_interval_start_dt = datetime.datetime.strptime(item_recarray.generation_info[0].valid_interval_start.decode(), "%Y%m%d%H")
-            except Exception:
-                try:
-                    valid_interval_start_dt = datetime.datetime.strptime(item_recarray.generation_info[0].valid_interval_start.decode(), "%Y%m%d")
-                except Exception:
-                    pass
+
+            # parse filename into several values
+            filename_split = os.path.basename(item["filename"]).split('_')
+            filename_times_split = filename_split[3].split('-')
+            valid_interval_start_dt = datetime.datetime.strptime(filename_times_split[0], "%Y%m%d")
             valid_interval_stop_dt = None
-            if (item_recarray.generation_info[0].valid_interval_stop.decode() != "+"):
-                try:
-                    valid_interval_stop_dt = datetime.datetime.strptime(item_recarray.generation_info[0].valid_interval_stop.decode(), "%Y%m%d%H")
-                except Exception:
-                    try:
-                        valid_interval_stop_dt = datetime.datetime.strptime(item_recarray.generation_info[0].valid_interval_stop.decode(), "%Y%m%d")
-                    except Exception:
-                        pass
+            if (filename_times_split[1] != '+'):
+                valid_interval_stop_dt = datetime.datetime.strptime(filename_times_split[1], "%Y%m%d")
+
+            # valid_interval_start_dt = datetime.datetime(2000, 1, 1, 0, 0, 0)
+            # try:
+            #     valid_interval_start_dt = datetime.datetime.strptime(item_recarray.generation_info[0].valid_interval_start.decode(), "%Y%m%d%H")
+            # except Exception:
+            #     try:
+            #         valid_interval_start_dt = datetime.datetime.strptime(item_recarray.generation_info[0].valid_interval_start.decode(), "%Y%m%d")
+            #     except Exception:
+            #         pass
+            # valid_interval_stop_dt = None
+            # if (item_recarray.generation_info[0].valid_interval_stop.decode() != "+"):
+            #     try:
+            #         valid_interval_stop_dt = datetime.datetime.strptime(item_recarray.generation_info[0].valid_interval_stop.decode(), "%Y%m%d%H")
+            #     except Exception:
+            #         try:
+            #             valid_interval_stop_dt = datetime.datetime.strptime(item_recarray.generation_info[0].valid_interval_stop.decode(), "%Y%m%d")
+            #         except Exception:
+            #             pass
 
             # parse date time used into datetime
             date_time_used_dt = datetime.datetime.strptime(item_recarray.generation_info[0].date_time_used.decode(), "%Y%m%d_UT%H")

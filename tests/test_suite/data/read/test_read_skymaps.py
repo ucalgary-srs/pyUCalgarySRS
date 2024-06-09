@@ -34,7 +34,7 @@ DATA_DIR = "%s/../../../test_data/read_skymap" % (os.path.dirname(os.path.realpa
     },
 ])
 @pytest.mark.data_read
-def test_read_skymap_single_file(srs, all_datasets, test_dict):
+def test_read_skymap_single_file(srs, capsys, all_datasets, test_dict):
     # set dataset
     dataset = find_dataset(all_datasets, test_dict["dataset_name"])
 
@@ -52,6 +52,14 @@ def test_read_skymap_single_file(srs, all_datasets, test_dict):
     # check __str__ and __repr__ for SkymapGeneration type
     print_str = str(data[0].generation_info)
     assert print_str != ""
+
+    # check pretty print methods
+    data[0].pretty_print()
+    captured_stdout = capsys.readouterr().out
+    assert captured_stdout != ""
+    data[0].generation_info.pretty_print()
+    captured_stdout = capsys.readouterr().out
+    assert captured_stdout != ""
 
 
 @pytest.mark.parametrize("test_dict", [
