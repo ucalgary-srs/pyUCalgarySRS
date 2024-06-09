@@ -182,7 +182,7 @@ class SkymapGenerationInfo:
         return self.__repr__()
 
     def __repr__(self) -> str:
-        return "SkymapGenerationInfo(date_generated=%s, author=%s, ccd_center=%s, ...)" % (
+        return "SkymapGenerationInfo(date_generated=%s, author='%s', ccd_center=%s, ...)" % (
             str(self.date_generated.__repr__()),
             self.author,
             self.ccd_center,
@@ -242,6 +242,30 @@ class Skymap:
             dataset_str,
         )
 
+    def pretty_print(self):
+        """
+        A special print output for this class.
+        """
+        print("Skymap:")
+        for var_name in dir(self):
+            # exclude methods
+            if (var_name.startswith("__") or var_name == "pretty_print"):
+                continue
+
+            # convert var to string format we want
+            var_value = getattr(self, var_name)
+            var_str = "None"
+            if (var_name == "generation_info"):
+                var_str = "SkymapGenerationInfo(...)"
+            elif (var_value is not None):
+                if (isinstance(var_value, ndarray)):
+                    var_str = "array(dims=%s, dtype=%s)" % (var_value.shape, var_value.dtype)
+                else:
+                    var_str = var_value
+
+            # print string for this var
+            print("  %-22s: %s" % (var_name, var_str))
+
 
 @dataclass
 class CalibrationGenerationInfo:
@@ -290,6 +314,30 @@ class Calibration:
     rayleighs_perdn_persecond: Optional[float] = None
     flat_field_multiplier: Optional[ndarray] = None
     dataset: Optional[Dataset] = None
+
+    def pretty_print(self):
+        """
+        A special print output for this class.
+        """
+        print("Calibration:")
+        for var_name in dir(self):
+            # exclude methods
+            if (var_name.startswith("__") or var_name == "pretty_print"):
+                continue
+
+            # convert var to string format we want
+            var_value = getattr(self, var_name)
+            var_str = "None"
+            if (var_name == "generation_info"):
+                var_str = "CalibrationGenerationInfo(...)"
+            elif (var_value is not None):
+                if (isinstance(var_value, ndarray)):
+                    var_str = "array(dims=%s, dtype=%s)" % (var_value.shape, var_value.dtype)
+                else:
+                    var_str = var_value
+
+            # print string for this var
+            print("  %-30s: %s" % (var_name, var_str))
 
 
 @dataclass
