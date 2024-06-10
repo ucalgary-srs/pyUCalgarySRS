@@ -133,7 +133,7 @@ class Data:
         timestamp_str = "[%d datetime objects]" % (len(self.timestamp))
         metadata_str = "[%d dictionaries]" % (len(self.metadata))
         problematic_files_str = self.problematic_files.__repr__()
-        dataset_str = "unknown" if self.dataset is None else self.dataset.__repr__()[0:75] + "...)"
+        dataset_str = "None" if self.dataset is None else self.dataset.__repr__()[0:75] + "...)"
 
         return "Data(data=%s, timestamp=%s, metadata=%s, problematic_files=%s, dataset=%s)" % (
             data_str,
@@ -152,7 +152,7 @@ class Data:
         timestamp_str = "[%d datetime objects]" % (len(self.timestamp))
         metadata_str = "[%d dictionaries]" % (len(self.metadata))
         problematic_files_str = self.problematic_files.__repr__()
-        dataset_str = "unknown" if self.dataset is None else self.dataset.__repr__()[0:75] + "...)"
+        dataset_str = "None" if self.dataset is None else self.dataset.__repr__()[0:75] + "...)"
 
         print("Data:")
         print("  %-22s: %s" % ("data", data_str))
@@ -223,7 +223,9 @@ class SkymapGenerationInfo:
                 if (isinstance(var_value, ndarray)):
                     var_str = "array(dims=%s, dtype=%s)" % (var_value.shape, var_value.dtype)
                 else:
-                    var_str = var_value
+                    var_str = str(var_value)
+            if (len(var_str) > 75):
+                var_str = var_str[0:75]
 
             # print string for this var
             print("  %-24s: %s" % (var_name, var_str))
@@ -301,7 +303,9 @@ class Skymap:
                 if (isinstance(var_value, ndarray)):
                     var_str = "array(dims=%s, dtype=%s)" % (var_value.shape, var_value.dtype)
                 else:
-                    var_str = var_value
+                    var_str = str(var_value)
+            if (len(var_str) > 75):
+                var_str = var_str[0:75]
 
             # print string for this var
             print("  %-23s: %s" % (var_name, var_str))
@@ -339,7 +343,7 @@ class CalibrationGenerationInfo:
 
             # convert var to string format we want
             var_value = getattr(self, var_name)
-            var_str = "None" if var_value is None else var_value
+            var_str = "None" if var_value is None else str(var_value)
 
             # print string for this var
             print("  %-25s: %s" % (var_name, var_str))
@@ -391,7 +395,9 @@ class Calibration:
                 if (isinstance(var_value, ndarray)):
                     var_str = "array(dims=%s, dtype=%s)" % (var_value.shape, var_value.dtype)
                 else:
-                    var_str = var_value
+                    var_str = str(var_value)
+            if (len(var_str) > 75):
+                var_str = var_str[0:75]
 
             # print string for this var
             print("  %-30s: %s" % (var_name, var_str))
