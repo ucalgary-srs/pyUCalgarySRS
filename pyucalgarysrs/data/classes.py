@@ -152,7 +152,7 @@ class Data:
         timestamp_str = "[%d datetime objects]" % (len(self.timestamp))
         metadata_str = "[%d dictionaries]" % (len(self.metadata))
         problematic_files_str = self.problematic_files.__repr__()
-        dataset_str = "None" if self.dataset is None else self.dataset.__repr__()[0:75] + "...)"
+        dataset_str = "None" if self.dataset is None else "Dataset(...)"
 
         print("Data:")
         print("  %-22s: %s" % ("data", data_str))
@@ -224,8 +224,6 @@ class SkymapGenerationInfo:
                     var_str = "array(dims=%s, dtype=%s)" % (var_value.shape, var_value.dtype)
                 else:
                     var_str = str(var_value)
-            if (len(var_str) > 75):
-                var_str = var_str[0:75]
 
             # print string for this var
             print("  %-24s: %s" % (var_name, var_str))
@@ -299,13 +297,13 @@ class Skymap:
             var_str = "None"
             if (var_name == "generation_info"):
                 var_str = "SkymapGenerationInfo(...)"
+            elif (var_name == "dataset" and var_value is not None):
+                var_str = "Dataset(...)"
             elif (var_value is not None):
                 if (isinstance(var_value, ndarray)):
                     var_str = "array(dims=%s, dtype=%s)" % (var_value.shape, var_value.dtype)
                 else:
                     var_str = str(var_value)
-            if (len(var_str) > 75):
-                var_str = var_str[0:75]
 
             # print string for this var
             print("  %-23s: %s" % (var_name, var_str))
@@ -391,13 +389,13 @@ class Calibration:
             var_str = "None"
             if (var_name == "generation_info"):
                 var_str = "CalibrationGenerationInfo(...)"
+            elif (var_name == "dataset" and var_value is not None):
+                var_str = "Dataset(...)"
             elif (var_value is not None):
                 if (isinstance(var_value, ndarray)):
                     var_str = "array(dims=%s, dtype=%s)" % (var_value.shape, var_value.dtype)
                 else:
                     var_str = str(var_value)
-            if (len(var_str) > 75):
-                var_str = var_str[0:75]
 
             # print string for this var
             print("  %-30s: %s" % (var_name, var_str))

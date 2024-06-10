@@ -749,4 +749,4 @@ def test_read_trex_nir_readers_func_nodataset(srs, test_dict):
     # check __str__ and __repr__
     print_str = str(data)
     assert print_str != ""
-    assert "dataset=unknown" in print_str
+    assert "dataset=None" in print_str

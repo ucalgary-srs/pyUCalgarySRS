@@ -7,7 +7,7 @@ pyucalgarysrs/__init__.py                           8      0   100%
 pyucalgarysrs/data/__init__.py                     32      0   100%
 pyucalgarysrs/data/_download.py                    86      1    99%   56
 pyucalgarysrs/data/_list.py                        31      0   100%
-pyucalgarysrs/data/classes.py                     178      0   100%
+pyucalgarysrs/data/classes.py                     182      0   100%
 pyucalgarysrs/data/read/__init__.py               184      2    99%   576, 776
 pyucalgarysrs/data/read/_calibration.py            43      0   100%
 pyucalgarysrs/data/read/_rego.py                  160      8    95%   105, 162, 209-215
@@ -26,5 +26,5 @@ pyucalgarysrs/models/atm/classes_forward.py       117      0   100%
 pyucalgarysrs/models/atm/classes_inverse.py       116      0   100%
 pyucalgarysrs/pyucalgarysrs.py                    113      0   100%
 -----------------------------------------------------------------------------
-TOTAL                                            2191    131    94%
+TOTAL                                            2195    131    94%
 ```
