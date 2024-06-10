@@ -869,7 +869,7 @@ class ReadManager:
             if (file_type == "flatfield"):
                 for key in item.keys():
                     if ("flat_field_multiplier" in key):
-                        flat_field_multiplier_value = item[key]
+                        flat_field_multiplier_value = np.flip(item[key])
                         break
             elif (file_type == "rayleighs"):
                 for key in item.keys():
