@@ -15,7 +15,7 @@ pyucalgarysrs/data/read/_skymap.py                 45      0   100%
 pyucalgarysrs/data/read/_themis.py                152     11    93%   102, 161, 205-211, 216-218
 pyucalgarysrs/data/read/_trex_blue.py             169     28    83%   106, 170, 181, 198-209, 228-234, 281-287
 pyucalgarysrs/data/read/_trex_nir.py              169     22    87%   106, 168, 179, 196-207, 279-285
-pyucalgarysrs/data/read/_trex_rgb.py              345     43    88%   134, 305, 332, 344-349, 362, 372, 427-436, 445, 463-474, 494-500, 548-554
+pyucalgarysrs/data/read/_trex_rgb.py              348     43    88%   134, 308, 335, 347-352, 365, 375, 433-442, 451, 469-480, 500-506, 554-560
 pyucalgarysrs/data/read/_trex_spectrograph.py     166     16    90%   106, 165, 176, 223-229, 276-282
 pyucalgarysrs/exceptions.py                        12      0   100%
 pyucalgarysrs/models/__init__.py                    8      0   100%
@@ -26,5 +26,5 @@ pyucalgarysrs/models/atm/classes_forward.py       117      0   100%
 pyucalgarysrs/models/atm/classes_inverse.py       116      0   100%
 pyucalgarysrs/pyucalgarysrs.py                    113      0   100%
 -----------------------------------------------------------------------------
-TOTAL                                            2199    131    94%
+TOTAL                                            2202    131    94%
 ```

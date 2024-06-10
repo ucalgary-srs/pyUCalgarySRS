@@ -250,6 +250,9 @@ def __rgb_readfile_worker_h5(file_obj):
         # force reshape to 4 dimensions
         images = images.reshape((image_height, image_width, image_channels, 1))  # type: ignore
 
+    # flip data (since it's upside down with displaying bottom-up (imshow origin="bottom"))
+    images = np.flip(images, axis=0)  # type: ignore
+
     # return
     return images, metadata_dict_list, problematic, file_obj["filename"], error_message, \
         image_width, image_height, image_channels, image_dtype
@@ -390,6 +393,9 @@ def __rgb_readfile_worker_png(file_obj):
             print("Error reading image file: found no image data")
         problematic = True
         error_message = "no image data"
+
+    # flip data (since it's upside down with displaying bottom-up (imshow origin="bottom"))
+    images = np.flip(images, axis=0)
 
     # return
     return images, metadata_dict_list, problematic, file_obj["filename"], error_message, \
@@ -576,6 +582,9 @@ def __rgb_readfile_worker_pgm(file_obj):
             print("Error reading image file: found no image data")
         problematic = True
         error_message = "no image data"
+
+    # flip data (since it's upside down with displaying bottom-up (imshow origin="bottom"))
+    images = np.flip(images, axis=0)
 
     # return
     return images, metadata_dict_list, problematic, file_obj["filename"], error_message, \
