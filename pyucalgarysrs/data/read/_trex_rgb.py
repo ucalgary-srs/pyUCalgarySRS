@@ -156,7 +156,10 @@ def read(file_list, n_parallel=1, first_record=False, no_metadata=False, tar_tem
         images = np.delete(images, range(list_position, total_num_frames), axis=2)
 
     # ensure entire array views as the desired dtype
-    images = images.astype(image_dtype)
+    if (image_dtype == np.uint8):
+        images = images.astype(np.uint8)
+    elif (image_dtype == np.uint16):
+        images = images.astype(np.uint16)
 
     # return
     pool_data = None
