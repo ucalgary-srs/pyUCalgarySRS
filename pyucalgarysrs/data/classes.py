@@ -45,9 +45,9 @@ class Dataset:
         """
         A special print output for the dataset's acknowledgement information.
         """
-        print("%-15s%s" % ("DOI:", self.doi))
-        print("%-15s%s" % ("DOI details:", self.doi_details))
-        print("%-15s\"%s\"" % ("Citation:", self.citation))
+        print("%-16s%s" % ("DOI:", self.doi))
+        print("%-16s%s" % ("DOI details:", self.doi_details))
+        print("%-16s\"%s\"" % ("Citation:", self.citation))
 
 
 @dataclass
@@ -147,6 +147,7 @@ class Data:
         """
         A special print output for this class.
         """
+        # set values
         data_str = "array(dims=%s, dtype=%s)" % (self.data.shape, self.data.dtype)
         timestamp_str = "[%d datetime objects]" % (len(self.timestamp))
         metadata_str = "[%d dictionaries]" % (len(self.metadata))
@@ -154,11 +155,11 @@ class Data:
         dataset_str = "unknown" if self.dataset is None else self.dataset.__repr__()[0:75] + "...)"
 
         print("Data:")
-        print("  %-21s: %s" % ("data", data_str))
-        print("  %-21s: %s" % ("timestamp", timestamp_str))
-        print("  %-21s: %s" % ("metadata", metadata_str))
-        print("  %-21s: %s" % ("problematic_files", problematic_files_str))
-        print("  %-21s: %s" % ("dataset", dataset_str))
+        print("  %-22s: %s" % ("data", data_str))
+        print("  %-22s: %s" % ("timestamp", timestamp_str))
+        print("  %-22s: %s" % ("metadata", metadata_str))
+        print("  %-22s: %s" % ("problematic_files", problematic_files_str))
+        print("  %-22s: %s" % ("dataset", dataset_str))
 
 
 @dataclass
@@ -303,7 +304,7 @@ class Skymap:
                     var_str = var_value
 
             # print string for this var
-            print("  %-22s: %s" % (var_name, var_str))
+            print("  %-23s: %s" % (var_name, var_str))
 
 
 @dataclass
@@ -393,7 +394,7 @@ class Calibration:
                     var_str = var_value
 
             # print string for this var
-            print("  %-29s: %s" % (var_name, var_str))
+            print("  %-30s: %s" % (var_name, var_str))
 
 
 @dataclass

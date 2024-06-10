@@ -287,4 +287,4 @@ class ATMInverseResult:
                     var_str = "%s ...])" % (var_value.__repr__()[0:60])
 
             # print string for this var
-            print("  %-35s: %s" % (var_name, var_str))
+            print("  %-37s: %s" % (var_name, var_str))
