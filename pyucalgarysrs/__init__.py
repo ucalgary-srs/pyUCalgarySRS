@@ -20,7 +20,7 @@ Basic usage:
 """
 
 # versioning info
-__version__ = "0.0.18"
+__version__ = "0.0.19"
 
 # documentation
 __pdoc__ = {"pyucalgarysrs": False}

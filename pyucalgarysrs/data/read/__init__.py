@@ -4,6 +4,7 @@ Functions for reading data for specific datasets.
 
 import datetime
 import os
+import numpy as np
 from typing import List, Union, Optional
 from ._themis import read as func_read_themis
 from ._rego import read as func_read_rego
@@ -784,11 +785,11 @@ class ReadManager:
                 site_map_latitude=item_recarray.site_map_latitude,
                 site_map_longitude=item_recarray.site_map_longitude,
                 site_map_altitude=item_recarray.site_map_altitude,
-                full_elevation=item_recarray.full_elevation,
-                full_azimuth=item_recarray.full_azimuth,
+                full_elevation=np.flip(item_recarray.full_elevation),
+                full_azimuth=np.flip(item_recarray.full_azimuth),
                 full_map_altitude=item_recarray.full_map_altitude,
-                full_map_latitude=item_recarray.full_map_latitude,
-                full_map_longitude=item_recarray.full_map_longitude,
+                full_map_latitude=np.flip(item_recarray.full_map_latitude),
+                full_map_longitude=np.flip(item_recarray.full_map_longitude),
                 version=version_str,
                 generation_info=generation_info_obj,
                 dataset=dataset,
