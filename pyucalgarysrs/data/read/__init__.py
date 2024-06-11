@@ -776,6 +776,18 @@ class ReadManager:
             if ("bytscl_values" in item_recarray.generation_info[0].dtype.names):
                 generation_info_obj.bytscl_values = item_recarray.generation_info[0].bytscl_values
 
+            # flip certain things
+            full_elevation_flipped = np.flipud(item_recarray.full_elevation)
+            full_azimuth_flipped = np.flipud(item_recarray.full_azimuth)
+            full_map_latitude_flipped = np.flipud(item_recarray.full_map_latitude)
+            full_map_longitude_flipped = np.flipud(item_recarray.full_map_longitude)
+            if ("REGO" in item["filename"]):
+                # flip e/w too, but just for REGO (since we do this to the raw data too)
+                full_elevation_flipped = np.fliplr(full_elevation_flipped)
+                full_azimuth_flipped = np.fliplr(full_azimuth_flipped)
+                full_map_latitude_flipped = np.fliplr(full_map_latitude_flipped)
+                full_map_longitude_flipped = np.fliplr(full_map_longitude_flipped)
+
             # create object
             ret_obj = Skymap(
                 filename=item["filename"],
@@ -785,11 +797,11 @@ class ReadManager:
                 site_map_latitude=item_recarray.site_map_latitude,
                 site_map_longitude=item_recarray.site_map_longitude,
                 site_map_altitude=item_recarray.site_map_altitude,
-                full_elevation=np.flip(item_recarray.full_elevation),
-                full_azimuth=np.flip(item_recarray.full_azimuth),
+                full_elevation=full_elevation_flipped,
+                full_azimuth=full_azimuth_flipped,
                 full_map_altitude=item_recarray.full_map_altitude,
-                full_map_latitude=np.flip(item_recarray.full_map_latitude),
-                full_map_longitude=np.flip(item_recarray.full_map_longitude),
+                full_map_latitude=full_map_latitude_flipped,
+                full_map_longitude=full_map_longitude_flipped,
                 version=version_str,
                 generation_info=generation_info_obj,
                 dataset=dataset,
@@ -869,7 +881,12 @@ class ReadManager:
             if (file_type == "flatfield"):
                 for key in item.keys():
                     if ("flat_field_multiplier" in key):
-                        flat_field_multiplier_value = np.flip(item[key])
+                        # flip vertically
+                        flat_field_multiplier_value = np.flipud(item[key])
+
+                        # flip horizontally, if REGO
+                        if ("REGO" in item_filename):
+                            flat_field_multiplier_value = np.fliplr(flat_field_multiplier_value)
                         break
             elif (file_type == "rayleighs"):
                 for key in item.keys():
