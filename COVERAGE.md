@@ -10,7 +10,7 @@ pyucalgarysrs/data/_list.py                        31      0   100%
 pyucalgarysrs/data/classes.py                     182      0   100%
 pyucalgarysrs/data/read/__init__.py               185      2    99%   577, 777
 pyucalgarysrs/data/read/_calibration.py            43      0   100%
-pyucalgarysrs/data/read/_rego.py                  160      8    95%   105, 162, 209-215
+pyucalgarysrs/data/read/_rego.py                  161      8    95%   105, 165, 212-218
 pyucalgarysrs/data/read/_skymap.py                 45      0   100%
 pyucalgarysrs/data/read/_themis.py                152     11    93%   102, 161, 205-211, 216-218
 pyucalgarysrs/data/read/_trex_blue.py             169     28    83%   106, 170, 181, 198-209, 228-234, 281-287
@@ -26,5 +26,5 @@ pyucalgarysrs/models/atm/classes_forward.py       117      0   100%
 pyucalgarysrs/models/atm/classes_inverse.py       116      0   100%
 pyucalgarysrs/pyucalgarysrs.py                    113      0   100%
 -----------------------------------------------------------------------------
-TOTAL                                            2202    131    94%
+TOTAL                                            2203    131    94%
 ```

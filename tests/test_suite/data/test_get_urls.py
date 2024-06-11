@@ -875,7 +875,7 @@ ALL_TESTS = [
             "start": "2020-01-01T00:00:00",
             "end": "2023-12-31T23:59:59",
         },
-        "expected_num_urls": 7,
+        "expected_num_urls": 15,
         "expected_status": 200,
         "expected_error_message": None,
         "expected_warning": False,

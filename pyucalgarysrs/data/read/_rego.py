@@ -120,8 +120,11 @@ def read(file_list, n_parallel=1, first_record=False, no_metadata=False, quiet=F
     # ensure entire array views as uint16
     images = images.astype(np.uint16)
 
-    # flip data (since it's upside down with displaying bottom-up (imshow origin="bottom"))
-    images = np.flip(images, axis=0)
+    # flip data vertically (since it's upside down with displaying bottom-up (imshow origin="bottom"))
+    images = np.flipud(images)
+
+    # flip data horizontally (most REGOs need this, so we do it by default)
+    images = np.fliplr(images)
 
     # return
     data = None
