@@ -777,16 +777,16 @@ class ReadManager:
                 generation_info_obj.bytscl_values = item_recarray.generation_info[0].bytscl_values
 
             # flip certain things
-            full_elevation_flipped = np.flipud(item_recarray.full_elevation)
-            full_azimuth_flipped = np.flipud(item_recarray.full_azimuth)
-            full_map_latitude_flipped = np.flipud(item_recarray.full_map_latitude)
-            full_map_longitude_flipped = np.flipud(item_recarray.full_map_longitude)
+            full_elevation_flipped = np.flip(item_recarray.full_elevation, axis=0)
+            full_azimuth_flipped = np.flip(item_recarray.full_azimuth, axis=0)
+            full_map_latitude_flipped = np.flip(item_recarray.full_map_latitude, axis=1)
+            full_map_longitude_flipped = np.flip(item_recarray.full_map_longitude, axis=1)
             if ("REGO" in item["filename"]):
                 # flip e/w too, but just for REGO (since we do this to the raw data too)
-                full_elevation_flipped = np.fliplr(full_elevation_flipped)
-                full_azimuth_flipped = np.fliplr(full_azimuth_flipped)
-                full_map_latitude_flipped = np.fliplr(full_map_latitude_flipped)
-                full_map_longitude_flipped = np.fliplr(full_map_longitude_flipped)
+                full_elevation_flipped = np.flip(full_elevation_flipped, axis=1)
+                full_azimuth_flipped = np.flip(full_azimuth_flipped, axis=1)
+                full_map_latitude_flipped = np.flip(full_map_latitude_flipped, axis=2)
+                full_map_longitude_flipped = np.flip(full_map_longitude_flipped, axis=2)
 
             # create object
             ret_obj = Skymap(
@@ -882,11 +882,11 @@ class ReadManager:
                 for key in item.keys():
                     if ("flat_field_multiplier" in key):
                         # flip vertically
-                        flat_field_multiplier_value = np.flipud(item[key])
+                        flat_field_multiplier_value = np.flip(item[key], axis=0)
 
                         # flip horizontally, if REGO
                         if ("REGO" in item_filename):
-                            flat_field_multiplier_value = np.fliplr(flat_field_multiplier_value)
+                            flat_field_multiplier_value = np.flip(flat_field_multiplier_value, axis=1)
                         break
             elif (file_type == "rayleighs"):
                 for key in item.keys():

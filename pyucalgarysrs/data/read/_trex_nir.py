@@ -122,7 +122,7 @@ def read(file_list, n_parallel=1, first_record=False, no_metadata=False, quiet=F
     images = images.astype(np.uint16)
 
     # flip data (since it's upside down with displaying bottom-up (imshow origin="bottom"))
-    images = np.flipud(images)
+    images = np.flip(images, axis=0)
 
     # return
     data = None
