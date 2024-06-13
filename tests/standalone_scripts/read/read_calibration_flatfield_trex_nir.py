@@ -22,4 +22,6 @@ file_list = download_obj.filenames
 print("\n[%s] Reading data ..." % (datetime.datetime.now()))
 data = srs.data.read(dataset, file_list, n_parallel=2)
 
-print(data[0])  # type: ignore
+print()
+print(data.data[0])
+print()

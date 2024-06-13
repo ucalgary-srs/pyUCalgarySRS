@@ -26,10 +26,10 @@ data = srs.data.readers.read_skymap(file_list, n_parallel=2, dataset=dataset)
 
 print()
 if (data is not None):
-    pprint.pprint(data[0].__dict__)
+    pprint.pprint(data.data[0].__dict__)
 
 print()
 print(data)
 
 print()
-print(data[0].generation_info.__dict__)
+print(data.data[0].generation_info.__dict__)

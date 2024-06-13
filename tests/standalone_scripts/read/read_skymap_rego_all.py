@@ -1,6 +1,5 @@
 import pyucalgarysrs
 import datetime
-import os
 
 # init
 srs = pyucalgarysrs.PyUCalgarySRS()
@@ -21,6 +20,8 @@ file_list = download_obj.filenames
 
 # read data
 print("\n[%s] Reading data ..." % (datetime.datetime.now()))
-for f in file_list:
-    print("[%s]  Reading %s" % (datetime.datetime.now(), os.path.basename(f)))
-    data = srs.data.readers.read_skymap(f, dataset=dataset)
+data = srs.data.read(dataset, file_list)
+
+print()
+print(data)
+print()

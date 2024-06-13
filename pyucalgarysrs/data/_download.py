@@ -172,11 +172,16 @@ def get_urls(srs_obj, dataset_name, start, end, site_uid, device_uid, timeout, w
     url = "%s/api/v1/data_distribution/urls" % (srs_obj.api_base_url)
     try:
         r = requests.get(url, params=params, headers=srs_obj.api_headers, timeout=timeout)
-        res = r.json()
     except Exception as e:  # pragma: nocover
         raise SRSAPIError("Unexpected API error: %s" % (str(e))) from e
     if (r.status_code != 200):  # pragma: nocover
-        raise SRSAPIError("API error code %d: %s" % (r.status_code, res["detail"]))
+        try:
+            res = r.json()
+            msg = res["detail"]
+        except Exception:
+            msg = r.content
+        raise SRSAPIError("API error code %d: %s" % (r.status_code, msg))
+    res = r.json()
 
     # get list of file reading supported datasets
     file_reading_supported_datasets = srs_obj.data.list_supported_read_datasets()

@@ -102,7 +102,7 @@ class ReadManager:
              n_parallel: int = 1,
              first_record: bool = False,
              no_metadata: bool = False,
-             quiet: bool = False) -> Union[Data, List[Skymap], List[Calibration]]:
+             quiet: bool = False) -> Data:
         """
         Read in data files for a given dataset. Note that only one type of dataset's data
         should be read in using a single call.
@@ -669,11 +669,7 @@ class ReadManager:
         # return
         return ret_obj
 
-    def read_skymap(self,
-                    file_list: Union[List[str], str],
-                    n_parallel: int = 1,
-                    quiet: bool = False,
-                    dataset: Optional[Dataset] = None) -> List[Skymap]:
+    def read_skymap(self, file_list: Union[List[str], str], n_parallel: int = 1, quiet: bool = False, dataset: Optional[Dataset] = None) -> Data:
         """
         Read in UCalgary skymap files.
 
@@ -699,8 +695,8 @@ class ReadManager:
                 optional.
 
         Returns:
-            A list of `pyucalgarysrs.data.classes.Skymap` objects containing the skymap data read 
-            in, among other values.
+            A `pyucalgarysrs.data.classes.Data` object containing the data read in, among other
+            values.
         
         Raises:
             pyucalgarysrs.exceptions.SRSError: a generic read error was encountered
@@ -713,7 +709,7 @@ class ReadManager:
         )
 
         # convert to return object
-        ret_list = []
+        skymap_objs = []
         for item in data:
             # init item
             item_recarray = item["skymap"][0]
@@ -728,24 +724,6 @@ class ReadManager:
             valid_interval_stop_dt = None
             if (filename_times_split[1] != '+'):
                 valid_interval_stop_dt = datetime.datetime.strptime(filename_times_split[1], "%Y%m%d")
-
-            # valid_interval_start_dt = datetime.datetime(2000, 1, 1, 0, 0, 0)
-            # try:
-            #     valid_interval_start_dt = datetime.datetime.strptime(item_recarray.generation_info[0].valid_interval_start.decode(), "%Y%m%d%H")
-            # except Exception:
-            #     try:
-            #         valid_interval_start_dt = datetime.datetime.strptime(item_recarray.generation_info[0].valid_interval_start.decode(), "%Y%m%d")
-            #     except Exception:
-            #         pass
-            # valid_interval_stop_dt = None
-            # if (item_recarray.generation_info[0].valid_interval_stop.decode() != "+"):
-            #     try:
-            #         valid_interval_stop_dt = datetime.datetime.strptime(item_recarray.generation_info[0].valid_interval_stop.decode(), "%Y%m%d%H")
-            #     except Exception:
-            #         try:
-            #             valid_interval_stop_dt = datetime.datetime.strptime(item_recarray.generation_info[0].valid_interval_stop.decode(), "%Y%m%d")
-            #         except Exception:
-            #             pass
 
             # parse date time used into datetime
             date_time_used_dt = datetime.datetime.strptime(item_recarray.generation_info[0].date_time_used.decode(), "%Y%m%d_UT%H")
@@ -789,7 +767,7 @@ class ReadManager:
                 full_map_longitude_flipped = np.flip(full_map_longitude_flipped, axis=2)
 
             # create object
-            ret_obj = Skymap(
+            skymap_obj = Skymap(
                 filename=item["filename"],
                 project_uid=item_recarray.project_uid.decode(),
                 site_uid=item_recarray.site_uid.decode(),
@@ -804,20 +782,18 @@ class ReadManager:
                 full_map_longitude=full_map_longitude_flipped,
                 version=version_str,
                 generation_info=generation_info_obj,
-                dataset=dataset,
             )
 
             # append object
-            ret_list.append(ret_obj)
+            skymap_objs.append(skymap_obj)
+
+        # cast into data object
+        data_obj = Data(data=skymap_objs, timestamp=[], metadata=[], problematic_files=[], dataset=dataset)
 
         # return
-        return ret_list
+        return data_obj
 
-    def read_calibration(self,
-                         file_list: Union[List[str], str],
-                         n_parallel: int = 1,
-                         quiet: bool = False,
-                         dataset: Optional[Dataset] = None) -> List[Calibration]:
+    def read_calibration(self, file_list: Union[List[str], str], n_parallel: int = 1, quiet: bool = False, dataset: Optional[Dataset] = None) -> Data:
         """
         Read in UCalgary calibration files.
 
@@ -843,8 +819,8 @@ class ReadManager:
                 optional.
 
         Returns:
-            A list of `pyucalgarysrs.data.classes.Calibration` objects containing the calibration data read 
-            in, among other values.
+            A `pyucalgarysrs.data.classes.Data` object containing the data read in, among other
+            values.
         
         Raises:
             pyucalgarysrs.exceptions.SRSError: a generic read error was encountered
@@ -857,7 +833,7 @@ class ReadManager:
         )
 
         # convert to return object
-        ret_list = []
+        calibration_objs = []
         for item in data:
             # init
             item_filename = item["filename"]
@@ -915,7 +891,7 @@ class ReadManager:
             )
 
             # create object
-            ret_obj = Calibration(
+            calibration_obj = Calibration(
                 filename=item_filename,
                 version=version_str,
                 dataset=dataset,
@@ -926,7 +902,10 @@ class ReadManager:
             )
 
             # append object
-            ret_list.append(ret_obj)
+            calibration_objs.append(calibration_obj)
+
+        # cast into data object
+        data_obj = Data(data=calibration_objs, timestamp=[], metadata=[], problematic_files=[], dataset=dataset)
 
         # return
-        return ret_list
+        return data_obj

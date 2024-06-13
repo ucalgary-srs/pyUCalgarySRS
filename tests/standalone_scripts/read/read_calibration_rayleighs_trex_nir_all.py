@@ -1,8 +1,6 @@
 # type: ignore
 import pyucalgarysrs
 import datetime
-import os
-from typing import List
 
 # init
 srs = pyucalgarysrs.PyUCalgarySRS()
@@ -23,11 +21,8 @@ file_list = download_obj.filenames
 
 # read data
 print("\n[%s] Reading data ..." % (datetime.datetime.now()))
-data: List[pyucalgarysrs.Calibration] = srs.data.read(dataset, file_list, n_parallel=2)
+data = srs.data.read(dataset, file_list, n_parallel=2)
 
-print("\n[%s] Have %d calibration objects\n" % (datetime.datetime.now(), len(data)))
-print(data[0])
 print()
-
-for d in data:
-    print("%-50s%s" % (os.path.basename(d.filename), d.rayleighs_perdn_persecond))
+print(data)
+print()

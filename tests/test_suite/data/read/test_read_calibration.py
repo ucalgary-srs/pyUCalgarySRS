@@ -1,7 +1,7 @@
 import os
 import datetime
 import pytest
-from pyucalgarysrs import Calibration, SRSError
+from pyucalgarysrs import Calibration, SRSError, Data
 from ...conftest import find_dataset
 
 # globals
@@ -59,35 +59,37 @@ def test_read_calibration_single_file(srs, capsys, all_datasets, test_dict):
     data = srs.data.read(dataset, "%s/%s" % (DATA_DIR, test_dict["filename"]))
 
     # check return type
-    assert isinstance(data, list) is True
-    assert isinstance(data[0], Calibration) is True
+    assert isinstance(data, Data) is True
+    assert isinstance(data.data, list) is True
+    for item in data.data:
+        assert isinstance(item, Calibration) is True
 
     # check return values
-    assert data[0].detector_uid == test_dict["expected_params"]["detector_uid"]
-    assert data[0].version == test_dict["expected_params"]["version"]
-    assert data[0].generation_info.valid_interval_start == test_dict["expected_params"]["start"]
-    assert data[0].generation_info.valid_interval_stop == test_dict["expected_params"]["stop"]
-    assert data[0].dataset == dataset
+    assert data.data[0].detector_uid == test_dict["expected_params"]["detector_uid"]
+    assert data.data[0].version == test_dict["expected_params"]["version"]
+    assert data.data[0].generation_info.valid_interval_start == test_dict["expected_params"]["start"]
+    assert data.data[0].generation_info.valid_interval_stop == test_dict["expected_params"]["stop"]
+    assert data.data[0].dataset == dataset
     if ("FLATFIELD" in test_dict["dataset_name"]):
-        assert data[0].flat_field_multiplier is not None
-        assert data[0].rayleighs_perdn_persecond is None
+        assert data.data[0].flat_field_multiplier is not None
+        assert data.data[0].rayleighs_perdn_persecond is None
     if ("RALEIGHS" in test_dict["dataset_name"]):
-        assert data[0].rayleighs_perdn_persecond is not None
-        assert data[0].flat_field_multiplier is None
+        assert data.data[0].rayleighs_perdn_persecond is not None
+        assert data.data[0].flat_field_multiplier is None
 
     # check __str__ and __repr__ for Calibration type
-    print_str = str(data[0])
+    print_str = str(data.data[0])
     assert print_str != ""
 
     # check __str__ and __repr__ for CalibrationGenerationInfo type
-    print_str = str(data[0].generation_info)
+    print_str = str(data.data[0].generation_info)
     assert print_str != ""
 
     # check pretty print methods
-    data[0].pretty_print()
+    data.data[0].pretty_print()
     captured_stdout = capsys.readouterr().out
     assert captured_stdout != ""
-    data[0].generation_info.pretty_print()
+    data.data[0].generation_info.pretty_print()
     captured_stdout = capsys.readouterr().out
     assert captured_stdout != ""
 
@@ -122,8 +124,9 @@ def test_read_calibration_multiple_files(srs, all_datasets, test_dict):
     data = srs.data.read(dataset, file_list)
 
     # check return type
-    assert isinstance(data, list) is True
-    for item in data:
+    assert isinstance(data, Data) is True
+    assert isinstance(data.data, list) is True
+    for item in data.data:
         assert isinstance(item, Calibration) is True
 
 
@@ -177,8 +180,9 @@ def test_read_calibration_n_parallel(srs, all_datasets, test_dict):
     )
 
     # check return type
-    assert isinstance(data, list) is True
-    for item in data:
+    assert isinstance(data, Data) is True
+    assert isinstance(data.data, list) is True
+    for item in data.data:
         assert isinstance(item, Calibration) is True
 
 

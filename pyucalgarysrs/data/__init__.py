@@ -412,7 +412,7 @@ class DataManager:
              n_parallel: int = 1,
              first_record: bool = False,
              no_metadata: bool = False,
-             quiet: bool = False) -> Union[Data, List[Skymap], List[Calibration]]:
+             quiet: bool = False) -> Data:
         """
         Read in data files for a given dataset. Note that only one type of dataset's data
         should be read in using a single call.

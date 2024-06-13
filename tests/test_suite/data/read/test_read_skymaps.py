@@ -1,6 +1,6 @@
 import os
 import pytest
-from pyucalgarysrs import Skymap, SRSError
+from pyucalgarysrs import Skymap, SRSError, Data
 from ...conftest import find_dataset
 
 # globals
@@ -42,22 +42,24 @@ def test_read_skymap_single_file(srs, capsys, all_datasets, test_dict):
     data = srs.data.read(dataset, "%s/%s" % (DATA_DIR, test_dict["filename"]))
 
     # check return type
-    assert isinstance(data, list) is True
-    assert isinstance(data[0], Skymap) is True
+    assert isinstance(data, Data) is True
+    assert isinstance(data.data, list) is True
+    for item in data.data:
+        assert isinstance(item, Skymap) is True
 
     # check __str__ and __repr__ for Skymap type
-    print_str = str(data[0])
+    print_str = str(data.data[0])
     assert print_str != ""
 
     # check __str__ and __repr__ for SkymapGeneration type
-    print_str = str(data[0].generation_info)
+    print_str = str(data.data[0].generation_info)
     assert print_str != ""
 
     # check pretty print methods
-    data[0].pretty_print()
+    data.data[0].pretty_print()
     captured_stdout = capsys.readouterr().out
     assert captured_stdout != ""
-    data[0].generation_info.pretty_print()
+    data.data[0].generation_info.pretty_print()
     captured_stdout = capsys.readouterr().out
     assert captured_stdout != ""
 
@@ -91,8 +93,9 @@ def test_read_skymap_multiple_files(srs, all_datasets, test_dict):
     data = srs.data.read(dataset, file_list)
 
     # check return type
-    assert isinstance(data, list) is True
-    for item in data:
+    assert isinstance(data, Data) is True
+    assert isinstance(data.data, list) is True
+    for item in data.data:
         assert isinstance(item, Skymap) is True
 
 
@@ -138,8 +141,9 @@ def test_read_skymap_n_parallel(srs, all_datasets, test_dict):
     )
 
     # check return type
-    assert isinstance(data, list) is True
-    for item in data:
+    assert isinstance(data, Data) is True
+    assert isinstance(data.data, list) is True
+    for item in data.data:
         assert isinstance(item, Skymap) is True
 
 

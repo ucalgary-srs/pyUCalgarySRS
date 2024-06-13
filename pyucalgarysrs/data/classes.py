@@ -5,7 +5,7 @@ classes in this module are included at the top level of this library.
 
 import datetime
 from dataclasses import dataclass
-from typing import Optional, List, Dict, Literal
+from typing import Optional, List, Dict, Literal, Union
 from numpy import ndarray
 
 
@@ -103,63 +103,6 @@ class ProblematicFile:
     filename: str
     error_message: str
     error_type: Literal["error", "warning"]
-
-
-@dataclass
-class Data:
-    """
-    Representation of the data read in from a `read` call.
-
-    Attributes:
-        data (ndarray): Numpy n-dimensional array containing the data read in.
-        timestamp (List[datetime.datetime]): List of timestamps for the read in data.
-        metadata (List[Dict]): List of dictionaries containing metadata specific to each
-            timestamp/image/record.
-        problematic_files (List[ProblematicFiles]): A list detailing any files that encountered
-            issues during reading.
-        dataset (Dataset): The `Dataset` object for this data.
-    """
-    data: ndarray
-    timestamp: List[datetime.datetime]
-    metadata: List[Dict]
-    problematic_files: List[ProblematicFile]
-    dataset: Optional[Dataset] = None
-
-    def __str__(self) -> str:
-        return self.__repr__()
-
-    def __repr__(self) -> str:
-        data_str = "array(dims=%s, dtype=%s)" % (self.data.shape, self.data.dtype)
-        timestamp_str = "[%d datetime objects]" % (len(self.timestamp))
-        metadata_str = "[%d dictionaries]" % (len(self.metadata))
-        problematic_files_str = self.problematic_files.__repr__()
-        dataset_str = "None" if self.dataset is None else self.dataset.__repr__()[0:75] + "...)"
-
-        return "Data(data=%s, timestamp=%s, metadata=%s, problematic_files=%s, dataset=%s)" % (
-            data_str,
-            timestamp_str,
-            metadata_str,
-            problematic_files_str,
-            dataset_str,
-        )
-
-    def pretty_print(self):
-        """
-        A special print output for this class.
-        """
-        # set values
-        data_str = "array(dims=%s, dtype=%s)" % (self.data.shape, self.data.dtype)
-        timestamp_str = "[%d datetime objects]" % (len(self.timestamp))
-        metadata_str = "[%d dictionaries]" % (len(self.metadata))
-        problematic_files_str = self.problematic_files.__repr__()
-        dataset_str = "None" if self.dataset is None else "Dataset(...)"
-
-        print("Data:")
-        print("  %-22s: %s" % ("data", data_str))
-        print("  %-22s: %s" % ("timestamp", timestamp_str))
-        print("  %-22s: %s" % ("metadata", metadata_str))
-        print("  %-22s: %s" % ("problematic_files", problematic_files_str))
-        print("  %-22s: %s" % ("dataset", dataset_str))
 
 
 @dataclass
@@ -266,20 +209,17 @@ class Skymap:
     full_map_longitude: ndarray
     generation_info: SkymapGenerationInfo
     version: str
-    dataset: Optional[Dataset] = None
 
     def __str__(self) -> str:
         return self.__repr__()
 
     def __repr__(self) -> str:
-        dataset_str = "unknown" if self.dataset is None else self.dataset.__repr__()[0:75] + "...)"
-        return "Skymap(project_uid=%s, site_uid=%s, imager_uid=%s, site_map_latitude=%f, site_map_longitude=%f, dataset=%s, ...)" % (
+        return "Skymap(project_uid=%s, site_uid=%s, imager_uid=%s, site_map_latitude=%f, site_map_longitude=%f, ...)" % (
             self.project_uid,
             self.site_uid,
             self.imager_uid,
             self.site_map_latitude,
             self.site_map_longitude,
-            dataset_str,
         )
 
     def pretty_print(self):
@@ -297,8 +237,6 @@ class Skymap:
             var_str = "None"
             if (var_name == "generation_info"):
                 var_str = "SkymapGenerationInfo(...)"
-            elif (var_name == "dataset" and var_value is not None):
-                var_str = "Dataset(...)"
             elif (var_value is not None):
                 if (isinstance(var_value, ndarray)):
                     var_str = "array(dims=%s, dtype=%s)" % (var_value.shape, var_value.dtype)
@@ -399,6 +337,145 @@ class Calibration:
 
             # print string for this var
             print("  %-30s: %s" % (var_name, var_str))
+
+
+@dataclass
+class Data:
+    """
+    Representation of the data read in from a `read` call.
+
+    Attributes:
+        data (ndarray, List[Skymap], List[Calibration]): 
+            Numpy n-dimensional array containing the data read in.
+        timestamp (List[datetime.datetime]): 
+            List of timestamps for the read in data.
+        metadata (List[Dict]): 
+            List of dictionaries containing metadata specific to each timestamp/image/record.
+        problematic_files (List[ProblematicFiles]): 
+            A list detailing any files that encountered issues during reading.
+        dataset (Dataset): 
+            The `Dataset` object for this data.
+    """
+    data: Union[ndarray, List[Skymap], List[Calibration]]
+    timestamp: List[datetime.datetime]
+    metadata: List[Dict]
+    problematic_files: List[ProblematicFile]
+    dataset: Optional[Dataset] = None
+
+    def __str__(self) -> str:
+        return self.__repr__()
+
+    def __repr__(self) -> str:
+        # set data value
+        if (isinstance(self.data, ndarray) is True):
+            data_str = "array(dims=%s, dtype=%s)" % (self.data.shape, self.data.dtype)  # type: ignore
+        elif (isinstance(self.data, list) is True):
+            if (len(self.data) == 0):
+                data_str = "[0 items]"
+            elif (isinstance(self.data[0], Skymap) is True):
+                if (len(self.data) == 0):
+                    data_str = "[]"
+                elif (len(self.data) == 1):
+                    data_str = "[1 Skymap object]"
+                else:
+                    data_str = "[%d Skymap objects]" % (len(self.data))
+            elif (isinstance(self.data[0], Calibration) is True):
+                if (len(self.data) == 0):
+                    data_str = "[]"
+                elif (len(self.data) == 1):
+                    data_str = "[1 Calibration object]"
+                else:
+                    data_str = "[%d Calibration objects]" % (len(self.data))
+            else:
+                data_str = "[%d items]" % (len(self.data))
+        else:
+            data_str = self.data.__repr__()
+
+        # set timestamp string
+        if (len(self.timestamp) == 0):
+            timestamp_str = "[]"
+        elif (len(self.timestamp) == 1):
+            timestamp_str = "[1 datetime]"
+        else:
+            timestamp_str = "[%d datetimes]" % (len(self.timestamp))
+
+        # set metadata string
+        if (len(self.metadata) == 0):
+            metadata_str = "[]"
+        elif (len(self.metadata) == 1):
+            metadata_str = "[1 dictionary]"
+        else:
+            metadata_str = "[%d dictionaries]" % (len(self.timestamp))
+
+        # set rest of values
+        problematic_files_str = self.problematic_files.__repr__()
+        dataset_str = "None" if self.dataset is None else self.dataset.__repr__()[0:75] + "...)"
+
+        # return
+        return "Data(data=%s, timestamp=%s, metadata=%s, problematic_files=%s, dataset=%s)" % (
+            data_str,
+            timestamp_str,
+            metadata_str,
+            problematic_files_str,
+            dataset_str,
+        )
+
+    def pretty_print(self):
+        """
+        A special print output for this class.
+        """
+        # set data value
+        if (isinstance(self.data, ndarray) is True):
+            data_str = "array(dims=%s, dtype=%s)" % (self.data.shape, self.data.dtype)  # type: ignore
+        elif (isinstance(self.data, list) is True):
+            if (len(self.data) == 0):
+                data_str = "[0 items]"
+            elif (isinstance(self.data[0], Skymap) is True):
+                if (len(self.data) == 0):
+                    data_str = "[]"
+                elif (len(self.data) == 1):
+                    data_str = "[1 Skymap object]"
+                else:
+                    data_str = "[%d Skymap objects]" % (len(self.data))
+            elif (isinstance(self.data[0], Calibration) is True):
+                if (len(self.data) == 0):
+                    data_str = "[]"
+                elif (len(self.data) == 1):
+                    data_str = "[1 Calibration object]"
+                else:
+                    data_str = "[%d Calibration objects]" % (len(self.data))
+            else:
+                data_str = "[%d items]" % (len(self.data))
+        else:
+            data_str = self.data.__repr__()
+
+        # set timestamp string
+        if (len(self.timestamp) == 0):
+            timestamp_str = "[]"
+        elif (len(self.timestamp) == 1):
+            timestamp_str = "[1 datetime]"
+        else:
+            timestamp_str = "[%d datetimes]" % (len(self.timestamp))
+
+        # set metadata string
+        if (len(self.metadata) == 0):
+            metadata_str = "[]"
+        elif (len(self.metadata) == 1):
+            metadata_str = "[1 dictionary]"
+        else:
+            metadata_str = "[%d dictionaries]" % (len(self.timestamp))
+
+        # set rest of values
+        problematic_files_str = self.problematic_files.__repr__()
+        dataset_str = "None" if self.dataset is None else self.dataset.__repr__()[0:75] + "...)"
+
+        # print
+        print("Data:")
+        print("  %-22s: %s" % ("data", data_str))
+        print("  %-22s: %s" % ("timestamp", timestamp_str))
+        print("  %-22s: %s" % ("metadata", metadata_str))
+        print("  %-22s: %s" % ("problematic_files", problematic_files_str))
+        print("  %-22s: %s" % ("dataset", dataset_str))
 
 
 @dataclass

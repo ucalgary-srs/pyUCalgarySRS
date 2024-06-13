@@ -22,7 +22,6 @@ file_list = download_obj.filenames
 print("\n[%s] Reading data ..." % (datetime.datetime.now()))
 data = srs.data.read(dataset, file_list, n_parallel=2)
 
-print("\n[%s] Have %d calibration objects\n" % (datetime.datetime.now(), len(data)))  # type: ignore
-print(data[0])  # type: ignore
-
+print()
+print(data)
 print()
