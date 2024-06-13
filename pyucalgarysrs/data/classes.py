@@ -5,7 +5,7 @@ classes in this module are included at the top level of this library.
 
 import datetime
 from dataclasses import dataclass
-from typing import Optional, List, Dict, Literal, Union
+from typing import Optional, List, Dict, Literal, Any
 from numpy import ndarray
 
 
@@ -345,8 +345,8 @@ class Data:
     Representation of the data read in from a `read` call.
 
     Attributes:
-        data (ndarray, List[Skymap], List[Calibration]): 
-            Numpy n-dimensional array containing the data read in.
+        data (Any): 
+            The loaded data. This can be one of the following types: ndarray, List[Skymap], List[Calibration].
         timestamp (List[datetime.datetime]): 
             List of timestamps for the read in data.
         metadata (List[Dict]): 
@@ -356,7 +356,7 @@ class Data:
         dataset (Dataset): 
             The `Dataset` object for this data.
     """
-    data: Union[ndarray, List[Skymap], List[Calibration]]
+    data: Any
     timestamp: List[datetime.datetime]
     metadata: List[Dict]
     problematic_files: List[ProblematicFile]
