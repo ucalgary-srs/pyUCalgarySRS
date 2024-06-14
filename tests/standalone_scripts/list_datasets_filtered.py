@@ -11,3 +11,6 @@ pprint.pprint(datasets)
 
 print("\nExample record in dict format:\n------------------------------\n")
 pprint.pprint(datasets[0].__dict__)
+
+print("\npretty_print() method output:\n------------------------------\n")
+datasets[0].pretty_print()

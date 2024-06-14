@@ -9,7 +9,6 @@ from typing import Optional, List, Dict, Literal, Any
 from numpy import ndarray
 
 
-@dataclass
 class Dataset:
     """
     A dataset available from the UCalgary Space Remote Sensing API, with possibly
@@ -30,24 +29,55 @@ class Dataset:
         doi_details (str): Further details about the DOI.
         citation (str): String to use when citing usage of the dataset.
     """
-    name: str
-    short_description: str
-    long_description: str
-    data_tree_url: str
-    file_listing_supported: bool
-    file_reading_supported: bool
-    level: str
-    doi: Optional[str] = None
-    doi_details: Optional[str] = None
-    citation: Optional[str] = None
 
-    def print_acknowledgement_info(self):
+    def __init__(self,
+                 name: str,
+                 short_description: str,
+                 long_description: str,
+                 data_tree_url: str,
+                 file_listing_supported: bool,
+                 file_reading_supported: bool,
+                 level: str,
+                 doi: Optional[str] = None,
+                 doi_details: Optional[str] = None,
+                 citation: Optional[str] = None):
+        self.name = name
+        self.short_description = short_description
+        self.long_description = long_description
+        self.data_tree_url = data_tree_url
+        self.file_listing_supported = file_listing_supported
+        self.file_reading_supported = file_reading_supported
+        self.level = level
+        self.doi = doi
+        self.doi_details = doi_details
+        self.citation = citation
+        self.provider = "UCalgary"
+
+    def __str__(self) -> str:
+        return self.__repr__()
+
+    def __repr__(self) -> str:
+        return "Dataset(name=%s, short_description='%s', provider='%s', level='%s', doi_details='%s', ...)" % (
+            self.name,
+            self.short_description,
+            self.provider,
+            self.level,
+            self.doi_details,
+        )
+
+    def pretty_print(self):
         """
-        A special print output for the dataset's acknowledgement information.
+        A special print output for this class.
         """
-        print("%-16s%s" % ("DOI:", self.doi))
-        print("%-16s%s" % ("DOI details:", self.doi_details))
-        print("%-16s\"%s\"" % ("Citation:", self.citation))
+        print("Dataset:")
+        for var_name in dir(self):
+            # exclude methods
+            if (var_name.startswith("__") or var_name == "pretty_print"):
+                continue
+
+            # convert var to string format we want
+            var_value = getattr(self, var_name)
+            print("  %-27s: %s" % (var_name, None if var_value is None else var_value))
 
 
 @dataclass

@@ -50,10 +50,10 @@ def test_get_datasets(srs, capsys):
     for d in datasets:
         assert isinstance(d, pyucalgarysrs.Dataset) is True
 
-    # check acknowledgement print method
-    datasets[0].print_acknowledgement_info()
+    # check pretty print method
+    datasets[0].pretty_print()
     captured_stdout = capsys.readouterr().out
-    assert captured_stdout != "" and "DOI" in captured_stdout
+    assert captured_stdout != ""
 
 
 @pytest.mark.data_datasets
