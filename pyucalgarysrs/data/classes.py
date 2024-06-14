@@ -361,6 +361,7 @@ class Data:
     metadata: List[Dict]
     problematic_files: List[ProblematicFile]
     dataset: Optional[Dataset] = None
+    calibrated_data: Optional[ndarray] = None
 
     def __str__(self) -> str:
         return self.__repr__()
@@ -368,7 +369,7 @@ class Data:
     def __repr__(self) -> str:
         # set data value
         if (isinstance(self.data, ndarray) is True):
-            data_str = "array(dims=%s, dtype=%s)" % (self.data.shape, self.data.dtype)  # type: ignore
+            data_str = "array(dims=%s, dtype=%s)" % (self.data.shape, self.data.dtype)
         elif (isinstance(self.data, list) is True):
             if (len(self.data) == 0):
                 data_str = "[0 items]"
@@ -409,14 +410,17 @@ class Data:
 
         # set rest of values
         problematic_files_str = self.problematic_files.__repr__()
+        calibrated_data_str = "None" if self.calibrated_data is None else "array(dims=%s, dtype=%s)" % (self.calibrated_data.shape,
+                                                                                                        self.calibrated_data.dtype)
         dataset_str = "None" if self.dataset is None else self.dataset.__repr__()[0:75] + "...)"
 
         # return
-        return "Data(data=%s, timestamp=%s, metadata=%s, problematic_files=%s, dataset=%s)" % (
+        return "Data(data=%s, timestamp=%s, metadata=%s, problematic_files=%s, calibrated_data=%s, dataset=%s)" % (
             data_str,
             timestamp_str,
             metadata_str,
             problematic_files_str,
+            calibrated_data_str,
             dataset_str,
         )
 
@@ -426,7 +430,7 @@ class Data:
         """
         # set data value
         if (isinstance(self.data, ndarray) is True):
-            data_str = "array(dims=%s, dtype=%s)" % (self.data.shape, self.data.dtype)  # type: ignore
+            data_str = "array(dims=%s, dtype=%s)" % (self.data.shape, self.data.dtype)
         elif (isinstance(self.data, list) is True):
             if (len(self.data) == 0):
                 data_str = "[0 items]"
@@ -467,6 +471,8 @@ class Data:
 
         # set rest of values
         problematic_files_str = self.problematic_files.__repr__()
+        calibrated_data_str = "None" if self.calibrated_data is None else "array(dims=%s, dtype=%s)" % (self.calibrated_data.shape,
+                                                                                                        self.calibrated_data.dtype)
         dataset_str = "None" if self.dataset is None else self.dataset.__repr__()[0:75] + "...)"
 
         # print
@@ -475,6 +481,7 @@ class Data:
         print("  %-22s: %s" % ("timestamp", timestamp_str))
         print("  %-22s: %s" % ("metadata", metadata_str))
         print("  %-22s: %s" % ("problematic_files", problematic_files_str))
+        print("  %-22s: %s" % ("calibrated_data", calibrated_data_str))
         print("  %-22s: %s" % ("dataset", dataset_str))
 
 
