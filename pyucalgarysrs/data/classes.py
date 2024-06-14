@@ -15,19 +15,39 @@ class Dataset:
     support for downloading and/or reading.
 
     Attributes:
-        name (str): Dataset name
-        short_description (str): A short description about the dataset
-        long_description (str): A longer description about the dataset
-        data_tree_url (str): The data tree URL prefix. Used for saving data locally with a 
-            similar data tree structure compared to the UCalgary Open Data archive.
-        file_listing_supported (bool): Flag indicating if file listing (downloading) is 
-            supported for this dataset.
-        file_reading_supported (bool): Flag indicating if file reading is supported for this
-            dataset.
-        level (str): Dataset level as per L0/L1/L2/etc standards.
-        doi (str): Dataset DOI unique identifier.
-        doi_details (str): Further details about the DOI.
-        citation (str): String to use when citing usage of the dataset.
+        name (str): 
+            Dataset name
+        
+        short_description (str): 
+            A short description about the dataset
+        
+        long_description (str): 
+            A longer description about the dataset
+        
+        data_tree_url (str): 
+            The data tree URL prefix. Used for saving data locally with a similar data tree 
+            structure compared to the UCalgary Open Data archive.
+        
+        file_listing_supported (bool): 
+            Flag indicating if file listing (downloading) is supported for this dataset.
+        
+        file_reading_supported (bool): 
+            Flag indicating if file reading is supported for this dataset.
+        
+        level (str): 
+            Dataset level as per L0/L1/L2/etc standards.
+        
+        doi (str): 
+            Dataset DOI unique identifier.
+        
+        doi_details (str): 
+            Further details about the DOI.
+        
+        citation (str): 
+            String to use when citing usage of the dataset.
+        
+        provider (str): 
+            Data provider.
     """
 
     def __init__(self,
@@ -86,12 +106,21 @@ class FileListingResponse:
     Representation of the file listing response from the UCalgary Space Remote Sensing API.
 
     Attributes:
-        urls (List[str]): A list of URLs for available data files.
-        path_prefix (str): The URL prefix, which is sed for saving data locally with a 
-            similar data tree structure compared to the UCalgary Open Data archive.
-        count (int): The number of URLs available.
-        dataset (Dataset): The `Dataset` object for this data.
-        total_bytes (int): The cumulative amount of bytes for the available URLs.
+        urls (List[str]): 
+            A list of URLs for available data files.
+        
+        path_prefix (str): 
+            The URL prefix, which is sed for saving data locally with a similar data tree 
+            structure compared to the UCalgary Open Data archive.
+        
+        count (int): 
+            The number of URLs available.
+        
+        dataset (Dataset): 
+            The `Dataset` object for this data.
+        
+        total_bytes (int): 
+            The cumulative amount of bytes for the available URLs.
     """
     urls: List[str]
     path_prefix: str
@@ -106,12 +135,20 @@ class FileDownloadResult:
     Representation of the results from a data download call.
 
     Attributes:
-        filenames (List[str]): List of downloaded files, as absolute paths of their location on 
-            the local machine.
-        count (int): Number of files downloaded
-        total_bytes (int): Cumulative amount of bytes saved on the local machine.
-        output_root_path (str): The root path of where the data was saved to on the local machine.
-        dataset (Dataset): The `Dataset` object for this data.
+        filenames (List[str]): 
+            List of downloaded files, as absolute paths of their location on the local machine.
+        
+        count (int): 
+            Number of files downloaded
+        
+        total_bytes (int): 
+            Cumulative amount of bytes saved on the local machine.
+        
+        output_root_path (str): 
+            The root path of where the data was saved to on the local machine.
+        
+        dataset (Dataset): 
+            The `Dataset` object for this data.
     """
     filenames: List[str]
     count: int
@@ -126,9 +163,14 @@ class ProblematicFile:
     Representation about a file that had issues being read.
 
     Attributes:
-        filename (str): Filename of the problematic file.
-        error_message (str): Error message that was encountered while attempting to read the file.
-        error_type (str): Error type encountered. Possible values are 'error' or 'warning'.
+        filename (str): 
+            Filename of the problematic file.
+        
+        error_message (str): 
+            Error message that was encountered while attempting to read the file.
+        
+        error_type (str): 
+            Error type encountered. Possible values are 'error' or 'warning'.
     """
     filename: str
     error_message: str
@@ -141,19 +183,42 @@ class SkymapGenerationInfo:
     Representation of generation details for a specific skymap file.
 
     Attributes:
-        author (str): Name of individual who created the skymap
-        ccd_center (float): Center pixels of the CCD
-        code_used (str): Program name for the code used to generate the skymap
-        data_loc (str): Location of the data on the UCalgary data systems used during generation
-        date_generated (datetime.datetime): Timestamp of when the skymap was generated
-        date_time_used (datetime.datetime): Timestamp of what hour was used during generation
-        img_flip (ndarray): Image flipping specifics
-        optical_orientation (ndarray): Image orientation details
-        optical_projection (ndarray): Image projection details
-        pixel_aspect_ratio (float): Aspect ratio details
-        valid_interval_start (datetime.datetime): Valid start time for this skymap
-        valid_interval_end (datetime.datetime): Valid end time for this skymap. If None, then end time
-            is unbounded and valid up until the next newest skymap.
+        author (str): 
+            Name of individual who created the skymap
+        
+        ccd_center (float): 
+            Center pixels of the CCD
+        
+        code_used (str): 
+            Program name for the code used to generate the skymap
+        
+        data_loc (str): 
+            Location of the data on the UCalgary data systems used during generation
+        
+        date_generated (datetime.datetime): 
+            Timestamp of when the skymap was generated
+        
+        date_time_used (datetime.datetime): 
+            Timestamp of what hour was used during generation
+        
+        img_flip (ndarray): 
+            Image flipping specifics
+        
+        optical_orientation (ndarray): 
+            Image orientation details
+        
+        optical_projection (ndarray): 
+            Image projection details
+        
+        pixel_aspect_ratio (float): 
+            Aspect ratio details
+        
+        valid_interval_start (datetime.datetime): 
+            Valid start time for this skymap
+        
+        valid_interval_end (datetime.datetime): 
+            Valid end time for this skymap. If None, then end time is unbounded and valid up until 
+            the next newest skymap.
     """
     author: str
     ccd_center: float
@@ -208,22 +273,50 @@ class Skymap:
     Representation for a skymap file.
 
     Attributes:
-        filename (str): Filename for the skymap file, as an absolute path of its location on 
-            the local machine.
-        project_uid (str): Project unique identifier
-        site_uid (str): Site unique identifier
-        imager_uid (str): Imager/device unique identifier
-        site_map_latitude (float): Geodetic latitude of instrument
-        site_map_longitude (float): Geodetic longitude of instrument
-        site_map_altitude (float): Altitude of the instrument (in meters)
-        full_elevation (ndarray): Elevation angle from horizon, for each image pixel (in degrees)
-        full_azimuth (ndarray): Local azimuth angle from 0 degrees north, positive moving east (in degrees)
-        full_map_altitude (ndarray): Altitudes that image coordinates are mapped to (in kilometers)
-        full_map_latitude (ndarray): Geodetic latitudes of pixel corners, mapped to various altitudes (specified by `full_map_altitude`)
-        full_map_longitude (ndarray): Geodetic longitudes of pixel corners, mapped to various altitudes (specified by `full_map_altitude`)
-        generation_info (SkymapGenerationInfo): Metadata describing details about this skymap's generation process
-        version (str): Version of the skymap
-        dataset (Dataset): The `Dataset` object for this data.
+        filename (str): 
+            Filename for the skymap file, as an absolute path of its location on the local machine.
+        
+        project_uid (str): 
+            Project unique identifier
+        
+        site_uid (str): 
+            Site unique identifier
+        
+        imager_uid (str): 
+            Imager/device unique identifier
+        
+        site_map_latitude (float): 
+            Geodetic latitude of instrument
+        
+        site_map_longitude (float): 
+            Geodetic longitude of instrument
+        
+        site_map_altitude (float): 
+            Altitude of the instrument (in meters)
+        
+        full_elevation (ndarray): 
+            Elevation angle from horizon, for each image pixel (in degrees)
+        
+        full_azimuth (ndarray): 
+            Local azimuth angle from 0 degrees north, positive moving east (in degrees)
+        
+        full_map_altitude (ndarray): 
+            Altitudes that image coordinates are mapped to (in kilometers)
+        
+        full_map_latitude (ndarray): 
+            Geodetic latitudes of pixel corners, mapped to various altitudes (specified by `full_map_altitude`)
+        
+        full_map_longitude (ndarray): 
+            Geodetic longitudes of pixel corners, mapped to various altitudes (specified by `full_map_altitude`)
+        
+        generation_info (SkymapGenerationInfo): 
+            Metadata describing details about this skymap's generation process
+        
+        version (str): 
+            Version of the skymap
+        
+        dataset (Dataset): 
+            The `Dataset` object for this data.
     """
     filename: str
     project_uid: str
@@ -283,13 +376,21 @@ class CalibrationGenerationInfo:
     Representation of generation details for a specific calibration file.
 
     Attributes:
-        valid_interval_start (datetime.datetime): Valid start timestamp for this calibration file
-        valid_interval_end (datetime.datetime):  Valid end time for this calibration file. If None, then 
-            end time is unbounded and valid up until the next newest calibration for this detector UID.
-        author (str): Individual who generated the calibration file
-        input_data_dir (str): Path on UCalgary data system to the raw calibration files
-        skymap_filename (str): Path to skymap file used to assist with calibration process. If None, no 
-            skymap file was used.
+        valid_interval_start (datetime.datetime): 
+            Valid start timestamp for this calibration file
+        
+        valid_interval_end (datetime.datetime): 
+            Valid end time for this calibration file. If None, then end time is unbounded and valid up 
+            until the next newest calibration for this detector UID.
+        
+        author (str): 
+            Individual who generated the calibration file
+        
+        input_data_dir (str): 
+            Path on UCalgary data system to the raw calibration files
+        
+        skymap_filename (str): 
+            Path to skymap file used to assist with calibration process. If None, no skymap file was used.
     """
     valid_interval_start: datetime.datetime
     valid_interval_stop: Optional[datetime.datetime] = None
@@ -321,18 +422,28 @@ class Calibration:
     Representation for a calibration file.
 
     Attributes:
-        filename (str): Filename for the calibration file, as an absolute path of its location on 
-            the local machine.
-        detector_uid (str): Detector/imager/camera unique identifier
-        version (str): Version number of the calibration file
-        generation_info (CalibrationGenerationInfo): Metadata describing details about this 
-            calibration's generation process
-        rayleighs_perdn_persecond (float): Calibrated value for Rayleighs per data number per second 
-            (R/dn/s). This value will be None if a flatfield calibration file was read instead of a 
-            rayleighs calibration file.
-        flat_field_multiplier (ndarray): Calibrated flat field array. This value will be None if a 
-            rayleighs calibration file was read instead of a flatfield calibration file.
-        dataset (Dataset): The `Dataset` object for this data.
+        filename (str): 
+            Filename for the calibration file, as an absolute path of its location on the local machine.
+        
+        detector_uid (str): 
+            Detector/imager/camera unique identifier
+        
+        version (str): 
+            Version number of the calibration file
+        
+        generation_info (CalibrationGenerationInfo): 
+            Metadata describing details about this calibration's generation process
+        
+        rayleighs_perdn_persecond (float): 
+            Calibrated value for Rayleighs per data number per second (R/dn/s). This value will be None 
+            if a flatfield calibration file was read instead of a rayleighs calibration file.
+        
+        flat_field_multiplier (ndarray): 
+            Calibrated flat field array. This value will be None if a rayleighs calibration file was 
+            read instead of a flatfield calibration file.
+        
+        dataset (Dataset): 
+            The `Dataset` object for this data.
     """
     filename: str
     detector_uid: str
@@ -377,12 +488,20 @@ class Data:
     Attributes:
         data (Any): 
             The loaded data. This can be one of the following types: ndarray, List[Skymap], List[Calibration].
+        
         timestamp (List[datetime.datetime]): 
             List of timestamps for the read in data.
+        
         metadata (List[Dict]): 
             List of dictionaries containing metadata specific to each timestamp/image/record.
+        
         problematic_files (List[ProblematicFiles]): 
             A list detailing any files that encountered issues during reading.
+        
+        calibrated_data (Any): 
+            A calibrated version of the data. Populated and utilized by data analysis libraries. Has a `None` value
+            until calibrated data is inserted manually.
+
         dataset (Dataset): 
             The `Dataset` object for this data.
     """
@@ -515,18 +634,56 @@ class Data:
         print("  %-22s: %s" % ("dataset", dataset_str))
 
 
-@dataclass
 class Observatory:
     """
     Representation for an observatory.
 
     Attributes:
-        uid (str): 4-letter unique identifier (traditionally referred to as the site UID)
-        full_name (str): full location string for the observatory
-        geodetic_latitude (float): geodetic latitude for the observatory, in decimal format (-90 to 90)
-        geodetic_longitude (float): geodetic longitude for the observatory, in decimal format (-180 to 180)
+        uid (str): 
+            4-letter unique identifier (traditionally referred to as the site UID)
+
+        full_name (str): 
+            full location string for the observatory
+        
+        geodetic_latitude (float): 
+            geodetic latitude for the observatory, in decimal format (-90 to 90)
+        
+        geodetic_longitude (float): 
+            geodetic longitude for the observatory, in decimal format (-180 to 180)
+
+        provider (str): 
+            Data provider.
     """
-    uid: str
-    full_name: str
-    geodetic_latitude: float
-    geodetic_longitude: float
+
+    def __init__(self, uid: str, full_name: str, geodetic_latitude: float, geodetic_longitude: float):
+        self.uid = uid
+        self.full_name = full_name
+        self.geodetic_latitude = geodetic_latitude
+        self.geodetic_longitude = geodetic_longitude
+        self.provider = "UCalgary"
+
+    def __str__(self) -> str:
+        return self.__repr__()
+
+    def __repr__(self) -> str:
+        return "Observatory(uid=%s, full_name='%s', geodetic_latitude=%s, geodetic_longitude=%s, provider='%s')" % (
+            self.uid,
+            self.full_name,
+            self.geodetic_latitude,
+            self.geodetic_longitude,
+            self.provider,
+        )
+
+    def pretty_print(self):
+        """
+        A special print output for this class.
+        """
+        print("Observatory:")
+        for var_name in dir(self):
+            # exclude methods
+            if (var_name.startswith("__") or var_name == "pretty_print"):
+                continue
+
+            # convert var to string format we want
+            var_value = getattr(self, var_name)
+            print("  %-22s: %s" % (var_name, None if var_value is None else var_value))
