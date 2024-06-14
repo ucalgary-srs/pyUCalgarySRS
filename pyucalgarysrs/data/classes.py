@@ -360,8 +360,8 @@ class Data:
     timestamp: List[datetime.datetime]
     metadata: List[Dict]
     problematic_files: List[ProblematicFile]
+    calibrated_data: Any
     dataset: Optional[Dataset] = None
-    calibrated_data: Optional[Any] = None
 
     def __str__(self) -> str:
         return self.__repr__()

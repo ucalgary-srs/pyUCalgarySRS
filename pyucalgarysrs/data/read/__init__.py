@@ -268,6 +268,7 @@ class ReadManager:
             timestamp=timestamp_list,
             metadata=meta,
             problematic_files=problematic_files_objs,
+            calibrated_data=None,
             dataset=dataset,
         )
 
@@ -346,6 +347,7 @@ class ReadManager:
             timestamp=timestamp_list,
             metadata=meta,
             problematic_files=problematic_files_objs,
+            calibrated_data=None,
             dataset=dataset,
         )
 
@@ -424,6 +426,7 @@ class ReadManager:
             timestamp=timestamp_list,
             metadata=meta,
             problematic_files=problematic_files_objs,
+            calibrated_data=None,
             dataset=dataset,
         )
 
@@ -502,6 +505,7 @@ class ReadManager:
             timestamp=timestamp_list,
             metadata=meta,
             problematic_files=problematic_files_objs,
+            calibrated_data=None,
             dataset=dataset,
         )
 
@@ -585,6 +589,7 @@ class ReadManager:
             timestamp=timestamp_list,
             metadata=meta,
             problematic_files=problematic_files_objs,
+            calibrated_data=None,
             dataset=dataset,
         )
 
@@ -663,6 +668,7 @@ class ReadManager:
             timestamp=timestamp_list,
             metadata=meta,
             problematic_files=problematic_files_objs,
+            calibrated_data=None,
             dataset=dataset,
         )
 
@@ -788,7 +794,14 @@ class ReadManager:
             skymap_objs.append(skymap_obj)
 
         # cast into data object
-        data_obj = Data(data=skymap_objs, timestamp=[], metadata=[], problematic_files=[], dataset=dataset)
+        data_obj = Data(
+            data=skymap_objs,
+            timestamp=[],
+            metadata=[],
+            problematic_files=[],
+            calibrated_data=None,
+            dataset=dataset,
+        )
 
         # return
         return data_obj
@@ -905,7 +918,14 @@ class ReadManager:
             calibration_objs.append(calibration_obj)
 
         # cast into data object
-        data_obj = Data(data=calibration_objs, timestamp=[], metadata=[], problematic_files=[], dataset=dataset)
+        data_obj = Data(
+            data=calibration_objs,
+            timestamp=[],
+            metadata=[],
+            problematic_files=[],
+            calibrated_data=None,
+            dataset=dataset,
+        )
 
         # return
         return data_obj
