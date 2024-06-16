@@ -81,7 +81,7 @@ Basic usage:
 &#34;&#34;&#34;
 
 # versioning info
-__version__ = &#34;0.0.13&#34;
+__version__ = &#34;0.0.34&#34;
 
 # documentation
 __pdoc__ = {&#34;pyucalgarysrs&#34;: False}
@@ -181,7 +181,7 @@ as <code>/home/user/pyucalgarysrs_data</code>
 in Linux. In Windows and Mac, it is similar.</dd>
 <dt><strong><code>read_tar_temp_path</code></strong> :&ensp;<code>str</code></dt>
 <dd>Temporary directory used for tar extraction phases during file reading (e.g.,
-reading TREx RGB Burst data). The default for this is <code>&lt;download_output_root_path&gt;/.tar_temp_working</code>.
+reading TREx RGB Burst data). The default for this is <code>&lt;download_output_root_path&gt;/tar_temp_working</code>.
 For faster performance when reading tar-based data, one option on Linux is
 to set this to use RAM directly at <code>/dev/shm/pyucalgarysrs_tar_temp_working</code>.</dd>
 <dt><strong><code>api_base_url</code></strong> :&ensp;<code>str</code></dt>
@@ -191,7 +191,7 @@ used by the development team to test and build new functions using the private s
 API.</dd>
 <dt><strong><code>api_timeout</code></strong> :&ensp;<code>int</code></dt>
 <dd>The timeout used when communicating with the UCalgary Space Remote Sensing API. This
-value is represented in seconds, and by default is <code>10 seconds</code>.</dd>
+value is represented in seconds, and by default is <code>30 seconds</code>.</dd>
 <dt><strong><code>api_headers</code></strong> :&ensp;<code>Dict</code></dt>
 <dd>HTTP headers used when communicating with the UCalgary Space Remote Sensing API. The
 default for this value consists of several standard headers. Any changes to this
@@ -231,7 +231,7 @@ initialization of the paths</dd>
     &#34;&#34;&#34;
 
     __DEFAULT_API_BASE_URL = &#34;https://api.phys.ucalgary.ca&#34;
-    __DEFAULT_API_TIMEOUT = 10
+    __DEFAULT_API_TIMEOUT = 30
     __DEFAULT_API_HEADERS = {
         &#34;content-type&#34;: &#34;application/json&#34;,
         &#34;user-agent&#34;: &#34;python-pyucalgarysrs/%s&#34; % (__version__),
@@ -253,7 +253,7 @@ initialization of the paths</dd>
 
             read_tar_temp_path (str): 
                 Temporary directory used for tar extraction phases during file reading (e.g., 
-                reading TREx RGB Burst data). The default for this is `&lt;download_output_root_path&gt;/.tar_temp_working`. 
+                reading TREx RGB Burst data). The default for this is `&lt;download_output_root_path&gt;/tar_temp_working`. 
                 For faster performance when reading tar-based data, one option on Linux is 
                 to set this to use RAM directly at `/dev/shm/pyucalgarysrs_tar_temp_working`.
 
@@ -265,7 +265,7 @@ initialization of the paths</dd>
 
             api_timeout (int): 
                 The timeout used when communicating with the UCalgary Space Remote Sensing API. This 
-                value is represented in seconds, and by default is `10 seconds`.
+                value is represented in seconds, and by default is `30 seconds`.
             
             api_headers (Dict): 
                 HTTP headers used when communicating with the UCalgary Space Remote Sensing API. The 
@@ -457,10 +457,10 @@ initialization of the paths</dd>
         &#34;&#34;&#34;
         try:
             for item in os.listdir(self.download_output_root_path):
-                item = &#34;%s/%s&#34; % (self.download_output_root_path, item)
-                if (os.path.isdir(item) is True and self.read_tar_temp_path not in item):
+                item = Path(self.download_output_root_path) / item
+                if (item.is_dir() is True and self.read_tar_temp_path != str(item)):
                     shutil.rmtree(item)
-                elif (os.path.isfile(item) is True):
+                elif (item.is_file() is True):
                     os.remove(item)
         except Exception as e:  # pragma: nocover
             raise SRSPurgeError(&#34;Error while purging download output root path: %s&#34; % (str(e))) from e
@@ -479,13 +479,117 @@ initialization of the paths</dd>
         &#34;&#34;&#34;
         try:
             for item in os.listdir(self.read_tar_temp_path):
-                item = &#34;%s/%s&#34; % (self.read_tar_temp_path, item)
-                if (os.path.isdir(item) is True):
+                item = Path(self.read_tar_temp_path) / item
+                if (item.is_dir() is True and self.download_output_root_path != str(item)):
                     shutil.rmtree(item)
-                elif (os.path.isfile(item) is True):
+                elif (item.is_file() is True):
                     os.remove(item)
         except Exception as e:  # pragma: nocover
-            raise SRSPurgeError(&#34;Error while purging read tar temp path: %s&#34; % (str(e))) from e</code></pre>
+            raise SRSPurgeError(&#34;Error while purging read tar temp path: %s&#34; % (str(e))) from e
+
+    def show_data_usage(self, order: Literal[&#34;name&#34;, &#34;size&#34;] = &#34;size&#34;, return_dict: bool = False) -&gt; Any:
+        &#34;&#34;&#34;
+        Print the volume of data existing in the download_output_root_path, broken down
+        by dataset. Alternatively return the information in a dictionary.
+        
+        This can be a helpful tool for managing your disk space.
+
+        Args:
+            order (bool): 
+                Order results by either `size` or `name`. Default is `size`.
+
+            return_dict (bool): 
+                Instead of printing the data usage information, return information as a dictionary.
+
+        Returns:
+            Printed output. If `return_dict` is True, then it will instead return a dictionary with the
+            disk usage information.
+        
+        Notes:
+            Note that size on disk may differ slightly from the values determined by this 
+            routine. For example, the results here will be slightly different than the output
+            of a &#39;du&#39; command on *nix systems.
+        &#34;&#34;&#34;
+        # init
+        total_size = 0
+        download_pathlib_path = Path(self.download_output_root_path)
+
+        # get list of dataset paths
+        dataset_paths = []
+        for f in os.listdir(download_pathlib_path):
+            path_f = download_pathlib_path / f
+            if (os.path.isdir(path_f) is True and str(path_f) != self.read_tar_temp_path):
+                dataset_paths.append(path_f)
+
+        # get size of each dataset path
+        dataset_dict = {}
+        longest_path_len = 0
+        for dataset_path in dataset_paths:
+            # get size
+            dataset_size = 0
+            for dirpath, _, filenames in os.walk(dataset_path):
+                for filename in filenames:
+                    filepath = os.path.join(dirpath, filename)
+                    if (os.path.isfile(filepath) is True):
+                        dataset_size += os.path.getsize(filepath)
+
+            # check if this is the longest path name
+            path_basename = os.path.basename(dataset_path)
+            if (longest_path_len == 0):
+                longest_path_len = len(path_basename)
+            elif (len(path_basename) &gt; longest_path_len):
+                longest_path_len = len(path_basename)
+
+            # set dict
+            dataset_dict[path_basename] = {
+                &#34;path_obj&#34;: dataset_path,
+                &#34;size_bytes&#34;: dataset_size,
+                &#34;size_str&#34;: humanize.naturalsize(dataset_size),
+            }
+
+            # add to total
+            total_size += dataset_size
+
+        # return dictionary
+        if (return_dict is True):
+            return dataset_dict
+
+        # print table
+        #
+        # order into list
+        order_key = &#34;size_bytes&#34; if order == &#34;size&#34; else order
+        ordered_list = []
+        for path, p_dict in dataset_dict.items():
+            this_dict = p_dict
+            this_dict[&#34;name&#34;] = path
+            ordered_list.append(this_dict)
+        if (order == &#34;size&#34;):
+            ordered_list = reversed(sorted(ordered_list, key=lambda x: x[order_key]))
+        else:
+            ordered_list = sorted(ordered_list, key=lambda x: x[order_key])
+
+        # set column data
+        table_names = []
+        table_sizes = []
+        for item in ordered_list:
+            table_names.append(item[&#34;name&#34;])
+            table_sizes.append(item[&#34;size_str&#34;])
+
+        # set header values
+        table_headers = [&#34;Dataset name&#34;, &#34;Size&#34;]
+
+        # print as table
+        table = Texttable()
+        table.set_deco(Texttable.HEADER)
+        table.set_cols_dtype([&#34;t&#34;] * len(table_headers))
+        table.set_header_align([&#34;l&#34;] * len(table_headers))
+        table.set_cols_align([&#34;l&#34;] * len(table_headers))
+        table.header(table_headers)
+        for i in range(0, len(table_names)):
+            table.add_row([table_names[i], table_sizes[i]])
+        print(table.draw())
+
+        print(&#34;\nTotal size: %s&#34; % (humanize.naturalsize(total_size)))</code></pre>
 </details>
 <h3>Instance variables</h3>
 <dl>
@@ -641,10 +745,10 @@ with easily clearing out this directory.</p>
     &#34;&#34;&#34;
     try:
         for item in os.listdir(self.download_output_root_path):
-            item = &#34;%s/%s&#34; % (self.download_output_root_path, item)
-            if (os.path.isdir(item) is True and self.read_tar_temp_path not in item):
+            item = Path(self.download_output_root_path) / item
+            if (item.is_dir() is True and self.read_tar_temp_path != str(item)):
                 shutil.rmtree(item)
-            elif (os.path.isfile(item) is True):
+            elif (item.is_file() is True):
                 os.remove(item)
     except Exception as e:  # pragma: nocover
         raise SRSPurgeError(&#34;Error while purging download output root path: %s&#34; % (str(e))) from e</code></pre>
@@ -683,13 +787,143 @@ directory.</p>
     &#34;&#34;&#34;
     try:
         for item in os.listdir(self.read_tar_temp_path):
-            item = &#34;%s/%s&#34; % (self.read_tar_temp_path, item)
-            if (os.path.isdir(item) is True):
+            item = Path(self.read_tar_temp_path) / item
+            if (item.is_dir() is True and self.download_output_root_path != str(item)):
                 shutil.rmtree(item)
-            elif (os.path.isfile(item) is True):
+            elif (item.is_file() is True):
                 os.remove(item)
     except Exception as e:  # pragma: nocover
         raise SRSPurgeError(&#34;Error while purging read tar temp path: %s&#34; % (str(e))) from e</code></pre>
+</details>
+</dd>
+<dt id="pyucalgarysrs.PyUCalgarySRS.show_data_usage"><code class="name flex">
+<span>def <span class="ident">show_data_usage</span></span>(<span>self, order: Literal['name', 'size'] = 'size', return_dict: bool = False) ‑> Any</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Print the volume of data existing in the download_output_root_path, broken down
+by dataset. Alternatively return the information in a dictionary.</p>
+<p>This can be a helpful tool for managing your disk space.</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>order</code></strong> :&ensp;<code>bool</code></dt>
+<dd>Order results by either <code>size</code> or <code>name</code>. Default is <code>size</code>.</dd>
+<dt><strong><code>return_dict</code></strong> :&ensp;<code>bool</code></dt>
+<dd>Instead of printing the data usage information, return information as a dictionary.</dd>
+</dl>
+<h2 id="returns">Returns</h2>
+<p>Printed output. If <code>return_dict</code> is True, then it will instead return a dictionary with the
+disk usage information.</p>
+<h2 id="notes">Notes</h2>
+<p>Note that size on disk may differ slightly from the values determined by this
+routine. For example, the results here will be slightly different than the output
+of a 'du' command on *nix systems.</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def show_data_usage(self, order: Literal[&#34;name&#34;, &#34;size&#34;] = &#34;size&#34;, return_dict: bool = False) -&gt; Any:
+    &#34;&#34;&#34;
+    Print the volume of data existing in the download_output_root_path, broken down
+    by dataset. Alternatively return the information in a dictionary.
+    
+    This can be a helpful tool for managing your disk space.
+
+    Args:
+        order (bool): 
+            Order results by either `size` or `name`. Default is `size`.
+
+        return_dict (bool): 
+            Instead of printing the data usage information, return information as a dictionary.
+
+    Returns:
+        Printed output. If `return_dict` is True, then it will instead return a dictionary with the
+        disk usage information.
+    
+    Notes:
+        Note that size on disk may differ slightly from the values determined by this 
+        routine. For example, the results here will be slightly different than the output
+        of a &#39;du&#39; command on *nix systems.
+    &#34;&#34;&#34;
+    # init
+    total_size = 0
+    download_pathlib_path = Path(self.download_output_root_path)
+
+    # get list of dataset paths
+    dataset_paths = []
+    for f in os.listdir(download_pathlib_path):
+        path_f = download_pathlib_path / f
+        if (os.path.isdir(path_f) is True and str(path_f) != self.read_tar_temp_path):
+            dataset_paths.append(path_f)
+
+    # get size of each dataset path
+    dataset_dict = {}
+    longest_path_len = 0
+    for dataset_path in dataset_paths:
+        # get size
+        dataset_size = 0
+        for dirpath, _, filenames in os.walk(dataset_path):
+            for filename in filenames:
+                filepath = os.path.join(dirpath, filename)
+                if (os.path.isfile(filepath) is True):
+                    dataset_size += os.path.getsize(filepath)
+
+        # check if this is the longest path name
+        path_basename = os.path.basename(dataset_path)
+        if (longest_path_len == 0):
+            longest_path_len = len(path_basename)
+        elif (len(path_basename) &gt; longest_path_len):
+            longest_path_len = len(path_basename)
+
+        # set dict
+        dataset_dict[path_basename] = {
+            &#34;path_obj&#34;: dataset_path,
+            &#34;size_bytes&#34;: dataset_size,
+            &#34;size_str&#34;: humanize.naturalsize(dataset_size),
+        }
+
+        # add to total
+        total_size += dataset_size
+
+    # return dictionary
+    if (return_dict is True):
+        return dataset_dict
+
+    # print table
+    #
+    # order into list
+    order_key = &#34;size_bytes&#34; if order == &#34;size&#34; else order
+    ordered_list = []
+    for path, p_dict in dataset_dict.items():
+        this_dict = p_dict
+        this_dict[&#34;name&#34;] = path
+        ordered_list.append(this_dict)
+    if (order == &#34;size&#34;):
+        ordered_list = reversed(sorted(ordered_list, key=lambda x: x[order_key]))
+    else:
+        ordered_list = sorted(ordered_list, key=lambda x: x[order_key])
+
+    # set column data
+    table_names = []
+    table_sizes = []
+    for item in ordered_list:
+        table_names.append(item[&#34;name&#34;])
+        table_sizes.append(item[&#34;size_str&#34;])
+
+    # set header values
+    table_headers = [&#34;Dataset name&#34;, &#34;Size&#34;]
+
+    # print as table
+    table = Texttable()
+    table.set_deco(Texttable.HEADER)
+    table.set_cols_dtype([&#34;t&#34;] * len(table_headers))
+    table.set_header_align([&#34;l&#34;] * len(table_headers))
+    table.set_cols_align([&#34;l&#34;] * len(table_headers))
+    table.header(table_headers)
+    for i in range(0, len(table_names)):
+        table.add_row([table_names[i], table_sizes[i]])
+    print(table.draw())
+
+    print(&#34;\nTotal size: %s&#34; % (humanize.naturalsize(total_size)))</code></pre>
 </details>
 </dd>
 </dl>
@@ -771,6 +1005,7 @@ setTimeout(() => input.focus(), 100);
 <li><code><a title="pyucalgarysrs.PyUCalgarySRS.purge_download_output_root_path" href="#pyucalgarysrs.PyUCalgarySRS.purge_download_output_root_path">purge_download_output_root_path</a></code></li>
 <li><code><a title="pyucalgarysrs.PyUCalgarySRS.purge_read_tar_temp_path" href="#pyucalgarysrs.PyUCalgarySRS.purge_read_tar_temp_path">purge_read_tar_temp_path</a></code></li>
 <li><code><a title="pyucalgarysrs.PyUCalgarySRS.read_tar_temp_path" href="#pyucalgarysrs.PyUCalgarySRS.read_tar_temp_path">read_tar_temp_path</a></code></li>
+<li><code><a title="pyucalgarysrs.PyUCalgarySRS.show_data_usage" href="#pyucalgarysrs.PyUCalgarySRS.show_data_usage">show_data_usage</a></code></li>
 </ul>
 </li>
 </ul>

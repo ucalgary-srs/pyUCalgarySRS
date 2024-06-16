@@ -52,6 +52,7 @@ Functions for reading data for specific datasets.
 
 import datetime
 import os
+import numpy as np
 from typing import List, Union, Optional
 from ._themis import read as func_read_themis
 from ._rego import read as func_read_rego
@@ -90,13 +91,15 @@ class ReadManager:
         &#34;THEMIS_ASI_SKYMAP_IDLSAV&#34;,
         &#34;TREX_NIR_SKYMAP_IDLSAV&#34;,
         &#34;TREX_RGB_SKYMAP_IDLSAV&#34;,
-        # &#34;TREX_BLUE_SKYMAP_IDLSAV&#34;,
+        &#34;TREX_BLUE_SKYMAP_IDLSAV&#34;,
     ]
     __VALID_CALIBRATION_READFILE_DATASETS = [
         &#34;REGO_CALIBRATION_RAYLEIGHS_IDLSAV&#34;,
         &#34;REGO_CALIBRATION_FLATFIELD_IDLSAV&#34;,
         &#34;TREX_NIR_CALIBRATION_RAYLEIGHS_IDLSAV&#34;,
         &#34;TREX_NIR_CALIBRATION_FLATFIELD_IDLSAV&#34;,
+        &#34;TREX_BLUE_CALIBRATION_RAYLEIGHS_IDLSAV&#34;,
+        &#34;TREX_BLUE_CALIBRATION_FLATFIELD_IDLSAV&#34;,
     ]
 
     def __init__(self):
@@ -149,7 +152,7 @@ class ReadManager:
              n_parallel: int = 1,
              first_record: bool = False,
              no_metadata: bool = False,
-             quiet: bool = False) -&gt; Union[Data, List[Skymap], List[Calibration]]:
+             quiet: bool = False) -&gt; Data:
         &#34;&#34;&#34;
         Read in data files for a given dataset. Note that only one type of dataset&#39;s data
         should be read in using a single call.
@@ -197,7 +200,7 @@ class ReadManager:
         Notes:
         ---------
         For users who are familiar with the themis-imager-readfile and trex-imager-readfile
-        libraries, the read function is a wrapper for those routines. Further improvements have 
+        libraries, the read function provides a near-identical usage. Further improvements have 
         been integrated, and those libraries are anticipated to be deprecated at some point in the
         future.
         &#34;&#34;&#34;
@@ -315,6 +318,7 @@ class ReadManager:
             timestamp=timestamp_list,
             metadata=meta,
             problematic_files=problematic_files_objs,
+            calibrated_data=None,
             dataset=dataset,
         )
 
@@ -393,6 +397,7 @@ class ReadManager:
             timestamp=timestamp_list,
             metadata=meta,
             problematic_files=problematic_files_objs,
+            calibrated_data=None,
             dataset=dataset,
         )
 
@@ -471,6 +476,7 @@ class ReadManager:
             timestamp=timestamp_list,
             metadata=meta,
             problematic_files=problematic_files_objs,
+            calibrated_data=None,
             dataset=dataset,
         )
 
@@ -549,6 +555,7 @@ class ReadManager:
             timestamp=timestamp_list,
             metadata=meta,
             problematic_files=problematic_files_objs,
+            calibrated_data=None,
             dataset=dataset,
         )
 
@@ -632,6 +639,7 @@ class ReadManager:
             timestamp=timestamp_list,
             metadata=meta,
             problematic_files=problematic_files_objs,
+            calibrated_data=None,
             dataset=dataset,
         )
 
@@ -710,17 +718,14 @@ class ReadManager:
             timestamp=timestamp_list,
             metadata=meta,
             problematic_files=problematic_files_objs,
+            calibrated_data=None,
             dataset=dataset,
         )
 
         # return
         return ret_obj
 
-    def read_skymap(self,
-                    file_list: Union[List[str], str],
-                    n_parallel: int = 1,
-                    quiet: bool = False,
-                    dataset: Optional[Dataset] = None) -&gt; List[Skymap]:
+    def read_skymap(self, file_list: Union[List[str], str], n_parallel: int = 1, quiet: bool = False, dataset: Optional[Dataset] = None) -&gt; Data:
         &#34;&#34;&#34;
         Read in UCalgary skymap files.
 
@@ -746,8 +751,8 @@ class ReadManager:
                 optional.
 
         Returns:
-            A list of `pyucalgarysrs.data.classes.Skymap` objects containing the skymap data read 
-            in, among other values.
+            A `pyucalgarysrs.data.classes.Data` object containing the data read in, among other
+            values.
         
         Raises:
             pyucalgarysrs.exceptions.SRSError: a generic read error was encountered
@@ -760,30 +765,21 @@ class ReadManager:
         )
 
         # convert to return object
-        ret_list = []
+        skymap_objs = []
         for item in data:
             # init item
             item_recarray = item[&#34;skymap&#34;][0]
 
             # parse valid start and end times into datetimes
             date_generated_dt = datetime.datetime.strptime(item_recarray.generation_info[0].date_generated.decode(), &#34;%a %b %d %H:%M:%S %Y&#34;)
-            valid_interval_start_dt = datetime.datetime(2000, 1, 1, 0, 0, 0)
-            try:
-                valid_interval_start_dt = datetime.datetime.strptime(item_recarray.generation_info[0].valid_interval_start.decode(), &#34;%Y%m%d%H&#34;)
-            except Exception:
-                try:
-                    valid_interval_start_dt = datetime.datetime.strptime(item_recarray.generation_info[0].valid_interval_start.decode(), &#34;%Y%m%d&#34;)
-                except Exception:
-                    pass
+
+            # parse filename into several values
+            filename_split = os.path.basename(item[&#34;filename&#34;]).split(&#39;_&#39;)
+            filename_times_split = filename_split[3].split(&#39;-&#39;)
+            valid_interval_start_dt = datetime.datetime.strptime(filename_times_split[0], &#34;%Y%m%d&#34;)
             valid_interval_stop_dt = None
-            if (item_recarray.generation_info[0].valid_interval_stop.decode() != &#34;+&#34;):
-                try:
-                    valid_interval_stop_dt = datetime.datetime.strptime(item_recarray.generation_info[0].valid_interval_stop.decode(), &#34;%Y%m%d%H&#34;)
-                except Exception:
-                    try:
-                        valid_interval_stop_dt = datetime.datetime.strptime(item_recarray.generation_info[0].valid_interval_stop.decode(), &#34;%Y%m%d&#34;)
-                    except Exception:
-                        pass
+            if (filename_times_split[1] != &#39;+&#39;):
+                valid_interval_stop_dt = datetime.datetime.strptime(filename_times_split[1], &#34;%Y%m%d&#34;)
 
             # parse date time used into datetime
             date_time_used_dt = datetime.datetime.strptime(item_recarray.generation_info[0].date_time_used.decode(), &#34;%Y%m%d_UT%H&#34;)
@@ -814,8 +810,20 @@ class ReadManager:
             if (&#34;bytscl_values&#34; in item_recarray.generation_info[0].dtype.names):
                 generation_info_obj.bytscl_values = item_recarray.generation_info[0].bytscl_values
 
+            # flip certain things
+            full_elevation_flipped = np.flip(item_recarray.full_elevation, axis=0)
+            full_azimuth_flipped = np.flip(item_recarray.full_azimuth, axis=0)
+            full_map_latitude_flipped = np.flip(item_recarray.full_map_latitude, axis=1)
+            full_map_longitude_flipped = np.flip(item_recarray.full_map_longitude, axis=1)
+            if (&#34;REGO&#34; in item[&#34;filename&#34;]):
+                # flip e/w too, but just for REGO (since we do this to the raw data too)
+                full_elevation_flipped = np.flip(full_elevation_flipped, axis=1)
+                full_azimuth_flipped = np.flip(full_azimuth_flipped, axis=1)
+                full_map_latitude_flipped = np.flip(full_map_latitude_flipped, axis=2)
+                full_map_longitude_flipped = np.flip(full_map_longitude_flipped, axis=2)
+
             # create object
-            ret_obj = Skymap(
+            skymap_obj = Skymap(
                 filename=item[&#34;filename&#34;],
                 project_uid=item_recarray.project_uid.decode(),
                 site_uid=item_recarray.site_uid.decode(),
@@ -823,27 +831,32 @@ class ReadManager:
                 site_map_latitude=item_recarray.site_map_latitude,
                 site_map_longitude=item_recarray.site_map_longitude,
                 site_map_altitude=item_recarray.site_map_altitude,
-                full_elevation=item_recarray.full_elevation,
-                full_azimuth=item_recarray.full_azimuth,
+                full_elevation=full_elevation_flipped,
+                full_azimuth=full_azimuth_flipped,
                 full_map_altitude=item_recarray.full_map_altitude,
-                full_map_latitude=item_recarray.full_map_latitude,
-                full_map_longitude=item_recarray.full_map_longitude,
+                full_map_latitude=full_map_latitude_flipped,
+                full_map_longitude=full_map_longitude_flipped,
                 version=version_str,
                 generation_info=generation_info_obj,
-                dataset=dataset,
             )
 
             # append object
-            ret_list.append(ret_obj)
+            skymap_objs.append(skymap_obj)
+
+        # cast into data object
+        data_obj = Data(
+            data=skymap_objs,
+            timestamp=[],
+            metadata=[],
+            problematic_files=[],
+            calibrated_data=None,
+            dataset=dataset,
+        )
 
         # return
-        return ret_list
+        return data_obj
 
-    def read_calibration(self,
-                         file_list: Union[List[str], str],
-                         n_parallel: int = 1,
-                         quiet: bool = False,
-                         dataset: Optional[Dataset] = None) -&gt; List[Calibration]:
+    def read_calibration(self, file_list: Union[List[str], str], n_parallel: int = 1, quiet: bool = False, dataset: Optional[Dataset] = None) -&gt; Data:
         &#34;&#34;&#34;
         Read in UCalgary calibration files.
 
@@ -869,8 +882,8 @@ class ReadManager:
                 optional.
 
         Returns:
-            A list of `pyucalgarysrs.data.classes.Calibration` objects containing the calibration data read 
-            in, among other values.
+            A `pyucalgarysrs.data.classes.Data` object containing the data read in, among other
+            values.
         
         Raises:
             pyucalgarysrs.exceptions.SRSError: a generic read error was encountered
@@ -883,7 +896,7 @@ class ReadManager:
         )
 
         # convert to return object
-        ret_list = []
+        calibration_objs = []
         for item in data:
             # init
             item_filename = item[&#34;filename&#34;]
@@ -907,7 +920,12 @@ class ReadManager:
             if (file_type == &#34;flatfield&#34;):
                 for key in item.keys():
                     if (&#34;flat_field_multiplier&#34; in key):
-                        flat_field_multiplier_value = item[key]
+                        # flip vertically
+                        flat_field_multiplier_value = np.flip(item[key], axis=0)
+
+                        # flip horizontally, if REGO
+                        if (&#34;REGO&#34; in item_filename):
+                            flat_field_multiplier_value = np.flip(flat_field_multiplier_value, axis=1)
                         break
             elif (file_type == &#34;rayleighs&#34;):
                 for key in item.keys():
@@ -936,7 +954,7 @@ class ReadManager:
             )
 
             # create object
-            ret_obj = Calibration(
+            calibration_obj = Calibration(
                 filename=item_filename,
                 version=version_str,
                 dataset=dataset,
@@ -947,10 +965,20 @@ class ReadManager:
             )
 
             # append object
-            ret_list.append(ret_obj)
+            calibration_objs.append(calibration_obj)
+
+        # cast into data object
+        data_obj = Data(
+            data=calibration_objs,
+            timestamp=[],
+            metadata=[],
+            problematic_files=[],
+            calibrated_data=None,
+            dataset=dataset,
+        )
 
         # return
-        return ret_list</code></pre>
+        return data_obj</code></pre>
 </details>
 </section>
 <section>
@@ -990,13 +1018,15 @@ the super class.</p></div>
         &#34;THEMIS_ASI_SKYMAP_IDLSAV&#34;,
         &#34;TREX_NIR_SKYMAP_IDLSAV&#34;,
         &#34;TREX_RGB_SKYMAP_IDLSAV&#34;,
-        # &#34;TREX_BLUE_SKYMAP_IDLSAV&#34;,
+        &#34;TREX_BLUE_SKYMAP_IDLSAV&#34;,
     ]
     __VALID_CALIBRATION_READFILE_DATASETS = [
         &#34;REGO_CALIBRATION_RAYLEIGHS_IDLSAV&#34;,
         &#34;REGO_CALIBRATION_FLATFIELD_IDLSAV&#34;,
         &#34;TREX_NIR_CALIBRATION_RAYLEIGHS_IDLSAV&#34;,
         &#34;TREX_NIR_CALIBRATION_FLATFIELD_IDLSAV&#34;,
+        &#34;TREX_BLUE_CALIBRATION_RAYLEIGHS_IDLSAV&#34;,
+        &#34;TREX_BLUE_CALIBRATION_FLATFIELD_IDLSAV&#34;,
     ]
 
     def __init__(self):
@@ -1049,7 +1079,7 @@ the super class.</p></div>
              n_parallel: int = 1,
              first_record: bool = False,
              no_metadata: bool = False,
-             quiet: bool = False) -&gt; Union[Data, List[Skymap], List[Calibration]]:
+             quiet: bool = False) -&gt; Data:
         &#34;&#34;&#34;
         Read in data files for a given dataset. Note that only one type of dataset&#39;s data
         should be read in using a single call.
@@ -1097,7 +1127,7 @@ the super class.</p></div>
         Notes:
         ---------
         For users who are familiar with the themis-imager-readfile and trex-imager-readfile
-        libraries, the read function is a wrapper for those routines. Further improvements have 
+        libraries, the read function provides a near-identical usage. Further improvements have 
         been integrated, and those libraries are anticipated to be deprecated at some point in the
         future.
         &#34;&#34;&#34;
@@ -1215,6 +1245,7 @@ the super class.</p></div>
             timestamp=timestamp_list,
             metadata=meta,
             problematic_files=problematic_files_objs,
+            calibrated_data=None,
             dataset=dataset,
         )
 
@@ -1293,6 +1324,7 @@ the super class.</p></div>
             timestamp=timestamp_list,
             metadata=meta,
             problematic_files=problematic_files_objs,
+            calibrated_data=None,
             dataset=dataset,
         )
 
@@ -1371,6 +1403,7 @@ the super class.</p></div>
             timestamp=timestamp_list,
             metadata=meta,
             problematic_files=problematic_files_objs,
+            calibrated_data=None,
             dataset=dataset,
         )
 
@@ -1449,6 +1482,7 @@ the super class.</p></div>
             timestamp=timestamp_list,
             metadata=meta,
             problematic_files=problematic_files_objs,
+            calibrated_data=None,
             dataset=dataset,
         )
 
@@ -1532,6 +1566,7 @@ the super class.</p></div>
             timestamp=timestamp_list,
             metadata=meta,
             problematic_files=problematic_files_objs,
+            calibrated_data=None,
             dataset=dataset,
         )
 
@@ -1610,17 +1645,14 @@ the super class.</p></div>
             timestamp=timestamp_list,
             metadata=meta,
             problematic_files=problematic_files_objs,
+            calibrated_data=None,
             dataset=dataset,
         )
 
         # return
         return ret_obj
 
-    def read_skymap(self,
-                    file_list: Union[List[str], str],
-                    n_parallel: int = 1,
-                    quiet: bool = False,
-                    dataset: Optional[Dataset] = None) -&gt; List[Skymap]:
+    def read_skymap(self, file_list: Union[List[str], str], n_parallel: int = 1, quiet: bool = False, dataset: Optional[Dataset] = None) -&gt; Data:
         &#34;&#34;&#34;
         Read in UCalgary skymap files.
 
@@ -1646,8 +1678,8 @@ the super class.</p></div>
                 optional.
 
         Returns:
-            A list of `pyucalgarysrs.data.classes.Skymap` objects containing the skymap data read 
-            in, among other values.
+            A `pyucalgarysrs.data.classes.Data` object containing the data read in, among other
+            values.
         
         Raises:
             pyucalgarysrs.exceptions.SRSError: a generic read error was encountered
@@ -1660,30 +1692,21 @@ the super class.</p></div>
         )
 
         # convert to return object
-        ret_list = []
+        skymap_objs = []
         for item in data:
             # init item
             item_recarray = item[&#34;skymap&#34;][0]
 
             # parse valid start and end times into datetimes
             date_generated_dt = datetime.datetime.strptime(item_recarray.generation_info[0].date_generated.decode(), &#34;%a %b %d %H:%M:%S %Y&#34;)
-            valid_interval_start_dt = datetime.datetime(2000, 1, 1, 0, 0, 0)
-            try:
-                valid_interval_start_dt = datetime.datetime.strptime(item_recarray.generation_info[0].valid_interval_start.decode(), &#34;%Y%m%d%H&#34;)
-            except Exception:
-                try:
-                    valid_interval_start_dt = datetime.datetime.strptime(item_recarray.generation_info[0].valid_interval_start.decode(), &#34;%Y%m%d&#34;)
-                except Exception:
-                    pass
+
+            # parse filename into several values
+            filename_split = os.path.basename(item[&#34;filename&#34;]).split(&#39;_&#39;)
+            filename_times_split = filename_split[3].split(&#39;-&#39;)
+            valid_interval_start_dt = datetime.datetime.strptime(filename_times_split[0], &#34;%Y%m%d&#34;)
             valid_interval_stop_dt = None
-            if (item_recarray.generation_info[0].valid_interval_stop.decode() != &#34;+&#34;):
-                try:
-                    valid_interval_stop_dt = datetime.datetime.strptime(item_recarray.generation_info[0].valid_interval_stop.decode(), &#34;%Y%m%d%H&#34;)
-                except Exception:
-                    try:
-                        valid_interval_stop_dt = datetime.datetime.strptime(item_recarray.generation_info[0].valid_interval_stop.decode(), &#34;%Y%m%d&#34;)
-                    except Exception:
-                        pass
+            if (filename_times_split[1] != &#39;+&#39;):
+                valid_interval_stop_dt = datetime.datetime.strptime(filename_times_split[1], &#34;%Y%m%d&#34;)
 
             # parse date time used into datetime
             date_time_used_dt = datetime.datetime.strptime(item_recarray.generation_info[0].date_time_used.decode(), &#34;%Y%m%d_UT%H&#34;)
@@ -1714,8 +1737,20 @@ the super class.</p></div>
             if (&#34;bytscl_values&#34; in item_recarray.generation_info[0].dtype.names):
                 generation_info_obj.bytscl_values = item_recarray.generation_info[0].bytscl_values
 
+            # flip certain things
+            full_elevation_flipped = np.flip(item_recarray.full_elevation, axis=0)
+            full_azimuth_flipped = np.flip(item_recarray.full_azimuth, axis=0)
+            full_map_latitude_flipped = np.flip(item_recarray.full_map_latitude, axis=1)
+            full_map_longitude_flipped = np.flip(item_recarray.full_map_longitude, axis=1)
+            if (&#34;REGO&#34; in item[&#34;filename&#34;]):
+                # flip e/w too, but just for REGO (since we do this to the raw data too)
+                full_elevation_flipped = np.flip(full_elevation_flipped, axis=1)
+                full_azimuth_flipped = np.flip(full_azimuth_flipped, axis=1)
+                full_map_latitude_flipped = np.flip(full_map_latitude_flipped, axis=2)
+                full_map_longitude_flipped = np.flip(full_map_longitude_flipped, axis=2)
+
             # create object
-            ret_obj = Skymap(
+            skymap_obj = Skymap(
                 filename=item[&#34;filename&#34;],
                 project_uid=item_recarray.project_uid.decode(),
                 site_uid=item_recarray.site_uid.decode(),
@@ -1723,27 +1758,32 @@ the super class.</p></div>
                 site_map_latitude=item_recarray.site_map_latitude,
                 site_map_longitude=item_recarray.site_map_longitude,
                 site_map_altitude=item_recarray.site_map_altitude,
-                full_elevation=item_recarray.full_elevation,
-                full_azimuth=item_recarray.full_azimuth,
+                full_elevation=full_elevation_flipped,
+                full_azimuth=full_azimuth_flipped,
                 full_map_altitude=item_recarray.full_map_altitude,
-                full_map_latitude=item_recarray.full_map_latitude,
-                full_map_longitude=item_recarray.full_map_longitude,
+                full_map_latitude=full_map_latitude_flipped,
+                full_map_longitude=full_map_longitude_flipped,
                 version=version_str,
                 generation_info=generation_info_obj,
-                dataset=dataset,
             )
 
             # append object
-            ret_list.append(ret_obj)
+            skymap_objs.append(skymap_obj)
+
+        # cast into data object
+        data_obj = Data(
+            data=skymap_objs,
+            timestamp=[],
+            metadata=[],
+            problematic_files=[],
+            calibrated_data=None,
+            dataset=dataset,
+        )
 
         # return
-        return ret_list
+        return data_obj
 
-    def read_calibration(self,
-                         file_list: Union[List[str], str],
-                         n_parallel: int = 1,
-                         quiet: bool = False,
-                         dataset: Optional[Dataset] = None) -&gt; List[Calibration]:
+    def read_calibration(self, file_list: Union[List[str], str], n_parallel: int = 1, quiet: bool = False, dataset: Optional[Dataset] = None) -&gt; Data:
         &#34;&#34;&#34;
         Read in UCalgary calibration files.
 
@@ -1769,8 +1809,8 @@ the super class.</p></div>
                 optional.
 
         Returns:
-            A list of `pyucalgarysrs.data.classes.Calibration` objects containing the calibration data read 
-            in, among other values.
+            A `pyucalgarysrs.data.classes.Data` object containing the data read in, among other
+            values.
         
         Raises:
             pyucalgarysrs.exceptions.SRSError: a generic read error was encountered
@@ -1783,7 +1823,7 @@ the super class.</p></div>
         )
 
         # convert to return object
-        ret_list = []
+        calibration_objs = []
         for item in data:
             # init
             item_filename = item[&#34;filename&#34;]
@@ -1807,7 +1847,12 @@ the super class.</p></div>
             if (file_type == &#34;flatfield&#34;):
                 for key in item.keys():
                     if (&#34;flat_field_multiplier&#34; in key):
-                        flat_field_multiplier_value = item[key]
+                        # flip vertically
+                        flat_field_multiplier_value = np.flip(item[key], axis=0)
+
+                        # flip horizontally, if REGO
+                        if (&#34;REGO&#34; in item_filename):
+                            flat_field_multiplier_value = np.flip(flat_field_multiplier_value, axis=1)
                         break
             elif (file_type == &#34;rayleighs&#34;):
                 for key in item.keys():
@@ -1836,7 +1881,7 @@ the super class.</p></div>
             )
 
             # create object
-            ret_obj = Calibration(
+            calibration_obj = Calibration(
                 filename=item_filename,
                 version=version_str,
                 dataset=dataset,
@@ -1847,10 +1892,20 @@ the super class.</p></div>
             )
 
             # append object
-            ret_list.append(ret_obj)
+            calibration_objs.append(calibration_obj)
+
+        # cast into data object
+        data_obj = Data(
+            data=calibration_objs,
+            timestamp=[],
+            metadata=[],
+            problematic_files=[],
+            calibrated_data=None,
+            dataset=dataset,
+        )
 
         # return
-        return ret_list</code></pre>
+        return data_obj</code></pre>
 </details>
 <h3>Methods</h3>
 <dl>
@@ -1932,7 +1987,7 @@ is required.</dd>
 </details>
 </dd>
 <dt id="pyucalgarysrs.data.read.ReadManager.read"><code class="name flex">
-<span>def <span class="ident">read</span></span>(<span>self, dataset: <a title="pyucalgarysrs.data.classes.Dataset" href="../classes.html#pyucalgarysrs.data.classes.Dataset">Dataset</a>, file_list: Union[List[str], str], n_parallel: int = 1, first_record: bool = False, no_metadata: bool = False, quiet: bool = False) ‑> Union[<a title="pyucalgarysrs.data.classes.Data" href="../classes.html#pyucalgarysrs.data.classes.Data">Data</a>, List[<a title="pyucalgarysrs.data.classes.Skymap" href="../classes.html#pyucalgarysrs.data.classes.Skymap">Skymap</a>], List[<a title="pyucalgarysrs.data.classes.Calibration" href="../classes.html#pyucalgarysrs.data.classes.Calibration">Calibration</a>]]</span>
+<span>def <span class="ident">read</span></span>(<span>self, dataset: <a title="pyucalgarysrs.data.classes.Dataset" href="../classes.html#pyucalgarysrs.data.classes.Dataset">Dataset</a>, file_list: Union[List[str], str], n_parallel: int = 1, first_record: bool = False, no_metadata: bool = False, quiet: bool = False) ‑> <a title="pyucalgarysrs.data.classes.Data" href="../classes.html#pyucalgarysrs.data.classes.Data">Data</a></span>
 </code></dt>
 <dd>
 <div class="desc"><p>Read in data files for a given dataset. Note that only one type of dataset's data
@@ -1977,7 +2032,7 @@ trying to read files.</dd>
 </dl>
 <h2 id="notes">Notes:</h2>
 <p>For users who are familiar with the themis-imager-readfile and trex-imager-readfile
-libraries, the read function is a wrapper for those routines. Further improvements have
+libraries, the read function provides a near-identical usage. Further improvements have
 been integrated, and those libraries are anticipated to be deprecated at some point in the
 future.</p></div>
 <details class="source">
@@ -1990,7 +2045,7 @@ future.</p></div>
          n_parallel: int = 1,
          first_record: bool = False,
          no_metadata: bool = False,
-         quiet: bool = False) -&gt; Union[Data, List[Skymap], List[Calibration]]:
+         quiet: bool = False) -&gt; Data:
     &#34;&#34;&#34;
     Read in data files for a given dataset. Note that only one type of dataset&#39;s data
     should be read in using a single call.
@@ -2038,7 +2093,7 @@ future.</p></div>
     Notes:
     ---------
     For users who are familiar with the themis-imager-readfile and trex-imager-readfile
-    libraries, the read function is a wrapper for those routines. Further improvements have 
+    libraries, the read function provides a near-identical usage. Further improvements have 
     been integrated, and those libraries are anticipated to be deprecated at some point in the
     future.
     &#34;&#34;&#34;
@@ -2086,7 +2141,7 @@ future.</p></div>
 </details>
 </dd>
 <dt id="pyucalgarysrs.data.read.ReadManager.read_calibration"><code class="name flex">
-<span>def <span class="ident">read_calibration</span></span>(<span>self, file_list: Union[List[str], str], n_parallel: int = 1, quiet: bool = False, dataset: Optional[<a title="pyucalgarysrs.data.classes.Dataset" href="../classes.html#pyucalgarysrs.data.classes.Dataset">Dataset</a>] = None) ‑> List[<a title="pyucalgarysrs.data.classes.Calibration" href="../classes.html#pyucalgarysrs.data.classes.Calibration">Calibration</a>]</span>
+<span>def <span class="ident">read_calibration</span></span>(<span>self, file_list: Union[List[str], str], n_parallel: int = 1, quiet: bool = False, dataset: Optional[<a title="pyucalgarysrs.data.classes.Dataset" href="../classes.html#pyucalgarysrs.data.classes.Dataset">Dataset</a>] = None) ‑> <a title="pyucalgarysrs.data.classes.Data" href="../classes.html#pyucalgarysrs.data.classes.Data">Data</a></span>
 </code></dt>
 <dd>
 <div class="desc"><p>Read in UCalgary calibration files.</p>
@@ -2110,8 +2165,8 @@ is optional.</dd>
 optional.</dd>
 </dl>
 <h2 id="returns">Returns</h2>
-<p>A list of <code><a title="pyucalgarysrs.data.classes.Calibration" href="../classes.html#pyucalgarysrs.data.classes.Calibration">Calibration</a></code> objects containing the calibration data read
-in, among other values.</p>
+<p>A <code><a title="pyucalgarysrs.data.classes.Data" href="../classes.html#pyucalgarysrs.data.classes.Data">Data</a></code> object containing the data read in, among other
+values.</p>
 <h2 id="raises">Raises</h2>
 <dl>
 <dt><code><a title="pyucalgarysrs.exceptions.SRSError" href="../../exceptions.html#pyucalgarysrs.exceptions.SRSError">SRSError</a></code></dt>
@@ -2121,11 +2176,7 @@ in, among other values.</p>
 <summary>
 <span>Expand source code</span>
 </summary>
-<pre><code class="python">def read_calibration(self,
-                     file_list: Union[List[str], str],
-                     n_parallel: int = 1,
-                     quiet: bool = False,
-                     dataset: Optional[Dataset] = None) -&gt; List[Calibration]:
+<pre><code class="python">def read_calibration(self, file_list: Union[List[str], str], n_parallel: int = 1, quiet: bool = False, dataset: Optional[Dataset] = None) -&gt; Data:
     &#34;&#34;&#34;
     Read in UCalgary calibration files.
 
@@ -2151,8 +2202,8 @@ in, among other values.</p>
             optional.
 
     Returns:
-        A list of `pyucalgarysrs.data.classes.Calibration` objects containing the calibration data read 
-        in, among other values.
+        A `pyucalgarysrs.data.classes.Data` object containing the data read in, among other
+        values.
     
     Raises:
         pyucalgarysrs.exceptions.SRSError: a generic read error was encountered
@@ -2165,7 +2216,7 @@ in, among other values.</p>
     )
 
     # convert to return object
-    ret_list = []
+    calibration_objs = []
     for item in data:
         # init
         item_filename = item[&#34;filename&#34;]
@@ -2189,7 +2240,12 @@ in, among other values.</p>
         if (file_type == &#34;flatfield&#34;):
             for key in item.keys():
                 if (&#34;flat_field_multiplier&#34; in key):
-                    flat_field_multiplier_value = item[key]
+                    # flip vertically
+                    flat_field_multiplier_value = np.flip(item[key], axis=0)
+
+                    # flip horizontally, if REGO
+                    if (&#34;REGO&#34; in item_filename):
+                        flat_field_multiplier_value = np.flip(flat_field_multiplier_value, axis=1)
                     break
         elif (file_type == &#34;rayleighs&#34;):
             for key in item.keys():
@@ -2218,7 +2274,7 @@ in, among other values.</p>
         )
 
         # create object
-        ret_obj = Calibration(
+        calibration_obj = Calibration(
             filename=item_filename,
             version=version_str,
             dataset=dataset,
@@ -2229,10 +2285,20 @@ in, among other values.</p>
         )
 
         # append object
-        ret_list.append(ret_obj)
+        calibration_objs.append(calibration_obj)
+
+    # cast into data object
+    data_obj = Data(
+        data=calibration_objs,
+        timestamp=[],
+        metadata=[],
+        problematic_files=[],
+        calibrated_data=None,
+        dataset=dataset,
+    )
 
     # return
-    return ret_list</code></pre>
+    return data_obj</code></pre>
 </details>
 </dd>
 <dt id="pyucalgarysrs.data.read.ReadManager.read_rego"><code class="name flex">
@@ -2351,6 +2417,7 @@ values.</p>
         timestamp=timestamp_list,
         metadata=meta,
         problematic_files=problematic_files_objs,
+        calibrated_data=None,
         dataset=dataset,
     )
 
@@ -2359,7 +2426,7 @@ values.</p>
 </details>
 </dd>
 <dt id="pyucalgarysrs.data.read.ReadManager.read_skymap"><code class="name flex">
-<span>def <span class="ident">read_skymap</span></span>(<span>self, file_list: Union[List[str], str], n_parallel: int = 1, quiet: bool = False, dataset: Optional[<a title="pyucalgarysrs.data.classes.Dataset" href="../classes.html#pyucalgarysrs.data.classes.Dataset">Dataset</a>] = None) ‑> List[<a title="pyucalgarysrs.data.classes.Skymap" href="../classes.html#pyucalgarysrs.data.classes.Skymap">Skymap</a>]</span>
+<span>def <span class="ident">read_skymap</span></span>(<span>self, file_list: Union[List[str], str], n_parallel: int = 1, quiet: bool = False, dataset: Optional[<a title="pyucalgarysrs.data.classes.Dataset" href="../classes.html#pyucalgarysrs.data.classes.Dataset">Dataset</a>] = None) ‑> <a title="pyucalgarysrs.data.classes.Data" href="../classes.html#pyucalgarysrs.data.classes.Data">Data</a></span>
 </code></dt>
 <dd>
 <div class="desc"><p>Read in UCalgary skymap files.</p>
@@ -2383,8 +2450,8 @@ is optional.</dd>
 optional.</dd>
 </dl>
 <h2 id="returns">Returns</h2>
-<p>A list of <code><a title="pyucalgarysrs.data.classes.Skymap" href="../classes.html#pyucalgarysrs.data.classes.Skymap">Skymap</a></code> objects containing the skymap data read
-in, among other values.</p>
+<p>A <code><a title="pyucalgarysrs.data.classes.Data" href="../classes.html#pyucalgarysrs.data.classes.Data">Data</a></code> object containing the data read in, among other
+values.</p>
 <h2 id="raises">Raises</h2>
 <dl>
 <dt><code><a title="pyucalgarysrs.exceptions.SRSError" href="../../exceptions.html#pyucalgarysrs.exceptions.SRSError">SRSError</a></code></dt>
@@ -2394,11 +2461,7 @@ in, among other values.</p>
 <summary>
 <span>Expand source code</span>
 </summary>
-<pre><code class="python">def read_skymap(self,
-                file_list: Union[List[str], str],
-                n_parallel: int = 1,
-                quiet: bool = False,
-                dataset: Optional[Dataset] = None) -&gt; List[Skymap]:
+<pre><code class="python">def read_skymap(self, file_list: Union[List[str], str], n_parallel: int = 1, quiet: bool = False, dataset: Optional[Dataset] = None) -&gt; Data:
     &#34;&#34;&#34;
     Read in UCalgary skymap files.
 
@@ -2424,8 +2487,8 @@ in, among other values.</p>
             optional.
 
     Returns:
-        A list of `pyucalgarysrs.data.classes.Skymap` objects containing the skymap data read 
-        in, among other values.
+        A `pyucalgarysrs.data.classes.Data` object containing the data read in, among other
+        values.
     
     Raises:
         pyucalgarysrs.exceptions.SRSError: a generic read error was encountered
@@ -2438,30 +2501,21 @@ in, among other values.</p>
     )
 
     # convert to return object
-    ret_list = []
+    skymap_objs = []
     for item in data:
         # init item
         item_recarray = item[&#34;skymap&#34;][0]
 
         # parse valid start and end times into datetimes
         date_generated_dt = datetime.datetime.strptime(item_recarray.generation_info[0].date_generated.decode(), &#34;%a %b %d %H:%M:%S %Y&#34;)
-        valid_interval_start_dt = datetime.datetime(2000, 1, 1, 0, 0, 0)
-        try:
-            valid_interval_start_dt = datetime.datetime.strptime(item_recarray.generation_info[0].valid_interval_start.decode(), &#34;%Y%m%d%H&#34;)
-        except Exception:
-            try:
-                valid_interval_start_dt = datetime.datetime.strptime(item_recarray.generation_info[0].valid_interval_start.decode(), &#34;%Y%m%d&#34;)
-            except Exception:
-                pass
+
+        # parse filename into several values
+        filename_split = os.path.basename(item[&#34;filename&#34;]).split(&#39;_&#39;)
+        filename_times_split = filename_split[3].split(&#39;-&#39;)
+        valid_interval_start_dt = datetime.datetime.strptime(filename_times_split[0], &#34;%Y%m%d&#34;)
         valid_interval_stop_dt = None
-        if (item_recarray.generation_info[0].valid_interval_stop.decode() != &#34;+&#34;):
-            try:
-                valid_interval_stop_dt = datetime.datetime.strptime(item_recarray.generation_info[0].valid_interval_stop.decode(), &#34;%Y%m%d%H&#34;)
-            except Exception:
-                try:
-                    valid_interval_stop_dt = datetime.datetime.strptime(item_recarray.generation_info[0].valid_interval_stop.decode(), &#34;%Y%m%d&#34;)
-                except Exception:
-                    pass
+        if (filename_times_split[1] != &#39;+&#39;):
+            valid_interval_stop_dt = datetime.datetime.strptime(filename_times_split[1], &#34;%Y%m%d&#34;)
 
         # parse date time used into datetime
         date_time_used_dt = datetime.datetime.strptime(item_recarray.generation_info[0].date_time_used.decode(), &#34;%Y%m%d_UT%H&#34;)
@@ -2492,8 +2546,20 @@ in, among other values.</p>
         if (&#34;bytscl_values&#34; in item_recarray.generation_info[0].dtype.names):
             generation_info_obj.bytscl_values = item_recarray.generation_info[0].bytscl_values
 
+        # flip certain things
+        full_elevation_flipped = np.flip(item_recarray.full_elevation, axis=0)
+        full_azimuth_flipped = np.flip(item_recarray.full_azimuth, axis=0)
+        full_map_latitude_flipped = np.flip(item_recarray.full_map_latitude, axis=1)
+        full_map_longitude_flipped = np.flip(item_recarray.full_map_longitude, axis=1)
+        if (&#34;REGO&#34; in item[&#34;filename&#34;]):
+            # flip e/w too, but just for REGO (since we do this to the raw data too)
+            full_elevation_flipped = np.flip(full_elevation_flipped, axis=1)
+            full_azimuth_flipped = np.flip(full_azimuth_flipped, axis=1)
+            full_map_latitude_flipped = np.flip(full_map_latitude_flipped, axis=2)
+            full_map_longitude_flipped = np.flip(full_map_longitude_flipped, axis=2)
+
         # create object
-        ret_obj = Skymap(
+        skymap_obj = Skymap(
             filename=item[&#34;filename&#34;],
             project_uid=item_recarray.project_uid.decode(),
             site_uid=item_recarray.site_uid.decode(),
@@ -2501,21 +2567,30 @@ in, among other values.</p>
             site_map_latitude=item_recarray.site_map_latitude,
             site_map_longitude=item_recarray.site_map_longitude,
             site_map_altitude=item_recarray.site_map_altitude,
-            full_elevation=item_recarray.full_elevation,
-            full_azimuth=item_recarray.full_azimuth,
+            full_elevation=full_elevation_flipped,
+            full_azimuth=full_azimuth_flipped,
             full_map_altitude=item_recarray.full_map_altitude,
-            full_map_latitude=item_recarray.full_map_latitude,
-            full_map_longitude=item_recarray.full_map_longitude,
+            full_map_latitude=full_map_latitude_flipped,
+            full_map_longitude=full_map_longitude_flipped,
             version=version_str,
             generation_info=generation_info_obj,
-            dataset=dataset,
         )
 
         # append object
-        ret_list.append(ret_obj)
+        skymap_objs.append(skymap_obj)
+
+    # cast into data object
+    data_obj = Data(
+        data=skymap_objs,
+        timestamp=[],
+        metadata=[],
+        problematic_files=[],
+        calibrated_data=None,
+        dataset=dataset,
+    )
 
     # return
-    return ret_list</code></pre>
+    return data_obj</code></pre>
 </details>
 </dd>
 <dt id="pyucalgarysrs.data.read.ReadManager.read_themis"><code class="name flex">
@@ -2634,6 +2709,7 @@ values.</p>
         timestamp=timestamp_list,
         metadata=meta,
         problematic_files=problematic_files_objs,
+        calibrated_data=None,
         dataset=dataset,
     )
 
@@ -2757,6 +2833,7 @@ values.</p>
         timestamp=timestamp_list,
         metadata=meta,
         problematic_files=problematic_files_objs,
+        calibrated_data=None,
         dataset=dataset,
     )
 
@@ -2880,6 +2957,7 @@ values.</p>
         timestamp=timestamp_list,
         metadata=meta,
         problematic_files=problematic_files_objs,
+        calibrated_data=None,
         dataset=dataset,
     )
 
@@ -3008,6 +3086,7 @@ values.</p>
         timestamp=timestamp_list,
         metadata=meta,
         problematic_files=problematic_files_objs,
+        calibrated_data=None,
         dataset=dataset,
     )
 
@@ -3131,6 +3210,7 @@ values.</p>
         timestamp=timestamp_list,
         metadata=meta,
         problematic_files=problematic_files_objs,
+        calibrated_data=None,
         dataset=dataset,
     )
 

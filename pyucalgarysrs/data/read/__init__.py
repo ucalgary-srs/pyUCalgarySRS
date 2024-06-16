@@ -152,7 +152,7 @@ class ReadManager:
         Notes:
         ---------
         For users who are familiar with the themis-imager-readfile and trex-imager-readfile
-        libraries, the read function is a wrapper for those routines. Further improvements have 
+        libraries, the read function provides a near-identical usage. Further improvements have 
         been integrated, and those libraries are anticipated to be deprecated at some point in the
         future.
         """

@@ -126,7 +126,7 @@ class ATMManager:
 
             timeout (int): 
                 Represents how many seconds to wait for the API to send data before giving up. The 
-                default is 10 seconds, or the `api_timeout` value in the super class' `pyucalgarysrs.PyUCalgarySRS`
+                default is 30 seconds, or the `api_timeout` value in the super class' `pyucalgarysrs.PyUCalgarySRS`
                 object. This parameter is optional.
         
         Returns:
@@ -231,7 +231,7 @@ class ATMManager:
 
             timeout (int): 
                 Represents how many seconds to wait for the API to send data before giving up. The 
-                default is 10 seconds, or the `api_timeout` value in the super class' `pyucalgarysrs.PyUCalgarySRS`
+                default is 30 seconds, or the `api_timeout` value in the super class' `pyucalgarysrs.PyUCalgarySRS`
                 object. This parameter is optional.
 
         Returns:

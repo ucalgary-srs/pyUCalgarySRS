@@ -95,7 +95,7 @@ class DataManager:
             
             timeout (int): 
                 Represents how many seconds to wait for the API to send data before giving up. The 
-                default is 10 seconds, or the `api_timeout` value in the super class&#39; `pyucalgarysrs.PyUCalgarySRS`
+                default is 3 seconds, or the `api_timeout` value in the super class&#39; `pyucalgarysrs.PyUCalgarySRS`
                 object. This parameter is optional.
             
         Returns:
@@ -123,7 +123,7 @@ class DataManager:
             
             timeout (int): 
                 Represents how many seconds to wait for the API to send data before giving up. The 
-                default is 10 seconds, or the `api_timeout` value in the super class&#39; `pyucalgarysrs.PyUCalgarySRS`
+                default is 30 seconds, or the `api_timeout` value in the super class&#39; `pyucalgarysrs.PyUCalgarySRS`
                 object. This parameter is optional.
             
         Returns:
@@ -242,7 +242,7 @@ class DataManager:
 
             timeout (int): 
                 Represents how many seconds to wait for the API to send data before giving up. The 
-                default is 10 seconds, or the `api_timeout` value in the super class&#39; `pyucalgarysrs.PyUCalgarySRS`
+                default is 30 seconds, or the `api_timeout` value in the super class&#39; `pyucalgarysrs.PyUCalgarySRS`
                 object. This parameter is optional.
 
         Returns:
@@ -341,7 +341,7 @@ class DataManager:
 
             timeout (int): 
                 Represents how many seconds to wait for the API to send data before giving up. The 
-                default is 10 seconds, or the `api_timeout` value in the super class&#39; `pyucalgarysrs.PyUCalgarySRS`
+                default is 30 seconds, or the `api_timeout` value in the super class&#39; `pyucalgarysrs.PyUCalgarySRS`
                 object. This parameter is optional.
 
         Returns:
@@ -436,7 +436,7 @@ class DataManager:
 
             timeout (int): 
                 Represents how many seconds to wait for the API to send data before giving up. The 
-                default is 10 seconds, or the `api_timeout` value in the super class&#39; `pyucalgarysrs.PyUCalgarySRS`
+                default is 30 seconds, or the `api_timeout` value in the super class&#39; `pyucalgarysrs.PyUCalgarySRS`
                 object. This parameter is optional.
     
         Returns:
@@ -462,7 +462,7 @@ class DataManager:
              n_parallel: int = 1,
              first_record: bool = False,
              no_metadata: bool = False,
-             quiet: bool = False) -&gt; Union[Data, List[Skymap], List[Calibration]]:
+             quiet: bool = False) -&gt; Data:
         &#34;&#34;&#34;
         Read in data files for a given dataset. Note that only one type of dataset&#39;s data
         should be read in using a single call.
@@ -510,7 +510,7 @@ class DataManager:
         Notes:
         ---------
         For users who are familiar with the themis-imager-readfile and trex-imager-readfile
-        libraries, the read function is a wrapper for those routines. Further improvements have 
+        libraries, the read function provides a near-identical usage. Further improvements have 
         been integrated, and those libraries are anticipated to be deprecated at some point in the
         future.
         &#34;&#34;&#34;
@@ -591,7 +591,7 @@ super class.</p></div>
             
             timeout (int): 
                 Represents how many seconds to wait for the API to send data before giving up. The 
-                default is 10 seconds, or the `api_timeout` value in the super class&#39; `pyucalgarysrs.PyUCalgarySRS`
+                default is 3 seconds, or the `api_timeout` value in the super class&#39; `pyucalgarysrs.PyUCalgarySRS`
                 object. This parameter is optional.
             
         Returns:
@@ -619,7 +619,7 @@ super class.</p></div>
             
             timeout (int): 
                 Represents how many seconds to wait for the API to send data before giving up. The 
-                default is 10 seconds, or the `api_timeout` value in the super class&#39; `pyucalgarysrs.PyUCalgarySRS`
+                default is 30 seconds, or the `api_timeout` value in the super class&#39; `pyucalgarysrs.PyUCalgarySRS`
                 object. This parameter is optional.
             
         Returns:
@@ -738,7 +738,7 @@ super class.</p></div>
 
             timeout (int): 
                 Represents how many seconds to wait for the API to send data before giving up. The 
-                default is 10 seconds, or the `api_timeout` value in the super class&#39; `pyucalgarysrs.PyUCalgarySRS`
+                default is 30 seconds, or the `api_timeout` value in the super class&#39; `pyucalgarysrs.PyUCalgarySRS`
                 object. This parameter is optional.
 
         Returns:
@@ -837,7 +837,7 @@ super class.</p></div>
 
             timeout (int): 
                 Represents how many seconds to wait for the API to send data before giving up. The 
-                default is 10 seconds, or the `api_timeout` value in the super class&#39; `pyucalgarysrs.PyUCalgarySRS`
+                default is 30 seconds, or the `api_timeout` value in the super class&#39; `pyucalgarysrs.PyUCalgarySRS`
                 object. This parameter is optional.
 
         Returns:
@@ -932,7 +932,7 @@ super class.</p></div>
 
             timeout (int): 
                 Represents how many seconds to wait for the API to send data before giving up. The 
-                default is 10 seconds, or the `api_timeout` value in the super class&#39; `pyucalgarysrs.PyUCalgarySRS`
+                default is 30 seconds, or the `api_timeout` value in the super class&#39; `pyucalgarysrs.PyUCalgarySRS`
                 object. This parameter is optional.
     
         Returns:
@@ -958,7 +958,7 @@ super class.</p></div>
              n_parallel: int = 1,
              first_record: bool = False,
              no_metadata: bool = False,
-             quiet: bool = False) -&gt; Union[Data, List[Skymap], List[Calibration]]:
+             quiet: bool = False) -&gt; Data:
         &#34;&#34;&#34;
         Read in data files for a given dataset. Note that only one type of dataset&#39;s data
         should be read in using a single call.
@@ -1006,7 +1006,7 @@ super class.</p></div>
         Notes:
         ---------
         For users who are familiar with the themis-imager-readfile and trex-imager-readfile
-        libraries, the read function is a wrapper for those routines. Further improvements have 
+        libraries, the read function provides a near-identical usage. Further improvements have 
         been integrated, and those libraries are anticipated to be deprecated at some point in the
         future.
         &#34;&#34;&#34;
@@ -1094,7 +1094,7 @@ passthrough of the <code>ascii</code> parameter in a tqdm progress bar). This pa
 optional. See Notes section below for further details.</dd>
 <dt><strong><code>timeout</code></strong> :&ensp;<code>int</code></dt>
 <dd>Represents how many seconds to wait for the API to send data before giving up. The
-default is 10 seconds, or the <code>api_timeout</code> value in the super class' <code><a title="pyucalgarysrs.PyUCalgarySRS" href="../index.html#pyucalgarysrs.PyUCalgarySRS">PyUCalgarySRS</a></code>
+default is 30 seconds, or the <code>api_timeout</code> value in the super class' <code><a title="pyucalgarysrs.PyUCalgarySRS" href="../index.html#pyucalgarysrs.PyUCalgarySRS">PyUCalgarySRS</a></code>
 object. This parameter is optional.</dd>
 </dl>
 <h2 id="returns">Returns</h2>
@@ -1206,7 +1206,7 @@ srs.data.download(dataset_name, start, end)
 
         timeout (int): 
             Represents how many seconds to wait for the API to send data before giving up. The 
-            default is 10 seconds, or the `api_timeout` value in the super class&#39; `pyucalgarysrs.PyUCalgarySRS`
+            default is 30 seconds, or the `api_timeout` value in the super class&#39; `pyucalgarysrs.PyUCalgarySRS`
             object. This parameter is optional.
 
     Returns:
@@ -1293,7 +1293,7 @@ passthrough of the <code>ascii</code> parameter in a tqdm progress bar). This pa
 optional. See Notes section below for further details.</dd>
 <dt><strong><code>timeout</code></strong> :&ensp;<code>int</code></dt>
 <dd>Represents how many seconds to wait for the API to send data before giving up. The
-default is 10 seconds, or the <code>api_timeout</code> value in the super class' <code><a title="pyucalgarysrs.PyUCalgarySRS" href="../index.html#pyucalgarysrs.PyUCalgarySRS">PyUCalgarySRS</a></code>
+default is 30 seconds, or the <code>api_timeout</code> value in the super class' <code><a title="pyucalgarysrs.PyUCalgarySRS" href="../index.html#pyucalgarysrs.PyUCalgarySRS">PyUCalgarySRS</a></code>
 object. This parameter is optional.</dd>
 </dl>
 <h2 id="returns">Returns</h2>
@@ -1377,7 +1377,7 @@ srs.data.download(dataset_name, start, end)
 
         timeout (int): 
             Represents how many seconds to wait for the API to send data before giving up. The 
-            default is 10 seconds, or the `api_timeout` value in the super class&#39; `pyucalgarysrs.PyUCalgarySRS`
+            default is 30 seconds, or the `api_timeout` value in the super class&#39; `pyucalgarysrs.PyUCalgarySRS`
             object. This parameter is optional.
 
     Returns:
@@ -1462,7 +1462,7 @@ device will be downloaded for the given dataset name, start, and end times. This
 parameter is optional.</dd>
 <dt><strong><code>timeout</code></strong> :&ensp;<code>int</code></dt>
 <dd>Represents how many seconds to wait for the API to send data before giving up. The
-default is 10 seconds, or the <code>api_timeout</code> value in the super class' <code><a title="pyucalgarysrs.PyUCalgarySRS" href="../index.html#pyucalgarysrs.PyUCalgarySRS">PyUCalgarySRS</a></code>
+default is 30 seconds, or the <code>api_timeout</code> value in the super class' <code><a title="pyucalgarysrs.PyUCalgarySRS" href="../index.html#pyucalgarysrs.PyUCalgarySRS">PyUCalgarySRS</a></code>
 object. This parameter is optional.</dd>
 </dl>
 <h2 id="returns">Returns</h2>
@@ -1526,7 +1526,7 @@ among other values.</p>
 
         timeout (int): 
             Represents how many seconds to wait for the API to send data before giving up. The 
-            default is 10 seconds, or the `api_timeout` value in the super class&#39; `pyucalgarysrs.PyUCalgarySRS`
+            default is 30 seconds, or the `api_timeout` value in the super class&#39; `pyucalgarysrs.PyUCalgarySRS`
             object. This parameter is optional.
 
     Returns:
@@ -1605,7 +1605,7 @@ names received from the API, it will be included in the results. This parameter 
 optional.</dd>
 <dt><strong><code>timeout</code></strong> :&ensp;<code>int</code></dt>
 <dd>Represents how many seconds to wait for the API to send data before giving up. The
-default is 10 seconds, or the <code>api_timeout</code> value in the super class' <code><a title="pyucalgarysrs.PyUCalgarySRS" href="../index.html#pyucalgarysrs.PyUCalgarySRS">PyUCalgarySRS</a></code>
+default is 3 seconds, or the <code>api_timeout</code> value in the super class' <code><a title="pyucalgarysrs.PyUCalgarySRS" href="../index.html#pyucalgarysrs.PyUCalgarySRS">PyUCalgarySRS</a></code>
 object. This parameter is optional.</dd>
 </dl>
 <h2 id="returns">Returns</h2>
@@ -1632,7 +1632,7 @@ objects.</p>
         
         timeout (int): 
             Represents how many seconds to wait for the API to send data before giving up. The 
-            default is 10 seconds, or the `api_timeout` value in the super class&#39; `pyucalgarysrs.PyUCalgarySRS`
+            default is 3 seconds, or the `api_timeout` value in the super class&#39; `pyucalgarysrs.PyUCalgarySRS`
             object. This parameter is optional.
         
     Returns:
@@ -1661,7 +1661,7 @@ is found in the available observatories received from the API, it will be includ
 parameter is optional.</dd>
 <dt><strong><code>timeout</code></strong> :&ensp;<code>int</code></dt>
 <dd>Represents how many seconds to wait for the API to send data before giving up. The
-default is 10 seconds, or the <code>api_timeout</code> value in the super class' <code><a title="pyucalgarysrs.PyUCalgarySRS" href="../index.html#pyucalgarysrs.PyUCalgarySRS">PyUCalgarySRS</a></code>
+default is 30 seconds, or the <code>api_timeout</code> value in the super class' <code><a title="pyucalgarysrs.PyUCalgarySRS" href="../index.html#pyucalgarysrs.PyUCalgarySRS">PyUCalgarySRS</a></code>
 object. This parameter is optional.</dd>
 </dl>
 <h2 id="returns">Returns</h2>
@@ -1692,7 +1692,7 @@ objects.</p>
         
         timeout (int): 
             Represents how many seconds to wait for the API to send data before giving up. The 
-            default is 10 seconds, or the `api_timeout` value in the super class&#39; `pyucalgarysrs.PyUCalgarySRS`
+            default is 30 seconds, or the `api_timeout` value in the super class&#39; `pyucalgarysrs.PyUCalgarySRS`
             object. This parameter is optional.
         
     Returns:
@@ -1727,7 +1727,7 @@ objects.</p>
 </details>
 </dd>
 <dt id="pyucalgarysrs.data.DataManager.read"><code class="name flex">
-<span>def <span class="ident">read</span></span>(<span>self, dataset: <a title="pyucalgarysrs.data.classes.Dataset" href="classes.html#pyucalgarysrs.data.classes.Dataset">Dataset</a>, file_list: Union[List[str], str], n_parallel: int = 1, first_record: bool = False, no_metadata: bool = False, quiet: bool = False) ‑> Union[<a title="pyucalgarysrs.data.classes.Data" href="classes.html#pyucalgarysrs.data.classes.Data">Data</a>, List[<a title="pyucalgarysrs.data.classes.Skymap" href="classes.html#pyucalgarysrs.data.classes.Skymap">Skymap</a>], List[<a title="pyucalgarysrs.data.classes.Calibration" href="classes.html#pyucalgarysrs.data.classes.Calibration">Calibration</a>]]</span>
+<span>def <span class="ident">read</span></span>(<span>self, dataset: <a title="pyucalgarysrs.data.classes.Dataset" href="classes.html#pyucalgarysrs.data.classes.Dataset">Dataset</a>, file_list: Union[List[str], str], n_parallel: int = 1, first_record: bool = False, no_metadata: bool = False, quiet: bool = False) ‑> <a title="pyucalgarysrs.data.classes.Data" href="classes.html#pyucalgarysrs.data.classes.Data">Data</a></span>
 </code></dt>
 <dd>
 <div class="desc"><p>Read in data files for a given dataset. Note that only one type of dataset's data
@@ -1772,7 +1772,7 @@ trying to read files.</dd>
 </dl>
 <h2 id="notes">Notes:</h2>
 <p>For users who are familiar with the themis-imager-readfile and trex-imager-readfile
-libraries, the read function is a wrapper for those routines. Further improvements have
+libraries, the read function provides a near-identical usage. Further improvements have
 been integrated, and those libraries are anticipated to be deprecated at some point in the
 future.</p></div>
 <details class="source">
@@ -1785,7 +1785,7 @@ future.</p></div>
          n_parallel: int = 1,
          first_record: bool = False,
          no_metadata: bool = False,
-         quiet: bool = False) -&gt; Union[Data, List[Skymap], List[Calibration]]:
+         quiet: bool = False) -&gt; Data:
     &#34;&#34;&#34;
     Read in data files for a given dataset. Note that only one type of dataset&#39;s data
     should be read in using a single call.
@@ -1833,7 +1833,7 @@ future.</p></div>
     Notes:
     ---------
     For users who are familiar with the themis-imager-readfile and trex-imager-readfile
-    libraries, the read function is a wrapper for those routines. Further improvements have 
+    libraries, the read function provides a near-identical usage. Further improvements have 
     been integrated, and those libraries are anticipated to be deprecated at some point in the
     future.
     &#34;&#34;&#34;

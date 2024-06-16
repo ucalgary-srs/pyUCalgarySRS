@@ -53,7 +53,7 @@ class PyUCalgarySRS:
 
             read_tar_temp_path (str): 
                 Temporary directory used for tar extraction phases during file reading (e.g., 
-                reading TREx RGB Burst data). The default for this is `<download_output_root_path>/.tar_temp_working`. 
+                reading TREx RGB Burst data). The default for this is `<download_output_root_path>/tar_temp_working`. 
                 For faster performance when reading tar-based data, one option on Linux is 
                 to set this to use RAM directly at `/dev/shm/pyucalgarysrs_tar_temp_working`.
 
@@ -65,7 +65,7 @@ class PyUCalgarySRS:
 
             api_timeout (int): 
                 The timeout used when communicating with the UCalgary Space Remote Sensing API. This 
-                value is represented in seconds, and by default is `10 seconds`.
+                value is represented in seconds, and by default is `30 seconds`.
             
             api_headers (Dict): 
                 HTTP headers used when communicating with the UCalgary Space Remote Sensing API. The 
@@ -299,7 +299,7 @@ class PyUCalgarySRS:
                 Order results by either `size` or `name`. Default is `size`.
 
             return_dict (bool): 
-                Instead of printing the data usage information, return it as a dictionary.
+                Instead of printing the data usage information, return information as a dictionary.
 
         Returns:
             Printed output. If `return_dict` is True, then it will instead return a dictionary with the

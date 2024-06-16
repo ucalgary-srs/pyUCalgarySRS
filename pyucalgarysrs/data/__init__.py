@@ -45,7 +45,7 @@ class DataManager:
             
             timeout (int): 
                 Represents how many seconds to wait for the API to send data before giving up. The 
-                default is 10 seconds, or the `api_timeout` value in the super class' `pyucalgarysrs.PyUCalgarySRS`
+                default is 3 seconds, or the `api_timeout` value in the super class' `pyucalgarysrs.PyUCalgarySRS`
                 object. This parameter is optional.
             
         Returns:
@@ -73,7 +73,7 @@ class DataManager:
             
             timeout (int): 
                 Represents how many seconds to wait for the API to send data before giving up. The 
-                default is 10 seconds, or the `api_timeout` value in the super class' `pyucalgarysrs.PyUCalgarySRS`
+                default is 30 seconds, or the `api_timeout` value in the super class' `pyucalgarysrs.PyUCalgarySRS`
                 object. This parameter is optional.
             
         Returns:
@@ -192,7 +192,7 @@ class DataManager:
 
             timeout (int): 
                 Represents how many seconds to wait for the API to send data before giving up. The 
-                default is 10 seconds, or the `api_timeout` value in the super class' `pyucalgarysrs.PyUCalgarySRS`
+                default is 30 seconds, or the `api_timeout` value in the super class' `pyucalgarysrs.PyUCalgarySRS`
                 object. This parameter is optional.
 
         Returns:
@@ -291,7 +291,7 @@ class DataManager:
 
             timeout (int): 
                 Represents how many seconds to wait for the API to send data before giving up. The 
-                default is 10 seconds, or the `api_timeout` value in the super class' `pyucalgarysrs.PyUCalgarySRS`
+                default is 30 seconds, or the `api_timeout` value in the super class' `pyucalgarysrs.PyUCalgarySRS`
                 object. This parameter is optional.
 
         Returns:
@@ -386,7 +386,7 @@ class DataManager:
 
             timeout (int): 
                 Represents how many seconds to wait for the API to send data before giving up. The 
-                default is 10 seconds, or the `api_timeout` value in the super class' `pyucalgarysrs.PyUCalgarySRS`
+                default is 30 seconds, or the `api_timeout` value in the super class' `pyucalgarysrs.PyUCalgarySRS`
                 object. This parameter is optional.
     
         Returns:
@@ -460,7 +460,7 @@ class DataManager:
         Notes:
         ---------
         For users who are familiar with the themis-imager-readfile and trex-imager-readfile
-        libraries, the read function is a wrapper for those routines. Further improvements have 
+        libraries, the read function provides a near-identical usage. Further improvements have 
         been integrated, and those libraries are anticipated to be deprecated at some point in the
         future.
         """

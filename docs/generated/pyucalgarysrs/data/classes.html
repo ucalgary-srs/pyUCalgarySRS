@@ -55,49 +55,99 @@ classes in this module are included at the top level of this library.
 
 import datetime
 from dataclasses import dataclass
-from typing import Optional, List, Dict, Literal
+from typing import Optional, List, Dict, Literal, Any
 from numpy import ndarray
 
 
-@dataclass
 class Dataset:
     &#34;&#34;&#34;
     A dataset available from the UCalgary Space Remote Sensing API, with possibly
     support for downloading and/or reading.
 
     Attributes:
-        name (str): Dataset name
-        short_description (str): A short description about the dataset
-        long_description (str): A longer description about the dataset
-        data_tree_url (str): The data tree URL prefix. Used for saving data locally with a 
-            similar data tree structure compared to the UCalgary Open Data archive.
-        file_listing_supported (bool): Flag indicating if file listing (downloading) is 
-            supported for this dataset.
-        file_reading_supported (bool): Flag indicating if file reading is supported for this
-            dataset.
-        level (str): Dataset level as per L0/L1/L2/etc standards.
-        doi (str): Dataset DOI unique identifier.
-        doi_details (str): Further details about the DOI.
-        citation (str): String to use when citing usage of the dataset.
+        name (str): 
+            Dataset name
+        
+        short_description (str): 
+            A short description about the dataset
+        
+        long_description (str): 
+            A longer description about the dataset
+        
+        data_tree_url (str): 
+            The data tree URL prefix. Used for saving data locally with a similar data tree 
+            structure compared to the UCalgary Open Data archive.
+        
+        file_listing_supported (bool): 
+            Flag indicating if file listing (downloading) is supported for this dataset.
+        
+        file_reading_supported (bool): 
+            Flag indicating if file reading is supported for this dataset.
+        
+        level (str): 
+            Dataset level as per L0/L1/L2/etc standards.
+        
+        doi (str): 
+            Dataset DOI unique identifier.
+        
+        doi_details (str): 
+            Further details about the DOI.
+        
+        citation (str): 
+            String to use when citing usage of the dataset.
+        
+        provider (str): 
+            Data provider.
     &#34;&#34;&#34;
-    name: str
-    short_description: str
-    long_description: str
-    data_tree_url: str
-    file_listing_supported: bool
-    file_reading_supported: bool
-    level: str
-    doi: Optional[str] = None
-    doi_details: Optional[str] = None
-    citation: Optional[str] = None
 
-    def print_acknowledgement_info(self):
+    def __init__(self,
+                 name: str,
+                 short_description: str,
+                 long_description: str,
+                 data_tree_url: str,
+                 file_listing_supported: bool,
+                 file_reading_supported: bool,
+                 level: str,
+                 doi: Optional[str] = None,
+                 doi_details: Optional[str] = None,
+                 citation: Optional[str] = None):
+        self.name = name
+        self.short_description = short_description
+        self.long_description = long_description
+        self.data_tree_url = data_tree_url
+        self.file_listing_supported = file_listing_supported
+        self.file_reading_supported = file_reading_supported
+        self.level = level
+        self.doi = doi
+        self.doi_details = doi_details
+        self.citation = citation
+        self.provider = &#34;UCalgary&#34;
+
+    def __str__(self) -&gt; str:
+        return self.__repr__()
+
+    def __repr__(self) -&gt; str:
+        return &#34;Dataset(name=%s, short_description=&#39;%s&#39;, provider=&#39;%s&#39;, level=&#39;%s&#39;, doi_details=&#39;%s&#39;, ...)&#34; % (
+            self.name,
+            self.short_description,
+            self.provider,
+            self.level,
+            self.doi_details,
+        )
+
+    def pretty_print(self):
         &#34;&#34;&#34;
-        A special print output for the dataset&#39;s acknowledgement information.
+        A special print output for this class.
         &#34;&#34;&#34;
-        print(&#34;%-15s%s&#34; % (&#34;DOI:&#34;, self.doi))
-        print(&#34;%-15s%s&#34; % (&#34;DOI details:&#34;, self.doi_details))
-        print(&#34;%-15s\&#34;%s\&#34;&#34; % (&#34;Citation:&#34;, self.citation))
+        print(&#34;Dataset:&#34;)
+        for var_name in dir(self):
+            # exclude methods
+            if (var_name.startswith(&#34;__&#34;) or var_name == &#34;pretty_print&#34;):
+                continue
+
+            # convert var to string format we want
+            var_value = getattr(self, var_name)
+            print(&#34;  %-27s: %s&#34; % (var_name, None if var_value is None else var_value))
 
 
 @dataclass
@@ -106,12 +156,21 @@ class FileListingResponse:
     Representation of the file listing response from the UCalgary Space Remote Sensing API.
 
     Attributes:
-        urls (List[str]): A list of URLs for available data files.
-        path_prefix (str): The URL prefix, which is sed for saving data locally with a 
-            similar data tree structure compared to the UCalgary Open Data archive.
-        count (int): The number of URLs available.
-        dataset (Dataset): The `Dataset` object for this data.
-        total_bytes (int): The cumulative amount of bytes for the available URLs.
+        urls (List[str]): 
+            A list of URLs for available data files.
+        
+        path_prefix (str): 
+            The URL prefix, which is sed for saving data locally with a similar data tree 
+            structure compared to the UCalgary Open Data archive.
+        
+        count (int): 
+            The number of URLs available.
+        
+        dataset (Dataset): 
+            The `Dataset` object for this data.
+        
+        total_bytes (int): 
+            The cumulative amount of bytes for the available URLs.
     &#34;&#34;&#34;
     urls: List[str]
     path_prefix: str
@@ -126,12 +185,20 @@ class FileDownloadResult:
     Representation of the results from a data download call.
 
     Attributes:
-        filenames (List[str]): List of downloaded files, as absolute paths of their location on 
-            the local machine.
-        count (int): Number of files downloaded
-        total_bytes (int): Cumulative amount of bytes saved on the local machine.
-        output_root_path (str): The root path of where the data was saved to on the local machine.
-        dataset (Dataset): The `Dataset` object for this data.
+        filenames (List[str]): 
+            List of downloaded files, as absolute paths of their location on the local machine.
+        
+        count (int): 
+            Number of files downloaded
+        
+        total_bytes (int): 
+            Cumulative amount of bytes saved on the local machine.
+        
+        output_root_path (str): 
+            The root path of where the data was saved to on the local machine.
+        
+        dataset (Dataset): 
+            The `Dataset` object for this data.
     &#34;&#34;&#34;
     filenames: List[str]
     count: int
@@ -146,52 +213,18 @@ class ProblematicFile:
     Representation about a file that had issues being read.
 
     Attributes:
-        filename (str): Filename of the problematic file.
-        error_message (str): Error message that was encountered while attempting to read the file.
-        error_type (str): Error type encountered. Possible values are &#39;error&#39; or &#39;warning&#39;.
+        filename (str): 
+            Filename of the problematic file.
+        
+        error_message (str): 
+            Error message that was encountered while attempting to read the file.
+        
+        error_type (str): 
+            Error type encountered. Possible values are &#39;error&#39; or &#39;warning&#39;.
     &#34;&#34;&#34;
     filename: str
     error_message: str
     error_type: Literal[&#34;error&#34;, &#34;warning&#34;]
-
-
-@dataclass
-class Data:
-    &#34;&#34;&#34;
-    Representation of the data read in from a `read` call.
-
-    Attributes:
-        data (ndarray): Numpy n-dimensional array containing the data read in.
-        timestamp (List[datetime.datetime]): List of timestamps for the read in data.
-        metadata (List[Dict]): List of dictionaries containing metadata specific to each
-            timestamp/image/record.
-        problematic_files (List[ProblematicFiles]): A list detailing any files that encountered
-            issues during reading.
-        dataset (Dataset): The `Dataset` object for this data.
-    &#34;&#34;&#34;
-    data: ndarray
-    timestamp: List[datetime.datetime]
-    metadata: List[Dict]
-    problematic_files: List[ProblematicFile]
-    dataset: Optional[Dataset] = None
-
-    def __str__(self) -&gt; str:
-        return self.__repr__()
-
-    def __repr__(self) -&gt; str:
-        data_str = &#34;array(dims=%s, dtype=%s)&#34; % (self.data.shape, self.data.dtype)
-        timestamp_str = &#34;[%d datetime objects]&#34; % (len(self.timestamp))
-        metadata_str = &#34;[%d dictionaries]&#34; % (len(self.metadata))
-        problematic_files_str = self.problematic_files.__repr__()
-        dataset_str = &#34;unknown&#34; if self.dataset is None else self.dataset.__repr__()[0:75] + &#34;...)&#34;
-
-        return &#34;Data(data=%s, timestamp=%s, metadata=%s, problematic_files=%s, dataset=%s)&#34; % (
-            data_str,
-            timestamp_str,
-            metadata_str,
-            problematic_files_str,
-            dataset_str,
-        )
 
 
 @dataclass
@@ -200,19 +233,42 @@ class SkymapGenerationInfo:
     Representation of generation details for a specific skymap file.
 
     Attributes:
-        author (str): Name of individual who created the skymap
-        ccd_center (float): Center pixels of the CCD
-        code_used (str): Program name for the code used to generate the skymap
-        data_loc (str): Location of the data on the UCalgary data systems used during generation
-        date_generated (datetime.datetime): Timestamp of when the skymap was generated
-        date_time_used (datetime.datetime): Timestamp of what hour was used during generation
-        img_flip (ndarray): Image flipping specifics
-        optical_orientation (ndarray): Image orientation details
-        optical_projection (ndarray): Image projection details
-        pixel_aspect_ratio (float): Aspect ratio details
-        valid_interval_start (datetime.datetime): Valid start time for this skymap
-        valid_interval_end (datetime.datetime): Valid end time for this skymap. If None, then end time
-            is unbounded and valid up until the next newest skymap.
+        author (str): 
+            Name of individual who created the skymap
+        
+        ccd_center (float): 
+            Center pixels of the CCD
+        
+        code_used (str): 
+            Program name for the code used to generate the skymap
+        
+        data_loc (str): 
+            Location of the data on the UCalgary data systems used during generation
+        
+        date_generated (datetime.datetime): 
+            Timestamp of when the skymap was generated
+        
+        date_time_used (datetime.datetime): 
+            Timestamp of what hour was used during generation
+        
+        img_flip (ndarray): 
+            Image flipping specifics
+        
+        optical_orientation (ndarray): 
+            Image orientation details
+        
+        optical_projection (ndarray): 
+            Image projection details
+        
+        pixel_aspect_ratio (float): 
+            Aspect ratio details
+        
+        valid_interval_start (datetime.datetime): 
+            Valid start time for this skymap
+        
+        valid_interval_end (datetime.datetime): 
+            Valid end time for this skymap. If None, then end time is unbounded and valid up until 
+            the next newest skymap.
     &#34;&#34;&#34;
     author: str
     ccd_center: float
@@ -238,6 +294,28 @@ class SkymapGenerationInfo:
             self.ccd_center,
         )
 
+    def pretty_print(self):
+        &#34;&#34;&#34;
+        A special print output for this class.
+        &#34;&#34;&#34;
+        print(&#34;SkymapGenerationInfo:&#34;)
+        for var_name in dir(self):
+            # exclude methods
+            if (var_name.startswith(&#34;__&#34;) or var_name == &#34;pretty_print&#34;):
+                continue
+
+            # convert var to string format we want
+            var_value = getattr(self, var_name)
+            var_str = &#34;None&#34;
+            if (var_value is not None):
+                if (isinstance(var_value, ndarray)):
+                    var_str = &#34;array(dims=%s, dtype=%s)&#34; % (var_value.shape, var_value.dtype)
+                else:
+                    var_str = str(var_value)
+
+            # print string for this var
+            print(&#34;  %-24s: %s&#34; % (var_name, var_str))
+
 
 @dataclass
 class Skymap:
@@ -245,22 +323,50 @@ class Skymap:
     Representation for a skymap file.
 
     Attributes:
-        filename (str): Filename for the skymap file, as an absolute path of its location on 
-            the local machine.
-        project_uid (str): Project unique identifier
-        site_uid (str): Site unique identifier
-        imager_uid (str): Imager/device unique identifier
-        site_map_latitude (float): Geodetic latitude of instrument
-        site_map_longitude (float): Geodetic longitude of instrument
-        site_map_altitude (float): Altitude of the instrument (in meters)
-        full_elevation (ndarray): Elevation angle from horizon, for each image pixel (in degrees)
-        full_azimuth (ndarray): Local azimuth angle from 0 degrees north, positive moving east (in degrees)
-        full_map_altitude (ndarray): Altitudes that image coordinates are mapped to (in kilometers)
-        full_map_latitude (ndarray): Geodetic latitudes of pixel corners, mapped to various altitudes (specified by `full_map_altitude`)
-        full_map_longitude (ndarray): Geodetic longitudes of pixel corners, mapped to various altitudes (specified by `full_map_altitude`)
-        generation_info (SkymapGenerationInfo): Metadata describing details about this skymap&#39;s generation process
-        version (str): Version of the skymap
-        dataset (Dataset): The `Dataset` object for this data.
+        filename (str): 
+            Filename for the skymap file, as an absolute path of its location on the local machine.
+        
+        project_uid (str): 
+            Project unique identifier
+        
+        site_uid (str): 
+            Site unique identifier
+        
+        imager_uid (str): 
+            Imager/device unique identifier
+        
+        site_map_latitude (float): 
+            Geodetic latitude of instrument
+        
+        site_map_longitude (float): 
+            Geodetic longitude of instrument
+        
+        site_map_altitude (float): 
+            Altitude of the instrument (in meters)
+        
+        full_elevation (ndarray): 
+            Elevation angle from horizon, for each image pixel (in degrees)
+        
+        full_azimuth (ndarray): 
+            Local azimuth angle from 0 degrees north, positive moving east (in degrees)
+        
+        full_map_altitude (ndarray): 
+            Altitudes that image coordinates are mapped to (in kilometers)
+        
+        full_map_latitude (ndarray): 
+            Geodetic latitudes of pixel corners, mapped to various altitudes (specified by `full_map_altitude`)
+        
+        full_map_longitude (ndarray): 
+            Geodetic longitudes of pixel corners, mapped to various altitudes (specified by `full_map_altitude`)
+        
+        generation_info (SkymapGenerationInfo): 
+            Metadata describing details about this skymap&#39;s generation process
+        
+        version (str): 
+            Version of the skymap
+        
+        dataset (Dataset): 
+            The `Dataset` object for this data.
     &#34;&#34;&#34;
     filename: str
     project_uid: str
@@ -276,20 +382,17 @@ class Skymap:
     full_map_longitude: ndarray
     generation_info: SkymapGenerationInfo
     version: str
-    dataset: Optional[Dataset] = None
 
     def __str__(self) -&gt; str:
         return self.__repr__()
 
     def __repr__(self) -&gt; str:
-        dataset_str = &#34;unknown&#34; if self.dataset is None else self.dataset.__repr__()[0:75] + &#34;...)&#34;
-        return &#34;Skymap(project_uid=%s, site_uid=%s, imager_uid=%s, site_map_latitude=%f, site_map_longitude=%f, dataset=%s, ...)&#34; % (
+        return &#34;Skymap(project_uid=%s, site_uid=%s, imager_uid=%s, site_map_latitude=%f, site_map_longitude=%f, ...)&#34; % (
             self.project_uid,
             self.site_uid,
             self.imager_uid,
             self.site_map_latitude,
             self.site_map_longitude,
-            dataset_str,
         )
 
     def pretty_print(self):
@@ -311,10 +414,10 @@ class Skymap:
                 if (isinstance(var_value, ndarray)):
                     var_str = &#34;array(dims=%s, dtype=%s)&#34; % (var_value.shape, var_value.dtype)
                 else:
-                    var_str = var_value
+                    var_str = str(var_value)
 
             # print string for this var
-            print(&#34;  %-22s: %s&#34; % (var_name, var_str))
+            print(&#34;  %-23s: %s&#34; % (var_name, var_str))
 
 
 @dataclass
@@ -323,19 +426,44 @@ class CalibrationGenerationInfo:
     Representation of generation details for a specific calibration file.
 
     Attributes:
-        valid_interval_start (datetime.datetime): Valid start timestamp for this calibration file
-        valid_interval_end (datetime.datetime):  Valid end time for this calibration file. If None, then 
-            end time is unbounded and valid up until the next newest calibration for this detector UID.
-        author (str): Individual who generated the calibration file
-        input_data_dir (str): Path on UCalgary data system to the raw calibration files
-        skymap_filename (str): Path to skymap file used to assist with calibration process. If None, no 
-            skymap file was used.
+        valid_interval_start (datetime.datetime): 
+            Valid start timestamp for this calibration file
+        
+        valid_interval_end (datetime.datetime): 
+            Valid end time for this calibration file. If None, then end time is unbounded and valid up 
+            until the next newest calibration for this detector UID.
+        
+        author (str): 
+            Individual who generated the calibration file
+        
+        input_data_dir (str): 
+            Path on UCalgary data system to the raw calibration files
+        
+        skymap_filename (str): 
+            Path to skymap file used to assist with calibration process. If None, no skymap file was used.
     &#34;&#34;&#34;
     valid_interval_start: datetime.datetime
     valid_interval_stop: Optional[datetime.datetime] = None
     author: Optional[str] = None
     input_data_dir: Optional[str] = None
     skymap_filename: Optional[str] = None
+
+    def pretty_print(self):
+        &#34;&#34;&#34;
+        A special print output for this class.
+        &#34;&#34;&#34;
+        print(&#34;CalibrationGenerationInfo:&#34;)
+        for var_name in dir(self):
+            # exclude methods
+            if (var_name.startswith(&#34;__&#34;) or var_name == &#34;pretty_print&#34;):
+                continue
+
+            # convert var to string format we want
+            var_value = getattr(self, var_name)
+            var_str = &#34;None&#34; if var_value is None else str(var_value)
+
+            # print string for this var
+            print(&#34;  %-25s: %s&#34; % (var_name, var_str))
 
 
 @dataclass
@@ -344,18 +472,28 @@ class Calibration:
     Representation for a calibration file.
 
     Attributes:
-        filename (str): Filename for the calibration file, as an absolute path of its location on 
-            the local machine.
-        detector_uid (str): Detector/imager/camera unique identifier
-        version (str): Version number of the calibration file
-        generation_info (CalibrationGenerationInfo): Metadata describing details about this 
-            calibration&#39;s generation process
-        rayleighs_perdn_persecond (float): Calibrated value for Rayleighs per data number per second 
-            (R/dn/s). This value will be None if a flatfield calibration file was read instead of a 
-            rayleighs calibration file.
-        flat_field_multiplier (ndarray): Calibrated flat field array. This value will be None if a 
-            rayleighs calibration file was read instead of a flatfield calibration file.
-        dataset (Dataset): The `Dataset` object for this data.
+        filename (str): 
+            Filename for the calibration file, as an absolute path of its location on the local machine.
+        
+        detector_uid (str): 
+            Detector/imager/camera unique identifier
+        
+        version (str): 
+            Version number of the calibration file
+        
+        generation_info (CalibrationGenerationInfo): 
+            Metadata describing details about this calibration&#39;s generation process
+        
+        rayleighs_perdn_persecond (float): 
+            Calibrated value for Rayleighs per data number per second (R/dn/s). This value will be None 
+            if a flatfield calibration file was read instead of a rayleighs calibration file.
+        
+        flat_field_multiplier (ndarray): 
+            Calibrated flat field array. This value will be None if a rayleighs calibration file was 
+            read instead of a flatfield calibration file.
+        
+        dataset (Dataset): 
+            The `Dataset` object for this data.
     &#34;&#34;&#34;
     filename: str
     detector_uid: str
@@ -380,31 +518,225 @@ class Calibration:
             var_str = &#34;None&#34;
             if (var_name == &#34;generation_info&#34;):
                 var_str = &#34;CalibrationGenerationInfo(...)&#34;
+            elif (var_name == &#34;dataset&#34; and var_value is not None):
+                var_str = &#34;Dataset(...)&#34;
             elif (var_value is not None):
                 if (isinstance(var_value, ndarray)):
                     var_str = &#34;array(dims=%s, dtype=%s)&#34; % (var_value.shape, var_value.dtype)
                 else:
-                    var_str = var_value
+                    var_str = str(var_value)
 
             # print string for this var
             print(&#34;  %-30s: %s&#34; % (var_name, var_str))
 
 
 @dataclass
+class Data:
+    &#34;&#34;&#34;
+    Representation of the data read in from a `read` call.
+
+    Attributes:
+        data (Any): 
+            The loaded data. This can be one of the following types: ndarray, List[Skymap], List[Calibration].
+        
+        timestamp (List[datetime.datetime]): 
+            List of timestamps for the read in data.
+        
+        metadata (List[Dict]): 
+            List of dictionaries containing metadata specific to each timestamp/image/record.
+        
+        problematic_files (List[ProblematicFiles]): 
+            A list detailing any files that encountered issues during reading.
+        
+        calibrated_data (Any): 
+            A calibrated version of the data. Populated and utilized by data analysis libraries. Has a `None` value
+            until calibrated data is inserted manually.
+
+        dataset (Dataset): 
+            The `Dataset` object for this data.
+    &#34;&#34;&#34;
+    data: Any
+    timestamp: List[datetime.datetime]
+    metadata: List[Dict]
+    problematic_files: List[ProblematicFile]
+    calibrated_data: Any
+    dataset: Optional[Dataset] = None
+
+    def __str__(self) -&gt; str:
+        return self.__repr__()
+
+    def __repr__(self) -&gt; str:
+        # set data value
+        if (isinstance(self.data, ndarray) is True):
+            data_str = &#34;array(dims=%s, dtype=%s)&#34; % (self.data.shape, self.data.dtype)
+        elif (isinstance(self.data, list) is True):
+            if (len(self.data) == 0):
+                data_str = &#34;[0 items]&#34;
+            elif (isinstance(self.data[0], Skymap) is True):
+                if (len(self.data) == 0):
+                    data_str = &#34;[]&#34;
+                elif (len(self.data) == 1):
+                    data_str = &#34;[1 Skymap object]&#34;
+                else:
+                    data_str = &#34;[%d Skymap objects]&#34; % (len(self.data))
+            elif (isinstance(self.data[0], Calibration) is True):
+                if (len(self.data) == 0):
+                    data_str = &#34;[]&#34;
+                elif (len(self.data) == 1):
+                    data_str = &#34;[1 Calibration object]&#34;
+                else:
+                    data_str = &#34;[%d Calibration objects]&#34; % (len(self.data))
+            else:
+                data_str = &#34;[%d items]&#34; % (len(self.data))
+        else:
+            data_str = self.data.__repr__()
+
+        # set timestamp string
+        if (len(self.timestamp) == 0):
+            timestamp_str = &#34;[]&#34;
+        elif (len(self.timestamp) == 1):
+            timestamp_str = &#34;[1 datetime]&#34;
+        else:
+            timestamp_str = &#34;[%d datetimes]&#34; % (len(self.timestamp))
+
+        # set metadata string
+        if (len(self.metadata) == 0):
+            metadata_str = &#34;[]&#34;
+        elif (len(self.metadata) == 1):
+            metadata_str = &#34;[1 dictionary]&#34;
+        else:
+            metadata_str = &#34;[%d dictionaries]&#34; % (len(self.timestamp))
+
+        # set rest of values
+        problematic_files_str = self.problematic_files.__repr__()
+        calibrated_data_str = &#34;None&#34; if self.calibrated_data is None else &#34;array(dims=%s, dtype=%s)&#34; % (self.calibrated_data.shape,
+                                                                                                        self.calibrated_data.dtype)
+        dataset_str = &#34;None&#34; if self.dataset is None else self.dataset.__repr__()[0:75] + &#34;...)&#34;
+
+        # return
+        return &#34;Data(data=%s, timestamp=%s, metadata=%s, problematic_files=%s, calibrated_data=%s, dataset=%s)&#34; % (
+            data_str,
+            timestamp_str,
+            metadata_str,
+            problematic_files_str,
+            calibrated_data_str,
+            dataset_str,
+        )
+
+    def pretty_print(self):
+        &#34;&#34;&#34;
+        A special print output for this class.
+        &#34;&#34;&#34;
+        # set data value
+        if (isinstance(self.data, ndarray) is True):
+            data_str = &#34;array(dims=%s, dtype=%s)&#34; % (self.data.shape, self.data.dtype)
+        elif (isinstance(self.data, list) is True):
+            if (len(self.data) == 0):
+                data_str = &#34;[0 items]&#34;
+            elif (isinstance(self.data[0], Skymap) is True):
+                if (len(self.data) == 0):
+                    data_str = &#34;[]&#34;
+                elif (len(self.data) == 1):
+                    data_str = &#34;[1 Skymap object]&#34;
+                else:
+                    data_str = &#34;[%d Skymap objects]&#34; % (len(self.data))
+            elif (isinstance(self.data[0], Calibration) is True):
+                if (len(self.data) == 0):
+                    data_str = &#34;[]&#34;
+                elif (len(self.data) == 1):
+                    data_str = &#34;[1 Calibration object]&#34;
+                else:
+                    data_str = &#34;[%d Calibration objects]&#34; % (len(self.data))
+            else:
+                data_str = &#34;[%d items]&#34; % (len(self.data))
+        else:
+            data_str = self.data.__repr__()
+
+        # set timestamp string
+        if (len(self.timestamp) == 0):
+            timestamp_str = &#34;[]&#34;
+        elif (len(self.timestamp) == 1):
+            timestamp_str = &#34;[1 datetime]&#34;
+        else:
+            timestamp_str = &#34;[%d datetimes]&#34; % (len(self.timestamp))
+
+        # set metadata string
+        if (len(self.metadata) == 0):
+            metadata_str = &#34;[]&#34;
+        elif (len(self.metadata) == 1):
+            metadata_str = &#34;[1 dictionary]&#34;
+        else:
+            metadata_str = &#34;[%d dictionaries]&#34; % (len(self.timestamp))
+
+        # set rest of values
+        problematic_files_str = self.problematic_files.__repr__()
+        calibrated_data_str = &#34;None&#34; if self.calibrated_data is None else &#34;array(dims=%s, dtype=%s)&#34; % (self.calibrated_data.shape,
+                                                                                                        self.calibrated_data.dtype)
+        dataset_str = &#34;None&#34; if self.dataset is None else self.dataset.__repr__()[0:75] + &#34;...)&#34;
+
+        # print
+        print(&#34;Data:&#34;)
+        print(&#34;  %-22s: %s&#34; % (&#34;data&#34;, data_str))
+        print(&#34;  %-22s: %s&#34; % (&#34;timestamp&#34;, timestamp_str))
+        print(&#34;  %-22s: %s&#34; % (&#34;metadata&#34;, metadata_str))
+        print(&#34;  %-22s: %s&#34; % (&#34;problematic_files&#34;, problematic_files_str))
+        print(&#34;  %-22s: %s&#34; % (&#34;calibrated_data&#34;, calibrated_data_str))
+        print(&#34;  %-22s: %s&#34; % (&#34;dataset&#34;, dataset_str))
+
+
 class Observatory:
     &#34;&#34;&#34;
     Representation for an observatory.
 
     Attributes:
-        uid (str): 4-letter unique identifier (traditionally referred to as the site UID)
-        full_name (str): full location string for the observatory
-        geodetic_latitude (float): geodetic latitude for the observatory, in decimal format (-90 to 90)
-        geodetic_longitude (float): geodetic longitude for the observatory, in decimal format (-180 to 180)
+        uid (str): 
+            4-letter unique identifier (traditionally referred to as the site UID)
+
+        full_name (str): 
+            full location string for the observatory
+        
+        geodetic_latitude (float): 
+            geodetic latitude for the observatory, in decimal format (-90 to 90)
+        
+        geodetic_longitude (float): 
+            geodetic longitude for the observatory, in decimal format (-180 to 180)
+
+        provider (str): 
+            Data provider.
     &#34;&#34;&#34;
-    uid: str
-    full_name: str
-    geodetic_latitude: float
-    geodetic_longitude: float</code></pre>
+
+    def __init__(self, uid: str, full_name: str, geodetic_latitude: float, geodetic_longitude: float):
+        self.uid = uid
+        self.full_name = full_name
+        self.geodetic_latitude = geodetic_latitude
+        self.geodetic_longitude = geodetic_longitude
+        self.provider = &#34;UCalgary&#34;
+
+    def __str__(self) -&gt; str:
+        return self.__repr__()
+
+    def __repr__(self) -&gt; str:
+        return &#34;Observatory(uid=%s, full_name=&#39;%s&#39;, geodetic_latitude=%s, geodetic_longitude=%s, provider=&#39;%s&#39;)&#34; % (
+            self.uid,
+            self.full_name,
+            self.geodetic_latitude,
+            self.geodetic_longitude,
+            self.provider,
+        )
+
+    def pretty_print(self):
+        &#34;&#34;&#34;
+        A special print output for this class.
+        &#34;&#34;&#34;
+        print(&#34;Observatory:&#34;)
+        for var_name in dir(self):
+            # exclude methods
+            if (var_name.startswith(&#34;__&#34;) or var_name == &#34;pretty_print&#34;):
+                continue
+
+            # convert var to string format we want
+            var_value = getattr(self, var_name)
+            print(&#34;  %-22s: %s&#34; % (var_name, None if var_value is None else var_value))</code></pre>
 </details>
 </section>
 <section>
@@ -425,22 +757,19 @@ class Observatory:
 <h2 id="attributes">Attributes</h2>
 <dl>
 <dt><strong><code>filename</code></strong> :&ensp;<code>str</code></dt>
-<dd>Filename for the calibration file, as an absolute path of its location on
-the local machine.</dd>
+<dd>Filename for the calibration file, as an absolute path of its location on the local machine.</dd>
 <dt><strong><code>detector_uid</code></strong> :&ensp;<code>str</code></dt>
 <dd>Detector/imager/camera unique identifier</dd>
 <dt><strong><code>version</code></strong> :&ensp;<code>str</code></dt>
 <dd>Version number of the calibration file</dd>
 <dt><strong><code>generation_info</code></strong> :&ensp;<code><a title="pyucalgarysrs.data.classes.CalibrationGenerationInfo" href="#pyucalgarysrs.data.classes.CalibrationGenerationInfo">CalibrationGenerationInfo</a></code></dt>
-<dd>Metadata describing details about this
-calibration's generation process</dd>
+<dd>Metadata describing details about this calibration's generation process</dd>
 <dt><strong><code>rayleighs_perdn_persecond</code></strong> :&ensp;<code>float</code></dt>
-<dd>Calibrated value for Rayleighs per data number per second
-(R/dn/s). This value will be None if a flatfield calibration file was read instead of a
-rayleighs calibration file.</dd>
+<dd>Calibrated value for Rayleighs per data number per second (R/dn/s). This value will be None
+if a flatfield calibration file was read instead of a rayleighs calibration file.</dd>
 <dt><strong><code>flat_field_multiplier</code></strong> :&ensp;<code>ndarray</code></dt>
-<dd>Calibrated flat field array. This value will be None if a
-rayleighs calibration file was read instead of a flatfield calibration file.</dd>
+<dd>Calibrated flat field array. This value will be None if a rayleighs calibration file was
+read instead of a flatfield calibration file.</dd>
 <dt><strong><code>dataset</code></strong> :&ensp;<code><a title="pyucalgarysrs.data.classes.Dataset" href="#pyucalgarysrs.data.classes.Dataset">Dataset</a></code></dt>
 <dd>The <code><a title="pyucalgarysrs.data.classes.Dataset" href="#pyucalgarysrs.data.classes.Dataset">Dataset</a></code> object for this data.</dd>
 </dl></div>
@@ -454,18 +783,28 @@ class Calibration:
     Representation for a calibration file.
 
     Attributes:
-        filename (str): Filename for the calibration file, as an absolute path of its location on 
-            the local machine.
-        detector_uid (str): Detector/imager/camera unique identifier
-        version (str): Version number of the calibration file
-        generation_info (CalibrationGenerationInfo): Metadata describing details about this 
-            calibration&#39;s generation process
-        rayleighs_perdn_persecond (float): Calibrated value for Rayleighs per data number per second 
-            (R/dn/s). This value will be None if a flatfield calibration file was read instead of a 
-            rayleighs calibration file.
-        flat_field_multiplier (ndarray): Calibrated flat field array. This value will be None if a 
-            rayleighs calibration file was read instead of a flatfield calibration file.
-        dataset (Dataset): The `Dataset` object for this data.
+        filename (str): 
+            Filename for the calibration file, as an absolute path of its location on the local machine.
+        
+        detector_uid (str): 
+            Detector/imager/camera unique identifier
+        
+        version (str): 
+            Version number of the calibration file
+        
+        generation_info (CalibrationGenerationInfo): 
+            Metadata describing details about this calibration&#39;s generation process
+        
+        rayleighs_perdn_persecond (float): 
+            Calibrated value for Rayleighs per data number per second (R/dn/s). This value will be None 
+            if a flatfield calibration file was read instead of a rayleighs calibration file.
+        
+        flat_field_multiplier (ndarray): 
+            Calibrated flat field array. This value will be None if a rayleighs calibration file was 
+            read instead of a flatfield calibration file.
+        
+        dataset (Dataset): 
+            The `Dataset` object for this data.
     &#34;&#34;&#34;
     filename: str
     detector_uid: str
@@ -490,11 +829,13 @@ class Calibration:
             var_str = &#34;None&#34;
             if (var_name == &#34;generation_info&#34;):
                 var_str = &#34;CalibrationGenerationInfo(...)&#34;
+            elif (var_name == &#34;dataset&#34; and var_value is not None):
+                var_str = &#34;Dataset(...)&#34;
             elif (var_value is not None):
                 if (isinstance(var_value, ndarray)):
                     var_str = &#34;array(dims=%s, dtype=%s)&#34; % (var_value.shape, var_value.dtype)
                 else:
-                    var_str = var_value
+                    var_str = str(var_value)
 
             # print string for this var
             print(&#34;  %-30s: %s&#34; % (var_name, var_str))</code></pre>
@@ -556,11 +897,13 @@ class Calibration:
         var_str = &#34;None&#34;
         if (var_name == &#34;generation_info&#34;):
             var_str = &#34;CalibrationGenerationInfo(...)&#34;
+        elif (var_name == &#34;dataset&#34; and var_value is not None):
+            var_str = &#34;Dataset(...)&#34;
         elif (var_value is not None):
             if (isinstance(var_value, ndarray)):
                 var_str = &#34;array(dims=%s, dtype=%s)&#34; % (var_value.shape, var_value.dtype)
             else:
-                var_str = var_value
+                var_str = str(var_value)
 
         # print string for this var
         print(&#34;  %-30s: %s&#34; % (var_name, var_str))</code></pre>
@@ -579,15 +922,14 @@ class Calibration:
 <dt><strong><code>valid_interval_start</code></strong> :&ensp;<code>datetime.datetime</code></dt>
 <dd>Valid start timestamp for this calibration file</dd>
 <dt><strong><code>valid_interval_end</code></strong> :&ensp;<code>datetime.datetime</code></dt>
-<dd>Valid end time for this calibration file. If None, then
-end time is unbounded and valid up until the next newest calibration for this detector UID.</dd>
+<dd>Valid end time for this calibration file. If None, then end time is unbounded and valid up
+until the next newest calibration for this detector UID.</dd>
 <dt><strong><code>author</code></strong> :&ensp;<code>str</code></dt>
 <dd>Individual who generated the calibration file</dd>
 <dt><strong><code>input_data_dir</code></strong> :&ensp;<code>str</code></dt>
 <dd>Path on UCalgary data system to the raw calibration files</dd>
 <dt><strong><code>skymap_filename</code></strong> :&ensp;<code>str</code></dt>
-<dd>Path to skymap file used to assist with calibration process. If None, no
-skymap file was used.</dd>
+<dd>Path to skymap file used to assist with calibration process. If None, no skymap file was used.</dd>
 </dl></div>
 <details class="source">
 <summary>
@@ -599,19 +941,44 @@ class CalibrationGenerationInfo:
     Representation of generation details for a specific calibration file.
 
     Attributes:
-        valid_interval_start (datetime.datetime): Valid start timestamp for this calibration file
-        valid_interval_end (datetime.datetime):  Valid end time for this calibration file. If None, then 
-            end time is unbounded and valid up until the next newest calibration for this detector UID.
-        author (str): Individual who generated the calibration file
-        input_data_dir (str): Path on UCalgary data system to the raw calibration files
-        skymap_filename (str): Path to skymap file used to assist with calibration process. If None, no 
-            skymap file was used.
+        valid_interval_start (datetime.datetime): 
+            Valid start timestamp for this calibration file
+        
+        valid_interval_end (datetime.datetime): 
+            Valid end time for this calibration file. If None, then end time is unbounded and valid up 
+            until the next newest calibration for this detector UID.
+        
+        author (str): 
+            Individual who generated the calibration file
+        
+        input_data_dir (str): 
+            Path on UCalgary data system to the raw calibration files
+        
+        skymap_filename (str): 
+            Path to skymap file used to assist with calibration process. If None, no skymap file was used.
     &#34;&#34;&#34;
     valid_interval_start: datetime.datetime
     valid_interval_stop: Optional[datetime.datetime] = None
     author: Optional[str] = None
     input_data_dir: Optional[str] = None
-    skymap_filename: Optional[str] = None</code></pre>
+    skymap_filename: Optional[str] = None
+
+    def pretty_print(self):
+        &#34;&#34;&#34;
+        A special print output for this class.
+        &#34;&#34;&#34;
+        print(&#34;CalibrationGenerationInfo:&#34;)
+        for var_name in dir(self):
+            # exclude methods
+            if (var_name.startswith(&#34;__&#34;) or var_name == &#34;pretty_print&#34;):
+                continue
+
+            # convert var to string format we want
+            var_value = getattr(self, var_name)
+            var_str = &#34;None&#34; if var_value is None else str(var_value)
+
+            # print string for this var
+            print(&#34;  %-25s: %s&#34; % (var_name, var_str))</code></pre>
 </details>
 <h3>Class variables</h3>
 <dl>
@@ -636,25 +1003,56 @@ class CalibrationGenerationInfo:
 <div class="desc"></div>
 </dd>
 </dl>
+<h3>Methods</h3>
+<dl>
+<dt id="pyucalgarysrs.data.classes.CalibrationGenerationInfo.pretty_print"><code class="name flex">
+<span>def <span class="ident">pretty_print</span></span>(<span>self)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>A special print output for this class.</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def pretty_print(self):
+    &#34;&#34;&#34;
+    A special print output for this class.
+    &#34;&#34;&#34;
+    print(&#34;CalibrationGenerationInfo:&#34;)
+    for var_name in dir(self):
+        # exclude methods
+        if (var_name.startswith(&#34;__&#34;) or var_name == &#34;pretty_print&#34;):
+            continue
+
+        # convert var to string format we want
+        var_value = getattr(self, var_name)
+        var_str = &#34;None&#34; if var_value is None else str(var_value)
+
+        # print string for this var
+        print(&#34;  %-25s: %s&#34; % (var_name, var_str))</code></pre>
+</details>
+</dd>
+</dl>
 </dd>
 <dt id="pyucalgarysrs.data.classes.Data"><code class="flex name class">
 <span>class <span class="ident">Data</span></span>
-<span>(</span><span>data: numpy.ndarray, timestamp: List[datetime.datetime], metadata: List[Dict], problematic_files: List[<a title="pyucalgarysrs.data.classes.ProblematicFile" href="#pyucalgarysrs.data.classes.ProblematicFile">ProblematicFile</a>], dataset: Optional[<a title="pyucalgarysrs.data.classes.Dataset" href="#pyucalgarysrs.data.classes.Dataset">Dataset</a>] = None)</span>
+<span>(</span><span>data: Any, timestamp: List[datetime.datetime], metadata: List[Dict], problematic_files: List[<a title="pyucalgarysrs.data.classes.ProblematicFile" href="#pyucalgarysrs.data.classes.ProblematicFile">ProblematicFile</a>], calibrated_data: Any, dataset: Optional[<a title="pyucalgarysrs.data.classes.Dataset" href="#pyucalgarysrs.data.classes.Dataset">Dataset</a>] = None)</span>
 </code></dt>
 <dd>
 <div class="desc"><p>Representation of the data read in from a <code>read</code> call.</p>
 <h2 id="attributes">Attributes</h2>
 <dl>
-<dt><strong><code>data</code></strong> :&ensp;<code>ndarray</code></dt>
-<dd>Numpy n-dimensional array containing the data read in.</dd>
+<dt><strong><code>data</code></strong> :&ensp;<code>Any</code></dt>
+<dd>The loaded data. This can be one of the following types: ndarray, List[Skymap], List[Calibration].</dd>
 <dt><strong><code>timestamp</code></strong> :&ensp;<code>List[datetime.datetime]</code></dt>
 <dd>List of timestamps for the read in data.</dd>
 <dt><strong><code>metadata</code></strong> :&ensp;<code>List[Dict]</code></dt>
-<dd>List of dictionaries containing metadata specific to each
-timestamp/image/record.</dd>
+<dd>List of dictionaries containing metadata specific to each timestamp/image/record.</dd>
 <dt><strong><code>problematic_files</code></strong> :&ensp;<code>List[ProblematicFiles]</code></dt>
-<dd>A list detailing any files that encountered
-issues during reading.</dd>
+<dd>A list detailing any files that encountered issues during reading.</dd>
+<dt><strong><code>calibrated_data</code></strong> :&ensp;<code>Any</code></dt>
+<dd>A calibrated version of the data. Populated and utilized by data analysis libraries. Has a <code>None</code> value
+until calibrated data is inserted manually.</dd>
 <dt><strong><code>dataset</code></strong> :&ensp;<code><a title="pyucalgarysrs.data.classes.Dataset" href="#pyucalgarysrs.data.classes.Dataset">Dataset</a></code></dt>
 <dd>The <code><a title="pyucalgarysrs.data.classes.Dataset" href="#pyucalgarysrs.data.classes.Dataset">Dataset</a></code> object for this data.</dd>
 </dl></div>
@@ -668,41 +1066,160 @@ class Data:
     Representation of the data read in from a `read` call.
 
     Attributes:
-        data (ndarray): Numpy n-dimensional array containing the data read in.
-        timestamp (List[datetime.datetime]): List of timestamps for the read in data.
-        metadata (List[Dict]): List of dictionaries containing metadata specific to each
-            timestamp/image/record.
-        problematic_files (List[ProblematicFiles]): A list detailing any files that encountered
-            issues during reading.
-        dataset (Dataset): The `Dataset` object for this data.
+        data (Any): 
+            The loaded data. This can be one of the following types: ndarray, List[Skymap], List[Calibration].
+        
+        timestamp (List[datetime.datetime]): 
+            List of timestamps for the read in data.
+        
+        metadata (List[Dict]): 
+            List of dictionaries containing metadata specific to each timestamp/image/record.
+        
+        problematic_files (List[ProblematicFiles]): 
+            A list detailing any files that encountered issues during reading.
+        
+        calibrated_data (Any): 
+            A calibrated version of the data. Populated and utilized by data analysis libraries. Has a `None` value
+            until calibrated data is inserted manually.
+
+        dataset (Dataset): 
+            The `Dataset` object for this data.
     &#34;&#34;&#34;
-    data: ndarray
+    data: Any
     timestamp: List[datetime.datetime]
     metadata: List[Dict]
     problematic_files: List[ProblematicFile]
+    calibrated_data: Any
     dataset: Optional[Dataset] = None
 
     def __str__(self) -&gt; str:
         return self.__repr__()
 
     def __repr__(self) -&gt; str:
-        data_str = &#34;array(dims=%s, dtype=%s)&#34; % (self.data.shape, self.data.dtype)
-        timestamp_str = &#34;[%d datetime objects]&#34; % (len(self.timestamp))
-        metadata_str = &#34;[%d dictionaries]&#34; % (len(self.metadata))
-        problematic_files_str = self.problematic_files.__repr__()
-        dataset_str = &#34;unknown&#34; if self.dataset is None else self.dataset.__repr__()[0:75] + &#34;...)&#34;
+        # set data value
+        if (isinstance(self.data, ndarray) is True):
+            data_str = &#34;array(dims=%s, dtype=%s)&#34; % (self.data.shape, self.data.dtype)
+        elif (isinstance(self.data, list) is True):
+            if (len(self.data) == 0):
+                data_str = &#34;[0 items]&#34;
+            elif (isinstance(self.data[0], Skymap) is True):
+                if (len(self.data) == 0):
+                    data_str = &#34;[]&#34;
+                elif (len(self.data) == 1):
+                    data_str = &#34;[1 Skymap object]&#34;
+                else:
+                    data_str = &#34;[%d Skymap objects]&#34; % (len(self.data))
+            elif (isinstance(self.data[0], Calibration) is True):
+                if (len(self.data) == 0):
+                    data_str = &#34;[]&#34;
+                elif (len(self.data) == 1):
+                    data_str = &#34;[1 Calibration object]&#34;
+                else:
+                    data_str = &#34;[%d Calibration objects]&#34; % (len(self.data))
+            else:
+                data_str = &#34;[%d items]&#34; % (len(self.data))
+        else:
+            data_str = self.data.__repr__()
 
-        return &#34;Data(data=%s, timestamp=%s, metadata=%s, problematic_files=%s, dataset=%s)&#34; % (
+        # set timestamp string
+        if (len(self.timestamp) == 0):
+            timestamp_str = &#34;[]&#34;
+        elif (len(self.timestamp) == 1):
+            timestamp_str = &#34;[1 datetime]&#34;
+        else:
+            timestamp_str = &#34;[%d datetimes]&#34; % (len(self.timestamp))
+
+        # set metadata string
+        if (len(self.metadata) == 0):
+            metadata_str = &#34;[]&#34;
+        elif (len(self.metadata) == 1):
+            metadata_str = &#34;[1 dictionary]&#34;
+        else:
+            metadata_str = &#34;[%d dictionaries]&#34; % (len(self.timestamp))
+
+        # set rest of values
+        problematic_files_str = self.problematic_files.__repr__()
+        calibrated_data_str = &#34;None&#34; if self.calibrated_data is None else &#34;array(dims=%s, dtype=%s)&#34; % (self.calibrated_data.shape,
+                                                                                                        self.calibrated_data.dtype)
+        dataset_str = &#34;None&#34; if self.dataset is None else self.dataset.__repr__()[0:75] + &#34;...)&#34;
+
+        # return
+        return &#34;Data(data=%s, timestamp=%s, metadata=%s, problematic_files=%s, calibrated_data=%s, dataset=%s)&#34; % (
             data_str,
             timestamp_str,
             metadata_str,
             problematic_files_str,
+            calibrated_data_str,
             dataset_str,
-        )</code></pre>
+        )
+
+    def pretty_print(self):
+        &#34;&#34;&#34;
+        A special print output for this class.
+        &#34;&#34;&#34;
+        # set data value
+        if (isinstance(self.data, ndarray) is True):
+            data_str = &#34;array(dims=%s, dtype=%s)&#34; % (self.data.shape, self.data.dtype)
+        elif (isinstance(self.data, list) is True):
+            if (len(self.data) == 0):
+                data_str = &#34;[0 items]&#34;
+            elif (isinstance(self.data[0], Skymap) is True):
+                if (len(self.data) == 0):
+                    data_str = &#34;[]&#34;
+                elif (len(self.data) == 1):
+                    data_str = &#34;[1 Skymap object]&#34;
+                else:
+                    data_str = &#34;[%d Skymap objects]&#34; % (len(self.data))
+            elif (isinstance(self.data[0], Calibration) is True):
+                if (len(self.data) == 0):
+                    data_str = &#34;[]&#34;
+                elif (len(self.data) == 1):
+                    data_str = &#34;[1 Calibration object]&#34;
+                else:
+                    data_str = &#34;[%d Calibration objects]&#34; % (len(self.data))
+            else:
+                data_str = &#34;[%d items]&#34; % (len(self.data))
+        else:
+            data_str = self.data.__repr__()
+
+        # set timestamp string
+        if (len(self.timestamp) == 0):
+            timestamp_str = &#34;[]&#34;
+        elif (len(self.timestamp) == 1):
+            timestamp_str = &#34;[1 datetime]&#34;
+        else:
+            timestamp_str = &#34;[%d datetimes]&#34; % (len(self.timestamp))
+
+        # set metadata string
+        if (len(self.metadata) == 0):
+            metadata_str = &#34;[]&#34;
+        elif (len(self.metadata) == 1):
+            metadata_str = &#34;[1 dictionary]&#34;
+        else:
+            metadata_str = &#34;[%d dictionaries]&#34; % (len(self.timestamp))
+
+        # set rest of values
+        problematic_files_str = self.problematic_files.__repr__()
+        calibrated_data_str = &#34;None&#34; if self.calibrated_data is None else &#34;array(dims=%s, dtype=%s)&#34; % (self.calibrated_data.shape,
+                                                                                                        self.calibrated_data.dtype)
+        dataset_str = &#34;None&#34; if self.dataset is None else self.dataset.__repr__()[0:75] + &#34;...)&#34;
+
+        # print
+        print(&#34;Data:&#34;)
+        print(&#34;  %-22s: %s&#34; % (&#34;data&#34;, data_str))
+        print(&#34;  %-22s: %s&#34; % (&#34;timestamp&#34;, timestamp_str))
+        print(&#34;  %-22s: %s&#34; % (&#34;metadata&#34;, metadata_str))
+        print(&#34;  %-22s: %s&#34; % (&#34;problematic_files&#34;, problematic_files_str))
+        print(&#34;  %-22s: %s&#34; % (&#34;calibrated_data&#34;, calibrated_data_str))
+        print(&#34;  %-22s: %s&#34; % (&#34;dataset&#34;, dataset_str))</code></pre>
 </details>
 <h3>Class variables</h3>
 <dl>
-<dt id="pyucalgarysrs.data.classes.Data.data"><code class="name">var <span class="ident">data</span> : numpy.ndarray</code></dt>
+<dt id="pyucalgarysrs.data.classes.Data.calibrated_data"><code class="name">var <span class="ident">calibrated_data</span> : Any</code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="pyucalgarysrs.data.classes.Data.data"><code class="name">var <span class="ident">data</span> : Any</code></dt>
 <dd>
 <div class="desc"></div>
 </dd>
@@ -723,6 +1240,79 @@ class Data:
 <div class="desc"></div>
 </dd>
 </dl>
+<h3>Methods</h3>
+<dl>
+<dt id="pyucalgarysrs.data.classes.Data.pretty_print"><code class="name flex">
+<span>def <span class="ident">pretty_print</span></span>(<span>self)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>A special print output for this class.</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def pretty_print(self):
+    &#34;&#34;&#34;
+    A special print output for this class.
+    &#34;&#34;&#34;
+    # set data value
+    if (isinstance(self.data, ndarray) is True):
+        data_str = &#34;array(dims=%s, dtype=%s)&#34; % (self.data.shape, self.data.dtype)
+    elif (isinstance(self.data, list) is True):
+        if (len(self.data) == 0):
+            data_str = &#34;[0 items]&#34;
+        elif (isinstance(self.data[0], Skymap) is True):
+            if (len(self.data) == 0):
+                data_str = &#34;[]&#34;
+            elif (len(self.data) == 1):
+                data_str = &#34;[1 Skymap object]&#34;
+            else:
+                data_str = &#34;[%d Skymap objects]&#34; % (len(self.data))
+        elif (isinstance(self.data[0], Calibration) is True):
+            if (len(self.data) == 0):
+                data_str = &#34;[]&#34;
+            elif (len(self.data) == 1):
+                data_str = &#34;[1 Calibration object]&#34;
+            else:
+                data_str = &#34;[%d Calibration objects]&#34; % (len(self.data))
+        else:
+            data_str = &#34;[%d items]&#34; % (len(self.data))
+    else:
+        data_str = self.data.__repr__()
+
+    # set timestamp string
+    if (len(self.timestamp) == 0):
+        timestamp_str = &#34;[]&#34;
+    elif (len(self.timestamp) == 1):
+        timestamp_str = &#34;[1 datetime]&#34;
+    else:
+        timestamp_str = &#34;[%d datetimes]&#34; % (len(self.timestamp))
+
+    # set metadata string
+    if (len(self.metadata) == 0):
+        metadata_str = &#34;[]&#34;
+    elif (len(self.metadata) == 1):
+        metadata_str = &#34;[1 dictionary]&#34;
+    else:
+        metadata_str = &#34;[%d dictionaries]&#34; % (len(self.timestamp))
+
+    # set rest of values
+    problematic_files_str = self.problematic_files.__repr__()
+    calibrated_data_str = &#34;None&#34; if self.calibrated_data is None else &#34;array(dims=%s, dtype=%s)&#34; % (self.calibrated_data.shape,
+                                                                                                    self.calibrated_data.dtype)
+    dataset_str = &#34;None&#34; if self.dataset is None else self.dataset.__repr__()[0:75] + &#34;...)&#34;
+
+    # print
+    print(&#34;Data:&#34;)
+    print(&#34;  %-22s: %s&#34; % (&#34;data&#34;, data_str))
+    print(&#34;  %-22s: %s&#34; % (&#34;timestamp&#34;, timestamp_str))
+    print(&#34;  %-22s: %s&#34; % (&#34;metadata&#34;, metadata_str))
+    print(&#34;  %-22s: %s&#34; % (&#34;problematic_files&#34;, problematic_files_str))
+    print(&#34;  %-22s: %s&#34; % (&#34;calibrated_data&#34;, calibrated_data_str))
+    print(&#34;  %-22s: %s&#34; % (&#34;dataset&#34;, dataset_str))</code></pre>
+</details>
+</dd>
+</dl>
 </dd>
 <dt id="pyucalgarysrs.data.classes.Dataset"><code class="flex name class">
 <span>class <span class="ident">Dataset</span></span>
@@ -740,14 +1330,12 @@ support for downloading and/or reading.</p>
 <dt><strong><code>long_description</code></strong> :&ensp;<code>str</code></dt>
 <dd>A longer description about the dataset</dd>
 <dt><strong><code>data_tree_url</code></strong> :&ensp;<code>str</code></dt>
-<dd>The data tree URL prefix. Used for saving data locally with a
-similar data tree structure compared to the UCalgary Open Data archive.</dd>
+<dd>The data tree URL prefix. Used for saving data locally with a similar data tree
+structure compared to the UCalgary Open Data archive.</dd>
 <dt><strong><code>file_listing_supported</code></strong> :&ensp;<code>bool</code></dt>
-<dd>Flag indicating if file listing (downloading) is
-supported for this dataset.</dd>
+<dd>Flag indicating if file listing (downloading) is supported for this dataset.</dd>
 <dt><strong><code>file_reading_supported</code></strong> :&ensp;<code>bool</code></dt>
-<dd>Flag indicating if file reading is supported for this
-dataset.</dd>
+<dd>Flag indicating if file reading is supported for this dataset.</dd>
 <dt><strong><code>level</code></strong> :&ensp;<code>str</code></dt>
 <dd>Dataset level as per L0/L1/L2/etc standards.</dd>
 <dt><strong><code>doi</code></strong> :&ensp;<code>str</code></dt>
@@ -756,112 +1344,127 @@ dataset.</dd>
 <dd>Further details about the DOI.</dd>
 <dt><strong><code>citation</code></strong> :&ensp;<code>str</code></dt>
 <dd>String to use when citing usage of the dataset.</dd>
+<dt><strong><code>provider</code></strong> :&ensp;<code>str</code></dt>
+<dd>Data provider.</dd>
 </dl></div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
 </summary>
-<pre><code class="python">@dataclass
-class Dataset:
+<pre><code class="python">class Dataset:
     &#34;&#34;&#34;
     A dataset available from the UCalgary Space Remote Sensing API, with possibly
     support for downloading and/or reading.
 
     Attributes:
-        name (str): Dataset name
-        short_description (str): A short description about the dataset
-        long_description (str): A longer description about the dataset
-        data_tree_url (str): The data tree URL prefix. Used for saving data locally with a 
-            similar data tree structure compared to the UCalgary Open Data archive.
-        file_listing_supported (bool): Flag indicating if file listing (downloading) is 
-            supported for this dataset.
-        file_reading_supported (bool): Flag indicating if file reading is supported for this
-            dataset.
-        level (str): Dataset level as per L0/L1/L2/etc standards.
-        doi (str): Dataset DOI unique identifier.
-        doi_details (str): Further details about the DOI.
-        citation (str): String to use when citing usage of the dataset.
+        name (str): 
+            Dataset name
+        
+        short_description (str): 
+            A short description about the dataset
+        
+        long_description (str): 
+            A longer description about the dataset
+        
+        data_tree_url (str): 
+            The data tree URL prefix. Used for saving data locally with a similar data tree 
+            structure compared to the UCalgary Open Data archive.
+        
+        file_listing_supported (bool): 
+            Flag indicating if file listing (downloading) is supported for this dataset.
+        
+        file_reading_supported (bool): 
+            Flag indicating if file reading is supported for this dataset.
+        
+        level (str): 
+            Dataset level as per L0/L1/L2/etc standards.
+        
+        doi (str): 
+            Dataset DOI unique identifier.
+        
+        doi_details (str): 
+            Further details about the DOI.
+        
+        citation (str): 
+            String to use when citing usage of the dataset.
+        
+        provider (str): 
+            Data provider.
     &#34;&#34;&#34;
-    name: str
-    short_description: str
-    long_description: str
-    data_tree_url: str
-    file_listing_supported: bool
-    file_reading_supported: bool
-    level: str
-    doi: Optional[str] = None
-    doi_details: Optional[str] = None
-    citation: Optional[str] = None
 
-    def print_acknowledgement_info(self):
+    def __init__(self,
+                 name: str,
+                 short_description: str,
+                 long_description: str,
+                 data_tree_url: str,
+                 file_listing_supported: bool,
+                 file_reading_supported: bool,
+                 level: str,
+                 doi: Optional[str] = None,
+                 doi_details: Optional[str] = None,
+                 citation: Optional[str] = None):
+        self.name = name
+        self.short_description = short_description
+        self.long_description = long_description
+        self.data_tree_url = data_tree_url
+        self.file_listing_supported = file_listing_supported
+        self.file_reading_supported = file_reading_supported
+        self.level = level
+        self.doi = doi
+        self.doi_details = doi_details
+        self.citation = citation
+        self.provider = &#34;UCalgary&#34;
+
+    def __str__(self) -&gt; str:
+        return self.__repr__()
+
+    def __repr__(self) -&gt; str:
+        return &#34;Dataset(name=%s, short_description=&#39;%s&#39;, provider=&#39;%s&#39;, level=&#39;%s&#39;, doi_details=&#39;%s&#39;, ...)&#34; % (
+            self.name,
+            self.short_description,
+            self.provider,
+            self.level,
+            self.doi_details,
+        )
+
+    def pretty_print(self):
         &#34;&#34;&#34;
-        A special print output for the dataset&#39;s acknowledgement information.
+        A special print output for this class.
         &#34;&#34;&#34;
-        print(&#34;%-15s%s&#34; % (&#34;DOI:&#34;, self.doi))
-        print(&#34;%-15s%s&#34; % (&#34;DOI details:&#34;, self.doi_details))
-        print(&#34;%-15s\&#34;%s\&#34;&#34; % (&#34;Citation:&#34;, self.citation))</code></pre>
+        print(&#34;Dataset:&#34;)
+        for var_name in dir(self):
+            # exclude methods
+            if (var_name.startswith(&#34;__&#34;) or var_name == &#34;pretty_print&#34;):
+                continue
+
+            # convert var to string format we want
+            var_value = getattr(self, var_name)
+            print(&#34;  %-27s: %s&#34; % (var_name, None if var_value is None else var_value))</code></pre>
 </details>
-<h3>Class variables</h3>
-<dl>
-<dt id="pyucalgarysrs.data.classes.Dataset.citation"><code class="name">var <span class="ident">citation</span> : Optional[str]</code></dt>
-<dd>
-<div class="desc"></div>
-</dd>
-<dt id="pyucalgarysrs.data.classes.Dataset.data_tree_url"><code class="name">var <span class="ident">data_tree_url</span> : str</code></dt>
-<dd>
-<div class="desc"></div>
-</dd>
-<dt id="pyucalgarysrs.data.classes.Dataset.doi"><code class="name">var <span class="ident">doi</span> : Optional[str]</code></dt>
-<dd>
-<div class="desc"></div>
-</dd>
-<dt id="pyucalgarysrs.data.classes.Dataset.doi_details"><code class="name">var <span class="ident">doi_details</span> : Optional[str]</code></dt>
-<dd>
-<div class="desc"></div>
-</dd>
-<dt id="pyucalgarysrs.data.classes.Dataset.file_listing_supported"><code class="name">var <span class="ident">file_listing_supported</span> : bool</code></dt>
-<dd>
-<div class="desc"></div>
-</dd>
-<dt id="pyucalgarysrs.data.classes.Dataset.file_reading_supported"><code class="name">var <span class="ident">file_reading_supported</span> : bool</code></dt>
-<dd>
-<div class="desc"></div>
-</dd>
-<dt id="pyucalgarysrs.data.classes.Dataset.level"><code class="name">var <span class="ident">level</span> : str</code></dt>
-<dd>
-<div class="desc"></div>
-</dd>
-<dt id="pyucalgarysrs.data.classes.Dataset.long_description"><code class="name">var <span class="ident">long_description</span> : str</code></dt>
-<dd>
-<div class="desc"></div>
-</dd>
-<dt id="pyucalgarysrs.data.classes.Dataset.name"><code class="name">var <span class="ident">name</span> : str</code></dt>
-<dd>
-<div class="desc"></div>
-</dd>
-<dt id="pyucalgarysrs.data.classes.Dataset.short_description"><code class="name">var <span class="ident">short_description</span> : str</code></dt>
-<dd>
-<div class="desc"></div>
-</dd>
-</dl>
 <h3>Methods</h3>
 <dl>
-<dt id="pyucalgarysrs.data.classes.Dataset.print_acknowledgement_info"><code class="name flex">
-<span>def <span class="ident">print_acknowledgement_info</span></span>(<span>self)</span>
+<dt id="pyucalgarysrs.data.classes.Dataset.pretty_print"><code class="name flex">
+<span>def <span class="ident">pretty_print</span></span>(<span>self)</span>
 </code></dt>
 <dd>
-<div class="desc"><p>A special print output for the dataset's acknowledgement information.</p></div>
+<div class="desc"><p>A special print output for this class.</p></div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
 </summary>
-<pre><code class="python">def print_acknowledgement_info(self):
+<pre><code class="python">def pretty_print(self):
     &#34;&#34;&#34;
-    A special print output for the dataset&#39;s acknowledgement information.
+    A special print output for this class.
     &#34;&#34;&#34;
-    print(&#34;%-15s%s&#34; % (&#34;DOI:&#34;, self.doi))
-    print(&#34;%-15s%s&#34; % (&#34;DOI details:&#34;, self.doi_details))
-    print(&#34;%-15s\&#34;%s\&#34;&#34; % (&#34;Citation:&#34;, self.citation))</code></pre>
+    print(&#34;Dataset:&#34;)
+    for var_name in dir(self):
+        # exclude methods
+        if (var_name.startswith(&#34;__&#34;) or var_name == &#34;pretty_print&#34;):
+            continue
+
+        # convert var to string format we want
+        var_value = getattr(self, var_name)
+        print(&#34;  %-27s: %s&#34; % (var_name, None if var_value is None else var_value))</code></pre>
 </details>
 </dd>
 </dl>
@@ -875,8 +1478,7 @@ class Dataset:
 <h2 id="attributes">Attributes</h2>
 <dl>
 <dt><strong><code>filenames</code></strong> :&ensp;<code>List[str]</code></dt>
-<dd>List of downloaded files, as absolute paths of their location on
-the local machine.</dd>
+<dd>List of downloaded files, as absolute paths of their location on the local machine.</dd>
 <dt><strong><code>count</code></strong> :&ensp;<code>int</code></dt>
 <dd>Number of files downloaded</dd>
 <dt><strong><code>total_bytes</code></strong> :&ensp;<code>int</code></dt>
@@ -896,12 +1498,20 @@ class FileDownloadResult:
     Representation of the results from a data download call.
 
     Attributes:
-        filenames (List[str]): List of downloaded files, as absolute paths of their location on 
-            the local machine.
-        count (int): Number of files downloaded
-        total_bytes (int): Cumulative amount of bytes saved on the local machine.
-        output_root_path (str): The root path of where the data was saved to on the local machine.
-        dataset (Dataset): The `Dataset` object for this data.
+        filenames (List[str]): 
+            List of downloaded files, as absolute paths of their location on the local machine.
+        
+        count (int): 
+            Number of files downloaded
+        
+        total_bytes (int): 
+            Cumulative amount of bytes saved on the local machine.
+        
+        output_root_path (str): 
+            The root path of where the data was saved to on the local machine.
+        
+        dataset (Dataset): 
+            The `Dataset` object for this data.
     &#34;&#34;&#34;
     filenames: List[str]
     count: int
@@ -944,8 +1554,8 @@ class FileDownloadResult:
 <dt><strong><code>urls</code></strong> :&ensp;<code>List[str]</code></dt>
 <dd>A list of URLs for available data files.</dd>
 <dt><strong><code>path_prefix</code></strong> :&ensp;<code>str</code></dt>
-<dd>The URL prefix, which is sed for saving data locally with a
-similar data tree structure compared to the UCalgary Open Data archive.</dd>
+<dd>The URL prefix, which is sed for saving data locally with a similar data tree
+structure compared to the UCalgary Open Data archive.</dd>
 <dt><strong><code>count</code></strong> :&ensp;<code>int</code></dt>
 <dd>The number of URLs available.</dd>
 <dt><strong><code>dataset</code></strong> :&ensp;<code><a title="pyucalgarysrs.data.classes.Dataset" href="#pyucalgarysrs.data.classes.Dataset">Dataset</a></code></dt>
@@ -963,12 +1573,21 @@ class FileListingResponse:
     Representation of the file listing response from the UCalgary Space Remote Sensing API.
 
     Attributes:
-        urls (List[str]): A list of URLs for available data files.
-        path_prefix (str): The URL prefix, which is sed for saving data locally with a 
-            similar data tree structure compared to the UCalgary Open Data archive.
-        count (int): The number of URLs available.
-        dataset (Dataset): The `Dataset` object for this data.
-        total_bytes (int): The cumulative amount of bytes for the available URLs.
+        urls (List[str]): 
+            A list of URLs for available data files.
+        
+        path_prefix (str): 
+            The URL prefix, which is sed for saving data locally with a similar data tree 
+            structure compared to the UCalgary Open Data archive.
+        
+        count (int): 
+            The number of URLs available.
+        
+        dataset (Dataset): 
+            The `Dataset` object for this data.
+        
+        total_bytes (int): 
+            The cumulative amount of bytes for the available URLs.
     &#34;&#34;&#34;
     urls: List[str]
     path_prefix: str
@@ -1016,44 +1635,92 @@ class FileListingResponse:
 <dd>geodetic latitude for the observatory, in decimal format (-90 to 90)</dd>
 <dt><strong><code>geodetic_longitude</code></strong> :&ensp;<code>float</code></dt>
 <dd>geodetic longitude for the observatory, in decimal format (-180 to 180)</dd>
+<dt><strong><code>provider</code></strong> :&ensp;<code>str</code></dt>
+<dd>Data provider.</dd>
 </dl></div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
 </summary>
-<pre><code class="python">@dataclass
-class Observatory:
+<pre><code class="python">class Observatory:
     &#34;&#34;&#34;
     Representation for an observatory.
 
     Attributes:
-        uid (str): 4-letter unique identifier (traditionally referred to as the site UID)
-        full_name (str): full location string for the observatory
-        geodetic_latitude (float): geodetic latitude for the observatory, in decimal format (-90 to 90)
-        geodetic_longitude (float): geodetic longitude for the observatory, in decimal format (-180 to 180)
+        uid (str): 
+            4-letter unique identifier (traditionally referred to as the site UID)
+
+        full_name (str): 
+            full location string for the observatory
+        
+        geodetic_latitude (float): 
+            geodetic latitude for the observatory, in decimal format (-90 to 90)
+        
+        geodetic_longitude (float): 
+            geodetic longitude for the observatory, in decimal format (-180 to 180)
+
+        provider (str): 
+            Data provider.
     &#34;&#34;&#34;
-    uid: str
-    full_name: str
-    geodetic_latitude: float
-    geodetic_longitude: float</code></pre>
+
+    def __init__(self, uid: str, full_name: str, geodetic_latitude: float, geodetic_longitude: float):
+        self.uid = uid
+        self.full_name = full_name
+        self.geodetic_latitude = geodetic_latitude
+        self.geodetic_longitude = geodetic_longitude
+        self.provider = &#34;UCalgary&#34;
+
+    def __str__(self) -&gt; str:
+        return self.__repr__()
+
+    def __repr__(self) -&gt; str:
+        return &#34;Observatory(uid=%s, full_name=&#39;%s&#39;, geodetic_latitude=%s, geodetic_longitude=%s, provider=&#39;%s&#39;)&#34; % (
+            self.uid,
+            self.full_name,
+            self.geodetic_latitude,
+            self.geodetic_longitude,
+            self.provider,
+        )
+
+    def pretty_print(self):
+        &#34;&#34;&#34;
+        A special print output for this class.
+        &#34;&#34;&#34;
+        print(&#34;Observatory:&#34;)
+        for var_name in dir(self):
+            # exclude methods
+            if (var_name.startswith(&#34;__&#34;) or var_name == &#34;pretty_print&#34;):
+                continue
+
+            # convert var to string format we want
+            var_value = getattr(self, var_name)
+            print(&#34;  %-22s: %s&#34; % (var_name, None if var_value is None else var_value))</code></pre>
 </details>
-<h3>Class variables</h3>
+<h3>Methods</h3>
 <dl>
-<dt id="pyucalgarysrs.data.classes.Observatory.full_name"><code class="name">var <span class="ident">full_name</span> : str</code></dt>
+<dt id="pyucalgarysrs.data.classes.Observatory.pretty_print"><code class="name flex">
+<span>def <span class="ident">pretty_print</span></span>(<span>self)</span>
+</code></dt>
 <dd>
-<div class="desc"></div>
-</dd>
-<dt id="pyucalgarysrs.data.classes.Observatory.geodetic_latitude"><code class="name">var <span class="ident">geodetic_latitude</span> : float</code></dt>
-<dd>
-<div class="desc"></div>
-</dd>
-<dt id="pyucalgarysrs.data.classes.Observatory.geodetic_longitude"><code class="name">var <span class="ident">geodetic_longitude</span> : float</code></dt>
-<dd>
-<div class="desc"></div>
-</dd>
-<dt id="pyucalgarysrs.data.classes.Observatory.uid"><code class="name">var <span class="ident">uid</span> : str</code></dt>
-<dd>
-<div class="desc"></div>
+<div class="desc"><p>A special print output for this class.</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def pretty_print(self):
+    &#34;&#34;&#34;
+    A special print output for this class.
+    &#34;&#34;&#34;
+    print(&#34;Observatory:&#34;)
+    for var_name in dir(self):
+        # exclude methods
+        if (var_name.startswith(&#34;__&#34;) or var_name == &#34;pretty_print&#34;):
+            continue
+
+        # convert var to string format we want
+        var_value = getattr(self, var_name)
+        print(&#34;  %-22s: %s&#34; % (var_name, None if var_value is None else var_value))</code></pre>
+</details>
 </dd>
 </dl>
 </dd>
@@ -1082,9 +1749,14 @@ class ProblematicFile:
     Representation about a file that had issues being read.
 
     Attributes:
-        filename (str): Filename of the problematic file.
-        error_message (str): Error message that was encountered while attempting to read the file.
-        error_type (str): Error type encountered. Possible values are &#39;error&#39; or &#39;warning&#39;.
+        filename (str): 
+            Filename of the problematic file.
+        
+        error_message (str): 
+            Error message that was encountered while attempting to read the file.
+        
+        error_type (str): 
+            Error type encountered. Possible values are &#39;error&#39; or &#39;warning&#39;.
     &#34;&#34;&#34;
     filename: str
     error_message: str
@@ -1108,15 +1780,14 @@ class ProblematicFile:
 </dd>
 <dt id="pyucalgarysrs.data.classes.Skymap"><code class="flex name class">
 <span>class <span class="ident">Skymap</span></span>
-<span>(</span><span>filename: str, project_uid: str, site_uid: str, imager_uid: str, site_map_latitude: float, site_map_longitude: float, site_map_altitude: float, full_elevation: numpy.ndarray, full_azimuth: numpy.ndarray, full_map_altitude: numpy.ndarray, full_map_latitude: numpy.ndarray, full_map_longitude: numpy.ndarray, generation_info: <a title="pyucalgarysrs.data.classes.SkymapGenerationInfo" href="#pyucalgarysrs.data.classes.SkymapGenerationInfo">SkymapGenerationInfo</a>, version: str, dataset: Optional[<a title="pyucalgarysrs.data.classes.Dataset" href="#pyucalgarysrs.data.classes.Dataset">Dataset</a>] = None)</span>
+<span>(</span><span>filename: str, project_uid: str, site_uid: str, imager_uid: str, site_map_latitude: float, site_map_longitude: float, site_map_altitude: float, full_elevation: numpy.ndarray, full_azimuth: numpy.ndarray, full_map_altitude: numpy.ndarray, full_map_latitude: numpy.ndarray, full_map_longitude: numpy.ndarray, generation_info: <a title="pyucalgarysrs.data.classes.SkymapGenerationInfo" href="#pyucalgarysrs.data.classes.SkymapGenerationInfo">SkymapGenerationInfo</a>, version: str)</span>
 </code></dt>
 <dd>
 <div class="desc"><p>Representation for a skymap file.</p>
 <h2 id="attributes">Attributes</h2>
 <dl>
 <dt><strong><code>filename</code></strong> :&ensp;<code>str</code></dt>
-<dd>Filename for the skymap file, as an absolute path of its location on
-the local machine.</dd>
+<dd>Filename for the skymap file, as an absolute path of its location on the local machine.</dd>
 <dt><strong><code>project_uid</code></strong> :&ensp;<code>str</code></dt>
 <dd>Project unique identifier</dd>
 <dt><strong><code>site_uid</code></strong> :&ensp;<code>str</code></dt>
@@ -1156,22 +1827,50 @@ class Skymap:
     Representation for a skymap file.
 
     Attributes:
-        filename (str): Filename for the skymap file, as an absolute path of its location on 
-            the local machine.
-        project_uid (str): Project unique identifier
-        site_uid (str): Site unique identifier
-        imager_uid (str): Imager/device unique identifier
-        site_map_latitude (float): Geodetic latitude of instrument
-        site_map_longitude (float): Geodetic longitude of instrument
-        site_map_altitude (float): Altitude of the instrument (in meters)
-        full_elevation (ndarray): Elevation angle from horizon, for each image pixel (in degrees)
-        full_azimuth (ndarray): Local azimuth angle from 0 degrees north, positive moving east (in degrees)
-        full_map_altitude (ndarray): Altitudes that image coordinates are mapped to (in kilometers)
-        full_map_latitude (ndarray): Geodetic latitudes of pixel corners, mapped to various altitudes (specified by `full_map_altitude`)
-        full_map_longitude (ndarray): Geodetic longitudes of pixel corners, mapped to various altitudes (specified by `full_map_altitude`)
-        generation_info (SkymapGenerationInfo): Metadata describing details about this skymap&#39;s generation process
-        version (str): Version of the skymap
-        dataset (Dataset): The `Dataset` object for this data.
+        filename (str): 
+            Filename for the skymap file, as an absolute path of its location on the local machine.
+        
+        project_uid (str): 
+            Project unique identifier
+        
+        site_uid (str): 
+            Site unique identifier
+        
+        imager_uid (str): 
+            Imager/device unique identifier
+        
+        site_map_latitude (float): 
+            Geodetic latitude of instrument
+        
+        site_map_longitude (float): 
+            Geodetic longitude of instrument
+        
+        site_map_altitude (float): 
+            Altitude of the instrument (in meters)
+        
+        full_elevation (ndarray): 
+            Elevation angle from horizon, for each image pixel (in degrees)
+        
+        full_azimuth (ndarray): 
+            Local azimuth angle from 0 degrees north, positive moving east (in degrees)
+        
+        full_map_altitude (ndarray): 
+            Altitudes that image coordinates are mapped to (in kilometers)
+        
+        full_map_latitude (ndarray): 
+            Geodetic latitudes of pixel corners, mapped to various altitudes (specified by `full_map_altitude`)
+        
+        full_map_longitude (ndarray): 
+            Geodetic longitudes of pixel corners, mapped to various altitudes (specified by `full_map_altitude`)
+        
+        generation_info (SkymapGenerationInfo): 
+            Metadata describing details about this skymap&#39;s generation process
+        
+        version (str): 
+            Version of the skymap
+        
+        dataset (Dataset): 
+            The `Dataset` object for this data.
     &#34;&#34;&#34;
     filename: str
     project_uid: str
@@ -1187,20 +1886,17 @@ class Skymap:
     full_map_longitude: ndarray
     generation_info: SkymapGenerationInfo
     version: str
-    dataset: Optional[Dataset] = None
 
     def __str__(self) -&gt; str:
         return self.__repr__()
 
     def __repr__(self) -&gt; str:
-        dataset_str = &#34;unknown&#34; if self.dataset is None else self.dataset.__repr__()[0:75] + &#34;...)&#34;
-        return &#34;Skymap(project_uid=%s, site_uid=%s, imager_uid=%s, site_map_latitude=%f, site_map_longitude=%f, dataset=%s, ...)&#34; % (
+        return &#34;Skymap(project_uid=%s, site_uid=%s, imager_uid=%s, site_map_latitude=%f, site_map_longitude=%f, ...)&#34; % (
             self.project_uid,
             self.site_uid,
             self.imager_uid,
             self.site_map_latitude,
             self.site_map_longitude,
-            dataset_str,
         )
 
     def pretty_print(self):
@@ -1222,17 +1918,13 @@ class Skymap:
                 if (isinstance(var_value, ndarray)):
                     var_str = &#34;array(dims=%s, dtype=%s)&#34; % (var_value.shape, var_value.dtype)
                 else:
-                    var_str = var_value
+                    var_str = str(var_value)
 
             # print string for this var
-            print(&#34;  %-22s: %s&#34; % (var_name, var_str))</code></pre>
+            print(&#34;  %-23s: %s&#34; % (var_name, var_str))</code></pre>
 </details>
 <h3>Class variables</h3>
 <dl>
-<dt id="pyucalgarysrs.data.classes.Skymap.dataset"><code class="name">var <span class="ident">dataset</span> : Optional[<a title="pyucalgarysrs.data.classes.Dataset" href="#pyucalgarysrs.data.classes.Dataset">Dataset</a>]</code></dt>
-<dd>
-<div class="desc"></div>
-</dd>
 <dt id="pyucalgarysrs.data.classes.Skymap.filename"><code class="name">var <span class="ident">filename</span> : str</code></dt>
 <dd>
 <div class="desc"></div>
@@ -1320,10 +2012,10 @@ class Skymap:
             if (isinstance(var_value, ndarray)):
                 var_str = &#34;array(dims=%s, dtype=%s)&#34; % (var_value.shape, var_value.dtype)
             else:
-                var_str = var_value
+                var_str = str(var_value)
 
         # print string for this var
-        print(&#34;  %-22s: %s&#34; % (var_name, var_str))</code></pre>
+        print(&#34;  %-23s: %s&#34; % (var_name, var_str))</code></pre>
 </details>
 </dd>
 </dl>
@@ -1359,8 +2051,8 @@ class Skymap:
 <dt><strong><code>valid_interval_start</code></strong> :&ensp;<code>datetime.datetime</code></dt>
 <dd>Valid start time for this skymap</dd>
 <dt><strong><code>valid_interval_end</code></strong> :&ensp;<code>datetime.datetime</code></dt>
-<dd>Valid end time for this skymap. If None, then end time
-is unbounded and valid up until the next newest skymap.</dd>
+<dd>Valid end time for this skymap. If None, then end time is unbounded and valid up until
+the next newest skymap.</dd>
 </dl></div>
 <details class="source">
 <summary>
@@ -1372,19 +2064,42 @@ class SkymapGenerationInfo:
     Representation of generation details for a specific skymap file.
 
     Attributes:
-        author (str): Name of individual who created the skymap
-        ccd_center (float): Center pixels of the CCD
-        code_used (str): Program name for the code used to generate the skymap
-        data_loc (str): Location of the data on the UCalgary data systems used during generation
-        date_generated (datetime.datetime): Timestamp of when the skymap was generated
-        date_time_used (datetime.datetime): Timestamp of what hour was used during generation
-        img_flip (ndarray): Image flipping specifics
-        optical_orientation (ndarray): Image orientation details
-        optical_projection (ndarray): Image projection details
-        pixel_aspect_ratio (float): Aspect ratio details
-        valid_interval_start (datetime.datetime): Valid start time for this skymap
-        valid_interval_end (datetime.datetime): Valid end time for this skymap. If None, then end time
-            is unbounded and valid up until the next newest skymap.
+        author (str): 
+            Name of individual who created the skymap
+        
+        ccd_center (float): 
+            Center pixels of the CCD
+        
+        code_used (str): 
+            Program name for the code used to generate the skymap
+        
+        data_loc (str): 
+            Location of the data on the UCalgary data systems used during generation
+        
+        date_generated (datetime.datetime): 
+            Timestamp of when the skymap was generated
+        
+        date_time_used (datetime.datetime): 
+            Timestamp of what hour was used during generation
+        
+        img_flip (ndarray): 
+            Image flipping specifics
+        
+        optical_orientation (ndarray): 
+            Image orientation details
+        
+        optical_projection (ndarray): 
+            Image projection details
+        
+        pixel_aspect_ratio (float): 
+            Aspect ratio details
+        
+        valid_interval_start (datetime.datetime): 
+            Valid start time for this skymap
+        
+        valid_interval_end (datetime.datetime): 
+            Valid end time for this skymap. If None, then end time is unbounded and valid up until 
+            the next newest skymap.
     &#34;&#34;&#34;
     author: str
     ccd_center: float
@@ -1408,7 +2123,29 @@ class SkymapGenerationInfo:
             str(self.date_generated.__repr__()),
             self.author,
             self.ccd_center,
-        )</code></pre>
+        )
+
+    def pretty_print(self):
+        &#34;&#34;&#34;
+        A special print output for this class.
+        &#34;&#34;&#34;
+        print(&#34;SkymapGenerationInfo:&#34;)
+        for var_name in dir(self):
+            # exclude methods
+            if (var_name.startswith(&#34;__&#34;) or var_name == &#34;pretty_print&#34;):
+                continue
+
+            # convert var to string format we want
+            var_value = getattr(self, var_name)
+            var_str = &#34;None&#34;
+            if (var_value is not None):
+                if (isinstance(var_value, ndarray)):
+                    var_str = &#34;array(dims=%s, dtype=%s)&#34; % (var_value.shape, var_value.dtype)
+                else:
+                    var_str = str(var_value)
+
+            # print string for this var
+            print(&#34;  %-24s: %s&#34; % (var_name, var_str))</code></pre>
 </details>
 <h3>Class variables</h3>
 <dl>
@@ -1463,6 +2200,41 @@ class SkymapGenerationInfo:
 <dt id="pyucalgarysrs.data.classes.SkymapGenerationInfo.valid_interval_stop"><code class="name">var <span class="ident">valid_interval_stop</span> : Optional[datetime.datetime]</code></dt>
 <dd>
 <div class="desc"></div>
+</dd>
+</dl>
+<h3>Methods</h3>
+<dl>
+<dt id="pyucalgarysrs.data.classes.SkymapGenerationInfo.pretty_print"><code class="name flex">
+<span>def <span class="ident">pretty_print</span></span>(<span>self)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>A special print output for this class.</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def pretty_print(self):
+    &#34;&#34;&#34;
+    A special print output for this class.
+    &#34;&#34;&#34;
+    print(&#34;SkymapGenerationInfo:&#34;)
+    for var_name in dir(self):
+        # exclude methods
+        if (var_name.startswith(&#34;__&#34;) or var_name == &#34;pretty_print&#34;):
+            continue
+
+        # convert var to string format we want
+        var_value = getattr(self, var_name)
+        var_str = &#34;None&#34;
+        if (var_value is not None):
+            if (isinstance(var_value, ndarray)):
+                var_str = &#34;array(dims=%s, dtype=%s)&#34; % (var_value.shape, var_value.dtype)
+            else:
+                var_str = str(var_value)
+
+        # print string for this var
+        print(&#34;  %-24s: %s&#34; % (var_name, var_str))</code></pre>
+</details>
 </dd>
 </dl>
 </dd>
@@ -1546,6 +2318,7 @@ setTimeout(() => input.focus(), 100);
 <ul class="">
 <li><code><a title="pyucalgarysrs.data.classes.CalibrationGenerationInfo.author" href="#pyucalgarysrs.data.classes.CalibrationGenerationInfo.author">author</a></code></li>
 <li><code><a title="pyucalgarysrs.data.classes.CalibrationGenerationInfo.input_data_dir" href="#pyucalgarysrs.data.classes.CalibrationGenerationInfo.input_data_dir">input_data_dir</a></code></li>
+<li><code><a title="pyucalgarysrs.data.classes.CalibrationGenerationInfo.pretty_print" href="#pyucalgarysrs.data.classes.CalibrationGenerationInfo.pretty_print">pretty_print</a></code></li>
 <li><code><a title="pyucalgarysrs.data.classes.CalibrationGenerationInfo.skymap_filename" href="#pyucalgarysrs.data.classes.CalibrationGenerationInfo.skymap_filename">skymap_filename</a></code></li>
 <li><code><a title="pyucalgarysrs.data.classes.CalibrationGenerationInfo.valid_interval_start" href="#pyucalgarysrs.data.classes.CalibrationGenerationInfo.valid_interval_start">valid_interval_start</a></code></li>
 <li><code><a title="pyucalgarysrs.data.classes.CalibrationGenerationInfo.valid_interval_stop" href="#pyucalgarysrs.data.classes.CalibrationGenerationInfo.valid_interval_stop">valid_interval_stop</a></code></li>
@@ -1553,10 +2326,12 @@ setTimeout(() => input.focus(), 100);
 </li>
 <li>
 <h4><code><a title="pyucalgarysrs.data.classes.Data" href="#pyucalgarysrs.data.classes.Data">Data</a></code></h4>
-<ul class="">
+<ul class="two-column">
+<li><code><a title="pyucalgarysrs.data.classes.Data.calibrated_data" href="#pyucalgarysrs.data.classes.Data.calibrated_data">calibrated_data</a></code></li>
 <li><code><a title="pyucalgarysrs.data.classes.Data.data" href="#pyucalgarysrs.data.classes.Data.data">data</a></code></li>
 <li><code><a title="pyucalgarysrs.data.classes.Data.dataset" href="#pyucalgarysrs.data.classes.Data.dataset">dataset</a></code></li>
 <li><code><a title="pyucalgarysrs.data.classes.Data.metadata" href="#pyucalgarysrs.data.classes.Data.metadata">metadata</a></code></li>
+<li><code><a title="pyucalgarysrs.data.classes.Data.pretty_print" href="#pyucalgarysrs.data.classes.Data.pretty_print">pretty_print</a></code></li>
 <li><code><a title="pyucalgarysrs.data.classes.Data.problematic_files" href="#pyucalgarysrs.data.classes.Data.problematic_files">problematic_files</a></code></li>
 <li><code><a title="pyucalgarysrs.data.classes.Data.timestamp" href="#pyucalgarysrs.data.classes.Data.timestamp">timestamp</a></code></li>
 </ul>
@@ -1564,17 +2339,7 @@ setTimeout(() => input.focus(), 100);
 <li>
 <h4><code><a title="pyucalgarysrs.data.classes.Dataset" href="#pyucalgarysrs.data.classes.Dataset">Dataset</a></code></h4>
 <ul class="">
-<li><code><a title="pyucalgarysrs.data.classes.Dataset.citation" href="#pyucalgarysrs.data.classes.Dataset.citation">citation</a></code></li>
-<li><code><a title="pyucalgarysrs.data.classes.Dataset.data_tree_url" href="#pyucalgarysrs.data.classes.Dataset.data_tree_url">data_tree_url</a></code></li>
-<li><code><a title="pyucalgarysrs.data.classes.Dataset.doi" href="#pyucalgarysrs.data.classes.Dataset.doi">doi</a></code></li>
-<li><code><a title="pyucalgarysrs.data.classes.Dataset.doi_details" href="#pyucalgarysrs.data.classes.Dataset.doi_details">doi_details</a></code></li>
-<li><code><a title="pyucalgarysrs.data.classes.Dataset.file_listing_supported" href="#pyucalgarysrs.data.classes.Dataset.file_listing_supported">file_listing_supported</a></code></li>
-<li><code><a title="pyucalgarysrs.data.classes.Dataset.file_reading_supported" href="#pyucalgarysrs.data.classes.Dataset.file_reading_supported">file_reading_supported</a></code></li>
-<li><code><a title="pyucalgarysrs.data.classes.Dataset.level" href="#pyucalgarysrs.data.classes.Dataset.level">level</a></code></li>
-<li><code><a title="pyucalgarysrs.data.classes.Dataset.long_description" href="#pyucalgarysrs.data.classes.Dataset.long_description">long_description</a></code></li>
-<li><code><a title="pyucalgarysrs.data.classes.Dataset.name" href="#pyucalgarysrs.data.classes.Dataset.name">name</a></code></li>
-<li><code><a title="pyucalgarysrs.data.classes.Dataset.print_acknowledgement_info" href="#pyucalgarysrs.data.classes.Dataset.print_acknowledgement_info">print_acknowledgement_info</a></code></li>
-<li><code><a title="pyucalgarysrs.data.classes.Dataset.short_description" href="#pyucalgarysrs.data.classes.Dataset.short_description">short_description</a></code></li>
+<li><code><a title="pyucalgarysrs.data.classes.Dataset.pretty_print" href="#pyucalgarysrs.data.classes.Dataset.pretty_print">pretty_print</a></code></li>
 </ul>
 </li>
 <li>
@@ -1600,10 +2365,7 @@ setTimeout(() => input.focus(), 100);
 <li>
 <h4><code><a title="pyucalgarysrs.data.classes.Observatory" href="#pyucalgarysrs.data.classes.Observatory">Observatory</a></code></h4>
 <ul class="">
-<li><code><a title="pyucalgarysrs.data.classes.Observatory.full_name" href="#pyucalgarysrs.data.classes.Observatory.full_name">full_name</a></code></li>
-<li><code><a title="pyucalgarysrs.data.classes.Observatory.geodetic_latitude" href="#pyucalgarysrs.data.classes.Observatory.geodetic_latitude">geodetic_latitude</a></code></li>
-<li><code><a title="pyucalgarysrs.data.classes.Observatory.geodetic_longitude" href="#pyucalgarysrs.data.classes.Observatory.geodetic_longitude">geodetic_longitude</a></code></li>
-<li><code><a title="pyucalgarysrs.data.classes.Observatory.uid" href="#pyucalgarysrs.data.classes.Observatory.uid">uid</a></code></li>
+<li><code><a title="pyucalgarysrs.data.classes.Observatory.pretty_print" href="#pyucalgarysrs.data.classes.Observatory.pretty_print">pretty_print</a></code></li>
 </ul>
 </li>
 <li>
@@ -1617,7 +2379,6 @@ setTimeout(() => input.focus(), 100);
 <li>
 <h4><code><a title="pyucalgarysrs.data.classes.Skymap" href="#pyucalgarysrs.data.classes.Skymap">Skymap</a></code></h4>
 <ul class="two-column">
-<li><code><a title="pyucalgarysrs.data.classes.Skymap.dataset" href="#pyucalgarysrs.data.classes.Skymap.dataset">dataset</a></code></li>
 <li><code><a title="pyucalgarysrs.data.classes.Skymap.filename" href="#pyucalgarysrs.data.classes.Skymap.filename">filename</a></code></li>
 <li><code><a title="pyucalgarysrs.data.classes.Skymap.full_azimuth" href="#pyucalgarysrs.data.classes.Skymap.full_azimuth">full_azimuth</a></code></li>
 <li><code><a title="pyucalgarysrs.data.classes.Skymap.full_elevation" href="#pyucalgarysrs.data.classes.Skymap.full_elevation">full_elevation</a></code></li>
@@ -1649,6 +2410,7 @@ setTimeout(() => input.focus(), 100);
 <li><code><a title="pyucalgarysrs.data.classes.SkymapGenerationInfo.optical_orientation" href="#pyucalgarysrs.data.classes.SkymapGenerationInfo.optical_orientation">optical_orientation</a></code></li>
 <li><code><a title="pyucalgarysrs.data.classes.SkymapGenerationInfo.optical_projection" href="#pyucalgarysrs.data.classes.SkymapGenerationInfo.optical_projection">optical_projection</a></code></li>
 <li><code><a title="pyucalgarysrs.data.classes.SkymapGenerationInfo.pixel_aspect_ratio" href="#pyucalgarysrs.data.classes.SkymapGenerationInfo.pixel_aspect_ratio">pixel_aspect_ratio</a></code></li>
+<li><code><a title="pyucalgarysrs.data.classes.SkymapGenerationInfo.pretty_print" href="#pyucalgarysrs.data.classes.SkymapGenerationInfo.pretty_print">pretty_print</a></code></li>
 <li><code><a title="pyucalgarysrs.data.classes.SkymapGenerationInfo.valid_interval_start" href="#pyucalgarysrs.data.classes.SkymapGenerationInfo.valid_interval_start">valid_interval_start</a></code></li>
 <li><code><a title="pyucalgarysrs.data.classes.SkymapGenerationInfo.valid_interval_stop" href="#pyucalgarysrs.data.classes.SkymapGenerationInfo.valid_interval_stop">valid_interval_stop</a></code></li>
 </ul>
