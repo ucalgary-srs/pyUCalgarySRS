@@ -1,7 +1,9 @@
 import os
 import shutil
 import warnings
-from typing import Optional, Dict
+import humanize
+from texttable import Texttable
+from typing import Optional, Dict, Any, Literal
 from pathlib import Path
 from .exceptions import SRSInitializationError, SRSPurgeError
 from .data import DataManager
@@ -29,7 +31,7 @@ class PyUCalgarySRS:
     """
 
     __DEFAULT_API_BASE_URL = "https://api.phys.ucalgary.ca"
-    __DEFAULT_API_TIMEOUT = 10
+    __DEFAULT_API_TIMEOUT = 30
     __DEFAULT_API_HEADERS = {
         "content-type": "application/json",
         "user-agent": "python-pyucalgarysrs/%s" % (__version__),
@@ -255,10 +257,10 @@ class PyUCalgarySRS:
         """
         try:
             for item in os.listdir(self.download_output_root_path):
-                item = "%s/%s" % (self.download_output_root_path, item)
-                if (os.path.isdir(item) is True and self.read_tar_temp_path not in item):
+                item = Path(self.download_output_root_path) / item
+                if (item.is_dir() is True and self.read_tar_temp_path != str(item)):
                     shutil.rmtree(item)
-                elif (os.path.isfile(item) is True):
+                elif (item.is_file() is True):
                     os.remove(item)
         except Exception as e:  # pragma: nocover
             raise SRSPurgeError("Error while purging download output root path: %s" % (str(e))) from e
@@ -277,10 +279,114 @@ class PyUCalgarySRS:
         """
         try:
             for item in os.listdir(self.read_tar_temp_path):
-                item = "%s/%s" % (self.read_tar_temp_path, item)
-                if (os.path.isdir(item) is True):
+                item = Path(self.read_tar_temp_path) / item
+                if (item.is_dir() is True and self.download_output_root_path != str(item)):
                     shutil.rmtree(item)
-                elif (os.path.isfile(item) is True):
+                elif (item.is_file() is True):
                     os.remove(item)
         except Exception as e:  # pragma: nocover
             raise SRSPurgeError("Error while purging read tar temp path: %s" % (str(e))) from e
+
+    def show_data_usage(self, order: Literal["name", "size"] = "size", return_dict: bool = False) -> Any:
+        """
+        Print the volume of data existing in the download_output_root_path, broken down
+        by dataset. Alternatively return the information in a dictionary.
+        
+        This can be a helpful tool for managing your disk space.
+
+        Args:
+            order (bool): 
+                Order results by either `size` or `name`. Default is `size`.
+
+            return_dict (bool): 
+                Instead of printing the data usage information, return it as a dictionary.
+
+        Returns:
+            Printed output. If `return_dict` is True, then it will instead return a dictionary with the
+            disk usage information.
+        
+        Notes:
+            Note that size on disk may differ slightly from the values determined by this 
+            routine. For example, the results here will be slightly different than the output
+            of a 'du' command on *nix systems.
+        """
+        # init
+        total_size = 0
+        download_pathlib_path = Path(self.download_output_root_path)
+
+        # get list of dataset paths
+        dataset_paths = []
+        for f in os.listdir(download_pathlib_path):
+            path_f = download_pathlib_path / f
+            if (os.path.isdir(path_f) is True and str(path_f) != self.read_tar_temp_path):
+                dataset_paths.append(path_f)
+
+        # get size of each dataset path
+        dataset_dict = {}
+        longest_path_len = 0
+        for dataset_path in dataset_paths:
+            # get size
+            dataset_size = 0
+            for dirpath, _, filenames in os.walk(dataset_path):
+                for filename in filenames:
+                    filepath = os.path.join(dirpath, filename)
+                    if (os.path.isfile(filepath) is True):
+                        dataset_size += os.path.getsize(filepath)
+
+            # check if this is the longest path name
+            path_basename = os.path.basename(dataset_path)
+            if (longest_path_len == 0):
+                longest_path_len = len(path_basename)
+            elif (len(path_basename) > longest_path_len):
+                longest_path_len = len(path_basename)
+
+            # set dict
+            dataset_dict[path_basename] = {
+                "path_obj": dataset_path,
+                "size_bytes": dataset_size,
+                "size_str": humanize.naturalsize(dataset_size),
+            }
+
+            # add to total
+            total_size += dataset_size
+
+        # return dictionary
+        if (return_dict is True):
+            return dataset_dict
+
+        # print table
+        #
+        # order into list
+        order_key = "size_bytes" if order == "size" else order
+        ordered_list = []
+        for path, p_dict in dataset_dict.items():
+            this_dict = p_dict
+            this_dict["name"] = path
+            ordered_list.append(this_dict)
+        if (order == "size"):
+            ordered_list = reversed(sorted(ordered_list, key=lambda x: x[order_key]))
+        else:
+            ordered_list = sorted(ordered_list, key=lambda x: x[order_key])
+
+        # set column data
+        table_names = []
+        table_sizes = []
+        for item in ordered_list:
+            table_names.append(item["name"])
+            table_sizes.append(item["size_str"])
+
+        # set header values
+        table_headers = ["Dataset name", "Size"]
+
+        # print as table
+        table = Texttable()
+        table.set_deco(Texttable.HEADER)
+        table.set_cols_dtype(["t"] * len(table_headers))
+        table.set_header_align(["l"] * len(table_headers))
+        table.set_cols_align(["l"] * len(table_headers))
+        table.header(table_headers)
+        for i in range(0, len(table_names)):
+            table.add_row([table_names[i], table_sizes[i]])
+        print(table.draw())
+
+        print("\nTotal size: %s" % (humanize.naturalsize(total_size)))
