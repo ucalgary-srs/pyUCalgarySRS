@@ -92,7 +92,7 @@ def test_read_single_file(srs, all_datasets, test_dict):
     },
 ])
 @pytest.mark.data_read
-def test_read_multiple_files(srs, all_datasets, test_dict):
+def test_read_multiple_files(srs, all_datasets, test_dict, capsys):
     # set dataset
     dataset = find_dataset(all_datasets, "REGO_RAW")
 
@@ -120,6 +120,13 @@ def test_read_multiple_files(srs, all_datasets, test_dict):
 
     # check dtype
     assert data.data.dtype == np.uint16
+
+    # check __str__ and __repr__ for Data type
+    print_str = str(data)
+    assert print_str != ""
+    data.pretty_print()
+    captured_stdout = capsys.readouterr().out
+    assert captured_stdout != ""
 
 
 @pytest.mark.parametrize("test_dict", [

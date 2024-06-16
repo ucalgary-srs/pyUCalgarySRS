@@ -31,7 +31,7 @@ DATA_DIR = "%s/../../../test_data/read_themis" % (os.path.dirname(os.path.realpa
     },
 ])
 @pytest.mark.data_read
-def test_read_themis_single_file(srs, all_datasets, test_dict):
+def test_read_themis_single_file(srs, all_datasets, test_dict, capsys):
     # set dataset
     dataset = find_dataset(all_datasets, "THEMIS_ASI_RAW")
 
@@ -50,6 +50,13 @@ def test_read_themis_single_file(srs, all_datasets, test_dict):
 
     # check dtype
     assert data.data.dtype == np.uint16
+
+    # check __str__ and __repr__ for Data type
+    print_str = str(data)
+    assert print_str != ""
+    data.pretty_print()
+    captured_stdout = capsys.readouterr().out
+    assert captured_stdout != ""
 
 
 @pytest.mark.parametrize("test_dict", [

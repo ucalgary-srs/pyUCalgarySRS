@@ -136,3 +136,47 @@ def test_list_supported_read_datasets(srs):
 @pytest.mark.data_read
 def test_is_read_supported(srs, test_dict):
     assert srs.data.is_read_supported(test_dict["dataset_name"]) is test_dict["expected_success"]
+
+
+@pytest.mark.parametrize("test_dict", [
+    {
+        "dataset_name": "THEMIS_ASI_RAW",
+        "filename": [],
+        "expected_success": True,
+    },
+    {
+        "dataset_name": "THEMIS_ASI_SKYMAP_IDLSAV",
+        "filename": [],
+        "expected_success": True,
+    },
+    {
+        "dataset_name": "REGO_CALIBRATION_FLATFIELD_IDLSAV",
+        "filename": [],
+        "expected_success": True,
+    },
+])
+@pytest.mark.data_read
+def test_read_no_files(srs, all_datasets, test_dict, capsys):
+    # set dataset
+    dataset = find_dataset(all_datasets, test_dict["dataset_name"])
+
+    # read file
+    data = srs.data.read(dataset, test_dict["filename"])
+
+    # check data size
+    assert len(data.timestamp) == 0
+    if (isinstance(data.data, np.ndarray) is True):
+        assert data.data.shape[-1] == 0
+    elif (isinstance(data.data, list) is True):
+        assert len(data.data) == 0
+    else:
+        raise AssertionError("Error in returned data type; not ndarray or list, but is %s instead" % (type(data.data)))
+
+    # check __str__ and __repr__
+    print_str = str(data)
+    assert print_str != ""
+
+    # check pretty print method
+    data.pretty_print()
+    captured_stdout = capsys.readouterr().out
+    assert captured_stdout != ""

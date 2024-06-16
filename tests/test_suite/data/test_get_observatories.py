@@ -13,6 +13,10 @@ def test_get_sites(srs, instrument_array, capsys):
     for o in observatories:
         assert isinstance(o, pyucalgarysrs.Observatory) is True
 
+    # check str method
+    print_str = str(observatories[0])
+    assert print_str != ""
+
     # check pretty print method
     observatories[0].pretty_print()
     captured_stdout = capsys.readouterr().out

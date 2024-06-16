@@ -523,16 +523,12 @@ class Data:
             if (len(self.data) == 0):
                 data_str = "[0 items]"
             elif (isinstance(self.data[0], Skymap) is True):
-                if (len(self.data) == 0):
-                    data_str = "[]"
-                elif (len(self.data) == 1):
+                if (len(self.data) == 1):
                     data_str = "[1 Skymap object]"
                 else:
                     data_str = "[%d Skymap objects]" % (len(self.data))
             elif (isinstance(self.data[0], Calibration) is True):
-                if (len(self.data) == 0):
-                    data_str = "[]"
-                elif (len(self.data) == 1):
+                if (len(self.data) == 1):
                     data_str = "[1 Calibration object]"
                 else:
                     data_str = "[%d Calibration objects]" % (len(self.data))
@@ -584,16 +580,12 @@ class Data:
             if (len(self.data) == 0):
                 data_str = "[0 items]"
             elif (isinstance(self.data[0], Skymap) is True):
-                if (len(self.data) == 0):
-                    data_str = "[]"
-                elif (len(self.data) == 1):
+                if (len(self.data) == 1):
                     data_str = "[1 Skymap object]"
                 else:
                     data_str = "[%d Skymap objects]" % (len(self.data))
             elif (isinstance(self.data[0], Calibration) is True):
-                if (len(self.data) == 0):
-                    data_str = "[]"
-                elif (len(self.data) == 1):
+                if (len(self.data) == 1):
                     data_str = "[1 Calibration object]"
                 else:
                     data_str = "[%d Calibration objects]" % (len(self.data))

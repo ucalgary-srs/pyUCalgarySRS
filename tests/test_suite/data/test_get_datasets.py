@@ -50,6 +50,10 @@ def test_get_datasets(srs, capsys):
     for d in datasets:
         assert isinstance(d, pyucalgarysrs.Dataset) is True
 
+    # check str method
+    print_str = str(datasets[0])
+    assert print_str != ""
+
     # check pretty print method
     datasets[0].pretty_print()
     captured_stdout = capsys.readouterr().out

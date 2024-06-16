@@ -77,6 +77,13 @@ def test_read_calibration_single_file(srs, capsys, all_datasets, test_dict):
         assert data.data[0].rayleighs_perdn_persecond is not None
         assert data.data[0].flat_field_multiplier is None
 
+    # check __str__ and __repr__ for Data type
+    print_str = str(data)
+    assert print_str != ""
+    data.pretty_print()
+    captured_stdout = capsys.readouterr().out
+    assert captured_stdout != ""
+
     # check __str__ and __repr__ for Calibration type
     print_str = str(data.data[0])
     assert print_str != ""
@@ -111,7 +118,7 @@ def test_read_calibration_single_file(srs, capsys, all_datasets, test_dict):
     },
 ])
 @pytest.mark.data_read
-def test_read_calibration_multiple_files(srs, all_datasets, test_dict):
+def test_read_calibration_multiple_files(srs, all_datasets, test_dict, capsys):
     # set dataset
     dataset = find_dataset(all_datasets, test_dict["dataset_name"])
 
@@ -128,6 +135,13 @@ def test_read_calibration_multiple_files(srs, all_datasets, test_dict):
     assert isinstance(data.data, list) is True
     for item in data.data:
         assert isinstance(item, Calibration) is True
+
+    # check __str__ and __repr__ for Data type
+    print_str = str(data)
+    assert print_str != ""
+    data.pretty_print()
+    captured_stdout = capsys.readouterr().out
+    assert captured_stdout != ""
 
 
 @pytest.mark.parametrize("test_dict", [
