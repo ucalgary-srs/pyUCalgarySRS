@@ -178,7 +178,7 @@ class ATMManager:
 
         Args:
             timestamp (datetime.datetime): 
-                Timestamp for the calculation. This value is expected to be in UTC, and is valid a pre-defined 
+                Timestamp for the calculation. This value is expected to be in UTC, and is valid for a pre-defined 
                 timeframe. An error will be raised if outside of the valid timeframe. Any timezone data will be 
                 ignored. This parameter is required.
 
