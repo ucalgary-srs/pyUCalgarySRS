@@ -114,7 +114,7 @@ class ReadManager:
 
     def read(self,
              dataset: Dataset,
-             file_list: Union[List[str], str],
+             file_list: Union[List[str], List[Path], str, Path],
              n_parallel: int = 1,
              first_record: bool = False,
              no_metadata: bool = False,

@@ -162,7 +162,7 @@ class ReadManager:
 
     def read(self,
              dataset: Dataset,
-             file_list: Union[List[str], str],
+             file_list: Union[List[str], List[Path], str, Path],
              n_parallel: int = 1,
              first_record: bool = False,
              no_metadata: bool = False,
@@ -1101,7 +1101,7 @@ the super class.</p></div>
 
     def read(self,
              dataset: Dataset,
-             file_list: Union[List[str], str],
+             file_list: Union[List[str], List[Path], str, Path],
              n_parallel: int = 1,
              first_record: bool = False,
              no_metadata: bool = False,
@@ -2025,7 +2025,7 @@ is required.</dd>
 </details>
 </dd>
 <dt id="pyucalgarysrs.data.read.ReadManager.read"><code class="name flex">
-<span>def <span class="ident">read</span></span>(<span>self, dataset: <a title="pyucalgarysrs.data.classes.Dataset" href="../classes.html#pyucalgarysrs.data.classes.Dataset">Dataset</a>, file_list: Union[List[str], str], n_parallel: int = 1, first_record: bool = False, no_metadata: bool = False, quiet: bool = False) ‑> <a title="pyucalgarysrs.data.classes.Data" href="../classes.html#pyucalgarysrs.data.classes.Data">Data</a></span>
+<span>def <span class="ident">read</span></span>(<span>self, dataset: <a title="pyucalgarysrs.data.classes.Dataset" href="../classes.html#pyucalgarysrs.data.classes.Dataset">Dataset</a>, file_list: Union[List[str], List[pathlib.Path], str, pathlib.Path], n_parallel: int = 1, first_record: bool = False, no_metadata: bool = False, quiet: bool = False) ‑> <a title="pyucalgarysrs.data.classes.Data" href="../classes.html#pyucalgarysrs.data.classes.Data">Data</a></span>
 </code></dt>
 <dd>
 <div class="desc"><p>Read in data files for a given dataset. Note that only one type of dataset's data
@@ -2079,7 +2079,7 @@ future.</p></div>
 </summary>
 <pre><code class="python">def read(self,
          dataset: Dataset,
-         file_list: Union[List[str], str],
+         file_list: Union[List[str], List[Path], str, Path],
          n_parallel: int = 1,
          first_record: bool = False,
          no_metadata: bool = False,
