@@ -617,7 +617,7 @@ class Data:
             metadata_str = &#34;[%d dictionaries]&#34; % (len(self.timestamp))
 
         # set rest of values
-        problematic_files_str = self.problematic_files.__repr__()
+        problematic_files_str = &#34;[]&#34; if len(self.problematic_files) == 0 else &#34;[%d problematic files]&#34; % (len(self.problematic_files))
         calibrated_data_str = &#34;None&#34; if self.calibrated_data is None else &#34;array(dims=%s, dtype=%s)&#34; % (self.calibrated_data.shape,
                                                                                                         self.calibrated_data.dtype)
         dataset_str = &#34;None&#34; if self.dataset is None else self.dataset.__repr__()[0:75] + &#34;...)&#34;
@@ -674,7 +674,7 @@ class Data:
             metadata_str = &#34;[%d dictionaries]&#34; % (len(self.timestamp))
 
         # set rest of values
-        problematic_files_str = self.problematic_files.__repr__()
+        problematic_files_str = &#34;[]&#34; if len(self.problematic_files) == 0 else &#34;[%d problematic files]&#34; % (len(self.problematic_files))
         calibrated_data_str = &#34;None&#34; if self.calibrated_data is None else &#34;array(dims=%s, dtype=%s)&#34; % (self.calibrated_data.shape,
                                                                                                         self.calibrated_data.dtype)
         dataset_str = &#34;None&#34; if self.dataset is None else self.dataset.__repr__()[0:75] + &#34;...)&#34;
@@ -1139,7 +1139,7 @@ class Data:
             metadata_str = &#34;[%d dictionaries]&#34; % (len(self.timestamp))
 
         # set rest of values
-        problematic_files_str = self.problematic_files.__repr__()
+        problematic_files_str = &#34;[]&#34; if len(self.problematic_files) == 0 else &#34;[%d problematic files]&#34; % (len(self.problematic_files))
         calibrated_data_str = &#34;None&#34; if self.calibrated_data is None else &#34;array(dims=%s, dtype=%s)&#34; % (self.calibrated_data.shape,
                                                                                                         self.calibrated_data.dtype)
         dataset_str = &#34;None&#34; if self.dataset is None else self.dataset.__repr__()[0:75] + &#34;...)&#34;
@@ -1196,7 +1196,7 @@ class Data:
             metadata_str = &#34;[%d dictionaries]&#34; % (len(self.timestamp))
 
         # set rest of values
-        problematic_files_str = self.problematic_files.__repr__()
+        problematic_files_str = &#34;[]&#34; if len(self.problematic_files) == 0 else &#34;[%d problematic files]&#34; % (len(self.problematic_files))
         calibrated_data_str = &#34;None&#34; if self.calibrated_data is None else &#34;array(dims=%s, dtype=%s)&#34; % (self.calibrated_data.shape,
                                                                                                         self.calibrated_data.dtype)
         dataset_str = &#34;None&#34; if self.dataset is None else self.dataset.__repr__()[0:75] + &#34;...)&#34;
@@ -1290,7 +1290,7 @@ class Data:
         metadata_str = &#34;[%d dictionaries]&#34; % (len(self.timestamp))
 
     # set rest of values
-    problematic_files_str = self.problematic_files.__repr__()
+    problematic_files_str = &#34;[]&#34; if len(self.problematic_files) == 0 else &#34;[%d problematic files]&#34; % (len(self.problematic_files))
     calibrated_data_str = &#34;None&#34; if self.calibrated_data is None else &#34;array(dims=%s, dtype=%s)&#34; % (self.calibrated_data.shape,
                                                                                                     self.calibrated_data.dtype)
     dataset_str = &#34;None&#34; if self.dataset is None else self.dataset.__repr__()[0:75] + &#34;...)&#34;
