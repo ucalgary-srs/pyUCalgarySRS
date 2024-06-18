@@ -37,42 +37,20 @@ __PNG_METADATA_PROJECT_UID = "trex"
 
 
 def read(file_list, n_parallel=1, first_record=False, no_metadata=False, tar_tempdir=None, quiet=False):
-    """
-    Read in a single H5 or PNG.tar file, or an array of them. All files
-    must be the same type. This also works for reading in PGM or untarred PNG
-    files.
-
-    :param file_list: filename or list of filenames
-    :type file_list: str
-    :param n_parallel: number of worker processes to spawn, defaults to 1
-    :type n_parallel: int, optional
-    :param first_record: only read the first frame for each file, defaults to False
-    :type first_record: bool, optional
-    :param no_metadata: exclude reading of metadata (performance optimization if
-                        the metadata is not needed), defaults to False
-    :type no_metadata: bool, optional
-    :param tar_tempdir: path to untar to, defaults to '~/.trex_imager_readfile'
-    :type tar_tempdir: str, optional
-    :param quiet: reduce output while reading data
-    :type quiet: bool, optional
-
-    :return: images, metadata dictionaries, and problematic files
-    :rtype: numpy.ndarray, list[dict], list[dict]
-    """
     # set tar path
     if (tar_tempdir is None):
         tar_tempdir = Path("%s/.trex_imager_readfile" % (str(Path.home())))
     os.makedirs(tar_tempdir, exist_ok=True)
 
     # if input is just a single file name in a string, convert to a list to be fed to the workers
-    if isinstance(file_list, str):
+    if isinstance(file_list, str) or isinstance(file_list, Path):
         file_list = [file_list]
 
     # convert to object, injecting other data we need for processing
     processing_list = []
     for f in file_list:
         processing_list.append({
-            "filename": f,
+            "filename": str(f),
             "tar_tempdir": tar_tempdir,
             "first_record": first_record,
             "no_metadata": no_metadata,

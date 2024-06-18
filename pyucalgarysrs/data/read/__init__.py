@@ -18,6 +18,7 @@ Functions for reading data for specific datasets.
 import datetime
 import os
 import numpy as np
+from pathlib import Path
 from typing import List, Union, Optional
 from ._themis import read as func_read_themis
 from ._rego import read as func_read_rego
@@ -127,7 +128,7 @@ class ReadManager:
                 The dataset object for which the files are associated with. This parameter is
                 required.
             
-            file_list (List[str] or str): 
+            file_list (List[str], List[Path], str, Path): 
                 The files to read in. Absolute paths are recommended, but not technically
                 necessary. This can be a single string for a file, or a list of strings to read
                 in multiple files. This parameter is required.
@@ -212,7 +213,7 @@ class ReadManager:
             raise SRSUnsupportedReadError("Dataset does not have a supported read function")
 
     def read_themis(self,
-                    file_list: Union[List[str], str],
+                    file_list: Union[List[str], List[Path], str, Path],
                     n_parallel: int = 1,
                     first_record: bool = False,
                     no_metadata: bool = False,
@@ -222,7 +223,7 @@ class ReadManager:
         Read in THEMIS ASI raw data (stream0 full.pgm* files).
 
         Args:
-            file_list (List[str] or str): 
+            file_list (List[str], List[Path], str, Path): 
                 The files to read in. Absolute paths are recommended, but not technically
                 necessary. This can be a single string for a file, or a list of strings to read
                 in multiple files. This parameter is required.
@@ -291,7 +292,7 @@ class ReadManager:
         return ret_obj
 
     def read_rego(self,
-                  file_list: Union[List[str], str],
+                  file_list: Union[List[str], List[Path], str, Path],
                   n_parallel: int = 1,
                   first_record: bool = False,
                   no_metadata: bool = False,
@@ -301,7 +302,7 @@ class ReadManager:
         Read in REGO raw data (stream0 pgm* files).
 
         Args:
-            file_list (List[str] or str): 
+            file_list (List[str], List[Path], str, Path): 
                 The files to read in. Absolute paths are recommended, but not technically
                 necessary. This can be a single string for a file, or a list of strings to read
                 in multiple files. This parameter is required.
@@ -370,7 +371,7 @@ class ReadManager:
         return ret_obj
 
     def read_trex_nir(self,
-                      file_list: Union[List[str], str],
+                      file_list: Union[List[str], List[Path], str, Path],
                       n_parallel: int = 1,
                       first_record: bool = False,
                       no_metadata: bool = False,
@@ -380,7 +381,7 @@ class ReadManager:
         Read in TREx near-infrared (NIR) raw data (stream0 pgm* files).
 
         Args:
-            file_list (List[str] or str): 
+            file_list (List[str], List[Path], str, Path): 
                 The files to read in. Absolute paths are recommended, but not technically
                 necessary. This can be a single string for a file, or a list of strings to read
                 in multiple files. This parameter is required.
@@ -449,7 +450,7 @@ class ReadManager:
         return ret_obj
 
     def read_trex_blue(self,
-                       file_list: Union[List[str], str],
+                       file_list: Union[List[str], List[Path], str, Path],
                        n_parallel: int = 1,
                        first_record: bool = False,
                        no_metadata: bool = False,
@@ -459,7 +460,7 @@ class ReadManager:
         Read in TREx Blueline raw data (stream0 pgm* files).
 
         Args:
-            file_list (List[str] or str): 
+            file_list (List[str], List[Path], str, Path): 
                 The files to read in. Absolute paths are recommended, but not technically
                 necessary. This can be a single string for a file, or a list of strings to read
                 in multiple files. This parameter is required.
@@ -528,7 +529,7 @@ class ReadManager:
         return ret_obj
 
     def read_trex_rgb(self,
-                      file_list: Union[List[str], str],
+                      file_list: Union[List[str], List[Path], str, Path],
                       n_parallel: int = 1,
                       first_record: bool = False,
                       no_metadata: bool = False,
@@ -538,7 +539,7 @@ class ReadManager:
         Read in TREx RGB raw data (stream0 h5, stream0.burst png.tar, unstable stream0 and stream0.colour pgm* and png*).
 
         Args:
-            file_list (List[str] or str): 
+            file_list (List[str], List[Path], str, Path): 
                 The files to read in. Absolute paths are recommended, but not technically
                 necessary. This can be a single string for a file, or a list of strings to read
                 in multiple files. This parameter is required.
@@ -612,7 +613,7 @@ class ReadManager:
         return ret_obj
 
     def read_trex_spectrograph(self,
-                               file_list: Union[List[str], str],
+                               file_list: Union[List[str], List[Path], str, Path],
                                n_parallel: int = 1,
                                first_record: bool = False,
                                no_metadata: bool = False,
@@ -622,7 +623,7 @@ class ReadManager:
         Read in TREx Spectrograph raw data (stream0 pgm* files).
 
         Args:
-            file_list (List[str] or str): 
+            file_list (List[str], List[Path], str, Path): 
                 The files to read in. Absolute paths are recommended, but not technically
                 necessary. This can be a single string for a file, or a list of strings to read
                 in multiple files. This parameter is required.
@@ -690,12 +691,18 @@ class ReadManager:
         # return
         return ret_obj
 
-    def read_skymap(self, file_list: Union[List[str], str], n_parallel: int = 1, quiet: bool = False, dataset: Optional[Dataset] = None) -> Data:
+    def read_skymap(
+        self,
+        file_list: Union[List[str], List[Path], str, Path],
+        n_parallel: int = 1,
+        quiet: bool = False,
+        dataset: Optional[Dataset] = None,
+    ) -> Data:
         """
         Read in UCalgary skymap files.
 
         Args:
-            file_list (List[str] or str): 
+            file_list (List[str], List[Path], str, Path): 
                 The files to read in. Absolute paths are recommended, but not technically
                 necessary. This can be a single string for a file, or a list of strings to read
                 in multiple files. This parameter is required.
@@ -821,12 +828,18 @@ class ReadManager:
         # return
         return data_obj
 
-    def read_calibration(self, file_list: Union[List[str], str], n_parallel: int = 1, quiet: bool = False, dataset: Optional[Dataset] = None) -> Data:
+    def read_calibration(
+        self,
+        file_list: Union[List[str], List[Path], str, Path],
+        n_parallel: int = 1,
+        quiet: bool = False,
+        dataset: Optional[Dataset] = None,
+    ) -> Data:
         """
         Read in UCalgary calibration files.
 
         Args:
-            file_list (List[str] or str): 
+            file_list (List[str], List[Path], str, Path): 
                 The files to read in. Absolute paths are recommended, but not technically
                 necessary. This can be a single string for a file, or a list of strings to read
                 in multiple files. This parameter is required.

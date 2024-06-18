@@ -15,6 +15,7 @@
 import os
 import signal
 from typing import List
+from pathlib import Path
 from multiprocessing import Pool
 from functools import partial
 from scipy.io import readsav
@@ -22,21 +23,8 @@ from ...exceptions import SRSError
 
 
 def read(file_list, n_parallel=1, quiet=False) -> List:
-    """
-    Read in a single calibration file or set of calibration files
-
-    :param file_list: filename or list of filenames
-    :type file_list: str
-    :param n_parallel: number of worker processes to spawn, defaults to 1
-    :type n_parallel: int, optional
-    :param quiet: reduce output while reading data
-    :type quiet: bool, optional
-
-    :return: data and problematic files
-    :rtype: list[dict], list[dict]
-    """
     # if input is just a single file name in a string, convert to a list to be fed to the workers
-    if isinstance(file_list, str):
+    if isinstance(file_list, str) or isinstance(file_list, Path):
         file_list = [file_list]
 
     # check n_parallel
@@ -85,6 +73,9 @@ def __calibration_readfile_worker(file, quiet=False):
     # init
     data_recarray = {}
 
+    # convert to str to handle path type
+    file = str(file)
+
     # try to read in the file
     try:
         # read the save file
@@ -97,6 +88,6 @@ def __calibration_readfile_worker(file, quiet=False):
         return {}, problematic, file, error_message
 
     # return
-    # 
+    #
     # NOTE: order is --> data, problematic flag, filename, error message
     return data_recarray, False, file, None

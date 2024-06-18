@@ -16,6 +16,7 @@ import gzip
 import numpy as np
 import signal
 import os
+from pathlib import Path
 from multiprocessing import Pool
 from functools import partial
 
@@ -27,26 +28,8 @@ __NIR_DT = __NIR_DT.newbyteorder('>')  # force big endian byte ordering
 
 
 def read(file_list, n_parallel=1, first_record=False, no_metadata=False, quiet=False):
-    """
-    Read in a single PGM file or set of PGM files
-
-    :param file_list: filename or list of filenames
-    :type file_list: str
-    :param n_parallel: number of worker processes to spawn, defaults to 1
-    :type n_parallel: int, optional
-    :param first_record: only read the first frame for each file, defaults to False
-    :type first_record: bool, optional
-    :param no_metadata: exclude reading of metadata (performance optimization if
-                        the metadata is not needed), defaults to False
-    :type no_metadata: bool, optional
-    :param quiet: reduce output while reading data
-    :type quiet: bool, optional
-
-    :return: images, metadata dictionaries, and problematic files
-    :rtype: numpy.ndarray, list[dict], list[dict]
-    """
     # if input is just a single file name in a string, convert to a list to be fed to the workers
-    if isinstance(file_list, str):
+    if isinstance(file_list, str) or isinstance(file_list, Path):
         file_list = [file_list]
 
     # check n_parallel
@@ -153,6 +136,9 @@ def __nir_readfile_worker(file, first_record=False, no_metadata=False, quiet=Fal
     device_uid = ""
     problematic = False
     error_message = ""
+
+    # convert to str to handle path type
+    file = str(file)
 
     # set site UID and device UID in case we need it (ie. dark frames, or unstacked files)
     file_split = os.path.basename(file).split('_')
