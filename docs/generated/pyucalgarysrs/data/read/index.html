@@ -66,6 +66,7 @@ Functions for reading data for specific datasets.
 import datetime
 import os
 import numpy as np
+from pathlib import Path
 from typing import List, Union, Optional
 from ._themis import read as func_read_themis
 from ._rego import read as func_read_rego
@@ -175,7 +176,7 @@ class ReadManager:
                 The dataset object for which the files are associated with. This parameter is
                 required.
             
-            file_list (List[str] or str): 
+            file_list (List[str], List[Path], str, Path): 
                 The files to read in. Absolute paths are recommended, but not technically
                 necessary. This can be a single string for a file, or a list of strings to read
                 in multiple files. This parameter is required.
@@ -260,7 +261,7 @@ class ReadManager:
             raise SRSUnsupportedReadError(&#34;Dataset does not have a supported read function&#34;)
 
     def read_themis(self,
-                    file_list: Union[List[str], str],
+                    file_list: Union[List[str], List[Path], str, Path],
                     n_parallel: int = 1,
                     first_record: bool = False,
                     no_metadata: bool = False,
@@ -270,7 +271,7 @@ class ReadManager:
         Read in THEMIS ASI raw data (stream0 full.pgm* files).
 
         Args:
-            file_list (List[str] or str): 
+            file_list (List[str], List[Path], str, Path): 
                 The files to read in. Absolute paths are recommended, but not technically
                 necessary. This can be a single string for a file, or a list of strings to read
                 in multiple files. This parameter is required.
@@ -339,7 +340,7 @@ class ReadManager:
         return ret_obj
 
     def read_rego(self,
-                  file_list: Union[List[str], str],
+                  file_list: Union[List[str], List[Path], str, Path],
                   n_parallel: int = 1,
                   first_record: bool = False,
                   no_metadata: bool = False,
@@ -349,7 +350,7 @@ class ReadManager:
         Read in REGO raw data (stream0 pgm* files).
 
         Args:
-            file_list (List[str] or str): 
+            file_list (List[str], List[Path], str, Path): 
                 The files to read in. Absolute paths are recommended, but not technically
                 necessary. This can be a single string for a file, or a list of strings to read
                 in multiple files. This parameter is required.
@@ -418,7 +419,7 @@ class ReadManager:
         return ret_obj
 
     def read_trex_nir(self,
-                      file_list: Union[List[str], str],
+                      file_list: Union[List[str], List[Path], str, Path],
                       n_parallel: int = 1,
                       first_record: bool = False,
                       no_metadata: bool = False,
@@ -428,7 +429,7 @@ class ReadManager:
         Read in TREx near-infrared (NIR) raw data (stream0 pgm* files).
 
         Args:
-            file_list (List[str] or str): 
+            file_list (List[str], List[Path], str, Path): 
                 The files to read in. Absolute paths are recommended, but not technically
                 necessary. This can be a single string for a file, or a list of strings to read
                 in multiple files. This parameter is required.
@@ -497,7 +498,7 @@ class ReadManager:
         return ret_obj
 
     def read_trex_blue(self,
-                       file_list: Union[List[str], str],
+                       file_list: Union[List[str], List[Path], str, Path],
                        n_parallel: int = 1,
                        first_record: bool = False,
                        no_metadata: bool = False,
@@ -507,7 +508,7 @@ class ReadManager:
         Read in TREx Blueline raw data (stream0 pgm* files).
 
         Args:
-            file_list (List[str] or str): 
+            file_list (List[str], List[Path], str, Path): 
                 The files to read in. Absolute paths are recommended, but not technically
                 necessary. This can be a single string for a file, or a list of strings to read
                 in multiple files. This parameter is required.
@@ -576,7 +577,7 @@ class ReadManager:
         return ret_obj
 
     def read_trex_rgb(self,
-                      file_list: Union[List[str], str],
+                      file_list: Union[List[str], List[Path], str, Path],
                       n_parallel: int = 1,
                       first_record: bool = False,
                       no_metadata: bool = False,
@@ -586,7 +587,7 @@ class ReadManager:
         Read in TREx RGB raw data (stream0 h5, stream0.burst png.tar, unstable stream0 and stream0.colour pgm* and png*).
 
         Args:
-            file_list (List[str] or str): 
+            file_list (List[str], List[Path], str, Path): 
                 The files to read in. Absolute paths are recommended, but not technically
                 necessary. This can be a single string for a file, or a list of strings to read
                 in multiple files. This parameter is required.
@@ -660,7 +661,7 @@ class ReadManager:
         return ret_obj
 
     def read_trex_spectrograph(self,
-                               file_list: Union[List[str], str],
+                               file_list: Union[List[str], List[Path], str, Path],
                                n_parallel: int = 1,
                                first_record: bool = False,
                                no_metadata: bool = False,
@@ -670,7 +671,7 @@ class ReadManager:
         Read in TREx Spectrograph raw data (stream0 pgm* files).
 
         Args:
-            file_list (List[str] or str): 
+            file_list (List[str], List[Path], str, Path): 
                 The files to read in. Absolute paths are recommended, but not technically
                 necessary. This can be a single string for a file, or a list of strings to read
                 in multiple files. This parameter is required.
@@ -738,12 +739,18 @@ class ReadManager:
         # return
         return ret_obj
 
-    def read_skymap(self, file_list: Union[List[str], str], n_parallel: int = 1, quiet: bool = False, dataset: Optional[Dataset] = None) -&gt; Data:
+    def read_skymap(
+        self,
+        file_list: Union[List[str], List[Path], str, Path],
+        n_parallel: int = 1,
+        quiet: bool = False,
+        dataset: Optional[Dataset] = None,
+    ) -&gt; Data:
         &#34;&#34;&#34;
         Read in UCalgary skymap files.
 
         Args:
-            file_list (List[str] or str): 
+            file_list (List[str], List[Path], str, Path): 
                 The files to read in. Absolute paths are recommended, but not technically
                 necessary. This can be a single string for a file, or a list of strings to read
                 in multiple files. This parameter is required.
@@ -869,12 +876,18 @@ class ReadManager:
         # return
         return data_obj
 
-    def read_calibration(self, file_list: Union[List[str], str], n_parallel: int = 1, quiet: bool = False, dataset: Optional[Dataset] = None) -&gt; Data:
+    def read_calibration(
+        self,
+        file_list: Union[List[str], List[Path], str, Path],
+        n_parallel: int = 1,
+        quiet: bool = False,
+        dataset: Optional[Dataset] = None,
+    ) -&gt; Data:
         &#34;&#34;&#34;
         Read in UCalgary calibration files.
 
         Args:
-            file_list (List[str] or str): 
+            file_list (List[str], List[Path], str, Path): 
                 The files to read in. Absolute paths are recommended, but not technically
                 necessary. This can be a single string for a file, or a list of strings to read
                 in multiple files. This parameter is required.
@@ -1102,7 +1115,7 @@ the super class.</p></div>
                 The dataset object for which the files are associated with. This parameter is
                 required.
             
-            file_list (List[str] or str): 
+            file_list (List[str], List[Path], str, Path): 
                 The files to read in. Absolute paths are recommended, but not technically
                 necessary. This can be a single string for a file, or a list of strings to read
                 in multiple files. This parameter is required.
@@ -1187,7 +1200,7 @@ the super class.</p></div>
             raise SRSUnsupportedReadError(&#34;Dataset does not have a supported read function&#34;)
 
     def read_themis(self,
-                    file_list: Union[List[str], str],
+                    file_list: Union[List[str], List[Path], str, Path],
                     n_parallel: int = 1,
                     first_record: bool = False,
                     no_metadata: bool = False,
@@ -1197,7 +1210,7 @@ the super class.</p></div>
         Read in THEMIS ASI raw data (stream0 full.pgm* files).
 
         Args:
-            file_list (List[str] or str): 
+            file_list (List[str], List[Path], str, Path): 
                 The files to read in. Absolute paths are recommended, but not technically
                 necessary. This can be a single string for a file, or a list of strings to read
                 in multiple files. This parameter is required.
@@ -1266,7 +1279,7 @@ the super class.</p></div>
         return ret_obj
 
     def read_rego(self,
-                  file_list: Union[List[str], str],
+                  file_list: Union[List[str], List[Path], str, Path],
                   n_parallel: int = 1,
                   first_record: bool = False,
                   no_metadata: bool = False,
@@ -1276,7 +1289,7 @@ the super class.</p></div>
         Read in REGO raw data (stream0 pgm* files).
 
         Args:
-            file_list (List[str] or str): 
+            file_list (List[str], List[Path], str, Path): 
                 The files to read in. Absolute paths are recommended, but not technically
                 necessary. This can be a single string for a file, or a list of strings to read
                 in multiple files. This parameter is required.
@@ -1345,7 +1358,7 @@ the super class.</p></div>
         return ret_obj
 
     def read_trex_nir(self,
-                      file_list: Union[List[str], str],
+                      file_list: Union[List[str], List[Path], str, Path],
                       n_parallel: int = 1,
                       first_record: bool = False,
                       no_metadata: bool = False,
@@ -1355,7 +1368,7 @@ the super class.</p></div>
         Read in TREx near-infrared (NIR) raw data (stream0 pgm* files).
 
         Args:
-            file_list (List[str] or str): 
+            file_list (List[str], List[Path], str, Path): 
                 The files to read in. Absolute paths are recommended, but not technically
                 necessary. This can be a single string for a file, or a list of strings to read
                 in multiple files. This parameter is required.
@@ -1424,7 +1437,7 @@ the super class.</p></div>
         return ret_obj
 
     def read_trex_blue(self,
-                       file_list: Union[List[str], str],
+                       file_list: Union[List[str], List[Path], str, Path],
                        n_parallel: int = 1,
                        first_record: bool = False,
                        no_metadata: bool = False,
@@ -1434,7 +1447,7 @@ the super class.</p></div>
         Read in TREx Blueline raw data (stream0 pgm* files).
 
         Args:
-            file_list (List[str] or str): 
+            file_list (List[str], List[Path], str, Path): 
                 The files to read in. Absolute paths are recommended, but not technically
                 necessary. This can be a single string for a file, or a list of strings to read
                 in multiple files. This parameter is required.
@@ -1503,7 +1516,7 @@ the super class.</p></div>
         return ret_obj
 
     def read_trex_rgb(self,
-                      file_list: Union[List[str], str],
+                      file_list: Union[List[str], List[Path], str, Path],
                       n_parallel: int = 1,
                       first_record: bool = False,
                       no_metadata: bool = False,
@@ -1513,7 +1526,7 @@ the super class.</p></div>
         Read in TREx RGB raw data (stream0 h5, stream0.burst png.tar, unstable stream0 and stream0.colour pgm* and png*).
 
         Args:
-            file_list (List[str] or str): 
+            file_list (List[str], List[Path], str, Path): 
                 The files to read in. Absolute paths are recommended, but not technically
                 necessary. This can be a single string for a file, or a list of strings to read
                 in multiple files. This parameter is required.
@@ -1587,7 +1600,7 @@ the super class.</p></div>
         return ret_obj
 
     def read_trex_spectrograph(self,
-                               file_list: Union[List[str], str],
+                               file_list: Union[List[str], List[Path], str, Path],
                                n_parallel: int = 1,
                                first_record: bool = False,
                                no_metadata: bool = False,
@@ -1597,7 +1610,7 @@ the super class.</p></div>
         Read in TREx Spectrograph raw data (stream0 pgm* files).
 
         Args:
-            file_list (List[str] or str): 
+            file_list (List[str], List[Path], str, Path): 
                 The files to read in. Absolute paths are recommended, but not technically
                 necessary. This can be a single string for a file, or a list of strings to read
                 in multiple files. This parameter is required.
@@ -1665,12 +1678,18 @@ the super class.</p></div>
         # return
         return ret_obj
 
-    def read_skymap(self, file_list: Union[List[str], str], n_parallel: int = 1, quiet: bool = False, dataset: Optional[Dataset] = None) -&gt; Data:
+    def read_skymap(
+        self,
+        file_list: Union[List[str], List[Path], str, Path],
+        n_parallel: int = 1,
+        quiet: bool = False,
+        dataset: Optional[Dataset] = None,
+    ) -&gt; Data:
         &#34;&#34;&#34;
         Read in UCalgary skymap files.
 
         Args:
-            file_list (List[str] or str): 
+            file_list (List[str], List[Path], str, Path): 
                 The files to read in. Absolute paths are recommended, but not technically
                 necessary. This can be a single string for a file, or a list of strings to read
                 in multiple files. This parameter is required.
@@ -1796,12 +1815,18 @@ the super class.</p></div>
         # return
         return data_obj
 
-    def read_calibration(self, file_list: Union[List[str], str], n_parallel: int = 1, quiet: bool = False, dataset: Optional[Dataset] = None) -&gt; Data:
+    def read_calibration(
+        self,
+        file_list: Union[List[str], List[Path], str, Path],
+        n_parallel: int = 1,
+        quiet: bool = False,
+        dataset: Optional[Dataset] = None,
+    ) -&gt; Data:
         &#34;&#34;&#34;
         Read in UCalgary calibration files.
 
         Args:
-            file_list (List[str] or str): 
+            file_list (List[str], List[Path], str, Path): 
                 The files to read in. Absolute paths are recommended, but not technically
                 necessary. This can be a single string for a file, or a list of strings to read
                 in multiple files. This parameter is required.
@@ -2010,7 +2035,7 @@ should be read in using a single call.</p>
 <dt><strong><code>dataset</code></strong> :&ensp;<code><a title="pyucalgarysrs.data.classes.Dataset" href="../classes.html#pyucalgarysrs.data.classes.Dataset">Dataset</a></code></dt>
 <dd>The dataset object for which the files are associated with. This parameter is
 required.</dd>
-<dt><strong><code>file_list</code></strong> :&ensp;<code>List[str]</code> or <code>str</code></dt>
+<dt><strong><code>file_list</code></strong> :&ensp;<code>List[str], List[Path], str, Path</code></dt>
 <dd>The files to read in. Absolute paths are recommended, but not technically
 necessary. This can be a single string for a file, or a list of strings to read
 in multiple files. This parameter is required.</dd>
@@ -2068,7 +2093,7 @@ future.</p></div>
             The dataset object for which the files are associated with. This parameter is
             required.
         
-        file_list (List[str] or str): 
+        file_list (List[str], List[Path], str, Path): 
             The files to read in. Absolute paths are recommended, but not technically
             necessary. This can be a single string for a file, or a list of strings to read
             in multiple files. This parameter is required.
@@ -2154,13 +2179,13 @@ future.</p></div>
 </details>
 </dd>
 <dt id="pyucalgarysrs.data.read.ReadManager.read_calibration"><code class="name flex">
-<span>def <span class="ident">read_calibration</span></span>(<span>self, file_list: Union[List[str], str], n_parallel: int = 1, quiet: bool = False, dataset: Optional[<a title="pyucalgarysrs.data.classes.Dataset" href="../classes.html#pyucalgarysrs.data.classes.Dataset">Dataset</a>] = None) ‑> <a title="pyucalgarysrs.data.classes.Data" href="../classes.html#pyucalgarysrs.data.classes.Data">Data</a></span>
+<span>def <span class="ident">read_calibration</span></span>(<span>self, file_list: Union[List[str], List[pathlib.Path], str, pathlib.Path], n_parallel: int = 1, quiet: bool = False, dataset: Optional[<a title="pyucalgarysrs.data.classes.Dataset" href="../classes.html#pyucalgarysrs.data.classes.Dataset">Dataset</a>] = None) ‑> <a title="pyucalgarysrs.data.classes.Data" href="../classes.html#pyucalgarysrs.data.classes.Data">Data</a></span>
 </code></dt>
 <dd>
 <div class="desc"><p>Read in UCalgary calibration files.</p>
 <h2 id="args">Args</h2>
 <dl>
-<dt><strong><code>file_list</code></strong> :&ensp;<code>List[str]</code> or <code>str</code></dt>
+<dt><strong><code>file_list</code></strong> :&ensp;<code>List[str], List[Path], str, Path</code></dt>
 <dd>The files to read in. Absolute paths are recommended, but not technically
 necessary. This can be a single string for a file, or a list of strings to read
 in multiple files. This parameter is required.</dd>
@@ -2189,12 +2214,18 @@ values.</p>
 <summary>
 <span>Expand source code</span>
 </summary>
-<pre><code class="python">def read_calibration(self, file_list: Union[List[str], str], n_parallel: int = 1, quiet: bool = False, dataset: Optional[Dataset] = None) -&gt; Data:
+<pre><code class="python">def read_calibration(
+    self,
+    file_list: Union[List[str], List[Path], str, Path],
+    n_parallel: int = 1,
+    quiet: bool = False,
+    dataset: Optional[Dataset] = None,
+) -&gt; Data:
     &#34;&#34;&#34;
     Read in UCalgary calibration files.
 
     Args:
-        file_list (List[str] or str): 
+        file_list (List[str], List[Path], str, Path): 
             The files to read in. Absolute paths are recommended, but not technically
             necessary. This can be a single string for a file, or a list of strings to read
             in multiple files. This parameter is required.
@@ -2315,13 +2346,13 @@ values.</p>
 </details>
 </dd>
 <dt id="pyucalgarysrs.data.read.ReadManager.read_rego"><code class="name flex">
-<span>def <span class="ident">read_rego</span></span>(<span>self, file_list: Union[List[str], str], n_parallel: int = 1, first_record: bool = False, no_metadata: bool = False, quiet: bool = False, dataset: Optional[<a title="pyucalgarysrs.data.classes.Dataset" href="../classes.html#pyucalgarysrs.data.classes.Dataset">Dataset</a>] = None) ‑> <a title="pyucalgarysrs.data.classes.Data" href="../classes.html#pyucalgarysrs.data.classes.Data">Data</a></span>
+<span>def <span class="ident">read_rego</span></span>(<span>self, file_list: Union[List[str], List[pathlib.Path], str, pathlib.Path], n_parallel: int = 1, first_record: bool = False, no_metadata: bool = False, quiet: bool = False, dataset: Optional[<a title="pyucalgarysrs.data.classes.Dataset" href="../classes.html#pyucalgarysrs.data.classes.Dataset">Dataset</a>] = None) ‑> <a title="pyucalgarysrs.data.classes.Data" href="../classes.html#pyucalgarysrs.data.classes.Data">Data</a></span>
 </code></dt>
 <dd>
 <div class="desc"><p>Read in REGO raw data (stream0 pgm* files).</p>
 <h2 id="args">Args</h2>
 <dl>
-<dt><strong><code>file_list</code></strong> :&ensp;<code>List[str]</code> or <code>str</code></dt>
+<dt><strong><code>file_list</code></strong> :&ensp;<code>List[str], List[Path], str, Path</code></dt>
 <dd>The files to read in. Absolute paths are recommended, but not technically
 necessary. This can be a single string for a file, or a list of strings to read
 in multiple files. This parameter is required.</dd>
@@ -2359,7 +2390,7 @@ values.</p>
 <span>Expand source code</span>
 </summary>
 <pre><code class="python">def read_rego(self,
-              file_list: Union[List[str], str],
+              file_list: Union[List[str], List[Path], str, Path],
               n_parallel: int = 1,
               first_record: bool = False,
               no_metadata: bool = False,
@@ -2369,7 +2400,7 @@ values.</p>
     Read in REGO raw data (stream0 pgm* files).
 
     Args:
-        file_list (List[str] or str): 
+        file_list (List[str], List[Path], str, Path): 
             The files to read in. Absolute paths are recommended, but not technically
             necessary. This can be a single string for a file, or a list of strings to read
             in multiple files. This parameter is required.
@@ -2439,13 +2470,13 @@ values.</p>
 </details>
 </dd>
 <dt id="pyucalgarysrs.data.read.ReadManager.read_skymap"><code class="name flex">
-<span>def <span class="ident">read_skymap</span></span>(<span>self, file_list: Union[List[str], str], n_parallel: int = 1, quiet: bool = False, dataset: Optional[<a title="pyucalgarysrs.data.classes.Dataset" href="../classes.html#pyucalgarysrs.data.classes.Dataset">Dataset</a>] = None) ‑> <a title="pyucalgarysrs.data.classes.Data" href="../classes.html#pyucalgarysrs.data.classes.Data">Data</a></span>
+<span>def <span class="ident">read_skymap</span></span>(<span>self, file_list: Union[List[str], List[pathlib.Path], str, pathlib.Path], n_parallel: int = 1, quiet: bool = False, dataset: Optional[<a title="pyucalgarysrs.data.classes.Dataset" href="../classes.html#pyucalgarysrs.data.classes.Dataset">Dataset</a>] = None) ‑> <a title="pyucalgarysrs.data.classes.Data" href="../classes.html#pyucalgarysrs.data.classes.Data">Data</a></span>
 </code></dt>
 <dd>
 <div class="desc"><p>Read in UCalgary skymap files.</p>
 <h2 id="args">Args</h2>
 <dl>
-<dt><strong><code>file_list</code></strong> :&ensp;<code>List[str]</code> or <code>str</code></dt>
+<dt><strong><code>file_list</code></strong> :&ensp;<code>List[str], List[Path], str, Path</code></dt>
 <dd>The files to read in. Absolute paths are recommended, but not technically
 necessary. This can be a single string for a file, or a list of strings to read
 in multiple files. This parameter is required.</dd>
@@ -2474,12 +2505,18 @@ values.</p>
 <summary>
 <span>Expand source code</span>
 </summary>
-<pre><code class="python">def read_skymap(self, file_list: Union[List[str], str], n_parallel: int = 1, quiet: bool = False, dataset: Optional[Dataset] = None) -&gt; Data:
+<pre><code class="python">def read_skymap(
+    self,
+    file_list: Union[List[str], List[Path], str, Path],
+    n_parallel: int = 1,
+    quiet: bool = False,
+    dataset: Optional[Dataset] = None,
+) -&gt; Data:
     &#34;&#34;&#34;
     Read in UCalgary skymap files.
 
     Args:
-        file_list (List[str] or str): 
+        file_list (List[str], List[Path], str, Path): 
             The files to read in. Absolute paths are recommended, but not technically
             necessary. This can be a single string for a file, or a list of strings to read
             in multiple files. This parameter is required.
@@ -2607,13 +2644,13 @@ values.</p>
 </details>
 </dd>
 <dt id="pyucalgarysrs.data.read.ReadManager.read_themis"><code class="name flex">
-<span>def <span class="ident">read_themis</span></span>(<span>self, file_list: Union[List[str], str], n_parallel: int = 1, first_record: bool = False, no_metadata: bool = False, quiet: bool = False, dataset: Optional[<a title="pyucalgarysrs.data.classes.Dataset" href="../classes.html#pyucalgarysrs.data.classes.Dataset">Dataset</a>] = None) ‑> <a title="pyucalgarysrs.data.classes.Data" href="../classes.html#pyucalgarysrs.data.classes.Data">Data</a></span>
+<span>def <span class="ident">read_themis</span></span>(<span>self, file_list: Union[List[str], List[pathlib.Path], str, pathlib.Path], n_parallel: int = 1, first_record: bool = False, no_metadata: bool = False, quiet: bool = False, dataset: Optional[<a title="pyucalgarysrs.data.classes.Dataset" href="../classes.html#pyucalgarysrs.data.classes.Dataset">Dataset</a>] = None) ‑> <a title="pyucalgarysrs.data.classes.Data" href="../classes.html#pyucalgarysrs.data.classes.Data">Data</a></span>
 </code></dt>
 <dd>
 <div class="desc"><p>Read in THEMIS ASI raw data (stream0 full.pgm* files).</p>
 <h2 id="args">Args</h2>
 <dl>
-<dt><strong><code>file_list</code></strong> :&ensp;<code>List[str]</code> or <code>str</code></dt>
+<dt><strong><code>file_list</code></strong> :&ensp;<code>List[str], List[Path], str, Path</code></dt>
 <dd>The files to read in. Absolute paths are recommended, but not technically
 necessary. This can be a single string for a file, or a list of strings to read
 in multiple files. This parameter is required.</dd>
@@ -2651,7 +2688,7 @@ values.</p>
 <span>Expand source code</span>
 </summary>
 <pre><code class="python">def read_themis(self,
-                file_list: Union[List[str], str],
+                file_list: Union[List[str], List[Path], str, Path],
                 n_parallel: int = 1,
                 first_record: bool = False,
                 no_metadata: bool = False,
@@ -2661,7 +2698,7 @@ values.</p>
     Read in THEMIS ASI raw data (stream0 full.pgm* files).
 
     Args:
-        file_list (List[str] or str): 
+        file_list (List[str], List[Path], str, Path): 
             The files to read in. Absolute paths are recommended, but not technically
             necessary. This can be a single string for a file, or a list of strings to read
             in multiple files. This parameter is required.
@@ -2731,13 +2768,13 @@ values.</p>
 </details>
 </dd>
 <dt id="pyucalgarysrs.data.read.ReadManager.read_trex_blue"><code class="name flex">
-<span>def <span class="ident">read_trex_blue</span></span>(<span>self, file_list: Union[List[str], str], n_parallel: int = 1, first_record: bool = False, no_metadata: bool = False, quiet: bool = False, dataset: Optional[<a title="pyucalgarysrs.data.classes.Dataset" href="../classes.html#pyucalgarysrs.data.classes.Dataset">Dataset</a>] = None) ‑> <a title="pyucalgarysrs.data.classes.Data" href="../classes.html#pyucalgarysrs.data.classes.Data">Data</a></span>
+<span>def <span class="ident">read_trex_blue</span></span>(<span>self, file_list: Union[List[str], List[pathlib.Path], str, pathlib.Path], n_parallel: int = 1, first_record: bool = False, no_metadata: bool = False, quiet: bool = False, dataset: Optional[<a title="pyucalgarysrs.data.classes.Dataset" href="../classes.html#pyucalgarysrs.data.classes.Dataset">Dataset</a>] = None) ‑> <a title="pyucalgarysrs.data.classes.Data" href="../classes.html#pyucalgarysrs.data.classes.Data">Data</a></span>
 </code></dt>
 <dd>
 <div class="desc"><p>Read in TREx Blueline raw data (stream0 pgm* files).</p>
 <h2 id="args">Args</h2>
 <dl>
-<dt><strong><code>file_list</code></strong> :&ensp;<code>List[str]</code> or <code>str</code></dt>
+<dt><strong><code>file_list</code></strong> :&ensp;<code>List[str], List[Path], str, Path</code></dt>
 <dd>The files to read in. Absolute paths are recommended, but not technically
 necessary. This can be a single string for a file, or a list of strings to read
 in multiple files. This parameter is required.</dd>
@@ -2775,7 +2812,7 @@ values.</p>
 <span>Expand source code</span>
 </summary>
 <pre><code class="python">def read_trex_blue(self,
-                   file_list: Union[List[str], str],
+                   file_list: Union[List[str], List[Path], str, Path],
                    n_parallel: int = 1,
                    first_record: bool = False,
                    no_metadata: bool = False,
@@ -2785,7 +2822,7 @@ values.</p>
     Read in TREx Blueline raw data (stream0 pgm* files).
 
     Args:
-        file_list (List[str] or str): 
+        file_list (List[str], List[Path], str, Path): 
             The files to read in. Absolute paths are recommended, but not technically
             necessary. This can be a single string for a file, or a list of strings to read
             in multiple files. This parameter is required.
@@ -2855,13 +2892,13 @@ values.</p>
 </details>
 </dd>
 <dt id="pyucalgarysrs.data.read.ReadManager.read_trex_nir"><code class="name flex">
-<span>def <span class="ident">read_trex_nir</span></span>(<span>self, file_list: Union[List[str], str], n_parallel: int = 1, first_record: bool = False, no_metadata: bool = False, quiet: bool = False, dataset: Optional[<a title="pyucalgarysrs.data.classes.Dataset" href="../classes.html#pyucalgarysrs.data.classes.Dataset">Dataset</a>] = None) ‑> <a title="pyucalgarysrs.data.classes.Data" href="../classes.html#pyucalgarysrs.data.classes.Data">Data</a></span>
+<span>def <span class="ident">read_trex_nir</span></span>(<span>self, file_list: Union[List[str], List[pathlib.Path], str, pathlib.Path], n_parallel: int = 1, first_record: bool = False, no_metadata: bool = False, quiet: bool = False, dataset: Optional[<a title="pyucalgarysrs.data.classes.Dataset" href="../classes.html#pyucalgarysrs.data.classes.Dataset">Dataset</a>] = None) ‑> <a title="pyucalgarysrs.data.classes.Data" href="../classes.html#pyucalgarysrs.data.classes.Data">Data</a></span>
 </code></dt>
 <dd>
 <div class="desc"><p>Read in TREx near-infrared (NIR) raw data (stream0 pgm* files).</p>
 <h2 id="args">Args</h2>
 <dl>
-<dt><strong><code>file_list</code></strong> :&ensp;<code>List[str]</code> or <code>str</code></dt>
+<dt><strong><code>file_list</code></strong> :&ensp;<code>List[str], List[Path], str, Path</code></dt>
 <dd>The files to read in. Absolute paths are recommended, but not technically
 necessary. This can be a single string for a file, or a list of strings to read
 in multiple files. This parameter is required.</dd>
@@ -2899,7 +2936,7 @@ values.</p>
 <span>Expand source code</span>
 </summary>
 <pre><code class="python">def read_trex_nir(self,
-                  file_list: Union[List[str], str],
+                  file_list: Union[List[str], List[Path], str, Path],
                   n_parallel: int = 1,
                   first_record: bool = False,
                   no_metadata: bool = False,
@@ -2909,7 +2946,7 @@ values.</p>
     Read in TREx near-infrared (NIR) raw data (stream0 pgm* files).
 
     Args:
-        file_list (List[str] or str): 
+        file_list (List[str], List[Path], str, Path): 
             The files to read in. Absolute paths are recommended, but not technically
             necessary. This can be a single string for a file, or a list of strings to read
             in multiple files. This parameter is required.
@@ -2979,13 +3016,13 @@ values.</p>
 </details>
 </dd>
 <dt id="pyucalgarysrs.data.read.ReadManager.read_trex_rgb"><code class="name flex">
-<span>def <span class="ident">read_trex_rgb</span></span>(<span>self, file_list: Union[List[str], str], n_parallel: int = 1, first_record: bool = False, no_metadata: bool = False, quiet: bool = False, dataset: Optional[<a title="pyucalgarysrs.data.classes.Dataset" href="../classes.html#pyucalgarysrs.data.classes.Dataset">Dataset</a>] = None) ‑> <a title="pyucalgarysrs.data.classes.Data" href="../classes.html#pyucalgarysrs.data.classes.Data">Data</a></span>
+<span>def <span class="ident">read_trex_rgb</span></span>(<span>self, file_list: Union[List[str], List[pathlib.Path], str, pathlib.Path], n_parallel: int = 1, first_record: bool = False, no_metadata: bool = False, quiet: bool = False, dataset: Optional[<a title="pyucalgarysrs.data.classes.Dataset" href="../classes.html#pyucalgarysrs.data.classes.Dataset">Dataset</a>] = None) ‑> <a title="pyucalgarysrs.data.classes.Data" href="../classes.html#pyucalgarysrs.data.classes.Data">Data</a></span>
 </code></dt>
 <dd>
 <div class="desc"><p>Read in TREx RGB raw data (stream0 h5, stream0.burst png.tar, unstable stream0 and stream0.colour pgm<em> and png</em>).</p>
 <h2 id="args">Args</h2>
 <dl>
-<dt><strong><code>file_list</code></strong> :&ensp;<code>List[str]</code> or <code>str</code></dt>
+<dt><strong><code>file_list</code></strong> :&ensp;<code>List[str], List[Path], str, Path</code></dt>
 <dd>The files to read in. Absolute paths are recommended, but not technically
 necessary. This can be a single string for a file, or a list of strings to read
 in multiple files. This parameter is required.</dd>
@@ -3023,7 +3060,7 @@ values.</p>
 <span>Expand source code</span>
 </summary>
 <pre><code class="python">def read_trex_rgb(self,
-                  file_list: Union[List[str], str],
+                  file_list: Union[List[str], List[Path], str, Path],
                   n_parallel: int = 1,
                   first_record: bool = False,
                   no_metadata: bool = False,
@@ -3033,7 +3070,7 @@ values.</p>
     Read in TREx RGB raw data (stream0 h5, stream0.burst png.tar, unstable stream0 and stream0.colour pgm* and png*).
 
     Args:
-        file_list (List[str] or str): 
+        file_list (List[str], List[Path], str, Path): 
             The files to read in. Absolute paths are recommended, but not technically
             necessary. This can be a single string for a file, or a list of strings to read
             in multiple files. This parameter is required.
@@ -3108,13 +3145,13 @@ values.</p>
 </details>
 </dd>
 <dt id="pyucalgarysrs.data.read.ReadManager.read_trex_spectrograph"><code class="name flex">
-<span>def <span class="ident">read_trex_spectrograph</span></span>(<span>self, file_list: Union[List[str], str], n_parallel: int = 1, first_record: bool = False, no_metadata: bool = False, quiet: bool = False, dataset: Optional[<a title="pyucalgarysrs.data.classes.Dataset" href="../classes.html#pyucalgarysrs.data.classes.Dataset">Dataset</a>] = None) ‑> <a title="pyucalgarysrs.data.classes.Data" href="../classes.html#pyucalgarysrs.data.classes.Data">Data</a></span>
+<span>def <span class="ident">read_trex_spectrograph</span></span>(<span>self, file_list: Union[List[str], List[pathlib.Path], str, pathlib.Path], n_parallel: int = 1, first_record: bool = False, no_metadata: bool = False, quiet: bool = False, dataset: Optional[<a title="pyucalgarysrs.data.classes.Dataset" href="../classes.html#pyucalgarysrs.data.classes.Dataset">Dataset</a>] = None) ‑> <a title="pyucalgarysrs.data.classes.Data" href="../classes.html#pyucalgarysrs.data.classes.Data">Data</a></span>
 </code></dt>
 <dd>
 <div class="desc"><p>Read in TREx Spectrograph raw data (stream0 pgm* files).</p>
 <h2 id="args">Args</h2>
 <dl>
-<dt><strong><code>file_list</code></strong> :&ensp;<code>List[str]</code> or <code>str</code></dt>
+<dt><strong><code>file_list</code></strong> :&ensp;<code>List[str], List[Path], str, Path</code></dt>
 <dd>The files to read in. Absolute paths are recommended, but not technically
 necessary. This can be a single string for a file, or a list of strings to read
 in multiple files. This parameter is required.</dd>
@@ -3152,7 +3189,7 @@ values.</p>
 <span>Expand source code</span>
 </summary>
 <pre><code class="python">def read_trex_spectrograph(self,
-                           file_list: Union[List[str], str],
+                           file_list: Union[List[str], List[Path], str, Path],
                            n_parallel: int = 1,
                            first_record: bool = False,
                            no_metadata: bool = False,
@@ -3162,7 +3199,7 @@ values.</p>
     Read in TREx Spectrograph raw data (stream0 pgm* files).
 
     Args:
-        file_list (List[str] or str): 
+        file_list (List[str], List[Path], str, Path): 
             The files to read in. Absolute paths are recommended, but not technically
             necessary. This can be a single string for a file, or a list of strings to read
             in multiple files. This parameter is required.
