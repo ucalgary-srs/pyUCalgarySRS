@@ -30,3 +30,6 @@ if (data is not None):
 
 print()
 print(data)
+
+print()
+print(data.data[0].get_precalculated_altitudes())

@@ -84,6 +84,9 @@ def test_read_skymap_single_file(srs, capsys, all_datasets, test_dict):
     captured_stdout = capsys.readouterr().out
     assert captured_stdout != ""
 
+    # check precalculated altitudes method
+    assert len(data.data[0].get_precalculated_altitudes()) > 0
+
 
 @pytest.mark.parametrize("test_dict", [
     {

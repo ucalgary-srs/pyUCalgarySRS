@@ -4,10 +4,10 @@ Current coverage report:
 Name                                            Stmts   Miss  Cover   Missing
 -----------------------------------------------------------------------------
 pyucalgarysrs/__init__.py                           8      0   100%
-pyucalgarysrs/data/__init__.py                     32      0   100%
+pyucalgarysrs/data/__init__.py                     33      0   100%
 pyucalgarysrs/data/_download.py                    87      1    99%   71
 pyucalgarysrs/data/_list.py                        31      0   100%
-pyucalgarysrs/data/classes.py                     246      7    97%   549-551, 557, 606-608, 614, 622
+pyucalgarysrs/data/classes.py                     249      7    97%   556-558, 564, 613-615, 621, 629
 pyucalgarysrs/data/read/__init__.py               199      6    97%   597, 783, 792-795
 pyucalgarysrs/data/read/_calibration.py            45      0   100%
 pyucalgarysrs/data/read/_rego.py                  163      8    95%   102, 165, 212-218
@@ -26,5 +26,5 @@ pyucalgarysrs/models/atm/classes_forward.py       117      0   100%
 pyucalgarysrs/models/atm/classes_inverse.py       116      0   100%
 pyucalgarysrs/pyucalgarysrs.py                    166     50    70%   328-406
 -----------------------------------------------------------------------------
-TOTAL                                            2349    192    92%
+TOTAL                                            2353    192    92%
 ```

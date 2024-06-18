@@ -33,3 +33,6 @@ print(data)
 
 print()
 print(data.data[0].generation_info.__dict__)
+
+print()
+print(data.data[0].get_precalculated_altitudes())

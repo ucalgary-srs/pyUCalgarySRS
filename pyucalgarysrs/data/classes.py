@@ -382,6 +382,13 @@ class Skymap:
             # print string for this var
             print("  %-23s: %s" % (var_name, var_str))
 
+    def get_precalculated_altitudes(self):
+        """
+        Get the altitudes that have been precalculated in this skymap. Units are kilometers.
+        """
+        alts_km = [float(x / 1000.) for x in self.full_map_altitude]
+        return alts_km
+
 
 @dataclass
 class CalibrationGenerationInfo:
