@@ -471,6 +471,12 @@ INDEX=[
 "func":1
 },
 {
+"ref":"pyucalgarysrs.data.classes.Skymap.get_precalculated_altitudes",
+"url":3,
+"doc":"Get the altitudes that have been precalculated in this skymap. Units are kilometers.",
+"func":1
+},
+{
 "ref":"pyucalgarysrs.data.classes.CalibrationGenerationInfo",
 "url":3,
 "doc":"Representation of generation details for a specific calibration file. Attributes: valid_interval_start (datetime.datetime): Valid start timestamp for this calibration file valid_interval_end (datetime.datetime): Valid end time for this calibration file. If None, then end time is unbounded and valid up until the next newest calibration for this detector UID. author (str): Individual who generated the calibration file input_data_dir (str): Path on UCalgary data system to the raw calibration files skymap_filename (str): Path to skymap file used to assist with calibration process. If None, no skymap file was used."
