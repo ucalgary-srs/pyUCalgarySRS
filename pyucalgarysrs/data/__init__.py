@@ -17,6 +17,7 @@ Sensing Open Data Platform.
 """
 
 import datetime
+from pathlib import Path
 from typing import List, Optional, Union
 from . import _list as module_list
 from . import _download as module_download
@@ -421,7 +422,7 @@ class DataManager:
 
     def read(self,
              dataset: Dataset,
-             file_list: Union[List[str], str],
+             file_list: Union[List[str], List[Path], str, Path],
              n_parallel: int = 1,
              first_record: bool = False,
              no_metadata: bool = False,
@@ -435,7 +436,7 @@ class DataManager:
                 The dataset object for which the files are associated with. This parameter is
                 required.
             
-            file_list (List[str] or str): 
+            file_list (List[str], List[Path], str, Path): 
                 The files to read in. Absolute paths are recommended, but not technically
                 necessary. This can be a single string for a file, or a list of strings to read
                 in multiple files. This parameter is required.
