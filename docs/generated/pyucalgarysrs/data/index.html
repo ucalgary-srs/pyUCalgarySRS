@@ -67,6 +67,7 @@ Sensing Open Data Platform.
 &#34;&#34;&#34;
 
 import datetime
+from pathlib import Path
 from typing import List, Optional, Union
 from . import _list as module_list
 from . import _download as module_download
@@ -471,7 +472,7 @@ class DataManager:
 
     def read(self,
              dataset: Dataset,
-             file_list: Union[List[str], str],
+             file_list: Union[List[str], List[Path], str, Path],
              n_parallel: int = 1,
              first_record: bool = False,
              no_metadata: bool = False,
@@ -485,7 +486,7 @@ class DataManager:
                 The dataset object for which the files are associated with. This parameter is
                 required.
             
-            file_list (List[str] or str): 
+            file_list (List[str], List[Path], str, Path): 
                 The files to read in. Absolute paths are recommended, but not technically
                 necessary. This can be a single string for a file, or a list of strings to read
                 in multiple files. This parameter is required.
@@ -967,7 +968,7 @@ super class.</p></div>
 
     def read(self,
              dataset: Dataset,
-             file_list: Union[List[str], str],
+             file_list: Union[List[str], List[Path], str, Path],
              n_parallel: int = 1,
              first_record: bool = False,
              no_metadata: bool = False,
@@ -981,7 +982,7 @@ super class.</p></div>
                 The dataset object for which the files are associated with. This parameter is
                 required.
             
-            file_list (List[str] or str): 
+            file_list (List[str], List[Path], str, Path): 
                 The files to read in. Absolute paths are recommended, but not technically
                 necessary. This can be a single string for a file, or a list of strings to read
                 in multiple files. This parameter is required.
@@ -1740,7 +1741,7 @@ objects.</p>
 </details>
 </dd>
 <dt id="pyucalgarysrs.data.DataManager.read"><code class="name flex">
-<span>def <span class="ident">read</span></span>(<span>self, dataset: <a title="pyucalgarysrs.data.classes.Dataset" href="classes.html#pyucalgarysrs.data.classes.Dataset">Dataset</a>, file_list: Union[List[str], str], n_parallel: int = 1, first_record: bool = False, no_metadata: bool = False, quiet: bool = False) ‑> <a title="pyucalgarysrs.data.classes.Data" href="classes.html#pyucalgarysrs.data.classes.Data">Data</a></span>
+<span>def <span class="ident">read</span></span>(<span>self, dataset: <a title="pyucalgarysrs.data.classes.Dataset" href="classes.html#pyucalgarysrs.data.classes.Dataset">Dataset</a>, file_list: Union[List[str], List[pathlib.Path], str, pathlib.Path], n_parallel: int = 1, first_record: bool = False, no_metadata: bool = False, quiet: bool = False) ‑> <a title="pyucalgarysrs.data.classes.Data" href="classes.html#pyucalgarysrs.data.classes.Data">Data</a></span>
 </code></dt>
 <dd>
 <div class="desc"><p>Read in data files for a given dataset. Note that only one type of dataset's data
@@ -1750,7 +1751,7 @@ should be read in using a single call.</p>
 <dt><strong><code>dataset</code></strong> :&ensp;<code>Dataset</code></dt>
 <dd>The dataset object for which the files are associated with. This parameter is
 required.</dd>
-<dt><strong><code>file_list</code></strong> :&ensp;<code>List[str]</code> or <code>str</code></dt>
+<dt><strong><code>file_list</code></strong> :&ensp;<code>List[str], List[Path], str, Path</code></dt>
 <dd>The files to read in. Absolute paths are recommended, but not technically
 necessary. This can be a single string for a file, or a list of strings to read
 in multiple files. This parameter is required.</dd>
@@ -1794,7 +1795,7 @@ future.</p></div>
 </summary>
 <pre><code class="python">def read(self,
          dataset: Dataset,
-         file_list: Union[List[str], str],
+         file_list: Union[List[str], List[Path], str, Path],
          n_parallel: int = 1,
          first_record: bool = False,
          no_metadata: bool = False,
@@ -1808,7 +1809,7 @@ future.</p></div>
             The dataset object for which the files are associated with. This parameter is
             required.
         
-        file_list (List[str] or str): 
+        file_list (List[str], List[Path], str, Path): 
             The files to read in. Absolute paths are recommended, but not technically
             necessary. This can be a single string for a file, or a list of strings to read
             in multiple files. This parameter is required.

@@ -33,11 +33,14 @@ Basic usage:
 """
 
 # versioning info
-__version__ = "1.0.2"
+__version__ = "1.0.3"
 
 # documentation
 __pdoc__ = {"pyucalgarysrs": False}
-__all__ = ["PyUCalgarySRS"]
+__all__ = [
+    "PyUCalgarySRS",
+    "__version__",
+]
 
 # pull in top level class
 from .pyucalgarysrs import PyUCalgarySRS
