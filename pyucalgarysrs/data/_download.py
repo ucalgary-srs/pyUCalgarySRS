@@ -16,6 +16,7 @@ import os
 import requests
 import joblib
 import warnings
+from pathlib import Path
 from tqdm.auto import tqdm
 from .classes import FileListingResponse, FileDownloadResult, Dataset
 from ..exceptions import SRSAPIError, SRSDownloadError
@@ -32,7 +33,7 @@ def __download_url(
     pbar_iterator_nfiles=False,
 ):
     # set output filename
-    output_filename = "%s/%s" % (output_base_path, url.removeprefix(prefix + "/"))
+    output_filename = Path(output_base_path) / Path(url.removeprefix(prefix + "/"))
     if (overwrite is False and os.path.exists(output_filename)):
         if (pbar is not None):
             if (pbar_iterator_nfiles is True):
