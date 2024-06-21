@@ -46,6 +46,12 @@ def read(file_list, n_parallel=1, first_record=False, no_metadata=False, tar_tem
     if isinstance(file_list, str) or isinstance(file_list, Path):
         file_list = [file_list]
 
+    # check if anything in the list
+    if (len(file_list)):
+        if (quiet is False):
+            print("No files found to read")
+        return np.empty((0, 0, 0, 0)), [], []
+
     # convert to object, injecting other data we need for processing
     processing_list = []
     for f in file_list:

@@ -11,8 +11,8 @@ dataset = srs.data.list_datasets("THEMIS_ASI_RAW")[0]
 
 # download data
 print("\n[%s] Downloading data ..." % (datetime.datetime.now()))
-start_dt = datetime.datetime(2023, 1, 1, 6, 0, 0)
-end_dt = datetime.datetime(2023, 1, 1, 6, 4, 59)
+start_dt = datetime.datetime(2023, 1, 1, 15, 0, 0)
+end_dt = datetime.datetime(2023, 1, 1, 15, 0, 59)
 site_uid = "atha"
 download_obj = srs.data.download(dataset.name, start_dt, end_dt, site_uid=site_uid, progress_bar_disable=True)
 

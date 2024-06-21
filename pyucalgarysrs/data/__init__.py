@@ -214,6 +214,7 @@ class DataManager:
              data files were downloaded.
 
         Raises:
+            ValueError: if no files are available for download
             pyucalgarysrs.exceptions.SRSDownloadError: an error was encountered while downloading a 
                 specific file
             pyucalgarysrs.exceptions.SRSAPIError: an API error was encountered
