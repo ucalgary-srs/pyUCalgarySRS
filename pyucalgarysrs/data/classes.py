@@ -699,3 +699,44 @@ class Observatory:
             # convert var to string format we want
             var_value = getattr(self, var_name)
             print("  %-22s: %s" % (var_name, None if var_value is None else var_value))
+
+
+@dataclass
+class GridSourceInfoData:
+    """
+    Representation for a grid file's data specific to the type of grid file
+
+    Args:
+        confidence (ndarray): 
+            A confidence rating
+    """
+    confidence: Any
+
+
+@dataclass
+class GridData:
+    """
+    Representation for a grid file's data.
+
+    Attributes:
+        uid (ndarray): 
+            4-letter unique identifier (traditionally referred to as the site UID)
+
+        source_info (GridSourceInfoData): 
+            special data attributes specific to this particular grid file
+    """
+    grid: ndarray
+    source_info: GridSourceInfoData
+
+    def pretty_print(self):
+        """
+        A special print output for this class.
+        """
+        grid_str = "array(dims=%s, dtype=%s)" % (self.grid.shape, self.grid.dtype)
+        confidence_str = "None" if self.source_info.confidence is None else "array(dims=%s, dtype=%s)" % (self.source_info.confidence.shape,
+                                                                                                          self.source_info.confidence.dtype)
+
+        print("GridData:")
+        print("  %-9s: %s" % ("grid", grid_str))
+        print("  source_info:")
+        print("    %-15s: %s" % ("confidence", confidence_str))

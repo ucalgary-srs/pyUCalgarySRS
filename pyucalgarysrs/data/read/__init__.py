@@ -28,6 +28,7 @@ from ._trex_rgb import read as func_read_trex_rgb
 from ._trex_spectrograph import read as func_read_trex_spectrograph
 from ._skymap import read as func_read_skymap
 from ._calibration import read as func_read_calibration
+from ._grid import read as func_read_grid
 from ..classes import (
     Dataset,
     Data,
@@ -36,6 +37,8 @@ from ..classes import (
     SkymapGenerationInfo,
     Calibration,
     CalibrationGenerationInfo,
+    GridData,
+    GridSourceInfoData,
 )
 from ...exceptions import SRSUnsupportedReadError, SRSError
 
@@ -66,6 +69,14 @@ class ReadManager:
         "TREX_NIR_CALIBRATION_FLATFIELD_IDLSAV",
         "TREX_BLUE_CALIBRATION_RAYLEIGHS_IDLSAV",
         "TREX_BLUE_CALIBRATION_FLATFIELD_IDLSAV",
+    ]
+    __VALID_GRID_READFILE_DATASETS = [
+        "THEMIS_ASI_GRID_MOSV001",
+        "THEMIS_ASI_GRID_MOSU001",
+        "TREX_RGB_GRID_MOSV001",
+        "TREX_NIR_GRID_MOSV001",
+        "TREX_BLUE_GRID_MOSV001",
+        "TREX_RGB5577_GRID_MOSV001",
     ]
 
     def __init__(self):
@@ -209,6 +220,8 @@ class ReadManager:
             return self.read_skymap(file_list, n_parallel=n_parallel, quiet=quiet, dataset=dataset)
         elif (dataset.name in self.__VALID_CALIBRATION_READFILE_DATASETS):
             return self.read_calibration(file_list, n_parallel=n_parallel, quiet=quiet, dataset=dataset)
+        elif (dataset.name in self.__VALID_GRID_READFILE_DATASETS):
+            return self.read_grid(file_list, n_parallel=n_parallel, quiet=quiet, dataset=dataset)
         else:
             raise SRSUnsupportedReadError("Dataset does not have a supported read function")
 
@@ -957,3 +970,88 @@ class ReadManager:
 
         # return
         return data_obj
+
+    def read_grid(self,
+                  file_list: Union[List[str], List[Path], str, Path],
+                  n_parallel: int = 1,
+                  first_record: bool = False,
+                  no_metadata: bool = False,
+                  quiet: bool = False,
+                  dataset: Optional[Dataset] = None) -> Data:
+        """
+        Read in grid files.
+
+        Args:
+            file_list (List[str], List[Path], str, Path): 
+                The files to read in. Absolute paths are recommended, but not technically
+                necessary. This can be a single string for a file, or a list of strings to read
+                in multiple files. This parameter is required.
+
+            n_parallel (int): 
+                Number of data files to read in parallel using multiprocessing. Default value 
+                is 1. Adjust according to your computer's available resources. This parameter 
+                is optional.
+            
+            first_record (bool): 
+                Only read in the first record in each file. This is the same as the first_frame
+                parameter in the themis-imager-readfile and trex-imager-readfile libraries, and
+                is a read optimization if you only need one image per minute, as opposed to the
+                full temporal resolution of data (e.g., 3sec cadence). This parameter is optional.
+            
+            no_metadata (bool): 
+                Skip reading of metadata. This is a minor optimization if the metadata is not needed.
+                Default is `False`. This parameter is optional.
+            
+            quiet (bool): 
+                Do not print out errors while reading data files, if any are encountered. Any files
+                that encounter errors will be, as usual, accessible via the `problematic_files` 
+                attribute of the returned `pyucalgarysrs.data.classes.Data` object. This parameter
+                is optional.
+
+            dataset (pyucalgarysrs.data.classes.Dataset): 
+                The dataset object for which the files are associated with. This parameter is
+                optional.
+
+        Returns:
+            A `pyucalgarysrs.data.classes.Data` object containing the data read in, among other
+            values.
+        
+        Raises:
+            pyucalgarysrs.exceptions.SRSError: a generic read error was encountered
+        """
+        # read data
+        data, meta, problematic_files = func_read_grid(
+            file_list,
+            n_parallel=n_parallel,
+            first_record=first_record,
+            no_metadata=no_metadata,
+            quiet=quiet,
+        )
+
+        # create grid data object
+        grid_data_obj = GridData(
+            grid=data["grid"],
+            source_info=GridSourceInfoData(confidence=data["source_info"]["confidence"]),
+        )
+
+        # generate timestamp array
+        timestamp_list = []
+        if (no_metadata is False):
+            for t in data["timestamp"]:
+                timestamp_list.append(datetime.datetime.strptime(t, "%Y-%m-%d %H:%M:%S.%f UTC"))
+
+        # convert to return type
+        problematic_files_objs = []
+        for p in problematic_files:
+            problematic_files_objs.append(ProblematicFile(p["filename"], error_message=p["error_message"], error_type="error"))
+        ret_obj = Data(
+            data=grid_data_obj,
+            timestamp=timestamp_list,
+            metadata=meta,
+            problematic_files=problematic_files_objs,
+            calibrated_data=None,
+            dataset=dataset,
+        )
+
+        # return
+        return ret_obj
