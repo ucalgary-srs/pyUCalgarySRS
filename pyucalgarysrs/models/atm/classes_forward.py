@@ -18,7 +18,7 @@ classes in this module are included at the top level of this library.
 
 import datetime
 from dataclasses import dataclass
-from typing import Optional, Literal
+from typing import Optional, Literal, Any
 from numpy import ndarray
 
 
@@ -248,35 +248,35 @@ class ATMForwardResult:
             1-dimensional numpy array for the neutral temperature (Kelvin).
     """
     request_info: ATMForwardResultRequestInfo
-    height_integrated_rayleighs_4278: Optional[float] = None
-    height_integrated_rayleighs_5577: Optional[float] = None
-    height_integrated_rayleighs_6300: Optional[float] = None
-    height_integrated_rayleighs_8446: Optional[float] = None
-    height_integrated_rayleighs_lbh: Optional[float] = None
-    height_integrated_rayleighs_1304: Optional[float] = None
-    height_integrated_rayleighs_1356: Optional[float] = None
-    altitudes: Optional[ndarray] = None
-    emission_4278: Optional[ndarray] = None
-    emission_5577: Optional[ndarray] = None
-    emission_6300: Optional[ndarray] = None
-    emission_8446: Optional[ndarray] = None
-    emission_lbh: Optional[ndarray] = None
-    emission_1304: Optional[ndarray] = None
-    emission_1356: Optional[ndarray] = None
-    plasma_electron_density: Optional[ndarray] = None
-    plasma_o2plus_density: Optional[ndarray] = None
-    plasma_noplus_density: Optional[ndarray] = None
-    plasma_oplus_density: Optional[ndarray] = None
-    plasma_ionisation_rate: Optional[ndarray] = None
-    plasma_electron_temperature: Optional[ndarray] = None
-    plasma_ion_temperature: Optional[ndarray] = None
-    plasma_pederson_conductivity: Optional[ndarray] = None
-    plasma_hall_conductivity: Optional[ndarray] = None
-    neutral_o2_density: Optional[ndarray] = None
-    neutral_o_density: Optional[ndarray] = None
-    neutral_n2_density: Optional[ndarray] = None
-    neutral_n_density: Optional[ndarray] = None
-    neutral_temperature: Optional[ndarray] = None
+    height_integrated_rayleighs_4278: Any
+    height_integrated_rayleighs_5577: Any
+    height_integrated_rayleighs_6300: Any
+    height_integrated_rayleighs_8446: Any
+    height_integrated_rayleighs_lbh: Any
+    height_integrated_rayleighs_1304: Any
+    height_integrated_rayleighs_1356: Any
+    altitudes: Any
+    emission_4278: Any
+    emission_5577: Any
+    emission_6300: Any
+    emission_8446: Any
+    emission_lbh: Any
+    emission_1304: Any
+    emission_1356: Any
+    plasma_electron_density: Any
+    plasma_o2plus_density: Any
+    plasma_noplus_density: Any
+    plasma_oplus_density: Any
+    plasma_ionisation_rate: Any
+    plasma_electron_temperature: Any
+    plasma_ion_temperature: Any
+    plasma_pederson_conductivity: Any
+    plasma_hall_conductivity: Any
+    neutral_o2_density: Any
+    neutral_o_density: Any
+    neutral_n2_density: Any
+    neutral_n_density: Any
+    neutral_temperature: Any
 
     def pretty_print(self):
         """
