@@ -7,7 +7,7 @@ srs.api_base_url = "https://api-staging.phys.ucalgary.ca"
 
 # get dataset
 print("\n[%s] Getting dataset ..." % (datetime.datetime.now()))
-dataset = srs.data.list_datasets("TREX_BLUE_RAW")[0]
+dataset = srs.data.list_datasets("TREX_NIR_RAW")[0]
 
 # download data
 print("\n[%s] Downloading data ..." % (datetime.datetime.now()))
@@ -21,7 +21,7 @@ file_list = download_obj.filenames
 
 # read data
 print("\n[%s] Reading data ..." % (datetime.datetime.now()))
-data = srs.data.read(dataset, file_list, n_parallel=1)
+data = srs.data.readers.read_trex_nir(file_list, n_parallel=2, dataset=dataset)
 
 print()
 print(data)

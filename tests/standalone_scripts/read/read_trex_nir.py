@@ -21,7 +21,7 @@ file_list = download_obj.filenames
 
 # read data
 print("\n[%s] Reading data ..." % (datetime.datetime.now()))
-data = srs.data.readers.read_trex_nir(file_list, n_parallel=2, dataset=dataset)
+data = srs.data.read(dataset, file_list, n_parallel=1)
 
 print()
 print(data)
