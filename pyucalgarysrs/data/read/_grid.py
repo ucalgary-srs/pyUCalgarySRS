@@ -27,7 +27,7 @@ from pathlib import Path
 from multiprocessing import Pool
 
 # static globals
-__RGB_PGM_EXPECTED_HEIGHT = 480 
+__RGB_PGM_EXPECTED_HEIGHT = 480
 __RGB_PGM_EXPECTED_WIDTH = 553
 __RGB_PGM_DT = np.dtype("uint16")
 __RGB_PGM_DT = __RGB_PGM_DT.newbyteorder('>')  # force big endian byte ordering
