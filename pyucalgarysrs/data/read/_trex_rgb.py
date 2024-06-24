@@ -47,7 +47,7 @@ def read(file_list, n_parallel=1, first_record=False, no_metadata=False, tar_tem
         file_list = [file_list]
 
     # check if anything in the list
-    if (len(file_list)):
+    if (len(file_list) == 0):
         if (quiet is False):
             print("No files found to read")
         return np.empty((0, 0, 0, 0)), [], []
