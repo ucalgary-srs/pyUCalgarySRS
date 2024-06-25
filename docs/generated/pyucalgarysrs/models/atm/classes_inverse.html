@@ -68,7 +68,7 @@ classes in this module are included at the top level of this library.
 
 import datetime
 from dataclasses import dataclass
-from typing import Optional, Literal
+from typing import Optional, Literal, Any
 from numpy import ndarray
 
 
@@ -153,6 +153,7 @@ class ATMInverseRequest:
     intensity_8446: float
     precipitation_flux_spectral_type: Literal[&#34;gaussian&#34;, &#34;maxwellian&#34;]
     nrlmsis_model_version: Literal[&#34;00&#34;, &#34;2.0&#34;]
+    atmospheric_attenuation_correction: bool
     output: ATMInverseOutputFlags
     no_cache: bool
 
@@ -301,32 +302,32 @@ class ATMInverseResult:
             1-dimensional numpy array for the neutral temperature (Kelvin).
     &#34;&#34;&#34;
     request_info: ATMInverseResultRequestInfo
-    energy_flux: Optional[float] = None
-    characteristic_energy: Optional[float] = None
-    oxygen_correction_factor: Optional[float] = None
-    height_integrated_rayleighs_4278: Optional[float] = None
-    height_integrated_rayleighs_5577: Optional[float] = None
-    height_integrated_rayleighs_6300: Optional[float] = None
-    height_integrated_rayleighs_8446: Optional[float] = None
-    altitudes: Optional[ndarray] = None
-    emission_4278: Optional[ndarray] = None
-    emission_5577: Optional[ndarray] = None
-    emission_6300: Optional[ndarray] = None
-    emission_8446: Optional[ndarray] = None
-    plasma_electron_density: Optional[ndarray] = None
-    plasma_o2plus_density: Optional[ndarray] = None
-    plasma_noplus_density: Optional[ndarray] = None
-    plasma_oplus_density: Optional[ndarray] = None
-    plasma_ionisation_rate: Optional[ndarray] = None
-    plasma_electron_temperature: Optional[ndarray] = None
-    plasma_ion_temperature: Optional[ndarray] = None
-    plasma_pederson_conductivity: Optional[ndarray] = None
-    plasma_hall_conductivity: Optional[ndarray] = None
-    neutral_o2_density: Optional[ndarray] = None
-    neutral_o_density: Optional[ndarray] = None
-    neutral_n2_density: Optional[ndarray] = None
-    neutral_n_density: Optional[ndarray] = None
-    neutral_temperature: Optional[ndarray] = None
+    energy_flux: Any
+    characteristic_energy: Any
+    oxygen_correction_factor: Any
+    height_integrated_rayleighs_4278: Any
+    height_integrated_rayleighs_5577: Any
+    height_integrated_rayleighs_6300: Any
+    height_integrated_rayleighs_8446: Any
+    altitudes: Any
+    emission_4278: Any
+    emission_5577: Any
+    emission_6300: Any
+    emission_8446: Any
+    plasma_electron_density: Any
+    plasma_o2plus_density: Any
+    plasma_noplus_density: Any
+    plasma_oplus_density: Any
+    plasma_ionisation_rate: Any
+    plasma_electron_temperature: Any
+    plasma_ion_temperature: Any
+    plasma_pederson_conductivity: Any
+    plasma_hall_conductivity: Any
+    neutral_o2_density: Any
+    neutral_o_density: Any
+    neutral_n2_density: Any
+    neutral_n_density: Any
+    neutral_temperature: Any
 
     def pretty_print(self):
         &#34;&#34;&#34;
@@ -667,7 +668,7 @@ class ATMInverseOutputFlags:
 </dd>
 <dt id="pyucalgarysrs.models.atm.classes_inverse.ATMInverseRequest"><code class="flex name class">
 <span>class <span class="ident">ATMInverseRequest</span></span>
-<span>(</span><span>atm_model_version: Literal['1.0'], timestamp: datetime.datetime, geodetic_latitude: float, geodetic_longitude: float, intensity_4278: float, intensity_5577: float, intensity_6300: float, intensity_8446: float, precipitation_flux_spectral_type: Literal['gaussian', 'maxwellian'], nrlmsis_model_version: Literal['00', '2.0'], output: <a title="pyucalgarysrs.models.atm.classes_inverse.ATMInverseOutputFlags" href="#pyucalgarysrs.models.atm.classes_inverse.ATMInverseOutputFlags">ATMInverseOutputFlags</a>, no_cache: bool)</span>
+<span>(</span><span>atm_model_version: Literal['1.0'], timestamp: datetime.datetime, geodetic_latitude: float, geodetic_longitude: float, intensity_4278: float, intensity_5577: float, intensity_6300: float, intensity_8446: float, precipitation_flux_spectral_type: Literal['gaussian', 'maxwellian'], nrlmsis_model_version: Literal['00', '2.0'], atmospheric_attenuation_correction: bool, output: <a title="pyucalgarysrs.models.atm.classes_inverse.ATMInverseOutputFlags" href="#pyucalgarysrs.models.atm.classes_inverse.ATMInverseOutputFlags">ATMInverseOutputFlags</a>, no_cache: bool)</span>
 </code></dt>
 <dd>
 <div class="desc"><p>Class that represents the UCalgary Space Remote Sensing API request when
@@ -698,12 +699,17 @@ class ATMInverseRequest:
     intensity_8446: float
     precipitation_flux_spectral_type: Literal[&#34;gaussian&#34;, &#34;maxwellian&#34;]
     nrlmsis_model_version: Literal[&#34;00&#34;, &#34;2.0&#34;]
+    atmospheric_attenuation_correction: bool
     output: ATMInverseOutputFlags
     no_cache: bool</code></pre>
 </details>
 <h3>Class variables</h3>
 <dl>
 <dt id="pyucalgarysrs.models.atm.classes_inverse.ATMInverseRequest.atm_model_version"><code class="name">var <span class="ident">atm_model_version</span> : Literal['1.0']</code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="pyucalgarysrs.models.atm.classes_inverse.ATMInverseRequest.atmospheric_attenuation_correction"><code class="name">var <span class="ident">atmospheric_attenuation_correction</span> : bool</code></dt>
 <dd>
 <div class="desc"></div>
 </dd>
@@ -755,7 +761,7 @@ class ATMInverseRequest:
 </dd>
 <dt id="pyucalgarysrs.models.atm.classes_inverse.ATMInverseResult"><code class="flex name class">
 <span>class <span class="ident">ATMInverseResult</span></span>
-<span>(</span><span>request_info: <a title="pyucalgarysrs.models.atm.classes_inverse.ATMInverseResultRequestInfo" href="#pyucalgarysrs.models.atm.classes_inverse.ATMInverseResultRequestInfo">ATMInverseResultRequestInfo</a>, energy_flux: Optional[float] = None, characteristic_energy: Optional[float] = None, oxygen_correction_factor: Optional[float] = None, height_integrated_rayleighs_4278: Optional[float] = None, height_integrated_rayleighs_5577: Optional[float] = None, height_integrated_rayleighs_6300: Optional[float] = None, height_integrated_rayleighs_8446: Optional[float] = None, altitudes: Optional[numpy.ndarray] = None, emission_4278: Optional[numpy.ndarray] = None, emission_5577: Optional[numpy.ndarray] = None, emission_6300: Optional[numpy.ndarray] = None, emission_8446: Optional[numpy.ndarray] = None, plasma_electron_density: Optional[numpy.ndarray] = None, plasma_o2plus_density: Optional[numpy.ndarray] = None, plasma_noplus_density: Optional[numpy.ndarray] = None, plasma_oplus_density: Optional[numpy.ndarray] = None, plasma_ionisation_rate: Optional[numpy.ndarray] = None, plasma_electron_temperature: Optional[numpy.ndarray] = None, plasma_ion_temperature: Optional[numpy.ndarray] = None, plasma_pederson_conductivity: Optional[numpy.ndarray] = None, plasma_hall_conductivity: Optional[numpy.ndarray] = None, neutral_o2_density: Optional[numpy.ndarray] = None, neutral_o_density: Optional[numpy.ndarray] = None, neutral_n2_density: Optional[numpy.ndarray] = None, neutral_n_density: Optional[numpy.ndarray] = None, neutral_temperature: Optional[numpy.ndarray] = None)</span>
+<span>(</span><span>request_info: <a title="pyucalgarysrs.models.atm.classes_inverse.ATMInverseResultRequestInfo" href="#pyucalgarysrs.models.atm.classes_inverse.ATMInverseResultRequestInfo">ATMInverseResultRequestInfo</a>, energy_flux: Any, characteristic_energy: Any, oxygen_correction_factor: Any, height_integrated_rayleighs_4278: Any, height_integrated_rayleighs_5577: Any, height_integrated_rayleighs_6300: Any, height_integrated_rayleighs_8446: Any, altitudes: Any, emission_4278: Any, emission_5577: Any, emission_6300: Any, emission_8446: Any, plasma_electron_density: Any, plasma_o2plus_density: Any, plasma_noplus_density: Any, plasma_oplus_density: Any, plasma_ionisation_rate: Any, plasma_electron_temperature: Any, plasma_ion_temperature: Any, plasma_pederson_conductivity: Any, plasma_hall_conductivity: Any, neutral_o2_density: Any, neutral_o_density: Any, neutral_n2_density: Any, neutral_n_density: Any, neutral_temperature: Any)</span>
 </code></dt>
 <dd>
 <div class="desc"><p>Class containing all data from an ATM inverse calculation. This class also includes
@@ -919,32 +925,32 @@ class ATMInverseResult:
             1-dimensional numpy array for the neutral temperature (Kelvin).
     &#34;&#34;&#34;
     request_info: ATMInverseResultRequestInfo
-    energy_flux: Optional[float] = None
-    characteristic_energy: Optional[float] = None
-    oxygen_correction_factor: Optional[float] = None
-    height_integrated_rayleighs_4278: Optional[float] = None
-    height_integrated_rayleighs_5577: Optional[float] = None
-    height_integrated_rayleighs_6300: Optional[float] = None
-    height_integrated_rayleighs_8446: Optional[float] = None
-    altitudes: Optional[ndarray] = None
-    emission_4278: Optional[ndarray] = None
-    emission_5577: Optional[ndarray] = None
-    emission_6300: Optional[ndarray] = None
-    emission_8446: Optional[ndarray] = None
-    plasma_electron_density: Optional[ndarray] = None
-    plasma_o2plus_density: Optional[ndarray] = None
-    plasma_noplus_density: Optional[ndarray] = None
-    plasma_oplus_density: Optional[ndarray] = None
-    plasma_ionisation_rate: Optional[ndarray] = None
-    plasma_electron_temperature: Optional[ndarray] = None
-    plasma_ion_temperature: Optional[ndarray] = None
-    plasma_pederson_conductivity: Optional[ndarray] = None
-    plasma_hall_conductivity: Optional[ndarray] = None
-    neutral_o2_density: Optional[ndarray] = None
-    neutral_o_density: Optional[ndarray] = None
-    neutral_n2_density: Optional[ndarray] = None
-    neutral_n_density: Optional[ndarray] = None
-    neutral_temperature: Optional[ndarray] = None
+    energy_flux: Any
+    characteristic_energy: Any
+    oxygen_correction_factor: Any
+    height_integrated_rayleighs_4278: Any
+    height_integrated_rayleighs_5577: Any
+    height_integrated_rayleighs_6300: Any
+    height_integrated_rayleighs_8446: Any
+    altitudes: Any
+    emission_4278: Any
+    emission_5577: Any
+    emission_6300: Any
+    emission_8446: Any
+    plasma_electron_density: Any
+    plasma_o2plus_density: Any
+    plasma_noplus_density: Any
+    plasma_oplus_density: Any
+    plasma_ionisation_rate: Any
+    plasma_electron_temperature: Any
+    plasma_ion_temperature: Any
+    plasma_pederson_conductivity: Any
+    plasma_hall_conductivity: Any
+    neutral_o2_density: Any
+    neutral_o_density: Any
+    neutral_n2_density: Any
+    neutral_n_density: Any
+    neutral_temperature: Any
 
     def pretty_print(self):
         &#34;&#34;&#34;
@@ -972,107 +978,107 @@ class ATMInverseResult:
 </details>
 <h3>Class variables</h3>
 <dl>
-<dt id="pyucalgarysrs.models.atm.classes_inverse.ATMInverseResult.altitudes"><code class="name">var <span class="ident">altitudes</span> : Optional[numpy.ndarray]</code></dt>
+<dt id="pyucalgarysrs.models.atm.classes_inverse.ATMInverseResult.altitudes"><code class="name">var <span class="ident">altitudes</span> : Any</code></dt>
 <dd>
 <div class="desc"></div>
 </dd>
-<dt id="pyucalgarysrs.models.atm.classes_inverse.ATMInverseResult.characteristic_energy"><code class="name">var <span class="ident">characteristic_energy</span> : Optional[float]</code></dt>
+<dt id="pyucalgarysrs.models.atm.classes_inverse.ATMInverseResult.characteristic_energy"><code class="name">var <span class="ident">characteristic_energy</span> : Any</code></dt>
 <dd>
 <div class="desc"></div>
 </dd>
-<dt id="pyucalgarysrs.models.atm.classes_inverse.ATMInverseResult.emission_4278"><code class="name">var <span class="ident">emission_4278</span> : Optional[numpy.ndarray]</code></dt>
+<dt id="pyucalgarysrs.models.atm.classes_inverse.ATMInverseResult.emission_4278"><code class="name">var <span class="ident">emission_4278</span> : Any</code></dt>
 <dd>
 <div class="desc"></div>
 </dd>
-<dt id="pyucalgarysrs.models.atm.classes_inverse.ATMInverseResult.emission_5577"><code class="name">var <span class="ident">emission_5577</span> : Optional[numpy.ndarray]</code></dt>
+<dt id="pyucalgarysrs.models.atm.classes_inverse.ATMInverseResult.emission_5577"><code class="name">var <span class="ident">emission_5577</span> : Any</code></dt>
 <dd>
 <div class="desc"></div>
 </dd>
-<dt id="pyucalgarysrs.models.atm.classes_inverse.ATMInverseResult.emission_6300"><code class="name">var <span class="ident">emission_6300</span> : Optional[numpy.ndarray]</code></dt>
+<dt id="pyucalgarysrs.models.atm.classes_inverse.ATMInverseResult.emission_6300"><code class="name">var <span class="ident">emission_6300</span> : Any</code></dt>
 <dd>
 <div class="desc"></div>
 </dd>
-<dt id="pyucalgarysrs.models.atm.classes_inverse.ATMInverseResult.emission_8446"><code class="name">var <span class="ident">emission_8446</span> : Optional[numpy.ndarray]</code></dt>
+<dt id="pyucalgarysrs.models.atm.classes_inverse.ATMInverseResult.emission_8446"><code class="name">var <span class="ident">emission_8446</span> : Any</code></dt>
 <dd>
 <div class="desc"></div>
 </dd>
-<dt id="pyucalgarysrs.models.atm.classes_inverse.ATMInverseResult.energy_flux"><code class="name">var <span class="ident">energy_flux</span> : Optional[float]</code></dt>
+<dt id="pyucalgarysrs.models.atm.classes_inverse.ATMInverseResult.energy_flux"><code class="name">var <span class="ident">energy_flux</span> : Any</code></dt>
 <dd>
 <div class="desc"></div>
 </dd>
-<dt id="pyucalgarysrs.models.atm.classes_inverse.ATMInverseResult.height_integrated_rayleighs_4278"><code class="name">var <span class="ident">height_integrated_rayleighs_4278</span> : Optional[float]</code></dt>
+<dt id="pyucalgarysrs.models.atm.classes_inverse.ATMInverseResult.height_integrated_rayleighs_4278"><code class="name">var <span class="ident">height_integrated_rayleighs_4278</span> : Any</code></dt>
 <dd>
 <div class="desc"></div>
 </dd>
-<dt id="pyucalgarysrs.models.atm.classes_inverse.ATMInverseResult.height_integrated_rayleighs_5577"><code class="name">var <span class="ident">height_integrated_rayleighs_5577</span> : Optional[float]</code></dt>
+<dt id="pyucalgarysrs.models.atm.classes_inverse.ATMInverseResult.height_integrated_rayleighs_5577"><code class="name">var <span class="ident">height_integrated_rayleighs_5577</span> : Any</code></dt>
 <dd>
 <div class="desc"></div>
 </dd>
-<dt id="pyucalgarysrs.models.atm.classes_inverse.ATMInverseResult.height_integrated_rayleighs_6300"><code class="name">var <span class="ident">height_integrated_rayleighs_6300</span> : Optional[float]</code></dt>
+<dt id="pyucalgarysrs.models.atm.classes_inverse.ATMInverseResult.height_integrated_rayleighs_6300"><code class="name">var <span class="ident">height_integrated_rayleighs_6300</span> : Any</code></dt>
 <dd>
 <div class="desc"></div>
 </dd>
-<dt id="pyucalgarysrs.models.atm.classes_inverse.ATMInverseResult.height_integrated_rayleighs_8446"><code class="name">var <span class="ident">height_integrated_rayleighs_8446</span> : Optional[float]</code></dt>
+<dt id="pyucalgarysrs.models.atm.classes_inverse.ATMInverseResult.height_integrated_rayleighs_8446"><code class="name">var <span class="ident">height_integrated_rayleighs_8446</span> : Any</code></dt>
 <dd>
 <div class="desc"></div>
 </dd>
-<dt id="pyucalgarysrs.models.atm.classes_inverse.ATMInverseResult.neutral_n2_density"><code class="name">var <span class="ident">neutral_n2_density</span> : Optional[numpy.ndarray]</code></dt>
+<dt id="pyucalgarysrs.models.atm.classes_inverse.ATMInverseResult.neutral_n2_density"><code class="name">var <span class="ident">neutral_n2_density</span> : Any</code></dt>
 <dd>
 <div class="desc"></div>
 </dd>
-<dt id="pyucalgarysrs.models.atm.classes_inverse.ATMInverseResult.neutral_n_density"><code class="name">var <span class="ident">neutral_n_density</span> : Optional[numpy.ndarray]</code></dt>
+<dt id="pyucalgarysrs.models.atm.classes_inverse.ATMInverseResult.neutral_n_density"><code class="name">var <span class="ident">neutral_n_density</span> : Any</code></dt>
 <dd>
 <div class="desc"></div>
 </dd>
-<dt id="pyucalgarysrs.models.atm.classes_inverse.ATMInverseResult.neutral_o2_density"><code class="name">var <span class="ident">neutral_o2_density</span> : Optional[numpy.ndarray]</code></dt>
+<dt id="pyucalgarysrs.models.atm.classes_inverse.ATMInverseResult.neutral_o2_density"><code class="name">var <span class="ident">neutral_o2_density</span> : Any</code></dt>
 <dd>
 <div class="desc"></div>
 </dd>
-<dt id="pyucalgarysrs.models.atm.classes_inverse.ATMInverseResult.neutral_o_density"><code class="name">var <span class="ident">neutral_o_density</span> : Optional[numpy.ndarray]</code></dt>
+<dt id="pyucalgarysrs.models.atm.classes_inverse.ATMInverseResult.neutral_o_density"><code class="name">var <span class="ident">neutral_o_density</span> : Any</code></dt>
 <dd>
 <div class="desc"></div>
 </dd>
-<dt id="pyucalgarysrs.models.atm.classes_inverse.ATMInverseResult.neutral_temperature"><code class="name">var <span class="ident">neutral_temperature</span> : Optional[numpy.ndarray]</code></dt>
+<dt id="pyucalgarysrs.models.atm.classes_inverse.ATMInverseResult.neutral_temperature"><code class="name">var <span class="ident">neutral_temperature</span> : Any</code></dt>
 <dd>
 <div class="desc"></div>
 </dd>
-<dt id="pyucalgarysrs.models.atm.classes_inverse.ATMInverseResult.oxygen_correction_factor"><code class="name">var <span class="ident">oxygen_correction_factor</span> : Optional[float]</code></dt>
+<dt id="pyucalgarysrs.models.atm.classes_inverse.ATMInverseResult.oxygen_correction_factor"><code class="name">var <span class="ident">oxygen_correction_factor</span> : Any</code></dt>
 <dd>
 <div class="desc"></div>
 </dd>
-<dt id="pyucalgarysrs.models.atm.classes_inverse.ATMInverseResult.plasma_electron_density"><code class="name">var <span class="ident">plasma_electron_density</span> : Optional[numpy.ndarray]</code></dt>
+<dt id="pyucalgarysrs.models.atm.classes_inverse.ATMInverseResult.plasma_electron_density"><code class="name">var <span class="ident">plasma_electron_density</span> : Any</code></dt>
 <dd>
 <div class="desc"></div>
 </dd>
-<dt id="pyucalgarysrs.models.atm.classes_inverse.ATMInverseResult.plasma_electron_temperature"><code class="name">var <span class="ident">plasma_electron_temperature</span> : Optional[numpy.ndarray]</code></dt>
+<dt id="pyucalgarysrs.models.atm.classes_inverse.ATMInverseResult.plasma_electron_temperature"><code class="name">var <span class="ident">plasma_electron_temperature</span> : Any</code></dt>
 <dd>
 <div class="desc"></div>
 </dd>
-<dt id="pyucalgarysrs.models.atm.classes_inverse.ATMInverseResult.plasma_hall_conductivity"><code class="name">var <span class="ident">plasma_hall_conductivity</span> : Optional[numpy.ndarray]</code></dt>
+<dt id="pyucalgarysrs.models.atm.classes_inverse.ATMInverseResult.plasma_hall_conductivity"><code class="name">var <span class="ident">plasma_hall_conductivity</span> : Any</code></dt>
 <dd>
 <div class="desc"></div>
 </dd>
-<dt id="pyucalgarysrs.models.atm.classes_inverse.ATMInverseResult.plasma_ion_temperature"><code class="name">var <span class="ident">plasma_ion_temperature</span> : Optional[numpy.ndarray]</code></dt>
+<dt id="pyucalgarysrs.models.atm.classes_inverse.ATMInverseResult.plasma_ion_temperature"><code class="name">var <span class="ident">plasma_ion_temperature</span> : Any</code></dt>
 <dd>
 <div class="desc"></div>
 </dd>
-<dt id="pyucalgarysrs.models.atm.classes_inverse.ATMInverseResult.plasma_ionisation_rate"><code class="name">var <span class="ident">plasma_ionisation_rate</span> : Optional[numpy.ndarray]</code></dt>
+<dt id="pyucalgarysrs.models.atm.classes_inverse.ATMInverseResult.plasma_ionisation_rate"><code class="name">var <span class="ident">plasma_ionisation_rate</span> : Any</code></dt>
 <dd>
 <div class="desc"></div>
 </dd>
-<dt id="pyucalgarysrs.models.atm.classes_inverse.ATMInverseResult.plasma_noplus_density"><code class="name">var <span class="ident">plasma_noplus_density</span> : Optional[numpy.ndarray]</code></dt>
+<dt id="pyucalgarysrs.models.atm.classes_inverse.ATMInverseResult.plasma_noplus_density"><code class="name">var <span class="ident">plasma_noplus_density</span> : Any</code></dt>
 <dd>
 <div class="desc"></div>
 </dd>
-<dt id="pyucalgarysrs.models.atm.classes_inverse.ATMInverseResult.plasma_o2plus_density"><code class="name">var <span class="ident">plasma_o2plus_density</span> : Optional[numpy.ndarray]</code></dt>
+<dt id="pyucalgarysrs.models.atm.classes_inverse.ATMInverseResult.plasma_o2plus_density"><code class="name">var <span class="ident">plasma_o2plus_density</span> : Any</code></dt>
 <dd>
 <div class="desc"></div>
 </dd>
-<dt id="pyucalgarysrs.models.atm.classes_inverse.ATMInverseResult.plasma_oplus_density"><code class="name">var <span class="ident">plasma_oplus_density</span> : Optional[numpy.ndarray]</code></dt>
+<dt id="pyucalgarysrs.models.atm.classes_inverse.ATMInverseResult.plasma_oplus_density"><code class="name">var <span class="ident">plasma_oplus_density</span> : Any</code></dt>
 <dd>
 <div class="desc"></div>
 </dd>
-<dt id="pyucalgarysrs.models.atm.classes_inverse.ATMInverseResult.plasma_pederson_conductivity"><code class="name">var <span class="ident">plasma_pederson_conductivity</span> : Optional[numpy.ndarray]</code></dt>
+<dt id="pyucalgarysrs.models.atm.classes_inverse.ATMInverseResult.plasma_pederson_conductivity"><code class="name">var <span class="ident">plasma_pederson_conductivity</span> : Any</code></dt>
 <dd>
 <div class="desc"></div>
 </dd>
@@ -1303,6 +1309,7 @@ setTimeout(() => input.focus(), 100);
 <h4><code><a title="pyucalgarysrs.models.atm.classes_inverse.ATMInverseRequest" href="#pyucalgarysrs.models.atm.classes_inverse.ATMInverseRequest">ATMInverseRequest</a></code></h4>
 <ul class="">
 <li><code><a title="pyucalgarysrs.models.atm.classes_inverse.ATMInverseRequest.atm_model_version" href="#pyucalgarysrs.models.atm.classes_inverse.ATMInverseRequest.atm_model_version">atm_model_version</a></code></li>
+<li><code><a title="pyucalgarysrs.models.atm.classes_inverse.ATMInverseRequest.atmospheric_attenuation_correction" href="#pyucalgarysrs.models.atm.classes_inverse.ATMInverseRequest.atmospheric_attenuation_correction">atmospheric_attenuation_correction</a></code></li>
 <li><code><a title="pyucalgarysrs.models.atm.classes_inverse.ATMInverseRequest.geodetic_latitude" href="#pyucalgarysrs.models.atm.classes_inverse.ATMInverseRequest.geodetic_latitude">geodetic_latitude</a></code></li>
 <li><code><a title="pyucalgarysrs.models.atm.classes_inverse.ATMInverseRequest.geodetic_longitude" href="#pyucalgarysrs.models.atm.classes_inverse.ATMInverseRequest.geodetic_longitude">geodetic_longitude</a></code></li>
 <li><code><a title="pyucalgarysrs.models.atm.classes_inverse.ATMInverseRequest.intensity_4278" href="#pyucalgarysrs.models.atm.classes_inverse.ATMInverseRequest.intensity_4278">intensity_4278</a></code></li>

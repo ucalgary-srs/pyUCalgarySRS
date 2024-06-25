@@ -217,6 +217,10 @@ def download_generic(srs_obj, dataset_name, start, end, site_uid, device_uid, n_
     # get file listing
     file_listing_obj = get_urls(srs_obj, dataset_name, start, end, site_uid, device_uid, timeout, warning_stack_level=4)
 
+    # check to see if there are files to download
+    if (len(file_listing_obj.urls) == 0):
+        warnings.warn("No data found to download", stacklevel=1)
+
     # download the urls
     download_obj = __download_urls(
         srs_obj,

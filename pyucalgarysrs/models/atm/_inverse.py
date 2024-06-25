@@ -19,7 +19,7 @@ from ...exceptions import SRSAPIError
 
 
 def inverse(srs_obj, timestamp, geodetic_latitude, geodetic_longitude, intensity_4278, intensity_5577, intensity_6300, intensity_8446, output,
-            precipitation_flux_spectral_type, nrlmsis_model_version, atm_model_version, no_cache, timeout):
+            precipitation_flux_spectral_type, nrlmsis_model_version, atmospheric_attenuation_correction, atm_model_version, no_cache, timeout):
     # set timeout
     if (timeout is None):
         timeout = srs_obj.api_timeout
@@ -36,6 +36,7 @@ def inverse(srs_obj, timestamp, geodetic_latitude, geodetic_longitude, intensity
         intensity_8446=intensity_8446,
         precipitation_flux_spectral_type=precipitation_flux_spectral_type,
         nrlmsis_model_version=nrlmsis_model_version,
+        atmospheric_attenuation_correction=atmospheric_attenuation_correction,
         output=output,
         no_cache=no_cache,
     )

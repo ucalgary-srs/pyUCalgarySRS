@@ -18,7 +18,7 @@ classes in this module are included at the top level of this library.
 
 import datetime
 from dataclasses import dataclass
-from typing import Optional, Literal
+from typing import Optional, Literal, Any
 from numpy import ndarray
 
 
@@ -103,6 +103,7 @@ class ATMInverseRequest:
     intensity_8446: float
     precipitation_flux_spectral_type: Literal["gaussian", "maxwellian"]
     nrlmsis_model_version: Literal["00", "2.0"]
+    atmospheric_attenuation_correction: bool
     output: ATMInverseOutputFlags
     no_cache: bool
 
@@ -251,32 +252,32 @@ class ATMInverseResult:
             1-dimensional numpy array for the neutral temperature (Kelvin).
     """
     request_info: ATMInverseResultRequestInfo
-    energy_flux: Optional[float] = None
-    characteristic_energy: Optional[float] = None
-    oxygen_correction_factor: Optional[float] = None
-    height_integrated_rayleighs_4278: Optional[float] = None
-    height_integrated_rayleighs_5577: Optional[float] = None
-    height_integrated_rayleighs_6300: Optional[float] = None
-    height_integrated_rayleighs_8446: Optional[float] = None
-    altitudes: Optional[ndarray] = None
-    emission_4278: Optional[ndarray] = None
-    emission_5577: Optional[ndarray] = None
-    emission_6300: Optional[ndarray] = None
-    emission_8446: Optional[ndarray] = None
-    plasma_electron_density: Optional[ndarray] = None
-    plasma_o2plus_density: Optional[ndarray] = None
-    plasma_noplus_density: Optional[ndarray] = None
-    plasma_oplus_density: Optional[ndarray] = None
-    plasma_ionisation_rate: Optional[ndarray] = None
-    plasma_electron_temperature: Optional[ndarray] = None
-    plasma_ion_temperature: Optional[ndarray] = None
-    plasma_pederson_conductivity: Optional[ndarray] = None
-    plasma_hall_conductivity: Optional[ndarray] = None
-    neutral_o2_density: Optional[ndarray] = None
-    neutral_o_density: Optional[ndarray] = None
-    neutral_n2_density: Optional[ndarray] = None
-    neutral_n_density: Optional[ndarray] = None
-    neutral_temperature: Optional[ndarray] = None
+    energy_flux: Any
+    characteristic_energy: Any
+    oxygen_correction_factor: Any
+    height_integrated_rayleighs_4278: Any
+    height_integrated_rayleighs_5577: Any
+    height_integrated_rayleighs_6300: Any
+    height_integrated_rayleighs_8446: Any
+    altitudes: Any
+    emission_4278: Any
+    emission_5577: Any
+    emission_6300: Any
+    emission_8446: Any
+    plasma_electron_density: Any
+    plasma_o2plus_density: Any
+    plasma_noplus_density: Any
+    plasma_oplus_density: Any
+    plasma_ionisation_rate: Any
+    plasma_electron_temperature: Any
+    plasma_ion_temperature: Any
+    plasma_pederson_conductivity: Any
+    plasma_hall_conductivity: Any
+    neutral_o2_density: Any
+    neutral_o_density: Any
+    neutral_n2_density: Any
+    neutral_n_density: Any
+    neutral_temperature: Any
 
     def pretty_print(self):
         """

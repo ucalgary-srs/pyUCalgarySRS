@@ -4,7 +4,7 @@ build-backend = "poetry.core.masonry.api"
 
 [tool.poetry]
 name = "pyucalgarysrs"
-version = "1.0.4"
+version = "1.0.8"
 description = "Tools for interacting with UCalgary Space Remote Sensing data"
 readme = "README.md"
 homepage = "https://github.com/ucalgary-srs/pyUCalgarySRS"
@@ -36,7 +36,7 @@ pytest-xdist = "3.6.1"
 pytest-sugar = "1.0.0"
 pytest-cov = "5.0.0"
 bandit = "1.7.9"
-pyright = "1.1.367"
+pyright = "1.1.368"
 pdoc3 = "0.10.0"
 
 [tool.ruff]
