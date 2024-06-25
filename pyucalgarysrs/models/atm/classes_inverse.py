@@ -103,6 +103,7 @@ class ATMInverseRequest:
     intensity_8446: float
     precipitation_flux_spectral_type: Literal["gaussian", "maxwellian"]
     nrlmsis_model_version: Literal["00", "2.0"]
+    atmospheric_attenuation_correction: bool
     output: ATMInverseOutputFlags
     no_cache: bool
 
