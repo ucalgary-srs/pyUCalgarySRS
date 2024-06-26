@@ -539,6 +539,8 @@ class Data:
         # set data value
         if (isinstance(self.data, ndarray) is True):
             data_str = "array(dims=%s, dtype=%s)" % (self.data.shape, self.data.dtype)
+        if (isinstance(self.data, GridData) is True):
+            data_str = self.data.__repr__()
         elif (isinstance(self.data, list) is True):
             if (len(self.data) == 0):
                 data_str = "[0 items]"
@@ -719,8 +721,8 @@ class GridData:
     Representation for a grid file's data.
 
     Attributes:
-        uid (ndarray): 
-            4-letter unique identifier (traditionally referred to as the site UID)
+        grid (ndarray): 
+           primary data set, gridded images
 
         source_info (GridSourceInfoData): 
             special data attributes specific to this particular grid file
@@ -728,15 +730,24 @@ class GridData:
     grid: ndarray
     source_info: GridSourceInfoData
 
+    def __str__(self) -> str:
+        return self.__repr__()
+
+    def __repr__(self) -> str:
+        grid_str = "array(dims=%s, dtype=%s)" % (self.grid.shape, self.grid.dtype)
+        return "GridData(grid=%s, source_info=GridSourceInfoData(...)" % (grid_str)
+
     def pretty_print(self):
         """
         A special print output for this class.
         """
+        # set grid and confidence
         grid_str = "array(dims=%s, dtype=%s)" % (self.grid.shape, self.grid.dtype)
         confidence_str = "None" if self.source_info.confidence is None else "array(dims=%s, dtype=%s)" % (self.source_info.confidence.shape,
                                                                                                           self.source_info.confidence.dtype)
 
         print("GridData:")
-        print("  %-9s: %s" % ("grid", grid_str))
+        print("  %-14s: %s" % ("grid", grid_str))
+        print("  %-14s: %s" % ("timestamp", grid_str))
         print("  source_info:")
         print("    %-15s: %s" % ("confidence", confidence_str))

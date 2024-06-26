@@ -7,7 +7,7 @@ srs.api_base_url = "https://api-staging.phys.ucalgary.ca"
 
 # get dataset
 print("\n[%s] Getting dataset ..." % (datetime.datetime.now()))
-dataset = srs.data.list_datasets("THEMIS_ASI_GRID_MOSV001")[0]
+dataset = srs.data.list_datasets("REGO_GRID_MOSV001")[0]
 
 # download data
 print("\n[%s] Downloading data ..." % (datetime.datetime.now()))

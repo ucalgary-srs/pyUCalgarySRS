@@ -73,6 +73,7 @@ class ReadManager:
     __VALID_GRID_READFILE_DATASETS = [
         "THEMIS_ASI_GRID_MOSV001",
         "THEMIS_ASI_GRID_MOSU001",
+        "REGO_GRID_MOSV001",
         "TREX_RGB_GRID_MOSV001",
         "TREX_NIR_GRID_MOSV001",
         "TREX_BLUE_GRID_MOSV001",
@@ -1020,7 +1021,7 @@ class ReadManager:
             pyucalgarysrs.exceptions.SRSError: a generic read error was encountered
         """
         # read data
-        data, meta, problematic_files = func_read_grid(
+        data_dict, meta, problematic_files = func_read_grid(
             file_list,
             n_parallel=n_parallel,
             first_record=first_record,
@@ -1030,15 +1031,15 @@ class ReadManager:
 
         # create grid data object
         grid_data_obj = GridData(
-            grid=data["grid"],
-            source_info=GridSourceInfoData(confidence=data["source_info"]["confidence"]),
+            grid=data_dict["grid"],  # type: ignore
+            source_info=GridSourceInfoData(confidence=data_dict["source_info"]["confidence"]),  # type: ignore
         )
 
         # generate timestamp array
         timestamp_list = []
         if (no_metadata is False):
-            for t in data["timestamp"]:
-                timestamp_list.append(datetime.datetime.strptime(t, "%Y-%m-%d %H:%M:%S.%f UTC"))
+            for t in data_dict["timestamp"]:  # type: ignore
+                timestamp_list.append(datetime.datetime.strptime(t.decode(), "%Y-%m-%d %H:%M:%S UTC"))
 
         # convert to return type
         problematic_files_objs = []
