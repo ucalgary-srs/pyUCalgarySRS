@@ -218,6 +218,12 @@ INDEX=[
 "func":1
 },
 {
+"ref":"pyucalgarysrs.data.read.ReadManager.read_grid",
+"url":2,
+"doc":"Read in grid files. Args: file_list (List[str], List[Path], str, Path): The files to read in. Absolute paths are recommended, but not technically necessary. This can be a single string for a file, or a list of strings to read in multiple files. This parameter is required. n_parallel (int): Number of data files to read in parallel using multiprocessing. Default value is 1. Adjust according to your computer's available resources. This parameter is optional. first_record (bool): Only read in the first record in each file. This is the same as the first_frame parameter in the themis-imager-readfile and trex-imager-readfile libraries, and is a read optimization if you only need one image per minute, as opposed to the full temporal resolution of data (e.g., 3sec cadence). This parameter is optional. no_metadata (bool): Skip reading of metadata. This is a minor optimization if the metadata is not needed. Default is  False . This parameter is optional. quiet (bool): Do not print out errors while reading data files, if any are encountered. Any files that encounter errors will be, as usual, accessible via the  problematic_files attribute of the returned  pyucalgarysrs.data.classes.Data object. This parameter is optional. dataset (pyucalgarysrs.data.classes.Dataset): The dataset object for which the files are associated with. This parameter is optional. Returns: A  pyucalgarysrs.data.classes.Data object containing the data read in, among other values. Raises: pyucalgarysrs.exceptions.SRSError: a generic read error was encountered",
+"func":1
+},
+{
 "ref":"pyucalgarysrs.data.classes",
 "url":3,
 "doc":"Classes for representing data download and reading operations. All classes in this module are included at the top level of this library."
@@ -606,6 +612,37 @@ INDEX=[
 },
 {
 "ref":"pyucalgarysrs.data.classes.Observatory.pretty_print",
+"url":3,
+"doc":"A special print output for this class.",
+"func":1
+},
+{
+"ref":"pyucalgarysrs.data.classes.GridSourceInfoData",
+"url":3,
+"doc":"Representation for a grid file's data specific to the type of grid file Args: confidence (ndarray): A confidence rating"
+},
+{
+"ref":"pyucalgarysrs.data.classes.GridSourceInfoData.confidence",
+"url":3,
+"doc":""
+},
+{
+"ref":"pyucalgarysrs.data.classes.GridData",
+"url":3,
+"doc":"Representation for a grid file's data. Attributes: grid (ndarray): primary data set, gridded images source_info (GridSourceInfoData): special data attributes specific to this particular grid file"
+},
+{
+"ref":"pyucalgarysrs.data.classes.GridData.grid",
+"url":3,
+"doc":""
+},
+{
+"ref":"pyucalgarysrs.data.classes.GridData.source_info",
+"url":3,
+"doc":""
+},
+{
+"ref":"pyucalgarysrs.data.classes.GridData.pretty_print",
 "url":3,
 "doc":"A special print output for this class.",
 "func":1

@@ -589,6 +589,8 @@ class Data:
         # set data value
         if (isinstance(self.data, ndarray) is True):
             data_str = &#34;array(dims=%s, dtype=%s)&#34; % (self.data.shape, self.data.dtype)
+        if (isinstance(self.data, GridData) is True):
+            data_str = self.data.__repr__()
         elif (isinstance(self.data, list) is True):
             if (len(self.data) == 0):
                 data_str = &#34;[0 items]&#34;
@@ -748,7 +750,57 @@ class Observatory:
 
             # convert var to string format we want
             var_value = getattr(self, var_name)
-            print(&#34;  %-22s: %s&#34; % (var_name, None if var_value is None else var_value))</code></pre>
+            print(&#34;  %-22s: %s&#34; % (var_name, None if var_value is None else var_value))
+
+
+@dataclass
+class GridSourceInfoData:
+    &#34;&#34;&#34;
+    Representation for a grid file&#39;s data specific to the type of grid file
+
+    Args:
+        confidence (ndarray): 
+            A confidence rating
+    &#34;&#34;&#34;
+    confidence: Any
+
+
+@dataclass
+class GridData:
+    &#34;&#34;&#34;
+    Representation for a grid file&#39;s data.
+
+    Attributes:
+        grid (ndarray): 
+           primary data set, gridded images
+
+        source_info (GridSourceInfoData): 
+            special data attributes specific to this particular grid file
+    &#34;&#34;&#34;
+    grid: ndarray
+    source_info: GridSourceInfoData
+
+    def __str__(self) -&gt; str:
+        return self.__repr__()
+
+    def __repr__(self) -&gt; str:
+        grid_str = &#34;array(dims=%s, dtype=%s)&#34; % (self.grid.shape, self.grid.dtype)
+        return &#34;GridData(grid=%s, source_info=GridSourceInfoData(...)&#34; % (grid_str)
+
+    def pretty_print(self):
+        &#34;&#34;&#34;
+        A special print output for this class.
+        &#34;&#34;&#34;
+        # set grid and confidence
+        grid_str = &#34;array(dims=%s, dtype=%s)&#34; % (self.grid.shape, self.grid.dtype)
+        confidence_str = &#34;None&#34; if self.source_info.confidence is None else &#34;array(dims=%s, dtype=%s)&#34; % (self.source_info.confidence.shape,
+                                                                                                          self.source_info.confidence.dtype)
+
+        print(&#34;GridData:&#34;)
+        print(&#34;  %-14s: %s&#34; % (&#34;grid&#34;, grid_str))
+        print(&#34;  %-14s: %s&#34; % (&#34;timestamp&#34;, grid_str))
+        print(&#34;  source_info:&#34;)
+        print(&#34;    %-15s: %s&#34; % (&#34;confidence&#34;, confidence_str))</code></pre>
 </details>
 </section>
 <section>
@@ -1111,6 +1163,8 @@ class Data:
         # set data value
         if (isinstance(self.data, ndarray) is True):
             data_str = &#34;array(dims=%s, dtype=%s)&#34; % (self.data.shape, self.data.dtype)
+        if (isinstance(self.data, GridData) is True):
+            data_str = self.data.__repr__()
         elif (isinstance(self.data, list) is True):
             if (len(self.data) == 0):
                 data_str = &#34;[0 items]&#34;
@@ -1614,6 +1668,134 @@ class FileListingResponse:
 <div class="desc"></div>
 </dd>
 <dt id="pyucalgarysrs.data.classes.FileListingResponse.urls"><code class="name">var <span class="ident">urls</span> : List[str]</code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+</dl>
+</dd>
+<dt id="pyucalgarysrs.data.classes.GridData"><code class="flex name class">
+<span>class <span class="ident">GridData</span></span>
+<span>(</span><span>grid: numpy.ndarray, source_info: <a title="pyucalgarysrs.data.classes.GridSourceInfoData" href="#pyucalgarysrs.data.classes.GridSourceInfoData">GridSourceInfoData</a>)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Representation for a grid file's data.</p>
+<h2 id="attributes">Attributes</h2>
+<dl>
+<dt><strong><code>grid</code></strong> :&ensp;<code>ndarray</code></dt>
+<dd>primary data set, gridded images</dd>
+<dt><strong><code>source_info</code></strong> :&ensp;<code><a title="pyucalgarysrs.data.classes.GridSourceInfoData" href="#pyucalgarysrs.data.classes.GridSourceInfoData">GridSourceInfoData</a></code></dt>
+<dd>special data attributes specific to this particular grid file</dd>
+</dl></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">@dataclass
+class GridData:
+    &#34;&#34;&#34;
+    Representation for a grid file&#39;s data.
+
+    Attributes:
+        grid (ndarray): 
+           primary data set, gridded images
+
+        source_info (GridSourceInfoData): 
+            special data attributes specific to this particular grid file
+    &#34;&#34;&#34;
+    grid: ndarray
+    source_info: GridSourceInfoData
+
+    def __str__(self) -&gt; str:
+        return self.__repr__()
+
+    def __repr__(self) -&gt; str:
+        grid_str = &#34;array(dims=%s, dtype=%s)&#34; % (self.grid.shape, self.grid.dtype)
+        return &#34;GridData(grid=%s, source_info=GridSourceInfoData(...)&#34; % (grid_str)
+
+    def pretty_print(self):
+        &#34;&#34;&#34;
+        A special print output for this class.
+        &#34;&#34;&#34;
+        # set grid and confidence
+        grid_str = &#34;array(dims=%s, dtype=%s)&#34; % (self.grid.shape, self.grid.dtype)
+        confidence_str = &#34;None&#34; if self.source_info.confidence is None else &#34;array(dims=%s, dtype=%s)&#34; % (self.source_info.confidence.shape,
+                                                                                                          self.source_info.confidence.dtype)
+
+        print(&#34;GridData:&#34;)
+        print(&#34;  %-14s: %s&#34; % (&#34;grid&#34;, grid_str))
+        print(&#34;  %-14s: %s&#34; % (&#34;timestamp&#34;, grid_str))
+        print(&#34;  source_info:&#34;)
+        print(&#34;    %-15s: %s&#34; % (&#34;confidence&#34;, confidence_str))</code></pre>
+</details>
+<h3>Class variables</h3>
+<dl>
+<dt id="pyucalgarysrs.data.classes.GridData.grid"><code class="name">var <span class="ident">grid</span> : numpy.ndarray</code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="pyucalgarysrs.data.classes.GridData.source_info"><code class="name">var <span class="ident">source_info</span> : <a title="pyucalgarysrs.data.classes.GridSourceInfoData" href="#pyucalgarysrs.data.classes.GridSourceInfoData">GridSourceInfoData</a></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+</dl>
+<h3>Methods</h3>
+<dl>
+<dt id="pyucalgarysrs.data.classes.GridData.pretty_print"><code class="name flex">
+<span>def <span class="ident">pretty_print</span></span>(<span>self)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>A special print output for this class.</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def pretty_print(self):
+    &#34;&#34;&#34;
+    A special print output for this class.
+    &#34;&#34;&#34;
+    # set grid and confidence
+    grid_str = &#34;array(dims=%s, dtype=%s)&#34; % (self.grid.shape, self.grid.dtype)
+    confidence_str = &#34;None&#34; if self.source_info.confidence is None else &#34;array(dims=%s, dtype=%s)&#34; % (self.source_info.confidence.shape,
+                                                                                                      self.source_info.confidence.dtype)
+
+    print(&#34;GridData:&#34;)
+    print(&#34;  %-14s: %s&#34; % (&#34;grid&#34;, grid_str))
+    print(&#34;  %-14s: %s&#34; % (&#34;timestamp&#34;, grid_str))
+    print(&#34;  source_info:&#34;)
+    print(&#34;    %-15s: %s&#34; % (&#34;confidence&#34;, confidence_str))</code></pre>
+</details>
+</dd>
+</dl>
+</dd>
+<dt id="pyucalgarysrs.data.classes.GridSourceInfoData"><code class="flex name class">
+<span>class <span class="ident">GridSourceInfoData</span></span>
+<span>(</span><span>confidence: Any)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Representation for a grid file's data specific to the type of grid file</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>confidence</code></strong> :&ensp;<code>ndarray</code></dt>
+<dd>A confidence rating</dd>
+</dl></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">@dataclass
+class GridSourceInfoData:
+    &#34;&#34;&#34;
+    Representation for a grid file&#39;s data specific to the type of grid file
+
+    Args:
+        confidence (ndarray): 
+            A confidence rating
+    &#34;&#34;&#34;
+    confidence: Any</code></pre>
+</details>
+<h3>Class variables</h3>
+<dl>
+<dt id="pyucalgarysrs.data.classes.GridSourceInfoData.confidence"><code class="name">var <span class="ident">confidence</span> : Any</code></dt>
 <dd>
 <div class="desc"></div>
 </dd>
@@ -2384,6 +2566,20 @@ setTimeout(() => input.focus(), 100);
 <li><code><a title="pyucalgarysrs.data.classes.FileListingResponse.path_prefix" href="#pyucalgarysrs.data.classes.FileListingResponse.path_prefix">path_prefix</a></code></li>
 <li><code><a title="pyucalgarysrs.data.classes.FileListingResponse.total_bytes" href="#pyucalgarysrs.data.classes.FileListingResponse.total_bytes">total_bytes</a></code></li>
 <li><code><a title="pyucalgarysrs.data.classes.FileListingResponse.urls" href="#pyucalgarysrs.data.classes.FileListingResponse.urls">urls</a></code></li>
+</ul>
+</li>
+<li>
+<h4><code><a title="pyucalgarysrs.data.classes.GridData" href="#pyucalgarysrs.data.classes.GridData">GridData</a></code></h4>
+<ul class="">
+<li><code><a title="pyucalgarysrs.data.classes.GridData.grid" href="#pyucalgarysrs.data.classes.GridData.grid">grid</a></code></li>
+<li><code><a title="pyucalgarysrs.data.classes.GridData.pretty_print" href="#pyucalgarysrs.data.classes.GridData.pretty_print">pretty_print</a></code></li>
+<li><code><a title="pyucalgarysrs.data.classes.GridData.source_info" href="#pyucalgarysrs.data.classes.GridData.source_info">source_info</a></code></li>
+</ul>
+</li>
+<li>
+<h4><code><a title="pyucalgarysrs.data.classes.GridSourceInfoData" href="#pyucalgarysrs.data.classes.GridSourceInfoData">GridSourceInfoData</a></code></h4>
+<ul class="">
+<li><code><a title="pyucalgarysrs.data.classes.GridSourceInfoData.confidence" href="#pyucalgarysrs.data.classes.GridSourceInfoData.confidence">confidence</a></code></li>
 </ul>
 </li>
 <li>
