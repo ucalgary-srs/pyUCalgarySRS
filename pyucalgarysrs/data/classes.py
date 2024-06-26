@@ -722,12 +722,16 @@ class GridData:
 
     Attributes:
         grid (ndarray): 
-           primary data set, gridded images
+            Primary data set, gridded images
+
+        fill_value (float): 
+            Value used to represent NaN/NULL. Used for subsequent plotting of grid data.
 
         source_info (GridSourceInfoData): 
-            special data attributes specific to this particular grid file
+            Special data attributes specific to this particular grid file
     """
     grid: ndarray
+    fill_value: float
     source_info: GridSourceInfoData
 
     def __str__(self) -> str:
@@ -735,7 +739,7 @@ class GridData:
 
     def __repr__(self) -> str:
         grid_str = "array(dims=%s, dtype=%s)" % (self.grid.shape, self.grid.dtype)
-        return "GridData(grid=%s, source_info=GridSourceInfoData(...)" % (grid_str)
+        return "GridData(grid=%s, fill_value=%.0f, source_info=GridSourceInfoData(...)" % (grid_str, self.fill_value)
 
     def pretty_print(self):
         """
@@ -748,6 +752,7 @@ class GridData:
 
         print("GridData:")
         print("  %-14s: %s" % ("grid", grid_str))
+        print("  %-14s: %.0f" % ("fill_value", self.fill_value))
         print("  %-14s: %s" % ("timestamp", grid_str))
         print("  source_info:")
         print("    %-15s: %s" % ("confidence", confidence_str))

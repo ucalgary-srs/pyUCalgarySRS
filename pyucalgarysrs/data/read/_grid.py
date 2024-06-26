@@ -125,11 +125,10 @@ def read(file_list, n_parallel=1, first_record=False, no_metadata=False, tar_tem
     metadata_dict_list = [{}] * data_dict_sizes_and_dtype["timestamp"]["shape"][0]
     problematic_file_list = []
 
-    # populate data
-    import pprint
-    pprint.pprint(data_dict_sizes_and_dtype)
+    # for each pool result
     list_position = 0
     for pd in pool_data:
+        # populate data
         for key, value in data_dict.items():
             this_end_position = None
             if (key == "source_info"):
@@ -152,6 +151,10 @@ def read(file_list, n_parallel=1, first_record=False, no_metadata=False, tar_tem
                 else:
                     data_dict[key][:, :, :, list_position:this_end_position] = pd["data"][key][:, :, :, :]
         list_position = this_end_position  # type: ignore
+
+        # populate metadata
+        if (no_metadata is False):
+            metadata_dict_list = pd["metadata"]
 
     # return
     pool_data = None
