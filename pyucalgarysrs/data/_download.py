@@ -153,6 +153,11 @@ def __download_urls(srs_obj,
 
 
 def get_urls(srs_obj, dataset_name, start, end, site_uid, device_uid, timeout, warning_stack_level=3):
+
+    # cast site_uid to lower and dataset name to upper to prevent case sensitivity issues
+    site_uid = site_uid.lower()
+    dataset_name = dataset_name.upper()     # NOTE: Darren here is (1/2) changes Josh made
+
     # set timeout
     if (timeout is None):
         timeout = srs_obj.api_timeout
@@ -214,6 +219,11 @@ def get_urls(srs_obj, dataset_name, start, end, site_uid, device_uid, timeout, w
 
 def download_generic(srs_obj, dataset_name, start, end, site_uid, device_uid, n_parallel, overwrite, progress_bar_disable, progress_bar_ncols,
                      progress_bar_ascii, progress_bar_desc, timeout):
+    
+    # cast site_uid to lower and dataset name to upper to prevent case sensitivity issues
+    site_uid = site_uid.lower()
+    dataset_name = dataset_name.upper()     # NOTE: Darren here is (2/2) changes Josh made
+
     # get file listing
     file_listing_obj = get_urls(srs_obj, dataset_name, start, end, site_uid, device_uid, timeout, warning_stack_level=4)
 
