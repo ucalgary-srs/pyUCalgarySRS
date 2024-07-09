@@ -17,7 +17,7 @@ import requests
 import joblib
 import warnings
 from pathlib import Path
-from tqdm.auto import tqdm
+from tqdm import tqdm
 from .classes import FileListingResponse, FileDownloadResult, Dataset
 from ..exceptions import SRSAPIError, SRSDownloadError
 
