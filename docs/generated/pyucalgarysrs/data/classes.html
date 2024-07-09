@@ -772,12 +772,16 @@ class GridData:
 
     Attributes:
         grid (ndarray): 
-           primary data set, gridded images
+            Primary data set, gridded images
+
+        fill_value (float): 
+            Value used to represent NaN/NULL. Used for subsequent plotting of grid data.
 
         source_info (GridSourceInfoData): 
-            special data attributes specific to this particular grid file
+            Special data attributes specific to this particular grid file
     &#34;&#34;&#34;
     grid: ndarray
+    fill_value: float
     source_info: GridSourceInfoData
 
     def __str__(self) -&gt; str:
@@ -785,7 +789,7 @@ class GridData:
 
     def __repr__(self) -&gt; str:
         grid_str = &#34;array(dims=%s, dtype=%s)&#34; % (self.grid.shape, self.grid.dtype)
-        return &#34;GridData(grid=%s, source_info=GridSourceInfoData(...)&#34; % (grid_str)
+        return &#34;GridData(grid=%s, fill_value=%.0f, source_info=GridSourceInfoData(...)&#34; % (grid_str, self.fill_value)
 
     def pretty_print(self):
         &#34;&#34;&#34;
@@ -798,6 +802,7 @@ class GridData:
 
         print(&#34;GridData:&#34;)
         print(&#34;  %-14s: %s&#34; % (&#34;grid&#34;, grid_str))
+        print(&#34;  %-14s: %.0f&#34; % (&#34;fill_value&#34;, self.fill_value))
         print(&#34;  %-14s: %s&#34; % (&#34;timestamp&#34;, grid_str))
         print(&#34;  source_info:&#34;)
         print(&#34;    %-15s: %s&#34; % (&#34;confidence&#34;, confidence_str))</code></pre>
@@ -1675,16 +1680,18 @@ class FileListingResponse:
 </dd>
 <dt id="pyucalgarysrs.data.classes.GridData"><code class="flex name class">
 <span>class <span class="ident">GridData</span></span>
-<span>(</span><span>grid: numpy.ndarray, source_info: <a title="pyucalgarysrs.data.classes.GridSourceInfoData" href="#pyucalgarysrs.data.classes.GridSourceInfoData">GridSourceInfoData</a>)</span>
+<span>(</span><span>grid: numpy.ndarray, fill_value: float, source_info: <a title="pyucalgarysrs.data.classes.GridSourceInfoData" href="#pyucalgarysrs.data.classes.GridSourceInfoData">GridSourceInfoData</a>)</span>
 </code></dt>
 <dd>
 <div class="desc"><p>Representation for a grid file's data.</p>
 <h2 id="attributes">Attributes</h2>
 <dl>
 <dt><strong><code>grid</code></strong> :&ensp;<code>ndarray</code></dt>
-<dd>primary data set, gridded images</dd>
+<dd>Primary data set, gridded images</dd>
+<dt><strong><code>fill_value</code></strong> :&ensp;<code>float</code></dt>
+<dd>Value used to represent NaN/NULL. Used for subsequent plotting of grid data.</dd>
 <dt><strong><code>source_info</code></strong> :&ensp;<code><a title="pyucalgarysrs.data.classes.GridSourceInfoData" href="#pyucalgarysrs.data.classes.GridSourceInfoData">GridSourceInfoData</a></code></dt>
-<dd>special data attributes specific to this particular grid file</dd>
+<dd>Special data attributes specific to this particular grid file</dd>
 </dl></div>
 <details class="source">
 <summary>
@@ -1697,12 +1704,16 @@ class GridData:
 
     Attributes:
         grid (ndarray): 
-           primary data set, gridded images
+            Primary data set, gridded images
+
+        fill_value (float): 
+            Value used to represent NaN/NULL. Used for subsequent plotting of grid data.
 
         source_info (GridSourceInfoData): 
-            special data attributes specific to this particular grid file
+            Special data attributes specific to this particular grid file
     &#34;&#34;&#34;
     grid: ndarray
+    fill_value: float
     source_info: GridSourceInfoData
 
     def __str__(self) -&gt; str:
@@ -1710,7 +1721,7 @@ class GridData:
 
     def __repr__(self) -&gt; str:
         grid_str = &#34;array(dims=%s, dtype=%s)&#34; % (self.grid.shape, self.grid.dtype)
-        return &#34;GridData(grid=%s, source_info=GridSourceInfoData(...)&#34; % (grid_str)
+        return &#34;GridData(grid=%s, fill_value=%.0f, source_info=GridSourceInfoData(...)&#34; % (grid_str, self.fill_value)
 
     def pretty_print(self):
         &#34;&#34;&#34;
@@ -1723,12 +1734,17 @@ class GridData:
 
         print(&#34;GridData:&#34;)
         print(&#34;  %-14s: %s&#34; % (&#34;grid&#34;, grid_str))
+        print(&#34;  %-14s: %.0f&#34; % (&#34;fill_value&#34;, self.fill_value))
         print(&#34;  %-14s: %s&#34; % (&#34;timestamp&#34;, grid_str))
         print(&#34;  source_info:&#34;)
         print(&#34;    %-15s: %s&#34; % (&#34;confidence&#34;, confidence_str))</code></pre>
 </details>
 <h3>Class variables</h3>
 <dl>
+<dt id="pyucalgarysrs.data.classes.GridData.fill_value"><code class="name">var <span class="ident">fill_value</span> : float</code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
 <dt id="pyucalgarysrs.data.classes.GridData.grid"><code class="name">var <span class="ident">grid</span> : numpy.ndarray</code></dt>
 <dd>
 <div class="desc"></div>
@@ -1760,6 +1776,7 @@ class GridData:
 
     print(&#34;GridData:&#34;)
     print(&#34;  %-14s: %s&#34; % (&#34;grid&#34;, grid_str))
+    print(&#34;  %-14s: %.0f&#34; % (&#34;fill_value&#34;, self.fill_value))
     print(&#34;  %-14s: %s&#34; % (&#34;timestamp&#34;, grid_str))
     print(&#34;  source_info:&#34;)
     print(&#34;    %-15s: %s&#34; % (&#34;confidence&#34;, confidence_str))</code></pre>
@@ -2571,6 +2588,7 @@ setTimeout(() => input.focus(), 100);
 <li>
 <h4><code><a title="pyucalgarysrs.data.classes.GridData" href="#pyucalgarysrs.data.classes.GridData">GridData</a></code></h4>
 <ul class="">
+<li><code><a title="pyucalgarysrs.data.classes.GridData.fill_value" href="#pyucalgarysrs.data.classes.GridData.fill_value">fill_value</a></code></li>
 <li><code><a title="pyucalgarysrs.data.classes.GridData.grid" href="#pyucalgarysrs.data.classes.GridData.grid">grid</a></code></li>
 <li><code><a title="pyucalgarysrs.data.classes.GridData.pretty_print" href="#pyucalgarysrs.data.classes.GridData.pretty_print">pretty_print</a></code></li>
 <li><code><a title="pyucalgarysrs.data.classes.GridData.source_info" href="#pyucalgarysrs.data.classes.GridData.source_info">source_info</a></code></li>

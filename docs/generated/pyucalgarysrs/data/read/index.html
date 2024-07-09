@@ -1080,6 +1080,7 @@ class ReadManager:
         # create grid data object
         grid_data_obj = GridData(
             grid=data_dict[&#34;grid&#34;],  # type: ignore
+            fill_value=float(meta[0][&#34;fill_value&#34;]),
             source_info=GridSourceInfoData(confidence=data_dict[&#34;source_info&#34;][&#34;confidence&#34;]),  # type: ignore
         )
 
@@ -2115,6 +2116,7 @@ the super class.</p></div>
         # create grid data object
         grid_data_obj = GridData(
             grid=data_dict[&#34;grid&#34;],  # type: ignore
+            fill_value=float(meta[0][&#34;fill_value&#34;]),
             source_info=GridSourceInfoData(confidence=data_dict[&#34;source_info&#34;][&#34;confidence&#34;]),  # type: ignore
         )
 
@@ -2646,6 +2648,7 @@ values.</p>
     # create grid data object
     grid_data_obj = GridData(
         grid=data_dict[&#34;grid&#34;],  # type: ignore
+        fill_value=float(meta[0][&#34;fill_value&#34;]),
         source_info=GridSourceInfoData(confidence=data_dict[&#34;source_info&#34;][&#34;confidence&#34;]),  # type: ignore
     )
 
