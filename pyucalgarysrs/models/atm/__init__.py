@@ -29,7 +29,7 @@ ATM_DEFAULT_GAUSSIAN_SPECTRAL_WIDTH = 100.0
 ATM_DEFAULT_NRLMSIS_MODEL_VERSION = "2.0"
 ATM_DEFAULT_OXYGEN_CORRECTION_FACTOR = 1.0
 ATM_DEFAULT_TIMESCALE_AURORAL = 600
-ATM_DEFAULT_TIMESCALE_TRANSPORT = 300
+ATM_DEFAULT_TIMESCALE_TRANSPORT = 600
 ATM_DEFAULT_MODEL_VERSION = "1.0"
 ATM_DEFAULT_PRECIPITATION_SPECTRAL_FLUX_TYPE = "gaussian"
 
@@ -66,6 +66,14 @@ class ATMManager:
         Perform a forward calculation using the TREx Auroral Transport Model and the supplied input 
         parameters. Note that this function utilizes the UCalgary Space Remote Sensing API to perform 
         the calculation.
+
+        The ATM model is 1D and time-independent. However, the optional parameters `timescale_auroral` 
+        and `timescale_transport` provide limited support for time-dependent and transport process. The
+        `timescale_auroral` parameter (T0) is the duration of the precipitation. The `timescale_transport` 
+        parameter is defined by L/v0, in which L is the dimension of the auroral structure, and v0 is the 
+        cross-structure drift speed. The model quasi-analytically solves the continuity equation under a 
+        square input (with time duration T0 and spatial width L) input of precipitation. The initial/boundary 
+        conditions are given by IRI. The output yields the mean density/VER over [0-L] at time T0.
 
         Args:
             timestamp (datetime.datetime): 
@@ -115,10 +123,11 @@ class ATMManager:
                 is optional.
 
             timescale_auroral (int): 
-                Auroral timescale in seconds. Default is 600 (10 minutes). This parameter is optional.
+                The duration of the precipitation, in seconds. Default is 600 (10 minutes). This parameter is optional.
 
             timescale_transport (int): 
-                Transport timescale in seconds. Default is 300 (5 minutes). This parameter is optional.
+                Defined by L/v0, in which L is the dimension of the auroral structure, and v0 is the cross-structure drift 
+                speed. Represented in seconds. Default is 600 (10 minutes). This parameter is optional.
 
             atm_model_version (str): 
                 ATM model version number. Possible values are only '1.0' at this time, but will have
