@@ -141,6 +141,23 @@ class FileListingResponse:
     dataset: Dataset
     total_bytes: Optional[int] = None
 
+    def pretty_print(self):
+        """
+        A special print output for this class.
+        """
+        print("FileListingResponse:")
+        for var_name in dir(self):
+            # exclude methods
+            if (var_name.startswith("__") or var_name == "pretty_print"):
+                continue
+
+            # convert var to string format we want
+            var_value = getattr(self, var_name)
+            if (var_name == "urls"):
+                print("  %-13s: [%d URLs]" % (var_name, len(var_value)))
+            else:
+                print("  %-13s: %s" % (var_name, None if var_value is None else var_value))
+
 
 @dataclass
 class FileDownloadResult:
@@ -168,6 +185,23 @@ class FileDownloadResult:
     total_bytes: int
     output_root_path: str
     dataset: Dataset
+
+    def pretty_print(self):
+        """
+        A special print output for this class.
+        """
+        print("FileListingResponse:")
+        for var_name in dir(self):
+            # exclude methods
+            if (var_name.startswith("__") or var_name == "pretty_print"):
+                continue
+
+            # convert var to string format we want
+            var_value = getattr(self, var_name)
+            if (var_name == "filenames"):
+                print("  %-18s: [%d filenames]" % (var_name, len(var_value)))
+            else:
+                print("  %-18s: %s" % (var_name, None if var_value is None else var_value))
 
 
 @dataclass
