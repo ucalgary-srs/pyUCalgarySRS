@@ -588,6 +588,11 @@ class Data:
                     data_str = "[1 Calibration object]"
                 else:
                     data_str = "[%d Calibration objects]" % (len(self.data))
+            elif (isinstance(self.data[0], RiometerData) is True):
+                if (len(self.data) == 1):
+                    data_str = "[1 RiometerData object]"
+                else:
+                    data_str = "[%d RiometerData objects]" % (len(self.data))
             else:
                 data_str = "[%d items]" % (len(self.data))
         else:
@@ -645,6 +650,11 @@ class Data:
                     data_str = "[1 Calibration object]"
                 else:
                     data_str = "[%d Calibration objects]" % (len(self.data))
+            elif (isinstance(self.data[0], RiometerData) is True):
+                if (len(self.data) == 1):
+                    data_str = "[1 RiometerData object]"
+                else:
+                    data_str = "[%d RiometerData objects]" % (len(self.data))
             else:
                 data_str = "[%d items]" % (len(self.data))
         else:
@@ -664,7 +674,7 @@ class Data:
         elif (len(self.metadata) == 1):
             metadata_str = "[1 dictionary]"
         else:
-            metadata_str = "[%d dictionaries]" % (len(self.timestamp))
+            metadata_str = "[%d dictionaries]" % (len(self.metadata))
 
         # set rest of values
         problematic_files_str = "[]" if len(self.problematic_files) == 0 else "[%d problematic files]" % (len(self.problematic_files))
@@ -790,3 +800,47 @@ class GridData:
         print("  %-14s: %s" % ("timestamp", grid_str))
         print("  source_info:")
         print("    %-15s: %s" % ("confidence", confidence_str))
+
+
+@dataclass
+class RiometerData:
+    """
+    Representation for riometer data.
+
+    Attributes:
+        timestamp (ndarray): 
+            Timestamp data, a numpy array of datetime objects
+
+        raw_signal (ndarray): 
+            Raw signal data, a numpy array of floats
+
+        absorption (ndarray): 
+            Absorption data, a numpy array of float. Only populated for K2 data.
+    """
+    timestamp: ndarray
+    raw_signal: ndarray
+    absorption: Optional[ndarray] = None
+
+    def __str__(self) -> str:
+        return self.__repr__()
+
+    def __repr__(self) -> str:
+        timestamp_str = "array(dims=%s, dtype=%s)" % (self.timestamp.shape, self.timestamp.dtype)
+        raw_signal_str = "array(dims=%s, dtype=%s)" % (self.raw_signal.shape, self.raw_signal.dtype)
+        absorption_str = "None" if (self.absorption is None) else "array(dims=%s, dtype=%s)" % (self.absorption.shape, self.absorption.dtype)
+        return "RiometerData(timestamp=%s, raw_signal=%s, absorption=%s" % (timestamp_str, raw_signal_str, absorption_str)
+
+    def pretty_print(self):
+        """
+        A special print output for this class.
+        """
+        # set strings
+        timestamp_str = "array(dims=%s, dtype=%s)" % (self.timestamp.shape, self.timestamp.dtype)
+        raw_signal_str = "array(dims=%s, dtype=%s)" % (self.raw_signal.shape, self.raw_signal.dtype)
+        absorption_str = "None" if (self.absorption is None) else "array(dims=%s, dtype=%s)" % (self.absorption.shape, self.absorption.dtype)
+
+        # print
+        print("RiometerData:")
+        print("  %-12s: %s" % ("timestamp", timestamp_str))
+        print("  %-12s: %s" % ("raw_signal", raw_signal_str))
+        print("  %-12s: %s" % ("absorption", absorption_str))

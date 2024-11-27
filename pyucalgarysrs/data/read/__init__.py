@@ -29,6 +29,7 @@ from ._trex_spectrograph import read as func_read_trex_spectrograph
 from ._skymap import read as func_read_skymap
 from ._calibration import read as func_read_calibration
 from ._grid import read as func_read_grid
+from ._norstar_riometer import read_txt as func_read_riometer_txt
 from ..classes import (
     Dataset,
     Data,
@@ -78,6 +79,13 @@ class ReadManager:
         "TREX_NIR_GRID_MOSV001",
         "TREX_BLUE_GRID_MOSV001",
         "TREX_RGB5577_GRID_MOSV001",
+    ]
+    __VALID_RIOMETER_TXT_READFILE_DATASETS = [
+        "NORSTAR_RIOMETER_K0_TXT",
+        "NORSTAR_RIOMETER_K2_TXT",
+    ]
+    __VALID_SWAN_HSR_READFILE_DATASETS = [
+        "SWAN_HSR_K0_H5",
     ]
 
     def __init__(self):
@@ -223,6 +231,10 @@ class ReadManager:
             return self.read_calibration(file_list, n_parallel=n_parallel, quiet=quiet, dataset=dataset)
         elif (dataset.name in self.__VALID_GRID_READFILE_DATASETS):
             return self.read_grid(file_list, n_parallel=n_parallel, quiet=quiet, dataset=dataset)
+        elif (dataset.name in self.__VALID_RIOMETER_TXT_READFILE_DATASETS):
+            return self.read_riometer_txt(file_list, n_parallel=n_parallel, quiet=quiet, dataset=dataset)
+        elif (dataset.name in self.__VALID_SWAN_HSR_READFILE_DATASETS):
+            return self.read_swan_hsr(file_list, n_parallel=n_parallel, quiet=quiet, dataset=dataset)
         else:
             raise SRSUnsupportedReadError("Dataset does not have a supported read function")
 
@@ -1048,6 +1060,150 @@ class ReadManager:
             problematic_files_objs.append(ProblematicFile(p["filename"], error_message=p["error_message"], error_type="error"))
         ret_obj = Data(
             data=grid_data_obj,
+            timestamp=timestamp_list,
+            metadata=meta,
+            problematic_files=problematic_files_objs,
+            calibrated_data=None,
+            dataset=dataset,
+        )
+
+        # return
+        return ret_obj
+
+    def read_riometer_txt(self,
+                          file_list: Union[List[str], List[Path], str, Path],
+                          n_parallel: int = 1,
+                          no_metadata: bool = False,
+                          quiet: bool = False,
+                          dataset: Optional[Dataset] = None) -> Data:
+        """
+        Read in NORSTAR Riometer ASCII data (K0 or K2 txt files).
+
+        Args:
+            file_list (List[str], List[Path], str, Path): 
+                The files to read in. Absolute paths are recommended, but not technically
+                necessary. This can be a single string for a file, or a list of strings to read
+                in multiple files. This parameter is required.
+
+            n_parallel (int): 
+                Number of data files to read in parallel using multiprocessing. Default value 
+                is 1. Adjust according to your computer's available resources. This parameter 
+                is optional.
+                        
+            no_metadata (bool): 
+                Skip reading of metadata. This is a minor optimization if the metadata is not needed.
+                Default is `False`. This parameter is optional.
+            
+            quiet (bool): 
+                Do not print out errors while reading data files, if any are encountered. Any files
+                that encounter errors will be, as usual, accessible via the `problematic_files` 
+                attribute of the returned `pyucalgarysrs.data.classes.Data` object. This parameter
+                is optional.
+
+            dataset (pyucalgarysrs.data.classes.Dataset): 
+                The dataset object for which the files are associated with. This parameter is
+                optional.
+
+        Returns:
+            A `pyucalgarysrs.data.classes.Data` object containing the data read in, among other
+            values.
+        
+        Raises:
+            pyucalgarysrs.exceptions.SRSError: a generic read error was encountered
+        """
+        # read data
+        rio_data, top_level_timestamps, meta, problematic_files = func_read_riometer_txt(
+            file_list,
+            n_parallel=n_parallel,
+            no_metadata=no_metadata,
+            quiet=quiet,
+        )
+
+        # convert to return type
+        problematic_files_objs = []
+        for p in problematic_files:
+            problematic_files_objs.append(ProblematicFile(p["filename"], error_message=p["error_message"], error_type="error"))
+        ret_obj = Data(
+            data=rio_data,
+            timestamp=top_level_timestamps,
+            metadata=meta,
+            problematic_files=problematic_files_objs,
+            calibrated_data=None,
+            dataset=dataset,
+        )
+
+        # return
+        return ret_obj
+
+    def read_swan_hsr(self,
+                      file_list: Union[List[str], List[Path], str, Path],
+                      n_parallel: int = 1,
+                      first_record: bool = False,
+                      no_metadata: bool = False,
+                      quiet: bool = False,
+                      dataset: Optional[Dataset] = None) -> Data:
+        """
+        Read in SWAN Hyper Spectral Riometer (HSR) H5 data (K0 H5 files).
+
+        Args:
+            file_list (List[str], List[Path], str, Path): 
+                The files to read in. Absolute paths are recommended, but not technically
+                necessary. This can be a single string for a file, or a list of strings to read
+                in multiple files. This parameter is required.
+
+            n_parallel (int): 
+                Number of data files to read in parallel using multiprocessing. Default value 
+                is 1. Adjust according to your computer's available resources. This parameter 
+                is optional.
+            
+            first_record (bool): 
+                Only read in the first record in each file. This is the same as the first_frame
+                parameter in the themis-imager-readfile and trex-imager-readfile libraries, and
+                is a read optimization if you only need one image per minute, as opposed to the
+                full temporal resolution of data (e.g., 3sec cadence). This parameter is optional.
+            
+            no_metadata (bool): 
+                Skip reading of metadata. This is a minor optimization if the metadata is not needed.
+                Default is `False`. This parameter is optional.
+            
+            quiet (bool): 
+                Do not print out errors while reading data files, if any are encountered. Any files
+                that encounter errors will be, as usual, accessible via the `problematic_files` 
+                attribute of the returned `pyucalgarysrs.data.classes.Data` object. This parameter
+                is optional.
+
+            dataset (pyucalgarysrs.data.classes.Dataset): 
+                The dataset object for which the files are associated with. This parameter is
+                optional.
+
+        Returns:
+            A `pyucalgarysrs.data.classes.Data` object containing the data read in, among other
+            values.
+        
+        Raises:
+            pyucalgarysrs.exceptions.SRSError: a generic read error was encountered
+        """
+        # read data
+        img, meta, problematic_files = func_read_themis(
+            file_list,
+            n_parallel=n_parallel,
+            first_record=first_record,
+            no_metadata=no_metadata,
+            quiet=quiet,
+        )
+
+        # generate timestamp array
+        timestamp_list = []
+        if (no_metadata is False):
+            for m in meta:
+                timestamp_list.append(datetime.datetime.strptime(m["Image request start"], "%Y-%m-%d %H:%M:%S.%f UTC"))
+
+        # convert to return type
+        problematic_files_objs = []
+        for p in problematic_files:
+            problematic_files_objs.append(ProblematicFile(p["filename"], error_message=p["error_message"], error_type="error"))
+        ret_obj = Data(
+            data=img,
             timestamp=timestamp_list,
             metadata=meta,
             problematic_files=problematic_files_objs,
