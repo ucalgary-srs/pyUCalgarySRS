@@ -1,7 +1,7 @@
 # This workflow will install Python dependencies, run tests and lint with a variety of Python versions
 # For more information see: https://help.github.com/actions/language-and-framework-guides/using-python-with-github-actions
 
-name: test-windows
+name: test-macos
 
 on: workflow_dispatch
 
@@ -27,6 +27,3 @@ jobs:
     - name: Linting checks
       run: |
         poetry run make test-linting
-    # - name: Functional tests
-    #   run: |
-    #     poetry run make test-pytest-ci
