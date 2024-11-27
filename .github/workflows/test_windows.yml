@@ -27,6 +27,3 @@ jobs:
     - name: Linting checks
       run: |
         poetry run make test-linting
-    # - name: Functional tests
-    #   run: |
-    #     poetry run make test-pytest-ci
