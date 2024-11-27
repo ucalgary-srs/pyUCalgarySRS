@@ -224,6 +224,18 @@ INDEX=[
 "func":1
 },
 {
+"ref":"pyucalgarysrs.data.read.ReadManager.read_riometer_txt",
+"url":2,
+"doc":"Read in NORSTAR Riometer ASCII data (K0 or K2 txt files). Args: file_list (List[str], List[Path], str, Path): The files to read in. Absolute paths are recommended, but not technically necessary. This can be a single string for a file, or a list of strings to read in multiple files. This parameter is required. n_parallel (int): Number of data files to read in parallel using multiprocessing. Default value is 1. Adjust according to your computer's available resources. This parameter is optional. no_metadata (bool): Skip reading of metadata. This is a minor optimization if the metadata is not needed. Default is  False . This parameter is optional. quiet (bool): Do not print out errors while reading data files, if any are encountered. Any files that encounter errors will be, as usual, accessible via the  problematic_files attribute of the returned  pyucalgarysrs.data.classes.Data object. This parameter is optional. dataset (pyucalgarysrs.data.classes.Dataset): The dataset object for which the files are associated with. This parameter is optional. Returns: A  pyucalgarysrs.data.classes.Data object containing the data read in, among other values. Raises: pyucalgarysrs.exceptions.SRSError: a generic read error was encountered",
+"func":1
+},
+{
+"ref":"pyucalgarysrs.data.read.ReadManager.read_swan_hsr",
+"url":2,
+"doc":"Read in SWAN Hyper Spectral Riometer (HSR) H5 data (K0 H5 files). Args: file_list (List[str], List[Path], str, Path): The files to read in. Absolute paths are recommended, but not technically necessary. This can be a single string for a file, or a list of strings to read in multiple files. This parameter is required. n_parallel (int): Number of data files to read in parallel using multiprocessing. Default value is 1. Adjust according to your computer's available resources. This parameter is optional. no_metadata (bool): Skip reading of metadata. This is a minor optimization if the metadata is not needed. Default is  False . This parameter is optional. quiet (bool): Do not print out errors while reading data files, if any are encountered. Any files that encounter errors will be, as usual, accessible via the  problematic_files attribute of the returned  pyucalgarysrs.data.classes.Data object. This parameter is optional. dataset (pyucalgarysrs.data.classes.Dataset): The dataset object for which the files are associated with. This parameter is optional. Returns: A  pyucalgarysrs.data.classes.Data object containing the data read in, among other values. Raises: pyucalgarysrs.exceptions.SRSError: a generic read error was encountered",
+"func":1
+},
+{
 "ref":"pyucalgarysrs.data.classes",
 "url":3,
 "doc":"Classes for representing data download and reading operations. All classes in this module are included at the top level of this library."
@@ -270,6 +282,12 @@ INDEX=[
 "doc":""
 },
 {
+"ref":"pyucalgarysrs.data.classes.FileListingResponse.pretty_print",
+"url":3,
+"doc":"A special print output for this class.",
+"func":1
+},
+{
 "ref":"pyucalgarysrs.data.classes.FileDownloadResult",
 "url":3,
 "doc":"Representation of the results from a data download call. Attributes: filenames (List[str]): List of downloaded files, as absolute paths of their location on the local machine. count (int): Number of files downloaded total_bytes (int): Cumulative amount of bytes saved on the local machine. output_root_path (str): The root path of where the data was saved to on the local machine. dataset (Dataset): The  Dataset object for this data."
@@ -298,6 +316,12 @@ INDEX=[
 "ref":"pyucalgarysrs.data.classes.FileDownloadResult.dataset",
 "url":3,
 "doc":""
+},
+{
+"ref":"pyucalgarysrs.data.classes.FileDownloadResult.pretty_print",
+"url":3,
+"doc":"A special print output for this class.",
+"func":1
 },
 {
 "ref":"pyucalgarysrs.data.classes.ProblematicFile",
@@ -648,6 +672,68 @@ INDEX=[
 },
 {
 "ref":"pyucalgarysrs.data.classes.GridData.pretty_print",
+"url":3,
+"doc":"A special print output for this class.",
+"func":1
+},
+{
+"ref":"pyucalgarysrs.data.classes.RiometerData",
+"url":3,
+"doc":"Representation for riometer data. Attributes: timestamp (ndarray): Timestamp data, a numpy array of datetime objects raw_signal (ndarray): Raw signal data, a numpy array of floats absorption (ndarray): Absorption data, a numpy array of float. Note that this is only populated for K2 data."
+},
+{
+"ref":"pyucalgarysrs.data.classes.RiometerData.timestamp",
+"url":3,
+"doc":""
+},
+{
+"ref":"pyucalgarysrs.data.classes.RiometerData.raw_signal",
+"url":3,
+"doc":""
+},
+{
+"ref":"pyucalgarysrs.data.classes.RiometerData.absorption",
+"url":3,
+"doc":""
+},
+{
+"ref":"pyucalgarysrs.data.classes.RiometerData.pretty_print",
+"url":3,
+"doc":"A special print output for this class.",
+"func":1
+},
+{
+"ref":"pyucalgarysrs.data.classes.HSRData",
+"url":3,
+"doc":"Representation for SWAN Hyper Spectral Riometer (HSR) data. Attributes: timestamp (ndarray): Timestamp data, a numpy array of datetime objects raw_power (ndarray): Raw power data, a numpy array of floats band_central_frequency (List[str]): Band central frequencies, a list of strings band_passband (List[str]): Band passbands, a list of strings absorption (ndarray): Absorption data, a numpy array of float. Note this is only populated for K2 data."
+},
+{
+"ref":"pyucalgarysrs.data.classes.HSRData.timestamp",
+"url":3,
+"doc":""
+},
+{
+"ref":"pyucalgarysrs.data.classes.HSRData.raw_power",
+"url":3,
+"doc":""
+},
+{
+"ref":"pyucalgarysrs.data.classes.HSRData.band_central_frequency",
+"url":3,
+"doc":""
+},
+{
+"ref":"pyucalgarysrs.data.classes.HSRData.band_passband",
+"url":3,
+"doc":""
+},
+{
+"ref":"pyucalgarysrs.data.classes.HSRData.absorption",
+"url":3,
+"doc":""
+},
+{
+"ref":"pyucalgarysrs.data.classes.HSRData.pretty_print",
 "url":3,
 "doc":"A special print output for this class.",
 "func":1

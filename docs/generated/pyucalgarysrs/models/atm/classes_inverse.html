@@ -2,19 +2,22 @@
 <html lang="en">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1" />
-<meta name="generator" content="pdoc 0.10.0" />
+<meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1">
+<meta name="generator" content="pdoc3 0.11.3">
 <title>pyucalgarysrs.models.atm.classes_inverse API documentation</title>
 <meta name="description" content="Classes for representing ATM inverse calculation requests and responses. All
-classes in this module are included at the top level of this library." />
-<link rel="preload stylesheet" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/11.0.1/sanitize.min.css" integrity="sha256-PK9q560IAAa6WVRRh76LtCaI8pjTJ2z11v0miyNNjrs=" crossorigin>
-<link rel="preload stylesheet" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/11.0.1/typography.min.css" integrity="sha256-7l/o7C8jubJiy74VsKTidCy1yBkRtiUGbVkYBylBqUg=" crossorigin>
-<link rel="stylesheet preload" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.1.1/styles/github.min.css" crossorigin>
-<style>:root{--highlight-color:#fe9}.flex{display:flex !important}body{line-height:1.5em}#content{padding:20px}#sidebar{padding:30px;overflow:hidden}#sidebar > *:last-child{margin-bottom:2cm}#lunr-search{width:100%;font-size:1em;padding:6px 9px 5px 9px;border:1px solid silver}.http-server-breadcrumbs{font-size:130%;margin:0 0 15px 0}#footer{font-size:.75em;padding:5px 30px;border-top:1px solid #ddd;text-align:right}#footer p{margin:0 0 0 1em;display:inline-block}#footer p:last-child{margin-right:30px}h1,h2,h3,h4,h5{font-weight:300}h1{font-size:2.5em;line-height:1.1em}h2{font-size:1.75em;margin:1em 0 .50em 0}h3{font-size:1.4em;margin:25px 0 10px 0}h4{margin:0;font-size:105%}h1:target,h2:target,h3:target,h4:target,h5:target,h6:target{background:var(--highlight-color);padding:.2em 0}a{color:#058;text-decoration:none;transition:color .3s ease-in-out}a:hover{color:#e82}.title code{font-weight:bold}h2[id^="header-"]{margin-top:2em}.ident{color:#900}pre code{background:#f8f8f8;font-size:.8em;line-height:1.4em}code{background:#f2f2f1;padding:1px 4px;overflow-wrap:break-word}h1 code{background:transparent}pre{background:#f8f8f8;border:0;border-top:1px solid #ccc;border-bottom:1px solid #ccc;margin:1em 0;padding:1ex}#http-server-module-list{display:flex;flex-flow:column}#http-server-module-list div{display:flex}#http-server-module-list dt{min-width:10%}#http-server-module-list p{margin-top:0}.toc ul,#index{list-style-type:none;margin:0;padding:0}#index code{background:transparent}#index h3{border-bottom:1px solid #ddd}#index ul{padding:0}#index h4{margin-top:.6em;font-weight:bold}@media (min-width:200ex){#index .two-column{column-count:2}}@media (min-width:300ex){#index .two-column{column-count:3}}dl{margin-bottom:2em}dl dl:last-child{margin-bottom:4em}dd{margin:0 0 1em 3em}#header-classes + dl > dd{margin-bottom:3em}dd dd{margin-left:2em}dd p{margin:10px 0}.name{background:#eee;font-weight:bold;font-size:.85em;padding:5px 10px;display:inline-block;min-width:40%}.name:hover{background:#e0e0e0}dt:target .name{background:var(--highlight-color)}.name > span:first-child{white-space:nowrap}.name.class > span:nth-child(2){margin-left:.4em}.inherited{color:#999;border-left:5px solid #eee;padding-left:1em}.inheritance em{font-style:normal;font-weight:bold}.desc h2{font-weight:400;font-size:1.25em}.desc h3{font-size:1em}.desc dt code{background:inherit}.source summary,.git-link-div{color:#666;text-align:right;font-weight:400;font-size:.8em;text-transform:uppercase}.source summary > *{white-space:nowrap;cursor:pointer}.git-link{color:inherit;margin-left:1em}.source pre{max-height:500px;overflow:auto;margin:0}.source pre code{font-size:12px;overflow:visible}.hlist{list-style:none}.hlist li{display:inline}.hlist li:after{content:',\2002'}.hlist li:last-child:after{content:none}.hlist .hlist{display:inline;padding-left:1em}img{max-width:100%}td{padding:0 .5em}.admonition{padding:.1em .5em;margin-bottom:1em}.admonition-title{font-weight:bold}.admonition.note,.admonition.info,.admonition.important{background:#aef}.admonition.todo,.admonition.versionadded,.admonition.tip,.admonition.hint{background:#dfd}.admonition.warning,.admonition.versionchanged,.admonition.deprecated{background:#fd4}.admonition.error,.admonition.danger,.admonition.caution{background:lightpink}</style>
-<style media="screen and (min-width: 700px)">@media screen and (min-width:700px){#sidebar{width:30%;height:100vh;overflow:auto;position:sticky;top:0}#content{width:70%;max-width:100ch;padding:3em 4em;border-left:1px solid #ddd}pre code{font-size:1em}.item .name{font-size:1em}main{display:flex;flex-direction:row-reverse;justify-content:flex-end}.toc ul ul,#index ul{padding-left:1.5em}.toc > ul > li{margin-top:.5em}}</style>
+classes in this module are included at the top level of this library.">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/13.0.0/sanitize.min.css" integrity="sha512-y1dtMcuvtTMJc1yPgEqF0ZjQbhnc/bFhyvIyVNb9Zk5mIGtqVaAB1Ttl28su8AvFMOY0EwRbAe+HCLqj6W7/KA==" crossorigin>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/13.0.0/typography.min.css" integrity="sha512-Y1DYSb995BAfxobCkKepB1BqJJTPrOp3zPL74AWFugHHmmdcvO+C48WLrUOlhGMc0QG7AE3f7gmvvcrmX2fDoA==" crossorigin>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/default.min.css" crossorigin>
+<style>:root{--highlight-color:#fe9}.flex{display:flex !important}body{line-height:1.5em}#content{padding:20px}#sidebar{padding:1.5em;overflow:hidden}#sidebar > *:last-child{margin-bottom:2cm}#lunr-search{width:100%;font-size:1em;padding:6px 9px 5px 9px;border:1px solid silver}.http-server-breadcrumbs{font-size:130%;margin:0 0 15px 0}#footer{font-size:.75em;padding:5px 30px;border-top:1px solid #ddd;text-align:right}#footer p{margin:0 0 0 1em;display:inline-block}#footer p:last-child{margin-right:30px}h1,h2,h3,h4,h5{font-weight:300}h1{font-size:2.5em;line-height:1.1em}h2{font-size:1.75em;margin:2em 0 .50em 0}h3{font-size:1.4em;margin:1.6em 0 .7em 0}h4{margin:0;font-size:105%}h1:target,h2:target,h3:target,h4:target,h5:target,h6:target{background:var(--highlight-color);padding:.2em 0}a{color:#058;text-decoration:none;transition:color .2s ease-in-out}a:visited{color:#503}a:hover{color:#b62}.title code{font-weight:bold}h2[id^="header-"]{margin-top:2em}.ident{color:#900;font-weight:bold}pre code{font-size:.8em;line-height:1.4em;padding:1em;display:block}code{background:#f3f3f3;font-family:"DejaVu Sans Mono",monospace;padding:1px 4px;overflow-wrap:break-word}h1 code{background:transparent}pre{border-top:1px solid #ccc;border-bottom:1px solid #ccc;margin:1em 0}#http-server-module-list{display:flex;flex-flow:column}#http-server-module-list div{display:flex}#http-server-module-list dt{min-width:10%}#http-server-module-list p{margin-top:0}.toc ul,#index{list-style-type:none;margin:0;padding:0}#index code{background:transparent}#index h3{border-bottom:1px solid #ddd}#index ul{padding:0}#index h4{margin-top:.6em;font-weight:bold}@media (min-width:200ex){#index .two-column{column-count:2}}@media (min-width:300ex){#index .two-column{column-count:3}}dl{margin-bottom:2em}dl dl:last-child{margin-bottom:4em}dd{margin:0 0 1em 3em}#header-classes + dl > dd{margin-bottom:3em}dd dd{margin-left:2em}dd p{margin:10px 0}.name{background:#eee;font-size:.85em;padding:5px 10px;display:inline-block;min-width:40%}.name:hover{background:#e0e0e0}dt:target .name{background:var(--highlight-color)}.name > span:first-child{white-space:nowrap}.name.class > span:nth-child(2){margin-left:.4em}.inherited{color:#999;border-left:5px solid #eee;padding-left:1em}.inheritance em{font-style:normal;font-weight:bold}.desc h2{font-weight:400;font-size:1.25em}.desc h3{font-size:1em}.desc dt code{background:inherit}.source summary,.git-link-div{color:#666;text-align:right;font-weight:400;font-size:.8em;text-transform:uppercase}.source summary > *{white-space:nowrap;cursor:pointer}.git-link{color:inherit;margin-left:1em}.source pre{max-height:500px;overflow:auto;margin:0}.source pre code{font-size:12px;overflow:visible}.hlist{list-style:none}.hlist li{display:inline}.hlist li:after{content:',\2002'}.hlist li:last-child:after{content:none}.hlist .hlist{display:inline;padding-left:1em}img{max-width:100%}td{padding:0 .5em}.admonition{padding:.1em 1em;margin:1em 0}.admonition-title{font-weight:bold}.admonition.note,.admonition.info,.admonition.important{background:#aef}.admonition.todo,.admonition.versionadded,.admonition.tip,.admonition.hint{background:#dfd}.admonition.warning,.admonition.versionchanged,.admonition.deprecated{background:#fd4}.admonition.error,.admonition.danger,.admonition.caution{background:lightpink}</style>
+<style media="screen and (min-width: 700px)">@media screen and (min-width:700px){#sidebar{width:30%;height:100vh;overflow:auto;position:sticky;top:0}#content{width:70%;max-width:100ch;padding:3em 4em;border-left:1px solid #ddd}pre code{font-size:1em}.name{font-size:1em}main{display:flex;flex-direction:row-reverse;justify-content:flex-end}.toc ul ul,#index ul ul{padding-left:1em}.toc > ul > li{margin-top:.5em}}</style>
 <style media="print">@media print{#sidebar h1{page-break-before:always}.source{display:none}}@media print{*{background:transparent !important;color:#000 !important;box-shadow:none !important;text-shadow:none !important}a[href]:after{content:" (" attr(href) ")";font-size:90%}a[href][title]:after{content:none}abbr[title]:after{content:" (" attr(title) ")"}.ir a:after,a[href^="javascript:"]:after,a[href^="#"]:after{content:""}pre,blockquote{border:1px solid #999;page-break-inside:avoid}thead{display:table-header-group}tr,img{page-break-inside:avoid}img{max-width:100% !important}@page{margin:0.5cm}p,h2,h3{orphans:3;widows:3}h1,h2,h3,h4,h5,h6{page-break-after:avoid}}</style>
-<script defer src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.1.1/highlight.min.js" integrity="sha256-Uv3H6lx7dJmRfRvH8TH6kJD1TSK1aFcwgx+mdg3epi8=" crossorigin></script>
-<script>window.addEventListener('DOMContentLoaded', () => hljs.initHighlighting())</script>
+<script defer src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js" integrity="sha512-D9gUyxqja7hBtkWpPWGt9wfbfaMGVt9gnyCvYa+jojwwPHLCzUm5i8rpk7vD7wNee9bA35eYIjobYPaQuKS1MQ==" crossorigin></script>
+<script>window.addEventListener('DOMContentLoaded', () => {
+hljs.configure({languages: ['bash', 'css', 'diff', 'graphql', 'ini', 'javascript', 'json', 'plaintext', 'python', 'python-repl', 'rust', 'shell', 'sql', 'typescript', 'xml', 'yaml']});
+hljs.highlightAll();
+})</script>
 <style>
 @media screen and (max-width: 699px) {
 #content {
@@ -44,315 +47,6 @@ border-left: 1px solid #ddd;
 <section id="section-intro">
 <p>Classes for representing ATM inverse calculation requests and responses. All
 classes in this module are included at the top level of this library.</p>
-<details class="source">
-<summary>
-<span>Expand source code</span>
-</summary>
-<pre><code class="python"># Copyright 2024 University of Calgary
-#
-# Licensed under the Apache License, Version 2.0 (the &#34;License&#34;);
-# you may not use this file except in compliance with the License.
-# You may obtain a copy of the License at
-#
-#     http://www.apache.org/licenses/LICENSE-2.0
-#
-# Unless required by applicable law or agreed to in writing, software
-# distributed under the License is distributed on an &#34;AS IS&#34; BASIS,
-# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-# See the License for the specific language governing permissions and
-# limitations under the License.
-&#34;&#34;&#34;
-Classes for representing ATM inverse calculation requests and responses. All
-classes in this module are included at the top level of this library.
-&#34;&#34;&#34;
-
-import datetime
-from dataclasses import dataclass
-from typing import Optional, Literal, Any
-from numpy import ndarray
-
-
-@dataclass
-class ATMInverseOutputFlags:
-    &#34;&#34;&#34;
-    Class to represent all output values included in an ATM inverse calculation.
-    ATM calculations are performed in a way where you can toggle ON/OFF whichever
-    pieces of information you do or don&#39;t want. This improves efficiency of the 
-    calculation routine resulting in faster queries.
-
-    By default, all output flags are set to False. There exist several helper methods
-    to toggle all to True or toggle all to False. See the below Methods section for 
-    details.
-
-    Details about each output value can be found in the documentation for the 
-    [`ATMInverseResult`](classes_inverse.html#pyucalgarysrs.models.atm.classes_inverse.ATMInverseResult)
-    object.
-    &#34;&#34;&#34;
-    energy_flux: bool = False
-    characteristic_energy: bool = False
-    oxygen_correction_factor: bool = False
-    height_integrated_rayleighs_4278: bool = False
-    height_integrated_rayleighs_5577: bool = False
-    height_integrated_rayleighs_6300: bool = False
-    height_integrated_rayleighs_8446: bool = False
-    altitudes: bool = False
-    emission_4278: bool = False
-    emission_5577: bool = False
-    emission_6300: bool = False
-    emission_8446: bool = False
-    plasma_electron_density: bool = False
-    plasma_o2plus_density: bool = False
-    plasma_oplus_density: bool = False
-    plasma_noplus_density: bool = False
-    plasma_ionisation_rate: bool = False
-    plasma_electron_temperature: bool = False
-    plasma_ion_temperature: bool = False
-    plasma_pederson_conductivity: bool = False
-    plasma_hall_conductivity: bool = False
-    neutral_o2_density: bool = False
-    neutral_o_density: bool = False
-    neutral_n2_density: bool = False
-    neutral_n_density: bool = False
-    neutral_temperature: bool = False
-
-    def set_all_true(self):
-        &#34;&#34;&#34;
-        Sets all flags to `True`.
-        &#34;&#34;&#34;
-        excluded_items = [&#34;set_all_true&#34;, &#34;set_all_false&#34;]
-        for var_name in dir(self):
-            if (not var_name.startswith(&#34;__&#34;) and var_name not in excluded_items):
-                setattr(self, var_name, True)
-
-    def set_all_false(self):
-        &#34;&#34;&#34;
-        Sets all flags to `False`.
-        &#34;&#34;&#34;
-        excluded_items = [&#34;set_all_true&#34;, &#34;set_all_false&#34;]
-        for var_name in dir(self):
-            if (not var_name.startswith(&#34;__&#34;) and var_name not in excluded_items):
-                setattr(self, var_name, False)
-
-
-@dataclass
-class ATMInverseRequest:
-    &#34;&#34;&#34;
-    Class that represents the UCalgary Space Remote Sensing API request when 
-    performing an ATM inverse calculation. This object is included in any
-    [`ATMInverseResultRequestInfo`](classes_inverse.html#pyucalgarysrs.models.atm.classes_inverse.ATMInverseResultRequestInfo) 
-    and [`ATMInverseResult`](classes_inverse.html#pyucalgarysrs.models.atm.classes_inverse.ATMInverseResult) 
-    objects.
-    &#34;&#34;&#34;
-    atm_model_version: Literal[&#34;1.0&#34;]
-    timestamp: datetime.datetime
-    geodetic_latitude: float
-    geodetic_longitude: float
-    intensity_4278: float
-    intensity_5577: float
-    intensity_6300: float
-    intensity_8446: float
-    precipitation_flux_spectral_type: Literal[&#34;gaussian&#34;, &#34;maxwellian&#34;]
-    nrlmsis_model_version: Literal[&#34;00&#34;, &#34;2.0&#34;]
-    atmospheric_attenuation_correction: bool
-    output: ATMInverseOutputFlags
-    no_cache: bool
-
-
-@dataclass
-class ATMInverseForwardParams:
-    &#34;&#34;&#34;
-    Class representing a forward calculation done under-the-hood of an inverse
-    calculation.
-
-    Depending on the inversion request parameters, a further forward calculation 
-    may be performed by the API. This variable contains the details of any such 
-    calculation.
-    &#34;&#34;&#34;
-    maxwellian_energy_flux: float
-    gaussian_energy_flux: float
-    maxwellian_characteristic_energy: float
-    gaussian_peak_energy: float
-    gaussian_spectral_width: float
-    nrlmsis_model_version: Literal[&#34;00&#34;, &#34;2.0&#34;]
-    oxygen_correction_factor: float
-    timescale_auroral: int
-    timescale_transport: int
-
-
-@dataclass
-class ATMInverseResultRequestInfo:
-    &#34;&#34;&#34;
-    Class containing details about interacting with the UCalgary Space Remote Sensing
-    API when performing an ATM inverse calculation. It contains the API request itself,
-    and other information returned by the API.
-
-    An instance of this is included in any
-    [`ATMInverseResult`](classes_inverse.html#pyucalgarysrs.models.atm.classes_inverse.ATMInverseResult) 
-    object.
-
-    Attributes:
-        request (ATMInverseRequest): 
-            Instance of class that represents the lower-level API request when performing 
-            an ATM inverse calculation.
-
-        calculation_duration_ms (float): 
-            Duration the the API spent performing the ATM inverse calculation. Represented
-            in milliseconds.
-        
-        forward_params (ATMInverseForwardParams): 
-            Depending on the inversion request parameters, a further forward calculation may be performed 
-            under-the-hood. This variable contains the details of any such calculation.
-    &#34;&#34;&#34;
-    request: ATMInverseRequest
-    calculation_duration_ms: float
-    forward_params: Optional[ATMInverseForwardParams] = None
-
-
-@dataclass
-class ATMInverseResult:
-    &#34;&#34;&#34;
-    Class containing all data from an ATM inverse calculation. This class also includes
-    details about the input parameters to inversion calculation routine (`request_info`),
-    along with all output data values.
-    
-    Based on the request&#39;s output flags, if flags were set to False then the values will 
-    be None types. If flags were set to True then the values will be their respective 
-    types (e.g., float, numpy ndarray).
-
-    Attributes:
-        request_info (ATMInverseResultRequestInfo): 
-            Information about the API request made to perform the ATM forward calculation.
-        
-        energy_flux (float): 
-            Derived energy flux in erg/cm2/s.
-
-        characteristic_energy (float): 
-            Derived characteristic energy in EV.
-
-        oxygen_correction_factor (float): 
-            Derived oxygen correction factor.
-
-        height_integrated_rayleighs_4278 (float): 
-            Height-integrated Rayleighs value for the 427.8nm emission (blue).
-
-        height_integrated_rayleighs_5577 (float): 
-            Height-integrated Rayleighs value for the 557.7nm emission (green).
-            
-        height_integrated_rayleighs_6300 (float): 
-            Height-integrated Rayleighs value for the 630.0nm emission(red).
-        
-        height_integrated_rayleighs_8446 (float): 
-            Height-integrated Rayleighs value for the 844.6nm emission (near infrared).
-
-        altitudes (ndarray): 
-            1-dimensional numpy array for the altitudes in kilometers.
-
-        emission_4278 (ndarray): 
-            1-dimensional numpy array for the 427.8nm volume emission rate (1/cm^3/s).
-
-        emission_5577 (ndarray): 
-            1-dimensional numpy array for the 557.7nm volume emission rate (1/cm^3/s).
-
-        emission_6300 (ndarray): 
-            1-dimensional numpy array for the 630.0nm volume emission rate (1/cm^3/s).
-
-        emission_8446 (ndarray): 
-            1-dimensional numpy array for the 844.6nm volume emission rate (1/cm^3/s).
-
-        plasma_electron_density (ndarray): 
-            1-dimensional numpy array for the plasma electron density (cm^-3).
-
-        plasma_o2plus_density (ndarray): 
-            1-dimensional numpy array for the plasma O2+ density (cm^-3).
-
-        plasma_noplus_density (ndarray): 
-            1-dimensional numpy array for the plasma NO+ density (cm^-3).
-
-        plasma_oplus_density (ndarray): 
-            1-dimensional numpy array for the plasma O+ density (cm^-3).
-
-        plasma_ionisation_rate (ndarray): 
-            1-dimensional numpy array for the plasma ionisation rate (1/cm^3/s).
-
-        plasma_electron_temperature (ndarray): 
-            1-dimensional numpy array for the plasma electron temperature (Kelvin).
-
-        plasma_ion_temperature (ndarray): 
-            1-dimensional numpy array for the plasma ion temperature (Kelvin).
-
-        plasma_pederson_conductivity (ndarray): 
-            1-dimensional numpy array for the Peterson plasma conductivity (S/m).
-
-        plasma_hall_conductivity (ndarray): 
-            1-dimensional numpy array for the hall plasma conductivity (S/m).
-
-        neutral_o2_density (ndarray): 
-            1-dimensional numpy array for the neutral O2 density (cm^-3).
-
-        neutral_o_density (ndarray): 
-            1-dimensional numpy array for the neutral O density (cm^-3).
-
-        neutral_n2_density (ndarray): 
-            1-dimensional numpy array for the neutral N2 density (cm^-3).
-
-        neutral_n_density (ndarray): 
-            1-dimensional numpy array for the neutral N density (cm^-3).
-
-        neutral_temperature (ndarray): 
-            1-dimensional numpy array for the neutral temperature (Kelvin).
-    &#34;&#34;&#34;
-    request_info: ATMInverseResultRequestInfo
-    energy_flux: Any
-    characteristic_energy: Any
-    oxygen_correction_factor: Any
-    height_integrated_rayleighs_4278: Any
-    height_integrated_rayleighs_5577: Any
-    height_integrated_rayleighs_6300: Any
-    height_integrated_rayleighs_8446: Any
-    altitudes: Any
-    emission_4278: Any
-    emission_5577: Any
-    emission_6300: Any
-    emission_8446: Any
-    plasma_electron_density: Any
-    plasma_o2plus_density: Any
-    plasma_noplus_density: Any
-    plasma_oplus_density: Any
-    plasma_ionisation_rate: Any
-    plasma_electron_temperature: Any
-    plasma_ion_temperature: Any
-    plasma_pederson_conductivity: Any
-    plasma_hall_conductivity: Any
-    neutral_o2_density: Any
-    neutral_o_density: Any
-    neutral_n2_density: Any
-    neutral_n_density: Any
-    neutral_temperature: Any
-
-    def pretty_print(self):
-        &#34;&#34;&#34;
-        A special print output for this class.
-        &#34;&#34;&#34;
-        print(&#34;ATMInverseResult:&#34;)
-        for var_name in dir(self):
-            # exclude methods
-            if (var_name.startswith(&#34;__&#34;) or var_name == &#34;pretty_print&#34;):
-                continue
-
-            # convert var to string format we want
-            var_value = getattr(self, var_name)
-            var_str = &#34;None&#34;
-            if (var_name == &#34;request_info&#34;):
-                var_str = &#34;ATMInverseResultRequestInfo(...)&#34;
-            if (var_value is not None):
-                if (isinstance(var_value, float)):
-                    var_str = &#34;%f&#34; % (var_value)
-                elif (isinstance(var_value, ndarray)):
-                    var_str = &#34;%s ...])&#34; % (var_value.__repr__()[0:60])
-
-            # print string for this var
-            print(&#34;  %-37s: %s&#34; % (var_name, var_str))</code></pre>
-</details>
 </section>
 <section>
 </section>
@@ -365,7 +59,7 @@ class ATMInverseResult:
 <dl>
 <dt id="pyucalgarysrs.models.atm.classes_inverse.ATMInverseForwardParams"><code class="flex name class">
 <span>class <span class="ident">ATMInverseForwardParams</span></span>
-<span>(</span><span>maxwellian_energy_flux: float, gaussian_energy_flux: float, maxwellian_characteristic_energy: float, gaussian_peak_energy: float, gaussian_spectral_width: float, nrlmsis_model_version: Literal['00', '2.0'], oxygen_correction_factor: float, timescale_auroral: int, timescale_transport: int)</span>
+<span>(</span><span>maxwellian_energy_flux: float,<br>gaussian_energy_flux: float,<br>maxwellian_characteristic_energy: float,<br>gaussian_peak_energy: float,<br>gaussian_spectral_width: float,<br>nrlmsis_model_version: Literal['00', '2.0'],<br>oxygen_correction_factor: float,<br>timescale_auroral: int,<br>timescale_transport: int)</span>
 </code></dt>
 <dd>
 <div class="desc"><p>Class representing a forward calculation done under-the-hood of an inverse
@@ -439,7 +133,7 @@ class ATMInverseForwardParams:
 </dd>
 <dt id="pyucalgarysrs.models.atm.classes_inverse.ATMInverseOutputFlags"><code class="flex name class">
 <span>class <span class="ident">ATMInverseOutputFlags</span></span>
-<span>(</span><span>energy_flux: bool = False, characteristic_energy: bool = False, oxygen_correction_factor: bool = False, height_integrated_rayleighs_4278: bool = False, height_integrated_rayleighs_5577: bool = False, height_integrated_rayleighs_6300: bool = False, height_integrated_rayleighs_8446: bool = False, altitudes: bool = False, emission_4278: bool = False, emission_5577: bool = False, emission_6300: bool = False, emission_8446: bool = False, plasma_electron_density: bool = False, plasma_o2plus_density: bool = False, plasma_oplus_density: bool = False, plasma_noplus_density: bool = False, plasma_ionisation_rate: bool = False, plasma_electron_temperature: bool = False, plasma_ion_temperature: bool = False, plasma_pederson_conductivity: bool = False, plasma_hall_conductivity: bool = False, neutral_o2_density: bool = False, neutral_o_density: bool = False, neutral_n2_density: bool = False, neutral_n_density: bool = False, neutral_temperature: bool = False)</span>
+<span>(</span><span>energy_flux: bool = False,<br>characteristic_energy: bool = False,<br>oxygen_correction_factor: bool = False,<br>height_integrated_rayleighs_4278: bool = False,<br>height_integrated_rayleighs_5577: bool = False,<br>height_integrated_rayleighs_6300: bool = False,<br>height_integrated_rayleighs_8446: bool = False,<br>altitudes: bool = False,<br>emission_4278: bool = False,<br>emission_5577: bool = False,<br>emission_6300: bool = False,<br>emission_8446: bool = False,<br>plasma_electron_density: bool = False,<br>plasma_o2plus_density: bool = False,<br>plasma_oplus_density: bool = False,<br>plasma_noplus_density: bool = False,<br>plasma_ionisation_rate: bool = False,<br>plasma_electron_temperature: bool = False,<br>plasma_ion_temperature: bool = False,<br>plasma_pederson_conductivity: bool = False,<br>plasma_hall_conductivity: bool = False,<br>neutral_o2_density: bool = False,<br>neutral_o_density: bool = False,<br>neutral_n2_density: bool = False,<br>neutral_n_density: bool = False,<br>neutral_temperature: bool = False)</span>
 </code></dt>
 <dd>
 <div class="desc"><p>Class to represent all output values included in an ATM inverse calculation.
@@ -631,44 +325,18 @@ class ATMInverseOutputFlags:
 </code></dt>
 <dd>
 <div class="desc"><p>Sets all flags to <code>False</code>.</p></div>
-<details class="source">
-<summary>
-<span>Expand source code</span>
-</summary>
-<pre><code class="python">def set_all_false(self):
-    &#34;&#34;&#34;
-    Sets all flags to `False`.
-    &#34;&#34;&#34;
-    excluded_items = [&#34;set_all_true&#34;, &#34;set_all_false&#34;]
-    for var_name in dir(self):
-        if (not var_name.startswith(&#34;__&#34;) and var_name not in excluded_items):
-            setattr(self, var_name, False)</code></pre>
-</details>
 </dd>
 <dt id="pyucalgarysrs.models.atm.classes_inverse.ATMInverseOutputFlags.set_all_true"><code class="name flex">
 <span>def <span class="ident">set_all_true</span></span>(<span>self)</span>
 </code></dt>
 <dd>
 <div class="desc"><p>Sets all flags to <code>True</code>.</p></div>
-<details class="source">
-<summary>
-<span>Expand source code</span>
-</summary>
-<pre><code class="python">def set_all_true(self):
-    &#34;&#34;&#34;
-    Sets all flags to `True`.
-    &#34;&#34;&#34;
-    excluded_items = [&#34;set_all_true&#34;, &#34;set_all_false&#34;]
-    for var_name in dir(self):
-        if (not var_name.startswith(&#34;__&#34;) and var_name not in excluded_items):
-            setattr(self, var_name, True)</code></pre>
-</details>
 </dd>
 </dl>
 </dd>
 <dt id="pyucalgarysrs.models.atm.classes_inverse.ATMInverseRequest"><code class="flex name class">
 <span>class <span class="ident">ATMInverseRequest</span></span>
-<span>(</span><span>atm_model_version: Literal['1.0'], timestamp: datetime.datetime, geodetic_latitude: float, geodetic_longitude: float, intensity_4278: float, intensity_5577: float, intensity_6300: float, intensity_8446: float, precipitation_flux_spectral_type: Literal['gaussian', 'maxwellian'], nrlmsis_model_version: Literal['00', '2.0'], atmospheric_attenuation_correction: bool, output: <a title="pyucalgarysrs.models.atm.classes_inverse.ATMInverseOutputFlags" href="#pyucalgarysrs.models.atm.classes_inverse.ATMInverseOutputFlags">ATMInverseOutputFlags</a>, no_cache: bool)</span>
+<span>(</span><span>atm_model_version: Literal['1.0'],<br>timestamp: datetime.datetime,<br>geodetic_latitude: float,<br>geodetic_longitude: float,<br>intensity_4278: float,<br>intensity_5577: float,<br>intensity_6300: float,<br>intensity_8446: float,<br>precipitation_flux_spectral_type: Literal['gaussian', 'maxwellian'],<br>nrlmsis_model_version: Literal['00', '2.0'],<br>atmospheric_attenuation_correction: bool,<br>output: <a title="pyucalgarysrs.models.atm.classes_inverse.ATMInverseOutputFlags" href="#pyucalgarysrs.models.atm.classes_inverse.ATMInverseOutputFlags">ATMInverseOutputFlags</a>,<br>no_cache: bool)</span>
 </code></dt>
 <dd>
 <div class="desc"><p>Class that represents the UCalgary Space Remote Sensing API request when
@@ -761,7 +429,7 @@ class ATMInverseRequest:
 </dd>
 <dt id="pyucalgarysrs.models.atm.classes_inverse.ATMInverseResult"><code class="flex name class">
 <span>class <span class="ident">ATMInverseResult</span></span>
-<span>(</span><span>request_info: <a title="pyucalgarysrs.models.atm.classes_inverse.ATMInverseResultRequestInfo" href="#pyucalgarysrs.models.atm.classes_inverse.ATMInverseResultRequestInfo">ATMInverseResultRequestInfo</a>, energy_flux: Any, characteristic_energy: Any, oxygen_correction_factor: Any, height_integrated_rayleighs_4278: Any, height_integrated_rayleighs_5577: Any, height_integrated_rayleighs_6300: Any, height_integrated_rayleighs_8446: Any, altitudes: Any, emission_4278: Any, emission_5577: Any, emission_6300: Any, emission_8446: Any, plasma_electron_density: Any, plasma_o2plus_density: Any, plasma_noplus_density: Any, plasma_oplus_density: Any, plasma_ionisation_rate: Any, plasma_electron_temperature: Any, plasma_ion_temperature: Any, plasma_pederson_conductivity: Any, plasma_hall_conductivity: Any, neutral_o2_density: Any, neutral_o_density: Any, neutral_n2_density: Any, neutral_n_density: Any, neutral_temperature: Any)</span>
+<span>(</span><span>request_info: <a title="pyucalgarysrs.models.atm.classes_inverse.ATMInverseResultRequestInfo" href="#pyucalgarysrs.models.atm.classes_inverse.ATMInverseResultRequestInfo">ATMInverseResultRequestInfo</a>,<br>energy_flux: Any,<br>characteristic_energy: Any,<br>oxygen_correction_factor: Any,<br>height_integrated_rayleighs_4278: Any,<br>height_integrated_rayleighs_5577: Any,<br>height_integrated_rayleighs_6300: Any,<br>height_integrated_rayleighs_8446: Any,<br>altitudes: Any,<br>emission_4278: Any,<br>emission_5577: Any,<br>emission_6300: Any,<br>emission_8446: Any,<br>plasma_electron_density: Any,<br>plasma_o2plus_density: Any,<br>plasma_noplus_density: Any,<br>plasma_oplus_density: Any,<br>plasma_ionisation_rate: Any,<br>plasma_electron_temperature: Any,<br>plasma_ion_temperature: Any,<br>plasma_pederson_conductivity: Any,<br>plasma_hall_conductivity: Any,<br>neutral_o2_density: Any,<br>neutral_o_density: Any,<br>neutral_n2_density: Any,<br>neutral_n_density: Any,<br>neutral_temperature: Any)</span>
 </code></dt>
 <dd>
 <div class="desc"><p>Class containing all data from an ATM inverse calculation. This class also includes
@@ -1094,40 +762,12 @@ class ATMInverseResult:
 </code></dt>
 <dd>
 <div class="desc"><p>A special print output for this class.</p></div>
-<details class="source">
-<summary>
-<span>Expand source code</span>
-</summary>
-<pre><code class="python">def pretty_print(self):
-    &#34;&#34;&#34;
-    A special print output for this class.
-    &#34;&#34;&#34;
-    print(&#34;ATMInverseResult:&#34;)
-    for var_name in dir(self):
-        # exclude methods
-        if (var_name.startswith(&#34;__&#34;) or var_name == &#34;pretty_print&#34;):
-            continue
-
-        # convert var to string format we want
-        var_value = getattr(self, var_name)
-        var_str = &#34;None&#34;
-        if (var_name == &#34;request_info&#34;):
-            var_str = &#34;ATMInverseResultRequestInfo(...)&#34;
-        if (var_value is not None):
-            if (isinstance(var_value, float)):
-                var_str = &#34;%f&#34; % (var_value)
-            elif (isinstance(var_value, ndarray)):
-                var_str = &#34;%s ...])&#34; % (var_value.__repr__()[0:60])
-
-        # print string for this var
-        print(&#34;  %-37s: %s&#34; % (var_name, var_str))</code></pre>
-</details>
 </dd>
 </dl>
 </dd>
 <dt id="pyucalgarysrs.models.atm.classes_inverse.ATMInverseResultRequestInfo"><code class="flex name class">
 <span>class <span class="ident">ATMInverseResultRequestInfo</span></span>
-<span>(</span><span>request: <a title="pyucalgarysrs.models.atm.classes_inverse.ATMInverseRequest" href="#pyucalgarysrs.models.atm.classes_inverse.ATMInverseRequest">ATMInverseRequest</a>, calculation_duration_ms: float, forward_params: Optional[<a title="pyucalgarysrs.models.atm.classes_inverse.ATMInverseForwardParams" href="#pyucalgarysrs.models.atm.classes_inverse.ATMInverseForwardParams">ATMInverseForwardParams</a>] = None)</span>
+<span>(</span><span>request: <a title="pyucalgarysrs.models.atm.classes_inverse.ATMInverseRequest" href="#pyucalgarysrs.models.atm.classes_inverse.ATMInverseRequest">ATMInverseRequest</a>,<br>calculation_duration_ms: float,<br>forward_params: <a title="pyucalgarysrs.models.atm.classes_inverse.ATMInverseForwardParams" href="#pyucalgarysrs.models.atm.classes_inverse.ATMInverseForwardParams">ATMInverseForwardParams</a> | None = None)</span>
 </code></dt>
 <dd>
 <div class="desc"><p>Class containing details about interacting with the UCalgary Space Remote Sensing
@@ -1186,7 +826,7 @@ class ATMInverseResultRequestInfo:
 <dd>
 <div class="desc"></div>
 </dd>
-<dt id="pyucalgarysrs.models.atm.classes_inverse.ATMInverseResultRequestInfo.forward_params"><code class="name">var <span class="ident">forward_params</span> : Optional[<a title="pyucalgarysrs.models.atm.classes_inverse.ATMInverseForwardParams" href="#pyucalgarysrs.models.atm.classes_inverse.ATMInverseForwardParams">ATMInverseForwardParams</a>]</code></dt>
+<dt id="pyucalgarysrs.models.atm.classes_inverse.ATMInverseResultRequestInfo.forward_params"><code class="name">var <span class="ident">forward_params</span> : <a title="pyucalgarysrs.models.atm.classes_inverse.ATMInverseForwardParams" href="#pyucalgarysrs.models.atm.classes_inverse.ATMInverseForwardParams">ATMInverseForwardParams</a> | None</code></dt>
 <dd>
 <div class="desc"></div>
 </dd>
@@ -1204,8 +844,8 @@ class ATMInverseResultRequestInfo:
 <input id="lunr-search" name="q" placeholder="🔎 Search ..." aria-label="Search"
 disabled minlength="2">
 </form>
-<link rel="preload stylesheet" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/tingle/0.15.3/tingle.min.css" integrity="sha512-j1u8eUJ4f23xPPxwOrLUPQaCD2dwzNqqmDDcWS4deWsMv2ohLqmXXuP3hU7g8TyzbMSakP/mMqoNBYWj8AEIFg==" crossorigin>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/tingle/0.15.3/tingle.min.js" integrity="sha512-plGUER9JkeEWPPqQBE4sdLqBoQug5Ap+BCGMc7bJ8BXkm+VVj6QzkpBz5Yv2yPkkq+cqg9IpkBaGCas6uDbW8g==" crossorigin></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/tingle/0.16.0/tingle.min.css" integrity="sha512-b+T2i3P45i1LZM7I00Ci5QquB9szqaxu+uuk5TUSGjZQ4w4n+qujQiIuvTv2BxE7WCGQCifNMksyKILDiHzsOg==" crossorigin>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/tingle/0.16.0/tingle.min.js" integrity="sha512-2B9/byNV1KKRm5nQ2RLViPFD6U4dUjDGwuW1GU+ImJh8YinPU9Zlq1GzdTMO+G2ROrB5o1qasJBy1ttYz0wCug==" crossorigin></script>
 <style>
 .modal-dialog iframe {
 width: 100vw;
@@ -1246,7 +886,6 @@ setTimeout(() => input.focus(), 100);
 }).setContent('<iframe src="' + url + '"></iframe>').open();
 }
 </script>
-<h1>Index</h1>
 <div class="toc">
 <ul></ul>
 </div>
@@ -1370,7 +1009,7 @@ setTimeout(() => input.focus(), 100);
 </nav>
 </main>
 <footer id="footer">
-<p>Generated by <a href="https://pdoc3.github.io/pdoc" title="pdoc: Python API documentation generator"><cite>pdoc</cite> 0.10.0</a>.</p>
+<p>Generated by <a href="https://pdoc3.github.io/pdoc" title="pdoc: Python API documentation generator"><cite>pdoc</cite> 0.11.3</a>.</p>
 </footer>
 </body>
 </html>
