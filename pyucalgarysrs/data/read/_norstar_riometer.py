@@ -187,28 +187,26 @@ def __riometer_readfile_worker(file, no_metadata=False, quiet=False):
 
             # add in the site unique ID if it isn't in there
             if (found_site_uid is not None):  # already have it
-                metadata_dict["site_uid"] = found_site_uid
+                metadata_dict["site_unique_id"] = found_site_uid
             else:
                 if ('_' == file.name[3]):
                     # 3-letter site code
                     for s4, s3 in NORSTAR_RIOMETER_3_LETTER_SITE_CODES.items():
                         if (file.name[0:3] in s3):
-                            metadata_dict["site_uid"] = s4
+                            metadata_dict["site_unique_id"] = s4
                             break
                 else:
                     # 4-letter site code -- find position of 'rio-' in the file, site code
                     # will be right after that
                     idx = file.name.find('rio-')
                     if (idx != -1):
-                        metadata_dict["site_uid"] = file[idx + 4:4].lower()
-            if ("site_uid" not in metadata_dict):
+                        metadata_dict["site_unique_id"] = file[idx + 4:4].lower()
+            if ("site_unique_id" not in metadata_dict):
                 # still haven't found it, raise a warning message
-                metadata_dict["site_uid"] = "unknown"
+                metadata_dict["site_unique_id"] = "unknown"
                 if (quiet is False):
-                    print("Warning: unable to determine 'site_uid' field in file '%s'" % (file))
+                    print("Warning: unable to determine 'site_unique_id' field in file '%s'" % (file))
         except Exception as e:
-            import traceback
-            traceback.print_exc()
             # set error message
             if (quiet is False):
                 print("Error reading metadata for file '%s': %s" % (file, str(e)))

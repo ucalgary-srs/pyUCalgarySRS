@@ -30,6 +30,7 @@ from ._skymap import read as func_read_skymap
 from ._calibration import read as func_read_calibration
 from ._grid import read as func_read_grid
 from ._norstar_riometer import read_txt as func_read_riometer_txt
+from ._swan_hsr import read_h5 as func_read_hsr_h5
 from ..classes import (
     Dataset,
     Data,
@@ -1155,13 +1156,7 @@ class ReadManager:
                 Number of data files to read in parallel using multiprocessing. Default value 
                 is 1. Adjust according to your computer's available resources. This parameter 
                 is optional.
-            
-            first_record (bool): 
-                Only read in the first record in each file. This is the same as the first_frame
-                parameter in the themis-imager-readfile and trex-imager-readfile libraries, and
-                is a read optimization if you only need one image per minute, as opposed to the
-                full temporal resolution of data (e.g., 3sec cadence). This parameter is optional.
-            
+                        
             no_metadata (bool): 
                 Skip reading of metadata. This is a minor optimization if the metadata is not needed.
                 Default is `False`. This parameter is optional.
@@ -1184,27 +1179,20 @@ class ReadManager:
             pyucalgarysrs.exceptions.SRSError: a generic read error was encountered
         """
         # read data
-        img, meta, problematic_files = func_read_themis(
+        rio_data, top_level_timestamps, meta, problematic_files = func_read_hsr_h5(
             file_list,
             n_parallel=n_parallel,
-            first_record=first_record,
             no_metadata=no_metadata,
             quiet=quiet,
         )
-
-        # generate timestamp array
-        timestamp_list = []
-        if (no_metadata is False):
-            for m in meta:
-                timestamp_list.append(datetime.datetime.strptime(m["Image request start"], "%Y-%m-%d %H:%M:%S.%f UTC"))
 
         # convert to return type
         problematic_files_objs = []
         for p in problematic_files:
             problematic_files_objs.append(ProblematicFile(p["filename"], error_message=p["error_message"], error_type="error"))
         ret_obj = Data(
-            data=img,
-            timestamp=timestamp_list,
+            data=rio_data,
+            timestamp=top_level_timestamps,
             metadata=meta,
             problematic_files=problematic_files_objs,
             calibrated_data=None,

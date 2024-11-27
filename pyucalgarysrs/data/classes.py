@@ -593,6 +593,8 @@ class Data:
                     data_str = "[1 RiometerData object]"
                 else:
                     data_str = "[%d RiometerData objects]" % (len(self.data))
+            elif (len(self.data) == 1):
+                data_str = "[1 item]"
             else:
                 data_str = "[%d items]" % (len(self.data))
         else:
@@ -655,6 +657,8 @@ class Data:
                     data_str = "[1 RiometerData object]"
                 else:
                     data_str = "[%d RiometerData objects]" % (len(self.data))
+            elif (len(self.data) == 1):
+                data_str = "[1 item]"
             else:
                 data_str = "[%d items]" % (len(self.data))
         else:
@@ -815,7 +819,7 @@ class RiometerData:
             Raw signal data, a numpy array of floats
 
         absorption (ndarray): 
-            Absorption data, a numpy array of float. Only populated for K2 data.
+            Absorption data, a numpy array of float. Note that this is only populated for K2 data.
     """
     timestamp: ndarray
     raw_signal: ndarray
@@ -844,3 +848,98 @@ class RiometerData:
         print("  %-12s: %s" % ("timestamp", timestamp_str))
         print("  %-12s: %s" % ("raw_signal", raw_signal_str))
         print("  %-12s: %s" % ("absorption", absorption_str))
+
+
+@dataclass
+class HSRData:
+    """
+    Representation for SWAN Hyper Spectral Riometer (HSR) data.
+
+    Attributes:
+        timestamp (ndarray): 
+            Timestamp data, a numpy array of datetime objects
+
+        raw_power (ndarray): 
+            Raw power data, a numpy array of floats
+        
+        band_central_frequency (List[str]): 
+            Band central frequencies, a list of strings
+
+        band_passband (List[str]): 
+            Band passbands, a list of strings
+
+        absorption (ndarray): 
+            Absorption data, a numpy array of float. Note this is only populated for K2 data.
+    """
+    timestamp: ndarray
+    raw_power: ndarray
+    band_central_frequency: List[str]
+    band_passband: List[str]
+    absorption: Optional[ndarray] = None
+
+    def __str__(self) -> str:
+        return self.__repr__()
+
+    def __repr__(self) -> str:
+        # set array strings
+        timestamp_str = "array(dims=%s, dtype=%s)" % (self.timestamp.shape, self.timestamp.dtype)
+        raw_power_str = "array(dims=%s, dtype=%s)" % (self.raw_power.shape, self.raw_power.dtype)
+        absorption_str = "None" if (self.absorption is None) else "array(dims=%s, dtype=%s)" % (self.absorption.shape, self.absorption.dtype)
+
+        # set central frequency string
+        if (len(self.band_central_frequency) == 0):
+            band_central_frequency_str = "[]"
+        elif (len(self.band_central_frequency) == 1):
+            band_central_frequency_str = "[1 central frequency]"
+        else:
+            band_central_frequency_str = "[%d central frequencies]" % (len(self.band_central_frequency))
+
+        # set passband string
+        if (len(self.band_passband) == 0):
+            band_passband_str = "[]"
+        elif (len(self.band_passband) == 1):
+            band_passband_str = "[1 passband]"
+        else:
+            band_passband_str = "[%d passbands]" % (len(self.band_passband))
+
+        # return
+        return "HSRData(band_central_frequency=%s, band_passband=%s, timestamp=%s, raw_power=%s, absorption=%s" % (
+            band_central_frequency_str,
+            band_passband_str,
+            timestamp_str,
+            raw_power_str,
+            absorption_str,
+        )
+
+    def pretty_print(self):
+        """
+        A special print output for this class.
+        """
+        # set array strings
+        timestamp_str = "array(dims=%s, dtype=%s)" % (self.timestamp.shape, self.timestamp.dtype)
+        raw_power_str = "array(dims=%s, dtype=%s)" % (self.raw_power.shape, self.raw_power.dtype)
+        absorption_str = "None" if (self.absorption is None) else "array(dims=%s, dtype=%s)" % (self.absorption.shape, self.absorption.dtype)
+
+        # set central frequency string
+        if (len(self.band_central_frequency) == 0):
+            band_central_frequency_str = "[]"
+        elif (len(self.band_central_frequency) == 1):
+            band_central_frequency_str = "[1 central frequency]"
+        else:
+            band_central_frequency_str = "[%d central frequencies]" % (len(self.band_central_frequency))
+
+        # set passband string
+        if (len(self.band_passband) == 0):
+            band_passband_str = "[]"
+        elif (len(self.band_passband) == 1):
+            band_passband_str = "[1 passband]"
+        else:
+            band_passband_str = "[%d passbands]" % (len(self.band_passband))
+
+        # print
+        print("HSRData:")
+        print("  %-24s: %s" % ("band_central_frequency", band_central_frequency_str))
+        print("  %-24s: %s" % ("band_passband", band_passband_str))
+        print("  %-24s: %s" % ("timestamp", timestamp_str))
+        print("  %-24s: %s" % ("raw_power", raw_power_str))
+        print("  %-24s: %s" % ("absorption", absorption_str))
