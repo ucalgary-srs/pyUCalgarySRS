@@ -233,7 +233,7 @@ class ReadManager:
         elif (dataset.name in self.__VALID_GRID_READFILE_DATASETS):
             return self.read_grid(file_list, n_parallel=n_parallel, quiet=quiet, dataset=dataset)
         elif (dataset.name in self.__VALID_RIOMETER_TXT_READFILE_DATASETS):
-            return self.read_riometer_txt(file_list, n_parallel=n_parallel, quiet=quiet, dataset=dataset)
+            return self.read_riometer(file_list, n_parallel=n_parallel, quiet=quiet, dataset=dataset)
         elif (dataset.name in self.__VALID_SWAN_HSR_READFILE_DATASETS):
             return self.read_swan_hsr(file_list, n_parallel=n_parallel, quiet=quiet, dataset=dataset)
         else:
@@ -1071,12 +1071,12 @@ class ReadManager:
         # return
         return ret_obj
 
-    def read_riometer_txt(self,
-                          file_list: Union[List[str], List[Path], str, Path],
-                          n_parallel: int = 1,
-                          no_metadata: bool = False,
-                          quiet: bool = False,
-                          dataset: Optional[Dataset] = None) -> Data:
+    def read_riometer(self,
+                      file_list: Union[List[str], List[Path], str, Path],
+                      n_parallel: int = 1,
+                      no_metadata: bool = False,
+                      quiet: bool = False,
+                      dataset: Optional[Dataset] = None) -> Data:
         """
         Read in NORSTAR Riometer ASCII data (K0 or K2 txt files).
 

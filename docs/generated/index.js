@@ -224,7 +224,7 @@ INDEX=[
 "func":1
 },
 {
-"ref":"pyucalgarysrs.data.read.ReadManager.read_riometer_txt",
+"ref":"pyucalgarysrs.data.read.ReadManager.read_riometer",
 "url":2,
 "doc":"Read in NORSTAR Riometer ASCII data (K0 or K2 txt files). Args: file_list (List[str], List[Path], str, Path): The files to read in. Absolute paths are recommended, but not technically necessary. This can be a single string for a file, or a list of strings to read in multiple files. This parameter is required. n_parallel (int): Number of data files to read in parallel using multiprocessing. Default value is 1. Adjust according to your computer's available resources. This parameter is optional. no_metadata (bool): Skip reading of metadata. This is a minor optimization if the metadata is not needed. Default is  False . This parameter is optional. quiet (bool): Do not print out errors while reading data files, if any are encountered. Any files that encounter errors will be, as usual, accessible via the  problematic_files attribute of the returned  pyucalgarysrs.data.classes.Data object. This parameter is optional. dataset (pyucalgarysrs.data.classes.Dataset): The dataset object for which the files are associated with. This parameter is optional. Returns: A  pyucalgarysrs.data.classes.Data object containing the data read in, among other values. Raises: pyucalgarysrs.exceptions.SRSError: a generic read error was encountered",
 "func":1
