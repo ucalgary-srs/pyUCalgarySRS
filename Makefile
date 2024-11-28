@@ -1,4 +1,4 @@
-.PHONY: install update get-test-data docs test test-linting test-ruff test-pycodestyle test-bandit test-pyright test-pytest test-pytest-noread test-pytest-production test-pytest-staging test-pytest-ci test-coverage clean publish
+.PHONY: install update get-test-data docs test test-linting test-ruff test-pycodestyle test-bandit test-pyright test-pytest test-pytest-noread test-pytest-production test-pytest-staging test-pytest-ci test-coverage publish
 
 all:
 
@@ -10,9 +10,6 @@ install:
 update upgrade:
 	pip install --upgrade poetry
 	poetry update
-
-clean:
-	@rm -rf pyucalgarysrs.egg-info build dist
 
 get-test-data:
 	cd tests/test_data && rm -rf read_*
@@ -72,4 +69,4 @@ publish:
 	${MAKE} test
 	poetry build
 	poetry publish
-	${MAKE} clean
+	@rm -rf pyucalgarysrs.egg-info build dist

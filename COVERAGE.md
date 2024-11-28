@@ -5,15 +5,16 @@ Name                                            Stmts   Miss  Cover   Missing
 -----------------------------------------------------------------------------
 pyucalgarysrs/__init__.py                           8      0   100%
 pyucalgarysrs/data/__init__.py                     33      0   100%
-pyucalgarysrs/data/_download.py                    89      3    97%   40, 71, 222
+pyucalgarysrs/data/_download.py                    89      2    98%   71, 222
 pyucalgarysrs/data/_list.py                        31      0   100%
-pyucalgarysrs/data/classes.py                     319     54    83%   148-159, 193-204, 577, 591-597, 605, 653-661, 667, 675, 782, 785-786, 793-802, 825, 828-831, 838-846
-pyucalgarysrs/data/read/__init__.py               240     36    85%   233, 235, 237, 623, 809, 818-821, 1036-1071, 1115-1136, 1187-1215
+pyucalgarysrs/data/classes.py                     367     92    75%   148-159, 193-204, 577, 591-599, 607, 655-665, 671, 679, 786, 789-790, 797-806, 829, 832-835, 842-850, 881, 885-906, 919-945
+pyucalgarysrs/data/read/__init__.py               237     32    86%   234, 236, 238, 624, 810, 819-822, 1037-1072, 1116-1137, 1182-1203
 pyucalgarysrs/data/read/_calibration.py            45      0   100%
 pyucalgarysrs/data/read/_grid.py                  103     96     7%   24-161, 166-210
-pyucalgarysrs/data/read/_norstar_riometer.py      121    110     9%   44-102, 107-263
+pyucalgarysrs/data/read/_norstar_riometer.py      119    108     9%   44-102, 107-261
 pyucalgarysrs/data/read/_rego.py                  163      8    95%   102, 165, 212-218
 pyucalgarysrs/data/read/_skymap.py                 47      0   100%
+pyucalgarysrs/data/read/_swan_hsr.py               78     66    15%   30-95, 99, 104-176
 pyucalgarysrs/data/read/_themis.py                154     11    93%   99, 161, 205-211, 216-218
 pyucalgarysrs/data/read/_trex_blue.py             171     28    84%   103, 170, 181, 198-209, 228-234, 281-287
 pyucalgarysrs/data/read/_trex_nir.py              171     22    87%   103, 168, 179, 196-207, 279-285
@@ -28,5 +29,5 @@ pyucalgarysrs/models/atm/classes_forward.py       117      0   100%
 pyucalgarysrs/models/atm/classes_inverse.py       117      0   100%
 pyucalgarysrs/pyucalgarysrs.py                    166     50    70%   328-406
 -----------------------------------------------------------------------------
-TOTAL                                            2695    480    82%
+TOTAL                                            2816    577    80%
 ```

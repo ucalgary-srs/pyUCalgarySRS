@@ -25,7 +25,7 @@ from ..classes import HSRData
 HSR_DT = np.dtype("float32")
 
 
-def read_h5(file_list, n_parallel=1, no_metadata=False, quiet=False):
+def read(file_list, n_parallel=1, no_metadata=False, quiet=False):
     # if input is just a single file name in a string, convert to a list to be fed to the workers
     if isinstance(file_list, str) or isinstance(file_list, Path):
         file_list = [file_list]

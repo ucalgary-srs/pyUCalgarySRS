@@ -39,7 +39,7 @@ NORSTAR_RIOMETER_3_LETTER_SITE_CODES = {
 }  # NOTE: pulled from UCalgary SRS API code; if you update this, we should update the API too.
 
 
-def read_txt(file_list, n_parallel=1, no_metadata=False, quiet=False):
+def read(file_list, n_parallel=1, no_metadata=False, quiet=False):
     # if input is just a single file name in a string, convert to a list to be fed to the workers
     if isinstance(file_list, str) or isinstance(file_list, Path):
         file_list = [file_list]

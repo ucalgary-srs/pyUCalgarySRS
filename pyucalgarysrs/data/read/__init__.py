@@ -29,8 +29,8 @@ from ._trex_spectrograph import read as func_read_trex_spectrograph
 from ._skymap import read as func_read_skymap
 from ._calibration import read as func_read_calibration
 from ._grid import read as func_read_grid
-from ._norstar_riometer import read_txt as func_read_riometer_txt
-from ._swan_hsr import read_h5 as func_read_hsr_h5
+from ._norstar_riometer import read as func_read_norstar_riometer
+from ._swan_hsr import read as func_read_swan_hsr
 from ..classes import (
     Dataset,
     Data,
@@ -233,7 +233,7 @@ class ReadManager:
         elif (dataset.name in self.__VALID_GRID_READFILE_DATASETS):
             return self.read_grid(file_list, n_parallel=n_parallel, quiet=quiet, dataset=dataset)
         elif (dataset.name in self.__VALID_RIOMETER_TXT_READFILE_DATASETS):
-            return self.read_riometer(file_list, n_parallel=n_parallel, quiet=quiet, dataset=dataset)
+            return self.read_norstar_riometer(file_list, n_parallel=n_parallel, quiet=quiet, dataset=dataset)
         elif (dataset.name in self.__VALID_SWAN_HSR_READFILE_DATASETS):
             return self.read_swan_hsr(file_list, n_parallel=n_parallel, quiet=quiet, dataset=dataset)
         else:
@@ -1071,12 +1071,12 @@ class ReadManager:
         # return
         return ret_obj
 
-    def read_riometer(self,
-                      file_list: Union[List[str], List[Path], str, Path],
-                      n_parallel: int = 1,
-                      no_metadata: bool = False,
-                      quiet: bool = False,
-                      dataset: Optional[Dataset] = None) -> Data:
+    def read_norstar_riometer(self,
+                              file_list: Union[List[str], List[Path], str, Path],
+                              n_parallel: int = 1,
+                              no_metadata: bool = False,
+                              quiet: bool = False,
+                              dataset: Optional[Dataset] = None) -> Data:
         """
         Read in NORSTAR Riometer ASCII data (K0 or K2 txt files).
 
@@ -1113,7 +1113,7 @@ class ReadManager:
             pyucalgarysrs.exceptions.SRSError: a generic read error was encountered
         """
         # read data
-        rio_data, top_level_timestamps, meta, problematic_files = func_read_riometer_txt(
+        rio_data, top_level_timestamps, meta, problematic_files = func_read_norstar_riometer(
             file_list,
             n_parallel=n_parallel,
             no_metadata=no_metadata,
@@ -1179,7 +1179,7 @@ class ReadManager:
             pyucalgarysrs.exceptions.SRSError: a generic read error was encountered
         """
         # read data
-        rio_data, top_level_timestamps, meta, problematic_files = func_read_hsr_h5(
+        rio_data, top_level_timestamps, meta, problematic_files = func_read_swan_hsr(
             file_list,
             n_parallel=n_parallel,
             no_metadata=no_metadata,

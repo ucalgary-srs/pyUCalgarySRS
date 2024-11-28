@@ -254,7 +254,7 @@ the super class.</p></div>
         elif (dataset.name in self.__VALID_GRID_READFILE_DATASETS):
             return self.read_grid(file_list, n_parallel=n_parallel, quiet=quiet, dataset=dataset)
         elif (dataset.name in self.__VALID_RIOMETER_TXT_READFILE_DATASETS):
-            return self.read_riometer(file_list, n_parallel=n_parallel, quiet=quiet, dataset=dataset)
+            return self.read_norstar_riometer(file_list, n_parallel=n_parallel, quiet=quiet, dataset=dataset)
         elif (dataset.name in self.__VALID_SWAN_HSR_READFILE_DATASETS):
             return self.read_swan_hsr(file_list, n_parallel=n_parallel, quiet=quiet, dataset=dataset)
         else:
@@ -1092,12 +1092,12 @@ the super class.</p></div>
         # return
         return ret_obj
 
-    def read_riometer(self,
-                      file_list: Union[List[str], List[Path], str, Path],
-                      n_parallel: int = 1,
-                      no_metadata: bool = False,
-                      quiet: bool = False,
-                      dataset: Optional[Dataset] = None) -&gt; Data:
+    def read_norstar_riometer(self,
+                              file_list: Union[List[str], List[Path], str, Path],
+                              n_parallel: int = 1,
+                              no_metadata: bool = False,
+                              quiet: bool = False,
+                              dataset: Optional[Dataset] = None) -&gt; Data:
         &#34;&#34;&#34;
         Read in NORSTAR Riometer ASCII data (K0 or K2 txt files).
 
@@ -1134,7 +1134,7 @@ the super class.</p></div>
             pyucalgarysrs.exceptions.SRSError: a generic read error was encountered
         &#34;&#34;&#34;
         # read data
-        rio_data, top_level_timestamps, meta, problematic_files = func_read_riometer_txt(
+        rio_data, top_level_timestamps, meta, problematic_files = func_read_norstar_riometer(
             file_list,
             n_parallel=n_parallel,
             no_metadata=no_metadata,
@@ -1200,7 +1200,7 @@ the super class.</p></div>
             pyucalgarysrs.exceptions.SRSError: a generic read error was encountered
         &#34;&#34;&#34;
         # read data
-        rio_data, top_level_timestamps, meta, problematic_files = func_read_hsr_h5(
+        rio_data, top_level_timestamps, meta, problematic_files = func_read_swan_hsr(
             file_list,
             n_parallel=n_parallel,
             no_metadata=no_metadata,
@@ -1377,11 +1377,11 @@ values.</p>
 <dd>a generic read error was encountered</dd>
 </dl></div>
 </dd>
-<dt id="pyucalgarysrs.data.read.ReadManager.read_rego"><code class="name flex">
-<span>def <span class="ident">read_rego</span></span>(<span>self,<br>file_list: List[str] | List[pathlib.Path] | str | pathlib.Path,<br>n_parallel: int = 1,<br>first_record: bool = False,<br>no_metadata: bool = False,<br>quiet: bool = False,<br>dataset: <a title="pyucalgarysrs.data.classes.Dataset" href="../classes.html#pyucalgarysrs.data.classes.Dataset">Dataset</a> | None = None) ‑> <a title="pyucalgarysrs.data.classes.Data" href="../classes.html#pyucalgarysrs.data.classes.Data">Data</a></span>
+<dt id="pyucalgarysrs.data.read.ReadManager.read_norstar_riometer"><code class="name flex">
+<span>def <span class="ident">read_norstar_riometer</span></span>(<span>self,<br>file_list: List[str] | List[pathlib.Path] | str | pathlib.Path,<br>n_parallel: int = 1,<br>no_metadata: bool = False,<br>quiet: bool = False,<br>dataset: <a title="pyucalgarysrs.data.classes.Dataset" href="../classes.html#pyucalgarysrs.data.classes.Dataset">Dataset</a> | None = None) ‑> <a title="pyucalgarysrs.data.classes.Data" href="../classes.html#pyucalgarysrs.data.classes.Data">Data</a></span>
 </code></dt>
 <dd>
-<div class="desc"><p>Read in REGO raw data (stream0 pgm* files).</p>
+<div class="desc"><p>Read in NORSTAR Riometer ASCII data (K0 or K2 txt files).</p>
 <h2 id="args">Args</h2>
 <dl>
 <dt><strong><code>file_list</code></strong> :&ensp;<code>List[str], List[Path], str, Path</code></dt>
@@ -1392,11 +1392,6 @@ in multiple files. This parameter is required.</dd>
 <dd>Number of data files to read in parallel using multiprocessing. Default value
 is 1. Adjust according to your computer's available resources. This parameter
 is optional.</dd>
-<dt><strong><code>first_record</code></strong> :&ensp;<code>bool</code></dt>
-<dd>Only read in the first record in each file. This is the same as the first_frame
-parameter in the themis-imager-readfile and trex-imager-readfile libraries, and
-is a read optimization if you only need one image per minute, as opposed to the
-full temporal resolution of data (e.g., 3sec cadence). This parameter is optional.</dd>
 <dt><strong><code>no_metadata</code></strong> :&ensp;<code>bool</code></dt>
 <dd>Skip reading of metadata. This is a minor optimization if the metadata is not needed.
 Default is <code>False</code>. This parameter is optional.</dd>
@@ -1418,11 +1413,11 @@ values.</p>
 <dd>a generic read error was encountered</dd>
 </dl></div>
 </dd>
-<dt id="pyucalgarysrs.data.read.ReadManager.read_riometer"><code class="name flex">
-<span>def <span class="ident">read_riometer</span></span>(<span>self,<br>file_list: List[str] | List[pathlib.Path] | str | pathlib.Path,<br>n_parallel: int = 1,<br>no_metadata: bool = False,<br>quiet: bool = False,<br>dataset: <a title="pyucalgarysrs.data.classes.Dataset" href="../classes.html#pyucalgarysrs.data.classes.Dataset">Dataset</a> | None = None) ‑> <a title="pyucalgarysrs.data.classes.Data" href="../classes.html#pyucalgarysrs.data.classes.Data">Data</a></span>
+<dt id="pyucalgarysrs.data.read.ReadManager.read_rego"><code class="name flex">
+<span>def <span class="ident">read_rego</span></span>(<span>self,<br>file_list: List[str] | List[pathlib.Path] | str | pathlib.Path,<br>n_parallel: int = 1,<br>first_record: bool = False,<br>no_metadata: bool = False,<br>quiet: bool = False,<br>dataset: <a title="pyucalgarysrs.data.classes.Dataset" href="../classes.html#pyucalgarysrs.data.classes.Dataset">Dataset</a> | None = None) ‑> <a title="pyucalgarysrs.data.classes.Data" href="../classes.html#pyucalgarysrs.data.classes.Data">Data</a></span>
 </code></dt>
 <dd>
-<div class="desc"><p>Read in NORSTAR Riometer ASCII data (K0 or K2 txt files).</p>
+<div class="desc"><p>Read in REGO raw data (stream0 pgm* files).</p>
 <h2 id="args">Args</h2>
 <dl>
 <dt><strong><code>file_list</code></strong> :&ensp;<code>List[str], List[Path], str, Path</code></dt>
@@ -1433,6 +1428,11 @@ in multiple files. This parameter is required.</dd>
 <dd>Number of data files to read in parallel using multiprocessing. Default value
 is 1. Adjust according to your computer's available resources. This parameter
 is optional.</dd>
+<dt><strong><code>first_record</code></strong> :&ensp;<code>bool</code></dt>
+<dd>Only read in the first record in each file. This is the same as the first_frame
+parameter in the themis-imager-readfile and trex-imager-readfile libraries, and
+is a read optimization if you only need one image per minute, as opposed to the
+full temporal resolution of data (e.g., 3sec cadence). This parameter is optional.</dd>
 <dt><strong><code>no_metadata</code></strong> :&ensp;<code>bool</code></dt>
 <dd>Skip reading of metadata. This is a minor optimization if the metadata is not needed.
 Default is <code>False</code>. This parameter is optional.</dd>
@@ -1799,8 +1799,8 @@ setTimeout(() => input.focus(), 100);
 <li><code><a title="pyucalgarysrs.data.read.ReadManager.read" href="#pyucalgarysrs.data.read.ReadManager.read">read</a></code></li>
 <li><code><a title="pyucalgarysrs.data.read.ReadManager.read_calibration" href="#pyucalgarysrs.data.read.ReadManager.read_calibration">read_calibration</a></code></li>
 <li><code><a title="pyucalgarysrs.data.read.ReadManager.read_grid" href="#pyucalgarysrs.data.read.ReadManager.read_grid">read_grid</a></code></li>
+<li><code><a title="pyucalgarysrs.data.read.ReadManager.read_norstar_riometer" href="#pyucalgarysrs.data.read.ReadManager.read_norstar_riometer">read_norstar_riometer</a></code></li>
 <li><code><a title="pyucalgarysrs.data.read.ReadManager.read_rego" href="#pyucalgarysrs.data.read.ReadManager.read_rego">read_rego</a></code></li>
-<li><code><a title="pyucalgarysrs.data.read.ReadManager.read_riometer" href="#pyucalgarysrs.data.read.ReadManager.read_riometer">read_riometer</a></code></li>
 <li><code><a title="pyucalgarysrs.data.read.ReadManager.read_skymap" href="#pyucalgarysrs.data.read.ReadManager.read_skymap">read_skymap</a></code></li>
 <li><code><a title="pyucalgarysrs.data.read.ReadManager.read_swan_hsr" href="#pyucalgarysrs.data.read.ReadManager.read_swan_hsr">read_swan_hsr</a></code></li>
 <li><code><a title="pyucalgarysrs.data.read.ReadManager.read_themis" href="#pyucalgarysrs.data.read.ReadManager.read_themis">read_themis</a></code></li>

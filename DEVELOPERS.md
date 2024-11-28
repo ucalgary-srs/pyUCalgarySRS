@@ -14,13 +14,14 @@ Clone the repository and install primary and development dependencies using Poet
 ```console
 $ git clone git@github.com:ucalgary-srs/pyUCalgarySRS.git
 $ cd pyUCalgarySRS
+$ conda activate <env name>
 $ pip install poetry
 $ poetry install
 ```
 
 ## Documentation
 
-Documentation for the PyUCalgarySRS project is contained within this repository. To generate the docs, run the following:
+Documentation for the PyUCalgarySRS library is contained within this repository. To generate the docs, run the following:
 
 ```console
 $ make docs
