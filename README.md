@@ -6,6 +6,8 @@
 
 This is the Python library for retrieving and loading data provided by UCalgary Space Remote Sensing. More information including tutorials and dataset descriptions can be found on our open data platform at https://data.phys.ucalgary.ca.
 
+> Note: This library is primarily a sub-dependency for higher-level data access and analysis support libraries PyAuroraX and PyUCRF. We recommend using those libraries for accessing and analyzing All-Sky Imager (ASI) data and RF instrument data, respectively.
+
 PyUCalagarySRS currently supports Python 3.9+.
 
 Some links to help:
