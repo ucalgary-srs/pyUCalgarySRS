@@ -231,7 +231,7 @@ class PyUCalgarySRS:
         return self.__repr__()
 
     def __repr__(self) -> str:
-        return ("PyUCalgarySRS(download_output_root_path='%s', read_tar_temp_path='%s', api_base_url='%s', " + "api_headers=%s, api_timeout=%s)") % (
+        return ("PyUCalgarySRS(download_output_root_path='%s', read_tar_temp_path='%s', api_base_url='%s', api_headers=%s, api_timeout=%s)") % (
             self.__download_output_root_path,
             self.__read_tar_temp_path,
             self.api_base_url,
