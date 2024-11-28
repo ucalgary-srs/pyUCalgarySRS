@@ -10,7 +10,7 @@ end_dt = datetime.datetime(2024, 1, 10, 23, 59, 59)
 res = srs.data.download("SWAN_HSR_K0_H5", start_dt, end_dt, site_uid="mean", progress_bar_disable=True, n_parallel=5)
 
 # read the data
-data = srs.data.read(res.dataset, res.filenames, n_parallel=2)
+data = srs.data.readers.read_swan_hsr(res.filenames, n_parallel=2, dataset=res.dataset)
 
 print(data)
 

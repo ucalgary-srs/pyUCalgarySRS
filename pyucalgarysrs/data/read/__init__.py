@@ -1139,7 +1139,6 @@ class ReadManager:
     def read_swan_hsr(self,
                       file_list: Union[List[str], List[Path], str, Path],
                       n_parallel: int = 1,
-                      first_record: bool = False,
                       no_metadata: bool = False,
                       quiet: bool = False,
                       dataset: Optional[Dataset] = None) -> Data:

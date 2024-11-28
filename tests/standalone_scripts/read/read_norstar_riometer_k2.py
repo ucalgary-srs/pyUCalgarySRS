@@ -1,5 +1,3 @@
-#! /usr/bin/env python
-
 import pprint
 import datetime
 import pyucalgarysrs
