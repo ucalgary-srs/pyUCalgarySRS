@@ -231,9 +231,24 @@ def __riometer_readfile_worker(file, no_metadata=False, quiet=False):
 
     # set timestamp numpy array
     try:
+        # initialize new object, populate using the date and time arrays
+        #
+        # NOTE: there can be UT24 records in the files, so we need to keep track
+        # of those, and delete them from the raw_signal and absorption arrays
+        idxs_to_delete = []
         np_timestamp = np.empty(np_date.shape, dtype=datetime.datetime)
         for i in range(0, np_date.shape[0]):
+            if (np_time[i][0:2].decode() == "24"):
+                idxs_to_delete.append(i)
+                continue
             np_timestamp[i] = datetime.datetime.strptime("%s %s" % (np_date[i].decode(), np_time[i].decode()), "%d/%m/%y %H:%M:%S")
+
+        # delete rows as needed
+        if (len(idxs_to_delete) > 0):
+            np_timestamp = np.delete(np_timestamp, idxs_to_delete)
+            np_raw_signal = np.delete(np_raw_signal, idxs_to_delete)
+            if (np_absorption is not None):
+                np_absorption = np.delete(np_absorption, idxs_to_delete)
     except Exception as e:
         if (quiet is False):
             print("Error processing timestamps for file '%s': %s" % (file, str(e)))
