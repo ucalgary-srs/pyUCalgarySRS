@@ -47,7 +47,11 @@ class DataManager:
         """
         return self.__readers
 
-    def list_datasets(self, name: Optional[str] = None, timeout: Optional[int] = None) -> List[Dataset]:
+    def list_datasets(
+            self,
+            name: Optional[str] = None,
+            timeout: Optional[int] = None,
+            supported_library: Literal["pyucalgarysrs", "pyaurorax", "idl-aurorax", "pyucrio", "idl-ucrio"] = "pyucalgarysrs") -> List[Dataset]:
         """
         List available datasets
 
@@ -69,7 +73,7 @@ class DataManager:
         Raises:
             pyucalgary.exceptions.SRSAPIError: An API error was encountered.
         """
-        return self.__list.list_datasets(self.__srs_obj, name, timeout)
+        return self.__list.list_datasets(self.__srs_obj, name, timeout, supported_library)
 
     def list_observatories(self, instrument_array: str, uid: Optional[str] = None, timeout: Optional[int] = None) -> List[Observatory]:
         """

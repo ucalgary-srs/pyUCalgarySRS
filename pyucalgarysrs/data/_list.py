@@ -17,7 +17,7 @@ from .classes import Dataset, Observatory
 from ..exceptions import SRSAPIError
 
 
-def list_datasets(srs_obj, name, timeout):
+def list_datasets(srs_obj, name, timeout, supported_library):
     # set timeout
     if (timeout is None):
         timeout = srs_obj.api_timeout
@@ -54,8 +54,14 @@ def list_datasets(srs_obj, name, timeout):
         # cast into object
         datasets[i] = Dataset(**datasets[i])
 
+    # filter out any based on the 'supported_libraries' argument
+    filtered_datasets = []
+    for d in datasets:
+        if (supported_library in d.supported_libraries):
+            filtered_datasets.append(d)
+
     # return
-    return datasets
+    return filtered_datasets
 
 
 def list_observatories(srs_obj, instrument_array, uid, timeout):

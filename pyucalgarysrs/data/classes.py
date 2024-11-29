@@ -61,6 +61,9 @@ class Dataset:
         
         provider (str): 
             Data provider.
+
+        supported_libraries (List[str]): 
+            Libraries that support usage of this dataset.
     """
 
     def __init__(self,
@@ -71,6 +74,7 @@ class Dataset:
                  file_listing_supported: bool,
                  file_reading_supported: bool,
                  level: str,
+                 supported_libraries: List[str],
                  doi: Optional[str] = None,
                  doi_details: Optional[str] = None,
                  citation: Optional[str] = None):
@@ -85,6 +89,7 @@ class Dataset:
         self.doi_details = doi_details
         self.citation = citation
         self.provider = "UCalgary"
+        self.supported_libraries = supported_libraries
 
     def __str__(self) -> str:
         return self.__repr__()
