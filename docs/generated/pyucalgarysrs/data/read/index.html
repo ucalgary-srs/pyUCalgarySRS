@@ -1160,7 +1160,6 @@ the super class.</p></div>
     def read_swan_hsr(self,
                       file_list: Union[List[str], List[Path], str, Path],
                       n_parallel: int = 1,
-                      first_record: bool = False,
                       no_metadata: bool = False,
                       quiet: bool = False,
                       dataset: Optional[Dataset] = None) -&gt; Data:
@@ -1488,7 +1487,7 @@ values.</p>
 </dl></div>
 </dd>
 <dt id="pyucalgarysrs.data.read.ReadManager.read_swan_hsr"><code class="name flex">
-<span>def <span class="ident">read_swan_hsr</span></span>(<span>self,<br>file_list: List[str] | List[pathlib.Path] | str | pathlib.Path,<br>n_parallel: int = 1,<br>first_record: bool = False,<br>no_metadata: bool = False,<br>quiet: bool = False,<br>dataset: <a title="pyucalgarysrs.data.classes.Dataset" href="../classes.html#pyucalgarysrs.data.classes.Dataset">Dataset</a> | None = None) ‑> <a title="pyucalgarysrs.data.classes.Data" href="../classes.html#pyucalgarysrs.data.classes.Data">Data</a></span>
+<span>def <span class="ident">read_swan_hsr</span></span>(<span>self,<br>file_list: List[str] | List[pathlib.Path] | str | pathlib.Path,<br>n_parallel: int = 1,<br>no_metadata: bool = False,<br>quiet: bool = False,<br>dataset: <a title="pyucalgarysrs.data.classes.Dataset" href="../classes.html#pyucalgarysrs.data.classes.Dataset">Dataset</a> | None = None) ‑> <a title="pyucalgarysrs.data.classes.Data" href="../classes.html#pyucalgarysrs.data.classes.Data">Data</a></span>
 </code></dt>
 <dd>
 <div class="desc"><p>Read in SWAN Hyper Spectral Riometer (HSR) H5 data (K0 H5 files).</p>

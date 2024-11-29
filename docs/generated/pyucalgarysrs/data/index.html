@@ -103,7 +103,11 @@ super class.</p></div>
         &#34;&#34;&#34;
         return self.__readers
 
-    def list_datasets(self, name: Optional[str] = None, timeout: Optional[int] = None) -&gt; List[Dataset]:
+    def list_datasets(
+            self,
+            name: Optional[str] = None,
+            timeout: Optional[int] = None,
+            supported_library: Literal[&#34;pyucalgarysrs&#34;, &#34;pyaurorax&#34;, &#34;idl-aurorax&#34;, &#34;pyucrio&#34;, &#34;idl-ucrio&#34;] = &#34;pyucalgarysrs&#34;) -&gt; List[Dataset]:
         &#34;&#34;&#34;
         List available datasets
 
@@ -125,7 +129,7 @@ super class.</p></div>
         Raises:
             pyucalgary.exceptions.SRSAPIError: An API error was encountered.
         &#34;&#34;&#34;
-        return self.__list.list_datasets(self.__srs_obj, name, timeout)
+        return self.__list.list_datasets(self.__srs_obj, name, timeout, supported_library)
 
     def list_observatories(self, instrument_array: str, uid: Optional[str] = None, timeout: Optional[int] = None) -&gt; List[Observatory]:
         &#34;&#34;&#34;
@@ -792,7 +796,7 @@ is required.</dd>
 <p>Boolean indicating if file reading is supported.</p></div>
 </dd>
 <dt id="pyucalgarysrs.data.DataManager.list_datasets"><code class="name flex">
-<span>def <span class="ident">list_datasets</span></span>(<span>self, name: str | None = None, timeout: int | None = None) ‑> List[<a title="pyucalgarysrs.data.classes.Dataset" href="classes.html#pyucalgarysrs.data.classes.Dataset">Dataset</a>]</span>
+<span>def <span class="ident">list_datasets</span></span>(<span>self,<br>name: str | None = None,<br>timeout: int | None = None,<br>supported_library: Literal['<a title="pyucalgarysrs" href="../index.html">pyucalgarysrs</a>', 'pyaurorax', 'idl-aurorax', 'pyucrio', 'idl-ucrio'] = 'pyucalgarysrs') ‑> List[<a title="pyucalgarysrs.data.classes.Dataset" href="classes.html#pyucalgarysrs.data.classes.Dataset">Dataset</a>]</span>
 </code></dt>
 <dd>
 <div class="desc"><p>List available datasets</p>

@@ -518,7 +518,7 @@ class Data:
 </dd>
 <dt id="pyucalgarysrs.data.classes.Dataset"><code class="flex name class">
 <span>class <span class="ident">Dataset</span></span>
-<span>(</span><span>name: str,<br>short_description: str,<br>long_description: str,<br>data_tree_url: str,<br>file_listing_supported: bool,<br>file_reading_supported: bool,<br>level: str,<br>doi: str | None = None,<br>doi_details: str | None = None,<br>citation: str | None = None)</span>
+<span>(</span><span>name: str,<br>short_description: str,<br>long_description: str,<br>data_tree_url: str,<br>file_listing_supported: bool,<br>file_reading_supported: bool,<br>level: str,<br>supported_libraries: List[str],<br>doi: str | None = None,<br>doi_details: str | None = None,<br>citation: str | None = None)</span>
 </code></dt>
 <dd>
 <div class="desc"><p>A dataset available from the UCalgary Space Remote Sensing API, with possibly
@@ -548,6 +548,8 @@ structure compared to the UCalgary Open Data archive.</dd>
 <dd>String to use when citing usage of the dataset.</dd>
 <dt><strong><code>provider</code></strong> :&ensp;<code>str</code></dt>
 <dd>Data provider.</dd>
+<dt><strong><code>supported_libraries</code></strong> :&ensp;<code>List[str]</code></dt>
+<dd>Libraries that support usage of this dataset.</dd>
 </dl></div>
 <details class="source">
 <summary>
@@ -592,6 +594,9 @@ structure compared to the UCalgary Open Data archive.</dd>
         
         provider (str): 
             Data provider.
+
+        supported_libraries (List[str]): 
+            Libraries that support usage of this dataset.
     &#34;&#34;&#34;
 
     def __init__(self,
@@ -602,6 +607,7 @@ structure compared to the UCalgary Open Data archive.</dd>
                  file_listing_supported: bool,
                  file_reading_supported: bool,
                  level: str,
+                 supported_libraries: List[str],
                  doi: Optional[str] = None,
                  doi_details: Optional[str] = None,
                  citation: Optional[str] = None):
@@ -616,6 +622,7 @@ structure compared to the UCalgary Open Data archive.</dd>
         self.doi_details = doi_details
         self.citation = citation
         self.provider = &#34;UCalgary&#34;
+        self.supported_libraries = supported_libraries
 
     def __str__(self) -&gt; str:
         return self.__repr__()
