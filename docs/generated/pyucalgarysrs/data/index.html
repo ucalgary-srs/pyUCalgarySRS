@@ -121,15 +121,46 @@ super class.</p></div>
                 Represents how many seconds to wait for the API to send data before giving up. The 
                 default is 3 seconds, or the `api_timeout` value in the super class&#39; `pyucalgarysrs.PyUCalgarySRS`
                 object. This parameter is optional.
+
+            supported_library (Literal): 
+                The supported library to filter based on. This is used to help with showing only the datasets
+                that we want shown in the one-level-up libraries, such as PyAuroraX and PyUCRio.
             
         Returns:
             A list of [`Dataset`](classes.html#pyucalgarysrs.data.classes.Dataset)
             objects.
         
         Raises:
-            pyucalgary.exceptions.SRSAPIError: An API error was encountered.
+            pyucalgarysrs.exceptions.SRSAPIError: An API error was encountered.
         &#34;&#34;&#34;
         return self.__list.list_datasets(self.__srs_obj, name, timeout, supported_library)
+
+    def get_dataset(self, name: str, timeout: Optional[int] = None) -&gt; Dataset:
+        &#34;&#34;&#34;
+        Get a specific dataset
+
+        Args:
+            name (str): 
+                The dataset name to get. Names are case insensitive.
+            
+            timeout (int): 
+                Represents how many seconds to wait for the API to send data before giving up. The 
+                default is 3 seconds, or the `api_timeout` value in the super class&#39; `pyucalgarysrs.PyUCalgarySRS`
+                object. This parameter is optional.                
+            
+        Returns:
+            A list of [`Dataset`](classes.html#pyucalgarysrs.data.classes.Dataset)
+            objects.
+        
+        Raises:
+            pyucalgarysrs.exceptions.SRSAPIError: An API error was encountered.
+        &#34;&#34;&#34;
+        name = name.upper()
+        datasets = self.__list.list_datasets(self.__srs_obj, name, timeout, supported_library=&#34;pyucalgarysrs&#34;)
+        for d in datasets:
+            if (d.name == name):
+                return d
+        raise SRSAPIError(&#34;Dataset not found&#34;)
 
     def list_observatories(self, instrument_array: str, uid: Optional[str] = None, timeout: Optional[int] = None) -&gt; List[Observatory]:
         &#34;&#34;&#34;
@@ -138,7 +169,7 @@ super class.</p></div>
         Args:
             instrument_array (str): 
                 The instrument array to list observatories for. Valid values are: themis_asi, rego, 
-                trex_rgb, trex_nir, and trex_blue.
+                trex_rgb, trex_nir, trex_blue, trex_spectrograph, norstar_riometer, and swan_hsr.
 
             uid (str): 
                 Supply a observatory unique identifier used for filtering (usually 4-letter site code). If that UID 
@@ -155,7 +186,7 @@ super class.</p></div>
             objects.
         
         Raises:
-            pyucalgary.exceptions.SRSAPIError: An API error was encountered.
+            pyucalgarysrs.exceptions.SRSAPIError: An API error was encountered.
         &#34;&#34;&#34;
         return self.__list.list_observatories(self.__srs_obj, instrument_array, uid, timeout)
 
@@ -725,6 +756,30 @@ srs.data_download_root_path = &quot;some_new_path&quot;
 srs.data.download(dataset_name, start, end)
 </code></pre></div>
 </dd>
+<dt id="pyucalgarysrs.data.DataManager.get_dataset"><code class="name flex">
+<span>def <span class="ident">get_dataset</span></span>(<span>self, name: str, timeout: int | None = None) ‑> <a title="pyucalgarysrs.data.classes.Dataset" href="classes.html#pyucalgarysrs.data.classes.Dataset">Dataset</a></span>
+</code></dt>
+<dd>
+<div class="desc"><p>Get a specific dataset</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>name</code></strong> :&ensp;<code>str</code></dt>
+<dd>The dataset name to get. Names are case insensitive.</dd>
+<dt><strong><code>timeout</code></strong> :&ensp;<code>int</code></dt>
+<dd>Represents how many seconds to wait for the API to send data before giving up. The
+default is 3 seconds, or the <code>api_timeout</code> value in the super class' <code><a title="pyucalgarysrs.PyUCalgarySRS" href="../index.html#pyucalgarysrs.PyUCalgarySRS">PyUCalgarySRS</a></code>
+object. This parameter is optional.
+</dd>
+</dl>
+<h2 id="returns">Returns</h2>
+<p>A list of <a href="classes.html#pyucalgarysrs.data.classes.Dataset"><code>Dataset</code></a>
+objects.</p>
+<h2 id="raises">Raises</h2>
+<dl>
+<dt><code><a title="pyucalgarysrs.exceptions.SRSAPIError" href="../exceptions.html#pyucalgarysrs.exceptions.SRSAPIError">SRSAPIError</a></code></dt>
+<dd>An API error was encountered.</dd>
+</dl></div>
+</dd>
 <dt id="pyucalgarysrs.data.DataManager.get_urls"><code class="name flex">
 <span>def <span class="ident">get_urls</span></span>(<span>self,<br>dataset_name: str,<br>start: datetime.datetime,<br>end: datetime.datetime,<br>site_uid: str | None = None,<br>device_uid: str | None = None,<br>timeout: int | None = None) ‑> <a title="pyucalgarysrs.data.classes.FileListingResponse" href="classes.html#pyucalgarysrs.data.classes.FileListingResponse">FileListingResponse</a></span>
 </code></dt>
@@ -810,13 +865,16 @@ optional.</dd>
 <dd>Represents how many seconds to wait for the API to send data before giving up. The
 default is 3 seconds, or the <code>api_timeout</code> value in the super class' <code><a title="pyucalgarysrs.PyUCalgarySRS" href="../index.html#pyucalgarysrs.PyUCalgarySRS">PyUCalgarySRS</a></code>
 object. This parameter is optional.</dd>
+<dt><strong><code>supported_library</code></strong> :&ensp;<code>Literal</code></dt>
+<dd>The supported library to filter based on. This is used to help with showing only the datasets
+that we want shown in the one-level-up libraries, such as PyAuroraX and PyUCRio.</dd>
 </dl>
 <h2 id="returns">Returns</h2>
 <p>A list of <a href="classes.html#pyucalgarysrs.data.classes.Dataset"><code>Dataset</code></a>
 objects.</p>
 <h2 id="raises">Raises</h2>
 <dl>
-<dt><code>pyucalgary.exceptions.SRSAPIError</code></dt>
+<dt><code><a title="pyucalgarysrs.exceptions.SRSAPIError" href="../exceptions.html#pyucalgarysrs.exceptions.SRSAPIError">SRSAPIError</a></code></dt>
 <dd>An API error was encountered.</dd>
 </dl></div>
 </dd>
@@ -829,7 +887,7 @@ objects.</p>
 <dl>
 <dt><strong><code>instrument_array</code></strong> :&ensp;<code>str</code></dt>
 <dd>The instrument array to list observatories for. Valid values are: themis_asi, rego,
-trex_rgb, trex_nir, and trex_blue.</dd>
+trex_rgb, trex_nir, trex_blue, trex_spectrograph, norstar_riometer, and swan_hsr.</dd>
 <dt><strong><code>uid</code></strong> :&ensp;<code>str</code></dt>
 <dd>Supply a observatory unique identifier used for filtering (usually 4-letter site code). If that UID
 is found in the available observatories received from the API, it will be included in the results. This
@@ -844,7 +902,7 @@ object. This parameter is optional.</dd>
 objects.</p>
 <h2 id="raises">Raises</h2>
 <dl>
-<dt><code>pyucalgary.exceptions.SRSAPIError</code></dt>
+<dt><code><a title="pyucalgarysrs.exceptions.SRSAPIError" href="../exceptions.html#pyucalgarysrs.exceptions.SRSAPIError">SRSAPIError</a></code></dt>
 <dd>An API error was encountered.</dd>
 </dl></div>
 </dd>
@@ -980,6 +1038,7 @@ setTimeout(() => input.focus(), 100);
 <ul class="">
 <li><code><a title="pyucalgarysrs.data.DataManager.download" href="#pyucalgarysrs.data.DataManager.download">download</a></code></li>
 <li><code><a title="pyucalgarysrs.data.DataManager.download_using_urls" href="#pyucalgarysrs.data.DataManager.download_using_urls">download_using_urls</a></code></li>
+<li><code><a title="pyucalgarysrs.data.DataManager.get_dataset" href="#pyucalgarysrs.data.DataManager.get_dataset">get_dataset</a></code></li>
 <li><code><a title="pyucalgarysrs.data.DataManager.get_urls" href="#pyucalgarysrs.data.DataManager.get_urls">get_urls</a></code></li>
 <li><code><a title="pyucalgarysrs.data.DataManager.is_read_supported" href="#pyucalgarysrs.data.DataManager.is_read_supported">is_read_supported</a></code></li>
 <li><code><a title="pyucalgarysrs.data.DataManager.list_datasets" href="#pyucalgarysrs.data.DataManager.list_datasets">list_datasets</a></code></li>
