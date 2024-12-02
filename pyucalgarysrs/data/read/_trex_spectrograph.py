@@ -16,22 +16,20 @@ import gzip
 import numpy as np
 import signal
 import os
-from pathlib import Path
+import h5py
+import datetime
 from multiprocessing import Pool
 from functools import partial
 
 # globals
 __SPECTROGRAPH_EXPECTED_HEIGHT = 1024
 __SPECTROGRAPH_EXPECTED_WIDTH = 256
-__SPECTROGRAPH_DT = np.dtype("uint16")
-__SPECTROGRAPH_DT = __SPECTROGRAPH_DT.newbyteorder('>')  # force big endian byte ordering
+__SPECTROGRAPH_RAW_DT = np.dtype("uint16")
+__SPECTROGRAPH_RAW_DT = __SPECTROGRAPH_RAW_DT.newbyteorder('>')  # force big endian byte ordering
+__SPECTROGRAPH_PROCESSED_DT = np.dtype("float32")
 
 
-def read(file_list, n_parallel=1, first_record=False, no_metadata=False, quiet=False):
-    # if input is just a single file name in a string, convert to a list to be fed to the workers
-    if isinstance(file_list, str) or isinstance(file_list, Path):
-        file_list = [file_list]
-
+def read_raw(file_list, n_parallel=1, first_record=False, no_metadata=False, quiet=False):
     # check n_parallel
     if (n_parallel > 1):
         try:
@@ -49,14 +47,14 @@ def read(file_list, n_parallel=1, first_record=False, no_metadata=False, quiet=F
         data = []
         try:
             data = pool.map(partial(
-                __spectrograph_readfile_worker,
+                __spectrograph_raw_readfile_worker,
                 first_record=first_record,
                 no_metadata=no_metadata,
                 quiet=quiet,
             ), file_list)
         except KeyboardInterrupt:  # pragma: nocover
             pool.terminate()  # gracefully kill children
-            return np.empty((0, 0, 0), dtype=__SPECTROGRAPH_DT), [], []
+            return np.empty((0, 0, 0), dtype=__SPECTROGRAPH_RAW_DT), [], []
         else:
             pool.close()
             pool.join()
@@ -64,7 +62,7 @@ def read(file_list, n_parallel=1, first_record=False, no_metadata=False, quiet=F
         # don't bother using multiprocessing with one worker, just call the worker function directly
         data = []
         for f in file_list:
-            data.append(__spectrograph_readfile_worker(
+            data.append(__spectrograph_raw_readfile_worker(
                 f,
                 first_record=first_record,
                 no_metadata=no_metadata,
@@ -83,7 +81,7 @@ def read(file_list, n_parallel=1, first_record=False, no_metadata=False, quiet=F
         image_width = data[i][0].shape[1]
 
     # pre-allocate array sizes
-    images = np.empty([image_height, image_width, total_num_frames], dtype=__SPECTROGRAPH_DT)
+    images = np.empty([image_height, image_width, total_num_frames], dtype=__SPECTROGRAPH_RAW_DT)
     metadata_dict_list = [{}] * total_num_frames
     problematic_file_list = []
 
@@ -123,7 +121,7 @@ def read(file_list, n_parallel=1, first_record=False, no_metadata=False, quiet=F
     return images, metadata_dict_list, problematic_file_list
 
 
-def __spectrograph_readfile_worker(file, first_record=False, no_metadata=False, quiet=False):
+def __spectrograph_raw_readfile_worker(file, first_record=False, no_metadata=False, quiet=False):
     # init
     images = np.array([])
     metadata_dict_list = []
@@ -269,7 +267,7 @@ def __spectrograph_readfile_worker(file, first_record=False, no_metadata=False, 
 
                 # format bytes into numpy array of unsigned shorts (2byte numbers, 0-65536),
                 # effectively an array of pixel values
-                image_np = np.frombuffer(image_bytes, dtype=__SPECTROGRAPH_DT)  # type: ignore
+                image_np = np.frombuffer(image_bytes, dtype=__SPECTROGRAPH_RAW_DT)  # type: ignore
 
                 # change 1d numpy array into matrix with correctly located pixels
                 image_matrix = np.reshape(image_np, (image_height, image_width, 1))
@@ -300,3 +298,166 @@ def __spectrograph_readfile_worker(file, first_record=False, no_metadata=False, 
 
     # return
     return images, metadata_dict_list, problematic, file, error_message
+
+
+def __str_to_datetime_formatter(timestamp_str):
+    return datetime.datetime.strptime(timestamp_str.decode(), "%Y-%m-%d %H:%M:%S UTC")
+
+
+def read_processed(file_list, n_parallel=1, first_record=False, no_metadata=False, quiet=False):
+    # check n_parallel
+    if (n_parallel > 1):
+        try:
+            # set up process pool (ignore SIGINT before spawning pool so child processes inherit SIGINT handler)
+            original_sigint_handler = signal.signal(signal.SIGINT, signal.SIG_IGN)
+            pool = Pool(processes=n_parallel)
+            signal.signal(signal.SIGINT, original_sigint_handler)  # restore SIGINT handler
+        except ValueError:  # pragma: nocover
+            # likely the read call is being used within a context that doesn't support the usage
+            # of signals in this way, proceed without it
+            pool = Pool(processes=n_parallel)
+
+        # call readfile function, run each iteration with a single input file from file_list
+        # NOTE: structure of data - data[file][metadata dictionary lists = 1, images = 0][frame]
+        data = []
+        try:
+            data = pool.map(partial(
+                __spectrograph_processed_readfile_worker,
+                first_record=first_record,
+                no_metadata=no_metadata,
+                quiet=quiet,
+            ), file_list)
+        except KeyboardInterrupt:  # pragma: nocover
+            pool.terminate()  # gracefully kill children
+            return np.empty((0, 0, 0), dtype=__SPECTROGRAPH_PROCESSED_DT), np.empty((0), dtype=datetime.datetime), [], []
+        else:
+            pool.close()
+            pool.join()
+    else:
+        # don't bother using multiprocessing with one worker, just call the worker function directly
+        data = []
+        for f in file_list:
+            data.append(__spectrograph_processed_readfile_worker(
+                f,
+                first_record=first_record,
+                no_metadata=no_metadata,
+                quiet=quiet,
+            ))
+
+    # derive number of frames to prepare for
+    total_num_frames = 0
+    image_width = __SPECTROGRAPH_EXPECTED_WIDTH
+    image_height = __SPECTROGRAPH_EXPECTED_HEIGHT
+    for i in range(0, len(data)):
+        if (data[i][3] is True):
+            continue
+        total_num_frames += data[i][0].shape[2]  # type: ignore
+        image_height = data[i][0].shape[0]  # type: ignore
+        image_width = data[i][0].shape[1]  # type: ignore
+
+    # pre-allocate array sizes
+    spectra = np.empty((image_height, image_width, total_num_frames), dtype=__SPECTROGRAPH_PROCESSED_DT)
+    timestamp = np.empty((total_num_frames), dtype=object)
+    metadata_dict_list = [{}] * total_num_frames
+    problematic_file_list = []
+
+    # populate data
+    list_position = 0
+    for i in range(0, len(data)):
+        # check if file was problematic
+        if (data[i][2] is True):
+            problematic_file_list.append({
+                "filename": data[i][4],
+                "error_message": data[i][5],
+            })
+            continue
+
+        # check if any data was read in
+        if (len(data[i][2]) == 0):
+            continue
+
+        # find actual number of frames, this may differ from predicted due to dropped frames, end
+        # or start of imaging
+        real_num_frames = data[i][0].shape[2]  # type: ignore
+
+        # populate image data
+        spectra[:, :, list_position:list_position + real_num_frames] = data[i][0]
+
+        # populate timestamps
+        timestamp[list_position:list_position + real_num_frames] = data[i][1]
+
+        # populate metadata objects
+        metadata_dict_list[list_position:list_position + real_num_frames] = data[i][2]
+
+        # advance list position
+        list_position = list_position + real_num_frames
+
+    # trim unused elements from predicted array sizes
+    metadata_dict_list = metadata_dict_list[0:list_position]
+    spectra = np.delete(spectra, range(list_position, total_num_frames), axis=2)
+
+    # ensure entire array views as float32
+    spectra = spectra.astype(__SPECTROGRAPH_PROCESSED_DT)
+
+    # convert timestamps to datetime objections
+    timestamp = np.vectorize(__str_to_datetime_formatter)(timestamp)  # type: ignore
+    timestamp = timestamp.astype(datetime.datetime)
+
+    # return
+    data = None
+    return spectra, timestamp, metadata_dict_list, problematic_file_list
+
+
+def __spectrograph_processed_readfile_worker(file, first_record=False, no_metadata=False, quiet=False):
+    # init
+    spectra = np.array([])
+    timestamps = np.array([])
+    metadata_dict_list = []
+    problematic = False
+    error_message = ""
+
+    # process file
+    try:
+        # open H5 file
+        f = h5py.File(file, 'r')
+
+        # get spectra and timestamps
+        if (first_record is True):
+            # get only first frame
+            spectra = f["data"]["spectra"][:, :, :, 0]  # type: ignore
+            timestamps = [f["data"]["timestamp"][0]]  # type: ignore
+        else:
+            # get all frames
+            spectra = f["data"]["spectra"][:]  # type: ignore
+            timestamps = f["data"]["timestamp"][:]  # type: ignore
+
+        # read metadata
+        file_metadata = {}
+        if (no_metadata is True):
+            metadata_dict_list = [{}] * len(timestamps)  # type: ignore
+        else:
+            # get file metadata
+            for key, value in f["metadata"]["file"].attrs.items():  # type: ignore
+                file_metadata[key] = value.decode()
+
+            # read wavelength
+            file_metadata["wavelength"] = f["data"]["wavelength"][:]  # type: ignore
+            metadata_dict_list = [file_metadata] * len(timestamps)  # type: ignore
+
+        # close H5 file
+        f.close()
+
+        # set image vars and reshape if multiple images
+        image_height = spectra.shape[0]  # type: ignore
+        image_width = spectra.shape[1]  # type: ignore
+        if (len(spectra.shape) == 2):  # type: ignore
+            # force reshape to 3 dimensions
+            spectra = spectra.reshape((image_height, image_width, 1))  # type: ignore
+    except Exception as e:
+        if (quiet is False):
+            print("Error reading image file: %s" % (str(e)))
+        problematic = True
+        error_message = "error reading image file: %s" % (str(e))
+
+    # return
+    return spectra, timestamps, metadata_dict_list, problematic, file, error_message

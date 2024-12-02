@@ -619,7 +619,7 @@ class Data:
         elif (len(self.metadata) == 1):
             metadata_str = "[1 dictionary]"
         else:
-            metadata_str = "[%d dictionaries]" % (len(self.timestamp))
+            metadata_str = "[%d dictionaries]" % (len(self.metadata))
 
         # set rest of values
         problematic_files_str = "[]" if len(self.problematic_files) == 0 else "[%d problematic files]" % (len(self.problematic_files))

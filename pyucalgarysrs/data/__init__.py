@@ -23,6 +23,7 @@ from . import _list as module_list
 from . import _download as module_download
 from .read import ReadManager
 from .classes import *
+from ..exceptions import SRSAPIError
 
 
 class DataManager:
@@ -65,15 +66,45 @@ class DataManager:
                 Represents how many seconds to wait for the API to send data before giving up. The 
                 default is 3 seconds, or the `api_timeout` value in the super class' `pyucalgarysrs.PyUCalgarySRS`
                 object. This parameter is optional.
+
+            supported_library (Literal): 
+                The supported library to filter based on. This is used to help with showing only the datasets
+                that we want shown in the one-level-up libraries, such as PyAuroraX and PyUCRio.
             
         Returns:
             A list of [`Dataset`](classes.html#pyucalgarysrs.data.classes.Dataset)
             objects.
         
         Raises:
-            pyucalgary.exceptions.SRSAPIError: An API error was encountered.
+            pyucalgarysrs.exceptions.SRSAPIError: An API error was encountered.
         """
         return self.__list.list_datasets(self.__srs_obj, name, timeout, supported_library)
+
+    def get_dataset(self, name: str, timeout: Optional[int] = None) -> Dataset:
+        """
+        Get a specific dataset
+
+        Args:
+            name (str): 
+                The dataset name to get
+            
+            timeout (int): 
+                Represents how many seconds to wait for the API to send data before giving up. The 
+                default is 3 seconds, or the `api_timeout` value in the super class' `pyucalgarysrs.PyUCalgarySRS`
+                object. This parameter is optional.                
+            
+        Returns:
+            A list of [`Dataset`](classes.html#pyucalgarysrs.data.classes.Dataset)
+            objects.
+        
+        Raises:
+            pyucalgarysrs.exceptions.SRSAPIError: An API error was encountered.
+        """
+        datasets = self.__list.list_datasets(self.__srs_obj, name, timeout, supported_library="pyucalgarysrs")
+        if (len(datasets) > 1):
+            raise SRSAPIError("Dataset not found")
+        else:
+            return datasets[0]
 
     def list_observatories(self, instrument_array: str, uid: Optional[str] = None, timeout: Optional[int] = None) -> List[Observatory]:
         """
@@ -82,7 +113,7 @@ class DataManager:
         Args:
             instrument_array (str): 
                 The instrument array to list observatories for. Valid values are: themis_asi, rego, 
-                trex_rgb, trex_nir, and trex_blue.
+                trex_rgb, trex_nir, trex_blue, trex_spectrograph, norstar_riometer, and swan_hsr.
 
             uid (str): 
                 Supply a observatory unique identifier used for filtering (usually 4-letter site code). If that UID 
@@ -99,7 +130,7 @@ class DataManager:
             objects.
         
         Raises:
-            pyucalgary.exceptions.SRSAPIError: An API error was encountered.
+            pyucalgarysrs.exceptions.SRSAPIError: An API error was encountered.
         """
         return self.__list.list_observatories(self.__srs_obj, instrument_array, uid, timeout)
 

@@ -16,6 +16,7 @@ import os
 import pytest
 import numpy as np
 from pyucalgarysrs.data import ProblematicFile
+from pyucalgarysrs.exceptions import SRSUnsupportedReadError
 
 # globals
 DATA_DIR = "%s/../../../test_data/read_trex_spectrograph" % (os.path.dirname(os.path.realpath(__file__)))
@@ -534,6 +535,7 @@ def test_read_trex_spectrograph_first_frame_and_no_metadata(srs, test_dict):
             "some_unexpected_file.txt",
         ],
         "expected_success": False,
+        "exception": SRSUnsupportedReadError,
         "expected_frames": 1
     },
     {
@@ -541,6 +543,7 @@ def test_read_trex_spectrograph_first_frame_and_no_metadata(srs, test_dict):
             "20190930_0559_luck_spect-02_spectra.pgm.gz",
         ],
         "expected_success": False,
+        "exception": None,
         "expected_frames": 1
     },
     {
@@ -548,6 +551,7 @@ def test_read_trex_spectrograph_first_frame_and_no_metadata(srs, test_dict):
             "20210909_0322_rabb_spect-01_spectra.pgm.gz",
         ],
         "expected_success": False,
+        "exception": None,
         "expected_frames": 1
     },
 ])
@@ -559,7 +563,15 @@ def test_read_trex_spectrograph_bad_file(srs, test_dict):
         file_list.append("%s/%s" % (DATA_DIR, f))
 
     # read file and check problematic files (not quiet mode)
-    data = srs.data.readers.read_trex_spectrograph(file_list, quiet=False)
+    try:
+        data = srs.data.readers.read_trex_spectrograph(file_list, quiet=False)
+    except SRSUnsupportedReadError as e:
+        if (test_dict["exception"] is not None and test_dict["exception"] is SRSUnsupportedReadError):
+            assert True
+            return
+        else:
+            raise AssertionError("SRSUnsupportedReadError occurred when not expected") from e
+
     assert len(data.problematic_files) > 0
     assert isinstance(data.problematic_files[0], ProblematicFile)
 
@@ -584,7 +596,7 @@ def test_read_trex_spectrograph_bad_file(srs, test_dict):
 @pytest.mark.data_read
 def test_read_trex_spectrograph_badperms_file(srs):
     # set filename
-    f = "%s/20230101_0600_rabb_spect-01_spectra_badperms.pgm.gz" % (DATA_DIR)
+    f = "%s/20230101_0600_rabb_spect-01_spectra.pgm.gz.badperms" % (DATA_DIR)
     os.chmod(f, 0o000)
 
     # read file and check problematic files (not quiet mode)

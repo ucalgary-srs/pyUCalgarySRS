@@ -25,7 +25,8 @@ from ._rego import read as func_read_rego
 from ._trex_nir import read as func_read_trex_nir
 from ._trex_blue import read as func_read_trex_blue
 from ._trex_rgb import read as func_read_trex_rgb
-from ._trex_spectrograph import read as func_read_trex_spectrograph
+from ._trex_spectrograph import read_raw as func_read_trex_spectrograph_raw
+from ._trex_spectrograph import read_processed as func_read_trex_spectrograph_processed
 from ._skymap import read as func_read_skymap
 from ._calibration import read as func_read_calibration
 from ._grid import read as func_read_grid
@@ -57,12 +58,14 @@ class ReadManager:
     __VALID_TREX_NIR_READFILE_DATASETS = ["TREX_NIR_RAW"]
     __VALID_TREX_BLUE_READFILE_DATASETS = ["TREX_BLUE_RAW"]
     __VALID_TREX_RGB_READFILE_DATASETS = ["TREX_RGB_RAW_NOMINAL", "TREX_RGB_RAW_BURST"]
+    __VALID_TREX_SPECT_READFILE_DATASETS = ["TREX_SPECT_RAW", "TREX_SPECT_PROCESSED_V1"]
     __VALID_SKYMAP_READFILE_DATASETS = [
         "REGO_SKYMAP_IDLSAV",
         "THEMIS_ASI_SKYMAP_IDLSAV",
         "TREX_NIR_SKYMAP_IDLSAV",
         "TREX_RGB_SKYMAP_IDLSAV",
         "TREX_BLUE_SKYMAP_IDLSAV",
+        "TREX_SPECT_SKYMAP_IDLSAV",
     ]
     __VALID_CALIBRATION_READFILE_DATASETS = [
         "REGO_CALIBRATION_RAYLEIGHS_IDLSAV",
@@ -163,7 +166,9 @@ class ReadManager:
                 Only read in the first record in each file. This is the same as the first_frame
                 parameter in the themis-imager-readfile and trex-imager-readfile libraries, and
                 is a read optimization if you only need one image per minute, as opposed to the
-                full temporal resolution of data (e.g., 3sec cadence). This parameter is optional.
+                full temporal resolution of data (e.g., 3sec cadence). Note that this parameter
+                is only supported for several datasets (primarily ASI datasets). This parameter 
+                is optional.
             
             no_metadata (bool): 
                 Skip reading of metadata. This is a minor optimization if the metadata is not needed.
@@ -219,6 +224,13 @@ class ReadManager:
                                        no_metadata=no_metadata,
                                        quiet=quiet,
                                        dataset=dataset)
+        elif (dataset.name in self.__VALID_TREX_SPECT_READFILE_DATASETS):
+            return self.read_trex_spectrograph(file_list,
+                                               n_parallel=n_parallel,
+                                               first_record=first_record,
+                                               no_metadata=no_metadata,
+                                               quiet=quiet,
+                                               dataset=dataset)
         elif (dataset.name in self.__VALID_TREX_RGB_READFILE_DATASETS):
             return self.read_trex_rgb(file_list,
                                       n_parallel=n_parallel,
@@ -687,20 +699,44 @@ class ReadManager:
         Raises:
             pyucalgarysrs.exceptions.SRSError: a generic read error was encountered
         """
-        # read data
-        img, meta, problematic_files = func_read_trex_spectrograph(
-            file_list,
-            n_parallel=n_parallel,
-            first_record=first_record,
-            no_metadata=no_metadata,
-            quiet=quiet,
-        )
+        # if input is just a single file name in a string, convert to a list to be fed to the workers
+        if isinstance(file_list, str) or isinstance(file_list, Path):
+            file_list = [file_list]  # type: ignore
 
-        # generate timestamp array
-        timestamp_list = []
-        if (no_metadata is False):
-            for m in meta:
-                timestamp_list.append(datetime.datetime.strptime(m["Image request start"], "%Y-%m-%d %H:%M:%S.%f UTC"))
+        # read data
+        if ((dataset is not None and dataset.name == "TREX_SPECT_RAW")
+                or (dataset is None and ("spectra.pgm" in str(file_list[0]) or "spectra_dark.pgm" in str(file_list[0])))):  # type: ignore
+            # raw type of data
+            img, meta, problematic_files = func_read_trex_spectrograph_raw(
+                file_list,
+                n_parallel=n_parallel,
+                first_record=first_record,
+                no_metadata=no_metadata,
+                quiet=quiet,
+            )
+
+            # generate timestamp array
+            timestamp_list = []
+            if (no_metadata is False):
+                for m in meta:
+                    timestamp_list.append(datetime.datetime.strptime(m["Image request start"], "%Y-%m-%d %H:%M:%S.%f UTC"))
+        elif ((dataset is not None and dataset.name == "TREX_SPECT_PROCESSED_V1")
+              or (dataset is None and "_cal_" in str(file_list[0]) and ".h5" in str(file_list[0]))):  # type: ignore
+            # processed type of data
+            img, timestamp_np, meta, problematic_files = func_read_trex_spectrograph_processed(
+                file_list,
+                n_parallel=n_parallel,
+                first_record=first_record,
+                no_metadata=no_metadata,
+                quiet=quiet,
+            )
+
+            # convert timestamps to regular list
+            timestamp_list = []
+            if (no_metadata is False):
+                timestamp_list = timestamp_np.tolist()
+        else:
+            raise SRSUnsupportedReadError("Unexpected Spectrograph file format")
 
         # convert to return type
         problematic_files_objs = []
