@@ -86,7 +86,7 @@ class DataManager:
 
         Args:
             name (str): 
-                The dataset name to get
+                The dataset name to get. Names are case insensitive.
             
             timeout (int): 
                 Represents how many seconds to wait for the API to send data before giving up. The 
@@ -100,11 +100,12 @@ class DataManager:
         Raises:
             pyucalgarysrs.exceptions.SRSAPIError: An API error was encountered.
         """
+        name = name.upper()
         datasets = self.__list.list_datasets(self.__srs_obj, name, timeout, supported_library="pyucalgarysrs")
-        if (len(datasets) > 1):
-            raise SRSAPIError("Dataset not found")
-        else:
-            return datasets[0]
+        for d in datasets:
+            if (d.name == name):
+                return d
+        raise SRSAPIError("Dataset not found")
 
     def list_observatories(self, instrument_array: str, uid: Optional[str] = None, timeout: Optional[int] = None) -> List[Observatory]:
         """
