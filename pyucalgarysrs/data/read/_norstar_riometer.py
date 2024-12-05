@@ -156,7 +156,7 @@ def __riometer_readfile_worker(file, no_metadata=False, start_time=None, end_tim
         np_date, np_time, np_raw_signal = np.genfromtxt(file, comments='#', dtype="S8,S8,f", unpack=True)
     else:
         # k2 data, 4 columns
-        np_date, np_time, np_raw_signal, np_absorption = np.genfromtxt(file, comments='#', dtype="S8,S8,f,f", unpack=True)
+        np_date, np_time, np_absorption, np_raw_signal = np.genfromtxt(file, comments='#', dtype="S8,S8,f,f", unpack=True)
 
     # read the metadata
     if (no_metadata is False):

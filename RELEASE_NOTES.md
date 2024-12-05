@@ -1,3 +1,8 @@
+Version 1.6.1
+-------------------
+
+- bugfix for riometer K2 reading
+
 Version 1.6.0
 -------------------
 
