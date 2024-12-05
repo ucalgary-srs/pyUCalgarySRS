@@ -15,8 +15,9 @@
 Functions for reading data for specific datasets.
 """
 
-import datetime
 import os
+import datetime
+import warnings
 import numpy as np
 from pathlib import Path
 from typing import List, Union, Optional
@@ -142,6 +143,8 @@ class ReadManager:
              n_parallel: int = 1,
              first_record: bool = False,
              no_metadata: bool = False,
+             start_time: Optional[datetime.datetime] = None,
+             end_time: Optional[datetime.datetime] = None,
              quiet: bool = False) -> Data:
         """
         Read in data files for a given dataset. Note that only one type of dataset's data
@@ -174,6 +177,24 @@ class ReadManager:
                 Skip reading of metadata. This is a minor optimization if the metadata is not needed.
                 Default is `False`. This parameter is optional.
             
+            start_time (datetime.datetime): 
+                The start timestamp to read data onwards from (inclusive). This can be utilized to 
+                read a portion of a data file, and could be paired with the `end_time` parameter. 
+                This tends to be utilized for datasets that are hour or day-long files where it is 
+                possible to only read a smaller bit of that file. An example is the TREx Spectrograph 
+                processed data (1 hour files), or the riometer data (1 day files). If not supplied, 
+                it will assume the start time is the timestamp of the first record in the first 
+                file supplied (ie. beginning of the supplied data). This parameter is optional.
+
+            end_time (datetime.datetime): 
+                The end timestamp to read data up to (inclusive). This can be utilized to read a 
+                portion of a data file, and could be paired with the `start_time` parameter. This 
+                tends to be utilized for datasets that are hour or day-long files where it is possible 
+                to only read a smaller bit of that file. An example is the TREx Spectrograph processed 
+                data (1 hour files), or the riometer data (1 day files). If not supplied, it will
+                it will assume the end time is the timestamp of the last record in the last file
+                supplied (ie. end of the supplied data). This parameter is optional.
+
             quiet (bool): 
                 Do not print out errors while reading data files, if any are encountered. Any files
                 that encounter errors will be, as usual, accessible via the `problematic_files` 
@@ -206,15 +227,26 @@ class ReadManager:
                                     n_parallel=n_parallel,
                                     first_record=first_record,
                                     no_metadata=no_metadata,
+                                    start_time=start_time,
+                                    end_time=end_time,
                                     quiet=quiet,
                                     dataset=dataset)
         elif (dataset.name in self.__VALID_REGO_READFILE_DATASETS):
-            return self.read_rego(file_list, n_parallel=n_parallel, first_record=first_record, no_metadata=no_metadata, quiet=quiet, dataset=dataset)
+            return self.read_rego(file_list,
+                                  n_parallel=n_parallel,
+                                  first_record=first_record,
+                                  no_metadata=no_metadata,
+                                  start_time=start_time,
+                                  end_time=end_time,
+                                  quiet=quiet,
+                                  dataset=dataset)
         elif (dataset.name in self.__VALID_TREX_NIR_READFILE_DATASETS):
             return self.read_trex_nir(file_list,
                                       n_parallel=n_parallel,
                                       first_record=first_record,
                                       no_metadata=no_metadata,
+                                      start_time=start_time,
+                                      end_time=end_time,
                                       quiet=quiet,
                                       dataset=dataset)
         elif (dataset.name in self.__VALID_TREX_BLUE_READFILE_DATASETS):
@@ -222,6 +254,8 @@ class ReadManager:
                                        n_parallel=n_parallel,
                                        first_record=first_record,
                                        no_metadata=no_metadata,
+                                       start_time=start_time,
+                                       end_time=end_time,
                                        quiet=quiet,
                                        dataset=dataset)
         elif (dataset.name in self.__VALID_TREX_SPECT_READFILE_DATASETS):
@@ -229,6 +263,8 @@ class ReadManager:
                                                n_parallel=n_parallel,
                                                first_record=first_record,
                                                no_metadata=no_metadata,
+                                               start_time=start_time,
+                                               end_time=end_time,
                                                quiet=quiet,
                                                dataset=dataset)
         elif (dataset.name in self.__VALID_TREX_RGB_READFILE_DATASETS):
@@ -236,18 +272,54 @@ class ReadManager:
                                       n_parallel=n_parallel,
                                       first_record=first_record,
                                       no_metadata=no_metadata,
+                                      start_time=start_time,
+                                      end_time=end_time,
                                       quiet=quiet,
                                       dataset=dataset)
         elif (dataset.name in self.__VALID_SKYMAP_READFILE_DATASETS):
+            if (start_time is not None or end_time is not None):
+                warnings.warn("Reading of skymap files does not support the start_time or end_time parameters. Remove them to silence this warning.",
+                              UserWarning,
+                              stacklevel=1)
             return self.read_skymap(file_list, n_parallel=n_parallel, quiet=quiet, dataset=dataset)
         elif (dataset.name in self.__VALID_CALIBRATION_READFILE_DATASETS):
+            if (start_time is not None or end_time is not None):
+                warnings.warn(
+                    "Reading of calibration files does not support the start_time or end_time parameters. Remove them to silence this warning.",
+                    UserWarning,
+                    stacklevel=1)
             return self.read_calibration(file_list, n_parallel=n_parallel, quiet=quiet, dataset=dataset)
         elif (dataset.name in self.__VALID_GRID_READFILE_DATASETS):
-            return self.read_grid(file_list, n_parallel=n_parallel, quiet=quiet, dataset=dataset)
+            return self.read_grid(
+                file_list,
+                n_parallel=n_parallel,
+                first_record=first_record,
+                no_metadata=no_metadata,
+                start_time=start_time,
+                end_time=end_time,
+                quiet=quiet,
+                dataset=dataset,
+            )
         elif (dataset.name in self.__VALID_RIOMETER_TXT_READFILE_DATASETS):
-            return self.read_norstar_riometer(file_list, n_parallel=n_parallel, quiet=quiet, dataset=dataset)
+            return self.read_norstar_riometer(
+                file_list,
+                n_parallel=n_parallel,
+                no_metadata=no_metadata,
+                start_time=start_time,
+                end_time=end_time,
+                quiet=quiet,
+                dataset=dataset,
+            )
         elif (dataset.name in self.__VALID_SWAN_HSR_READFILE_DATASETS):
-            return self.read_swan_hsr(file_list, n_parallel=n_parallel, quiet=quiet, dataset=dataset)
+            return self.read_swan_hsr(
+                file_list,
+                n_parallel=n_parallel,
+                no_metadata=no_metadata,
+                start_time=start_time,
+                end_time=end_time,
+                quiet=quiet,
+                dataset=dataset,
+            )
         else:
             raise SRSUnsupportedReadError("Dataset does not have a supported read function")
 
@@ -256,6 +328,8 @@ class ReadManager:
                     n_parallel: int = 1,
                     first_record: bool = False,
                     no_metadata: bool = False,
+                    start_time: Optional[datetime.datetime] = None,
+                    end_time: Optional[datetime.datetime] = None,
                     quiet: bool = False,
                     dataset: Optional[Dataset] = None) -> Data:
         """
@@ -282,6 +356,24 @@ class ReadManager:
                 Skip reading of metadata. This is a minor optimization if the metadata is not needed.
                 Default is `False`. This parameter is optional.
             
+            start_time (datetime.datetime): 
+                The start timestamp to read data onwards from (inclusive). This can be utilized to 
+                read a portion of a data file, and could be paired with the `end_time` parameter. 
+                This tends to be utilized for datasets that are hour or day-long files where it is 
+                possible to only read a smaller bit of that file. An example is the TREx Spectrograph 
+                processed data (1 hour files), or the riometer data (1 day files). If not supplied, 
+                it will assume the start time is the timestamp of the first record in the first 
+                file supplied (ie. beginning of the supplied data). This parameter is optional.
+
+            end_time (datetime.datetime): 
+                The end timestamp to read data up to (inclusive). This can be utilized to read a 
+                portion of a data file, and could be paired with the `start_time` parameter. This 
+                tends to be utilized for datasets that are hour or day-long files where it is possible 
+                to only read a smaller bit of that file. An example is the TREx Spectrograph processed 
+                data (1 hour files), or the riometer data (1 day files). If not supplied, it will
+                it will assume the end time is the timestamp of the last record in the last file
+                supplied (ie. end of the supplied data). This parameter is optional.
+
             quiet (bool): 
                 Do not print out errors while reading data files, if any are encountered. Any files
                 that encounter errors will be, as usual, accessible via the `problematic_files` 
@@ -305,6 +397,8 @@ class ReadManager:
             n_parallel=n_parallel,
             first_record=first_record,
             no_metadata=no_metadata,
+            start_time=start_time,
+            end_time=end_time,
             quiet=quiet,
         )
 
@@ -335,6 +429,8 @@ class ReadManager:
                   n_parallel: int = 1,
                   first_record: bool = False,
                   no_metadata: bool = False,
+                  start_time: Optional[datetime.datetime] = None,
+                  end_time: Optional[datetime.datetime] = None,
                   quiet: bool = False,
                   dataset: Optional[Dataset] = None) -> Data:
         """
@@ -361,6 +457,24 @@ class ReadManager:
                 Skip reading of metadata. This is a minor optimization if the metadata is not needed.
                 Default is `False`. This parameter is optional.
             
+            start_time (datetime.datetime): 
+                The start timestamp to read data onwards from (inclusive). This can be utilized to 
+                read a portion of a data file, and could be paired with the `end_time` parameter. 
+                This tends to be utilized for datasets that are hour or day-long files where it is 
+                possible to only read a smaller bit of that file. An example is the TREx Spectrograph 
+                processed data (1 hour files), or the riometer data (1 day files). If not supplied, 
+                it will assume the start time is the timestamp of the first record in the first 
+                file supplied (ie. beginning of the supplied data). This parameter is optional.
+
+            end_time (datetime.datetime): 
+                The end timestamp to read data up to (inclusive). This can be utilized to read a 
+                portion of a data file, and could be paired with the `start_time` parameter. This 
+                tends to be utilized for datasets that are hour or day-long files where it is possible 
+                to only read a smaller bit of that file. An example is the TREx Spectrograph processed 
+                data (1 hour files), or the riometer data (1 day files). If not supplied, it will
+                it will assume the end time is the timestamp of the last record in the last file
+                supplied (ie. end of the supplied data). This parameter is optional.
+
             quiet (bool): 
                 Do not print out errors while reading data files, if any are encountered. Any files
                 that encounter errors will be, as usual, accessible via the `problematic_files` 
@@ -384,6 +498,8 @@ class ReadManager:
             n_parallel=n_parallel,
             first_record=first_record,
             no_metadata=no_metadata,
+            start_time=start_time,
+            end_time=end_time,
             quiet=quiet,
         )
 
@@ -414,6 +530,8 @@ class ReadManager:
                       n_parallel: int = 1,
                       first_record: bool = False,
                       no_metadata: bool = False,
+                      start_time: Optional[datetime.datetime] = None,
+                      end_time: Optional[datetime.datetime] = None,
                       quiet: bool = False,
                       dataset: Optional[Dataset] = None) -> Data:
         """
@@ -440,6 +558,24 @@ class ReadManager:
                 Skip reading of metadata. This is a minor optimization if the metadata is not needed.
                 Default is `False`. This parameter is optional.
             
+            start_time (datetime.datetime): 
+                The start timestamp to read data onwards from (inclusive). This can be utilized to 
+                read a portion of a data file, and could be paired with the `end_time` parameter. 
+                This tends to be utilized for datasets that are hour or day-long files where it is 
+                possible to only read a smaller bit of that file. An example is the TREx Spectrograph 
+                processed data (1 hour files), or the riometer data (1 day files). If not supplied, 
+                it will assume the start time is the timestamp of the first record in the first 
+                file supplied (ie. beginning of the supplied data). This parameter is optional.
+
+            end_time (datetime.datetime): 
+                The end timestamp to read data up to (inclusive). This can be utilized to read a 
+                portion of a data file, and could be paired with the `start_time` parameter. This 
+                tends to be utilized for datasets that are hour or day-long files where it is possible 
+                to only read a smaller bit of that file. An example is the TREx Spectrograph processed 
+                data (1 hour files), or the riometer data (1 day files). If not supplied, it will
+                it will assume the end time is the timestamp of the last record in the last file
+                supplied (ie. end of the supplied data). This parameter is optional.
+
             quiet (bool): 
                 Do not print out errors while reading data files, if any are encountered. Any files
                 that encounter errors will be, as usual, accessible via the `problematic_files` 
@@ -463,6 +599,8 @@ class ReadManager:
             n_parallel=n_parallel,
             first_record=first_record,
             no_metadata=no_metadata,
+            start_time=start_time,
+            end_time=end_time,
             quiet=quiet,
         )
 
@@ -493,6 +631,8 @@ class ReadManager:
                        n_parallel: int = 1,
                        first_record: bool = False,
                        no_metadata: bool = False,
+                       start_time: Optional[datetime.datetime] = None,
+                       end_time: Optional[datetime.datetime] = None,
                        quiet: bool = False,
                        dataset: Optional[Dataset] = None) -> Data:
         """
@@ -519,6 +659,24 @@ class ReadManager:
                 Skip reading of metadata. This is a minor optimization if the metadata is not needed.
                 Default is `False`. This parameter is optional.
             
+            start_time (datetime.datetime): 
+                The start timestamp to read data onwards from (inclusive). This can be utilized to 
+                read a portion of a data file, and could be paired with the `end_time` parameter. 
+                This tends to be utilized for datasets that are hour or day-long files where it is 
+                possible to only read a smaller bit of that file. An example is the TREx Spectrograph 
+                processed data (1 hour files), or the riometer data (1 day files). If not supplied, 
+                it will assume the start time is the timestamp of the first record in the first 
+                file supplied (ie. beginning of the supplied data). This parameter is optional.
+
+            end_time (datetime.datetime): 
+                The end timestamp to read data up to (inclusive). This can be utilized to read a 
+                portion of a data file, and could be paired with the `start_time` parameter. This 
+                tends to be utilized for datasets that are hour or day-long files where it is possible 
+                to only read a smaller bit of that file. An example is the TREx Spectrograph processed 
+                data (1 hour files), or the riometer data (1 day files). If not supplied, it will
+                it will assume the end time is the timestamp of the last record in the last file
+                supplied (ie. end of the supplied data). This parameter is optional.
+
             quiet (bool): 
                 Do not print out errors while reading data files, if any are encountered. Any files
                 that encounter errors will be, as usual, accessible via the `problematic_files` 
@@ -542,6 +700,8 @@ class ReadManager:
             n_parallel=n_parallel,
             first_record=first_record,
             no_metadata=no_metadata,
+            start_time=start_time,
+            end_time=end_time,
             quiet=quiet,
         )
 
@@ -572,6 +732,8 @@ class ReadManager:
                       n_parallel: int = 1,
                       first_record: bool = False,
                       no_metadata: bool = False,
+                      start_time: Optional[datetime.datetime] = None,
+                      end_time: Optional[datetime.datetime] = None,
                       quiet: bool = False,
                       dataset: Optional[Dataset] = None) -> Data:
         """
@@ -598,6 +760,24 @@ class ReadManager:
                 Skip reading of metadata. This is a minor optimization if the metadata is not needed.
                 Default is `False`. This parameter is optional.
             
+            start_time (datetime.datetime): 
+                The start timestamp to read data onwards from (inclusive). This can be utilized to 
+                read a portion of a data file, and could be paired with the `end_time` parameter. 
+                This tends to be utilized for datasets that are hour or day-long files where it is 
+                possible to only read a smaller bit of that file. An example is the TREx Spectrograph 
+                processed data (1 hour files), or the riometer data (1 day files). If not supplied, 
+                it will assume the start time is the timestamp of the first record in the first 
+                file supplied (ie. beginning of the supplied data). This parameter is optional.
+
+            end_time (datetime.datetime): 
+                The end timestamp to read data up to (inclusive). This can be utilized to read a 
+                portion of a data file, and could be paired with the `start_time` parameter. This 
+                tends to be utilized for datasets that are hour or day-long files where it is possible 
+                to only read a smaller bit of that file. An example is the TREx Spectrograph processed 
+                data (1 hour files), or the riometer data (1 day files). If not supplied, it will
+                it will assume the end time is the timestamp of the last record in the last file
+                supplied (ie. end of the supplied data). This parameter is optional.
+
             quiet (bool): 
                 Do not print out errors while reading data files, if any are encountered. Any files
                 that encounter errors will be, as usual, accessible via the `problematic_files` 
@@ -621,6 +801,8 @@ class ReadManager:
             n_parallel=n_parallel,
             first_record=first_record,
             no_metadata=no_metadata,
+            start_time=start_time,
+            end_time=end_time,
             quiet=quiet,
         )
 
@@ -656,6 +838,8 @@ class ReadManager:
                                n_parallel: int = 1,
                                first_record: bool = False,
                                no_metadata: bool = False,
+                               start_time: Optional[datetime.datetime] = None,
+                               end_time: Optional[datetime.datetime] = None,
                                quiet: bool = False,
                                dataset: Optional[Dataset] = None) -> Data:
         """
@@ -681,7 +865,25 @@ class ReadManager:
             no_metadata (bool): 
                 Skip reading of metadata. This is a minor optimization if the metadata is not needed.
                 Default is `False`. This parameter is optional.
-            
+
+            start_time (datetime.datetime): 
+                The start timestamp to read data onwards from (inclusive). This can be utilized to 
+                read a portion of a data file, and could be paired with the `end_time` parameter. 
+                This tends to be utilized for datasets that are hour or day-long files where it is 
+                possible to only read a smaller bit of that file. An example is the TREx Spectrograph 
+                processed data (1 hour files), or the riometer data (1 day files). If not supplied, 
+                it will assume the start time is the timestamp of the first record in the first 
+                file supplied (ie. beginning of the supplied data). This parameter is optional.
+
+            end_time (datetime.datetime): 
+                The end timestamp to read data up to (inclusive). This can be utilized to read a 
+                portion of a data file, and could be paired with the `start_time` parameter. This 
+                tends to be utilized for datasets that are hour or day-long files where it is possible 
+                to only read a smaller bit of that file. An example is the TREx Spectrograph processed 
+                data (1 hour files), or the riometer data (1 day files). If not supplied, it will
+                it will assume the end time is the timestamp of the last record in the last file
+                supplied (ie. end of the supplied data). This parameter is optional.
+
             quiet (bool): 
                 Do not print out errors while reading data files, if any are encountered. Any files
                 that encounter errors will be, as usual, accessible via the `problematic_files` 
@@ -712,6 +914,8 @@ class ReadManager:
                 n_parallel=n_parallel,
                 first_record=first_record,
                 no_metadata=no_metadata,
+                start_time=start_time,
+                end_time=end_time,
                 quiet=quiet,
             )
 
@@ -728,6 +932,8 @@ class ReadManager:
                 n_parallel=n_parallel,
                 first_record=first_record,
                 no_metadata=no_metadata,
+                start_time=start_time,
+                end_time=end_time,
                 quiet=quiet,
             )
 
@@ -1026,6 +1232,8 @@ class ReadManager:
                   n_parallel: int = 1,
                   first_record: bool = False,
                   no_metadata: bool = False,
+                  start_time: Optional[datetime.datetime] = None,
+                  end_time: Optional[datetime.datetime] = None,
                   quiet: bool = False,
                   dataset: Optional[Dataset] = None) -> Data:
         """
@@ -1051,7 +1259,25 @@ class ReadManager:
             no_metadata (bool): 
                 Skip reading of metadata. This is a minor optimization if the metadata is not needed.
                 Default is `False`. This parameter is optional.
-            
+
+            start_time (datetime.datetime): 
+                The start timestamp to read data onwards from (inclusive). This can be utilized to 
+                read a portion of a data file, and could be paired with the `end_time` parameter. 
+                This tends to be utilized for datasets that are hour or day-long files where it is 
+                possible to only read a smaller bit of that file. An example is the TREx Spectrograph 
+                processed data (1 hour files), or the riometer data (1 day files). If not supplied, 
+                it will assume the start time is the timestamp of the first record in the first 
+                file supplied (ie. beginning of the supplied data). This parameter is optional.
+
+            end_time (datetime.datetime): 
+                The end timestamp to read data up to (inclusive). This can be utilized to read a 
+                portion of a data file, and could be paired with the `start_time` parameter. This 
+                tends to be utilized for datasets that are hour or day-long files where it is possible 
+                to only read a smaller bit of that file. An example is the TREx Spectrograph processed 
+                data (1 hour files), or the riometer data (1 day files). If not supplied, it will
+                it will assume the end time is the timestamp of the last record in the last file
+                supplied (ie. end of the supplied data). This parameter is optional.
+
             quiet (bool): 
                 Do not print out errors while reading data files, if any are encountered. Any files
                 that encounter errors will be, as usual, accessible via the `problematic_files` 
@@ -1069,27 +1295,37 @@ class ReadManager:
         Raises:
             pyucalgarysrs.exceptions.SRSError: a generic read error was encountered
         """
+
+        def __str_to_datetime_formatter(timestamp_str):
+            return datetime.datetime.strptime(timestamp_str.decode(), "%Y-%m-%d %H:%M:%S UTC")
+
         # read data
         data_dict, meta, problematic_files = func_read_grid(
             file_list,
             n_parallel=n_parallel,
             first_record=first_record,
             no_metadata=no_metadata,
+            start_time=start_time,
+            end_time=end_time,
             quiet=quiet,
         )
 
         # create grid data object
+        #
+        # NOTE: it may be an issue in the future that we assume the default fill value
+        # to be -999.0
         grid_data_obj = GridData(
             grid=data_dict["grid"],  # type: ignore
-            fill_value=float(meta[0]["fill_value"]),
-            source_info=GridSourceInfoData(confidence=data_dict["source_info"]["confidence"]),  # type: ignore
+            fill_value=-999.0 if "fill_value" not in data_dict else data_dict["fill_value"],
+            source_info=None if "source_info" not in data_dict else GridSourceInfoData(
+                confidence=data_dict["source_info"]["confidence"]),  # type: ignore
         )
 
         # generate timestamp array
         timestamp_list = []
-        if (no_metadata is False):
-            for t in data_dict["timestamp"]:  # type: ignore
-                timestamp_list.append(datetime.datetime.strptime(t.decode(), "%Y-%m-%d %H:%M:%S UTC"))
+        if ("timestamp" in data_dict):
+            timestamp_list = np.vectorize(__str_to_datetime_formatter)(data_dict["timestamp"])  # type: ignore
+            timestamp_list = timestamp_list.astype(datetime.datetime).tolist()
 
         # convert to return type
         problematic_files_objs = []
@@ -1111,6 +1347,8 @@ class ReadManager:
                               file_list: Union[List[str], List[Path], str, Path],
                               n_parallel: int = 1,
                               no_metadata: bool = False,
+                              start_time: Optional[datetime.datetime] = None,
+                              end_time: Optional[datetime.datetime] = None,
                               quiet: bool = False,
                               dataset: Optional[Dataset] = None) -> Data:
         """
@@ -1131,6 +1369,24 @@ class ReadManager:
                 Skip reading of metadata. This is a minor optimization if the metadata is not needed.
                 Default is `False`. This parameter is optional.
             
+            start_time (datetime.datetime): 
+                The start timestamp to read data onwards from (inclusive). This can be utilized to 
+                read a portion of a data file, and could be paired with the `end_time` parameter. 
+                This tends to be utilized for datasets that are hour or day-long files where it is 
+                possible to only read a smaller bit of that file. An example is the TREx Spectrograph 
+                processed data (1 hour files), or the riometer data (1 day files). If not supplied, 
+                it will assume the start time is the timestamp of the first record in the first 
+                file supplied (ie. beginning of the supplied data). This parameter is optional.
+
+            end_time (datetime.datetime): 
+                The end timestamp to read data up to (inclusive). This can be utilized to read a 
+                portion of a data file, and could be paired with the `start_time` parameter. This 
+                tends to be utilized for datasets that are hour or day-long files where it is possible 
+                to only read a smaller bit of that file. An example is the TREx Spectrograph processed 
+                data (1 hour files), or the riometer data (1 day files). If not supplied, it will
+                it will assume the end time is the timestamp of the last record in the last file
+                supplied (ie. end of the supplied data). This parameter is optional.
+
             quiet (bool): 
                 Do not print out errors while reading data files, if any are encountered. Any files
                 that encounter errors will be, as usual, accessible via the `problematic_files` 
@@ -1153,6 +1409,8 @@ class ReadManager:
             file_list,
             n_parallel=n_parallel,
             no_metadata=no_metadata,
+            start_time=start_time,
+            end_time=end_time,
             quiet=quiet,
         )
 
@@ -1176,6 +1434,8 @@ class ReadManager:
                       file_list: Union[List[str], List[Path], str, Path],
                       n_parallel: int = 1,
                       no_metadata: bool = False,
+                      start_time: Optional[datetime.datetime] = None,
+                      end_time: Optional[datetime.datetime] = None,
                       quiet: bool = False,
                       dataset: Optional[Dataset] = None) -> Data:
         """
@@ -1196,6 +1456,24 @@ class ReadManager:
                 Skip reading of metadata. This is a minor optimization if the metadata is not needed.
                 Default is `False`. This parameter is optional.
             
+            start_time (datetime.datetime): 
+                The start timestamp to read data onwards from (inclusive). This can be utilized to 
+                read a portion of a data file, and could be paired with the `end_time` parameter. 
+                This tends to be utilized for datasets that are hour or day-long files where it is 
+                possible to only read a smaller bit of that file. An example is the TREx Spectrograph 
+                processed data (1 hour files), or the riometer data (1 day files). If not supplied, 
+                it will assume the start time is the timestamp of the first record in the first 
+                file supplied (ie. beginning of the supplied data). This parameter is optional.
+
+            end_time (datetime.datetime): 
+                The end timestamp to read data up to (inclusive). This can be utilized to read a 
+                portion of a data file, and could be paired with the `start_time` parameter. This 
+                tends to be utilized for datasets that are hour or day-long files where it is possible 
+                to only read a smaller bit of that file. An example is the TREx Spectrograph processed 
+                data (1 hour files), or the riometer data (1 day files). If not supplied, it will
+                it will assume the end time is the timestamp of the last record in the last file
+                supplied (ie. end of the supplied data). This parameter is optional.
+
             quiet (bool): 
                 Do not print out errors while reading data files, if any are encountered. Any files
                 that encounter errors will be, as usual, accessible via the `problematic_files` 
@@ -1218,6 +1496,8 @@ class ReadManager:
             file_list,
             n_parallel=n_parallel,
             no_metadata=no_metadata,
+            start_time=start_time,
+            end_time=end_time,
             quiet=quiet,
         )
 

@@ -661,7 +661,12 @@ class Data:
                 if (len(self.data) == 1):
                     data_str = "[1 RiometerData object]"
                 else:
-                    data_str = "[%d RiometerData objects]" % (len(self.data))
+                    data_str = "[%d HSRData objects]" % (len(self.data))
+            elif (isinstance(self.data[0], HSRData) is True):
+                if (len(self.data) == 1):
+                    data_str = "[1 HSRData object]"
+                else:
+                    data_str = "[%d HSRData objects]" % (len(self.data))
             elif (len(self.data) == 1):
                 data_str = "[1 item]"
             else:
@@ -792,7 +797,7 @@ class GridData:
 
     def __repr__(self) -> str:
         grid_str = "array(dims=%s, dtype=%s)" % (self.grid.shape, self.grid.dtype)
-        return "GridData(grid=%s, fill_value=%.0f, source_info=GridSourceInfoData(...)" % (grid_str, self.fill_value)
+        return "GridData(grid=%s, fill_value=%.1f, source_info=GridSourceInfoData(...))" % (grid_str, self.fill_value)
 
     def pretty_print(self):
         """
@@ -805,7 +810,7 @@ class GridData:
 
         print("GridData:")
         print("  %-14s: %s" % ("grid", grid_str))
-        print("  %-14s: %.0f" % ("fill_value", self.fill_value))
+        print("  %-14s: %.1f" % ("fill_value", self.fill_value))
         print("  %-14s: %s" % ("timestamp", grid_str))
         print("  source_info:")
         print("    %-15s: %s" % ("confidence", confidence_str))

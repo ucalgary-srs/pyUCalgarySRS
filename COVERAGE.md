@@ -7,19 +7,19 @@ pyucalgarysrs/__init__.py                           8      0   100%
 pyucalgarysrs/data/__init__.py                     41      6    85%   103-108
 pyucalgarysrs/data/_download.py                    89      2    98%   71, 222
 pyucalgarysrs/data/_list.py                        35      0   100%
-pyucalgarysrs/data/classes.py                     368     92    75%   153-164, 198-209, 582, 596-604, 612, 660-670, 676, 684, 791, 794-795, 802-811, 834, 837-840, 847-855, 886, 890-911, 924-950
-pyucalgarysrs/data/read/__init__.py               250     37    85%   228, 246, 248, 250, 636, 726-737, 846, 855-858, 1073-1108, 1152-1173, 1217-1238
+pyucalgarysrs/data/classes.py                     372     95    74%   153-164, 198-209, 582, 596-604, 660-675, 681, 689, 796, 799-800, 807-816, 839, 842-845, 852-860, 891, 895-916, 929-955
+pyucalgarysrs/data/read/__init__.py               257     41    84%   262, 281, 287, 293, 304, 314, 818, 930-943, 1052, 1061-1064, 1299-1344, 1408-1431, 1495-1518
 pyucalgarysrs/data/read/_calibration.py            45      0   100%
-pyucalgarysrs/data/read/_grid.py                  103     96     7%   24-161, 166-210
-pyucalgarysrs/data/read/_norstar_riometer.py      128    117     9%   44-102, 107-276
-pyucalgarysrs/data/read/_rego.py                  163      8    95%   102, 165, 212-218
+pyucalgarysrs/data/read/_grid.py                  156    148     5%   25-195, 200-313
+pyucalgarysrs/data/read/_norstar_riometer.py      133    122     8%   44-114, 119-297
+pyucalgarysrs/data/read/_rego.py                  203     30    85%   40-45, 129, 194-198, 206, 251-257, 290, 307-309, 343-352
 pyucalgarysrs/data/read/_skymap.py                 47      0   100%
-pyucalgarysrs/data/read/_swan_hsr.py               78     66    15%   30-95, 99, 104-176
-pyucalgarysrs/data/read/_themis.py                154     11    93%   99, 161, 205-211, 216-218
-pyucalgarysrs/data/read/_trex_blue.py             171     28    84%   103, 170, 181, 198-209, 228-234, 281-287
-pyucalgarysrs/data/read/_trex_nir.py              171     22    87%   103, 168, 179, 196-207, 279-285
-pyucalgarysrs/data/read/_trex_rgb.py              352     46    87%   51-53, 132, 306, 333, 345-350, 363, 373, 431-440, 449, 467-478, 498-504, 552-558
-pyucalgarysrs/data/read/_trex_spectrograph.py     247    100    60%   101, 163, 167-177, 221-227, 274-280, 304, 309-408, 413-463
+pyucalgarysrs/data/read/_swan_hsr.py               85     73    14%   30-107, 111, 116-195
+pyucalgarysrs/data/read/_themis.py                194     33    83%   41-46, 126, 190-194, 202, 244-250, 255-257, 283, 293-295, 329-338
+pyucalgarysrs/data/read/_trex_blue.py             210     52    75%   40-45, 129, 204-213, 221, 239-250, 266-272, 301, 318-320, 331-337, 354-363
+pyucalgarysrs/data/read/_trex_nir.py              210     46    78%   40-45, 129, 202-211, 219, 237-248, 299, 316-318, 329-335, 352-361
+pyucalgarysrs/data/read/_trex_rgb.py              441    104    76%   48-53, 66-68, 153, 214-218, 261-265, 269, 295, 335-340, 374, 399, 404-407, 419-424, 437, 447, 467-476, 522-527, 538-547, 556, 575-586, 603-609, 633, 639-643, 647, 664-666, 679-685, 708-717
+pyucalgarysrs/data/read/_trex_spectrograph.py     305    143    53%   41-46, 126, 170-175, 202, 206-216, 258-264, 293, 310-312, 323-329, 346-355, 367, 377-497, 502-570
 pyucalgarysrs/exceptions.py                        12      0   100%
 pyucalgarysrs/models/__init__.py                    8      0   100%
 pyucalgarysrs/models/atm/__init__.py               23      0   100%
@@ -29,5 +29,5 @@ pyucalgarysrs/models/atm/classes_forward.py       117      0   100%
 pyucalgarysrs/models/atm/classes_inverse.py       117      0   100%
 pyucalgarysrs/pyucalgarysrs.py                    166     50    70%   328-406
 -----------------------------------------------------------------------------
-TOTAL                                            2930    681    77%
+TOTAL                                            3311    945    71%
 ```

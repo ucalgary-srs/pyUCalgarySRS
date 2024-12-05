@@ -39,7 +39,7 @@ NORSTAR_RIOMETER_3_LETTER_SITE_CODES = {
 }  # NOTE: pulled from UCalgary SRS API code; if you update this, we should update the API too.
 
 
-def read(file_list, n_parallel=1, no_metadata=False, quiet=False):
+def read(file_list, n_parallel=1, no_metadata=False, start_time=None, end_time=None, quiet=False):
     # if input is just a single file name in a string, convert to a list to be fed to the workers
     if isinstance(file_list, str) or isinstance(file_list, Path):
         file_list = [file_list]
@@ -63,6 +63,8 @@ def read(file_list, n_parallel=1, no_metadata=False, quiet=False):
             data = pool.map(partial(
                 __riometer_readfile_worker,
                 no_metadata=no_metadata,
+                start_time=start_time,
+                end_time=end_time,
                 quiet=quiet,
             ), file_list)
         except KeyboardInterrupt:  # pragma: nocover
@@ -78,6 +80,8 @@ def read(file_list, n_parallel=1, no_metadata=False, quiet=False):
             data.append(__riometer_readfile_worker(
                 f,
                 no_metadata=no_metadata,
+                start_time=start_time,
+                end_time=end_time,
                 quiet=quiet,
             ))
 
@@ -87,22 +91,30 @@ def read(file_list, n_parallel=1, no_metadata=False, quiet=False):
     metadata = []
     problematic_file_list = []
     for result in data:
-        rio_data.append(RiometerData(timestamp=result["np_timestamp"], raw_signal=result["np_raw_signal"], absorption=result["np_absorption"]))
-        if (len(result["np_timestamp"]) > 0):
-            top_level_timestamps.append(result["np_timestamp"][0])
-        metadata.append(result["metadata"])
-
+        # problematic
         if (result["problematic"] is True):
             problematic_file_list.append({
                 "filename": result["file"],
                 "error_message": result["error_message"],
             })
+            continue
+
+        # riometer data
+        rio_data.append(RiometerData(timestamp=result["np_timestamp"], raw_signal=result["np_raw_signal"], absorption=result["np_absorption"]))
+
+        # timestamp
+        if (len(result["np_timestamp"]) > 0):
+            top_level_timestamps.append(result["np_timestamp"][0])
+
+        # metadata
+        if (no_metadata is False):
+            metadata.append(result["metadata"])
 
     # return
     return rio_data, top_level_timestamps, metadata, problematic_file_list
 
 
-def __riometer_readfile_worker(file, no_metadata=False, quiet=False):
+def __riometer_readfile_worker(file, no_metadata=False, start_time=None, end_time=None, quiet=False):
     # init
     metadata_dict = {}
     np_timestamp = np.array([], dtype=datetime.datetime)
@@ -235,13 +247,22 @@ def __riometer_readfile_worker(file, no_metadata=False, quiet=False):
         #
         # NOTE: there can be UT24 records in the files, so we need to keep track
         # of those, and delete them from the raw_signal and absorption arrays
+        #
+        # NOTE: this is also where we filter based on the start and end times
         idxs_to_delete = []
         np_timestamp = np.empty(np_date.shape, dtype=datetime.datetime)
         for i in range(0, np_date.shape[0]):
+            # mark the 24th hour items as indexes to delete
             if (np_time[i][0:2].decode() == "24"):
                 idxs_to_delete.append(i)
                 continue
+
+            # mark times outside of the valid start and end ranges as indexes to delete
             np_timestamp[i] = datetime.datetime.strptime("%s %s" % (np_date[i].decode(), np_time[i].decode()), "%d/%m/%y %H:%M:%S")
+            if ((start_time is None or np_timestamp[i] >= start_time) and (end_time is None or np_timestamp[i] <= end_time)):
+                pass
+            else:
+                idxs_to_delete.append(i)
 
         # delete rows as needed
         if (len(idxs_to_delete) > 0):

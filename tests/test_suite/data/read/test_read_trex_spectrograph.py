@@ -455,7 +455,7 @@ def test_read_trex_spectrograph_no_metadata(srs, test_dict):
 
     # check number of frames
     assert data.data.shape == (1024, 256, test_dict["expected_frames"])
-    assert len(data.metadata) == test_dict["expected_frames"]
+    assert len(data.metadata) == 0
 
     # check that there's no metadata
     for m in data.metadata:
@@ -519,7 +519,7 @@ def test_read_trex_spectrograph_first_frame_and_no_metadata(srs, test_dict):
 
     # check number of frames
     assert data.data.shape == (1024, 256, test_dict["expected_frames"])
-    assert len(data.metadata) == test_dict["expected_frames"]
+    assert len(data.metadata) == 0
 
     # check that there's no metadata
     for m in data.metadata:

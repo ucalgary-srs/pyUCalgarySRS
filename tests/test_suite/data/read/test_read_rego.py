@@ -479,7 +479,7 @@ def test_read_no_metadata(srs, all_datasets, test_dict):
 
     # check number of frames
     assert data.data.shape == (512, 512, test_dict["expected_frames"])
-    assert len(data.metadata) == test_dict["expected_frames"]
+    assert len(data.metadata) == 0
 
     # check that there's no metadata
     for m in data.metadata:
@@ -547,7 +547,7 @@ def test_read_first_frame_and_no_metadata(srs, all_datasets, test_dict):
 
     # check number of frames
     assert data.data.shape == (512, 512, test_dict["expected_frames"])
-    assert len(data.metadata) == test_dict["expected_frames"]
+    assert len(data.metadata) == 0
 
     # check that there's no metadata
     for m in data.metadata:
@@ -754,7 +754,7 @@ def test_read_rego_readers_func(srs, all_datasets, test_dict):
 
     # check number of frames
     assert data.data.shape == (512, 512, test_dict["expected_frames"])
-    assert len(data.metadata) == test_dict["expected_frames"]
+    assert len(data.metadata) == 0
 
     # check that there's no metadata
     for m in data.metadata:
@@ -806,7 +806,7 @@ def test_read_rego_readers_func_nodataset(srs, test_dict):
 
     # check number of frames
     assert data.data.shape == (512, 512, test_dict["expected_frames"])
-    assert len(data.metadata) == test_dict["expected_frames"]
+    assert len(data.metadata) == 0
 
     # check that there's no metadata
     for m in data.metadata:

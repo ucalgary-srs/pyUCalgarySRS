@@ -8,13 +8,13 @@ srs.api_base_url = "https://api-staging.phys.ucalgary.ca"
 
 # get dataset
 print("\n[%s] Getting dataset ..." % (datetime.datetime.now()))
-dataset = srs.data.get_dataset("TREX_SPECT_PROCESSED_V1")
+dataset = srs.data.get_dataset("REGO_RAW")
 
 # download data
 print("\n[%s] Downloading data ..." % (datetime.datetime.now()))
-start_dt = datetime.datetime(2018, 2, 8, 6, 0, 0)
-end_dt = datetime.datetime(2018, 2, 8, 7, 59, 59)
-site_uid = "luck"
+start_dt = datetime.datetime(2023, 1, 1, 6, 0, 0)
+end_dt = datetime.datetime(2023, 1, 1, 6, 9, 59)
+site_uid = "gill"
 download_obj = srs.data.download(dataset.name, start_dt, end_dt, site_uid=site_uid, progress_bar_disable=True)
 
 # set list of files (we could do this using a glob too)
@@ -45,8 +45,8 @@ print()
 data.pretty_print()
 
 # read data with start time and end time
-start_dt = datetime.datetime(2018, 2, 8, 6, 50, 0)
-end_dt = datetime.datetime(2018, 2, 8, 6, 55, 59)
+start_dt = datetime.datetime(2023, 1, 1, 6, 3)
+end_dt = datetime.datetime(2023, 1, 1, 6, 7)
 print("\n[%s] Reading data with start+end times ..." % (datetime.datetime.now()))
 data = srs.data.read(dataset, file_list, start_time=start_dt, end_time=end_dt)
 print()

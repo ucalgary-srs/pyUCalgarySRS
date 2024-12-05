@@ -25,7 +25,7 @@ from ..classes import HSRData
 HSR_DT = np.dtype("float32")
 
 
-def read(file_list, n_parallel=1, no_metadata=False, quiet=False):
+def read(file_list, n_parallel=1, no_metadata=False, start_time=None, end_time=None, quiet=False):
     # if input is just a single file name in a string, convert to a list to be fed to the workers
     if isinstance(file_list, str) or isinstance(file_list, Path):
         file_list = [file_list]
@@ -49,6 +49,8 @@ def read(file_list, n_parallel=1, no_metadata=False, quiet=False):
             data = pool.map(partial(
                 __riometer_readfile_worker,
                 no_metadata=no_metadata,
+                start_time=start_time,
+                end_time=end_time,
                 quiet=quiet,
             ), file_list)
         except KeyboardInterrupt:  # pragma: nocover
@@ -64,6 +66,8 @@ def read(file_list, n_parallel=1, no_metadata=False, quiet=False):
             data.append(__riometer_readfile_worker(
                 f,
                 no_metadata=no_metadata,
+                start_time=start_time,
+                end_time=end_time,
                 quiet=quiet,
             ))
 
@@ -73,6 +77,15 @@ def read(file_list, n_parallel=1, no_metadata=False, quiet=False):
     metadata = []
     problematic_file_list = []
     for result in data:
+        # problematic
+        if (result["problematic"] is True):
+            problematic_file_list.append({
+                "filename": result["file"],
+                "error_message": result["error_message"],
+            })
+            continue
+
+        # hsr data
         hsr_data.append(
             HSRData(
                 band_central_frequency=result["band_central_frequency_list"],
@@ -81,15 +94,14 @@ def read(file_list, n_parallel=1, no_metadata=False, quiet=False):
                 raw_power=result["np_raw_power"],
                 absorption=result["np_absorption"],
             ))
+
+        # timestamps
         if (len(result["np_timestamp"]) > 0):
             top_level_timestamps.append(result["np_timestamp"][0])
-        metadata.append(result["metadata"])
 
-        if (result["problematic"] is True):
-            problematic_file_list.append({
-                "filename": result["file"],
-                "error_message": result["error_message"],
-            })
+        # metadata
+        if (no_metadata is False):
+            metadata.append(result["metadata"])
 
     # return
     return hsr_data, top_level_timestamps, metadata, problematic_file_list
@@ -99,7 +111,7 @@ def __str_to_datetime_formatter(timestamp_str):
     return datetime.datetime.strptime(timestamp_str.decode(), "%Y-%m-%d %H:%M:%S UTC")
 
 
-def __riometer_readfile_worker(file, no_metadata=False, quiet=False):
+def __riometer_readfile_worker(file, no_metadata=False, start_time=None, end_time=None, quiet=False):
     # init
     metadata_dict = {}
     band_central_frequency_list = []
@@ -115,13 +127,20 @@ def __riometer_readfile_worker(file, no_metadata=False, quiet=False):
         # open H5 file
         f = h5py.File(file, 'r')
 
-        # get raw power, timestamp
-        np_raw_power = f["data"]["raw_power"][:]  # type: ignore
-
         # get timestamp, convert into datetime objects
         np_timestamp = f["data"]["timestamp"][:]  # type: ignore
         np_timestamp = np.vectorize(__str_to_datetime_formatter)(np_timestamp)  # type: ignore
         np_timestamp = np_timestamp.astype(datetime.datetime)
+
+        # determine indexes to keep based on start and end times
+        idxs = []
+        for idx, val in enumerate(np_timestamp):
+            if ((start_time is None or val >= start_time) and (end_time is None or val <= end_time)):
+                idxs.append(idx)
+        np_timestamp = np_timestamp[idxs]
+
+        # get raw power, timestamp
+        np_raw_power = f["data"]["raw_power"][:, idxs]  # type: ignore
 
         # get band central frequency, bandpass
         band_central_frequency_list = f["data"]["band_central_frequency"][:].tolist()  # type: ignore

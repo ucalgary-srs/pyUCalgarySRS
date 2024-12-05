@@ -416,7 +416,7 @@ def test_read_trex_rgb_burst_no_metadata(srs, all_datasets, test_dict):
 
     # check number of frames
     assert data.data.shape == (480, 553, 3, test_dict["expected_frames"])
-    assert len(data.metadata) == test_dict["expected_frames"]
+    assert len(data.metadata) == 0
 
     # check that there's no metadata
     for m in data.metadata:
@@ -500,7 +500,7 @@ def test_read_trex_rgb_burst_first_frame_and_no_metadata(srs, all_datasets, test
 
     # check number of frames
     assert data.data.shape == (480, 553, 3, test_dict["expected_frames"])
-    assert len(data.metadata) == test_dict["expected_frames"]
+    assert len(data.metadata) == 0
 
     # check that there's no metadata
     for m in data.metadata:

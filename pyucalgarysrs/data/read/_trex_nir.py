@@ -16,6 +16,8 @@ import gzip
 import numpy as np
 import signal
 import os
+import datetime
+import warnings
 from pathlib import Path
 from multiprocessing import Pool
 from functools import partial
@@ -27,7 +29,21 @@ __NIR_DT = np.dtype("uint16")
 __NIR_DT = __NIR_DT.newbyteorder('>')  # force big endian byte ordering
 
 
-def read(file_list, n_parallel=1, first_record=False, no_metadata=False, quiet=False):
+def read(file_list, n_parallel=1, first_record=False, no_metadata=False, start_time=None, end_time=None, quiet=False):
+    # throw up warning if the no_metadata flag is true and start/end times supplied
+    #
+    # NOTE: since the timestamp info is in the metadata, we can't filter based on
+    # start or end time if we were told to not read the metadata, so we throw up
+    # a warning and read all the data, and don't read the metadata (no_metadata being
+    # true takes priority).
+    if (no_metadata is True and (start_time is not None or end_time is not None)):
+        warnings.warn("Cannot filter on start or end time if the no_metadata parameter is set to True. Set no_metadata to False " +
+                      "to allow filtering on times. Will proceed by skipping filtering on times and returning no metadata.",
+                      UserWarning,
+                      stacklevel=1)
+        start_time = None
+        end_time = None
+
     # if input is just a single file name in a string, convert to a list to be fed to the workers
     if isinstance(file_list, str) or isinstance(file_list, Path):
         file_list = [file_list]
@@ -48,12 +64,15 @@ def read(file_list, n_parallel=1, first_record=False, no_metadata=False, quiet=F
         # NOTE: structure of data - data[file][metadata dictionary lists = 1, images = 0][frame]
         data = []
         try:
-            data = pool.map(partial(
-                __nir_readfile_worker,
-                first_record=first_record,
-                no_metadata=no_metadata,
-                quiet=quiet,
-            ), file_list)
+            data = pool.map(
+                partial(
+                    __nir_readfile_worker,
+                    first_record=first_record,
+                    no_metadata=no_metadata,
+                    start_time=start_time,
+                    end_time=end_time,
+                    quiet=quiet,
+                ), file_list)
         except KeyboardInterrupt:  # pragma: nocover
             pool.terminate()  # gracefully kill children
             return np.empty((0, 0, 0), dtype=__NIR_DT), [], []
@@ -64,12 +83,15 @@ def read(file_list, n_parallel=1, first_record=False, no_metadata=False, quiet=F
         # don't bother using multiprocessing with one worker, just call the worker function directly
         data = []
         for f in file_list:
-            data.append(__nir_readfile_worker(
-                f,
-                first_record=first_record,
-                no_metadata=no_metadata,
-                quiet=quiet,
-            ))
+            data.append(
+                __nir_readfile_worker(
+                    f,
+                    first_record=first_record,
+                    no_metadata=no_metadata,
+                    start_time=start_time,
+                    end_time=end_time,
+                    quiet=quiet,
+                ))
 
     # derive number of frames to prepare for
     total_num_frames = 0
@@ -78,13 +100,17 @@ def read(file_list, n_parallel=1, first_record=False, no_metadata=False, quiet=F
     for i in range(0, len(data)):
         if (data[i][2] is True):
             continue
-        total_num_frames += data[i][0].shape[2]
-        image_height = data[i][0].shape[0]
-        image_width = data[i][0].shape[1]
+        if (len(data[i][0]) != 0):
+            total_num_frames += data[i][0].shape[2]
+            image_height = data[i][0].shape[0]
+            image_width = data[i][0].shape[1]
 
     # pre-allocate array sizes
     images = np.empty([image_height, image_width, total_num_frames], dtype=__NIR_DT)
-    metadata_dict_list = [{}] * total_num_frames
+    if (no_metadata is False):
+        metadata_dict_list = [{}] * total_num_frames
+    else:
+        metadata_dict_list = []
     problematic_file_list = []
 
     # populate data
@@ -99,7 +125,7 @@ def read(file_list, n_parallel=1, first_record=False, no_metadata=False, quiet=F
             continue
 
         # check if any data was read in
-        if (len(data[i][1]) == 0):
+        if (len(data[i][0]) == 0):
             continue
 
         # find actual number of frames, this may differ from predicted due to dropped frames, end
@@ -107,12 +133,14 @@ def read(file_list, n_parallel=1, first_record=False, no_metadata=False, quiet=F
         real_num_frames = data[i][0].shape[2]
 
         # metadata dictionary list at data[][1]
-        metadata_dict_list[list_position:list_position + real_num_frames] = data[i][1]
+        if (no_metadata is False):
+            metadata_dict_list[list_position:list_position + real_num_frames] = data[i][1]
         images[:, :, list_position:list_position + real_num_frames] = data[i][0]  # image arrays at data[][0]
         list_position = list_position + real_num_frames  # advance list position
 
     # trim unused elements from predicted array sizes
-    metadata_dict_list = metadata_dict_list[0:list_position]
+    if (no_metadata is False):
+        metadata_dict_list = metadata_dict_list[0:list_position]
     images = np.delete(images, range(list_position, total_num_frames), axis=2)
 
     # ensure entire array views as uint16
@@ -126,7 +154,7 @@ def read(file_list, n_parallel=1, first_record=False, no_metadata=False, quiet=F
     return images, metadata_dict_list, problematic_file_list
 
 
-def __nir_readfile_worker(file, first_record=False, no_metadata=False, quiet=False):
+def __nir_readfile_worker(file, first_record=False, no_metadata=False, start_time=None, end_time=None, quiet=False):
     # init
     images = np.array([])
     metadata_dict_list = []
@@ -139,6 +167,18 @@ def __nir_readfile_worker(file, first_record=False, no_metadata=False, quiet=Fal
 
     # convert to str to handle path type
     file = str(file)
+
+    # extract start and end times of the filename
+    #
+    # NOTE: we use this to better inform us about zero-filesize files
+    try:
+        file_dt = datetime.datetime.strptime(os.path.basename(file)[0:13], "%Y%m%d_%H%M")
+    except Exception:
+        if (quiet is False):
+            print("Failed to extract timestamp from filename")
+        problematic = True
+        error_message = "failed to extract timestamp from filename"
+        return images, metadata_dict_list, problematic, file, error_message
 
     # set site UID and device UID in case we need it (ie. dark frames, or unstacked files)
     file_split = os.path.basename(file).split('_')
@@ -184,6 +224,7 @@ def __nir_readfile_worker(file, first_record=False, no_metadata=False, quiet=Fal
     # read the file
     prev_line = None
     line = None
+    skip_this_record = False
     while True:
         # break out depending on first_record param
         if (first_record is True and is_first is False):
@@ -216,10 +257,7 @@ def __nir_readfile_worker(file, first_record=False, no_metadata=False, quiet=Fal
 
         # process line
         if (line.startswith(b'#"')):  # type: ignore
-            if (no_metadata is True):
-                metadata_dict = {}
-                metadata_dict_list.append(metadata_dict)
-            else:
+            if (no_metadata is False):
                 # metadata lines start with #"<key>"
                 try:
                     line_decoded = line.decode("ascii")  # type: ignore
@@ -252,7 +290,13 @@ def __nir_readfile_worker(file, first_record=False, no_metadata=False, quiet=Fal
                 # split dictionaries up per frame, exposure plus initial readout is
                 # always the end of metadata for frame
                 if (key.startswith("Exposure plus readout")):
-                    metadata_dict_list.append(metadata_dict)
+                    # check if we want to skip this frame based on the start and end times
+                    this_timestamp = datetime.datetime.strptime(metadata_dict["Image request start"],
+                                                                "%Y-%m-%d %H:%M:%S.%f UTC").replace(microsecond=0)
+                    if ((start_time is None or this_timestamp >= start_time) and (end_time is None or this_timestamp <= end_time)):
+                        metadata_dict_list.append(metadata_dict)
+                    else:
+                        skip_this_record = True
                     metadata_dict = {}
         elif line == b'65535\n':
             # there are 2 lines between "exposure plus read out" and the image
@@ -267,6 +311,12 @@ def __nir_readfile_worker(file, first_record=False, no_metadata=False, quiet=Fal
 
             # read image
             try:
+                # skip the image data if we wanted to
+                if (skip_this_record is True):
+                    skip_this_record = False
+                    unzipped.seek(bytes_to_read, 1)
+                    continue
+
                 # read the image size in bytes from the file
                 image_bytes = unzipped.read(bytes_to_read)
 
@@ -295,7 +345,21 @@ def __nir_readfile_worker(file, first_record=False, no_metadata=False, quiet=Fal
     unzipped.close()
 
     # check to see if the image is empty
-    if (images.size == 0):
+    image_size_is_zero = False
+    if (start_time is None and end_time is None):
+        if (images.size == 0):
+            image_size_is_zero = True
+    elif (start_time is not None and end_time is not None):
+        if (file_dt >= start_time and file_dt <= end_time):
+            if (images.size == 0):
+                image_size_is_zero = True
+    elif (start_time is not None and file_dt >= start_time):
+        if (images.size == 0):
+            image_size_is_zero = True
+    elif (end_time is not None and file_dt <= end_time):
+        if (images.size == 0):
+            image_size_is_zero = True
+    if (image_size_is_zero is True):
         if (quiet is False):
             print("Error reading image file: found no image data")
         problematic = True

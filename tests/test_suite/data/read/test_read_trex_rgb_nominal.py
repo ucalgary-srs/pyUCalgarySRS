@@ -431,7 +431,7 @@ def test_read_no_metadata(srs, all_datasets, test_dict):
 
     # check number of frames
     assert data.data.shape == (480, 553, 3, test_dict["expected_frames"])
-    assert len(data.metadata) == test_dict["expected_frames"]
+    assert len(data.metadata) == 0
 
     # check that there's no metadata
     for m in data.metadata:
@@ -499,7 +499,7 @@ def test_read_first_frame_and_no_metadata(srs, all_datasets, test_dict):
 
     # check number of frames
     assert data.data.shape == (480, 553, 3, test_dict["expected_frames"])
-    assert len(data.metadata) == test_dict["expected_frames"]
+    assert len(data.metadata) == 0
 
     # check that there's no metadata
     for m in data.metadata:
@@ -633,9 +633,8 @@ def test_read_trex_rgb_nominal_readers_func(srs, all_datasets, test_dict):
     data = srs.data.readers.read_trex_rgb(
         file_list,
         n_parallel=test_dict["n_parallel"],
-        first_record=True,
-        no_metadata=True,
         dataset=dataset,
+        first_record=True,
     )
 
     # check success
@@ -647,10 +646,6 @@ def test_read_trex_rgb_nominal_readers_func(srs, all_datasets, test_dict):
     # check number of frames
     assert data.data.shape == (480, 553, 3, test_dict["expected_frames"])
     assert len(data.metadata) == test_dict["expected_frames"]
-
-    # check that there's no metadata
-    for m in data.metadata:
-        assert len(m) == 0
 
     # check dtype
     assert data.data.dtype == np.uint8
@@ -687,7 +682,6 @@ def test_read_trex_rgb_nominal_readers_func_nodataset(srs, test_dict):
         file_list,
         n_parallel=test_dict["n_parallel"],
         first_record=True,
-        no_metadata=True,
     )
 
     # check success
@@ -699,10 +693,6 @@ def test_read_trex_rgb_nominal_readers_func_nodataset(srs, test_dict):
     # check number of frames
     assert data.data.shape == (480, 553, 3, test_dict["expected_frames"])
     assert len(data.metadata) == test_dict["expected_frames"]
-
-    # check that there's no metadata
-    for m in data.metadata:
-        assert len(m) == 0
 
     # check dtype
     assert data.data.dtype == np.uint8

@@ -18,6 +18,7 @@ import gzip
 import shutil
 import signal
 import tarfile
+import warnings
 import random
 import string
 import cv2
@@ -36,7 +37,21 @@ __RGB_H5_DT = np.dtype("uint8")
 __PNG_METADATA_PROJECT_UID = "trex"
 
 
-def read(file_list, n_parallel=1, first_record=False, no_metadata=False, tar_tempdir=None, quiet=False):
+def read(file_list, n_parallel=1, first_record=False, no_metadata=False, start_time=None, end_time=None, tar_tempdir=None, quiet=False):
+    # throw up warning if the no_metadata flag is true and start/end times supplied
+    #
+    # NOTE: since the timestamp info is in the metadata, we can't filter based on
+    # start or end time if we were told to not read the metadata, so we throw up
+    # a warning and read all the data, and don't read the metadata (no_metadata being
+    # true takes priority).
+    if (no_metadata is True and (start_time is not None or end_time is not None)):
+        warnings.warn("Cannot filter on start or end time if the no_metadata parameter is set to True. Set no_metadata to False " +
+                      "to allow filtering on times. Will proceed by skipping filtering on times and returning no metadata.",
+                      UserWarning,
+                      stacklevel=1)
+        start_time = None
+        end_time = None
+
     # set tar path
     if (tar_tempdir is None):
         tar_tempdir = Path("%s/.trex_imager_readfile" % (str(Path.home())))
@@ -60,6 +75,8 @@ def read(file_list, n_parallel=1, first_record=False, no_metadata=False, tar_tem
             "tar_tempdir": tar_tempdir,
             "first_record": first_record,
             "no_metadata": no_metadata,
+            "start_time": start_time,
+            "end_time": end_time,
             "quiet": quiet,
         })
 
@@ -103,17 +120,21 @@ def read(file_list, n_parallel=1, first_record=False, no_metadata=False, tar_tem
     for i in range(0, len(pool_data)):
         if (pool_data[i][2] is True):
             continue
-        if (image_channels > 1):
-            total_num_frames += pool_data[i][0].shape[3]  # type: ignore
-        else:
-            total_num_frames += pool_data[i][0].shape[2]  # type: ignore
+        if (len(pool_data[i][0]) != 0):  # type: ignore
+            if (image_channels > 1):
+                total_num_frames += pool_data[i][0].shape[3]  # type: ignore
+            else:
+                total_num_frames += pool_data[i][0].shape[2]  # type: ignore
 
     # pre-allocate array sizes
     if (image_channels > 1):
         images = np.empty([image_height, image_width, image_channels, total_num_frames], dtype=image_dtype)
     else:
         images = np.empty([image_height, image_width, total_num_frames], dtype=image_dtype)
-    metadata_dict_list = [{}] * total_num_frames
+    if (no_metadata is False):
+        metadata_dict_list = [{}] * total_num_frames
+    else:
+        metadata_dict_list = []
     problematic_file_list = []
 
     # populate data
@@ -128,7 +149,7 @@ def read(file_list, n_parallel=1, first_record=False, no_metadata=False, tar_tem
             continue
 
         # check if any data was read in
-        if (len(pool_data[i][1]) == 0):
+        if (len(pool_data[i][0]) == 0):  # type: ignore
             continue
 
         # find actual number of frames, this may differ from predicted due to dropped frames, end
@@ -139,7 +160,8 @@ def read(file_list, n_parallel=1, first_record=False, no_metadata=False, tar_tem
             this_num_frames = pool_data[i][0].shape[2]  # type: ignore
 
         # metadata dictionary list at data[][1]
-        metadata_dict_list[list_position:list_position + this_num_frames] = pool_data[i][1]
+        if (no_metadata is False):
+            metadata_dict_list[list_position:list_position + this_num_frames] = pool_data[i][1]
         if (image_channels > 1):
             images[:, :, :, list_position:list_position + this_num_frames] = pool_data[i][0]
         else:
@@ -147,7 +169,8 @@ def read(file_list, n_parallel=1, first_record=False, no_metadata=False, tar_tem
         list_position = list_position + this_num_frames  # advance list position
 
     # trim unused elements from predicted array sizes
-    metadata_dict_list = metadata_dict_list[0:list_position]
+    if (no_metadata is False):
+        metadata_dict_list = metadata_dict_list[0:list_position]
     if (image_channels > 1):
         images = np.delete(images, range(list_position, total_num_frames), axis=3)
     else:
@@ -208,48 +231,76 @@ def __rgb_readfile_worker_h5(file_obj):
     image_channels = 0
     image_dtype = __RGB_H5_DT
 
-    # open H5 file
-    f = h5py.File(file_obj["filename"], 'r')
+    # set start and end times so we can use shorter variable names lower down in this function
+    start_time = file_obj["start_time"]
+    end_time = file_obj["end_time"]
 
-    # get images and timestamps
-    if (file_obj["first_record"] is True):
-        # get only first frame
-        images = f["data"]["images"][:, :, :, 0]  # type: ignore
-        timestamps = [f["data"]["timestamp"][0]]  # type: ignore
-    else:
-        # get all frames
-        images = f["data"]["images"][:]  # type: ignore
-        timestamps = f["data"]["timestamp"][:]  # type: ignore
+    # process file
+    try:
+        # open H5 file
+        f = h5py.File(file_obj["filename"], 'r')
 
-    # read metadata
-    file_metadata = {}
-    if (file_obj["no_metadata"] is True):
-        metadata_dict_list = [{}] * len(timestamps)  # type: ignore
-    else:
-        # get file metadata
-        for key, value in f["metadata"]["file"].attrs.items():  # type: ignore
-            file_metadata[key] = value
+        # set image shape vars
+        image_height = f["data"]["images"].shape[0]  # type: ignore
+        image_width = f["data"]["images"].shape[1]  # type: ignore
+        image_channels = f["data"]["images"].shape[2]  # type: ignore
 
-        # read frame metadata
-        for i in range(0, len(timestamps)):  # type: ignore
-            this_frame_metadata = file_metadata.copy()
-            for key, value in f["metadata"]["frame"]["frame%d" % (i)].attrs.items():  # type: ignore
-                this_frame_metadata[key] = value
-            metadata_dict_list.append(this_frame_metadata)
+        # get timestamps
+        if (file_obj["first_record"] is True):
+            timestamps = [f["data"]["timestamp"][0]]  # type: ignore
+        else:
+            timestamps = f["data"]["timestamp"][:]  # type: ignore
 
-    # close H5 file
-    f.close()
+        # search through timestamps for indexes to read data for, based
+        # on the start and end times
+        idxs = []
+        if (start_time is None and end_time is None):
+            # no filtering, read all indexes
+            idxs = np.arange(0, len(timestamps))  # type: ignore
+        else:
+            for i, val in enumerate(timestamps):  # type: ignore
+                val_dt = datetime.datetime.strptime(val.decode(), "%Y-%m-%d %H:%M:%S.%f UTC").replace(microsecond=0)
+                if ((start_time is None or val_dt >= start_time) and (end_time is None or val_dt <= end_time)):
+                    # matches start and end time range, we want to read this index
+                    idxs.append(i)
 
-    # set image vars and reshape if multiple images
-    image_height = images.shape[0]  # type: ignore
-    image_width = images.shape[1]  # type: ignore
-    image_channels = images.shape[2]  # type: ignore
-    if (len(images.shape) == 3):  # type: ignore
-        # force reshape to 4 dimensions
-        images = images.reshape((image_height, image_width, image_channels, 1))  # type: ignore
+        # bail out if we don't want to read any frames
+        if (len(idxs) == 0):
+            return images, metadata_dict_list, problematic, file_obj["filename"], error_message, \
+                image_width, image_height, image_channels, image_dtype
 
-    # flip data (since it's upside down with displaying bottom-up (imshow origin="bottom"))
-    images = np.flip(images, axis=0)  # type: ignore
+        # get images
+        images = f["data"]["images"][:, :, :, idxs]  # type: ignore
+
+        # read metadata
+        file_metadata = {}
+        if (file_obj["no_metadata"] is False):
+            # get file metadata
+            for key, value in f["metadata"]["file"].attrs.items():  # type: ignore
+                file_metadata[key] = value
+
+            # read frame metadata
+            for i in idxs:  # type: ignore
+                this_frame_metadata = file_metadata.copy()
+                for key, value in f["metadata"]["frame"]["frame%d" % (i)].attrs.items():  # type: ignore
+                    this_frame_metadata[key] = value
+                metadata_dict_list.append(this_frame_metadata)
+
+        # close H5 file
+        f.close()
+
+        # reshape if multiple images
+        if (len(images.shape) == 3):  # type: ignore
+            # force reshape to 4 dimensions
+            images = images.reshape((image_height, image_width, image_channels, 1))  # type: ignore
+
+        # flip data (since it's upside down with displaying bottom-up (imshow origin="bottom"))
+        images = np.flip(images, axis=0)  # type: ignore
+    except Exception as e:
+        if (file_obj["quiet"] is False):
+            print("Error reading image file: %s" % (str(e)))
+        problematic = True
+        error_message = "error reading image file: %s" % (str(e))
 
     # return
     return images, metadata_dict_list, problematic, file_obj["filename"], error_message, \
@@ -271,6 +322,23 @@ def __rgb_readfile_worker_png(file_obj):
 
     # set up working dir
     this_working_dir = "%s/%s" % (file_obj["tar_tempdir"], ''.join(random.choices(string.ascii_lowercase, k=8)))  # nosec
+
+    # set start and end times so we can use shorter variable names lower down in this function
+    start_time = file_obj["start_time"]
+    end_time = file_obj["end_time"]
+
+    # extract start and end times of the filename
+    #
+    # NOTE: we use this to better inform us about zero-filesize files
+    try:
+        file_dt = datetime.datetime.strptime(os.path.basename(file_obj["filename"])[0:13], "%Y%m%d_%H%M")
+    except Exception:
+        if (file_obj["quiet"] is False):
+            print("Failed to extract timestamp from filename")
+        problematic = True
+        error_message = "failed to extract timestamp from filename"
+        return images, metadata_dict_list, problematic, file_obj["filename"], error_message, \
+            image_width, image_height, image_channels, image_dtype
 
     # check if it's a tar file
     file_list = []
@@ -314,9 +382,7 @@ def __rgb_readfile_worker_png(file_obj):
 
     # read each png file
     for f in file_list:
-        if (file_obj["no_metadata"] is True):
-            metadata_dict_list.append({})
-        else:
+        if (file_obj["no_metadata"] is False):
             # process metadata
             try:
                 # set metadata values
@@ -331,6 +397,14 @@ def __rgb_readfile_worker_png(file_obj):
                     timestamp = datetime.datetime.strptime("%sT%s.%s" % (file_split[0], file_split[1], file_split[2]), "%Y%m%dT%H%M%S.%f")
                 else:
                     timestamp = datetime.datetime.strptime("%sT%s" % (file_split[0], file_split[1]), "%Y%m%dT%H%M%S")
+
+                # check if we want to read this frame based on the start and end times
+                if ((start_time is None or timestamp.replace(microsecond=0) >= start_time)
+                        and (end_time is None or timestamp.replace(microsecond=0) <= end_time)):
+                    pass
+                else:
+                    # don't want to read this file, continue on to the next
+                    continue
 
                 # set the metadata dict
                 metadata_dict = {
@@ -386,14 +460,30 @@ def __rgb_readfile_worker_png(file_obj):
         shutil.rmtree(this_working_dir)
 
     # check to see if the image is empty
-    if (images.size == 0):
+    image_size_is_zero = False
+    if (start_time is None and end_time is None):
+        if (images.size == 0):
+            image_size_is_zero = True
+    elif (start_time is not None and end_time is not None):
+        if (file_dt >= start_time and file_dt <= end_time):
+            if (images.size == 0):
+                image_size_is_zero = True
+    elif (start_time is not None and file_dt >= start_time):
+        if (images.size == 0):
+            image_size_is_zero = True
+    elif (end_time is not None and file_dt <= end_time):
+        if (images.size == 0):
+            image_size_is_zero = True
+
+    # react to image data being empty
+    if (image_size_is_zero is True):
         if (file_obj["quiet"] is False):
             print("Error reading image file: found no image data")
         problematic = True
         error_message = "no image data"
-
-    # flip data (since it's upside down with displaying bottom-up (imshow origin="bottom"))
-    images = np.flip(images, axis=0)
+    else:
+        # flip data (since it's upside down with displaying bottom-up (imshow origin="bottom"))
+        images = np.flip(images, axis=0)
 
     # return
     return images, metadata_dict_list, problematic, file_obj["filename"], error_message, \
@@ -419,6 +509,23 @@ def __rgb_readfile_worker_pgm(file_obj):
     file_split = os.path.basename(file_obj["filename"]).split('_')
     site_uid = file_split[3]
     device_uid = file_split[4]
+
+    # set start and end times so we can use shorter variable names lower down in this function
+    start_time = file_obj["start_time"]
+    end_time = file_obj["end_time"]
+
+    # extract start and end times of the filename
+    #
+    # NOTE: we use this to better inform us about zero-filesize files
+    try:
+        file_dt = datetime.datetime.strptime(os.path.basename(file_obj["filename"])[0:13], "%Y%m%d_%H%M")
+    except Exception:
+        if (file_obj["quiet"] is False):
+            print("Failed to extract timestamp from filename")
+        problematic = True
+        error_message = "failed to extract timestamp from filename"
+        return images, metadata_dict_list, problematic, file_obj["filename"], error_message, \
+            image_width, image_height, image_channels, image_dtype
 
     # check file extension to see if it's gzipped or not
     unzipped = None
@@ -455,6 +562,7 @@ def __rgb_readfile_worker_pgm(file_obj):
     # read the file
     prev_line = None
     line = None
+    skip_this_record = False
     while True:
         # break out depending on first_record param
         if (file_obj["first_record"] is True and is_first is False):
@@ -488,10 +596,7 @@ def __rgb_readfile_worker_pgm(file_obj):
 
         # process line
         if (line.startswith(b'#"')):  # type: ignore
-            if (file_obj["no_metadata"] is True):
-                metadata_dict = {}
-                metadata_dict_list.append(metadata_dict)
-            else:
+            if (file_obj["no_metadata"] is False):
                 # metadata lines start with #"<key>"
                 try:
                     line_decoded = line.decode("ascii")  # type: ignore
@@ -523,7 +628,23 @@ def __rgb_readfile_worker_pgm(file_obj):
                 # split dictionaries up per frame, exposure plus initial readout is
                 # always the end of metadata for frame
                 if (key.startswith("Effective image exposure")):
-                    metadata_dict_list.append(metadata_dict)
+                    # check if we want to skip this frame based on the start and end times
+                    if ("image_request_start_timestamp" in metadata_dict):
+                        this_timestamp = datetime.datetime.strptime(metadata_dict["image_request_start_timestamp"],
+                                                                    "%Y-%m-%d %H:%M:%S.%f UTC").replace(microsecond=0)
+                    elif ("Image request start" in metadata_dict):
+                        this_timestamp = datetime.datetime.strptime(metadata_dict["Image request start"],
+                                                                    "%Y-%m-%d %H:%M:%S.%f UTC").replace(microsecond=0)
+                    else:
+                        if (file_obj["quiet"] is False):
+                            print("Unexpected timestamp metadata format in %s" % (file_obj["filename"]))
+                        problematic = True
+                        error_message = "unexpected timestamp metadata format"
+                        continue
+                    if ((start_time is None or this_timestamp >= start_time) and (end_time is None or this_timestamp <= end_time)):
+                        metadata_dict_list.append(metadata_dict)
+                    else:
+                        skip_this_record = True
                     metadata_dict = {}
         elif line == b'65535\n':
             # there are 2 lines between "exposure plus read out" and the image
@@ -538,6 +659,12 @@ def __rgb_readfile_worker_pgm(file_obj):
 
             # read image
             try:
+                # skip the image data if we wanted to
+                if (skip_this_record is True):
+                    skip_this_record = False
+                    unzipped.seek(bytes_to_read, 1)
+                    continue
+
                 # read the image size in bytes from the file
                 image_bytes = unzipped.read(bytes_to_read)
 
@@ -570,19 +697,34 @@ def __rgb_readfile_worker_pgm(file_obj):
     # set the site/device uids, or inject the site and device UIDs if they are missing
     if ("Site unique ID" not in metadata_dict):
         metadata_dict["Site unique ID"] = site_uid
-
     if ("Imager unique ID" not in metadata_dict):
         metadata_dict["Imager unique ID"] = device_uid
 
     # check to see if the image is empty
-    if (images.size == 0):
+    image_size_is_zero = False
+    if (start_time is None and end_time is None):
+        if (images.size == 0):
+            image_size_is_zero = True
+    elif (start_time is not None and end_time is not None):
+        if (file_dt >= start_time and file_dt <= end_time):
+            if (images.size == 0):
+                image_size_is_zero = True
+    elif (start_time is not None and file_dt >= start_time):
+        if (images.size == 0):
+            image_size_is_zero = True
+    elif (end_time is not None and file_dt <= end_time):
+        if (images.size == 0):
+            image_size_is_zero = True
+
+    # react to image data being empty
+    if (image_size_is_zero is True):
         if (file_obj["quiet"] is False):
             print("Error reading image file: found no image data")
         problematic = True
         error_message = "no image data"
-
-    # flip data (since it's upside down with displaying bottom-up (imshow origin="bottom"))
-    images = np.flip(images, axis=0)
+    else:
+        # flip data (since it's upside down with displaying bottom-up (imshow origin="bottom"))
+        images = np.flip(images, axis=0)
 
     # return
     return images, metadata_dict_list, problematic, file_obj["filename"], error_message, \

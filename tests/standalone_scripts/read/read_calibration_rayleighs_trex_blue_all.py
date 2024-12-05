@@ -8,7 +8,7 @@ srs.api_base_url = "https://api-staging.phys.ucalgary.ca"
 
 # get dataset
 print("\n[%s] Getting dataset ..." % (datetime.datetime.now()))
-dataset = srs.data.list_datasets("TREX_BLUE_CALIBRATION_RAYLEIGHS_IDLSAV")[0]
+dataset = srs.data.get_dataset("TREX_BLUE_CALIBRATION_RAYLEIGHS_IDLSAV")
 
 # download data
 print("\n[%s] Downloading data ..." % (datetime.datetime.now()))

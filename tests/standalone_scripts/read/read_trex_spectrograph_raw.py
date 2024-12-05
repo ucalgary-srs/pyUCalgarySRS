@@ -13,7 +13,7 @@ dataset = srs.data.get_dataset("TREX_SPECT_RAW")
 # download data
 print("\n[%s] Downloading data ..." % (datetime.datetime.now()))
 start_dt = datetime.datetime(2023, 1, 1, 6, 0, 0)
-end_dt = datetime.datetime(2023, 1, 1, 6, 4, 59)
+end_dt = datetime.datetime(2023, 1, 1, 6, 9, 59)
 site_uid = "rabb"
 download_obj = srs.data.download(dataset.name, start_dt, end_dt, site_uid=site_uid, progress_bar_disable=True)
 
@@ -23,15 +23,50 @@ file_list = download_obj.filenames
 # read data
 print("\n[%s] Reading data ..." % (datetime.datetime.now()))
 data = srs.data.read(dataset, file_list, n_parallel=1)
-
-print()
-print(data)
-
 print()
 data.pretty_print()
 
+# read data with multiprocessing
+print("\n[%s] Reading data with n_parallel ..." % (datetime.datetime.now()))
+data = srs.data.read(dataset, file_list, n_parallel=2)
 print()
-pprint.pprint(data.timestamp[0:10])
+data.pretty_print()
 
+# read data with no metadata
+print("\n[%s] Reading data with no_metadata ..." % (datetime.datetime.now()))
+data = srs.data.read(dataset, file_list, no_metadata=True)
 print()
-pprint.pprint(data.metadata[0])
+data.pretty_print()
+
+# read data with first record
+print("\n[%s] Reading data with first_record ..." % (datetime.datetime.now()))
+data = srs.data.read(dataset, file_list, first_record=True)
+print()
+data.pretty_print()
+
+# read data with start time and end time
+start_dt = datetime.datetime(2023, 1, 1, 6, 3)
+end_dt = datetime.datetime(2023, 1, 1, 6, 7)
+print("\n[%s] Reading data with start+end times ..." % (datetime.datetime.now()))
+data = srs.data.read(dataset, file_list, start_time=start_dt, end_time=end_dt)
+print()
+data.pretty_print()
+print()
+pprint.pprint(data.timestamp[0:5])
+pprint.pprint(data.timestamp[-5:])
+
+print("\n[%s] Reading data with start time ..." % (datetime.datetime.now()))
+data = srs.data.read(dataset, file_list, start_time=start_dt)
+print()
+data.pretty_print()
+print()
+pprint.pprint(data.timestamp[0:5])
+pprint.pprint(data.timestamp[-5:])
+
+print("\n[%s] Reading data with end time ..." % (datetime.datetime.now()))
+data = srs.data.read(dataset, file_list, end_time=end_dt)
+print()
+data.pretty_print()
+print()
+pprint.pprint(data.timestamp[0:5])
+pprint.pprint(data.timestamp[-5:])

@@ -2,32 +2,83 @@ import pprint
 import datetime
 import pyucalgarysrs
 
+# init
 srs = pyucalgarysrs.PyUCalgarySRS()
+srs.api_base_url = "https://api-staging.phys.ucalgary.ca"
+
+# get dataset
+print("\n[%s] Getting dataset ..." % (datetime.datetime.now()))
+dataset = srs.data.get_dataset("SWAN_HSR_K0_H5")
 
 # get several days of K0 data
+print("\n[%s] Downloading data ..." % (datetime.datetime.now()))
 start_dt = datetime.datetime(2024, 1, 1, 0, 0, 0)
-end_dt = datetime.datetime(2024, 1, 10, 23, 59, 59)
-res = srs.data.download("SWAN_HSR_K0_H5", start_dt, end_dt, site_uid="mean", progress_bar_disable=True, n_parallel=5)
+end_dt = datetime.datetime(2024, 1, 3, 23, 59, 59)
+site_uid = "mean"
+download_obj = srs.data.download(dataset.name, start_dt, end_dt, site_uid=site_uid, progress_bar_disable=True)
 
-# read the data
-data = srs.data.read(res.dataset, res.filenames, n_parallel=2)
+# set list of files (we could do this using a glob too)
+file_list = download_obj.filenames
 
-print(data)
-
-data.pretty_print()
-
+# read data
+print("\n[%s] Reading data ..." % (datetime.datetime.now()))
+data = srs.data.read(dataset, file_list, n_parallel=1)
 print()
-
+data.pretty_print()
+print()
 data.data[0].pretty_print()
 
+# read data with multiprocessing
+print("\n[%s] Reading data with n_parallel ..." % (datetime.datetime.now()))
+data = srs.data.read(dataset, file_list, n_parallel=2)
 print()
-
-print(data.data[0].timestamp[0:10])
-
+data.pretty_print()
 print()
+data.data[0].pretty_print()
 
-pprint.pprint(data.timestamp)
-
+# read data with no metadata
+print("\n[%s] Reading data with no_metadata ..." % (datetime.datetime.now()))
+data = srs.data.read(dataset, file_list, no_metadata=True)
 print()
+data.pretty_print()
+print()
+data.data[0].pretty_print()
 
-pprint.pprint(data.metadata[0])
+# read data with start time and end time
+start_dt = datetime.datetime(2024, 1, 1, 12, 0, 0)
+end_dt = datetime.datetime(2024, 1, 3, 13, 30, 59)
+print("\n[%s] Reading data with start+end times ..." % (datetime.datetime.now()))
+data = srs.data.read(dataset, file_list, start_time=start_dt, end_time=end_dt)
+print()
+data.pretty_print()
+print()
+data.data[0].pretty_print()
+print()
+pprint.pprint(data.data[0].timestamp[0:5])
+pprint.pprint(data.data[0].timestamp[-5:])
+pprint.pprint(data.data[-1].timestamp[0:5])
+pprint.pprint(data.data[-1].timestamp[-5:])
+
+print("\n[%s] Reading data with start time ..." % (datetime.datetime.now()))
+data = srs.data.read(dataset, file_list, start_time=start_dt)
+print()
+data.pretty_print()
+print()
+data.data[0].pretty_print()
+print()
+pprint.pprint(data.data[0].timestamp[0:5])
+pprint.pprint(data.data[0].timestamp[-5:])
+pprint.pprint(data.data[-1].timestamp[0:5])
+pprint.pprint(data.data[-1].timestamp[-5:])
+
+print("\n[%s] Reading data with end time ..." % (datetime.datetime.now()))
+data = srs.data.read(dataset, file_list, end_time=end_dt)
+print()
+data.pretty_print()
+print()
+data.data[0].pretty_print()
+print()
+pprint.pprint(data.data[0].timestamp[0:5])
+pprint.pprint(data.data[0].timestamp[-5:])
+pprint.pprint(data.data[-1].timestamp[0:5])
+pprint.pprint(data.data[-1].timestamp[-5:])
