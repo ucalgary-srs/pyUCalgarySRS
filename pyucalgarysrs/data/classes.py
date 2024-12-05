@@ -46,7 +46,11 @@ class Dataset:
         
         file_reading_supported (bool): 
             Flag indicating if file reading is supported for this dataset.
-        
+
+        file_time_resolution (str): 
+            Time resolution of the files for this dataset, represented as a string. Possible values
+            are: 1min, 1hr, 1day, not_applicable.
+
         level (str): 
             Dataset level as per L0/L1/L2/etc standards.
         
@@ -75,6 +79,7 @@ class Dataset:
                  file_reading_supported: bool,
                  level: str,
                  supported_libraries: List[str],
+                 file_time_resolution: str,
                  doi: Optional[str] = None,
                  doi_details: Optional[str] = None,
                  citation: Optional[str] = None):
@@ -90,6 +95,7 @@ class Dataset:
         self.citation = citation
         self.provider = "UCalgary"
         self.supported_libraries = supported_libraries
+        self.file_time_resolution = file_time_resolution
 
     def __str__(self) -> str:
         return self.__repr__()
