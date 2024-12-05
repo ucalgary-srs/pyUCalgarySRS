@@ -15,6 +15,7 @@ Some links to help:
 - [PyUCalgarySRS API Reference](https://docs-pyucalgarysrs.phys.ucalgary.ca)
 - [Crib sheets that utilize PyUCalgarySRS](https://data.phys.ucalgary.ca/working_with_data/index.html#crib-sheets)
 - [UCalgary Space Remote Sensing Open Data Platform](https://data.phys.ucalgary.ca)
+- [Usage examples](https://github.com/ucalgary-srs/pyUCalgarySRS/tree/main/tests/standalone_scripts)
 
 ## Installation
 
