@@ -40,3 +40,5 @@ Below is how the library can be imported:
 import pyucalgarysrs
 srs = pyucalgarysrs.PyUCalgarySRS()
 ```
+
+A large collection of examples can be found in the [`tests/standalone_scripts`](https://github.com/ucalgary-srs/pyUCalgarySRS/tree/main/tests/standalone_scripts) directory. 
