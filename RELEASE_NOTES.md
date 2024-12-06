@@ -1,3 +1,9 @@
+Version 1.6.2
+-------------------
+
+- updates to handle TREx Spectrograph skymap reading
+
+
 Version 1.6.1
 -------------------
 

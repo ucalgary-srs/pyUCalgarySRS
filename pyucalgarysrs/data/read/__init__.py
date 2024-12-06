@@ -1052,16 +1052,30 @@ class ReadManager:
                 generation_info_obj.bytscl_values = item_recarray.generation_info[0].bytscl_values
 
             # flip certain things
-            full_elevation_flipped = np.flip(item_recarray.full_elevation, axis=0)
-            full_azimuth_flipped = np.flip(item_recarray.full_azimuth, axis=0)
-            full_map_latitude_flipped = np.flip(item_recarray.full_map_latitude, axis=1)
-            full_map_longitude_flipped = np.flip(item_recarray.full_map_longitude, axis=1)
-            if ("REGO" in item["filename"]):
+            if ("SPECT" in item["filename"]):
+                # flip n/s
+                full_elevation_flipped = np.flip(item_recarray.full_elevation, axis=0)
+                full_azimuth_flipped = None
+                full_map_latitude_flipped = np.flip(item_recarray.full_map_latitude, axis=1)
+                full_map_longitude_flipped = np.flip(item_recarray.full_map_longitude, axis=1)
+            elif ("REGO" in item["filename"]):
+                # flip n/s
+                full_elevation_flipped = np.flip(item_recarray.full_elevation, axis=0)
+                full_azimuth_flipped = np.flip(item_recarray.full_azimuth, axis=0)
+                full_map_latitude_flipped = np.flip(item_recarray.full_map_latitude, axis=1)
+                full_map_longitude_flipped = np.flip(item_recarray.full_map_longitude, axis=1)
+
                 # flip e/w too, but just for REGO (since we do this to the raw data too)
                 full_elevation_flipped = np.flip(full_elevation_flipped, axis=1)
                 full_azimuth_flipped = np.flip(full_azimuth_flipped, axis=1)
                 full_map_latitude_flipped = np.flip(full_map_latitude_flipped, axis=2)
                 full_map_longitude_flipped = np.flip(full_map_longitude_flipped, axis=2)
+            else:
+                # flip n/s
+                full_elevation_flipped = np.flip(item_recarray.full_elevation, axis=0)
+                full_azimuth_flipped = np.flip(item_recarray.full_azimuth, axis=0)
+                full_map_latitude_flipped = np.flip(item_recarray.full_map_latitude, axis=1)
+                full_map_longitude_flipped = np.flip(item_recarray.full_map_longitude, axis=1)
 
             # create object
             skymap_obj = Skymap(

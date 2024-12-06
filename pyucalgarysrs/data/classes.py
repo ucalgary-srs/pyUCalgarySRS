@@ -18,7 +18,7 @@ classes in this module are included at the top level of this library.
 
 import datetime
 from dataclasses import dataclass
-from typing import Optional, List, Dict, Literal, Any
+from typing import Optional, List, Dict, Literal, Any, Union
 from numpy import ndarray
 
 
@@ -279,15 +279,15 @@ class SkymapGenerationInfo:
             the next newest skymap.
     """
     author: str
-    ccd_center: float
+    ccd_center: Union[float, None]
     code_used: str
     data_loc: str
     date_generated: datetime.datetime
     date_time_used: datetime.datetime
-    img_flip: ndarray
-    optical_orientation: ndarray
-    optical_projection: ndarray
-    pixel_aspect_ratio: float
+    img_flip: Union[ndarray, None]
+    optical_orientation: Union[ndarray, None]
+    optical_projection: Union[ndarray, None]
+    pixel_aspect_ratio: Union[float, None]
     valid_interval_start: datetime.datetime
     valid_interval_stop: Optional[datetime.datetime] = None
     bytscl_values: Optional[ndarray] = None
@@ -355,8 +355,8 @@ class Skymap:
         full_elevation (ndarray): 
             Elevation angle from horizon, for each image pixel (in degrees)
         
-        full_azimuth (ndarray): 
-            Local azimuth angle from 0 degrees north, positive moving east (in degrees)
+        full_azimuth (ndarray | None): 
+            Local azimuth angle from 0 degrees north, positive moving east (in degrees). None for TREx Spectrograph.
         
         full_map_altitude (ndarray): 
             Altitudes that image coordinates are mapped to (in kilometers)
@@ -384,7 +384,7 @@ class Skymap:
     site_map_longitude: float
     site_map_altitude: float
     full_elevation: ndarray
-    full_azimuth: ndarray
+    full_azimuth: Union[ndarray, None]
     full_map_altitude: ndarray
     full_map_latitude: ndarray
     full_map_longitude: ndarray
