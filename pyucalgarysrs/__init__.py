@@ -33,7 +33,7 @@ Basic usage:
 """
 
 # versioning info
-__version__ = "1.6.2"
+__version__ = "1.6.3"
 
 # documentation
 __pdoc__ = {"pyucalgarysrs": False}

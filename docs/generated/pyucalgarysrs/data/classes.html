@@ -147,7 +147,7 @@ class Calibration:
                     var_str = str(var_value)
 
             # print string for this var
-            print(&#34;  %-30s: %s&#34; % (var_name, var_str))</code></pre>
+            print(&#34;  %-27s: %s&#34; % (var_name, var_str))</code></pre>
 </details>
 <h3>Class variables</h3>
 <dl>
@@ -257,7 +257,7 @@ class CalibrationGenerationInfo:
             var_str = &#34;None&#34; if var_value is None else str(var_value)
 
             # print string for this var
-            print(&#34;  %-25s: %s&#34; % (var_name, var_str))</code></pre>
+            print(&#34;  %-22s: %s&#34; % (var_name, var_str))</code></pre>
 </details>
 <h3>Class variables</h3>
 <dl>
@@ -477,12 +477,12 @@ class Data:
 
         # print
         print(&#34;Data:&#34;)
-        print(&#34;  %-22s: %s&#34; % (&#34;data&#34;, data_str))
-        print(&#34;  %-22s: %s&#34; % (&#34;timestamp&#34;, timestamp_str))
-        print(&#34;  %-22s: %s&#34; % (&#34;metadata&#34;, metadata_str))
-        print(&#34;  %-22s: %s&#34; % (&#34;problematic_files&#34;, problematic_files_str))
-        print(&#34;  %-22s: %s&#34; % (&#34;calibrated_data&#34;, calibrated_data_str))
-        print(&#34;  %-22s: %s&#34; % (&#34;dataset&#34;, dataset_str))</code></pre>
+        print(&#34;  %-19s: %s&#34; % (&#34;data&#34;, data_str))
+        print(&#34;  %-19s: %s&#34; % (&#34;timestamp&#34;, timestamp_str))
+        print(&#34;  %-19s: %s&#34; % (&#34;metadata&#34;, metadata_str))
+        print(&#34;  %-19s: %s&#34; % (&#34;problematic_files&#34;, problematic_files_str))
+        print(&#34;  %-19s: %s&#34; % (&#34;calibrated_data&#34;, calibrated_data_str))
+        print(&#34;  %-19s: %s&#34; % (&#34;dataset&#34;, dataset_str))</code></pre>
 </details>
 <h3>Class variables</h3>
 <dl>
@@ -662,7 +662,7 @@ are: 1min, 1hr, 1day, not_applicable.</dd>
 
             # convert var to string format we want
             var_value = getattr(self, var_name)
-            print(&#34;  %-27s: %s&#34; % (var_name, None if var_value is None else var_value))</code></pre>
+            print(&#34;  %-24s: %s&#34; % (var_name, None if var_value is None else var_value))</code></pre>
 </details>
 <h3>Methods</h3>
 <dl>
@@ -1221,7 +1221,7 @@ class HSRData:
 
             # convert var to string format we want
             var_value = getattr(self, var_name)
-            print(&#34;  %-22s: %s&#34; % (var_name, None if var_value is None else var_value))</code></pre>
+            print(&#34;  %-19s: %s&#34; % (var_name, None if var_value is None else var_value))</code></pre>
 </details>
 <h3>Methods</h3>
 <dl>
@@ -1376,7 +1376,7 @@ class RiometerData:
 </dd>
 <dt id="pyucalgarysrs.data.classes.Skymap"><code class="flex name class">
 <span>class <span class="ident">Skymap</span></span>
-<span>(</span><span>filename: str,<br>project_uid: str,<br>site_uid: str,<br>imager_uid: str,<br>site_map_latitude: float,<br>site_map_longitude: float,<br>site_map_altitude: float,<br>full_elevation: numpy.ndarray,<br>full_azimuth: numpy.ndarray,<br>full_map_altitude: numpy.ndarray,<br>full_map_latitude: numpy.ndarray,<br>full_map_longitude: numpy.ndarray,<br>generation_info: <a title="pyucalgarysrs.data.classes.SkymapGenerationInfo" href="#pyucalgarysrs.data.classes.SkymapGenerationInfo">SkymapGenerationInfo</a>,<br>version: str)</span>
+<span>(</span><span>filename: str,<br>project_uid: str,<br>site_uid: str,<br>imager_uid: str,<br>site_map_latitude: float,<br>site_map_longitude: float,<br>site_map_altitude: float,<br>full_elevation: numpy.ndarray,<br>full_azimuth: numpy.ndarray | None,<br>full_map_altitude: numpy.ndarray,<br>full_map_latitude: numpy.ndarray,<br>full_map_longitude: numpy.ndarray,<br>generation_info: <a title="pyucalgarysrs.data.classes.SkymapGenerationInfo" href="#pyucalgarysrs.data.classes.SkymapGenerationInfo">SkymapGenerationInfo</a>,<br>version: str)</span>
 </code></dt>
 <dd>
 <div class="desc"><p>Representation for a skymap file.</p>
@@ -1398,8 +1398,8 @@ class RiometerData:
 <dd>Altitude of the instrument (in meters)</dd>
 <dt><strong><code>full_elevation</code></strong> :&ensp;<code>ndarray</code></dt>
 <dd>Elevation angle from horizon, for each image pixel (in degrees)</dd>
-<dt><strong><code>full_azimuth</code></strong> :&ensp;<code>ndarray</code></dt>
-<dd>Local azimuth angle from 0 degrees north, positive moving east (in degrees)</dd>
+<dt><strong><code>full_azimuth</code></strong> :&ensp;<code>ndarray | None</code></dt>
+<dd>Local azimuth angle from 0 degrees north, positive moving east (in degrees). None for TREx Spectrograph.</dd>
 <dt><strong><code>full_map_altitude</code></strong> :&ensp;<code>ndarray</code></dt>
 <dd>Altitudes that image coordinates are mapped to (in kilometers)</dd>
 <dt><strong><code>full_map_latitude</code></strong> :&ensp;<code>ndarray</code></dt>
@@ -1447,8 +1447,8 @@ class Skymap:
         full_elevation (ndarray): 
             Elevation angle from horizon, for each image pixel (in degrees)
         
-        full_azimuth (ndarray): 
-            Local azimuth angle from 0 degrees north, positive moving east (in degrees)
+        full_azimuth (ndarray | None): 
+            Local azimuth angle from 0 degrees north, positive moving east (in degrees). None for TREx Spectrograph.
         
         full_map_altitude (ndarray): 
             Altitudes that image coordinates are mapped to (in kilometers)
@@ -1476,7 +1476,7 @@ class Skymap:
     site_map_longitude: float
     site_map_altitude: float
     full_elevation: ndarray
-    full_azimuth: ndarray
+    full_azimuth: Union[ndarray, None]
     full_map_altitude: ndarray
     full_map_latitude: ndarray
     full_map_longitude: ndarray
@@ -1502,7 +1502,7 @@ class Skymap:
         print(&#34;Skymap:&#34;)
         for var_name in dir(self):
             # exclude methods
-            if (var_name.startswith(&#34;__&#34;) or var_name == &#34;pretty_print&#34;):
+            if (var_name.startswith(&#34;__&#34;) or var_name == &#34;pretty_print&#34; or var_name == &#34;get_precalculated_altitudes&#34;):
                 continue
 
             # convert var to string format we want
@@ -1517,7 +1517,7 @@ class Skymap:
                     var_str = str(var_value)
 
             # print string for this var
-            print(&#34;  %-23s: %s&#34; % (var_name, var_str))
+            print(&#34;  %-20s: %s&#34; % (var_name, var_str))
 
     def get_precalculated_altitudes(self):
         &#34;&#34;&#34;
@@ -1532,7 +1532,7 @@ class Skymap:
 <dd>
 <div class="desc"></div>
 </dd>
-<dt id="pyucalgarysrs.data.classes.Skymap.full_azimuth"><code class="name">var <span class="ident">full_azimuth</span> : numpy.ndarray</code></dt>
+<dt id="pyucalgarysrs.data.classes.Skymap.full_azimuth"><code class="name">var <span class="ident">full_azimuth</span> : numpy.ndarray | None</code></dt>
 <dd>
 <div class="desc"></div>
 </dd>
@@ -1603,7 +1603,7 @@ class Skymap:
 </dd>
 <dt id="pyucalgarysrs.data.classes.SkymapGenerationInfo"><code class="flex name class">
 <span>class <span class="ident">SkymapGenerationInfo</span></span>
-<span>(</span><span>author: str,<br>ccd_center: float,<br>code_used: str,<br>data_loc: str,<br>date_generated: datetime.datetime,<br>date_time_used: datetime.datetime,<br>img_flip: numpy.ndarray,<br>optical_orientation: numpy.ndarray,<br>optical_projection: numpy.ndarray,<br>pixel_aspect_ratio: float,<br>valid_interval_start: datetime.datetime,<br>valid_interval_stop: datetime.datetime | None = None,<br>bytscl_values: numpy.ndarray | None = None)</span>
+<span>(</span><span>author: str,<br>ccd_center: float,<br>code_used: str,<br>data_loc: str,<br>date_generated: datetime.datetime,<br>date_time_used: datetime.datetime,<br>img_flip: numpy.ndarray | None,<br>optical_orientation: numpy.ndarray | None,<br>optical_projection: numpy.ndarray | None,<br>pixel_aspect_ratio: float | None,<br>valid_interval_start: datetime.datetime,<br>valid_interval_stop: datetime.datetime | None = None,<br>bytscl_values: numpy.ndarray | None = None)</span>
 </code></dt>
 <dd>
 <div class="desc"><p>Representation of generation details for a specific skymap file.</p>
@@ -1621,13 +1621,13 @@ class Skymap:
 <dd>Timestamp of when the skymap was generated</dd>
 <dt><strong><code>date_time_used</code></strong> :&ensp;<code>datetime.datetime</code></dt>
 <dd>Timestamp of what hour was used during generation</dd>
-<dt><strong><code>img_flip</code></strong> :&ensp;<code>ndarray</code></dt>
+<dt><strong><code>img_flip</code></strong> :&ensp;<code>ndarray | None</code></dt>
 <dd>Image flipping specifics</dd>
-<dt><strong><code>optical_orientation</code></strong> :&ensp;<code>ndarray</code></dt>
+<dt><strong><code>optical_orientation</code></strong> :&ensp;<code>ndarray | None</code></dt>
 <dd>Image orientation details</dd>
-<dt><strong><code>optical_projection</code></strong> :&ensp;<code>ndarray</code></dt>
+<dt><strong><code>optical_projection</code></strong> :&ensp;<code>ndarray | None</code></dt>
 <dd>Image projection details</dd>
-<dt><strong><code>pixel_aspect_ratio</code></strong> :&ensp;<code>float</code></dt>
+<dt><strong><code>pixel_aspect_ratio</code></strong> :&ensp;<code>float | None</code></dt>
 <dd>Aspect ratio details</dd>
 <dt><strong><code>valid_interval_start</code></strong> :&ensp;<code>datetime.datetime</code></dt>
 <dd>Valid start time for this skymap</dd>
@@ -1663,16 +1663,16 @@ class SkymapGenerationInfo:
         date_time_used (datetime.datetime): 
             Timestamp of what hour was used during generation
         
-        img_flip (ndarray): 
+        img_flip (ndarray | None): 
             Image flipping specifics
         
-        optical_orientation (ndarray): 
+        optical_orientation (ndarray | None): 
             Image orientation details
         
-        optical_projection (ndarray): 
+        optical_projection (ndarray | None): 
             Image projection details
         
-        pixel_aspect_ratio (float): 
+        pixel_aspect_ratio (float | None): 
             Aspect ratio details
         
         valid_interval_start (datetime.datetime): 
@@ -1688,10 +1688,10 @@ class SkymapGenerationInfo:
     data_loc: str
     date_generated: datetime.datetime
     date_time_used: datetime.datetime
-    img_flip: ndarray
-    optical_orientation: ndarray
-    optical_projection: ndarray
-    pixel_aspect_ratio: float
+    img_flip: Union[ndarray, None]
+    optical_orientation: Union[ndarray, None]
+    optical_projection: Union[ndarray, None]
+    pixel_aspect_ratio: Union[float, None]
     valid_interval_start: datetime.datetime
     valid_interval_stop: Optional[datetime.datetime] = None
     bytscl_values: Optional[ndarray] = None
@@ -1726,7 +1726,7 @@ class SkymapGenerationInfo:
                     var_str = str(var_value)
 
             # print string for this var
-            print(&#34;  %-24s: %s&#34; % (var_name, var_str))</code></pre>
+            print(&#34;  %-22s: %s&#34; % (var_name, var_str))</code></pre>
 </details>
 <h3>Class variables</h3>
 <dl>
@@ -1758,19 +1758,19 @@ class SkymapGenerationInfo:
 <dd>
 <div class="desc"></div>
 </dd>
-<dt id="pyucalgarysrs.data.classes.SkymapGenerationInfo.img_flip"><code class="name">var <span class="ident">img_flip</span> : numpy.ndarray</code></dt>
+<dt id="pyucalgarysrs.data.classes.SkymapGenerationInfo.img_flip"><code class="name">var <span class="ident">img_flip</span> : numpy.ndarray | None</code></dt>
 <dd>
 <div class="desc"></div>
 </dd>
-<dt id="pyucalgarysrs.data.classes.SkymapGenerationInfo.optical_orientation"><code class="name">var <span class="ident">optical_orientation</span> : numpy.ndarray</code></dt>
+<dt id="pyucalgarysrs.data.classes.SkymapGenerationInfo.optical_orientation"><code class="name">var <span class="ident">optical_orientation</span> : numpy.ndarray | None</code></dt>
 <dd>
 <div class="desc"></div>
 </dd>
-<dt id="pyucalgarysrs.data.classes.SkymapGenerationInfo.optical_projection"><code class="name">var <span class="ident">optical_projection</span> : numpy.ndarray</code></dt>
+<dt id="pyucalgarysrs.data.classes.SkymapGenerationInfo.optical_projection"><code class="name">var <span class="ident">optical_projection</span> : numpy.ndarray | None</code></dt>
 <dd>
 <div class="desc"></div>
 </dd>
-<dt id="pyucalgarysrs.data.classes.SkymapGenerationInfo.pixel_aspect_ratio"><code class="name">var <span class="ident">pixel_aspect_ratio</span> : float</code></dt>
+<dt id="pyucalgarysrs.data.classes.SkymapGenerationInfo.pixel_aspect_ratio"><code class="name">var <span class="ident">pixel_aspect_ratio</span> : float | None</code></dt>
 <dd>
 <div class="desc"></div>
 </dd>

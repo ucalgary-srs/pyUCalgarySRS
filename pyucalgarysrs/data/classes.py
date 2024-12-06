@@ -121,7 +121,7 @@ class Dataset:
 
             # convert var to string format we want
             var_value = getattr(self, var_name)
-            print("  %-27s: %s" % (var_name, None if var_value is None else var_value))
+            print("  %-24s: %s" % (var_name, None if var_value is None else var_value))
 
 
 @dataclass
@@ -259,16 +259,16 @@ class SkymapGenerationInfo:
         date_time_used (datetime.datetime): 
             Timestamp of what hour was used during generation
         
-        img_flip (ndarray): 
+        img_flip (ndarray | None): 
             Image flipping specifics
         
-        optical_orientation (ndarray): 
+        optical_orientation (ndarray | None): 
             Image orientation details
         
-        optical_projection (ndarray): 
+        optical_projection (ndarray | None): 
             Image projection details
         
-        pixel_aspect_ratio (float): 
+        pixel_aspect_ratio (float | None): 
             Aspect ratio details
         
         valid_interval_start (datetime.datetime): 
@@ -279,7 +279,7 @@ class SkymapGenerationInfo:
             the next newest skymap.
     """
     author: str
-    ccd_center: Union[float, None]
+    ccd_center: float
     code_used: str
     data_loc: str
     date_generated: datetime.datetime
@@ -322,7 +322,7 @@ class SkymapGenerationInfo:
                     var_str = str(var_value)
 
             # print string for this var
-            print("  %-24s: %s" % (var_name, var_str))
+            print("  %-22s: %s" % (var_name, var_str))
 
 
 @dataclass
@@ -410,7 +410,7 @@ class Skymap:
         print("Skymap:")
         for var_name in dir(self):
             # exclude methods
-            if (var_name.startswith("__") or var_name == "pretty_print"):
+            if (var_name.startswith("__") or var_name == "pretty_print" or var_name == "get_precalculated_altitudes"):
                 continue
 
             # convert var to string format we want
@@ -425,7 +425,7 @@ class Skymap:
                     var_str = str(var_value)
 
             # print string for this var
-            print("  %-23s: %s" % (var_name, var_str))
+            print("  %-20s: %s" % (var_name, var_str))
 
     def get_precalculated_altitudes(self):
         """
@@ -478,7 +478,7 @@ class CalibrationGenerationInfo:
             var_str = "None" if var_value is None else str(var_value)
 
             # print string for this var
-            print("  %-25s: %s" % (var_name, var_str))
+            print("  %-22s: %s" % (var_name, var_str))
 
 
 @dataclass
@@ -542,7 +542,7 @@ class Calibration:
                     var_str = str(var_value)
 
             # print string for this var
-            print("  %-30s: %s" % (var_name, var_str))
+            print("  %-27s: %s" % (var_name, var_str))
 
 
 @dataclass
@@ -704,12 +704,12 @@ class Data:
 
         # print
         print("Data:")
-        print("  %-22s: %s" % ("data", data_str))
-        print("  %-22s: %s" % ("timestamp", timestamp_str))
-        print("  %-22s: %s" % ("metadata", metadata_str))
-        print("  %-22s: %s" % ("problematic_files", problematic_files_str))
-        print("  %-22s: %s" % ("calibrated_data", calibrated_data_str))
-        print("  %-22s: %s" % ("dataset", dataset_str))
+        print("  %-19s: %s" % ("data", data_str))
+        print("  %-19s: %s" % ("timestamp", timestamp_str))
+        print("  %-19s: %s" % ("metadata", metadata_str))
+        print("  %-19s: %s" % ("problematic_files", problematic_files_str))
+        print("  %-19s: %s" % ("calibrated_data", calibrated_data_str))
+        print("  %-19s: %s" % ("dataset", dataset_str))
 
 
 class Observatory:
@@ -764,7 +764,7 @@ class Observatory:
 
             # convert var to string format we want
             var_value = getattr(self, var_name)
-            print("  %-22s: %s" % (var_name, None if var_value is None else var_value))
+            print("  %-19s: %s" % (var_name, None if var_value is None else var_value))
 
 
 @dataclass

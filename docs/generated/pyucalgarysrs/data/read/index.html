@@ -1047,6 +1047,20 @@ the super class.</p></div>
             # determine the version
             version_str = os.path.splitext(item[&#34;filename&#34;])[0].split(&#39;_&#39;)[-1]
 
+            # set values that could be nan (due to spectrograph)
+            img_flip_val = item_recarray.generation_info[0].img_flip
+            if (np.isnan(img_flip_val) == np.True_):
+                img_flip_val = None
+            optical_orientation_val = item_recarray.generation_info[0].optical_orientation
+            if (np.isnan(optical_orientation_val) == np.True_):
+                optical_orientation_val = None
+            optical_projection_val = item_recarray.generation_info[0].optical_projection
+            if (np.isnan(optical_projection_val) == np.True_):
+                optical_projection_val = None
+            pixel_aspect_ratio_val = item_recarray.generation_info[0].pixel_aspect_ratio
+            if (np.isnan(pixel_aspect_ratio_val) == np.True_):
+                pixel_aspect_ratio_val = None
+
             # create generation info dictionary
             generation_info_obj = SkymapGenerationInfo(
                 author=item_recarray.generation_info[0].author.decode(),
@@ -1055,10 +1069,10 @@ the super class.</p></div>
                 data_loc=item_recarray.generation_info[0].data_loc.decode(),
                 date_generated=date_generated_dt,
                 date_time_used=date_time_used_dt,
-                img_flip=item_recarray.generation_info[0].img_flip,
-                optical_orientation=item_recarray.generation_info[0].optical_orientation,
-                optical_projection=item_recarray.generation_info[0].optical_projection,
-                pixel_aspect_ratio=item_recarray.generation_info[0].pixel_aspect_ratio,
+                img_flip=img_flip_val,
+                optical_orientation=optical_orientation_val,
+                optical_projection=optical_projection_val,
+                pixel_aspect_ratio=pixel_aspect_ratio_val,
                 valid_interval_start=valid_interval_start_dt,
                 valid_interval_stop=valid_interval_stop_dt,
             )
@@ -1071,16 +1085,30 @@ the super class.</p></div>
                 generation_info_obj.bytscl_values = item_recarray.generation_info[0].bytscl_values
 
             # flip certain things
-            full_elevation_flipped = np.flip(item_recarray.full_elevation, axis=0)
-            full_azimuth_flipped = np.flip(item_recarray.full_azimuth, axis=0)
-            full_map_latitude_flipped = np.flip(item_recarray.full_map_latitude, axis=1)
-            full_map_longitude_flipped = np.flip(item_recarray.full_map_longitude, axis=1)
-            if (&#34;REGO&#34; in item[&#34;filename&#34;]):
+            if (&#34;SPECT&#34; in item[&#34;filename&#34;]):
+                # flip n/s
+                full_elevation_flipped = np.flip(item_recarray.full_elevation, axis=0)
+                full_azimuth_flipped = None
+                full_map_latitude_flipped = np.flip(item_recarray.full_map_latitude, axis=1)
+                full_map_longitude_flipped = np.flip(item_recarray.full_map_longitude, axis=1)
+            elif (&#34;REGO&#34; in item[&#34;filename&#34;]):
+                # flip n/s
+                full_elevation_flipped = np.flip(item_recarray.full_elevation, axis=0)
+                full_azimuth_flipped = np.flip(item_recarray.full_azimuth, axis=0)
+                full_map_latitude_flipped = np.flip(item_recarray.full_map_latitude, axis=1)
+                full_map_longitude_flipped = np.flip(item_recarray.full_map_longitude, axis=1)
+
                 # flip e/w too, but just for REGO (since we do this to the raw data too)
                 full_elevation_flipped = np.flip(full_elevation_flipped, axis=1)
                 full_azimuth_flipped = np.flip(full_azimuth_flipped, axis=1)
                 full_map_latitude_flipped = np.flip(full_map_latitude_flipped, axis=2)
                 full_map_longitude_flipped = np.flip(full_map_longitude_flipped, axis=2)
+            else:
+                # flip n/s
+                full_elevation_flipped = np.flip(item_recarray.full_elevation, axis=0)
+                full_azimuth_flipped = np.flip(item_recarray.full_azimuth, axis=0)
+                full_map_latitude_flipped = np.flip(item_recarray.full_map_latitude, axis=1)
+                full_map_longitude_flipped = np.flip(item_recarray.full_map_longitude, axis=1)
 
             # create object
             skymap_obj = Skymap(

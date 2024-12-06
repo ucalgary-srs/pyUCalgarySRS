@@ -1,5 +1,4 @@
 import pyucalgarysrs
-import pprint
 
 srs = pyucalgarysrs.PyUCalgarySRS()
 srs.api_base_url = "https://api-staging.phys.ucalgary.ca"
@@ -10,5 +9,5 @@ print()
 print(dataset)
 print()
 
-print("Example record in dict format:\n------------------------------\n")
-pprint.pprint(dataset.__dict__)
+dataset.pretty_print()
+print()

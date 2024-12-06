@@ -22,6 +22,14 @@ file_list = download_obj.filenames
 print("\n[%s] Reading data ..." % (datetime.datetime.now()))
 data = srs.data.read(dataset, file_list[0])
 
+# read data
+print("\n[%s] Reading data ..." % (datetime.datetime.now()))
+data = srs.data.read(dataset, file_list)
+
+print()
+print(data)
+print()
+
 data.pretty_print()
 print()
 
@@ -30,11 +38,3 @@ print()
 
 data.data[0].generation_info.pretty_print()
 print()
-
-# # read data
-# print("\n[%s] Reading data ..." % (datetime.datetime.now()))
-# data = srs.data.read(dataset, file_list)
-
-# print()
-# print(data)
-# print()

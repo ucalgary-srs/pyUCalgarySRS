@@ -1028,6 +1028,20 @@ class ReadManager:
             # determine the version
             version_str = os.path.splitext(item["filename"])[0].split('_')[-1]
 
+            # set values that could be nan (due to spectrograph)
+            img_flip_val = item_recarray.generation_info[0].img_flip
+            if (np.isnan(img_flip_val).any()):
+                img_flip_val = None
+            optical_orientation_val = item_recarray.generation_info[0].optical_orientation
+            if (np.isnan(optical_orientation_val).any()):
+                optical_orientation_val = None
+            optical_projection_val = item_recarray.generation_info[0].optical_projection
+            if (np.isnan(optical_projection_val).any()):
+                optical_projection_val = None
+            pixel_aspect_ratio_val = item_recarray.generation_info[0].pixel_aspect_ratio
+            if (np.isnan(pixel_aspect_ratio_val).any()):
+                pixel_aspect_ratio_val = None
+
             # create generation info dictionary
             generation_info_obj = SkymapGenerationInfo(
                 author=item_recarray.generation_info[0].author.decode(),
@@ -1036,10 +1050,10 @@ class ReadManager:
                 data_loc=item_recarray.generation_info[0].data_loc.decode(),
                 date_generated=date_generated_dt,
                 date_time_used=date_time_used_dt,
-                img_flip=item_recarray.generation_info[0].img_flip,
-                optical_orientation=item_recarray.generation_info[0].optical_orientation,
-                optical_projection=item_recarray.generation_info[0].optical_projection,
-                pixel_aspect_ratio=item_recarray.generation_info[0].pixel_aspect_ratio,
+                img_flip=img_flip_val,
+                optical_orientation=optical_orientation_val,
+                optical_projection=optical_projection_val,
+                pixel_aspect_ratio=pixel_aspect_ratio_val,
                 valid_interval_start=valid_interval_start_dt,
                 valid_interval_stop=valid_interval_stop_dt,
             )

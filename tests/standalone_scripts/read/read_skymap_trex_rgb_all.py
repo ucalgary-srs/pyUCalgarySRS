@@ -25,3 +25,12 @@ data = srs.data.read(dataset, file_list)
 print()
 print(data)
 print()
+
+data.pretty_print()
+print()
+
+data.data[0].pretty_print()
+print()
+
+data.data[0].generation_info.pretty_print()
+print()

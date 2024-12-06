@@ -1,5 +1,4 @@
 import pyucalgarysrs
-import pprint
 import datetime
 
 srs = pyucalgarysrs.PyUCalgarySRS()
@@ -14,5 +13,5 @@ res = srs.data.download("REGO_CALIBRATION_FLATFIELD_IDLSAV", start_dt, end_dt, s
 print()
 print(res)
 print()
-pprint.pprint(res.__dict__)
+res.pretty_print()
 print()

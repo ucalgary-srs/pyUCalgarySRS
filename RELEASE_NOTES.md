@@ -1,3 +1,10 @@
+Version 1.6.3
+-------------------
+
+- further updates to handle TREx Spectrograph skymap reading
+- formatting updates for `pretty_print()` functions
+
+
 Version 1.6.2
 -------------------
 
