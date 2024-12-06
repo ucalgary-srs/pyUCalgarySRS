@@ -7,8 +7,8 @@ pyucalgarysrs/__init__.py                           8      0   100%
 pyucalgarysrs/data/__init__.py                     41      6    85%   103-108
 pyucalgarysrs/data/_download.py                    89      2    98%   71, 222
 pyucalgarysrs/data/_list.py                        35      0   100%
-pyucalgarysrs/data/classes.py                     372     95    74%   153-164, 198-209, 582, 596-604, 660-675, 681, 689, 796, 799-800, 807-816, 839, 842-845, 852-860, 891, 895-916, 929-955
-pyucalgarysrs/data/read/__init__.py               257     41    84%   262, 281, 287, 293, 304, 314, 818, 930-943, 1052, 1061-1064, 1299-1344, 1408-1431, 1495-1518
+pyucalgarysrs/data/classes.py                     373     95    75%   159-170, 204-215, 588, 602-610, 666-681, 687, 695, 802, 805-806, 813-822, 845, 848-851, 858-866, 897, 901-922, 935-961
+pyucalgarysrs/data/read/__init__.py               266     49    82%   262, 281, 287, 293, 304, 314, 818, 930-943, 1052, 1057-1060, 1063-1072, 1313-1358, 1422-1445, 1509-1532
 pyucalgarysrs/data/read/_calibration.py            45      0   100%
 pyucalgarysrs/data/read/_grid.py                  156    148     5%   25-195, 200-313
 pyucalgarysrs/data/read/_norstar_riometer.py      133    122     8%   44-114, 119-297
@@ -29,5 +29,5 @@ pyucalgarysrs/models/atm/classes_forward.py       117      0   100%
 pyucalgarysrs/models/atm/classes_inverse.py       117      0   100%
 pyucalgarysrs/pyucalgarysrs.py                    166     50    70%   328-406
 -----------------------------------------------------------------------------
-TOTAL                                            3311    945    71%
+TOTAL                                            3321    953    71%
 ```
