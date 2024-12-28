@@ -1,4 +1,4 @@
-.PHONY: install update get-test-data docs test test-linting test-ruff test-pycodestyle test-bandit test-pyright test-pytest test-pytest-noread test-pytest-production test-pytest-staging test-pytest-ci test-coverage publish
+.PHONY: install update get-test-data docs show-outdated test test-linting test-ruff test-pycodestyle test-bandit test-pyright test-pytest test-pytest-noread test-pytest-production test-pytest-staging test-pytest-ci test-coverage publish
 
 all:
 
@@ -64,6 +64,9 @@ test-pytest-ci pytest-ci:
 test-coverage coverage:
 	coverage report
 	@tools/update_coverage_file.py
+
+show-outdated:
+	poetry show --outdated
 
 publish:
 	${MAKE} test
