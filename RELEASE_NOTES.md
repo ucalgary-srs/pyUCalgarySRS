@@ -1,6 +1,8 @@
 Version 1.7.0
 -------------------
 
+- performance improvement for reading raw ASI data
+- removed `joblib` dependency
 
 
 Version 1.6.3
