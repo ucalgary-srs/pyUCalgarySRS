@@ -21,6 +21,7 @@ import datetime
 import h5py
 from multiprocessing import Pool
 from functools import partial
+from concurrent.futures import ThreadPoolExecutor
 
 # globals
 __SPECTROGRAPH_EXPECTED_HEIGHT = 1024
@@ -102,16 +103,10 @@ def read_raw(file_list, n_parallel=1, first_record=False, no_metadata=False, sta
             image_height = data[i][0].shape[0]
             image_width = data[i][0].shape[1]
 
-    # pre-allocate array sizes
-    images = np.empty([image_height, image_width, total_num_frames], dtype=__SPECTROGRAPH_RAW_DT)
-    if (no_metadata is False):
-        metadata_dict_list = [{}] * total_num_frames
-    else:
-        metadata_dict_list = []
-    problematic_file_list = []
-
-    # populate data
+    # set tasks
     list_position = 0
+    tasks = []
+    problematic_file_list = []
     for i in range(0, len(data)):
         # check if file was problematic
         if (data[i][2] is True):
@@ -129,16 +124,33 @@ def read_raw(file_list, n_parallel=1, first_record=False, no_metadata=False, sta
         # or start of imaging
         real_num_frames = data[i][0].shape[2]
 
-        # metadata dictionary list at data[][1]
-        if (no_metadata is False):
-            metadata_dict_list[list_position:list_position + real_num_frames] = data[i][1]
-        images[:, :, list_position:list_position + real_num_frames] = data[i][0]  # image arrays at data[][0]
-        list_position = list_position + real_num_frames  # advance list position
+        # set task
+        tasks.append((list_position, list_position + real_num_frames, i))
 
-    # trim unused elements from predicted array sizes
+        # advance list position
+        list_position = list_position + real_num_frames
+
+    # pre-allocate array sizes
+    images = np.empty([image_height, image_width, list_position], dtype=__SPECTROGRAPH_RAW_DT)
     if (no_metadata is False):
-        metadata_dict_list = metadata_dict_list[0:list_position]
-    images = np.delete(images, range(list_position, total_num_frames), axis=2)
+        metadata_dict_list = [{}] * list_position
+    else:
+        metadata_dict_list = []
+
+    # merge data using number of threads
+    def assemble_data(slice_idx1, slice_idx2, data_idx):
+        # merge metadata
+        if (no_metadata is False):
+            metadata_dict_list[slice_idx1:slice_idx2] = data[data_idx][1]  # type: ignore
+
+        # merge image data
+        images[:, :, slice_idx1:slice_idx2] = data[data_idx][0]  # type: ignore
+
+        return data_idx
+
+    with ThreadPoolExecutor(max_workers=n_parallel) as executor:
+        for t in tasks:
+            executor.submit(assemble_data, t[0], t[1], t[2])
 
     # ensure entire array views as uint16
     images = images.astype(np.uint16)

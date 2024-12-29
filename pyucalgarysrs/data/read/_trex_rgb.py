@@ -26,6 +26,7 @@ import h5py
 import numpy as np
 from pathlib import Path
 from multiprocessing import Pool
+from concurrent.futures import ThreadPoolExecutor
 
 # static globals
 __RGB_PGM_EXPECTED_HEIGHT = 480
@@ -126,19 +127,10 @@ def read(file_list, n_parallel=1, first_record=False, no_metadata=False, start_t
             else:
                 total_num_frames += pool_data[i][0].shape[2]  # type: ignore
 
-    # pre-allocate array sizes
-    if (image_channels > 1):
-        images = np.empty([image_height, image_width, image_channels, total_num_frames], dtype=image_dtype)
-    else:
-        images = np.empty([image_height, image_width, total_num_frames], dtype=image_dtype)
-    if (no_metadata is False):
-        metadata_dict_list = [{}] * total_num_frames
-    else:
-        metadata_dict_list = []
-    problematic_file_list = []
-
-    # populate data
+    # set tasks
     list_position = 0
+    tasks = []
+    problematic_file_list = []
     for i in range(0, len(pool_data)):
         # check if file was problematic
         if (pool_data[i][2] is True):
@@ -159,22 +151,39 @@ def read(file_list, n_parallel=1, first_record=False, no_metadata=False, start_t
         else:
             this_num_frames = pool_data[i][0].shape[2]  # type: ignore
 
-        # metadata dictionary list at data[][1]
-        if (no_metadata is False):
-            metadata_dict_list[list_position:list_position + this_num_frames] = pool_data[i][1]
-        if (image_channels > 1):
-            images[:, :, :, list_position:list_position + this_num_frames] = pool_data[i][0]
-        else:
-            images[:, :, list_position:list_position + this_num_frames] = pool_data[i][0]
-        list_position = list_position + this_num_frames  # advance list position
+        # set task
+        tasks.append((list_position, list_position + this_num_frames, i))
 
-    # trim unused elements from predicted array sizes
-    if (no_metadata is False):
-        metadata_dict_list = metadata_dict_list[0:list_position]
+        # advance list position
+        list_position = list_position + this_num_frames
+
+    # pre-allocate array sizes
     if (image_channels > 1):
-        images = np.delete(images, range(list_position, total_num_frames), axis=3)
+        images = np.empty([image_height, image_width, image_channels, list_position], dtype=image_dtype)
     else:
-        images = np.delete(images, range(list_position, total_num_frames), axis=2)
+        images = np.empty([image_height, image_width, list_position], dtype=image_dtype)
+    if (no_metadata is False):
+        metadata_dict_list = [{}] * list_position
+    else:
+        metadata_dict_list = []
+
+    # merge data using number of threads
+    def assemble_data(slice_idx1, slice_idx2, data_idx):
+        # merge metadata
+        if (no_metadata is False):
+            metadata_dict_list[slice_idx1:slice_idx2] = pool_data[data_idx][1]  # type: ignore
+
+        # merge image data
+        if (image_channels > 1):
+            images[:, :, :, slice_idx1:slice_idx2] = pool_data[data_idx][0]  # type: ignore
+        else:
+            images[:, :, slice_idx1:slice_idx2] = pool_data[data_idx][0]  # type: ignore
+
+        return data_idx
+
+    with ThreadPoolExecutor(max_workers=n_parallel) as executor:
+        for t in tasks:
+            executor.submit(assemble_data, t[0], t[1], t[2])
 
     # ensure entire array views as the desired dtype
     if (image_dtype == np.uint8):

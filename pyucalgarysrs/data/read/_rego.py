@@ -134,9 +134,9 @@ def read(file_list, n_parallel=1, first_record=False, no_metadata=False, start_t
         list_position = list_position + real_num_frames
 
     # pre-allocate array sizes
-    images = np.empty([image_height, image_width, total_num_frames], dtype=REGO_DT)
+    images = np.empty([image_height, image_width, list_position], dtype=REGO_DT)
     if (no_metadata is False):
-        metadata_dict_list = [{}] * total_num_frames
+        metadata_dict_list = [{}] * list_position
     else:
         metadata_dict_list = []
 
