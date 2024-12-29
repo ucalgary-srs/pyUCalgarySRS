@@ -1,4 +1,4 @@
-Version 1.7.0
+Version 1.7.1
 -------------------
 
 - performance improvement for reading raw ASI data

@@ -15,7 +15,7 @@
 import os
 import requests
 import warnings
-from concurrent.futures import ThreadPoolExecutor, as_completed
+from concurrent.futures import ThreadPoolExecutor
 from pathlib import Path
 from tqdm.auto import tqdm
 from .classes import FileListingResponse, FileDownloadResult, Dataset
@@ -101,10 +101,8 @@ def __download_urls(srs_obj,
             )
 
         with ThreadPoolExecutor(max_workers=n_parallel) as executor:
-            futures = {executor.submit(download_task, i): i for i in range(len(file_listing_obj.urls))}
-            job_data = []
-            for future in as_completed(futures):
-                job_data.append(future.result())
+            futures = [executor.submit(download_task, i) for i in range(len(file_listing_obj.urls))]
+            job_data = [future.result() for future in futures]
 
         return job_data
 
