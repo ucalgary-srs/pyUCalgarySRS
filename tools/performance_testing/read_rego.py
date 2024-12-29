@@ -19,7 +19,7 @@ def main():
     start_dt = datetime.datetime(2020, 3, 21, 6, 0, 0)
     end_dt = datetime.datetime(2020, 3, 21, 6, 59, 59)
     print("[%s] Downloading data" % (datetime.datetime.now()))
-    res = srs.data.download("THEMIS_ASI_RAW", start_dt, end_dt, site_uid="gill", progress_bar_disable=True)
+    res = srs.data.download("REGO_RAW", start_dt, end_dt, site_uid="gill", progress_bar_disable=True)
 
     # read data
     times = []
