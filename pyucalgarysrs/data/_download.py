@@ -14,8 +14,8 @@
 
 import os
 import requests
-import joblib
 import warnings
+from concurrent.futures import ThreadPoolExecutor, as_completed
 from pathlib import Path
 from tqdm.auto import tqdm
 from .classes import FileListingResponse, FileDownloadResult, Dataset
@@ -87,17 +87,26 @@ def __download_urls(srs_obj,
                     progress_bar_format_numurls_nobytes=False):
 
     def __do_parallel_work(pbar=None, pbar_iterator_nfiles=False):
-        job_data = joblib.Parallel(n_jobs=n_parallel, prefer="threads")(joblib.delayed(__download_url)(
-            file_listing_obj.urls[i],
-            path_prefix,
-            output_path,
-            srs_obj.api_headers,
-            timeout,
-            overwrite=overwrite,
-            pbar=pbar,
-            pbar_iterator_nfiles=pbar_iterator_nfiles,
-        ) for i in range(0, len(file_listing_obj.urls)))
-        return list(job_data)
+
+        def download_task(i):
+            return __download_url(
+                file_listing_obj.urls[i],
+                path_prefix,
+                output_path,
+                srs_obj.api_headers,
+                timeout,
+                overwrite=overwrite,
+                pbar=pbar,
+                pbar_iterator_nfiles=pbar_iterator_nfiles,
+            )
+
+        with ThreadPoolExecutor(max_workers=n_parallel) as executor:
+            futures = {executor.submit(download_task, i): i for i in range(len(file_listing_obj.urls))}
+            job_data = []
+            for future in as_completed(futures):
+                job_data.append(future.result())
+
+        return job_data
 
     # set timeout
     if (timeout is None):
