@@ -394,6 +394,7 @@ class DataManager:
                  end: datetime.datetime,
                  site_uid: Optional[str] = None,
                  device_uid: Optional[str] = None,
+                 include_total_bytes: bool = False,
                  timeout: Optional[int] = None) -> FileListingResponse:
         """
         Get URLs of data files
@@ -435,6 +436,10 @@ class DataManager:
                 device will be downloaded for the given dataset name, start, and end times. This
                 parameter is optional.
 
+            include_total_bytes (bool): 
+                Include the total bytes of the available data found. Defaults to True. This parameter
+                is optional.
+
             timeout (int): 
                 Represents how many seconds to wait for the API to send data before giving up. The 
                 default is 30 seconds, or the `api_timeout` value in the super class' `pyucalgarysrs.PyUCalgarySRS`
@@ -454,6 +459,7 @@ class DataManager:
             end,
             site_uid,
             device_uid,
+            include_total_bytes,
             timeout,
         )
 

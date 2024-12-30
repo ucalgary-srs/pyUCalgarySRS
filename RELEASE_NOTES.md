@@ -1,3 +1,8 @@
+Version 1.8.0
+-------------------
+
+- added `include_total_bytes` parameter to `get_urls()` function
+
 Version 1.7.1
 -------------------
 

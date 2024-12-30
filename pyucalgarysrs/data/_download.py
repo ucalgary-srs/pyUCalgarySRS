@@ -159,7 +159,7 @@ def __download_urls(srs_obj,
     return download_obj
 
 
-def get_urls(srs_obj, dataset_name, start, end, site_uid, device_uid, timeout, warning_stack_level=3):
+def get_urls(srs_obj, dataset_name, start, end, site_uid, device_uid, include_total_bytes, timeout, warning_stack_level=3):
     # set timeout
     if (timeout is None):
         timeout = srs_obj.api_timeout
@@ -169,7 +169,7 @@ def get_urls(srs_obj, dataset_name, start, end, site_uid, device_uid, timeout, w
         "name": dataset_name,
         "start": start,
         "end": end,
-        "include_total_bytes": True,
+        "include_total_bytes": include_total_bytes,
     }
     if (site_uid is not None):
         params["site_uid"] = site_uid
@@ -222,7 +222,7 @@ def get_urls(srs_obj, dataset_name, start, end, site_uid, device_uid, timeout, w
 def download_generic(srs_obj, dataset_name, start, end, site_uid, device_uid, n_parallel, overwrite, progress_bar_disable, progress_bar_ncols,
                      progress_bar_ascii, progress_bar_desc, timeout):
     # get file listing
-    file_listing_obj = get_urls(srs_obj, dataset_name, start, end, site_uid, device_uid, timeout, warning_stack_level=4)
+    file_listing_obj = get_urls(srs_obj, dataset_name, start, end, site_uid, device_uid, True, timeout, warning_stack_level=4)
 
     # check to see if there are files to download
     if (len(file_listing_obj.urls) == 0):
