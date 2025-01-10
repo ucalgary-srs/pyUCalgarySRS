@@ -106,60 +106,75 @@ def __download_urls(srs_obj,
 
         return job_data
 
-    # set timeout
-    if (timeout is None):
-        timeout = srs_obj.api_timeout
-
     # set output path
     output_path = "%s/%s" % (srs_obj.download_output_root_path, file_listing_obj.dataset.name)
 
-    # set path prefix
-    path_prefix = file_listing_obj.path_prefix
+    # check if there's files to download
+    if (file_listing_obj.count == 0):
+        warnings.simplefilter("always")
+        warnings.warn("No data found to download", stacklevel=5)
+        warnings.resetwarnings()
 
-    # set progress bar description text
-    desc_str = "Downloading %s files" % (file_listing_obj.dataset.name)
-    if (progress_bar_desc is not None):
-        desc_str = progress_bar_desc
-
-    # download the urls
-    parallel_data = []
-    if (progress_bar_disable is True):
-        parallel_data = __do_parallel_work()
+        # cast into return obj
+        download_obj = FileDownloadResult(
+            filenames=[],
+            count=0,
+            dataset=file_listing_obj.dataset,
+            total_bytes=0,
+            output_root_path=output_path,
+        )
     else:
-        if (progress_bar_format_numurls_nobytes is True):
-            # total bytes could be inaccurate, progress bar should use count of urls
-            # and iterator of 'files' instead of bytes.
-            with tqdm(total=len(file_listing_obj.urls), desc=desc_str, unit="files", ncols=progress_bar_ncols, ascii=progress_bar_ascii) as pbar:
-                parallel_data = __do_parallel_work(pbar=pbar, pbar_iterator_nfiles=True)
-        else:
-            # total bytes is accurate, show MB/s
-            with tqdm(total=file_listing_obj.total_bytes,
-                      desc=desc_str,
-                      ncols=progress_bar_ncols,
-                      ascii=progress_bar_ascii,
-                      unit="B",
-                      unit_scale=True) as pbar:
-                parallel_data = __do_parallel_work(pbar=pbar)
+        # set timeout
+        if (timeout is None):
+            timeout = srs_obj.api_timeout
 
-    # cast into return obj
-    filenames_list = []
-    total_bytes_downloaded = 0
-    for p in parallel_data:
-        filenames_list.append(p["filename"])  # type: ignore
-        total_bytes_downloaded += p["bytes_downloaded"]  # type: ignore
-    download_obj = FileDownloadResult(
-        filenames=filenames_list,
-        count=len(parallel_data),
-        dataset=file_listing_obj.dataset,
-        total_bytes=total_bytes_downloaded,
-        output_root_path=output_path,
-    )
+        # set path prefix
+        path_prefix = file_listing_obj.path_prefix
+
+        # set progress bar description text
+        desc_str = "Downloading %s files" % (file_listing_obj.dataset.name)
+        if (progress_bar_desc is not None):
+            desc_str = progress_bar_desc
+
+        # download the urls
+        parallel_data = []
+        if (progress_bar_disable is True):
+            parallel_data = __do_parallel_work()
+        else:
+            if (progress_bar_format_numurls_nobytes is True):
+                # total bytes could be inaccurate, progress bar should use count of urls
+                # and iterator of 'files' instead of bytes.
+                with tqdm(total=len(file_listing_obj.urls), desc=desc_str, unit="files", ncols=progress_bar_ncols, ascii=progress_bar_ascii) as pbar:
+                    parallel_data = __do_parallel_work(pbar=pbar, pbar_iterator_nfiles=True)
+            else:
+                # total bytes is accurate, show MB/s
+                with tqdm(total=file_listing_obj.total_bytes,
+                          desc=desc_str,
+                          ncols=progress_bar_ncols,
+                          ascii=progress_bar_ascii,
+                          unit="B",
+                          unit_scale=True) as pbar:
+                    parallel_data = __do_parallel_work(pbar=pbar)
+
+        # cast into return obj
+        filenames_list = []
+        total_bytes_downloaded = 0
+        for p in parallel_data:
+            filenames_list.append(p["filename"])  # type: ignore
+            total_bytes_downloaded += p["bytes_downloaded"]  # type: ignore
+        download_obj = FileDownloadResult(
+            filenames=filenames_list,
+            count=len(parallel_data),
+            dataset=file_listing_obj.dataset,
+            total_bytes=total_bytes_downloaded,
+            output_root_path=output_path,
+        )
 
     # return
     return download_obj
 
 
-def get_urls(srs_obj, dataset_name, start, end, site_uid, device_uid, include_total_bytes, timeout, warning_stack_level=3):
+def get_urls(srs_obj, dataset_name, start, end, site_uid, device_uid, timeout, warning_stack_level=3):
     # set timeout
     if (timeout is None):
         timeout = srs_obj.api_timeout
@@ -169,7 +184,7 @@ def get_urls(srs_obj, dataset_name, start, end, site_uid, device_uid, include_to
         "name": dataset_name,
         "start": start,
         "end": end,
-        "include_total_bytes": include_total_bytes,
+        "include_total_bytes": True,
     }
     if (site_uid is not None):
         params["site_uid"] = site_uid
@@ -222,11 +237,7 @@ def get_urls(srs_obj, dataset_name, start, end, site_uid, device_uid, include_to
 def download_generic(srs_obj, dataset_name, start, end, site_uid, device_uid, n_parallel, overwrite, progress_bar_disable, progress_bar_ncols,
                      progress_bar_ascii, progress_bar_desc, timeout):
     # get file listing
-    file_listing_obj = get_urls(srs_obj, dataset_name, start, end, site_uid, device_uid, True, timeout, warning_stack_level=4)
-
-    # check to see if there are files to download
-    if (len(file_listing_obj.urls) == 0):
-        warnings.warn("No data found to download", stacklevel=1)
+    file_listing_obj = get_urls(srs_obj, dataset_name, start, end, site_uid, device_uid, timeout, warning_stack_level=4)
 
     # download the urls
     download_obj = __download_urls(
