@@ -1,6 +1,7 @@
 Version 1.10.0
 -------------------
 - minor adjustments to `api_base_url` parameter in `PyUCalgarySRS` object
+- added level filtering to the `list_datasets()` function
 
 
 Version 1.9.0

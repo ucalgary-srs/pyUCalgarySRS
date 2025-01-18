@@ -17,7 +17,7 @@ from .classes import Dataset, Observatory
 from ..exceptions import SRSAPIError
 
 
-def list_datasets(srs_obj, name, timeout, supported_library):
+def list_datasets(srs_obj, name, level, timeout, supported_library):
     # set timeout
     if (timeout is None):
         timeout = srs_obj.api_timeout
@@ -26,6 +26,8 @@ def list_datasets(srs_obj, name, timeout, supported_library):
     params = {}
     if (name != ""):
         params["name"] = name
+    if (level != ""):
+        params["level"] = level
 
     # make request
     url = "%s/api/v1/data_distribution/datasets" % (srs_obj.api_base_url)

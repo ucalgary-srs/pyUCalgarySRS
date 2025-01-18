@@ -51,6 +51,7 @@ class DataManager:
     def list_datasets(
             self,
             name: Optional[str] = None,
+            level: Optional[str] = None,
             timeout: Optional[int] = None,
             supported_library: Literal["pyucalgarysrs", "pyaurorax", "idl-aurorax", "pyucrio", "idl-ucrio"] = "pyucalgarysrs") -> List[Dataset]:
         """
@@ -61,6 +62,10 @@ class DataManager:
                 Supply a name used for filtering. If that name is found in the available dataset 
                 names received from the API, it will be included in the results. This parameter is
                 optional.
+
+            level (str): 
+                Supply a level string for filtering. Valid strings are: L0, L1A, L2, L3. This parameter
+                is optional.
             
             timeout (int): 
                 Represents how many seconds to wait for the API to send data before giving up. The 
@@ -78,7 +83,7 @@ class DataManager:
         Raises:
             pyucalgarysrs.exceptions.SRSAPIError: An API error was encountered.
         """
-        return self.__list.list_datasets(self.__srs_obj, name, timeout, supported_library)
+        return self.__list.list_datasets(self.__srs_obj, name, level, timeout, supported_library)
 
     def get_dataset(self, name: str, timeout: Optional[int] = None) -> Dataset:
         """
@@ -101,7 +106,7 @@ class DataManager:
             pyucalgarysrs.exceptions.SRSAPIError: An API error was encountered.
         """
         name = name.upper()
-        datasets = self.__list.list_datasets(self.__srs_obj, name, timeout, supported_library="pyucalgarysrs")
+        datasets = self.__list.list_datasets(self.__srs_obj, name, "", timeout, supported_library="pyucalgarysrs")
         for d in datasets:
             if (d.name == name):
                 return d
