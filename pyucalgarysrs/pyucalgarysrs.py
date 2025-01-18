@@ -150,6 +150,14 @@ class PyUCalgarySRS:
         if (value is None):
             self.__api_base_url = self.__DEFAULT_API_BASE_URL
         else:
+            # check if http:// or https:// is in the URL
+            value = value.lower()
+            if (len(value) <= 8 or ("https://" not in value and "http://" not in value)):
+                raise SRSInitializationError("API base URL is an invalid URL")
+
+            # remove trailing slash if there is one
+            if (value[-1] == '/'):
+                value = value[0:-1]
             self.__api_base_url = value
 
     @property
