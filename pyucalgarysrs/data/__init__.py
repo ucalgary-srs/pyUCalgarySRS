@@ -64,7 +64,7 @@ class DataManager:
                 optional.
 
             level (str): 
-                Supply a level string for filtering. Valid strings are: L0, L1A, L2, L3. This parameter
+                Supply a level string for filtering. Valid strings are: L0, L1, L1A, L2, L3. This parameter
                 is optional.
             
             timeout (int): 
