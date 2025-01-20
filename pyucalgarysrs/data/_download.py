@@ -17,7 +17,9 @@ import requests
 import warnings
 from concurrent.futures import ThreadPoolExecutor
 from pathlib import Path
-from tqdm.auto import tqdm
+from tqdm import tqdm as tqdm_std
+from tqdm.auto import tqdm as tqdm_auto
+from tqdm.notebook import tqdm as tqdm_notebook
 from .classes import FileListingResponse, FileDownloadResult, Dataset
 from ..exceptions import SRSAPIError, SRSDownloadError
 
@@ -107,7 +109,7 @@ def __download_urls(srs_obj,
         return job_data
 
     # set output path
-    output_path = "%s/%s" % (srs_obj.download_output_root_path, file_listing_obj.dataset.name)
+    output_path = srs_obj.download_output_root_path / Path(file_listing_obj.dataset.name)
 
     # check if there's files to download
     if (file_listing_obj.count == 0):
@@ -135,6 +137,15 @@ def __download_urls(srs_obj,
         desc_str = "Downloading %s files" % (file_listing_obj.dataset.name)
         if (progress_bar_desc is not None):
             desc_str = progress_bar_desc
+        if (srs_obj.progress_bar_backend == "notebook"):
+            # notebook
+            tqdm = tqdm_notebook
+        elif (srs_obj.progress_bar_backend == "standard"):
+            # standard
+            tqdm = tqdm_std
+        else:
+            # auto
+            tqdm = tqdm_auto
 
         # download the urls
         parallel_data = []

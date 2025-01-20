@@ -2,13 +2,12 @@ import pyucalgarysrs
 import datetime
 
 srs = pyucalgarysrs.PyUCalgarySRS()
-srs.api_base_url = "https://api-staging.phys.ucalgary.ca"
 
-start_dt = datetime.datetime(2023, 1, 1, 0, 0, 0)
-end_dt = datetime.datetime(2023, 1, 1, 0, 59, 59)
-
-print()
-res = srs.data.download("REGO_CALIBRATION_FLATFIELD_IDLSAV", start_dt, end_dt, site_uid="atha", overwrite=True)
+dataset_name = "THEMIS_ASI_RAW"
+start_dt = datetime.datetime(2023, 1, 1, 6, 0, 0)
+end_dt = datetime.datetime(2023, 1, 1, 6, 59, 59)
+site_uid = "atha"
+res = srs.data.download(dataset_name, start_dt, end_dt, site_uid=site_uid, overwrite=True)
 
 print()
 print(res)

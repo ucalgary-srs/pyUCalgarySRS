@@ -57,7 +57,8 @@ class PyUCalgarySRS:
                  api_base_url: Optional[str] = None,
                  api_timeout: Optional[int] = None,
                  api_headers: Optional[Dict] = None,
-                 api_key: Optional[str] = None):
+                 api_key: Optional[str] = None,
+                 progress_bar_backend: Literal["auto", "standard", "notebook"] = "auto"):
         """
         Attributes:
             download_output_root_path (str): 
@@ -91,6 +92,10 @@ class PyUCalgarySRS:
                 value is None. Please note that an API key is currently not required for using the API,
                 and this parameter is implemented purely for future-proofing. It is presently not utilized.
         
+            progress_bar_backend (str): 
+                The progress bar backend to use. Valid choices are 'auto', 'standard', or 'notebook'. 
+                Default is 'auto'. This parameter is optional.
+
         Raises:
             pyucalgarysrs.exceptions.SRSInitializationError: an error was encountered during
                 initialization of the paths
@@ -110,6 +115,9 @@ class PyUCalgarySRS:
         if (api_timeout is None):
             self.__api_timeout = self.__DEFAULT_API_TIMEOUT
         self.__api_key = api_key
+
+        # initialize progress bar parameters
+        self.__progress_bar_backend = progress_bar_backend
 
         # initialize paths
         self.__initialize_paths()
@@ -231,6 +239,20 @@ class PyUCalgarySRS:
     def read_tar_temp_path(self, value: str):
         self.__read_tar_temp_path = value
         self.__initialize_paths()
+
+    @property
+    def progress_bar_backend(self):
+        """
+        Property for the progress bar backend. See above for details.
+        """
+        return self.__progress_bar_backend
+
+    @progress_bar_backend.setter
+    def progress_bar_backend(self, value: str):
+        value = value.lower()
+        if (value != "auto" and value != "standard" and value != "notebook"):
+            raise SRSInitializationError("Invalid progress bar backend. Allowed values are 'auto', 'standard' or 'notebook'.")
+        self.__progress_bar_backend = value
 
     # -----------------------------
     # special methods

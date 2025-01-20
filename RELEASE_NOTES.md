@@ -2,6 +2,7 @@ Version 1.10.0
 -------------------
 - minor adjustments to `api_base_url` parameter in `PyUCalgarySRS` object
 - added level filtering to the `list_datasets()` function
+- added `progress_bar_backend` to the `PyUCalgarySRS()` object
 
 
 Version 1.9.0
