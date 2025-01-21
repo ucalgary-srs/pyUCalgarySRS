@@ -14,15 +14,18 @@
 
 import os
 import shutil
-import warnings
 import humanize
 from texttable import Texttable
 from typing import Optional, Dict, Any, Literal
 from pathlib import Path
+from tqdm import tqdm as tqdm_std
+from tqdm.auto import tqdm as tqdm_auto
+from tqdm.notebook import tqdm as tqdm_notebook
 from .exceptions import SRSInitializationError, SRSPurgeError
 from .data import DataManager
 from .models import ModelsManager
 from . import __version__
+from ._util import show_warning
 
 
 class PyUCalgarySRS:
@@ -118,6 +121,8 @@ class PyUCalgarySRS:
 
         # initialize progress bar parameters
         self.__progress_bar_backend = progress_bar_backend
+        self._tqdm = None
+        self.__initialize_progress_bar_backend()
 
         # initialize paths
         self.__initialize_paths()
@@ -183,7 +188,7 @@ class PyUCalgarySRS:
                 k = k.lower()
                 if (k in new_headers):
                     if (k == "user-agent" and "python-pyaurorax/" not in v):
-                        warnings.warn("Cannot override default '%s' header" % (k), UserWarning, stacklevel=1)
+                        show_warning("Cannot override default '%s' header" % (k), stacklevel=1)
                     else:
                         # allow pyaurorax to change the user agent
                         new_headers[k] = v
@@ -249,10 +254,19 @@ class PyUCalgarySRS:
 
     @progress_bar_backend.setter
     def progress_bar_backend(self, value: str):
+        # set the backend string
         value = value.lower()
         if (value != "auto" and value != "standard" and value != "notebook"):
             raise SRSInitializationError("Invalid progress bar backend. Allowed values are 'auto', 'standard' or 'notebook'.")
         self.__progress_bar_backend = value
+
+        # set the backend tqdm object
+        if (value == "auto"):
+            self._tqdm = tqdm_auto
+        elif (value == "notebook"):
+            self._tqdm = tqdm_notebook
+        elif (value == "standard"):
+            self._tqdm = tqdm_std
 
     # -----------------------------
     # special methods
@@ -285,6 +299,20 @@ class PyUCalgarySRS:
             os.makedirs(self.read_tar_temp_path, exist_ok=True)
         except IOError as e:  # pragma: nocover
             raise SRSInitializationError("Error during output path creation: %s" % str(e)) from e
+
+    def __initialize_progress_bar_backend(self):
+        """
+        Initialize the `progress_bar_backend` parameter.
+        
+        The default of 'auto' works in all cases except for if the library is used within Spyder. In that 
+        IDE, tqdm is not able to choose the backend automatically. To handle this special case we need
+        a small piece of logic that detects if the user is using Spyder, and if so, sets the progress bar
+        backend to 'standard'.
+        """
+        if ("SPYDER_IDE_ACTIVE" in globals()):
+            self.progress_bar_backend = "standard"
+        else:
+            self.progress_bar_backend = self.__progress_bar_backend
 
     # -----------------------------
     # public methods

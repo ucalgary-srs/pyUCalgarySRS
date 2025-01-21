@@ -1,3 +1,10 @@
+Version 1.12.0
+-------------------
+- updated defaulting for `progress_bar_backend`
+- updated warning messages for better handling inside of VSCode Jupyter extension
+- updated class string methods for `FileListingResponse` and `FileDownloadResult`
+
+
 Version 1.11.0
 -------------------
 - added `progress_bar_backend` to the `PyUCalgarySRS()` object

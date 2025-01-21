@@ -14,14 +14,11 @@
 
 import os
 import requests
-import warnings
 from concurrent.futures import ThreadPoolExecutor
 from pathlib import Path
-from tqdm import tqdm as tqdm_std
-from tqdm.auto import tqdm as tqdm_auto
-from tqdm.notebook import tqdm as tqdm_notebook
 from .classes import FileListingResponse, FileDownloadResult, Dataset
 from ..exceptions import SRSAPIError, SRSDownloadError
+from .._util import show_warning
 
 
 def __download_url(
@@ -113,9 +110,7 @@ def __download_urls(srs_obj,
 
     # check if there's files to download
     if (file_listing_obj.count == 0):
-        warnings.simplefilter("always")
-        warnings.warn("No data found to download", stacklevel=5)
-        warnings.resetwarnings()
+        show_warning("No data found to download", stacklevel=5)
 
         # cast into return obj
         download_obj = FileDownloadResult(
@@ -137,15 +132,6 @@ def __download_urls(srs_obj,
         desc_str = "Downloading %s files" % (file_listing_obj.dataset.name)
         if (progress_bar_desc is not None):
             desc_str = progress_bar_desc
-        if (srs_obj.progress_bar_backend == "notebook"):
-            # notebook
-            tqdm = tqdm_notebook
-        elif (srs_obj.progress_bar_backend == "standard"):
-            # standard
-            tqdm = tqdm_std
-        else:
-            # auto
-            tqdm = tqdm_auto
 
         # download the urls
         parallel_data = []
@@ -155,16 +141,17 @@ def __download_urls(srs_obj,
             if (progress_bar_format_numurls_nobytes is True):
                 # total bytes could be inaccurate, progress bar should use count of urls
                 # and iterator of 'files' instead of bytes.
-                with tqdm(total=len(file_listing_obj.urls), desc=desc_str, unit="files", ncols=progress_bar_ncols, ascii=progress_bar_ascii) as pbar:
+                with srs_obj._tqdm(total=len(file_listing_obj.urls), desc=desc_str, unit="files", ncols=progress_bar_ncols,
+                                   ascii=progress_bar_ascii) as pbar:
                     parallel_data = __do_parallel_work(pbar=pbar, pbar_iterator_nfiles=True)
             else:
                 # total bytes is accurate, show MB/s
-                with tqdm(total=file_listing_obj.total_bytes,
-                          desc=desc_str,
-                          ncols=progress_bar_ncols,
-                          ascii=progress_bar_ascii,
-                          unit="B",
-                          unit_scale=True) as pbar:
+                with srs_obj._tqdm(total=file_listing_obj.total_bytes,
+                                   desc=desc_str,
+                                   ncols=progress_bar_ncols,
+                                   ascii=progress_bar_ascii,
+                                   unit="B",
+                                   unit_scale=True) as pbar:
                     parallel_data = __do_parallel_work(pbar=pbar)
 
         # cast into return obj
@@ -204,17 +191,15 @@ def get_urls(srs_obj, dataset_name, start, end, site_uid, device_uid, timeout, w
 
     # check warnings about site and device being supplied
     if (site_uid is not None and "calibration" in dataset_name.lower()):
-        warnings.warn("The site_uid filter was used when retrieving URLs for the dataset %s. Please note "
-                      "that the site_uid field is not used when filtering in this dataset. Consider removing "
-                      "it from your function call." % (dataset_name),
-                      UserWarning,
-                      stacklevel=warning_stack_level)
+        show_warning("The site_uid filter was used when retrieving URLs for the dataset %s. Please note "
+                     "that the site_uid field is not used when filtering in this dataset. Consider removing "
+                     "it from your function call." % (dataset_name),
+                     stacklevel=warning_stack_level)
     if (device_uid is not None and "skymap" in dataset_name.lower()):
-        warnings.warn("The device_uid filter was used when retrieving URLs for the dataset %s. Please note "
-                      "that the device_uid field is not used when filtering in this dataset. Consider removing "
-                      "it from your function call." % (dataset_name),
-                      UserWarning,
-                      stacklevel=warning_stack_level)
+        show_warning("The device_uid filter was used when retrieving URLs for the dataset %s. Please note "
+                     "that the device_uid field is not used when filtering in this dataset. Consider removing "
+                     "it from your function call." % (dataset_name),
+                     stacklevel=warning_stack_level)
 
     # make API request
     url = "%s/api/v1/data_distribution/urls" % (srs_obj.api_base_url)

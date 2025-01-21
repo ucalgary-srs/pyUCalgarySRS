@@ -17,7 +17,6 @@ Functions for reading data for specific datasets.
 
 import os
 import datetime
-import warnings
 import numpy as np
 from pathlib import Path
 from typing import List, Union, Optional
@@ -45,6 +44,7 @@ from ..classes import (
     GridSourceInfoData,
 )
 from ...exceptions import SRSUnsupportedReadError, SRSError
+from ..._util import show_warning
 
 
 class ReadManager:
@@ -278,15 +278,13 @@ class ReadManager:
                                       dataset=dataset)
         elif (dataset.name in self.__VALID_SKYMAP_READFILE_DATASETS):
             if (start_time is not None or end_time is not None):
-                warnings.warn("Reading of skymap files does not support the start_time or end_time parameters. Remove them to silence this warning.",
-                              UserWarning,
-                              stacklevel=1)
+                show_warning("Reading of skymap files does not support the start_time or end_time parameters. Remove them to silence this warning.",
+                             stacklevel=1)
             return self.read_skymap(file_list, n_parallel=n_parallel, quiet=quiet, dataset=dataset)
         elif (dataset.name in self.__VALID_CALIBRATION_READFILE_DATASETS):
             if (start_time is not None or end_time is not None):
-                warnings.warn(
+                show_warning(
                     "Reading of calibration files does not support the start_time or end_time parameters. Remove them to silence this warning.",
-                    UserWarning,
                     stacklevel=1)
             return self.read_calibration(file_list, n_parallel=n_parallel, quiet=quiet, dataset=dataset)
         elif (dataset.name in self.__VALID_GRID_READFILE_DATASETS):

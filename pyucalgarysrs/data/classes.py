@@ -152,6 +152,21 @@ class FileListingResponse:
     dataset: Dataset
     total_bytes: Optional[int] = None
 
+    def __str__(self) -> str:
+        return self.__repr__()
+
+    def __repr__(self) -> str:
+        # set special strings
+        urls_str = "%s URLs" % (len(self.urls))
+
+        return "FileListingResponse(urls=[%s], path_prefix='%s', count=%d, total_bytes=%s, dataset=%s" % (
+            urls_str,
+            self.path_prefix,
+            self.count,
+            str(self.total_bytes),
+            self.dataset,
+        )
+
     def pretty_print(self):
         """
         A special print output for this class.
@@ -196,6 +211,21 @@ class FileDownloadResult:
     total_bytes: int
     output_root_path: str
     dataset: Dataset
+
+    def __str__(self) -> str:
+        return self.__repr__()
+
+    def __repr__(self) -> str:
+        # set special strings
+        filenames_str = "%s filenames" % (len(self.filenames))
+
+        return "FileDownloadResult(filenames=[%s], count=%d, total_bytes=%d, output_root_path='%s', dataset=%s" % (
+            filenames_str,
+            self.count,
+            self.total_bytes,
+            self.output_root_path,
+            self.dataset,
+        )
 
     def pretty_print(self):
         """

@@ -16,12 +16,12 @@ import gzip
 import numpy as np
 import signal
 import os
-import warnings
 import datetime
 import h5py
 from multiprocessing import Pool
 from functools import partial
 from concurrent.futures import ThreadPoolExecutor
+from ..._util import show_warning
 
 # globals
 __SPECTROGRAPH_EXPECTED_HEIGHT = 1024
@@ -39,10 +39,9 @@ def read_raw(file_list, n_parallel=1, first_record=False, no_metadata=False, sta
     # a warning and read all the data, and don't read the metadata (no_metadata being
     # true takes priority).
     if (no_metadata is True and (start_time is not None or end_time is not None)):
-        warnings.warn("Cannot filter on start or end time if the no_metadata parameter is set to True. Set no_metadata to False " +
-                      "to allow filtering on times. Will proceed by skipping filtering on times and returning no metadata.",
-                      UserWarning,
-                      stacklevel=1)
+        show_warning("Cannot filter on start or end time if the no_metadata parameter is set to True. Set no_metadata to False " +
+                     "to allow filtering on times. Will proceed by skipping filtering on times and returning no metadata.",
+                     stacklevel=1)
         start_time = None
         end_time = None
 
@@ -387,10 +386,9 @@ def read_processed(file_list, n_parallel=1, first_record=False, no_metadata=Fals
     # a warning and read all the data, and don't read the metadata (no_metadata being
     # true takes priority).
     if (no_metadata is True and (start_time is not None or end_time is not None)):
-        warnings.warn("Cannot filter on start or end time if the no_metadata parameter is set to True. Set no_metadata to False " +
-                      "to allow filtering on times. Will proceed by skipping filtering on times and returning no metadata.",
-                      UserWarning,
-                      stacklevel=1)
+        show_warning("Cannot filter on start or end time if the no_metadata parameter is set to True. Set no_metadata to False " +
+                     "to allow filtering on times. Will proceed by skipping filtering on times and returning no metadata.",
+                     stacklevel=1)
         start_time = None
         end_time = None
 

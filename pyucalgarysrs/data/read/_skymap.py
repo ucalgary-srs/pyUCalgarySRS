@@ -87,6 +87,9 @@ def __skymap_readfile_worker(file, quiet=False):
 
         # read the save file
         data_recarray = readsav(file, python_dict=True)
+
+        # reset the warnings
+        warnings.resetwarnings()
     except Exception as e:
         if (quiet is False):
             print("Failed to read file '%s'" % (file))
