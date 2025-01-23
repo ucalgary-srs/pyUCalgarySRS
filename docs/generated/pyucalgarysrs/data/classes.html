@@ -862,6 +862,21 @@ class FileDownloadResult:
     output_root_path: str
     dataset: Dataset
 
+    def __str__(self) -&gt; str:
+        return self.__repr__()
+
+    def __repr__(self) -&gt; str:
+        # set special strings
+        filenames_str = &#34;%s filenames&#34; % (len(self.filenames))
+
+        return &#34;FileDownloadResult(filenames=[%s], count=%d, total_bytes=%d, output_root_path=&#39;%s&#39;, dataset=%s&#34; % (
+            filenames_str,
+            self.count,
+            self.total_bytes,
+            self.output_root_path,
+            self.dataset,
+        )
+
     def pretty_print(self):
         &#34;&#34;&#34;
         A special print output for this class.
@@ -983,6 +998,21 @@ class FileListingResponse:
     count: int
     dataset: Dataset
     total_bytes: Optional[int] = None
+
+    def __str__(self) -&gt; str:
+        return self.__repr__()
+
+    def __repr__(self) -&gt; str:
+        # set special strings
+        urls_str = &#34;%s URLs&#34; % (len(self.urls))
+
+        return &#34;FileListingResponse(urls=[%s], path_prefix=&#39;%s&#39;, count=%d, total_bytes=%s, dataset=%s&#34; % (
+            urls_str,
+            self.path_prefix,
+            self.count,
+            str(self.total_bytes),
+            self.dataset,
+        )
 
     def pretty_print(self):
         &#34;&#34;&#34;

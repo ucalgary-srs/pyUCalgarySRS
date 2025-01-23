@@ -305,15 +305,13 @@ border-left: 1px solid #ddd;
                                       dataset=dataset)
         elif (dataset.name in self.__VALID_SKYMAP_READFILE_DATASETS):
             if (start_time is not None or end_time is not None):
-                warnings.warn(&#34;Reading of skymap files does not support the start_time or end_time parameters. Remove them to silence this warning.&#34;,
-                              UserWarning,
-                              stacklevel=1)
+                show_warning(&#34;Reading of skymap files does not support the start_time or end_time parameters. Remove them to silence this warning.&#34;,
+                             stacklevel=1)
             return self.read_skymap(file_list, n_parallel=n_parallel, quiet=quiet, dataset=dataset)
         elif (dataset.name in self.__VALID_CALIBRATION_READFILE_DATASETS):
             if (start_time is not None or end_time is not None):
-                warnings.warn(
+                show_warning(
                     &#34;Reading of calibration files does not support the start_time or end_time parameters. Remove them to silence this warning.&#34;,
-                    UserWarning,
                     stacklevel=1)
             return self.read_calibration(file_list, n_parallel=n_parallel, quiet=quiet, dataset=dataset)
         elif (dataset.name in self.__VALID_GRID_READFILE_DATASETS):
@@ -1803,15 +1801,13 @@ is required.</dd>
                                   dataset=dataset)
     elif (dataset.name in self.__VALID_SKYMAP_READFILE_DATASETS):
         if (start_time is not None or end_time is not None):
-            warnings.warn(&#34;Reading of skymap files does not support the start_time or end_time parameters. Remove them to silence this warning.&#34;,
-                          UserWarning,
-                          stacklevel=1)
+            show_warning(&#34;Reading of skymap files does not support the start_time or end_time parameters. Remove them to silence this warning.&#34;,
+                         stacklevel=1)
         return self.read_skymap(file_list, n_parallel=n_parallel, quiet=quiet, dataset=dataset)
     elif (dataset.name in self.__VALID_CALIBRATION_READFILE_DATASETS):
         if (start_time is not None or end_time is not None):
-            warnings.warn(
+            show_warning(
                 &#34;Reading of calibration files does not support the start_time or end_time parameters. Remove them to silence this warning.&#34;,
-                UserWarning,
                 stacklevel=1)
         return self.read_calibration(file_list, n_parallel=n_parallel, quiet=quiet, dataset=dataset)
     elif (dataset.name in self.__VALID_GRID_READFILE_DATASETS):

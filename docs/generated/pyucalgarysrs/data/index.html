@@ -114,6 +114,7 @@ classes in this module are included at the top level of this library.</p></div>
     def list_datasets(
             self,
             name: Optional[str] = None,
+            level: Optional[str] = None,
             timeout: Optional[int] = None,
             supported_library: Literal[&#34;pyucalgarysrs&#34;, &#34;pyaurorax&#34;, &#34;idl-aurorax&#34;, &#34;pyucrio&#34;, &#34;idl-ucrio&#34;] = &#34;pyucalgarysrs&#34;) -&gt; List[Dataset]:
         &#34;&#34;&#34;
@@ -124,6 +125,10 @@ classes in this module are included at the top level of this library.</p></div>
                 Supply a name used for filtering. If that name is found in the available dataset 
                 names received from the API, it will be included in the results. This parameter is
                 optional.
+
+            level (str): 
+                Supply a level string for filtering. Valid strings are: L0, L1, L1A, L2, L3. This parameter
+                is optional.
             
             timeout (int): 
                 Represents how many seconds to wait for the API to send data before giving up. The 
@@ -141,7 +146,7 @@ classes in this module are included at the top level of this library.</p></div>
         Raises:
             pyucalgarysrs.exceptions.SRSAPIError: An API error was encountered.
         &#34;&#34;&#34;
-        return self.__list.list_datasets(self.__srs_obj, name, timeout, supported_library)
+        return self.__list.list_datasets(self.__srs_obj, name, level, timeout, supported_library)
 
     def get_dataset(self, name: str, timeout: Optional[int] = None) -&gt; Dataset:
         &#34;&#34;&#34;
@@ -164,7 +169,7 @@ classes in this module are included at the top level of this library.</p></div>
             pyucalgarysrs.exceptions.SRSAPIError: An API error was encountered.
         &#34;&#34;&#34;
         name = name.upper()
-        datasets = self.__list.list_datasets(self.__srs_obj, name, timeout, supported_library=&#34;pyucalgarysrs&#34;)
+        datasets = self.__list.list_datasets(self.__srs_obj, name, &#34;&#34;, timeout, supported_library=&#34;pyucalgarysrs&#34;)
         for d in datasets:
             if (d.name == name):
                 return d
@@ -303,6 +308,11 @@ classes in this module are included at the top level of this library.</p></div>
                 passthrough of the `ascii` parameter in a tqdm progress bar). This parameter is 
                 optional. See Notes section below for further details.
 
+            progress_bar_desc (str): 
+                Description value to use when constructing the visual aspect of the progress bar (straight 
+                passthrough of the `desc` parameter in a tqdm progress bar). This parameter is optional. 
+                See notes section below for further details.
+
             timeout (int): 
                 Represents how many seconds to wait for the API to send data before giving up. The 
                 default is 30 seconds, or the `api_timeout` value in the super class&#39; `pyucalgarysrs.PyUCalgarySRS`
@@ -402,6 +412,11 @@ classes in this module are included at the top level of this library.</p></div>
                 ASCII value to use when constructing the visual aspect of the progress bar (straight 
                 passthrough of the `ascii` parameter in a tqdm progress bar). This parameter is 
                 optional. See Notes section below for further details.
+
+            progress_bar_desc (str): 
+                Description value to use when constructing the visual aspect of the progress bar (straight 
+                passthrough of the `desc` parameter in a tqdm progress bar). This parameter is optional. 
+                See notes section below for further details.
 
             timeout (int): 
                 Represents how many seconds to wait for the API to send data before giving up. The 
@@ -715,6 +730,11 @@ def readers(self):
             passthrough of the `ascii` parameter in a tqdm progress bar). This parameter is 
             optional. See Notes section below for further details.
 
+        progress_bar_desc (str): 
+            Description value to use when constructing the visual aspect of the progress bar (straight 
+            passthrough of the `desc` parameter in a tqdm progress bar). This parameter is optional. 
+            See notes section below for further details.
+
         timeout (int): 
             Represents how many seconds to wait for the API to send data before giving up. The 
             default is 30 seconds, or the `api_timeout` value in the super class&#39; `pyucalgarysrs.PyUCalgarySRS`
@@ -817,6 +837,10 @@ below for further information.</dd>
 <dd>ASCII value to use when constructing the visual aspect of the progress bar (straight
 passthrough of the <code>ascii</code> parameter in a tqdm progress bar). This parameter is
 optional. See Notes section below for further details.</dd>
+<dt><strong><code>progress_bar_desc</code></strong> :&ensp;<code>str</code></dt>
+<dd>Description value to use when constructing the visual aspect of the progress bar (straight
+passthrough of the <code>desc</code> parameter in a tqdm progress bar). This parameter is optional.
+See notes section below for further details.</dd>
 <dt><strong><code>timeout</code></strong> :&ensp;<code>int</code></dt>
 <dd>Represents how many seconds to wait for the API to send data before giving up. The
 default is 30 seconds, or the <code>api_timeout</code> value in the super class' <code><a title="pyucalgarysrs.PyUCalgarySRS" href="../index.html#pyucalgarysrs.PyUCalgarySRS">PyUCalgarySRS</a></code>
@@ -908,6 +932,11 @@ srs.data.download(dataset_name, start, end)
             passthrough of the `ascii` parameter in a tqdm progress bar). This parameter is 
             optional. See Notes section below for further details.
 
+        progress_bar_desc (str): 
+            Description value to use when constructing the visual aspect of the progress bar (straight 
+            passthrough of the `desc` parameter in a tqdm progress bar). This parameter is optional. 
+            See notes section below for further details.
+
         timeout (int): 
             Represents how many seconds to wait for the API to send data before giving up. The 
             default is 30 seconds, or the `api_timeout` value in the super class&#39; `pyucalgarysrs.PyUCalgarySRS`
@@ -986,6 +1015,10 @@ below for further information.</dd>
 <dd>ASCII value to use when constructing the visual aspect of the progress bar (straight
 passthrough of the <code>ascii</code> parameter in a tqdm progress bar). This parameter is
 optional. See Notes section below for further details.</dd>
+<dt><strong><code>progress_bar_desc</code></strong> :&ensp;<code>str</code></dt>
+<dd>Description value to use when constructing the visual aspect of the progress bar (straight
+passthrough of the <code>desc</code> parameter in a tqdm progress bar). This parameter is optional.
+See notes section below for further details.</dd>
 <dt><strong><code>timeout</code></strong> :&ensp;<code>int</code></dt>
 <dd>Represents how many seconds to wait for the API to send data before giving up. The
 default is 30 seconds, or the <code>api_timeout</code> value in the super class' <code><a title="pyucalgarysrs.PyUCalgarySRS" href="../index.html#pyucalgarysrs.PyUCalgarySRS">PyUCalgarySRS</a></code>
@@ -1049,7 +1082,7 @@ srs.data.download(dataset_name, start, end)
         pyucalgarysrs.exceptions.SRSAPIError: An API error was encountered.
     &#34;&#34;&#34;
     name = name.upper()
-    datasets = self.__list.list_datasets(self.__srs_obj, name, timeout, supported_library=&#34;pyucalgarysrs&#34;)
+    datasets = self.__list.list_datasets(self.__srs_obj, name, &#34;&#34;, timeout, supported_library=&#34;pyucalgarysrs&#34;)
     for d in datasets:
         if (d.name == name):
             return d
@@ -1244,7 +1277,7 @@ is required.</dd>
 <p>Boolean indicating if file reading is supported.</p></div>
 </dd>
 <dt id="pyucalgarysrs.data.DataManager.list_datasets"><code class="name flex">
-<span>def <span class="ident">list_datasets</span></span>(<span>self,<br>name: str | None = None,<br>timeout: int | None = None,<br>supported_library: Literal['<a title="pyucalgarysrs" href="../index.html">pyucalgarysrs</a>', 'pyaurorax', 'idl-aurorax', 'pyucrio', 'idl-ucrio'] = 'pyucalgarysrs') ‑> List[<a title="pyucalgarysrs.data.classes.Dataset" href="classes.html#pyucalgarysrs.data.classes.Dataset">Dataset</a>]</span>
+<span>def <span class="ident">list_datasets</span></span>(<span>self,<br>name: str | None = None,<br>level: str | None = None,<br>timeout: int | None = None,<br>supported_library: Literal['<a title="pyucalgarysrs" href="../index.html">pyucalgarysrs</a>', 'pyaurorax', 'idl-aurorax', 'pyucrio', 'idl-ucrio'] = 'pyucalgarysrs') ‑> List[<a title="pyucalgarysrs.data.classes.Dataset" href="classes.html#pyucalgarysrs.data.classes.Dataset">Dataset</a>]</span>
 </code></dt>
 <dd>
 <details class="source">
@@ -1254,6 +1287,7 @@ is required.</dd>
 <pre><code class="python">def list_datasets(
         self,
         name: Optional[str] = None,
+        level: Optional[str] = None,
         timeout: Optional[int] = None,
         supported_library: Literal[&#34;pyucalgarysrs&#34;, &#34;pyaurorax&#34;, &#34;idl-aurorax&#34;, &#34;pyucrio&#34;, &#34;idl-ucrio&#34;] = &#34;pyucalgarysrs&#34;) -&gt; List[Dataset]:
     &#34;&#34;&#34;
@@ -1264,6 +1298,10 @@ is required.</dd>
             Supply a name used for filtering. If that name is found in the available dataset 
             names received from the API, it will be included in the results. This parameter is
             optional.
+
+        level (str): 
+            Supply a level string for filtering. Valid strings are: L0, L1, L1A, L2, L3. This parameter
+            is optional.
         
         timeout (int): 
             Represents how many seconds to wait for the API to send data before giving up. The 
@@ -1281,7 +1319,7 @@ is required.</dd>
     Raises:
         pyucalgarysrs.exceptions.SRSAPIError: An API error was encountered.
     &#34;&#34;&#34;
-    return self.__list.list_datasets(self.__srs_obj, name, timeout, supported_library)</code></pre>
+    return self.__list.list_datasets(self.__srs_obj, name, level, timeout, supported_library)</code></pre>
 </details>
 <div class="desc"><p>List available datasets</p>
 <h2 id="args">Args</h2>
@@ -1290,6 +1328,9 @@ is required.</dd>
 <dd>Supply a name used for filtering. If that name is found in the available dataset
 names received from the API, it will be included in the results. This parameter is
 optional.</dd>
+<dt><strong><code>level</code></strong> :&ensp;<code>str</code></dt>
+<dd>Supply a level string for filtering. Valid strings are: L0, L1, L1A, L2, L3. This parameter
+is optional.</dd>
 <dt><strong><code>timeout</code></strong> :&ensp;<code>int</code></dt>
 <dd>Represents how many seconds to wait for the API to send data before giving up. The
 default is 3 seconds, or the <code>api_timeout</code> value in the super class' <code><a title="pyucalgarysrs.PyUCalgarySRS" href="../index.html#pyucalgarysrs.PyUCalgarySRS">PyUCalgarySRS</a></code>
