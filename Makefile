@@ -1,4 +1,4 @@
-.PHONY: install update get-test-data docs show-outdated test test-linting test-ruff test-pycodestyle test-bandit test-pyright test-pytest test-pytest-noread test-pytest-production test-pytest-staging test-pytest-ci test-coverage publish
+.PHONY: install update get-test-data docs show-outdated test test-linting test-ruff test-pycodestyle test-bandit test-pyright test-pytest test-pytest-noread test-pytest-production test-pytest-staging test-pytest-ci test-coverage tool-checks publish
 
 all:
 
@@ -68,8 +68,13 @@ test-coverage coverage:
 show-outdated:
 	poetry show --outdated
 
+tool-checks:
+	@./tools/check_for_license.py
+	@./tools/check_docstrings.py
+
 publish:
 	${MAKE} test
+	${MAKE} tool-checks
 	poetry build
 	poetry publish
 	@rm -rf pyucalgarysrs.egg-info build dist

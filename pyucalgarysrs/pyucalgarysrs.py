@@ -305,14 +305,11 @@ class PyUCalgarySRS:
         Initialize the `progress_bar_backend` parameter.
         
         The default of 'auto' works in all cases except for if the library is used within Spyder. In that 
-        IDE, tqdm is not able to choose the backend automatically. To handle this special case we need
-        a small piece of logic that detects if the user is using Spyder, and if so, sets the progress bar
-        backend to 'standard'.
+        IDE, tqdm is not able to choose the backend automatically.
+
+        NOTE: we are still working on figuring out a way to handle Spyder better.
         """
-        if ("SPYDER_IDE_ACTIVE" in globals()):
-            self.progress_bar_backend = "standard"
-        else:
-            self.progress_bar_backend = self.__progress_bar_backend
+        self.progress_bar_backend = self.__progress_bar_backend
 
     # -----------------------------
     # public methods

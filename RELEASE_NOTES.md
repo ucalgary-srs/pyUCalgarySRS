@@ -1,3 +1,8 @@
+Version 1.13.0
+-------------------
+- docstring updates
+
+
 Version 1.12.0
 -------------------
 - updated defaulting for `progress_bar_backend`
