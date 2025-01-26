@@ -748,19 +748,19 @@ class Observatory:
 
     Attributes:
         uid (str): 
-            4-letter unique identifier (traditionally referred to as the site UID)
+            The 4-letter unique identifier (traditionally referred to as the site UID)
 
         full_name (str): 
-            full location string for the observatory
+            Full location string for the observatory
         
         geodetic_latitude (float): 
-            geodetic latitude for the observatory, in decimal format (-90 to 90)
+            Geodetic latitude for the observatory, in decimal format (-90 to 90)
         
         geodetic_longitude (float): 
-            geodetic longitude for the observatory, in decimal format (-180 to 180)
+            Geodetic longitude for the observatory, in decimal format (-180 to 180)
 
         provider (str): 
-            Data provider.
+            Data provider
     """
 
     def __init__(self, uid: str, full_name: str, geodetic_latitude: float, geodetic_longitude: float):
