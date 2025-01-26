@@ -643,7 +643,7 @@ INDEX=[
 {
 "ref":"pyucalgarysrs.data.classes.Observatory",
 "url":3,
-"doc":"Representation for an observatory. Attributes: uid (str): 4-letter unique identifier (traditionally referred to as the site UID) full_name (str): full location string for the observatory geodetic_latitude (float): geodetic latitude for the observatory, in decimal format (-90 to 90) geodetic_longitude (float): geodetic longitude for the observatory, in decimal format (-180 to 180) provider (str): Data provider."
+"doc":"Representation for an observatory. Attributes: uid (str): The 4-letter unique identifier (traditionally referred to as the site UID) full_name (str): Full location string for the observatory geodetic_latitude (float): Geodetic latitude for the observatory, in decimal format (-90 to 90) geodetic_longitude (float): Geodetic longitude for the observatory, in decimal format (-180 to 180) provider (str): Data provider"
 },
 {
 "ref":"pyucalgarysrs.data.classes.Observatory.pretty_print",
