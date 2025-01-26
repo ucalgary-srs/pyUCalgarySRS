@@ -304,9 +304,12 @@ class SkymapGenerationInfo:
         valid_interval_start (datetime.datetime): 
             Valid start time for this skymap
         
-        valid_interval_end (datetime.datetime): 
+        valid_interval_stop (datetime.datetime): 
             Valid end time for this skymap. If None, then end time is unbounded and valid up until 
             the next newest skymap.
+
+        bytscl_values (ndarray): 
+            Values used for bytescaling during skymap procedure
     """
     author: str
     ccd_center: float
@@ -474,7 +477,7 @@ class CalibrationGenerationInfo:
         valid_interval_start (datetime.datetime): 
             Valid start timestamp for this calibration file
         
-        valid_interval_end (datetime.datetime): 
+        valid_interval_stop (datetime.datetime): 
             Valid end time for this calibration file. If None, then end time is unbounded and valid up 
             until the next newest calibration for this detector UID.
         

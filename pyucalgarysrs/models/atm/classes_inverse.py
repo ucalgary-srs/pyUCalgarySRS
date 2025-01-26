@@ -195,61 +195,61 @@ class ATMInverseResult:
             Height-integrated Rayleighs value for the 844.6nm emission (near infrared).
 
         altitudes (ndarray): 
-            1-dimensional numpy array for the altitudes in kilometers.
+            A 1-dimensional numpy array for the altitudes in kilometers.
 
         emission_4278 (ndarray): 
-            1-dimensional numpy array for the 427.8nm volume emission rate (1/cm^3/s).
+            A 1-dimensional numpy array for the 427.8nm volume emission rate (1/cm^3/s).
 
         emission_5577 (ndarray): 
-            1-dimensional numpy array for the 557.7nm volume emission rate (1/cm^3/s).
+            A 1-dimensional numpy array for the 557.7nm volume emission rate (1/cm^3/s).
 
         emission_6300 (ndarray): 
-            1-dimensional numpy array for the 630.0nm volume emission rate (1/cm^3/s).
+            A 1-dimensional numpy array for the 630.0nm volume emission rate (1/cm^3/s).
 
         emission_8446 (ndarray): 
-            1-dimensional numpy array for the 844.6nm volume emission rate (1/cm^3/s).
+            A 1-dimensional numpy array for the 844.6nm volume emission rate (1/cm^3/s).
 
         plasma_electron_density (ndarray): 
-            1-dimensional numpy array for the plasma electron density (cm^-3).
+            A 1-dimensional numpy array for the plasma electron density (cm^-3).
 
         plasma_o2plus_density (ndarray): 
-            1-dimensional numpy array for the plasma O2+ density (cm^-3).
+            A 1-dimensional numpy array for the plasma O2+ density (cm^-3).
 
         plasma_noplus_density (ndarray): 
-            1-dimensional numpy array for the plasma NO+ density (cm^-3).
+            A 1-dimensional numpy array for the plasma NO+ density (cm^-3).
 
         plasma_oplus_density (ndarray): 
-            1-dimensional numpy array for the plasma O+ density (cm^-3).
+            A 1-dimensional numpy array for the plasma O+ density (cm^-3).
 
         plasma_ionisation_rate (ndarray): 
-            1-dimensional numpy array for the plasma ionisation rate (1/cm^3/s).
+            A 1-dimensional numpy array for the plasma ionisation rate (1/cm^3/s).
 
         plasma_electron_temperature (ndarray): 
-            1-dimensional numpy array for the plasma electron temperature (Kelvin).
+            A 1-dimensional numpy array for the plasma electron temperature (Kelvin).
 
         plasma_ion_temperature (ndarray): 
-            1-dimensional numpy array for the plasma ion temperature (Kelvin).
+            A 1-dimensional numpy array for the plasma ion temperature (Kelvin).
 
         plasma_pederson_conductivity (ndarray): 
-            1-dimensional numpy array for the Peterson plasma conductivity (S/m).
+            A 1-dimensional numpy array for the Peterson plasma conductivity (S/m).
 
         plasma_hall_conductivity (ndarray): 
-            1-dimensional numpy array for the hall plasma conductivity (S/m).
+            A 1-dimensional numpy array for the hall plasma conductivity (S/m).
 
         neutral_o2_density (ndarray): 
-            1-dimensional numpy array for the neutral O2 density (cm^-3).
+            A 1-dimensional numpy array for the neutral O2 density (cm^-3).
 
         neutral_o_density (ndarray): 
-            1-dimensional numpy array for the neutral O density (cm^-3).
+            A 1-dimensional numpy array for the neutral O density (cm^-3).
 
         neutral_n2_density (ndarray): 
-            1-dimensional numpy array for the neutral N2 density (cm^-3).
+            A 1-dimensional numpy array for the neutral N2 density (cm^-3).
 
         neutral_n_density (ndarray): 
-            1-dimensional numpy array for the neutral N density (cm^-3).
+            A 1-dimensional numpy array for the neutral N density (cm^-3).
 
         neutral_temperature (ndarray): 
-            1-dimensional numpy array for the neutral temperature (Kelvin).
+            A 1-dimensional numpy array for the neutral temperature (Kelvin).
     """
     request_info: ATMInverseResultRequestInfo
     energy_flux: Any
