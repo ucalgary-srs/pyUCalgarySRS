@@ -35,7 +35,7 @@ pytest-xdist = "3.6.1"
 pytest-sugar = "1.0.0"
 pytest-cov = "6.0.0"
 bandit = "1.8.2"
-pyright = "1.1.392.post0"
+pyright = "1.1.393"
 pdoc3 = "0.11.5"
 
 [tool.ruff]
