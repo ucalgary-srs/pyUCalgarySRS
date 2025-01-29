@@ -1,3 +1,7 @@
+Version 1.16.0
+-------------------
+
+
 Version 1.15.0
 -------------------
 - docstring updates

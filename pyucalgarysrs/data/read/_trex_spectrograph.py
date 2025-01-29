@@ -185,6 +185,17 @@ def __spectrograph_raw_readfile_worker(file, first_record=False, no_metadata=Fal
         error_message = "failed to extract timestamp from filename"
         return images, metadata_dict_list, problematic, file, error_message
 
+    # cross-check the filename with the start and end times; this will allow
+    # files that are outside of the desired time frame to not actually bother
+    # with getting read
+    if ((start_time is None or file_dt >= start_time.replace(second=0, microsecond=0))
+            and (end_time is None or file_dt <= end_time.replace(second=0, microsecond=0))):
+        # this file should be read
+        pass
+    else:
+        # this file doesn't need to be read
+        return images, metadata_dict_list, problematic, file, error_message
+
     # set site UID and device UID in case we need it (ie. dark frames, or unstacked files)
     file_split = os.path.basename(file).split('_')
     if (len(file_split) == 5):
@@ -514,6 +525,27 @@ def __spectrograph_processed_readfile_worker(file, first_record=False, no_metada
     metadata_dict_list = []
     problematic = False
     error_message = ""
+
+    # extract start and end times of the filename
+    try:
+        file_dt = datetime.datetime.strptime(os.path.basename(file)[0:11], "%Y%m%d_%H")
+    except Exception:
+        if (file is False):
+            print("Failed to extract timestamp from filename")
+        problematic = True
+        error_message = "failed to extract timestamp from filename"
+        return spectra, timestamps, metadata_dict_list, problematic, file, error_message
+
+    # cross-check the filename with the start and end times; this will allow
+    # files that are outside of the desired time frame to not actually bother
+    # with getting read
+    if ((start_time is None or file_dt >= start_time.replace(minute=0, second=0, microsecond=0))
+            and (end_time is None or file_dt <= end_time.replace(minute=0, second=0, microsecond=0))):
+        # this file should be read
+        pass
+    else:
+        # this file doesn't need to be read
+        return spectra, timestamps, metadata_dict_list, problematic, file, error_message
 
     # process file
     try:

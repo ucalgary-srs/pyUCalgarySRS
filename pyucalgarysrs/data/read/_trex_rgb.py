@@ -27,6 +27,7 @@ from pathlib import Path
 from multiprocessing import Pool
 from concurrent.futures import ThreadPoolExecutor
 from ..._util import show_warning
+from ...exceptions import SRSError
 
 # static globals
 __RGB_PGM_EXPECTED_HEIGHT = 480
@@ -109,13 +110,27 @@ def read(file_list, n_parallel=1, first_record=False, no_metadata=False, start_t
         for p in processing_list:
             pool_data.append(__trex_readfile_worker(p))
 
-    # set sizes
-    image_width = pool_data[0][5]
-    image_height = pool_data[0][6]
-    image_channels = pool_data[0][7]
-    image_dtype = pool_data[0][8]
+    # set image sizes
+    image_width = None
+    image_height = None
+    image_channels = None
+    image_dtype = None
+    for i in range(0, len(pool_data)):
+        # set sizes
+        if (pool_data[i][2] is True):
+            image_width = pool_data[i][5] if pool_data[i][5] is not None else image_width
+            image_height = pool_data[i][6] if pool_data[i][6] is not None else image_height
+            image_channels = pool_data[i][7] if pool_data[i][7] is not None else image_channels
+            image_dtype = pool_data[i][8] if pool_data[i][8] is not None else image_dtype
+        else:
+            image_width = pool_data[i][5] if pool_data[i][5] is not None and pool_data[i][5] != 0 else image_width
+            image_height = pool_data[i][6] if pool_data[i][6] is not None and pool_data[i][6] != 0 else image_height
+            image_channels = pool_data[i][7] if pool_data[i][7] is not None and pool_data[i][7] != 0 else image_channels
+            image_dtype = pool_data[i][8] if pool_data[i][8] is not None and pool_data[i][8] != 0 else image_dtype
+    if (image_width is None or image_height is None or image_channels is None or image_dtype is None):
+        raise SRSError("Unexpected read error, please contact the UCalgary team")
 
-    # derive number of frames to prepare for
+    # set image sizes and derive number of frames to prepare for
     total_num_frames = 0
     for i in range(0, len(pool_data)):
         if (pool_data[i][2] is True):
@@ -243,6 +258,29 @@ def __rgb_readfile_worker_h5(file_obj):
     start_time = file_obj["start_time"]
     end_time = file_obj["end_time"]
 
+    # extract start and end times of the filename
+    try:
+        file_dt = datetime.datetime.strptime(os.path.basename(file_obj["filename"])[0:13], "%Y%m%d_%H%M")
+    except Exception:
+        if (file_obj["quiet"] is False):
+            print("Failed to extract timestamp from filename")
+        problematic = True
+        error_message = "failed to extract timestamp from filename"
+        return images, metadata_dict_list, problematic, file_obj["filename"], error_message, \
+            image_width, image_height, image_channels, image_dtype
+
+    # cross-check the filename with the start and end times; this will allow
+    # files that are outside of the desired time frame to not actually bother
+    # with getting read
+    if ((start_time is None or file_dt >= start_time.replace(second=0, microsecond=0))
+            and (end_time is None or file_dt <= end_time.replace(second=0, microsecond=0))):
+        # this file should be read
+        pass
+    else:
+        # this file doesn't need to be read
+        return images, metadata_dict_list, problematic, file_obj["filename"], error_message, \
+            image_width, image_height, image_channels, image_dtype
+
     # process file
     try:
         # open H5 file
@@ -345,6 +383,18 @@ def __rgb_readfile_worker_png(file_obj):
             print("Failed to extract timestamp from filename")
         problematic = True
         error_message = "failed to extract timestamp from filename"
+        return images, metadata_dict_list, problematic, file_obj["filename"], error_message, \
+            image_width, image_height, image_channels, image_dtype
+
+    # cross-check the filename with the start and end times; this will allow
+    # files that are outside of the desired time frame to not actually bother
+    # with getting read
+    if ((start_time is None or file_dt >= start_time.replace(second=0, microsecond=0))
+            and (end_time is None or file_dt <= end_time.replace(second=0, microsecond=0))):
+        # this file should be read
+        pass
+    else:
+        # this file doesn't need to be read
         return images, metadata_dict_list, problematic, file_obj["filename"], error_message, \
             image_width, image_height, image_channels, image_dtype
 
@@ -532,6 +582,18 @@ def __rgb_readfile_worker_pgm(file_obj):
             print("Failed to extract timestamp from filename")
         problematic = True
         error_message = "failed to extract timestamp from filename"
+        return images, metadata_dict_list, problematic, file_obj["filename"], error_message, \
+            image_width, image_height, image_channels, image_dtype
+
+    # cross-check the filename with the start and end times; this will allow
+    # files that are outside of the desired time frame to not actually bother
+    # with getting read
+    if ((start_time is None or file_dt >= start_time.replace(second=0, microsecond=0))
+            and (end_time is None or file_dt <= end_time.replace(second=0, microsecond=0))):
+        # this file should be read
+        pass
+    else:
+        # this file doesn't need to be read
         return images, metadata_dict_list, problematic, file_obj["filename"], error_message, \
             image_width, image_height, image_channels, image_dtype
 

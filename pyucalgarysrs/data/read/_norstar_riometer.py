@@ -14,6 +14,7 @@
 
 import datetime
 import signal
+import os
 import numpy as np
 from pathlib import Path
 from multiprocessing import Pool
@@ -99,6 +100,10 @@ def read(file_list, n_parallel=1, no_metadata=False, start_time=None, end_time=N
             })
             continue
 
+        # skip empty metadata
+        if (result["metadata"] is None):
+            continue
+
         # riometer data
         rio_data.append(RiometerData(timestamp=result["np_timestamp"], raw_signal=result["np_raw_signal"], absorption=result["np_absorption"]))
 
@@ -145,6 +150,43 @@ def __riometer_readfile_worker(file, no_metadata=False, start_time=None, end_tim
             "np_raw_signal": np_raw_signal,
             "np_absorption": np_absorption,
             "metadata": metadata_dict,
+            "problematic": problematic,
+            "file": file,
+            "error_message": error_message,
+        }
+
+    # extract start and end times of the filename
+    try:
+        file_dt = datetime.datetime.strptime(os.path.basename(file).split('_')[-2], "%Y%m%d")
+    except Exception:
+        if (quiet is False):
+            print("Failed to extract timestamp from filename")
+        problematic = True
+        error_message = "failed to extract timestamp from filename"
+        return {
+            "np_timestamp": np_timestamp,
+            "np_raw_signal": np_raw_signal,
+            "np_absorption": np_absorption,
+            "metadata": None,
+            "problematic": problematic,
+            "file": file,
+            "error_message": error_message,
+        }
+
+    # cross-check the filename with the start and end times; this will allow
+    # files that are outside of the desired time frame to not actually bother
+    # with getting read
+    if ((start_time is None or file_dt >= start_time.replace(hour=0, minute=0, second=0, microsecond=0))
+            and (end_time is None or file_dt <= end_time.replace(hour=0, minute=0, second=0, microsecond=0))):
+        # this file should be read
+        pass
+    else:
+        # this file doesn't need to be read
+        return {
+            "np_timestamp": np_timestamp,
+            "np_raw_signal": np_raw_signal,
+            "np_absorption": np_absorption,
+            "metadata": None,
             "problematic": problematic,
             "file": file,
             "error_message": error_message,

@@ -15,6 +15,7 @@
 import datetime
 import signal
 import h5py
+import os
 import numpy as np
 from pathlib import Path
 from multiprocessing import Pool
@@ -206,6 +207,45 @@ def __grid_readfile_worker(file_obj):
     no_metadata = file_obj["no_metadata"]
     start_time = file_obj["start_time"]
     end_time = file_obj["end_time"]
+
+    # extract start and end times of the filename
+    try:
+        file_dt = datetime.datetime.strptime(os.path.basename(file_obj["filename"])[0:13], "%Y%m%d_%H%M")
+    except Exception:
+        if (file_obj["quiet"] is False):
+            print("Failed to extract timestamp from filename")
+        problematic = True
+        error_message = "failed to extract timestamp from filename"
+        return {
+            "data": data_dict,
+            "metadata": metadata_dict_list,
+            "fill_value": fill_value,
+            "problematic": problematic,
+            "filename": file_obj["filename"],
+            "error_message": error_message,
+        }
+
+    # cross-check the filename with the start and end times; this will allow
+    # files that are outside of the desired time frame to not actually bother
+    # with getting read
+    if ((start_time is None or file_dt >= start_time.replace(second=0, microsecond=0))
+            and (end_time is None or file_dt <= end_time.replace(second=0, microsecond=0))):
+        # this file should be read
+        pass
+    else:
+        # this file doesn't need to be read
+        data_dict = {
+            "grid": np.empty((512, 1024, 0), dtype=np.float32),
+            "timestamp": np.empty((0)),
+        }
+        return {
+            "data": data_dict,
+            "metadata": metadata_dict_list,
+            "fill_value": fill_value,
+            "problematic": problematic,
+            "filename": file_obj["filename"],
+            "error_message": error_message,
+        }
 
     # process file
     try:

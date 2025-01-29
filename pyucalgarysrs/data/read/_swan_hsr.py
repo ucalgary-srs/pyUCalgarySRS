@@ -16,6 +16,7 @@ import datetime
 import signal
 import numpy as np
 import h5py
+import os
 from pathlib import Path
 from multiprocessing import Pool
 from functools import partial
@@ -47,7 +48,7 @@ def read(file_list, n_parallel=1, no_metadata=False, start_time=None, end_time=N
         data = []
         try:
             data = pool.map(partial(
-                __riometer_readfile_worker,
+                __hsr_readfile_worker,
                 no_metadata=no_metadata,
                 start_time=start_time,
                 end_time=end_time,
@@ -63,7 +64,7 @@ def read(file_list, n_parallel=1, no_metadata=False, start_time=None, end_time=N
         # don't bother using multiprocessing with one worker, just call the worker function directly
         data = []
         for f in file_list:
-            data.append(__riometer_readfile_worker(
+            data.append(__hsr_readfile_worker(
                 f,
                 no_metadata=no_metadata,
                 start_time=start_time,
@@ -83,6 +84,10 @@ def read(file_list, n_parallel=1, no_metadata=False, start_time=None, end_time=N
                 "filename": result["file"],
                 "error_message": result["error_message"],
             })
+            continue
+
+        # skip empty metadata
+        if (result["metadata"] is None):
             continue
 
         # hsr data
@@ -111,7 +116,7 @@ def __str_to_datetime_formatter(timestamp_str):
     return datetime.datetime.strptime(timestamp_str.decode(), "%Y-%m-%d %H:%M:%S UTC")
 
 
-def __riometer_readfile_worker(file, no_metadata=False, start_time=None, end_time=None, quiet=False):
+def __hsr_readfile_worker(file, no_metadata=False, start_time=None, end_time=None, quiet=False):
     # init
     metadata_dict = {}
     band_central_frequency_list = []
@@ -121,6 +126,47 @@ def __riometer_readfile_worker(file, no_metadata=False, start_time=None, end_tim
     np_absorption = np.array([], dtype=HSR_DT)
     problematic = False
     error_message = ""
+
+    # extract start and end times of the filename
+    try:
+        file_dt = datetime.datetime.strptime(os.path.basename(file)[0:8], "%Y%m%d")
+    except Exception:
+        if (quiet is False):
+            print("Failed to extract timestamp from filename")
+        problematic = True
+        error_message = "failed to extract timestamp from filename"
+        return {
+            "band_central_frequency_list": band_central_frequency_list,
+            "band_passband_list": band_passband_list,
+            "np_timestamp": np_timestamp,
+            "np_raw_power": np_raw_power,
+            "np_absorption": np_absorption,
+            "metadata": metadata_dict,
+            "problematic": problematic,
+            "file": file,
+            "error_message": error_message,
+        }
+
+    # cross-check the filename with the start and end times; this will allow
+    # files that are outside of the desired time frame to not actually bother
+    # with getting read
+    if ((start_time is None or file_dt >= start_time.replace(hour=0, minute=0, second=0, microsecond=0))
+            and (end_time is None or file_dt <= end_time.replace(hour=0, minute=0, second=0, microsecond=0))):
+        # this file should be read
+        pass
+    else:
+        # this file doesn't need to be read
+        return {
+            "band_central_frequency_list": band_central_frequency_list,
+            "band_passband_list": band_passband_list,
+            "np_timestamp": np_timestamp,
+            "np_raw_power": np_raw_power,
+            "np_absorption": np_absorption,
+            "metadata": None,  # the key that triggers this file to be skipped at post-processing
+            "problematic": problematic,
+            "file": file,
+            "error_message": error_message,
+        }
 
     # process file
     try:
