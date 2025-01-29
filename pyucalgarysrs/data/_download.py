@@ -67,7 +67,7 @@ def __download_url(
             if (pbar_iterator_nfiles is True):
                 pbar.update()
             else:
-                pbar.update(0)
+                pbar.update(0)  # pragma: no cover
         raise SRSDownloadError("HTTP error %d when downloading '%s'" % (r.status_code, url))
 
     # return filename

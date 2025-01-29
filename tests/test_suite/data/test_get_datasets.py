@@ -90,3 +90,30 @@ def test_get_datasets_filter_name(srs, test_dict):
     # check filter
     for d in datasets:
         assert test_dict["name"] in d.name
+
+
+@pytest.mark.data_datasets
+@pytest.mark.parametrize("test_dict", [
+    {
+        "name": "THEMIS_ASI_RAW",
+        "error_expected": False
+    },
+    {
+        "name": "TREX_RGB_RAW_NOMINAL",
+        "error_expected": False
+    },
+    {
+        "name": "SOME_BAD_DATASET",
+        "error_expected": True
+    },
+])
+def test_get_dataset(srs, test_dict):
+    # get dataset
+    if (test_dict["error_expected"] is False):
+        dataset = srs.data.get_dataset(test_dict["name"])
+        assert dataset.name == test_dict["name"]
+    else:
+        # we expect an error
+        with pytest.raises(pyucalgarysrs.SRSAPIError) as e_info:
+            dataset = srs.data.get_dataset(test_dict["name"])
+            assert "Dataset not found" in str(e_info).lower()

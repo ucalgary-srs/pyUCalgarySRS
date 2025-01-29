@@ -16,6 +16,7 @@ import os
 import datetime
 import pytest
 import pyucalgarysrs
+import warnings
 
 ALL_TESTS = [
     {
@@ -127,3 +128,27 @@ def test_download_timeout(srs):
     # check that the files exist
     for f in download_obj.filenames:
         assert os.path.exists(f)
+
+
+@pytest.mark.data_download
+def test_download_no_data(srs):
+    # download data that doesn't exist, a warning should appear
+    with warnings.catch_warnings(record=True) as w:
+        # download data
+        download_obj = srs.data.download(
+            "TREX_RGB_HOURLY_KEOGRAM",
+            datetime.datetime(2010, 1, 1, 6, 0, 0),
+            datetime.datetime(2010, 1, 1, 8, 59, 59),
+            site_uid="gill",
+            n_parallel=1,
+            timeout=5,
+        )
+
+        # check download object
+        assert isinstance(download_obj, pyucalgarysrs.FileDownloadResult) is True
+        assert download_obj.count == 0
+
+        # check warning
+        assert len(w) == 1
+        assert issubclass(w[-1].category, UserWarning)
+        assert "No data found to download" in str(w[-1].message)
