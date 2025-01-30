@@ -1,6 +1,7 @@
 Version 1.16.0
 -------------------
 - improved read performance when using the `start_time` and `end_time` parameters
+- added `pretty_print()` method to `GridSourceInfoData` class
 
 
 Version 1.15.0

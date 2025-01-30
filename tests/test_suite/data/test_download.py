@@ -18,7 +18,9 @@ import pytest
 import pyucalgarysrs
 import warnings
 
-ALL_TESTS = [
+
+@pytest.mark.data_download
+@pytest.mark.parametrize("test_dict", [
     {
         "request": {
             "dataset_name": "THEMIS_ASI_RAW",
@@ -49,12 +51,8 @@ ALL_TESTS = [
         },
         "expected_file_count": 5,
     },
-]
-
-
-@pytest.mark.data_download
-@pytest.mark.parametrize("test_dict", ALL_TESTS)
-def test_download(srs, test_dict):
+])
+def test_download(srs, capsys, test_dict):
     # download data
     download_obj = srs.data.download(
         test_dict["request"]["dataset_name"],
@@ -77,9 +75,16 @@ def test_download(srs, test_dict):
         total_bytes_found += os.path.getsize(f)
     assert total_bytes_found == download_obj.total_bytes
 
+    # check __str__ and __repr__ for FileDownloadResult type
+    print_str = str(download_obj)
+    assert print_str != ""
+    download_obj.pretty_print()
+    captured_stdout = capsys.readouterr().out
+    assert captured_stdout != ""
+
 
 @pytest.mark.data_download
-def test_download_no_overwrite(srs):
+def test_download_no_overwrite(srs, capsys):
     # download data
     #
     # NOTE: we do this twice so that the data is downloaded, and then
@@ -108,9 +113,16 @@ def test_download_no_overwrite(srs):
     for f in download_obj.filenames:
         assert os.path.exists(f)
 
+    # check __str__ and __repr__ for FileDownloadResult type
+    print_str = str(download_obj)
+    assert print_str != ""
+    download_obj.pretty_print()
+    captured_stdout = capsys.readouterr().out
+    assert captured_stdout != ""
+
 
 @pytest.mark.data_download
-def test_download_timeout(srs):
+def test_download_timeout(srs, capsys):
     # download data
     download_obj = srs.data.download(
         "TREX_RGB_HOURLY_KEOGRAM",
@@ -125,13 +137,20 @@ def test_download_timeout(srs):
     # check download object
     assert isinstance(download_obj, pyucalgarysrs.FileDownloadResult) is True
 
+    # check __str__ and __repr__ for FileDownloadResult type
+    print_str = str(download_obj)
+    assert print_str != ""
+    download_obj.pretty_print()
+    captured_stdout = capsys.readouterr().out
+    assert captured_stdout != ""
+
     # check that the files exist
     for f in download_obj.filenames:
         assert os.path.exists(f)
 
 
 @pytest.mark.data_download
-def test_download_no_data(srs):
+def test_download_no_data(srs, capsys):
     # download data that doesn't exist, a warning should appear
     with warnings.catch_warnings(record=True) as w:
         # download data
@@ -144,11 +163,18 @@ def test_download_no_data(srs):
             timeout=5,
         )
 
-        # check download object
-        assert isinstance(download_obj, pyucalgarysrs.FileDownloadResult) is True
-        assert download_obj.count == 0
-
         # check warning
         assert len(w) == 1
         assert issubclass(w[-1].category, UserWarning)
         assert "No data found to download" in str(w[-1].message)
+
+        # check download object
+        assert isinstance(download_obj, pyucalgarysrs.FileDownloadResult) is True
+        assert download_obj.count == 0
+
+        # check __str__ and __repr__ for FileDownloadResult type
+        print_str = str(download_obj)
+        assert print_str != ""
+        download_obj.pretty_print()
+        captured_stdout = capsys.readouterr().out
+        assert captured_stdout != ""

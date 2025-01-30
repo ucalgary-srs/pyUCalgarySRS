@@ -17,7 +17,9 @@ import datetime
 import pytest
 import pyucalgarysrs
 
-ALL_TESTS = [
+
+@pytest.mark.data_download
+@pytest.mark.parametrize("test_dict", [
     {
         "request": {
             "dataset_name": "THEMIS_ASI_RAW",
@@ -40,12 +42,8 @@ ALL_TESTS = [
         "expected_url_count": 5,
         "expected_error_message": None,
     },
-]
-
-
-@pytest.mark.data_download
-@pytest.mark.parametrize("test_dict", ALL_TESTS)
-def test_download_using_urls(srs, test_dict):
+])
+def test_download_using_urls(srs, capsys, test_dict):
     # get urls
     file_listing_obj = srs.data.get_urls(
         test_dict["request"]["dataset_name"],
@@ -53,7 +51,17 @@ def test_download_using_urls(srs, test_dict):
         test_dict["request"]["end"],
         site_uid=test_dict["request"]["site_uid"],
     )
+
+    # check FileListingResponse object
+    assert isinstance(file_listing_obj, pyucalgarysrs.FileListingResponse) is True
     assert file_listing_obj.count == test_dict["expected_url_count"]
+
+    # check __str__ and __repr__ for FileListingResponse type
+    print_str = str(file_listing_obj)
+    assert print_str != ""
+    file_listing_obj.pretty_print()
+    captured_stdout = capsys.readouterr().out
+    assert captured_stdout != ""
 
     # download urls
     download_obj = srs.data.download_using_urls(

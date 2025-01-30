@@ -8,10 +8,10 @@ pyucalgarysrs/_util.py                              5      0   100%
 pyucalgarysrs/data/__init__.py                     41      0   100%
 pyucalgarysrs/data/_download.py                    92      0   100%
 pyucalgarysrs/data/_list.py                        37      0   100%
-pyucalgarysrs/data/classes.py                     383    101    74%   156, 160-162, 174-185, 216, 220-222, 234-245, 621, 635-643, 699-714, 720, 728, 835, 838-839, 846-855, 878, 881-884, 891-899, 930, 934-955, 968-994
-pyucalgarysrs/data/read/__init__.py               278     53    81%   262, 281, 286, 291, 302, 312, 816, 928-941, 1032, 1035, 1038, 1041, 1064, 1069-1072, 1075-1084, 1325-1370, 1434-1457, 1521-1544
+pyucalgarysrs/data/classes.py                     392     66    83%   635-643, 699-712, 720, 728, 895, 898-901, 908-916, 947, 951-972, 985-1011
+pyucalgarysrs/data/read/__init__.py               278     39    86%   262, 281, 286, 302, 312, 816, 928-941, 1032, 1035, 1038, 1041, 1064, 1069-1072, 1075-1084, 1434-1457, 1521-1544
 pyucalgarysrs/data/read/_calibration.py            45      0   100%
-pyucalgarysrs/data/read/_grid.py                  169    160     5%   26-196, 201-353
+pyucalgarysrs/data/read/_grid.py                  176     18    90%   107, 123, 180, 207, 252-256, 285-290, 294, 300, 315-319
 pyucalgarysrs/data/read/_norstar_riometer.py      147    135     8%   45-119, 124-339
 pyucalgarysrs/data/read/_rego.py                  212     31    85%   41-45, 123, 206, 216-220, 228, 273-279, 312, 329-331, 365-374
 pyucalgarysrs/data/read/_skymap.py                 48      0   100%
@@ -30,5 +30,5 @@ pyucalgarysrs/models/atm/classes_forward.py       117      0   100%
 pyucalgarysrs/models/atm/classes_inverse.py       117      0   100%
 pyucalgarysrs/pyucalgarysrs.py                    194     58    70%   169, 173, 253, 260, 266-269, 383-461
 -----------------------------------------------------------------------------
-TOTAL                                            3512   1025    71%
+TOTAL                                            3528    834    76%
 ```

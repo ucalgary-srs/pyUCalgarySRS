@@ -811,6 +811,23 @@ class GridSourceInfoData:
     """
     confidence: Any
 
+    def __str__(self) -> str:
+        return self.__repr__()
+
+    def __repr__(self) -> str:
+        confidence_str = "array(dims=%s, dtype=%s)" % (self.confidence.shape, self.confidence.dtype)
+        return "GridSourceInfoData(confidence=%s)" % (confidence_str)
+
+    def pretty_print(self):
+        """
+        A special print output for this class.
+        """
+        # set confidence
+        confidence_str = "array(dims=%s, dtype=%s)" % (self.confidence.shape, self.confidence.dtype)
+
+        print("GridSourceInfoData:")
+        print("  %-22s: %s" % ("confidence", confidence_str))
+
 
 @dataclass
 class GridData:

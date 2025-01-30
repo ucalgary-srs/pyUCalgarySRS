@@ -657,7 +657,7 @@ def test_read_themis_bad_file(srs, all_datasets, test_dict):
 
 
 @pytest.mark.data_read
-def test_read_rego_badperms_file(srs, all_datasets):
+def test_read_themis_badperms_file(srs, all_datasets):
     # set dataset
     dataset = find_dataset(all_datasets, "THEMIS_ASI_RAW")
 

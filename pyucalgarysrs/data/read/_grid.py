@@ -70,7 +70,16 @@ def read(file_list, n_parallel=1, first_record=False, no_metadata=False, start_t
     # pre-allocate data arrays
     data_dict = {}
     data_dict_sizes_and_dtype = {}
+    problematic_file_list = []
     for pd in pool_data:
+        # check for error
+        if (pd["problematic"] is True):
+            problematic_file_list.append({
+                "filename": pd["filename"],
+                "error_message": pd["error_message"],
+            })
+            continue
+
         # check if there's anything to process
         if (len(pd["data"]["timestamp"]) == 0):
             continue
@@ -129,26 +138,32 @@ def read(file_list, n_parallel=1, first_record=False, no_metadata=False, start_t
                 dtype=data_dict_sizes_and_dtype[key]["dtype"],
             )
 
+    # check to see if we should proceed
+    if (data_dict_sizes_and_dtype == {}):
+        # read nothing but bad files, return immediately
+        if ("grid" not in data_dict):
+            data_dict["grid"] = np.empty((512, 1024, 0), dtype=np.float32)
+        return data_dict, [], problematic_file_list
+
     # pre-allocate metadata list
     if (no_metadata is False):
         metadata_dict_list = [{}] * data_dict_sizes_and_dtype["timestamp"]["shape"][0]
     else:
         metadata_dict_list = []
-    problematic_file_list = []
 
     # for each pool result
     list_position = 0
     for pd in pool_data:
-        # check if any data to process
-        if (len(pd["data"]["timestamp"]) == 0):
-            continue
-
         # check for error
         if (pd["problematic"] is True):
             problematic_file_list.append({
                 "filename": pd["filename"],
                 "error_message": pd["error_message"],
             })
+            continue
+
+        # check if any data to process
+        if (len(pd["data"]["timestamp"]) == 0):
             continue
 
         # populate data
