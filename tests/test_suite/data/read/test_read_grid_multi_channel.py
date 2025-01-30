@@ -320,7 +320,6 @@ def test_read_grid_multichannel_multiple_files_n_parallel(srs, all_datasets, tes
         ],
         "start_time": datetime.datetime(2023, 3, 24, 6, 1),
         "end_time": datetime.datetime(2023, 3, 24, 6, 3),
-        "n_parallel": 2,
         "expected_success": True,
         "expected_frames": 41
     },
@@ -334,7 +333,6 @@ def test_read_grid_multichannel_multiple_files_n_parallel(srs, all_datasets, tes
         ],
         "start_time": datetime.datetime(2023, 3, 24, 6, 1, 15),
         "end_time": datetime.datetime(2023, 3, 24, 6, 3),
-        "n_parallel": 2,
         "expected_success": True,
         "expected_frames": 36
     },
@@ -348,7 +346,6 @@ def test_read_grid_multichannel_multiple_files_n_parallel(srs, all_datasets, tes
         ],
         "start_time": datetime.datetime(2023, 3, 24, 6, 1),
         "end_time": datetime.datetime(2023, 3, 24, 6, 3, 15),
-        "n_parallel": 2,
         "expected_success": True,
         "expected_frames": 46
     },
@@ -361,10 +358,9 @@ def test_read_grid_multichannel_multiple_files_n_parallel(srs, all_datasets, tes
             "20230324_0604_110km_MOSv001_grid_trex-rgb.h5",
         ],
         "start_time": None,
-        "end_time": datetime.datetime(2023, 3, 24, 6, 3),
-        "n_parallel": 2,
+        "end_time": datetime.datetime(2023, 3, 24, 6, 3, 30),
         "expected_success": True,
-        "expected_frames": 61
+        "expected_frames": 71
     },
     {
         "filenames": [
@@ -374,11 +370,10 @@ def test_read_grid_multichannel_multiple_files_n_parallel(srs, all_datasets, tes
             "20230324_0603_110km_MOSv001_grid_trex-rgb.h5",
             "20230324_0604_110km_MOSv001_grid_trex-rgb.h5",
         ],
-        "start_time": datetime.datetime(2023, 3, 24, 6, 1),
+        "start_time": datetime.datetime(2023, 3, 24, 6, 3, 30),
         "end_time": None,
-        "n_parallel": 2,
         "expected_success": True,
-        "expected_frames": 80
+        "expected_frames": 30
     },
 ])
 @pytest.mark.data_read
@@ -392,35 +387,39 @@ def test_read_grid_multichannel_start_end_times(srs, all_datasets, test_dict):
         file_list.append("%s/%s" % (DATA_DIR, f))
 
     # read file
-    data = srs.data.read(
-        dataset,
-        file_list,
-        start_time=test_dict["start_time"],
-        end_time=test_dict["end_time"],
-        n_parallel=test_dict["n_parallel"],
-    )
+    #
+    # NOTE: we do this with a loop so we can do the same test for 1 and 2 values
+    # for the n_parallel argument.
+    for n_parallel in range(1, 2):
+        data = srs.data.read(
+            dataset,
+            file_list,
+            start_time=test_dict["start_time"],
+            end_time=test_dict["end_time"],
+            n_parallel=n_parallel,
+        )
 
-    # check success
-    if (test_dict["expected_success"] is True):
-        assert len(data.problematic_files) == 0
-    else:
-        assert len(data.problematic_files) > 0
+        # check success
+        if (test_dict["expected_success"] is True):
+            assert len(data.problematic_files) == 0
+        else:
+            assert len(data.problematic_files) > 0
 
-    # check number of frames
-    assert data.data.grid.shape == (512, 1024, 3, test_dict["expected_frames"])
-    assert len(data.metadata) == test_dict["expected_frames"]
-    assert len(data.timestamp) == test_dict["expected_frames"]
+        # check number of frames
+        assert data.data.grid.shape == (512, 1024, 3, test_dict["expected_frames"])
+        assert len(data.metadata) == test_dict["expected_frames"]
+        assert len(data.timestamp) == test_dict["expected_frames"]
 
-    # check that there's metadata
-    for m in data.metadata:
-        assert len(m) > 0
+        # check that there's metadata
+        for m in data.metadata:
+            assert len(m) > 0
 
-    # check that timestamps are in the valid range
-    for t in data.timestamp:
-        if (test_dict["start_time"] is not None):
-            assert t >= test_dict["start_time"]
-        if (test_dict["end_time"] is not None):
-            assert t <= test_dict["end_time"]
+        # check that timestamps are in the valid range
+        for t in data.timestamp:
+            if (test_dict["start_time"] is not None):
+                assert t >= test_dict["start_time"]
+            if (test_dict["end_time"] is not None):
+                assert t <= test_dict["end_time"]
 
 
 @pytest.mark.parametrize("test_dict", [
