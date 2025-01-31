@@ -510,8 +510,9 @@ def read_processed(file_list, n_parallel=1, first_record=False, no_metadata=Fals
     spectra = spectra.astype(__SPECTROGRAPH_PROCESSED_DT)
 
     # convert timestamps to datetime objections
-    timestamp = np.vectorize(__str_to_datetime_formatter)(timestamp)  # type: ignore
-    timestamp = timestamp.astype(datetime.datetime)
+    if (len(timestamp) > 0):
+        timestamp = np.vectorize(__str_to_datetime_formatter)(timestamp)  # type: ignore
+        timestamp = timestamp.astype(datetime.datetime)
 
     # return
     data = None
@@ -525,6 +526,14 @@ def __spectrograph_processed_readfile_worker(file, first_record=False, no_metada
     metadata_dict_list = []
     problematic = False
     error_message = ""
+
+    # check extension
+    if file.endswith("h5") is False:
+        if (quiet is False):
+            print("Unrecognized file type: %s" % (file))
+        problematic = True
+        error_message = "Unrecognized file type"
+        return spectra, timestamps, metadata_dict_list, problematic, file, error_message
 
     # extract start and end times of the filename
     try:
