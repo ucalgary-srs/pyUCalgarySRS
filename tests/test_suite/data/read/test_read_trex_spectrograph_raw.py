@@ -300,119 +300,6 @@ def test_read_trex_spect_raw_multiple_files_n_parallel(srs, all_datasets, test_d
     {
         "filenames": [
             "20230503_0600_luck_spect-02_spectra.pgm.gz",
-            "20230503_0601_luck_spect-02_spectra.pgm.gz",
-            "20230503_0602_luck_spect-02_spectra.pgm.gz",
-            "20230503_0603_luck_spect-02_spectra.pgm.gz",
-            "20230503_0604_luck_spect-02_spectra.pgm.gz",
-        ],
-        "start_time": datetime.datetime(2023, 5, 3, 6, 1),
-        "end_time": datetime.datetime(2023, 5, 3, 6, 3),
-        "expected_success": True,
-        "expected_frames": 9
-    },
-    {
-        "filenames": [
-            "20230503_0600_luck_spect-02_spectra.pgm.gz",
-            "20230503_0601_luck_spect-02_spectra.pgm.gz",
-            "20230503_0602_luck_spect-02_spectra.pgm.gz",
-            "20230503_0603_luck_spect-02_spectra.pgm.gz",
-            "20230503_0604_luck_spect-02_spectra.pgm.gz",
-        ],
-        "start_time": datetime.datetime(2023, 5, 3, 6, 1, 15),
-        "end_time": datetime.datetime(2023, 5, 3, 6, 3),
-        "expected_success": True,
-        "expected_frames": 8
-    },
-    {
-        "filenames": [
-            "20230503_0600_luck_spect-02_spectra.pgm.gz",
-            "20230503_0601_luck_spect-02_spectra.pgm.gz",
-            "20230503_0602_luck_spect-02_spectra.pgm.gz",
-            "20230503_0603_luck_spect-02_spectra.pgm.gz",
-            "20230503_0604_luck_spect-02_spectra.pgm.gz",
-        ],
-        "start_time": datetime.datetime(2023, 5, 3, 6, 1),
-        "end_time": datetime.datetime(2023, 5, 3, 6, 3, 15),
-        "expected_success": True,
-        "expected_frames": 10
-    },
-    {
-        "filenames": [
-            "20230503_0600_luck_spect-02_spectra.pgm.gz",
-            "20230503_0601_luck_spect-02_spectra.pgm.gz",
-            "20230503_0602_luck_spect-02_spectra.pgm.gz",
-            "20230503_0603_luck_spect-02_spectra.pgm.gz",
-            "20230503_0604_luck_spect-02_spectra.pgm.gz",
-        ],
-        "start_time": None,
-        "end_time": datetime.datetime(2023, 5, 3, 6, 3, 30),
-        "expected_success": True,
-        "expected_frames": 15
-    },
-    {
-        "filenames": [
-            "20230503_0600_luck_spect-02_spectra.pgm.gz",
-            "20230503_0601_luck_spect-02_spectra.pgm.gz",
-            "20230503_0602_luck_spect-02_spectra.pgm.gz",
-            "20230503_0603_luck_spect-02_spectra.pgm.gz",
-            "20230503_0604_luck_spect-02_spectra.pgm.gz",
-        ],
-        "start_time": datetime.datetime(2023, 5, 3, 6, 3, 30),
-        "end_time": None,
-        "expected_success": True,
-        "expected_frames": 6
-    },
-])
-@pytest.mark.data_read
-def test_read_trex_spect_raw_start_end_times(srs, all_datasets, test_dict):
-    # set dataset
-    dataset = find_dataset(all_datasets, "TREX_SPECT_RAW")
-
-    # build file list
-    file_list = []
-    for f in test_dict["filenames"]:
-        file_list.append("%s/%s" % (DATA_DIR, f))
-
-    # read file
-    #
-    # NOTE: we do this with a loop so we can do the same test for 1 and 2 values
-    # for the n_parallel argument.
-    for n_parallel in range(1, 2):
-        data = srs.data.read(
-            dataset,
-            file_list,
-            start_time=test_dict["start_time"],
-            end_time=test_dict["end_time"],
-            n_parallel=n_parallel,
-        )
-
-        # check success
-        if (test_dict["expected_success"] is True):
-            assert len(data.problematic_files) == 0
-        else:
-            assert len(data.problematic_files) > 0
-
-        # check number of frames
-        assert data.data.shape == (1024, 256, test_dict["expected_frames"])
-        assert len(data.metadata) == test_dict["expected_frames"]
-        assert len(data.timestamp) == test_dict["expected_frames"]
-
-        # check that there's metadata
-        for m in data.metadata:
-            assert len(m) > 0
-
-        # check that timestamps are in the valid range
-        for t in data.timestamp:
-            if (test_dict["start_time"] is not None):
-                assert t >= test_dict["start_time"]
-            if (test_dict["end_time"] is not None):
-                assert t <= test_dict["end_time"]
-
-
-@pytest.mark.parametrize("test_dict", [
-    {
-        "filenames": [
-            "20230503_0600_luck_spect-02_spectra.pgm.gz",
         ],
         "n_parallel": 1,
         "expected_success": True,
@@ -863,6 +750,120 @@ def test_read_trex_spect_raw_readers_func_nodataset(srs, test_dict):
     print_str = str(data)
     assert print_str != ""
     assert "dataset=None" in print_str
+
+
+@pytest.mark.parametrize("test_dict", [
+    {
+        "filenames": [
+            "20230503_0600_luck_spect-02_spectra.pgm.gz",
+            "20230503_0601_luck_spect-02_spectra.pgm.gz",
+            "20230503_0602_luck_spect-02_spectra.pgm.gz",
+            "20230503_0603_luck_spect-02_spectra.pgm.gz",
+            "20230503_0604_luck_spect-02_spectra.pgm.gz",
+        ],
+        "start_time": datetime.datetime(2023, 5, 3, 6, 1),
+        "end_time": datetime.datetime(2023, 5, 3, 6, 3),
+        "expected_success": True,
+        "expected_frames": 9
+    },
+    {
+        "filenames": [
+            "20230503_0600_luck_spect-02_spectra.pgm.gz",
+            "20230503_0601_luck_spect-02_spectra.pgm.gz",
+            "20230503_0602_luck_spect-02_spectra.pgm.gz",
+            "20230503_0603_luck_spect-02_spectra.pgm.gz",
+            "20230503_0604_luck_spect-02_spectra.pgm.gz",
+        ],
+        "start_time": datetime.datetime(2023, 5, 3, 6, 1, 15),
+        "end_time": datetime.datetime(2023, 5, 3, 6, 3),
+        "expected_success": True,
+        "expected_frames": 8
+    },
+    {
+        "filenames": [
+            "20230503_0600_luck_spect-02_spectra.pgm.gz",
+            "20230503_0601_luck_spect-02_spectra.pgm.gz",
+            "20230503_0602_luck_spect-02_spectra.pgm.gz",
+            "20230503_0603_luck_spect-02_spectra.pgm.gz",
+            "20230503_0604_luck_spect-02_spectra.pgm.gz",
+        ],
+        "start_time": datetime.datetime(2023, 5, 3, 6, 1),
+        "end_time": datetime.datetime(2023, 5, 3, 6, 3, 15),
+        "expected_success": True,
+        "expected_frames": 10
+    },
+    {
+        "filenames": [
+            "20230503_0600_luck_spect-02_spectra.pgm.gz",
+            "20230503_0601_luck_spect-02_spectra.pgm.gz",
+            "20230503_0602_luck_spect-02_spectra.pgm.gz",
+            "20230503_0603_luck_spect-02_spectra.pgm.gz",
+            "20230503_0604_luck_spect-02_spectra.pgm.gz",
+        ],
+        "start_time": None,
+        "end_time": datetime.datetime(2023, 5, 3, 6, 3, 30),
+        "expected_success": True,
+        "expected_frames": 15
+    },
+    {
+        "filenames": [
+            "20230503_0600_luck_spect-02_spectra.pgm.gz",
+            "20230503_0601_luck_spect-02_spectra.pgm.gz",
+            "20230503_0602_luck_spect-02_spectra.pgm.gz",
+            "20230503_0603_luck_spect-02_spectra.pgm.gz",
+            "20230503_0604_luck_spect-02_spectra.pgm.gz",
+        ],
+        "start_time": datetime.datetime(2023, 5, 3, 6, 3, 30),
+        "end_time": None,
+        "expected_success": True,
+        "expected_frames": 6
+    },
+])
+@pytest.mark.data_read
+def test_read_trex_spect_raw_start_end_times(srs, all_datasets, test_dict):
+    # set dataset
+    dataset = find_dataset(all_datasets, "TREX_SPECT_RAW")
+
+    # build file list
+    file_list = []
+    for f in test_dict["filenames"]:
+        file_list.append("%s/%s" % (DATA_DIR, f))
+
+    # read file
+    #
+    # NOTE: we do this with a loop so we can do the same test for 1 and 2 values
+    # for the n_parallel argument.
+    for n_parallel in range(1, 2):
+        data = srs.data.read(
+            dataset,
+            file_list,
+            start_time=test_dict["start_time"],
+            end_time=test_dict["end_time"],
+            n_parallel=n_parallel,
+        )
+
+        # check success
+        if (test_dict["expected_success"] is True):
+            assert len(data.problematic_files) == 0
+        else:
+            assert len(data.problematic_files) > 0
+
+        # check number of frames
+        assert data.data.shape == (1024, 256, test_dict["expected_frames"])
+        assert len(data.metadata) == test_dict["expected_frames"]
+        assert len(data.timestamp) == test_dict["expected_frames"]
+
+        # check that there's metadata
+        for m in data.metadata:
+            assert len(m) > 0
+
+        # check that timestamps are in the valid range
+        for t in data.timestamp:
+            t = t.replace(microsecond=0)
+            if (test_dict["start_time"] is not None):
+                assert t >= test_dict["start_time"]
+            if (test_dict["end_time"] is not None):
+                assert t <= test_dict["end_time"]
 
 
 @pytest.mark.parametrize("test_dict", [

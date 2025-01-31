@@ -193,7 +193,7 @@ def __hsr_readfile_worker(file, no_metadata=False, start_time=None, end_time=Non
         band_passband_list = f["data"]["band_passband"][:].tolist()  # type: ignore
 
         # set absorption
-        if ("_k0_" in file.name):
+        if ("_k0_" in os.path.basename(file)):
             # k0 data, no absorption
             np_absorption = None
 

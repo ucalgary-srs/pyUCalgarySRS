@@ -133,10 +133,10 @@ def __riometer_readfile_worker(file, no_metadata=False, start_time=None, end_tim
     # NOTE: we use the filename here to tell us if it's a k0 or k2 file, since
     # we cannot assume the dataset name will be supplied to the parent functions.
     file_type = None
-    if ("_k0_" in file.name or "v0.txt" in file.name):
+    if ("_k0_" in os.path.basename(file) or "v0.txt" in os.path.basename(file)):
         file_type = "k0"
         np_absorption = None
-    elif ("_k2_" in file.name or "v1a.txt" in file.name):
+    elif ("_k2_" in os.path.basename(file) or "v1a.txt" in os.path.basename(file)):
         file_type = "k2"
 
     # check file type
@@ -193,12 +193,35 @@ def __riometer_readfile_worker(file, no_metadata=False, start_time=None, end_tim
         }
 
     # read the file using numpy
-    if (file_type == "k0"):
-        # k0 data, 3 columns
-        np_date, np_time, np_raw_signal = np.genfromtxt(file, comments='#', dtype="S8,S8,f", unpack=True)
-    else:
-        # k2 data, 4 columns
-        np_date, np_time, np_absorption, np_raw_signal = np.genfromtxt(file, comments='#', dtype="S8,S8,f,f", unpack=True)
+    try:
+        if (file_type == "k0"):
+            # k0 data, 3 columns
+            np_date, np_time, np_raw_signal = np.genfromtxt(file, comments='#', dtype="S8,S8,f", unpack=True)
+        else:
+            # k2 data, 4 columns
+            np_date, np_time, np_absorption, np_raw_signal = np.genfromtxt(file, comments='#', dtype="S8,S8,f,f", unpack=True)
+    except Exception as e:
+        # set error message
+        if (quiet is False):
+            print("Error reading data for file '%s': %s" % (file, str(e)))
+        problematic = True
+        error_message = "error reading data: %s" % (str(e))
+
+        # reset objects
+        metadata_dict = {}
+        np_raw_signal = np.array([], dtype=RIOMETER_DT)
+        np_absorption = None if file_type == "k0" else np.array([], dtype=RIOMETER_DT)
+
+        # return
+        return {
+            "np_timestamp": np_timestamp,
+            "np_raw_signal": np_raw_signal,
+            "np_absorption": np_absorption,
+            "metadata": metadata_dict,
+            "problematic": problematic,
+            "file": file,
+            "error_message": error_message,
+        }
 
     # read the metadata
     if (no_metadata is False):
@@ -243,18 +266,18 @@ def __riometer_readfile_worker(file, no_metadata=False, start_time=None, end_tim
             if (found_site_uid is not None):  # already have it
                 metadata_dict["site_unique_id"] = found_site_uid
             else:
-                if ('_' == file.name[3]):
+                if ('_' == os.path.basename(file)[3]):
                     # 3-letter site code
                     for s4, s3 in NORSTAR_RIOMETER_3_LETTER_SITE_CODES.items():
-                        if (file.name[0:3] in s3):
+                        if (os.path.basename(file)[0:3] in s3):
                             metadata_dict["site_unique_id"] = s4
                             break
                 else:
                     # 4-letter site code -- find position of 'rio-' in the file, site code
                     # will be right after that
-                    idx = file.name.find('rio-')
+                    idx = os.path.basename(file).find('rio-')
                     if (idx != -1):
-                        metadata_dict["site_unique_id"] = file[idx + 4:4].lower()
+                        metadata_dict["site_unique_id"] = os.path.basename(file)[idx + 4:4].lower()
             if ("site_unique_id" not in metadata_dict):
                 # still haven't found it, raise a warning message
                 metadata_dict["site_unique_id"] = "unknown"

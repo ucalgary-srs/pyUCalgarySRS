@@ -141,8 +141,8 @@ class ReadManager:
              dataset: Dataset,
              file_list: Union[List[str], List[Path], str, Path],
              n_parallel: int = 1,
-             first_record: bool = False,
              no_metadata: bool = False,
+             first_record: Optional[bool] = None,
              start_time: Optional[datetime.datetime] = None,
              end_time: Optional[datetime.datetime] = None,
              quiet: bool = False) -> Data:
@@ -225,7 +225,7 @@ class ReadManager:
         if (dataset.name in self.__VALID_THEMIS_READFILE_DATASETS):
             return self.read_themis(file_list,
                                     n_parallel=n_parallel,
-                                    first_record=first_record,
+                                    first_record=False if first_record is None else first_record,
                                     no_metadata=no_metadata,
                                     start_time=start_time,
                                     end_time=end_time,
@@ -234,7 +234,7 @@ class ReadManager:
         elif (dataset.name in self.__VALID_REGO_READFILE_DATASETS):
             return self.read_rego(file_list,
                                   n_parallel=n_parallel,
-                                  first_record=first_record,
+                                  first_record=False if first_record is None else first_record,
                                   no_metadata=no_metadata,
                                   start_time=start_time,
                                   end_time=end_time,
@@ -243,7 +243,7 @@ class ReadManager:
         elif (dataset.name in self.__VALID_TREX_NIR_READFILE_DATASETS):
             return self.read_trex_nir(file_list,
                                       n_parallel=n_parallel,
-                                      first_record=first_record,
+                                      first_record=False if first_record is None else first_record,
                                       no_metadata=no_metadata,
                                       start_time=start_time,
                                       end_time=end_time,
@@ -252,7 +252,7 @@ class ReadManager:
         elif (dataset.name in self.__VALID_TREX_BLUE_READFILE_DATASETS):
             return self.read_trex_blue(file_list,
                                        n_parallel=n_parallel,
-                                       first_record=first_record,
+                                       first_record=False if first_record is None else first_record,
                                        no_metadata=no_metadata,
                                        start_time=start_time,
                                        end_time=end_time,
@@ -261,7 +261,7 @@ class ReadManager:
         elif (dataset.name in self.__VALID_TREX_SPECT_READFILE_DATASETS):
             return self.read_trex_spectrograph(file_list,
                                                n_parallel=n_parallel,
-                                               first_record=first_record,
+                                               first_record=False if first_record is None else first_record,
                                                no_metadata=no_metadata,
                                                start_time=start_time,
                                                end_time=end_time,
@@ -270,7 +270,7 @@ class ReadManager:
         elif (dataset.name in self.__VALID_TREX_RGB_READFILE_DATASETS):
             return self.read_trex_rgb(file_list,
                                       n_parallel=n_parallel,
-                                      first_record=first_record,
+                                      first_record=False if first_record is None else first_record,
                                       no_metadata=no_metadata,
                                       start_time=start_time,
                                       end_time=end_time,
@@ -278,20 +278,21 @@ class ReadManager:
                                       dataset=dataset)
         elif (dataset.name in self.__VALID_SKYMAP_READFILE_DATASETS):
             if (start_time is not None or end_time is not None):
-                show_warning("Reading of skymap files does not support the start_time or end_time parameters. Remove them to silence this warning.",
+                show_warning("Reading of skymap files does not support the start_time or end_time parameters. Removing " +
+                             "these parameters from your call will stop this warning.",
                              stacklevel=1)
             return self.read_skymap(file_list, n_parallel=n_parallel, quiet=quiet, dataset=dataset)
         elif (dataset.name in self.__VALID_CALIBRATION_READFILE_DATASETS):
             if (start_time is not None or end_time is not None):
-                show_warning(
-                    "Reading of calibration files does not support the start_time or end_time parameters. Remove them to silence this warning.",
-                    stacklevel=1)
+                show_warning("Reading of calibration files does not support the start_time or end_time parameters. Removing " +
+                             "these parameters from your call will stop this warning.",
+                             stacklevel=1)
             return self.read_calibration(file_list, n_parallel=n_parallel, quiet=quiet, dataset=dataset)
         elif (dataset.name in self.__VALID_GRID_READFILE_DATASETS):
             return self.read_grid(
                 file_list,
                 n_parallel=n_parallel,
-                first_record=first_record,
+                first_record=False if first_record is None else first_record,
                 no_metadata=no_metadata,
                 start_time=start_time,
                 end_time=end_time,
@@ -299,6 +300,9 @@ class ReadManager:
                 dataset=dataset,
             )
         elif (dataset.name in self.__VALID_RIOMETER_TXT_READFILE_DATASETS):
+            if (first_record is not None):
+                show_warning("The 'first_record' parameter is not supported when reading NORSTAR riometer data. Removing " +
+                             "this parameter from your call will stop this warning.")
             return self.read_norstar_riometer(
                 file_list,
                 n_parallel=n_parallel,
@@ -309,6 +313,9 @@ class ReadManager:
                 dataset=dataset,
             )
         elif (dataset.name in self.__VALID_SWAN_HSR_READFILE_DATASETS):
+            if (first_record is not None):
+                show_warning("The 'first_record' parameter is not supported when reading SWAN HSR data. Removing " +
+                             "this parameter from your call will stop this warning.")
             return self.read_swan_hsr(
                 file_list,
                 n_parallel=n_parallel,
@@ -1064,13 +1071,13 @@ class ReadManager:
                 generation_info_obj.bytscl_values = item_recarray.generation_info[0].bytscl_values
 
             # flip certain things
-            if ("SPECT" in item["filename"]):
+            if ("spect_skymap" in os.path.basename(item["filename"])):
                 # flip n/s
                 full_elevation_flipped = np.flip(item_recarray.full_elevation, axis=0)
                 full_azimuth_flipped = None
                 full_map_latitude_flipped = np.flip(item_recarray.full_map_latitude, axis=1)
                 full_map_longitude_flipped = np.flip(item_recarray.full_map_longitude, axis=1)
-            elif ("REGO" in item["filename"]):
+            elif ("rego_skymap" in os.path.basename(item["filename"])):
                 # flip n/s
                 full_elevation_flipped = np.flip(item_recarray.full_elevation, axis=0)
                 full_azimuth_flipped = np.flip(item_recarray.full_azimuth, axis=0)
@@ -1172,7 +1179,7 @@ class ReadManager:
         calibration_objs = []
         for item in data:
             # init
-            item_filename = item["filename"]
+            item_filename = os.path.basename(item["filename"])
 
             # determine the version
             version_str = os.path.splitext(item_filename)[0].split('_')[-1]

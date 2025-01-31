@@ -53,6 +53,7 @@ class PyUCalgarySRS:
         "content-type": "application/json",
         "user-agent": "python-pyucalgarysrs/%s" % (__version__),
     }  # NOTE: these MUST be lowercase so that the decorator logic cannot be overridden
+    __DEFAULT_PROGRESS_BAR_BACKEND = "auto"
 
     def __init__(self,
                  download_output_root_path: Optional[str] = None,
@@ -255,10 +256,13 @@ class PyUCalgarySRS:
     @progress_bar_backend.setter
     def progress_bar_backend(self, value: str):
         # set the backend string
-        value = value.lower()
-        if (value != "auto" and value != "standard" and value != "notebook"):
-            raise SRSInitializationError("Invalid progress bar backend. Allowed values are 'auto', 'standard' or 'notebook'.")
-        self.__progress_bar_backend = value
+        if (value is None):
+            self.__progress_bar_backend = self.__DEFAULT_PROGRESS_BAR_BACKEND
+        else:
+            value = value.lower()
+            if (value != "auto" and value != "standard" and value != "notebook"):
+                raise SRSInitializationError("Invalid progress bar backend. Allowed values are 'auto', 'standard' or 'notebook'.")
+            self.__progress_bar_backend = value
 
         # set the backend tqdm object
         if (value == "auto"):

@@ -46,7 +46,9 @@ def test_top_level_class_instantiation_noparams():
     assert os.path.exists(new_path)
     shutil.rmtree(new_path, ignore_errors=True)
 
-    # check str and repr methods
+    # check __str__ and __repr__ for Data type
+    print_str = str(srs)
+    assert print_str != ""
     assert isinstance(str(srs), str) is True
     assert isinstance(repr(srs), str) is True
 
@@ -108,6 +110,15 @@ def test_api_base_url(srs):
     srs.api_base_url = None
     assert srs.api_base_url != "https://something"
 
+    # check that trailing slash is removed
+    srs.api_base_url = "https://something/"
+    assert srs.api_base_url == "https://something"
+
+    # check invalid URL
+    with pytest.raises(pyucalgarysrs.SRSInitializationError) as e_info:
+        srs.api_base_url = "something invalid"
+    assert "API base URL is an invalid URL" in str(e_info)
+
 
 @pytest.mark.top_level
 def test_api_headers(srs):
@@ -140,6 +151,33 @@ def test_api_timeout(srs):
     assert srs.api_timeout == 5
     srs.api_timeout = None
     assert srs.api_timeout == default_timeout
+
+
+@pytest.mark.top_level
+def test_progress_bar_backend(srs):
+    # save default for later
+    progress_bar_backend = srs.progress_bar_backend
+
+    # set flag (standard)
+    srs.progress_bar_backend = "standard"
+    assert srs.progress_bar_backend == "standard"
+
+    # set flag (notebook)
+    srs.progress_bar_backend = "notebook"
+    assert srs.progress_bar_backend == "notebook"
+
+    # set flag (auto)
+    srs.progress_bar_backend = "auto"
+    assert srs.progress_bar_backend == "auto"
+
+    # set flag (back to default)
+    srs.progress_bar_backend = None
+    assert srs.progress_bar_backend == progress_bar_backend
+
+    # check invalid value
+    with pytest.raises(pyucalgarysrs.SRSInitializationError) as e_info:
+        srs.progress_bar_backend = "something invalid"
+    assert "Invalid progress bar backend" in str(e_info)
 
 
 @pytest.mark.top_level
@@ -193,3 +231,21 @@ def test_purge_tar_temp_path(srs):
 
     # cleanup
     shutil.rmtree(srs.read_tar_temp_path, ignore_errors=True)
+
+
+@pytest.mark.top_level
+def test_show_data_usage(srs, capsys):
+    # check default params
+    print(srs.show_data_usage())
+    captured_stdout = capsys.readouterr().out
+    assert captured_stdout != ""
+
+    # check return_dict=True
+    print(srs.show_data_usage(return_dict=True))
+    captured_stdout = capsys.readouterr().out
+    assert captured_stdout != ""
+
+    # check order being name
+    print(srs.show_data_usage(order="name"))
+    captured_stdout = capsys.readouterr().out
+    assert captured_stdout != ""

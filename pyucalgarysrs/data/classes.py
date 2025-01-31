@@ -700,15 +700,15 @@ class Data:
                 if (len(self.data) == 1):
                     data_str = "[1 RiometerData object]"
                 else:
-                    data_str = "[%d HSRData objects]" % (len(self.data))
+                    data_str = "[%d RiometerData objects]" % (len(self.data))
             elif (isinstance(self.data[0], HSRData) is True):
                 if (len(self.data) == 1):
                     data_str = "[1 HSRData object]"
                 else:
                     data_str = "[%d HSRData objects]" % (len(self.data))
-            elif (len(self.data) == 1):
+            elif (len(self.data) == 1):  # pragma: nocover
                 data_str = "[1 item]"
-            else:
+            else:  # pragma: nocover
                 data_str = "[%d items]" % (len(self.data))
         else:
             data_str = self.data.__repr__()

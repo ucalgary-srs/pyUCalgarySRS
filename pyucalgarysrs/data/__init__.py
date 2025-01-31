@@ -476,8 +476,8 @@ class DataManager:
              dataset: Dataset,
              file_list: Union[List[str], List[Path], str, Path],
              n_parallel: int = 1,
-             first_record: bool = False,
              no_metadata: bool = False,
+             first_record: Optional[bool] = None,
              start_time: Optional[datetime.datetime] = None,
              end_time: Optional[datetime.datetime] = None,
              quiet: bool = False) -> Data:

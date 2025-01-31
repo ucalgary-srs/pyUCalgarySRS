@@ -13,6 +13,8 @@
 # limitations under the License.
 
 import os
+import datetime
+import warnings
 import pytest
 from pyucalgarysrs import Skymap, SRSError, Data
 from ...conftest import find_dataset
@@ -45,6 +47,10 @@ DATA_DIR = "%s/../../../test_data/read_skymap" % (os.path.dirname(os.path.realpa
     {
         "filename": "rgb_skymap_atha_20231003-+_v01.sav",
         "dataset_name": "TREX_RGB_SKYMAP_IDLSAV",
+    },
+    {
+        "filename": "spect_skymap_luck_20230424-+_v01.sav",
+        "dataset_name": "TREX_SPECT_SKYMAP_IDLSAV",
     },
 ])
 @pytest.mark.data_read
@@ -196,3 +202,44 @@ def test_read_skymap_badperms_file(srs):
 
     # change perms back
     os.chmod(f, 0o644)
+
+
+@pytest.mark.parametrize("test_dict", [
+    {
+        "filenames": [
+            "themis_skymap_atha_20070301-20090522_vXX.sav",
+        ],
+        "dataset_name": "THEMIS_ASI_SKYMAP_IDLSAV",
+        "n_parallel": 1,
+    },
+])
+@pytest.mark.data_read
+def test_read_skymap_startend(srs, all_datasets, test_dict):
+    # set dataset
+    dataset = find_dataset(all_datasets, test_dict["dataset_name"])
+
+    # build file list
+    file_list = []
+    for f in test_dict["filenames"]:
+        file_list.append("%s/%s" % (DATA_DIR, f))
+
+    with warnings.catch_warnings(record=True) as w:
+        # read file
+        data = srs.data.read(
+            dataset,
+            file_list,
+            n_parallel=test_dict["n_parallel"],
+            start_time=datetime.datetime.now(),
+            end_time=datetime.datetime.now(),
+        )
+
+        # check return type
+        assert isinstance(data, Data) is True
+        assert isinstance(data.data, list) is True
+        for item in data.data:
+            assert isinstance(item, Skymap) is True
+
+        # check that the warning appeared
+        assert len(w) == 1
+        assert issubclass(w[-1].category, UserWarning)
+        assert "Reading of skymap files does not support the start_time or end_time parameters." in str(w[-1].message)

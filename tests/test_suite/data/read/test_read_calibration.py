@@ -14,6 +14,7 @@
 
 import os
 import datetime
+import warnings
 import pytest
 from pyucalgarysrs import Calibration, SRSError, Data
 from ...conftest import find_dataset
@@ -232,3 +233,44 @@ def test_read_calibration_badperms_file(srs):
 
     # change perms back
     os.chmod(f, 0o644)
+
+
+@pytest.mark.parametrize("test_dict", [
+    {
+        "filenames": [
+            "REGO_flatfield_15649_20211019-+_v02.sav",
+        ],
+        "dataset_name": "REGO_CALIBRATION_FLATFIELD_IDLSAV",
+        "n_parallel": 1,
+    },
+])
+@pytest.mark.data_read
+def test_read_calibration_startend(srs, all_datasets, test_dict):
+    # set dataset
+    dataset = find_dataset(all_datasets, test_dict["dataset_name"])
+
+    # build file list
+    file_list = []
+    for f in test_dict["filenames"]:
+        file_list.append("%s/%s" % (DATA_DIR, f))
+
+    with warnings.catch_warnings(record=True) as w:
+        # read file
+        data = srs.data.read(
+            dataset,
+            file_list,
+            n_parallel=test_dict["n_parallel"],
+            start_time=datetime.datetime.now(),
+            end_time=datetime.datetime.now(),
+        )
+
+        # check return type
+        assert isinstance(data, Data) is True
+        assert isinstance(data.data, list) is True
+        for item in data.data:
+            assert isinstance(item, Calibration) is True
+
+        # check that the warning appeared
+        assert len(w) == 1
+        assert issubclass(w[-1].category, UserWarning)
+        assert "Reading of calibration files does not support the start_time or end_time parameters." in str(w[-1].message)

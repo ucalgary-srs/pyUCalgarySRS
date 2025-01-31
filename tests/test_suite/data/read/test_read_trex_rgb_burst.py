@@ -13,6 +13,8 @@
 # limitations under the License.
 
 import os
+import datetime
+import warnings
 import pytest
 import numpy as np
 from pyucalgarysrs.data import ProblematicFile
@@ -106,11 +108,10 @@ def test_read_trex_rgb_burst_single_file_720p(srs, all_datasets):
     {
         "filenames": [
             "20211030_0600_gill_rgb-04_burst.png.tar",
-            "20211030_0601_gill_rgb-04_burst.png.tar",
             "20211030_060500_149606_gill_rgb-04_320ms_burst.png",
         ],
         "expected_success": True,
-        "expected_frames": 167 + 159 + 1
+        "expected_frames": 167 + 1
     },
 ])
 @pytest.mark.data_read
@@ -379,16 +380,6 @@ def test_read_trex_rgb_burst_first_frame(srs, all_datasets, test_dict):
         "expected_success": True,
         "expected_frames": 167 + 159 + 1
     },
-    {
-        "filenames": [
-            "20211030_0600_gill_rgb-04_burst.png.tar",
-            "20211030_0601_gill_rgb-04_burst.png.tar",
-            "20211030_0602_gill_rgb-04_burst.png.tar",
-        ],
-        "n_parallel": 3,
-        "expected_success": True,
-        "expected_frames": 167 + 159 + 167
-    },
 ])
 @pytest.mark.data_read
 def test_read_trex_rgb_burst_no_metadata(srs, all_datasets, test_dict):
@@ -462,16 +453,6 @@ def test_read_trex_rgb_burst_no_metadata(srs, all_datasets, test_dict):
         "expected_success": True,
         "expected_frames": 2
     },
-    {
-        "filenames": [
-            "20211030_0600_gill_rgb-04_burst.png.tar",
-            "20211030_0601_gill_rgb-04_burst.png.tar",
-            "20211030_0602_gill_rgb-04_burst.png.tar",
-        ],
-        "n_parallel": 3,
-        "expected_success": True,
-        "expected_frames": 3
-    },
 ])
 @pytest.mark.data_read
 def test_read_trex_rgb_burst_first_frame_and_no_metadata(srs, all_datasets, test_dict):
@@ -521,6 +502,13 @@ def test_read_trex_rgb_burst_first_frame_and_no_metadata(srs, all_datasets, test
     {
         "filenames": [
             "20191121_0901_rabb_rgb-05_burst.png.tar",
+        ],
+        "expected_success": False,
+        "expected_frames": 1
+    },
+    {
+        "filenames": [
+            "20211030_06_gill_rgb-04_burst.png.tar",
         ],
         "expected_success": False,
         "expected_frames": 1
@@ -580,3 +568,183 @@ def test_read_trex_rgb_burst_badperms_file(srs, all_datasets):
 
     # change perms back
     os.chmod(f, 0o644)
+
+
+@pytest.mark.parametrize("test_dict", [
+    {
+        "filenames": [
+            "20211030_0600_gill_rgb-04_burst.png.tar",
+            "20211030_0601_gill_rgb-04_burst.png.tar",
+            "20211030_0602_gill_rgb-04_burst.png.tar",
+        ],
+        "start_time": datetime.datetime(2021, 10, 30, 6, 1),
+        "end_time": datetime.datetime(2021, 10, 30, 6, 2),
+        "expected_success": True,
+        "expected_frames": 162
+    },
+    {
+        "filenames": [
+            "20211030_0600_gill_rgb-04_burst.png.tar",
+            "20211030_0601_gill_rgb-04_burst.png.tar",
+            "20211030_0602_gill_rgb-04_burst.png.tar",
+        ],
+        "start_time": datetime.datetime(2021, 10, 30, 6, 1, 15),
+        "end_time": datetime.datetime(2021, 10, 30, 6, 2),
+        "expected_success": True,
+        "expected_frames": 120
+    },
+    {
+        "filenames": [
+            "20211030_0600_gill_rgb-04_burst.png.tar",
+            "20211030_0601_gill_rgb-04_burst.png.tar",
+            "20211030_0602_gill_rgb-04_burst.png.tar",
+        ],
+        "start_time": datetime.datetime(2021, 10, 30, 6, 1),
+        "end_time": datetime.datetime(2021, 10, 30, 6, 2, 15),
+        "expected_success": True,
+        "expected_frames": 204
+    },
+    {
+        "filenames": [
+            "20211030_0600_gill_rgb-04_burst.png.tar",
+            "20211030_0601_gill_rgb-04_burst.png.tar",
+            "20211030_0602_gill_rgb-04_burst.png.tar",
+        ],
+        "start_time": None,
+        "end_time": datetime.datetime(2021, 10, 30, 6, 1, 30),
+        "expected_success": True,
+        "expected_frames": 254
+    },
+    {
+        "filenames": [
+            "20211030_0600_gill_rgb-04_burst.png.tar",
+            "20211030_0601_gill_rgb-04_burst.png.tar",
+            "20211030_0602_gill_rgb-04_burst.png.tar",
+        ],
+        "start_time": datetime.datetime(2021, 10, 30, 6, 1, 30),
+        "end_time": None,
+        "expected_success": True,
+        "expected_frames": 242
+    },
+])
+@pytest.mark.data_read
+def test_read_trex_rgb_burst_start_end_times(srs, all_datasets, test_dict):
+    # set dataset
+    dataset = find_dataset(all_datasets, "TREX_RGB_RAW_NOMINAL")
+
+    # build file list
+    file_list = []
+    for f in test_dict["filenames"]:
+        file_list.append("%s/%s" % (DATA_DIR, f))
+
+    # read file
+    #
+    # NOTE: we do this with a loop so we can do the same test for 1 and 2 values
+    # for the n_parallel argument.
+    for n_parallel in range(1, 2):
+        data = srs.data.read(
+            dataset,
+            file_list,
+            start_time=test_dict["start_time"],
+            end_time=test_dict["end_time"],
+            n_parallel=n_parallel,
+        )
+
+        # check success
+        if (test_dict["expected_success"] is True):
+            assert len(data.problematic_files) == 0
+        else:
+            assert len(data.problematic_files) > 0
+
+        # check number of frames
+        assert data.data.shape == (480, 553, 3, test_dict["expected_frames"])
+        assert len(data.metadata) == test_dict["expected_frames"]
+        assert len(data.timestamp) == test_dict["expected_frames"]
+
+        # check that there's metadata
+        for m in data.metadata:
+            assert len(m) > 0
+
+        # check that timestamps are in the valid range
+        for t in data.timestamp:
+            t = t.replace(microsecond=0)
+            if (test_dict["start_time"] is not None):
+                assert t >= test_dict["start_time"]
+            if (test_dict["end_time"] is not None):
+                assert t <= test_dict["end_time"]
+
+
+@pytest.mark.parametrize("test_dict", [
+    {
+        "filenames": [
+            "20211030_0600_gill_rgb-04_burst.png.tar",
+            "20211030_0601_gill_rgb-04_burst.png.tar",
+            "20211030_0602_gill_rgb-04_burst.png.tar",
+        ],
+        "start_time": datetime.datetime(2021, 2, 5, 6, 1, 30),
+        "end_time": None,
+        "expected_success": True,
+        "expected_frames": 493
+    },
+    {
+        "filenames": [
+            "20211030_0600_gill_rgb-04_burst.png.tar",
+            "20211030_0601_gill_rgb-04_burst.png.tar",
+            "20211030_0602_gill_rgb-04_burst.png.tar",
+        ],
+        "start_time": None,
+        "end_time": datetime.datetime(2021, 2, 5, 6, 1, 30),
+        "expected_success": True,
+        "expected_frames": 493
+    },
+    {
+        "filenames": [
+            "20211030_0600_gill_rgb-04_burst.png.tar",
+            "20211030_0601_gill_rgb-04_burst.png.tar",
+            "20211030_0602_gill_rgb-04_burst.png.tar",
+        ],
+        "start_time": datetime.datetime(2021, 2, 5, 6, 1, 30),
+        "end_time": datetime.datetime(2021, 2, 5, 6, 2, 30),
+        "expected_success": True,
+        "expected_frames": 493
+    },
+])
+@pytest.mark.data_read
+def test_read_trex_rgb_burst_nometa_startend(srs, all_datasets, test_dict):
+    # set dataset
+    dataset = find_dataset(all_datasets, "TREX_RGB_RAW_NOMINAL")
+
+    # build file list
+    file_list = []
+    for f in test_dict["filenames"]:
+        file_list.append("%s/%s" % (DATA_DIR, f))
+
+    # read file
+    with warnings.catch_warnings(record=True) as w:
+        data = srs.data.read(
+            dataset,
+            file_list,
+            start_time=test_dict["start_time"],
+            end_time=test_dict["end_time"],
+            no_metadata=True,
+        )
+
+        # check success
+        if (test_dict["expected_success"] is True):
+            assert len(data.problematic_files) == 0
+        else:
+            assert len(data.problematic_files) > 0
+
+        # check number of frames
+        assert data.data.shape == (480, 553, 3, test_dict["expected_frames"])
+        assert len(data.metadata) == 0
+        assert len(data.timestamp) == 0
+
+        # check that there's metadata
+        for m in data.metadata:
+            assert len(m) > 0
+
+        # check that the warning appeared
+        assert len(w) == 1
+        assert issubclass(w[-1].category, UserWarning)
+        assert "Cannot filter on start or end time if the no_metadata parameter is set to True" in str(w[-1].message)

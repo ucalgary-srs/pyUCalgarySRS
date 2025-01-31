@@ -610,7 +610,7 @@ def __rgb_readfile_worker_pgm(file_obj):
             problematic = True
             error_message = "Unrecognized file type"
             try:
-                if (unzipped is not None):
+                if (unzipped is not None):  # pragma: nocover
                     unzipped.close()
             except Exception:  # pragma: nocover
                 pass
@@ -622,7 +622,7 @@ def __rgb_readfile_worker_pgm(file_obj):
         problematic = True
         error_message = "failed to open file: %s" % (str(e))
         try:
-            if (unzipped is not None):
+            if (unzipped is not None):  # pragma: nocover
                 unzipped.close()
         except Exception:  # pragma: nocover
             pass

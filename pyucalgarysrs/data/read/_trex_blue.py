@@ -228,7 +228,7 @@ def __blueline_readfile_worker(file, first_record=False, no_metadata=False, star
             problematic = True
             error_message = "Unrecognized file type"
             try:
-                if (unzipped is not None):
+                if (unzipped is not None): # pragma: nocover
                     unzipped.close()
             except Exception:  # pragma: nocover
                 pass
@@ -239,7 +239,7 @@ def __blueline_readfile_worker(file, first_record=False, no_metadata=False, star
         problematic = True
         error_message = "failed to open file: %s" % (str(e))
         try:
-            if (unzipped is not None):
+            if (unzipped is not None): # pragma: nocover
                 unzipped.close()
         except Exception:  # pragma: nocover
             pass
