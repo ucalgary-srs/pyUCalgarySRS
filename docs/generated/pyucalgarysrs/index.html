@@ -131,6 +131,7 @@ model is the TREx Auroral Transport Model (ATM).</p></div>
         &#34;content-type&#34;: &#34;application/json&#34;,
         &#34;user-agent&#34;: &#34;python-pyucalgarysrs/%s&#34; % (__version__),
     }  # NOTE: these MUST be lowercase so that the decorator logic cannot be overridden
+    __DEFAULT_PROGRESS_BAR_BACKEND = &#34;auto&#34;
 
     def __init__(self,
                  download_output_root_path: Optional[str] = None,
@@ -333,10 +334,13 @@ model is the TREx Auroral Transport Model (ATM).</p></div>
     @progress_bar_backend.setter
     def progress_bar_backend(self, value: str):
         # set the backend string
-        value = value.lower()
-        if (value != &#34;auto&#34; and value != &#34;standard&#34; and value != &#34;notebook&#34;):
-            raise SRSInitializationError(&#34;Invalid progress bar backend. Allowed values are &#39;auto&#39;, &#39;standard&#39; or &#39;notebook&#39;.&#34;)
-        self.__progress_bar_backend = value
+        if (value is None):
+            self.__progress_bar_backend = self.__DEFAULT_PROGRESS_BAR_BACKEND
+        else:
+            value = value.lower()
+            if (value != &#34;auto&#34; and value != &#34;standard&#34; and value != &#34;notebook&#34;):
+                raise SRSInitializationError(&#34;Invalid progress bar backend. Allowed values are &#39;auto&#39;, &#39;standard&#39; or &#39;notebook&#39;.&#34;)
+            self.__progress_bar_backend = value
 
         # set the backend tqdm object
         if (value == &#34;auto&#34;):

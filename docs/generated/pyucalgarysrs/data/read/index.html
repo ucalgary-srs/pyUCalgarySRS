@@ -168,8 +168,8 @@ border-left: 1px solid #ddd;
              dataset: Dataset,
              file_list: Union[List[str], List[Path], str, Path],
              n_parallel: int = 1,
-             first_record: bool = False,
              no_metadata: bool = False,
+             first_record: Optional[bool] = None,
              start_time: Optional[datetime.datetime] = None,
              end_time: Optional[datetime.datetime] = None,
              quiet: bool = False) -&gt; Data:
@@ -252,7 +252,7 @@ border-left: 1px solid #ddd;
         if (dataset.name in self.__VALID_THEMIS_READFILE_DATASETS):
             return self.read_themis(file_list,
                                     n_parallel=n_parallel,
-                                    first_record=first_record,
+                                    first_record=False if first_record is None else first_record,
                                     no_metadata=no_metadata,
                                     start_time=start_time,
                                     end_time=end_time,
@@ -261,7 +261,7 @@ border-left: 1px solid #ddd;
         elif (dataset.name in self.__VALID_REGO_READFILE_DATASETS):
             return self.read_rego(file_list,
                                   n_parallel=n_parallel,
-                                  first_record=first_record,
+                                  first_record=False if first_record is None else first_record,
                                   no_metadata=no_metadata,
                                   start_time=start_time,
                                   end_time=end_time,
@@ -270,7 +270,7 @@ border-left: 1px solid #ddd;
         elif (dataset.name in self.__VALID_TREX_NIR_READFILE_DATASETS):
             return self.read_trex_nir(file_list,
                                       n_parallel=n_parallel,
-                                      first_record=first_record,
+                                      first_record=False if first_record is None else first_record,
                                       no_metadata=no_metadata,
                                       start_time=start_time,
                                       end_time=end_time,
@@ -279,7 +279,7 @@ border-left: 1px solid #ddd;
         elif (dataset.name in self.__VALID_TREX_BLUE_READFILE_DATASETS):
             return self.read_trex_blue(file_list,
                                        n_parallel=n_parallel,
-                                       first_record=first_record,
+                                       first_record=False if first_record is None else first_record,
                                        no_metadata=no_metadata,
                                        start_time=start_time,
                                        end_time=end_time,
@@ -288,7 +288,7 @@ border-left: 1px solid #ddd;
         elif (dataset.name in self.__VALID_TREX_SPECT_READFILE_DATASETS):
             return self.read_trex_spectrograph(file_list,
                                                n_parallel=n_parallel,
-                                               first_record=first_record,
+                                               first_record=False if first_record is None else first_record,
                                                no_metadata=no_metadata,
                                                start_time=start_time,
                                                end_time=end_time,
@@ -297,7 +297,7 @@ border-left: 1px solid #ddd;
         elif (dataset.name in self.__VALID_TREX_RGB_READFILE_DATASETS):
             return self.read_trex_rgb(file_list,
                                       n_parallel=n_parallel,
-                                      first_record=first_record,
+                                      first_record=False if first_record is None else first_record,
                                       no_metadata=no_metadata,
                                       start_time=start_time,
                                       end_time=end_time,
@@ -305,20 +305,21 @@ border-left: 1px solid #ddd;
                                       dataset=dataset)
         elif (dataset.name in self.__VALID_SKYMAP_READFILE_DATASETS):
             if (start_time is not None or end_time is not None):
-                show_warning(&#34;Reading of skymap files does not support the start_time or end_time parameters. Remove them to silence this warning.&#34;,
+                show_warning(&#34;Reading of skymap files does not support the start_time or end_time parameters. Removing &#34; +
+                             &#34;these parameters from your call will stop this warning.&#34;,
                              stacklevel=1)
             return self.read_skymap(file_list, n_parallel=n_parallel, quiet=quiet, dataset=dataset)
         elif (dataset.name in self.__VALID_CALIBRATION_READFILE_DATASETS):
             if (start_time is not None or end_time is not None):
-                show_warning(
-                    &#34;Reading of calibration files does not support the start_time or end_time parameters. Remove them to silence this warning.&#34;,
-                    stacklevel=1)
+                show_warning(&#34;Reading of calibration files does not support the start_time or end_time parameters. Removing &#34; +
+                             &#34;these parameters from your call will stop this warning.&#34;,
+                             stacklevel=1)
             return self.read_calibration(file_list, n_parallel=n_parallel, quiet=quiet, dataset=dataset)
         elif (dataset.name in self.__VALID_GRID_READFILE_DATASETS):
             return self.read_grid(
                 file_list,
                 n_parallel=n_parallel,
-                first_record=first_record,
+                first_record=False if first_record is None else first_record,
                 no_metadata=no_metadata,
                 start_time=start_time,
                 end_time=end_time,
@@ -326,6 +327,9 @@ border-left: 1px solid #ddd;
                 dataset=dataset,
             )
         elif (dataset.name in self.__VALID_RIOMETER_TXT_READFILE_DATASETS):
+            if (first_record is not None):
+                show_warning(&#34;The &#39;first_record&#39; parameter is not supported when reading NORSTAR riometer data. Removing &#34; +
+                             &#34;this parameter from your call will stop this warning.&#34;)
             return self.read_norstar_riometer(
                 file_list,
                 n_parallel=n_parallel,
@@ -336,6 +340,9 @@ border-left: 1px solid #ddd;
                 dataset=dataset,
             )
         elif (dataset.name in self.__VALID_SWAN_HSR_READFILE_DATASETS):
+            if (first_record is not None):
+                show_warning(&#34;The &#39;first_record&#39; parameter is not supported when reading SWAN HSR data. Removing &#34; +
+                             &#34;this parameter from your call will stop this warning.&#34;)
             return self.read_swan_hsr(
                 file_list,
                 n_parallel=n_parallel,
@@ -1091,13 +1098,13 @@ border-left: 1px solid #ddd;
                 generation_info_obj.bytscl_values = item_recarray.generation_info[0].bytscl_values
 
             # flip certain things
-            if (&#34;SPECT&#34; in item[&#34;filename&#34;]):
+            if (&#34;spect_skymap&#34; in os.path.basename(item[&#34;filename&#34;])):
                 # flip n/s
                 full_elevation_flipped = np.flip(item_recarray.full_elevation, axis=0)
                 full_azimuth_flipped = None
                 full_map_latitude_flipped = np.flip(item_recarray.full_map_latitude, axis=1)
                 full_map_longitude_flipped = np.flip(item_recarray.full_map_longitude, axis=1)
-            elif (&#34;REGO&#34; in item[&#34;filename&#34;]):
+            elif (&#34;rego_skymap&#34; in os.path.basename(item[&#34;filename&#34;])):
                 # flip n/s
                 full_elevation_flipped = np.flip(item_recarray.full_elevation, axis=0)
                 full_azimuth_flipped = np.flip(item_recarray.full_azimuth, axis=0)
@@ -1199,7 +1206,7 @@ border-left: 1px solid #ddd;
         calibration_objs = []
         for item in data:
             # init
-            item_filename = item[&#34;filename&#34;]
+            item_filename = os.path.basename(item[&#34;filename&#34;])
 
             # determine the version
             version_str = os.path.splitext(item_filename)[0].split(&#39;_&#39;)[-1]
@@ -1653,7 +1660,7 @@ is required.</dd>
 <p>A list of the dataset names with file reading support.</p></div>
 </dd>
 <dt id="pyucalgarysrs.data.read.ReadManager.read"><code class="name flex">
-<span>def <span class="ident">read</span></span>(<span>self,<br>dataset: <a title="pyucalgarysrs.data.classes.Dataset" href="../classes.html#pyucalgarysrs.data.classes.Dataset">Dataset</a>,<br>file_list: List[str] | List[pathlib.Path] | str | pathlib.Path,<br>n_parallel: int = 1,<br>first_record: bool = False,<br>no_metadata: bool = False,<br>start_time: datetime.datetime | None = None,<br>end_time: datetime.datetime | None = None,<br>quiet: bool = False) ‑> <a title="pyucalgarysrs.data.classes.Data" href="../classes.html#pyucalgarysrs.data.classes.Data">Data</a></span>
+<span>def <span class="ident">read</span></span>(<span>self,<br>dataset: <a title="pyucalgarysrs.data.classes.Dataset" href="../classes.html#pyucalgarysrs.data.classes.Dataset">Dataset</a>,<br>file_list: List[str] | List[pathlib.Path] | str | pathlib.Path,<br>n_parallel: int = 1,<br>no_metadata: bool = False,<br>first_record: bool | None = None,<br>start_time: datetime.datetime | None = None,<br>end_time: datetime.datetime | None = None,<br>quiet: bool = False) ‑> <a title="pyucalgarysrs.data.classes.Data" href="../classes.html#pyucalgarysrs.data.classes.Data">Data</a></span>
 </code></dt>
 <dd>
 <details class="source">
@@ -1664,8 +1671,8 @@ is required.</dd>
          dataset: Dataset,
          file_list: Union[List[str], List[Path], str, Path],
          n_parallel: int = 1,
-         first_record: bool = False,
          no_metadata: bool = False,
+         first_record: Optional[bool] = None,
          start_time: Optional[datetime.datetime] = None,
          end_time: Optional[datetime.datetime] = None,
          quiet: bool = False) -&gt; Data:
@@ -1748,7 +1755,7 @@ is required.</dd>
     if (dataset.name in self.__VALID_THEMIS_READFILE_DATASETS):
         return self.read_themis(file_list,
                                 n_parallel=n_parallel,
-                                first_record=first_record,
+                                first_record=False if first_record is None else first_record,
                                 no_metadata=no_metadata,
                                 start_time=start_time,
                                 end_time=end_time,
@@ -1757,7 +1764,7 @@ is required.</dd>
     elif (dataset.name in self.__VALID_REGO_READFILE_DATASETS):
         return self.read_rego(file_list,
                               n_parallel=n_parallel,
-                              first_record=first_record,
+                              first_record=False if first_record is None else first_record,
                               no_metadata=no_metadata,
                               start_time=start_time,
                               end_time=end_time,
@@ -1766,7 +1773,7 @@ is required.</dd>
     elif (dataset.name in self.__VALID_TREX_NIR_READFILE_DATASETS):
         return self.read_trex_nir(file_list,
                                   n_parallel=n_parallel,
-                                  first_record=first_record,
+                                  first_record=False if first_record is None else first_record,
                                   no_metadata=no_metadata,
                                   start_time=start_time,
                                   end_time=end_time,
@@ -1775,7 +1782,7 @@ is required.</dd>
     elif (dataset.name in self.__VALID_TREX_BLUE_READFILE_DATASETS):
         return self.read_trex_blue(file_list,
                                    n_parallel=n_parallel,
-                                   first_record=first_record,
+                                   first_record=False if first_record is None else first_record,
                                    no_metadata=no_metadata,
                                    start_time=start_time,
                                    end_time=end_time,
@@ -1784,7 +1791,7 @@ is required.</dd>
     elif (dataset.name in self.__VALID_TREX_SPECT_READFILE_DATASETS):
         return self.read_trex_spectrograph(file_list,
                                            n_parallel=n_parallel,
-                                           first_record=first_record,
+                                           first_record=False if first_record is None else first_record,
                                            no_metadata=no_metadata,
                                            start_time=start_time,
                                            end_time=end_time,
@@ -1793,7 +1800,7 @@ is required.</dd>
     elif (dataset.name in self.__VALID_TREX_RGB_READFILE_DATASETS):
         return self.read_trex_rgb(file_list,
                                   n_parallel=n_parallel,
-                                  first_record=first_record,
+                                  first_record=False if first_record is None else first_record,
                                   no_metadata=no_metadata,
                                   start_time=start_time,
                                   end_time=end_time,
@@ -1801,20 +1808,21 @@ is required.</dd>
                                   dataset=dataset)
     elif (dataset.name in self.__VALID_SKYMAP_READFILE_DATASETS):
         if (start_time is not None or end_time is not None):
-            show_warning(&#34;Reading of skymap files does not support the start_time or end_time parameters. Remove them to silence this warning.&#34;,
+            show_warning(&#34;Reading of skymap files does not support the start_time or end_time parameters. Removing &#34; +
+                         &#34;these parameters from your call will stop this warning.&#34;,
                          stacklevel=1)
         return self.read_skymap(file_list, n_parallel=n_parallel, quiet=quiet, dataset=dataset)
     elif (dataset.name in self.__VALID_CALIBRATION_READFILE_DATASETS):
         if (start_time is not None or end_time is not None):
-            show_warning(
-                &#34;Reading of calibration files does not support the start_time or end_time parameters. Remove them to silence this warning.&#34;,
-                stacklevel=1)
+            show_warning(&#34;Reading of calibration files does not support the start_time or end_time parameters. Removing &#34; +
+                         &#34;these parameters from your call will stop this warning.&#34;,
+                         stacklevel=1)
         return self.read_calibration(file_list, n_parallel=n_parallel, quiet=quiet, dataset=dataset)
     elif (dataset.name in self.__VALID_GRID_READFILE_DATASETS):
         return self.read_grid(
             file_list,
             n_parallel=n_parallel,
-            first_record=first_record,
+            first_record=False if first_record is None else first_record,
             no_metadata=no_metadata,
             start_time=start_time,
             end_time=end_time,
@@ -1822,6 +1830,9 @@ is required.</dd>
             dataset=dataset,
         )
     elif (dataset.name in self.__VALID_RIOMETER_TXT_READFILE_DATASETS):
+        if (first_record is not None):
+            show_warning(&#34;The &#39;first_record&#39; parameter is not supported when reading NORSTAR riometer data. Removing &#34; +
+                         &#34;this parameter from your call will stop this warning.&#34;)
         return self.read_norstar_riometer(
             file_list,
             n_parallel=n_parallel,
@@ -1832,6 +1843,9 @@ is required.</dd>
             dataset=dataset,
         )
     elif (dataset.name in self.__VALID_SWAN_HSR_READFILE_DATASETS):
+        if (first_record is not None):
+            show_warning(&#34;The &#39;first_record&#39; parameter is not supported when reading SWAN HSR data. Removing &#34; +
+                         &#34;this parameter from your call will stop this warning.&#34;)
         return self.read_swan_hsr(
             file_list,
             n_parallel=n_parallel,
@@ -1965,7 +1979,7 @@ future.</p></div>
     calibration_objs = []
     for item in data:
         # init
-        item_filename = item[&#34;filename&#34;]
+        item_filename = os.path.basename(item[&#34;filename&#34;])
 
         # determine the version
         version_str = os.path.splitext(item_filename)[0].split(&#39;_&#39;)[-1]
@@ -2671,13 +2685,13 @@ values.</p>
             generation_info_obj.bytscl_values = item_recarray.generation_info[0].bytscl_values
 
         # flip certain things
-        if (&#34;SPECT&#34; in item[&#34;filename&#34;]):
+        if (&#34;spect_skymap&#34; in os.path.basename(item[&#34;filename&#34;])):
             # flip n/s
             full_elevation_flipped = np.flip(item_recarray.full_elevation, axis=0)
             full_azimuth_flipped = None
             full_map_latitude_flipped = np.flip(item_recarray.full_map_latitude, axis=1)
             full_map_longitude_flipped = np.flip(item_recarray.full_map_longitude, axis=1)
-        elif (&#34;REGO&#34; in item[&#34;filename&#34;]):
+        elif (&#34;rego_skymap&#34; in os.path.basename(item[&#34;filename&#34;])):
             # flip n/s
             full_elevation_flipped = np.flip(item_recarray.full_elevation, axis=0)
             full_azimuth_flipped = np.flip(item_recarray.full_azimuth, axis=0)

@@ -539,8 +539,8 @@ classes in this module are included at the top level of this library.</p></div>
              dataset: Dataset,
              file_list: Union[List[str], List[Path], str, Path],
              n_parallel: int = 1,
-             first_record: bool = False,
              no_metadata: bool = False,
+             first_record: Optional[bool] = None,
              start_time: Optional[datetime.datetime] = None,
              end_time: Optional[datetime.datetime] = None,
              quiet: bool = False) -&gt; Data:
@@ -1430,7 +1430,7 @@ objects.</p>
 <p>A list of the dataset names with file reading support.</p></div>
 </dd>
 <dt id="pyucalgarysrs.data.DataManager.read"><code class="name flex">
-<span>def <span class="ident">read</span></span>(<span>self,<br>dataset: <a title="pyucalgarysrs.data.classes.Dataset" href="classes.html#pyucalgarysrs.data.classes.Dataset">Dataset</a>,<br>file_list: List[str] | List[pathlib.Path] | str | pathlib.Path,<br>n_parallel: int = 1,<br>first_record: bool = False,<br>no_metadata: bool = False,<br>start_time: datetime.datetime | None = None,<br>end_time: datetime.datetime | None = None,<br>quiet: bool = False) ‑> <a title="pyucalgarysrs.data.classes.Data" href="classes.html#pyucalgarysrs.data.classes.Data">Data</a></span>
+<span>def <span class="ident">read</span></span>(<span>self,<br>dataset: <a title="pyucalgarysrs.data.classes.Dataset" href="classes.html#pyucalgarysrs.data.classes.Dataset">Dataset</a>,<br>file_list: List[str] | List[pathlib.Path] | str | pathlib.Path,<br>n_parallel: int = 1,<br>no_metadata: bool = False,<br>first_record: bool | None = None,<br>start_time: datetime.datetime | None = None,<br>end_time: datetime.datetime | None = None,<br>quiet: bool = False) ‑> <a title="pyucalgarysrs.data.classes.Data" href="classes.html#pyucalgarysrs.data.classes.Data">Data</a></span>
 </code></dt>
 <dd>
 <details class="source">
@@ -1441,8 +1441,8 @@ objects.</p>
          dataset: Dataset,
          file_list: Union[List[str], List[Path], str, Path],
          n_parallel: int = 1,
-         first_record: bool = False,
          no_metadata: bool = False,
+         first_record: Optional[bool] = None,
          start_time: Optional[datetime.datetime] = None,
          end_time: Optional[datetime.datetime] = None,
          quiet: bool = False) -&gt; Data:
