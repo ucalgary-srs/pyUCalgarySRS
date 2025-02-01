@@ -15,7 +15,7 @@ pyucalgarysrs/data/read/_grid.py                  176     11    94%   107, 123, 
 pyucalgarysrs/data/read/_norstar_riometer.py      157     16    90%   237, 278-280, 283-299
 pyucalgarysrs/data/read/_rego.py                  210     14    93%   216-220, 273-279, 368, 371, 374
 pyucalgarysrs/data/read/_skymap.py                 48      0   100%
-pyucalgarysrs/data/read/_swan_hsr.py               99      0   100%
+pyucalgarysrs/data/read/_swan_hsr.py              101      0   100%
 pyucalgarysrs/data/read/_themis.py                201     17    92%   212-216, 266-272, 277-279, 354, 357, 360
 pyucalgarysrs/data/read/_trex_blue.py             215     34    84%   226-235, 261-272, 288-294, 353-359, 379, 382, 385
 pyucalgarysrs/data/read/_trex_nir.py              215     28    87%   224-233, 259-270, 351-357, 377, 380, 383
@@ -30,5 +30,5 @@ pyucalgarysrs/models/atm/classes_forward.py       117      0   100%
 pyucalgarysrs/models/atm/classes_inverse.py       117      0   100%
 pyucalgarysrs/pyucalgarysrs.py                    197      0   100%
 -----------------------------------------------------------------------------
-TOTAL                                            3529    209    94%
+TOTAL                                            3531    209    94%
 ```
