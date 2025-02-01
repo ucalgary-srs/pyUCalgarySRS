@@ -190,7 +190,9 @@ def __hsr_readfile_worker(file, no_metadata=False, start_time=None, end_time=Non
 
         # get band central frequency, bandpass
         band_central_frequency_list = f["data"]["band_central_frequency"][:].tolist()  # type: ignore
+        band_central_frequency_list = [x.decode() for x in band_central_frequency_list]
         band_passband_list = f["data"]["band_passband"][:].tolist()  # type: ignore
+        band_passband_list = [x.decode() for x in band_passband_list]
 
         # set absorption
         if ("_k0_" in os.path.basename(file)):
