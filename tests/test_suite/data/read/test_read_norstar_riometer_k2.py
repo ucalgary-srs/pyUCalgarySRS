@@ -78,7 +78,6 @@ def test_read_norstar_riometer_k2_single_file(srs, all_datasets, test_dict, caps
 
     # read file
     data = srs.data.read(dataset, "%s/%s" % (DATA_DIR, test_dict["filename"]))
-    print(data)
 
     # check success
     if (test_dict["expected_success"] is True):

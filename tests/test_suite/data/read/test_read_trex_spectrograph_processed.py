@@ -43,7 +43,6 @@ def test_read_trex_spect_processed_single_file(srs, all_datasets, test_dict, cap
 
     # read file
     data = srs.data.read(dataset, "%s/%s" % (DATA_DIR, test_dict["filename"]))
-    print(data)
 
     # check success
     if (test_dict["expected_success"] is True):
