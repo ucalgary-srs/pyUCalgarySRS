@@ -160,7 +160,7 @@ class PyUCalgarySRS:
         return self.__api_base_url
 
     @api_base_url.setter
-    def api_base_url(self, value: str):
+    def api_base_url(self, value: Optional[str] = None):
         if (value is None):
             self.__api_base_url = self.__DEFAULT_API_BASE_URL
         else:
@@ -205,7 +205,7 @@ class PyUCalgarySRS:
         return self.__api_timeout
 
     @api_timeout.setter
-    def api_timeout(self, value: int):
+    def api_timeout(self, value: Optional[int] = None):
         if (value is None):
             self.__api_timeout = self.__DEFAULT_API_TIMEOUT
         else:
@@ -254,7 +254,7 @@ class PyUCalgarySRS:
         return self.__progress_bar_backend
 
     @progress_bar_backend.setter
-    def progress_bar_backend(self, value: str):
+    def progress_bar_backend(self, value: Optional[str] = None):
         # set the backend string
         if (value is None):
             self.__progress_bar_backend = self.__DEFAULT_PROGRESS_BAR_BACKEND

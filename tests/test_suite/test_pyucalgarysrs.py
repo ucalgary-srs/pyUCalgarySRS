@@ -46,7 +46,7 @@ def test_top_level_class_instantiation_noparams():
     assert os.path.exists(new_path)
     shutil.rmtree(new_path, ignore_errors=True)
 
-    # check __str__ and __repr__ for Data type
+    # check __str__ and __repr__ for PyUCalgarySRS type
     print_str = str(srs)
     assert print_str != ""
     assert isinstance(str(srs), str) is True
