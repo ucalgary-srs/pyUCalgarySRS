@@ -73,6 +73,7 @@ include = [
     "pyucalgarysrs/**/*.py",
     "examples/**/*.ipynb",
     "examples/**/*.py",
+    "tests/test_suite/**/*.py",
 ]
 typeCheckingMode = "standard"
 
