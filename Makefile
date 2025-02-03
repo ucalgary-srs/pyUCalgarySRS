@@ -47,14 +47,14 @@ test-bandit:
 	bandit -c pyproject.toml -r -ii pyucalgarysrs
 	@printf "\n\n"
 
-test-pytest pytest:
-	pytest -n auto --cov=pyucalgarysrs --cov-report=
+test-pytest:
+	pytest -n auto --cov=pyucalgarysrs --cov-report= --dist worksteal
 
 test-production:
-	pytest -n auto --api-url=https://api.phys.ucalgary.ca
+	pytest -n auto --api-url=https://api.phys.ucalgary.ca --dist worksteal
 
 test-notebooks:
-	pytest -n auto --nbval --dist loadscope --nbval-lax examples
+	pytest -n 6 --nbmake examples/notebooks --ignore-glob=examples/notebooks/**/in_development/*.ipynb
 
 test-coverage coverage:
 	coverage report
