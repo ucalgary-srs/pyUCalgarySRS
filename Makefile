@@ -16,8 +16,8 @@ update upgrade:
 
 get-test-data:
 	cd tests/test_data && rm -rf read_*
-	cd tests/test_data && wget -O test_data.tar https://aurora.phys.ucalgary.ca/public/github_tests/pyucalgarysrs_test_data.tar
-	cd tests/test_data && tar -xvf test_data.tar && rm test_data.tar
+	cd tests/test_data && wget -O test_data.tar.gz https://aurora.phys.ucalgary.ca/public/github_tests/pyucalgarysrs_test_data.tar.gz
+	cd tests/test_data && tar -zxvf test_data.tar.gz && rm test_data.tar.gz
 
 docs:
 	poetry run pdoc3 --html --force --output-dir docs/generated pyucalgarysrs --config "lunr_search={'fuzziness': 1}" --template-dir docs/templates
