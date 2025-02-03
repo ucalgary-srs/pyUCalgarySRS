@@ -116,4 +116,4 @@ def test_get_dataset(srs, test_dict):
         # we expect an error
         with pytest.raises(pyucalgarysrs.SRSAPIError) as e_info:
             dataset = srs.data.get_dataset(test_dict["name"])
-            assert "Dataset not found" in str(e_info).lower()
+        assert "Dataset not found" in str(e_info)

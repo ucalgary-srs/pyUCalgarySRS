@@ -136,11 +136,10 @@ def test_api_headers(srs):
 
     # check warning
     with warnings.catch_warnings(record=True) as w:
-        warnings.simplefilter("always")  # cause all warnings to always be triggered.
         srs.api_headers = {"user-agent": "some other value"}
-        assert len(w) == 1
-        assert issubclass(w[-1].category, UserWarning)
-        assert "Cannot override default" in str(w[-1].message)
+    assert len(w) == 1
+    assert issubclass(w[-1].category, UserWarning)
+    assert "Cannot override default" in str(w[-1].message)
 
 
 @pytest.mark.top_level

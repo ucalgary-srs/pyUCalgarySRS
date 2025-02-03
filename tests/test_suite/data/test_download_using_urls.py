@@ -263,4 +263,4 @@ def test_download_using_urls_bad_url(srs):
             overwrite=True,
             progress_bar_desc="Some download description",
         )
-        assert "HTTP error 404 when downloading" in str(e_info)
+    assert "HTTP error 404 when downloading" in str(e_info)

@@ -335,30 +335,30 @@ def test_read_norstar_riometer_k0_first_record(srs, all_datasets, test_dict):
             first_record=True,
         )
 
-        # check success
-        if (test_dict["expected_success"] is True):
-            assert len(data.problematic_files) == 0
-        else:
-            assert len(data.problematic_files) > 0
+    # check success
+    if (test_dict["expected_success"] is True):
+        assert len(data.problematic_files) == 0
+    else:
+        assert len(data.problematic_files) > 0
 
-        # check number of frames
-        assert len(data.data) == len(test_dict["filenames"])
-        for item in data.data:
-            assert item.raw_signal.dtype == np.float32
-            assert item.raw_signal.shape == item.timestamp.shape
-            assert len(item.raw_signal) != 0
-            assert len(item.timestamp) != 0
+    # check number of frames
+    assert len(data.data) == len(test_dict["filenames"])
+    for item in data.data:
+        assert item.raw_signal.dtype == np.float32
+        assert item.raw_signal.shape == item.timestamp.shape
+        assert len(item.raw_signal) != 0
+        assert len(item.timestamp) != 0
 
-        # check the metadata
-        assert len(data.metadata) == len(data.data)
-        assert len(data.metadata) != 0
-        for m in data.metadata:
-            assert m != {}
+    # check the metadata
+    assert len(data.metadata) == len(data.data)
+    assert len(data.metadata) != 0
+    for m in data.metadata:
+        assert m != {}
 
-        # check that the warning appeared
-        assert len(w) == 1
-        assert issubclass(w[-1].category, UserWarning)
-        assert "The 'first_record' parameter is not supported when reading NORSTAR riometer data." in str(w[-1].message)
+    # check that the warning appeared
+    assert len(w) == 1
+    assert issubclass(w[-1].category, UserWarning)
+    assert "The 'first_record' parameter is not supported when reading NORSTAR riometer data." in str(w[-1].message)
 
 
 @pytest.mark.parametrize("test_dict", [

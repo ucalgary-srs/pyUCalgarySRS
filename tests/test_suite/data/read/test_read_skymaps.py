@@ -193,12 +193,12 @@ def test_read_skymap_badperms_file(srs):
     # read file and check problematic files (not quiet mode)
     with pytest.raises(SRSError) as e_info:
         srs.data.readers.read_skymap(f, quiet=False)
-        assert "Error reading skymap file" in str(e_info)
+    assert "Error reading skymap file" in str(e_info)
 
     # read file and check problematic files (quiet mode)
     with pytest.raises(SRSError) as e_info:
         srs.data.readers.read_skymap(f, quiet=True)
-        assert "Error reading skymap file" in str(e_info)
+    assert "Error reading skymap file" in str(e_info)
 
     # change perms back
     os.chmod(f, 0o644)
@@ -233,13 +233,13 @@ def test_read_skymap_startend(srs, all_datasets, test_dict):
             end_time=datetime.datetime.now(),
         )
 
-        # check return type
-        assert isinstance(data, Data) is True
-        assert isinstance(data.data, list) is True
-        for item in data.data:
-            assert isinstance(item, Skymap) is True
+    # check return type
+    assert isinstance(data, Data) is True
+    assert isinstance(data.data, list) is True
+    for item in data.data:
+        assert isinstance(item, Skymap) is True
 
-        # check that the warning appeared
-        assert len(w) == 1
-        assert issubclass(w[-1].category, UserWarning)
-        assert "Reading of skymap files does not support the start_time or end_time parameters." in str(w[-1].message)
+    # check that the warning appeared
+    assert len(w) == 1
+    assert issubclass(w[-1].category, UserWarning)
+    assert "Reading of skymap files does not support the start_time or end_time parameters." in str(w[-1].message)

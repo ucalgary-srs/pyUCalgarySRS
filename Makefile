@@ -50,16 +50,16 @@ test-bandit bandit:
 test-pytest pytest: test-pytest-staging
 
 test-pytest-noread pytest-noread:
-	pytest -n auto -m "not data_read" --cov=pyucalgarysrs --cov-report= --maxfail=1
+	pytest -n auto -m "not data_read" --cov=pyucalgarysrs --cov-report= --maxfail=1 --nbval --dist loadscope --nbval-lax
 
 test-pytest-staging pytest-staging:
-	pytest -n auto --cov=pyucalgarysrs --cov-report= --maxfail=1
+	pytest -n auto --cov=pyucalgarysrs --cov-report= --maxfail=1 --nbval --dist loadscope --nbval-lax
 
 test-pytest-production pytest-production:
-	pytest -n auto --cov=pyucalgarysrs --cov-report= --maxfail=1 --api-url=https://api.phys.ucalgary.ca
+	pytest -n auto --cov=pyucalgarysrs --cov-report= --maxfail=1 --api-url=https://api.phys.ucalgary.ca --nbval --dist loadscope --nbval-lax
 
 test-pytest-ci pytest-ci:
-	pytest -n auto -m "not data_datasets and not data_download and not data_geturls and not data_read" --cov=pyucalgarysrs --cov-report= --maxfail=1 --api-url=https://api.phys.ucalgary.ca
+	pytest -n auto -m "not data_datasets and not data_download and not data_geturls and not data_read" --cov=pyucalgarysrs --cov-report= --maxfail=1 --api-url=https://api.phys.ucalgary.ca --nbval --dist loadscope --nbval-lax
 
 test-coverage coverage:
 	coverage report

@@ -163,18 +163,18 @@ def test_download_no_data(srs, capsys):
             timeout=5,
         )
 
-        # check warning
-        assert len(w) == 1
-        assert issubclass(w[-1].category, UserWarning)
-        assert "No data found to download" in str(w[-1].message)
+    # check warning
+    assert len(w) == 1
+    assert issubclass(w[-1].category, UserWarning)
+    assert "No data found to download" in str(w[-1].message)
 
-        # check download object
-        assert isinstance(download_obj, pyucalgarysrs.FileDownloadResult) is True
-        assert download_obj.count == 0
+    # check download object
+    assert isinstance(download_obj, pyucalgarysrs.FileDownloadResult) is True
+    assert download_obj.count == 0
 
-        # check __str__ and __repr__ for FileDownloadResult type
-        print_str = str(download_obj)
-        assert print_str != ""
-        download_obj.pretty_print()
-        captured_stdout = capsys.readouterr().out
-        assert captured_stdout != ""
+    # check __str__ and __repr__ for FileDownloadResult type
+    print_str = str(download_obj)
+    assert print_str != ""
+    download_obj.pretty_print()
+    captured_stdout = capsys.readouterr().out
+    assert captured_stdout != ""

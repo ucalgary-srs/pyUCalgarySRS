@@ -765,22 +765,22 @@ def test_read_trex_rgb_unstable_stream0_nometa_startend(srs, test_dict):
             no_metadata=True,
         )
 
-        # check success
-        if (test_dict["expected_success"] is True):
-            assert len(data.problematic_files) == 0
-        else:
-            assert len(data.problematic_files) > 0
+    # check success
+    if (test_dict["expected_success"] is True):
+        assert len(data.problematic_files) == 0
+    else:
+        assert len(data.problematic_files) > 0
 
-        # check number of frames
-        assert data.data.shape == (480, 553, test_dict["expected_frames"])
-        assert len(data.metadata) == 0
-        assert len(data.timestamp) == 0
+    # check number of frames
+    assert data.data.shape == (480, 553, test_dict["expected_frames"])
+    assert len(data.metadata) == 0
+    assert len(data.timestamp) == 0
 
-        # check that there's metadata
-        for m in data.metadata:
-            assert len(m) > 0
+    # check that there's metadata
+    for m in data.metadata:
+        assert len(m) > 0
 
-        # check that the warning appeared
-        assert len(w) == 1
-        assert issubclass(w[-1].category, UserWarning)
-        assert "Cannot filter on start or end time if the no_metadata parameter is set to True" in str(w[-1].message)
+    # check that the warning appeared
+    assert len(w) == 1
+    assert issubclass(w[-1].category, UserWarning)
+    assert "Cannot filter on start or end time if the no_metadata parameter is set to True" in str(w[-1].message)

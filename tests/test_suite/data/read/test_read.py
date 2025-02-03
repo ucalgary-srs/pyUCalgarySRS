@@ -120,7 +120,7 @@ def test_read_generic_bad_dataset(srs, all_datasets):
     # check that the read routine raises an exception
     with pytest.raises(SRSUnsupportedReadError) as e_info:
         _ = srs.data.read(dataset, "some_fake_filename.pgm")
-        assert "Dataset does not have a supported read function" == str(e_info)
+    assert "Dataset does not have a supported read function" in str(e_info)
 
 
 @pytest.mark.data_read
@@ -128,7 +128,7 @@ def test_read_generic_none_dataset(srs):
     # check that the read routine raises an exception
     with pytest.raises(SRSUnsupportedReadError) as e_info:
         _ = srs.data.read(None, "some_fake_filename.pgm")
-        assert "Must supply a dataset" in str(e_info)
+    assert "Must supply a dataset" in str(e_info)
 
 
 @pytest.mark.data_read
