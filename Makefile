@@ -1,5 +1,8 @@
 .PHONY: install update get-test-data docs show-outdated test test-linting test-ruff test-pycodestyle test-bandit test-pyright test-pytest test-pytest-noread test-pytest-production test-pytest-staging test-pytest-ci test-coverage tool-checks publish
 
+# vars
+NUM_WORKERS := $(shell python -c "import os; print(os.cpu_count())")
+
 all:
 
 install:
@@ -50,19 +53,19 @@ test-bandit bandit:
 test-pytest pytest: test-pytest-staging
 
 test-pytest-no-notebooks:
-	pytest -n auto --cov=pyucalgarysrs --cov-report= --maxfail=1 --nbval --dist loadscope --nbval-lax --ignore-glob=examples/notebooks/**/*.ipynb
+	pytest -n $(NUM_WORKERS) --cov=pyucalgarysrs --cov-report= --maxfail=1 --nbval --dist loadscope --nbval-lax --ignore-glob=examples/notebooks/**/*.ipynb
 
 test-pytest-noread pytest-noread:
-	pytest -n auto -m "not data_read" --cov=pyucalgarysrs --cov-report= --maxfail=1 --nbval --dist loadscope --nbval-lax
+	pytest -n $(NUM_WORKERS) -m "not data_read" --cov=pyucalgarysrs --cov-report= --maxfail=1 --nbval --dist loadscope --nbval-lax
 
 test-pytest-staging pytest-staging:
-	pytest -n auto --cov=pyucalgarysrs --cov-report= --maxfail=1 --nbval --dist loadscope --nbval-lax
+	pytest -n $(NUM_WORKERS) --cov=pyucalgarysrs --cov-report= --maxfail=1 --nbval --dist loadscope --nbval-lax
 
 test-pytest-production pytest-production:
-	pytest -n auto --cov=pyucalgarysrs --cov-report= --maxfail=1 --api-url=https://api.phys.ucalgary.ca --nbval --dist loadscope --nbval-lax
+	pytest -n $(NUM_WORKERS) --cov=pyucalgarysrs --cov-report= --maxfail=1 --api-url=https://api.phys.ucalgary.ca --nbval --dist loadscope --nbval-lax
 
 test-pytest-ci pytest-ci:
-	pytest -n auto -m "not data_datasets and not data_download and not data_geturls and not data_read" --cov=pyucalgarysrs --cov-report= --maxfail=1 --api-url=https://api.phys.ucalgary.ca --nbval --dist loadscope --nbval-lax
+	pytest -n $(NUM_WORKERS) -m "not data_datasets and not data_download and not data_geturls and not data_read" --cov=pyucalgarysrs --cov-report= --maxfail=1 --api-url=https://api.phys.ucalgary.ca --nbval --dist loadscope --nbval-lax
 
 test-coverage coverage:
 	coverage report
