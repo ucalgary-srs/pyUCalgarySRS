@@ -16,6 +16,7 @@ import os
 import datetime
 import warnings
 import pytest
+from pathlib import Path
 from pyucalgarysrs import Calibration, SRSError, Data
 from ...conftest import find_dataset
 
@@ -66,7 +67,7 @@ DATA_DIR = "%s/../../../test_data/read_calibration" % (os.path.dirname(os.path.r
     },
 ])
 @pytest.mark.data_read
-def test_read_calibration_single_file(srs, capsys, all_datasets, test_dict):
+def test_read_single_file(srs, capsys, all_datasets, test_dict):
     # set dataset
     dataset = find_dataset(all_datasets, test_dict["dataset_name"])
 
@@ -133,7 +134,7 @@ def test_read_calibration_single_file(srs, capsys, all_datasets, test_dict):
     },
 ])
 @pytest.mark.data_read
-def test_read_calibration_multiple_files(srs, all_datasets, test_dict, capsys):
+def test_read_multiple_files(srs, all_datasets, test_dict, capsys):
     # set dataset
     dataset = find_dataset(all_datasets, test_dict["dataset_name"])
 
@@ -192,7 +193,7 @@ def test_read_calibration_multiple_files(srs, all_datasets, test_dict, capsys):
     },
 ])
 @pytest.mark.data_read
-def test_read_calibration_n_parallel(srs, all_datasets, test_dict):
+def test_read_n_parallel(srs, all_datasets, test_dict):
     # set dataset
     dataset = find_dataset(all_datasets, test_dict["dataset_name"])
 
@@ -215,8 +216,49 @@ def test_read_calibration_n_parallel(srs, all_datasets, test_dict):
         assert isinstance(item, Calibration) is True
 
 
+@pytest.mark.parametrize("test_dict", [
+    {
+        "filenames": [
+            "REGO_Rayleighs_15649_20141015-20211018_v01.sav",
+        ],
+        "dataset_name": "REGO_CALIBRATION_RAYLEIGHS_IDLSAV",
+        "n_parallel": 1,
+    },
+    {
+        "filenames": [
+            "REGO_Rayleighs_15649_20141015-20211018_v01.sav",
+            "REGO_Rayleighs_15649_20211019-+_v02.sav",
+        ],
+        "dataset_name": "REGO_CALIBRATION_RAYLEIGHS_IDLSAV",
+        "n_parallel": 2,
+    },
+])
 @pytest.mark.data_read
-def test_read_calibration_badperms_file(srs):
+def test_read_pathlib_input(srs, all_datasets, test_dict):
+    # set dataset
+    dataset = find_dataset(all_datasets, test_dict["dataset_name"])
+
+    # build file list
+    file_list = []
+    for f in test_dict["filenames"]:
+        file_list.append(Path(DATA_DIR) / Path(f))
+
+    # read file
+    data = srs.data.read(
+        dataset,
+        file_list,
+        n_parallel=test_dict["n_parallel"],
+    )
+
+    # check return type
+    assert isinstance(data, Data) is True
+    assert isinstance(data.data, list) is True
+    for item in data.data:
+        assert isinstance(item, Calibration) is True
+
+
+@pytest.mark.data_read
+def test_read_badperms_file(srs):
     # set filename
     f = "%s/REGO_Rayleighs_15651_20210908-+_v02.sav" % (DATA_DIR)
     os.chmod(f, 0o000)
@@ -245,7 +287,7 @@ def test_read_calibration_badperms_file(srs):
     },
 ])
 @pytest.mark.data_read
-def test_read_calibration_startend(srs, all_datasets, test_dict):
+def test_read_startend(srs, all_datasets, test_dict):
     # set dataset
     dataset = find_dataset(all_datasets, test_dict["dataset_name"])
 

@@ -16,6 +16,7 @@ import os
 import datetime
 import warnings
 import pytest
+from pathlib import Path
 from pyucalgarysrs import Skymap, SRSError, Data
 from ...conftest import find_dataset
 
@@ -54,7 +55,7 @@ DATA_DIR = "%s/../../../test_data/read_skymap" % (os.path.dirname(os.path.realpa
     },
 ])
 @pytest.mark.data_read
-def test_read_skymap_single_file(srs, capsys, all_datasets, test_dict):
+def test_read_single_file(srs, capsys, all_datasets, test_dict):
     # set dataset
     dataset = find_dataset(all_datasets, test_dict["dataset_name"])
 
@@ -110,7 +111,7 @@ def test_read_skymap_single_file(srs, capsys, all_datasets, test_dict):
     },
 ])
 @pytest.mark.data_read
-def test_read_skymap_multiple_files(srs, all_datasets, test_dict, capsys):
+def test_read_multiple_files(srs, all_datasets, test_dict, capsys):
     # set dataset
     dataset = find_dataset(all_datasets, test_dict["dataset_name"])
 
@@ -161,7 +162,7 @@ def test_read_skymap_multiple_files(srs, all_datasets, test_dict, capsys):
     },
 ])
 @pytest.mark.data_read
-def test_read_skymap_n_parallel(srs, all_datasets, test_dict):
+def test_read_n_parallel(srs, all_datasets, test_dict):
     # set dataset
     dataset = find_dataset(all_datasets, test_dict["dataset_name"])
 
@@ -184,8 +185,49 @@ def test_read_skymap_n_parallel(srs, all_datasets, test_dict):
         assert isinstance(item, Skymap) is True
 
 
+@pytest.mark.parametrize("test_dict", [
+    {
+        "filenames": [
+            "themis_skymap_atha_20070301-20090522_vXX.sav",
+        ],
+        "dataset_name": "THEMIS_ASI_SKYMAP_IDLSAV",
+        "n_parallel": 1,
+    },
+    {
+        "filenames": [
+            "themis_skymap_atha_20070301-20090522_vXX.sav",
+            "themis_skymap_atha_20230115-+_v02.sav",
+        ],
+        "dataset_name": "THEMIS_ASI_SKYMAP_IDLSAV",
+        "n_parallel": 2,
+    },
+])
 @pytest.mark.data_read
-def test_read_skymap_badperms_file(srs):
+def test_read_pathlib_input(srs, all_datasets, test_dict):
+    # set dataset
+    dataset = find_dataset(all_datasets, test_dict["dataset_name"])
+
+    # build file list
+    file_list = []
+    for f in test_dict["filenames"]:
+        file_list.append(Path(DATA_DIR) / Path(f))
+
+    # read file
+    data = srs.data.read(
+        dataset,
+        file_list,
+        n_parallel=test_dict["n_parallel"],
+    )
+
+    # check return type
+    assert isinstance(data, Data) is True
+    assert isinstance(data.data, list) is True
+    for item in data.data:
+        assert isinstance(item, Skymap) is True
+
+
+@pytest.mark.data_read
+def test_read_badperms_file(srs):
     # set filename
     f = "%s/themis_skymap_gill_20210308-+_v02.sav" % (DATA_DIR)
     os.chmod(f, 0o000)
@@ -214,7 +256,7 @@ def test_read_skymap_badperms_file(srs):
     },
 ])
 @pytest.mark.data_read
-def test_read_skymap_startend(srs, all_datasets, test_dict):
+def test_read_startend(srs, all_datasets, test_dict):
     # set dataset
     dataset = find_dataset(all_datasets, test_dict["dataset_name"])
 

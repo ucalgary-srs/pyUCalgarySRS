@@ -1,3 +1,8 @@
+Version 1.18.0
+-------------------
+- bugfix for TREx Spectrograph processed data reading
+
+
 Version 1.17.0
 -------------------
 - minor update for HSR data reading

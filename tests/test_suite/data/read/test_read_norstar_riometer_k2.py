@@ -17,6 +17,7 @@ import datetime
 import warnings
 import pytest
 import numpy as np
+from pathlib import Path
 from pyucalgarysrs.data import ProblematicFile, RiometerData
 from ...conftest import find_dataset
 
@@ -72,7 +73,7 @@ DATA_DIR = "%s/../../../test_data/read_norstar_riometer/k2" % (os.path.dirname(o
     },
 ])
 @pytest.mark.data_read
-def test_read_norstar_riometer_k2_single_file(srs, all_datasets, test_dict, capsys):
+def test_read_single_file(srs, all_datasets, test_dict, capsys):
     # set dataset
     dataset = find_dataset(all_datasets, "NORSTAR_RIOMETER_K2_TXT")
 
@@ -141,7 +142,7 @@ def test_read_norstar_riometer_k2_single_file(srs, all_datasets, test_dict, caps
     },
 ])
 @pytest.mark.data_read
-def test_read_norstar_riometer_k2_multiple_files(srs, all_datasets, test_dict):
+def test_read_multiple_files(srs, all_datasets, test_dict):
     # set dataset
     dataset = find_dataset(all_datasets, "NORSTAR_RIOMETER_K2_TXT")
 
@@ -189,7 +190,7 @@ def test_read_norstar_riometer_k2_multiple_files(srs, all_datasets, test_dict):
     },
 ])
 @pytest.mark.data_read
-def test_read_norstar_riometer_k2_single_file_n_parallel(srs, all_datasets, test_dict):
+def test_read_single_file_n_parallel(srs, all_datasets, test_dict):
     # set dataset
     dataset = find_dataset(all_datasets, "NORSTAR_RIOMETER_K2_TXT")
 
@@ -283,7 +284,7 @@ def test_read_norstar_riometer_k2_single_file_n_parallel(srs, all_datasets, test
     },
 ])
 @pytest.mark.data_read
-def test_read_norstar_riometer_k2_multiple_files_n_parallel(srs, all_datasets, test_dict):
+def test_read_multiple_files_n_parallel(srs, all_datasets, test_dict):
     # set dataset
     dataset = find_dataset(all_datasets, "NORSTAR_RIOMETER_K2_TXT")
 
@@ -336,7 +337,60 @@ def test_read_norstar_riometer_k2_multiple_files_n_parallel(srs, all_datasets, t
     },
 ])
 @pytest.mark.data_read
-def test_read_norstar_riometer_k2_first_record(srs, all_datasets, test_dict):
+def test_read_pathlib_input(srs, all_datasets, test_dict):
+    # set dataset
+    dataset = find_dataset(all_datasets, "NORSTAR_RIOMETER_K2_TXT")
+
+    # build file list
+    file_list = []
+    for f in test_dict["filenames"]:
+        file_list.append(Path(DATA_DIR) / Path(f))
+
+    # read file
+    data = srs.data.read(dataset, file_list, n_parallel=test_dict["n_parallel"])
+
+    # check success
+    if (test_dict["expected_success"] is True):
+        assert len(data.problematic_files) == 0
+    else:
+        assert len(data.problematic_files) > 0
+
+    # check number of frames
+    assert len(data.data) == len(test_dict["filenames"])
+    for item in data.data:
+        assert item.raw_signal.dtype == np.float32
+        assert item.absorption.dtype == np.float32
+        assert item.raw_signal.shape == item.timestamp.shape == item.absorption.shape
+        assert len(item.raw_signal) != 0
+        assert len(item.absorption) != 0
+        assert len(item.timestamp) != 0
+
+    # check the metadata
+    assert len(data.metadata) == len(data.data)
+    assert len(data.metadata) != 0
+    for m in data.metadata:
+        assert m != {}
+
+
+@pytest.mark.parametrize("test_dict", [
+    {
+        "filenames": [
+            "norstar_k2_rio-chur_20200501_v03.txt",
+        ],
+        "n_parallel": 1,
+        "expected_success": True,
+    },
+    {
+        "filenames": [
+            "norstar_k2_rio-chur_20200501_v03.txt",
+            "norstar_k2_rio-chur_20200502_v03.txt",
+        ],
+        "n_parallel": 2,
+        "expected_success": True,
+    },
+])
+@pytest.mark.data_read
+def test_read_first_record(srs, all_datasets, test_dict):
     # set dataset
     dataset = find_dataset(all_datasets, "NORSTAR_RIOMETER_K2_TXT")
 
@@ -409,7 +463,7 @@ def test_read_norstar_riometer_k2_first_record(srs, all_datasets, test_dict):
     },
 ])
 @pytest.mark.data_read
-def test_read_norstar_riometer_k2_no_metadata(srs, all_datasets, test_dict):
+def test_read_no_metadata(srs, all_datasets, test_dict):
     # set dataset
     dataset = find_dataset(all_datasets, "NORSTAR_RIOMETER_K2_TXT")
 
@@ -467,7 +521,7 @@ def test_read_norstar_riometer_k2_no_metadata(srs, all_datasets, test_dict):
     },
 ])
 @pytest.mark.data_read
-def test_read_norstar_riometer_k2_bad_file(srs, all_datasets, test_dict):
+def test_read_bad_file(srs, all_datasets, test_dict):
     # set dataset
     dataset = find_dataset(all_datasets, "NORSTAR_RIOMETER_K2_TXT")
 
@@ -504,7 +558,7 @@ def test_read_norstar_riometer_k2_bad_file(srs, all_datasets, test_dict):
 
 
 @pytest.mark.data_read
-def test_read_norstar_riometer_k2_badperms_file(srs, all_datasets):
+def test_read_badperms_file(srs, all_datasets):
     # set dataset
     dataset = find_dataset(all_datasets, "NORSTAR_RIOMETER_K2_TXT")
 
@@ -553,7 +607,7 @@ def test_read_norstar_riometer_k2_badperms_file(srs, all_datasets):
     },
 ])
 @pytest.mark.data_read
-def test_read_norstar_riometer_k2_readers_func(srs, all_datasets, test_dict):
+def test_read_readers_func(srs, all_datasets, test_dict):
     # set dataset
     dataset = find_dataset(all_datasets, "NORSTAR_RIOMETER_K2_TXT")
 
@@ -610,7 +664,7 @@ def test_read_norstar_riometer_k2_readers_func(srs, all_datasets, test_dict):
     },
 ])
 @pytest.mark.data_read
-def test_read_norstar_riometer_k2_readers_func_nodataset(srs, test_dict):
+def test_read_readers_func_nodataset(srs, test_dict):
     # build file list
     file_list = []
     for f in test_dict["filenames"]:
@@ -703,7 +757,7 @@ def test_read_norstar_riometer_k2_readers_func_nodataset(srs, test_dict):
     },
 ])
 @pytest.mark.data_read
-def test_read_norstar_riometer_k2_start_end_times(srs, all_datasets, test_dict):
+def test_read_start_end_times(srs, all_datasets, test_dict):
     # set dataset
     dataset = find_dataset(all_datasets, "NORSTAR_RIOMETER_K2_TXT")
 

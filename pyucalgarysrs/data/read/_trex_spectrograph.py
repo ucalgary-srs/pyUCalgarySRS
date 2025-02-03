@@ -527,6 +527,9 @@ def __spectrograph_processed_readfile_worker(file, first_record=False, no_metada
     problematic = False
     error_message = ""
 
+    # convert to str to handle path type
+    file = str(file)
+
     # check extension
     if file.endswith("h5") is False:
         if (quiet is False):

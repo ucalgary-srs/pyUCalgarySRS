@@ -17,6 +17,7 @@ import datetime
 import warnings
 import pytest
 import numpy as np
+from pathlib import Path
 from pyucalgarysrs.data import ProblematicFile
 from ...conftest import find_dataset
 
@@ -47,7 +48,7 @@ DATA_DIR = "%s/../../../test_data/read_trex_blue" % (os.path.dirname(os.path.rea
     },
 ])
 @pytest.mark.data_read
-def test_read_trex_blue_single_file(srs, all_datasets, test_dict):
+def test_read_single_file(srs, all_datasets, test_dict):
     # set dataset
     dataset = find_dataset(all_datasets, "TREX_BLUE_RAW")
 
@@ -113,7 +114,7 @@ def test_read_trex_blue_single_file(srs, all_datasets, test_dict):
     },
 ])
 @pytest.mark.data_read
-def test_read_trex_blue_multiple_files(srs, all_datasets, test_dict):
+def test_read_multiple_files(srs, all_datasets, test_dict):
     # set dataset
     dataset = find_dataset(all_datasets, "TREX_BLUE_RAW")
 
@@ -158,7 +159,7 @@ def test_read_trex_blue_multiple_files(srs, all_datasets, test_dict):
     },
 ])
 @pytest.mark.data_read
-def test_read_trex_blue_single_file_n_parallel(srs, all_datasets, test_dict):
+def test_read_single_file_n_parallel(srs, all_datasets, test_dict):
     # set dataset
     dataset = find_dataset(all_datasets, "TREX_BLUE_RAW")
 
@@ -260,7 +261,7 @@ def test_read_trex_blue_single_file_n_parallel(srs, all_datasets, test_dict):
     },
 ])
 @pytest.mark.data_read
-def test_read_trex_blue_multiple_files_n_parallel(srs, all_datasets, test_dict):
+def test_read_multiple_files_n_parallel(srs, all_datasets, test_dict):
     # set dataset
     dataset = find_dataset(all_datasets, "TREX_BLUE_RAW")
 
@@ -268,6 +269,60 @@ def test_read_trex_blue_multiple_files_n_parallel(srs, all_datasets, test_dict):
     file_list = []
     for f in test_dict["filenames"]:
         file_list.append("%s/%s" % (DATA_DIR, f))
+
+    # read file
+    data = srs.data.read(
+        dataset,
+        file_list,
+        n_parallel=test_dict["n_parallel"],
+    )
+
+    # check success
+    if (test_dict["expected_success"] is True):
+        assert len(data.problematic_files) == 0
+    else:
+        assert len(data.problematic_files) > 0
+
+    # check number of frames
+    assert data.data.shape == (270, 320, test_dict["expected_frames"])
+    assert len(data.metadata) == test_dict["expected_frames"]
+
+    # check that there's metadata
+    for m in data.metadata:
+        assert len(m) > 0
+
+    # check dtype
+    assert data.data.dtype == np.uint16
+
+
+@pytest.mark.parametrize("test_dict", [
+    {
+        "filenames": [
+            "20220308_0600_gill_blue-814_full.pgm.gz",
+        ],
+        "n_parallel": 1,
+        "expected_success": True,
+        "expected_frames": 20
+    },
+    {
+        "filenames": [
+            "20220308_0600_gill_blue-814_full.pgm.gz",
+            "20220308_0601_gill_blue-814_full.pgm.gz",
+        ],
+        "n_parallel": 2,
+        "expected_success": True,
+        "expected_frames": 40
+    },
+])
+@pytest.mark.data_read
+def test_read_pathlib_inpuot(srs, all_datasets, test_dict):
+    # set dataset
+    dataset = find_dataset(all_datasets, "TREX_BLUE_RAW")
+
+    # build file list
+    file_list = []
+    for f in test_dict["filenames"]:
+        file_list.append(Path(DATA_DIR) / Path(f))
 
     # read file
     data = srs.data.read(
@@ -377,7 +432,7 @@ def test_read_trex_blue_multiple_files_n_parallel(srs, all_datasets, test_dict):
     },
 ])
 @pytest.mark.data_read
-def test_read_trex_blue_first_frame(srs, all_datasets, test_dict):
+def test_read_first_frame(srs, all_datasets, test_dict):
     # set dataset
     dataset = find_dataset(all_datasets, "TREX_BLUE_RAW")
 
@@ -454,7 +509,7 @@ def test_read_trex_blue_first_frame(srs, all_datasets, test_dict):
     },
 ])
 @pytest.mark.data_read
-def test_read_trex_blue_no_metadata(srs, all_datasets, test_dict):
+def test_read_no_metadata(srs, all_datasets, test_dict):
     # set dataset
     dataset = find_dataset(all_datasets, "TREX_BLUE_RAW")
 
@@ -521,7 +576,7 @@ def test_read_trex_blue_no_metadata(srs, all_datasets, test_dict):
     },
 ])
 @pytest.mark.data_read
-def test_read_trex_blue_first_frame_and_no_metadata(srs, all_datasets, test_dict):
+def test_read_first_frame_and_no_metadata(srs, all_datasets, test_dict):
     # set dataset
     dataset = find_dataset(all_datasets, "TREX_BLUE_RAW")
 
@@ -574,7 +629,7 @@ def test_read_trex_blue_first_frame_and_no_metadata(srs, all_datasets, test_dict
     },
 ])
 @pytest.mark.data_read
-def test_read_trex_blue_bad_file(srs, all_datasets, test_dict):
+def test_read_bad_file(srs, all_datasets, test_dict):
     # set dataset
     dataset = find_dataset(all_datasets, "TREX_BLUE_RAW")
 
@@ -607,7 +662,7 @@ def test_read_trex_blue_bad_file(srs, all_datasets, test_dict):
 
 
 @pytest.mark.data_read
-def test_read_trex_blue_badperms_file(srs, all_datasets):
+def test_read_badperms_file(srs, all_datasets):
     # set dataset
     dataset = find_dataset(all_datasets, "TREX_BLUE_RAW")
 
@@ -661,7 +716,7 @@ def test_read_trex_blue_badperms_file(srs, all_datasets):
     },
 ])
 @pytest.mark.data_read
-def test_read_trex_blue_readers_func(srs, all_datasets, test_dict):
+def test_read_readers_func(srs, all_datasets, test_dict):
     # set dataset
     dataset = find_dataset(all_datasets, "TREX_BLUE_RAW")
 
@@ -712,7 +767,7 @@ def test_read_trex_blue_readers_func(srs, all_datasets, test_dict):
     },
 ])
 @pytest.mark.data_read
-def test_read_trex_blue_readers_func_nodataset(srs, test_dict):
+def test_read_readers_func_nodataset(srs, test_dict):
     # build file list
     file_list = []
     for f in test_dict["filenames"]:
@@ -812,7 +867,7 @@ def test_read_trex_blue_readers_func_nodataset(srs, test_dict):
     },
 ])
 @pytest.mark.data_read
-def test_read_trex_blue_start_end_times(srs, all_datasets, test_dict):
+def test_read_start_end_times(srs, all_datasets, test_dict):
     # set dataset
     dataset = find_dataset(all_datasets, "TREX_BLUE_RAW")
 
@@ -900,7 +955,7 @@ def test_read_trex_blue_start_end_times(srs, all_datasets, test_dict):
     },
 ])
 @pytest.mark.data_read
-def test_read_trex_blue_nometa_startend(srs, all_datasets, test_dict):
+def test_read_nometa_startend(srs, all_datasets, test_dict):
     # set dataset
     dataset = find_dataset(all_datasets, "TREX_BLUE_RAW")
 

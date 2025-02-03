@@ -17,6 +17,7 @@ import warnings
 import datetime
 import pytest
 import numpy as np
+from pathlib import Path
 from pyucalgarysrs.data import ProblematicFile
 
 # globals
@@ -41,7 +42,7 @@ DATA_DIR = "%s/../../../test_data/read_trex_rgb/unstable/stream0.colour" % (os.p
     },
 ])
 @pytest.mark.data_read
-def test_read_trex_rgb_unstable_stream0colour_single_file(srs, test_dict):
+def test_read_single_file(srs, test_dict):
     # read file
     data = srs.data.readers.read_trex_rgb("%s/%s" % (DATA_DIR, test_dict["filename"]))
 
@@ -104,7 +105,7 @@ def test_read_trex_rgb_unstable_stream0colour_single_file(srs, test_dict):
     },
 ])
 @pytest.mark.data_read
-def test_read_trex_rgb_unstable_stream0colour_multiple_files(srs, test_dict):
+def test_read_multiple_files(srs, test_dict):
     # build file list
     file_list = []
     for f in test_dict["filenames"]:
@@ -146,7 +147,7 @@ def test_read_trex_rgb_unstable_stream0colour_multiple_files(srs, test_dict):
     },
 ])
 @pytest.mark.data_read
-def test_read_trex_rgb_unstable_stream0colour_single_file_n_parallel(srs, test_dict):
+def test_read_single_file_n_parallel(srs, test_dict):
     # read file
     data = srs.data.readers.read_trex_rgb(
         "%s/%s" % (DATA_DIR, test_dict["filename"]),
@@ -244,11 +245,61 @@ def test_read_trex_rgb_unstable_stream0colour_single_file_n_parallel(srs, test_d
     },
 ])
 @pytest.mark.data_read
-def test_read_trex_rgb_unstable_stream0colour_multiple_files_n_parallel(srs, test_dict):
+def test_read_multiple_files_n_parallel(srs, test_dict):
     # build file list
     file_list = []
     for f in test_dict["filenames"]:
         file_list.append("%s/%s" % (DATA_DIR, f))
+
+    # read file
+    data = srs.data.readers.read_trex_rgb(
+        file_list,
+        n_parallel=test_dict["n_parallel"],
+    )
+
+    # check success
+    if (test_dict["expected_success"] is True):
+        assert len(data.problematic_files) == 0
+    else:
+        assert len(data.problematic_files) > 0
+
+    # check number of frames
+    assert data.data.shape == (480, 553, 3, test_dict["expected_frames"])
+    assert len(data.metadata) == test_dict["expected_frames"]
+
+    # check that there's metadata
+    for m in data.metadata:
+        assert len(m) > 0
+
+    # check dtype
+    assert data.data.dtype == np.uint8
+
+
+@pytest.mark.parametrize("test_dict", [
+    {
+        "filenames": [
+            "20200508_0600_gill_rgb-04_full.png.tar",
+        ],
+        "n_parallel": 1,
+        "expected_success": True,
+        "expected_frames": 20
+    },
+    {
+        "filenames": [
+            "20200508_0600_gill_rgb-04_full.png.tar",
+            "20200508_0601_gill_rgb-04_full.png.tar",
+        ],
+        "n_parallel": 2,
+        "expected_success": True,
+        "expected_frames": 40
+    },
+])
+@pytest.mark.data_read
+def test_read_pathlib_input(srs, test_dict):
+    # build file list
+    file_list = []
+    for f in test_dict["filenames"]:
+        file_list.append(Path(DATA_DIR) / Path(f))
 
     # read file
     data = srs.data.readers.read_trex_rgb(
@@ -357,7 +408,7 @@ def test_read_trex_rgb_unstable_stream0colour_multiple_files_n_parallel(srs, tes
     },
 ])
 @pytest.mark.data_read
-def test_read_trex_rgb_unstable_stream0colour_first_frame(srs, test_dict):
+def test_read_first_frame(srs, test_dict):
     # build file list
     file_list = []
     for f in test_dict["filenames"]:
@@ -430,7 +481,7 @@ def test_read_trex_rgb_unstable_stream0colour_first_frame(srs, test_dict):
     },
 ])
 @pytest.mark.data_read
-def test_read_trex_rgb_unstable_stream0colour_no_metadata(srs, test_dict):
+def test_read_no_metadata(srs, test_dict):
     # build file list
     file_list = []
     for f in test_dict["filenames"]:
@@ -511,7 +562,7 @@ def test_read_trex_rgb_unstable_stream0colour_no_metadata(srs, test_dict):
     },
 ])
 @pytest.mark.data_read
-def test_read_trex_rgb_unstable_stream0colour_first_frame_and_no_metadata(srs, test_dict):
+def test_read_first_frame_and_no_metadata(srs, test_dict):
     # build file list
     file_list = []
     for f in test_dict["filenames"]:
@@ -567,7 +618,7 @@ def test_read_trex_rgb_unstable_stream0colour_first_frame_and_no_metadata(srs, t
     },
 ])
 @pytest.mark.data_read
-def test_read_trex_rgb_unstable_stream0colour_bad_file(srs, test_dict):
+def test_read_bad_file(srs, test_dict):
     # build file list
     file_list = []
     for f in test_dict["filenames"]:
@@ -597,7 +648,7 @@ def test_read_trex_rgb_unstable_stream0colour_bad_file(srs, test_dict):
 
 
 @pytest.mark.data_read
-def test_read_trex_rgb_unstable_stream0colour_badperms_file(srs):
+def test_read_badperms_file(srs):
     # set filename
     f = "%s/20220512_0700_fsmi_rgb-01_full_badperms.png.tar" % (DATA_DIR)
     os.chmod(f, 0o000)
@@ -684,7 +735,7 @@ def test_read_trex_rgb_unstable_stream0colour_badperms_file(srs):
     },
 ])
 @pytest.mark.data_read
-def test_read_trex_rgb_unstable_stream0colour_start_end_times(srs, test_dict):
+def test_read_start_end_times(srs, test_dict):
     # build file list
     file_list = []
     for f in test_dict["filenames"]:
@@ -768,7 +819,7 @@ def test_read_trex_rgb_unstable_stream0colour_start_end_times(srs, test_dict):
     },
 ])
 @pytest.mark.data_read
-def test_read_trex_rgb_unstable_stream0colour_nometa_startend(srs, test_dict):
+def test_read_nometa_startend(srs, test_dict):
     # build file list
     file_list = []
     for f in test_dict["filenames"]:

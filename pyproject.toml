@@ -4,13 +4,18 @@ build-backend = "poetry.core.masonry.api"
 
 [tool.poetry]
 name = "pyucalgarysrs"
-version = "1.17.0"
+version = "1.18.0"
 description = "Tools for interacting with UCalgary Space Remote Sensing data"
 readme = "README.md"
 homepage = "https://github.com/ucalgary-srs/pyUCalgarySRS"
 repository = "https://github.com/ucalgary-srs/pyUCalgarySRS"
-authors = ["Darren Chaddock <dchaddoc@ucalgary.ca>"]
-# license = 
+authors = [
+    "Darren Chaddock <dchaddoc@ucalgary.ca>"
+]
+maintainers = [
+    "Darren Chaddock <dchaddoc@ucalgary.ca>"
+]
+license = "Apache License 2.0" 
 packages = [
     { include = "pyucalgarysrs" },
 ]
@@ -72,12 +77,8 @@ include = [
 typeCheckingMode = "standard"
 
 [tool.pytest.ini_options]
-filterwarnings = [
-    "ignore:No data was collected:coverage.exceptions.CoverageWarning",  # Suppress 'no-data-collected' warning for coverage
-]
 testpaths = [
     "tests/test_suite/**/*.py",
-    "examples/notebooks",
 ]
 markers = [
     "top_level: top level PyUCalgarySRS object tests",

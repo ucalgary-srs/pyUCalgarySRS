@@ -17,6 +17,7 @@ import datetime
 import warnings
 import pytest
 import numpy as np
+from pathlib import Path
 from pyucalgarysrs.data import ProblematicFile, HSRData
 from ...conftest import find_dataset
 
@@ -37,7 +38,7 @@ DATA_DIR = "%s/../../../test_data/read_swan_hsr" % (os.path.dirname(os.path.real
     },
 ])
 @pytest.mark.data_read
-def test_read_swan_hsr_single_file(srs, all_datasets, test_dict, capsys):
+def test_read_single_file(srs, all_datasets, test_dict, capsys):
     # set dataset
     dataset = find_dataset(all_datasets, "SWAN_HSR_K0_H5")
 
@@ -106,7 +107,7 @@ def test_read_swan_hsr_single_file(srs, all_datasets, test_dict, capsys):
     },
 ])
 @pytest.mark.data_read
-def test_read_swan_hsr_multiple_files(srs, capsys, all_datasets, test_dict):
+def test_read_multiple_files(srs, capsys, all_datasets, test_dict):
     # set dataset
     dataset = find_dataset(all_datasets, "SWAN_HSR_K0_H5")
 
@@ -168,7 +169,7 @@ def test_read_swan_hsr_multiple_files(srs, capsys, all_datasets, test_dict):
     },
 ])
 @pytest.mark.data_read
-def test_read_swan_hsr_single_file_n_parallel(srs, all_datasets, test_dict):
+def test_read_single_file_n_parallel(srs, all_datasets, test_dict):
     # set dataset
     dataset = find_dataset(all_datasets, "SWAN_HSR_K0_H5")
 
@@ -262,7 +263,7 @@ def test_read_swan_hsr_single_file_n_parallel(srs, all_datasets, test_dict):
     },
 ])
 @pytest.mark.data_read
-def test_read_swan_hsr_multiple_files_n_parallel(srs, all_datasets, test_dict):
+def test_read_multiple_files_n_parallel(srs, all_datasets, test_dict):
     # set dataset
     dataset = find_dataset(all_datasets, "SWAN_HSR_K0_H5")
 
@@ -315,7 +316,60 @@ def test_read_swan_hsr_multiple_files_n_parallel(srs, all_datasets, test_dict):
     },
 ])
 @pytest.mark.data_read
-def test_read_swan_hsr_first_record(srs, all_datasets, test_dict):
+def test_read_pathlib_input(srs, all_datasets, test_dict):
+    # set dataset
+    dataset = find_dataset(all_datasets, "SWAN_HSR_K0_H5")
+
+    # build file list
+    file_list = []
+    for f in test_dict["filenames"]:
+        file_list.append(Path(DATA_DIR) / Path(f))
+
+    # read file
+    data = srs.data.read(dataset, file_list, n_parallel=test_dict["n_parallel"])
+
+    # check success
+    if (test_dict["expected_success"] is True):
+        assert len(data.problematic_files) == 0
+    else:
+        assert len(data.problematic_files) > 0
+
+    # check number of frames
+    assert len(data.data) == len(test_dict["filenames"])
+    for item in data.data:
+        assert item.raw_power.dtype == np.float32
+        assert item.raw_power.shape[1] == item.timestamp.shape[0]
+        assert len(item.raw_power) != 0
+        assert len(item.timestamp) != 0
+        assert len(item.band_central_frequency) > 0
+        assert len(item.band_passband) > 0
+
+    # check the metadata
+    assert len(data.metadata) == len(data.data)
+    assert len(data.metadata) != 0
+    for m in data.metadata:
+        assert m != {}
+
+
+@pytest.mark.parametrize("test_dict", [
+    {
+        "filenames": [
+            "20240203_mean-hsr_k0_v01.h5",
+        ],
+        "n_parallel": 1,
+        "expected_success": True,
+    },
+    {
+        "filenames": [
+            "20240203_mean-hsr_k0_v01.h5",
+            "20240204_mean-hsr_k0_v01.h5",
+        ],
+        "n_parallel": 2,
+        "expected_success": True,
+    },
+])
+@pytest.mark.data_read
+def test_read_first_record(srs, all_datasets, test_dict):
     # set dataset
     dataset = find_dataset(all_datasets, "SWAN_HSR_K0_H5")
 
@@ -388,7 +442,7 @@ def test_read_swan_hsr_first_record(srs, all_datasets, test_dict):
     },
 ])
 @pytest.mark.data_read
-def test_read_swan_hsr_no_metadata(srs, all_datasets, test_dict):
+def test_read_no_metadata(srs, all_datasets, test_dict):
     # set dataset
     dataset = find_dataset(all_datasets, "SWAN_HSR_K0_H5")
 
@@ -434,7 +488,7 @@ def test_read_swan_hsr_no_metadata(srs, all_datasets, test_dict):
     },
 ])
 @pytest.mark.data_read
-def test_read_swan_hsr_bad_file(srs, all_datasets, test_dict):
+def test_read_bad_file(srs, all_datasets, test_dict):
     # set dataset
     dataset = find_dataset(all_datasets, "SWAN_HSR_K0_H5")
 
@@ -471,7 +525,7 @@ def test_read_swan_hsr_bad_file(srs, all_datasets, test_dict):
 
 
 @pytest.mark.data_read
-def test_read_swan_hsr_badperms_file(srs, all_datasets):
+def test_read_badperms_file(srs, all_datasets):
     # set dataset
     dataset = find_dataset(all_datasets, "SWAN_HSR_K0_H5")
 
@@ -520,7 +574,7 @@ def test_read_swan_hsr_badperms_file(srs, all_datasets):
     },
 ])
 @pytest.mark.data_read
-def test_read_swan_hsr_readers_func(srs, all_datasets, test_dict):
+def test_read_readers_func(srs, all_datasets, test_dict):
     # set dataset
     dataset = find_dataset(all_datasets, "SWAN_HSR_K0_H5")
 
@@ -577,7 +631,7 @@ def test_read_swan_hsr_readers_func(srs, all_datasets, test_dict):
     },
 ])
 @pytest.mark.data_read
-def test_read_swan_hsr_readers_func_nodataset(srs, test_dict):
+def test_read_readers_func_nodataset(srs, test_dict):
     # build file list
     file_list = []
     for f in test_dict["filenames"]:
@@ -670,7 +724,7 @@ def test_read_swan_hsr_readers_func_nodataset(srs, test_dict):
     },
 ])
 @pytest.mark.data_read
-def test_read_swan_hsr_start_end_times(srs, all_datasets, test_dict):
+def test_read_start_end_times(srs, all_datasets, test_dict):
     # set dataset
     dataset = find_dataset(all_datasets, "SWAN_HSR_K0_H5")
 

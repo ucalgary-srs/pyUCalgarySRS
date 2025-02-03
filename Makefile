@@ -1,7 +1,4 @@
-.PHONY: install update get-test-data docs show-outdated test test-linting test-ruff test-pycodestyle test-bandit test-pyright test-pytest test-pytest-noread test-pytest-production test-pytest-staging test-pytest-ci test-coverage tool-checks publish
-
-# vars
-NUM_WORKERS := $(shell python -c "import os; print(os.cpu_count())")
+.PHONY: install update get-test-data docs show-outdated test test-linting test-ruff test-pycodestyle test-bandit test-pyright test-pytest test-notebooks test-pytest-production test-coverage tool-checks publish
 
 all:
 
@@ -26,7 +23,7 @@ test: test-linting
 
 test-linting: test-ruff test-pycodestyle test-pyright test-bandit
 
-test-ruff ruff:
+test-ruff:
 	@printf "Running ruff tests\n+++++++++++++++++++++++++++\n"
 	ruff check --respect-gitignore --quiet pyucalgarysrs
 	ruff check --respect-gitignore --quiet tests
@@ -40,32 +37,24 @@ test-pycodestyle:
 	pycodestyle --config=.pycodestyle tools
 	@printf "\n\n"
 
-test-pyright pyright:
+test-pyright:
 	@printf "Running pyright tests\n+++++++++++++++++++++++++++\n"
 	pyright
 	@printf "\n\n"
 
-test-bandit bandit:
+test-bandit:
 	@printf "Running bandit tests\n+++++++++++++++++++++++++++\n"
 	bandit -c pyproject.toml -r -ii pyucalgarysrs
 	@printf "\n\n"
 
-test-pytest pytest: test-pytest-staging
+test-pytest pytest:
+	pytest -n auto --cov=pyucalgarysrs --cov-report=
 
-test-pytest-no-notebooks:
-	pytest -n $(NUM_WORKERS) --cov=pyucalgarysrs --cov-report= --maxfail=1 --nbval --dist loadscope --nbval-lax --ignore-glob=examples/notebooks/**/*.ipynb
+test-production:
+	pytest -n auto --api-url=https://api.phys.ucalgary.ca
 
-test-pytest-noread pytest-noread:
-	pytest -n $(NUM_WORKERS) -m "not data_read" --cov=pyucalgarysrs --cov-report= --maxfail=1 --nbval --dist loadscope --nbval-lax
-
-test-pytest-staging pytest-staging:
-	pytest -n $(NUM_WORKERS) --cov=pyucalgarysrs --cov-report= --maxfail=1 --nbval --dist loadscope --nbval-lax
-
-test-pytest-production pytest-production:
-	pytest -n $(NUM_WORKERS) --cov=pyucalgarysrs --cov-report= --maxfail=1 --api-url=https://api.phys.ucalgary.ca --nbval --dist loadscope --nbval-lax
-
-test-pytest-ci pytest-ci:
-	pytest -n $(NUM_WORKERS) -m "not data_datasets and not data_download and not data_geturls and not data_read" --cov=pyucalgarysrs --cov-report= --maxfail=1 --api-url=https://api.phys.ucalgary.ca --nbval --dist loadscope --nbval-lax
+test-notebooks:
+	pytest -n auto --nbval --dist loadscope --nbval-lax examples
 
 test-coverage coverage:
 	coverage report
@@ -81,6 +70,7 @@ tool-checks:
 publish:
 	${MAKE} test
 	${MAKE} tool-checks
+	${MAKE} test-notebooks
 	poetry build
 	poetry publish
 	@rm -rf pyucalgarysrs.egg-info build dist
