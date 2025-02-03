@@ -66,6 +66,8 @@ ignore_patterns = [
 [tool.pyright]
 include = [
     "pyucalgarysrs/**/*.py",
+    "examples/**/*.ipynb",
+    "examples/**/*.py",
 ]
 typeCheckingMode = "standard"
 
@@ -75,7 +77,7 @@ filterwarnings = [
 ]
 testpaths = [
     "tests/test_suite/**/*.py",
-    "examples",
+    "examples/notebooks",
 ]
 markers = [
     "top_level: top level PyUCalgarySRS object tests",

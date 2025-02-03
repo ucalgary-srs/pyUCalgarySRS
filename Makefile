@@ -49,6 +49,9 @@ test-bandit bandit:
 
 test-pytest pytest: test-pytest-staging
 
+test-pytest-no-notebooks:
+	pytest -n auto --cov=pyucalgarysrs --cov-report= --maxfail=1 --nbval --dist loadscope --nbval-lax --ignore-glob=examples/notebooks/**/*.ipynb
+
 test-pytest-noread pytest-noread:
 	pytest -n auto -m "not data_read" --cov=pyucalgarysrs --cov-report= --maxfail=1 --nbval --dist loadscope --nbval-lax
 
