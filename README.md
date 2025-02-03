@@ -25,7 +25,7 @@ Installation can be done using pip:
 pip install pyucalgarysrs
 ```
 
-If you want the most bleeding edge version of PyUCalgarySRS, you can install it directly from the Github repository:
+For the most bleeding edge version of PyUCalgarySRS, you can install it directly from the Github repository:
 
 ```console
 $ git clone https://github.com/ucalgary-srs/pyUCalgarySRS.git
@@ -35,7 +35,7 @@ $ pip install .
 
 ## Usage
 
-Below is how the library can be imported:
+Below is how the library can be imported and initialized:
 
 ```python
 import pyucalgarysrs
