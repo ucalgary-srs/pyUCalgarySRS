@@ -15,7 +15,7 @@ Some links to help:
 - [PyUCalgarySRS API Reference](https://docs-pyucalgarysrs.phys.ucalgary.ca)
 - [Crib sheets that utilize PyUCalgarySRS](https://data.phys.ucalgary.ca/working_with_data/index.html#crib-sheets)
 - [UCalgary Space Remote Sensing Open Data Platform](https://data.phys.ucalgary.ca)
-- [Usage examples](https://github.com/ucalgary-srs/pyUCalgarySRS/tree/main/tests/standalone_scripts)
+- [Usage examples](https://github.com/ucalgary-srs/pyUCalgarySRS/tree/main/examples)
 
 ## Installation
 
@@ -42,4 +42,4 @@ import pyucalgarysrs
 srs = pyucalgarysrs.PyUCalgarySRS()
 ```
 
-A large collection of examples can be found in the [`tests/standalone_scripts`](https://github.com/ucalgary-srs/pyUCalgarySRS/tree/main/tests/standalone_scripts) directory. 
+A large collection of examples can be found in the [`examples`](https://github.com/ucalgary-srs/pyUCalgarySRS/tree/main/examples) directory. 
