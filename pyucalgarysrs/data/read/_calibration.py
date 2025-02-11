@@ -34,7 +34,7 @@ def read(file_list, n_parallel=1, quiet=False) -> List:
             original_sigint_handler = signal.signal(signal.SIGINT, signal.SIG_IGN)
             pool = Pool(processes=n_parallel)
             signal.signal(signal.SIGINT, original_sigint_handler)  # restore SIGINT handler
-        except ValueError:  # pragma: nocover
+        except ValueError:  # pragma: nocover-ok
             # likely the read call is being used within a context that doesn't support the usage
             # of signals in this way, proceed without it
             pool = Pool(processes=n_parallel)
@@ -43,7 +43,7 @@ def read(file_list, n_parallel=1, quiet=False) -> List:
         data = []
         try:
             data = pool.map(partial(__calibration_readfile_worker, quiet=quiet), file_list)
-        except KeyboardInterrupt:  # pragma: nocover
+        except KeyboardInterrupt:  # pragma: nocover-ok
             pool.terminate()  # gracefully kill children
             return []
         else:

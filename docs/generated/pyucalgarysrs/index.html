@@ -298,7 +298,7 @@ model is the TREx Auroral Transport Model (ATM).</p></div>
 
     @api_key.setter
     def api_key(self, value: str):
-        self.__api_key = value  # pragma: nocover
+        self.__api_key = value  # pragma: nocover-ok
 
     @property
     def download_output_root_path(self):
@@ -379,7 +379,7 @@ model is the TREx Auroral Transport Model (ATM).</p></div>
         try:
             os.makedirs(self.download_output_root_path, exist_ok=True)
             os.makedirs(self.read_tar_temp_path, exist_ok=True)
-        except IOError as e:  # pragma: nocover
+        except IOError as e:  # pragma: nocover-ok
             raise SRSInitializationError(&#34;Error during output path creation: %s&#34; % str(e)) from e
 
     def __initialize_progress_bar_backend(self):
@@ -413,7 +413,7 @@ model is the TREx Auroral Transport Model (ATM).</p></div>
                     shutil.rmtree(item)
                 elif (item.is_file() is True):
                     os.remove(item)
-        except Exception as e:  # pragma: nocover
+        except Exception as e:  # pragma: nocover-ok
             raise SRSPurgeError(&#34;Error while purging download output root path: %s&#34; % (str(e))) from e
 
     def purge_read_tar_temp_path(self):
@@ -435,7 +435,7 @@ model is the TREx Auroral Transport Model (ATM).</p></div>
                     shutil.rmtree(item)
                 elif (item.is_file() is True):
                     os.remove(item)
-        except Exception as e:  # pragma: nocover
+        except Exception as e:  # pragma: nocover-ok
             raise SRSPurgeError(&#34;Error while purging read tar temp path: %s&#34; % (str(e))) from e
 
     def show_data_usage(self, order: Literal[&#34;name&#34;, &#34;size&#34;] = &#34;size&#34;, return_dict: bool = False) -&gt; Any:
@@ -757,7 +757,7 @@ def read_tar_temp_path(self):
                 shutil.rmtree(item)
             elif (item.is_file() is True):
                 os.remove(item)
-    except Exception as e:  # pragma: nocover
+    except Exception as e:  # pragma: nocover-ok
         raise SRSPurgeError(&#34;Error while purging download output root path: %s&#34; % (str(e))) from e</code></pre>
 </details>
 <div class="desc"><p>Delete all files in the <code>download_output_root_path</code> directory. Since the
@@ -797,7 +797,7 @@ with easily clearing out this directory.</p>
                 shutil.rmtree(item)
             elif (item.is_file() is True):
                 os.remove(item)
-    except Exception as e:  # pragma: nocover
+    except Exception as e:  # pragma: nocover-ok
         raise SRSPurgeError(&#34;Error while purging read tar temp path: %s&#34; % (str(e))) from e</code></pre>
 </details>
 <div class="desc"><p>Delete all files in the <code>read_tar_temp_path</code> directory. Since the library

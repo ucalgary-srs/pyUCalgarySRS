@@ -33,9 +33,9 @@ def list_datasets(srs_obj, name, level, timeout, supported_library):
     url = "%s/api/v1/data_distribution/datasets" % (srs_obj.api_base_url)
     try:
         r = requests.get(url, params=params, headers=srs_obj.api_headers, timeout=timeout)
-    except Exception as e:  # pragma: nocover
+    except Exception as e:  # pragma: nocover-ok
         raise SRSAPIError("Unexpected API error: %s" % (str(e))) from e
-    if (r.status_code != 200):  # pragma: nocover
+    if (r.status_code != 200):  # pragma: nocover-ok
         try:
             res = r.json()
             msg = res["detail"]
@@ -80,9 +80,9 @@ def list_observatories(srs_obj, instrument_array, uid, timeout):
     url = "%s/api/v1/data_distribution/observatories" % (srs_obj.api_base_url)
     try:
         r = requests.get(url, params=params, headers=srs_obj.api_headers, timeout=timeout)
-    except Exception as e:  # pragma: nocover
+    except Exception as e:  # pragma: nocover-ok
         raise SRSAPIError("Unexpected API error: %s" % (str(e))) from e
-    if (r.status_code != 200):  # pragma: nocover
+    if (r.status_code != 200):  # pragma: nocover-ok
         try:
             res = r.json()
             msg = res["detail"]

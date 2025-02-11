@@ -75,9 +75,9 @@ def forward(srs_obj, timestamp, geodetic_latitude, geodetic_longitude, output, m
     try:
         url = "%s/api/v1/atm/forward" % (srs_obj.api_base_url)
         r = requests.post(url, json=post_data, headers=srs_obj.api_headers, timeout=timeout)
-    except Exception as e:  # pragma: nocover
+    except Exception as e:  # pragma: nocover-ok
         raise SRSAPIError("Unexpected API error: %s" % (str(e))) from e
-    if (r.status_code != 200):  # pragma: nocover
+    if (r.status_code != 200):  # pragma: nocover-ok
         try:
             res = r.json()
             msg = res["detail"]

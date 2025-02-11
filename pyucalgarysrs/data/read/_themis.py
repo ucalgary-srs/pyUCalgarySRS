@@ -56,7 +56,7 @@ def read(file_list, n_parallel=1, first_record=False, no_metadata=False, start_t
             original_sigint_handler = signal.signal(signal.SIGINT, signal.SIG_IGN)
             pool = Pool(processes=n_parallel)
             signal.signal(signal.SIGINT, original_sigint_handler)  # restore SIGINT handler
-        except ValueError:  # pragma: nocover
+        except ValueError:  # pragma: nocover-ok
             # likely the read call is being used within a context that doesn't support the usage
             # of signals in this way, proceed without it
             pool = Pool(processes=n_parallel)
@@ -74,7 +74,7 @@ def read(file_list, n_parallel=1, first_record=False, no_metadata=False, start_t
                     end_time=end_time,
                     quiet=quiet,
                 ), file_list)
-        except KeyboardInterrupt:  # pragma: nocover
+        except KeyboardInterrupt:  # pragma: nocover-ok
             pool.terminate()  # gracefully kill children
             return np.empty((0, 0, 0), dtype=THEMIS_DT), [], []
         else:
@@ -208,7 +208,7 @@ def __themis_readfile_worker(file, first_record=False, no_metadata=False, start_
             unzipped = open(file, mode='rb')
         elif file.endswith("pgm.bz2"):
             unzipped = bz2.open(file, mode='rb')
-        else:
+        else:  # pragma: nocover
             if (quiet is False):
                 print("Unrecognized file type: %s" % (file))
             problematic = True
@@ -220,9 +220,9 @@ def __themis_readfile_worker(file, first_record=False, no_metadata=False, start_
         problematic = True
         error_message = "failed to open file: %s" % (str(e))
         try:
-            if (unzipped is not None):  # pragma: nocover
+            if (unzipped is not None):  # pragma: nocover-ok
                 unzipped.close()
-        except Exception:  # pragma: nocover
+        except Exception:  # pragma: nocover-ok
             pass
         return images, metadata_dict_list, problematic, file, error_message
 
@@ -245,7 +245,7 @@ def __themis_readfile_worker(file, first_record=False, no_metadata=False, start_
             error_message = "error reading before image data: %s" % (str(e))
             try:
                 unzipped.close()
-            except Exception:  # pragma: nocover
+            except Exception:  # pragma: nocover-ok
                 pass
             return images, metadata_dict_list, problematic, file, error_message
 
@@ -263,7 +263,7 @@ def __themis_readfile_worker(file, first_record=False, no_metadata=False, start_
                 # metadata lines start with #"<key>"
                 try:
                     line_decoded = line.decode("ascii")  # type: ignore
-                except Exception as e:
+                except Exception as e:  # pragma: nocover
                     # skip metadata line if it can't be decoded, likely corrupt file but don't mark it as one yet
                     if (quiet is False):
                         print("Error decoding metadata line: %s (line='%s', file='%s')" % (str(e), line, file))
@@ -273,7 +273,7 @@ def __themis_readfile_worker(file, first_record=False, no_metadata=False, start_
 
                 # split the key and value out of the metadata line
                 line_decoded_split = line_decoded.split('"')
-                if (len(line_decoded_split) != 3):
+                if (len(line_decoded_split) != 3):  # pragma: nocover
                     if (quiet is False):
                         print("Warning: issue splitting metadata line (line='%s', file='%s')" % (line_decoded, file))
                     continue
@@ -350,13 +350,13 @@ def __themis_readfile_worker(file, first_record=False, no_metadata=False, start_
             image_size_is_zero = True
     elif (start_time is not None and end_time is not None):
         if (file_dt >= start_time and file_dt <= end_time):
-            if (images.size == 0):
+            if (images.size == 0):  # pragma: nocover
                 image_size_is_zero = True
     elif (start_time is not None and file_dt >= start_time):
-        if (images.size == 0):
+        if (images.size == 0):  # pragma: nocover
             image_size_is_zero = True
     elif (end_time is not None and file_dt <= end_time):
-        if (images.size == 0):
+        if (images.size == 0):  # pragma: nocover
             image_size_is_zero = True
     if (image_size_is_zero is True):
         if (quiet is False):

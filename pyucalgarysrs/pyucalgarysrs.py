@@ -220,7 +220,7 @@ class PyUCalgarySRS:
 
     @api_key.setter
     def api_key(self, value: str):
-        self.__api_key = value  # pragma: nocover
+        self.__api_key = value  # pragma: nocover-ok
 
     @property
     def download_output_root_path(self):
@@ -301,7 +301,7 @@ class PyUCalgarySRS:
         try:
             os.makedirs(self.download_output_root_path, exist_ok=True)
             os.makedirs(self.read_tar_temp_path, exist_ok=True)
-        except IOError as e:  # pragma: nocover
+        except IOError as e:  # pragma: nocover-ok
             raise SRSInitializationError("Error during output path creation: %s" % str(e)) from e
 
     def __initialize_progress_bar_backend(self):
@@ -335,7 +335,7 @@ class PyUCalgarySRS:
                     shutil.rmtree(item)
                 elif (item.is_file() is True):
                     os.remove(item)
-        except Exception as e:  # pragma: nocover
+        except Exception as e:  # pragma: nocover-ok
             raise SRSPurgeError("Error while purging download output root path: %s" % (str(e))) from e
 
     def purge_read_tar_temp_path(self):
@@ -357,7 +357,7 @@ class PyUCalgarySRS:
                     shutil.rmtree(item)
                 elif (item.is_file() is True):
                     os.remove(item)
-        except Exception as e:  # pragma: nocover
+        except Exception as e:  # pragma: nocover-ok
             raise SRSPurgeError("Error while purging read tar temp path: %s" % (str(e))) from e
 
     def show_data_usage(self, order: Literal["name", "size"] = "size", return_dict: bool = False) -> Any:

@@ -55,7 +55,7 @@ def read(file_list, n_parallel=1, first_record=False, no_metadata=False, start_t
             original_sigint_handler = signal.signal(signal.SIGINT, signal.SIG_IGN)
             pool = Pool(processes=n_parallel)
             signal.signal(signal.SIGINT, original_sigint_handler)  # restore SIGINT handler
-        except ValueError:  # pragma: nocover
+        except ValueError:  # pragma: nocover-ok
             # likely the read call is being used within a context that doesn't support the usage
             # of signals in this way, proceed without it
             pool = Pool(processes=n_parallel)
@@ -73,7 +73,7 @@ def read(file_list, n_parallel=1, first_record=False, no_metadata=False, start_t
                     end_time=end_time,
                     quiet=quiet,
                 ), file_list)
-        except KeyboardInterrupt:  # pragma: nocover
+        except KeyboardInterrupt:  # pragma: nocover-ok
             pool.terminate()  # gracefully kill children
             return np.empty((0, 0, 0), dtype=__NIR_DT), [], []
         else:
@@ -220,15 +220,15 @@ def __nir_readfile_worker(file, first_record=False, no_metadata=False, start_tim
             unzipped = gzip.open(file, mode='rb')
         elif file.endswith("pgm"):
             unzipped = open(file, mode='rb')
-        else:
+        else:  # pragma: nocover
             if (quiet is False):
                 print("Unrecognized file type: %s" % (file))
             problematic = True
             error_message = "Unrecognized file type"
             try:
-                if (unzipped is not None):  # pragma: nocover
+                if (unzipped is not None):  # pragma: nocover-ok
                     unzipped.close()
-            except Exception:  # pragma: nocover
+            except Exception:  # pragma: nocover-ok
                 pass
             return images, metadata_dict_list, problematic, file, error_message
     except Exception as e:
@@ -237,9 +237,9 @@ def __nir_readfile_worker(file, first_record=False, no_metadata=False, start_tim
         problematic = True
         error_message = "failed to open file: %s" % (str(e))
         try:
-            if (unzipped is not None):  # pragma: nocover
+            if (unzipped is not None):  # pragma: nocover-ok
                 unzipped.close()
-        except Exception:  # pragma: nocover
+        except Exception:  # pragma: nocover-ok
             pass
         return images, metadata_dict_list, problematic, file, error_message
 
@@ -256,7 +256,7 @@ def __nir_readfile_worker(file, first_record=False, no_metadata=False, start_tim
         try:
             prev_line = line
             line = unzipped.readline()
-        except Exception as e:
+        except Exception as e:  # pragma: nocover
             if (quiet is False):
                 print("Error reading before image data in file '%s'" % (file))
             problematic = True
@@ -348,7 +348,7 @@ def __nir_readfile_worker(file, first_record=False, no_metadata=False, start_tim
 
                 # change 1d numpy array into matrix with correctly located pixels
                 image_matrix = np.reshape(image_np, (image_height, image_width, 1))
-            except Exception as e:
+            except Exception as e:  # pragma: nocover
                 if (quiet is False):
                     print("Failed reading image data frame: %s" % (str(e)))
                 metadata_dict_list.pop()  # remove corresponding metadata entry
@@ -373,13 +373,13 @@ def __nir_readfile_worker(file, first_record=False, no_metadata=False, start_tim
             image_size_is_zero = True
     elif (start_time is not None and end_time is not None):
         if (file_dt >= start_time and file_dt <= end_time):
-            if (images.size == 0):
+            if (images.size == 0):  # pragma: nocover
                 image_size_is_zero = True
     elif (start_time is not None and file_dt >= start_time):
-        if (images.size == 0):
+        if (images.size == 0):  # pragma: nocover
             image_size_is_zero = True
     elif (end_time is not None and file_dt <= end_time):
-        if (images.size == 0):
+        if (images.size == 0):  # pragma: nocover
             image_size_is_zero = True
     if (image_size_is_zero is True):
         if (quiet is False):

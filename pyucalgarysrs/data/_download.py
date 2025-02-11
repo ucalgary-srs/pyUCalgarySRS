@@ -44,7 +44,7 @@ def __download_url(
     # create destination directory
     try:
         os.makedirs(os.path.dirname(output_filename), exist_ok=True)
-    except Exception:  # pragma: nocover
+    except Exception:  # pragma: nocover-ok
         # NOTE: sometimes when making directories in parallel there are race conditions. We put
         # in a catch here and carry on if there are ever issues.
         pass
@@ -205,9 +205,9 @@ def get_urls(srs_obj, dataset_name, start, end, site_uid, device_uid, timeout, w
     url = "%s/api/v1/data_distribution/urls" % (srs_obj.api_base_url)
     try:
         r = requests.get(url, params=params, headers=srs_obj.api_headers, timeout=timeout)
-    except Exception as e:  # pragma: nocover
+    except Exception as e:  # pragma: nocover-ok
         raise SRSAPIError("Unexpected API error: %s" % (str(e))) from e
-    if (r.status_code != 200):  # pragma: nocover
+    if (r.status_code != 200):  # pragma: nocover-ok
         try:
             res = r.json()
             msg = res["detail"]

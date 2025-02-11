@@ -88,7 +88,7 @@ def read(file_list, n_parallel=1, first_record=False, no_metadata=False, start_t
             original_sigint_handler = signal.signal(signal.SIGINT, signal.SIG_IGN)
             pool = Pool(processes=n_parallel)
             signal.signal(signal.SIGINT, original_sigint_handler)  # restore SIGINT handler
-        except ValueError:  # pragma: nocover
+        except ValueError:  # pragma: nocover-ok
             # likely the read call is being used within a context that doesn't support the usage
             # of signals in this way, proceed without it
             pool = Pool(processes=n_parallel)
@@ -98,7 +98,7 @@ def read(file_list, n_parallel=1, first_record=False, no_metadata=False, start_t
         pool_data = []
         try:
             pool_data = pool.map(__trex_readfile_worker, processing_list)
-        except KeyboardInterrupt:  # pragma: nocover
+        except KeyboardInterrupt:  # pragma: nocover-ok
             pool.terminate()  # gracefully kill children
             return np.empty((0, 0, 0, 0)), [], []
         else:
@@ -127,7 +127,7 @@ def read(file_list, n_parallel=1, first_record=False, no_metadata=False, start_t
             image_height = pool_data[i][6] if pool_data[i][6] is not None and pool_data[i][6] != 0 else image_height
             image_channels = pool_data[i][7] if pool_data[i][7] is not None and pool_data[i][7] != 0 else image_channels
             image_dtype = pool_data[i][8] if pool_data[i][8] is not None and pool_data[i][8] != 0 else image_dtype
-    if (image_width is None or image_height is None or image_channels is None or image_dtype is None):
+    if (image_width is None or image_height is None or image_channels is None or image_dtype is None):  # pragma: nocover
         raise SRSError("Unexpected read error, please contact the UCalgary team")
 
     # set image sizes and derive number of frames to prepare for
@@ -234,7 +234,7 @@ def __trex_readfile_worker(file_obj):
                 print("Unrecognized file type: %s" % (file_obj["filename"]))
             problematic = True
             error_message = "Unrecognized file type"
-    except Exception as e:
+    except Exception as e:  # pragma: nocover
         if (file_obj["quiet"] is False):
             print("Failed to process file '%s' " % (file_obj["filename"]))
         problematic = True
@@ -311,7 +311,7 @@ def __rgb_readfile_worker_h5(file_obj):
                     idxs.append(i)
 
         # bail out if we don't want to read any frames
-        if (len(idxs) == 0):
+        if (len(idxs) == 0):  # pragma: nocover
             return images, metadata_dict_list, problematic, file_obj["filename"], error_message, \
                 image_width, image_height, image_channels, image_dtype
 
@@ -336,7 +336,7 @@ def __rgb_readfile_worker_h5(file_obj):
         f.close()
 
         # reshape if multiple images
-        if (len(images.shape) == 3):  # type: ignore
+        if (len(images.shape) == 3):  # type: ignore  # pragma: nocover
             # force reshape to 4 dimensions
             images = images.reshape((image_height, image_width, image_channels, 1))  # type: ignore
 
@@ -428,9 +428,9 @@ def __rgb_readfile_worker_png(file_obj):
             problematic = True
             error_message = "failed to open file: %s" % (str(e))
             try:
-                if (tf is not None):
+                if (tf is not None):  # pragma: nocover
                     tf.close()
-            except Exception:  # pragma: nocover
+            except Exception:  # pragma: nocover-ok
                 pass
             return images, metadata_dict_list, problematic, file_obj["filename"], error_message, \
                 image_width, image_height, image_channels, image_dtype
@@ -474,7 +474,7 @@ def __rgb_readfile_worker_png(file_obj):
                     "subframe_requested_exposure": exposure,
                 }
                 metadata_dict_list.append(metadata_dict)
-            except Exception as e:
+            except Exception as e:  # pragma: nocover
                 if (file_obj["quiet"] is False):
                     print("Failed to read metadata from file '%s' " % (f))
                 problematic = True
@@ -491,7 +491,7 @@ def __rgb_readfile_worker_png(file_obj):
             image_channels = image_np.shape[2] if len(image_np.shape) > 2 else 1
             if (image_channels > 1):
                 image_matrix = np.reshape(image_np, (image_height, image_width, image_channels, 1))
-            else:
+            else:  # pragma: nocover
                 image_matrix = np.reshape(image_np, (image_height, image_width, 1))
 
             # initialize image stack
@@ -501,7 +501,7 @@ def __rgb_readfile_worker_png(file_obj):
             else:
                 if (image_channels > 1):
                     images = np.concatenate([images, image_matrix], axis=3)  # concatenate (on last axis)
-                else:
+                else:  # pragma: nocover
                     images = np.dstack([images, image_matrix])  # depth stack images (on last axis)
         except Exception as e:
             if (file_obj["quiet"] is False):
@@ -524,13 +524,13 @@ def __rgb_readfile_worker_png(file_obj):
             image_size_is_zero = True
     elif (start_time is not None and end_time is not None):
         if (file_dt >= start_time and file_dt <= end_time):
-            if (images.size == 0):
+            if (images.size == 0):  # pragma: nocover
                 image_size_is_zero = True
     elif (start_time is not None and file_dt >= start_time):
-        if (images.size == 0):
+        if (images.size == 0):  # pragma: nocover
             image_size_is_zero = True
     elif (end_time is not None and file_dt <= end_time):
-        if (images.size == 0):
+        if (images.size == 0):  # pragma: nocover
             image_size_is_zero = True
 
     # react to image data being empty
@@ -604,15 +604,15 @@ def __rgb_readfile_worker_pgm(file_obj):
             unzipped = gzip.open(file_obj["filename"], mode='rb')
         elif file_obj["filename"].endswith("pgm"):
             unzipped = open(file_obj["filename"], mode='rb')
-        else:
+        else:  # pragma: nocover
             if (file_obj["quiet"] is False):
                 print("Unrecognized file type: %s" % (file_obj["filename"]))
             problematic = True
             error_message = "Unrecognized file type"
             try:
-                if (unzipped is not None):  # pragma: nocover
+                if (unzipped is not None):  # pragma: nocover-ok
                     unzipped.close()
-            except Exception:  # pragma: nocover
+            except Exception:  # pragma: nocover-ok
                 pass
             return images, metadata_dict_list, problematic, file_obj["filename"], error_message, \
                 image_width, image_height, image_channels, image_dtype
@@ -622,9 +622,9 @@ def __rgb_readfile_worker_pgm(file_obj):
         problematic = True
         error_message = "failed to open file: %s" % (str(e))
         try:
-            if (unzipped is not None):  # pragma: nocover
+            if (unzipped is not None):  # pragma: nocover-ok
                 unzipped.close()
-        except Exception:  # pragma: nocover
+        except Exception:  # pragma: nocover-ok
             pass
         return images, metadata_dict_list, problematic, file_obj["filename"], error_message, \
             image_width, image_height, image_channels, image_dtype
@@ -642,7 +642,7 @@ def __rgb_readfile_worker_pgm(file_obj):
         try:
             prev_line = line
             line = unzipped.readline()
-        except Exception as e:
+        except Exception as e:  # pragma: nocover
             if (file_obj["quiet"] is False):
                 print("Error reading before image data in file '%s'" % (file_obj["filename"]))
             problematic = True
@@ -651,7 +651,7 @@ def __rgb_readfile_worker_pgm(file_obj):
             error_message = "error reading before image data: %s" % (str(e))
             try:
                 unzipped.close()
-            except Exception:  # pragma: nocover
+            except Exception:  # pragma: nocover-ok
                 pass
             return images, metadata_dict_list, problematic, file_obj["filename"], error_message, \
                 image_width, image_height, image_channels, image_dtype
@@ -670,7 +670,7 @@ def __rgb_readfile_worker_pgm(file_obj):
                 # metadata lines start with #"<key>"
                 try:
                     line_decoded = line.decode("ascii")  # type: ignore
-                except Exception as e:
+                except Exception as e:  # pragma: nocover
                     # skip metadata line if it can't be decoded, likely corrupt file
                     if (file_obj["quiet"] is False):
                         print("Error decoding metadata line: %s (line='%s', file='%s')" % (str(e), line, file_obj["filename"]))
@@ -699,13 +699,13 @@ def __rgb_readfile_worker_pgm(file_obj):
                 # always the end of metadata for frame
                 if (key.startswith("Effective image exposure")):
                     # check if we want to skip this frame based on the start and end times
-                    if ("image_request_start_timestamp" in metadata_dict):
+                    if ("image_request_start_timestamp" in metadata_dict):  # pragma: nocover
                         this_timestamp = datetime.datetime.strptime(metadata_dict["image_request_start_timestamp"],
                                                                     "%Y-%m-%d %H:%M:%S.%f UTC").replace(microsecond=0)
                     elif ("Image request start" in metadata_dict):
                         this_timestamp = datetime.datetime.strptime(metadata_dict["Image request start"],
                                                                     "%Y-%m-%d %H:%M:%S.%f UTC").replace(microsecond=0)
-                    else:
+                    else:  # pragma: nocover
                         if (file_obj["quiet"] is False):
                             print("Unexpected timestamp metadata format in %s" % (file_obj["filename"]))
                         problematic = True
@@ -746,7 +746,7 @@ def __rgb_readfile_worker_pgm(file_obj):
 
                 # change 1d numpy array into matrix with correctly located pixels
                 image_matrix = np.reshape(image_np, (image_height, image_width, 1))
-            except Exception as e:
+            except Exception as e:  # pragma: nocover
                 if (file_obj["quiet"] is False):
                     print("Failed reading image data frame: %s" % (str(e)))
                 metadata_dict_list.pop()  # remove corresponding metadata entry
@@ -777,13 +777,13 @@ def __rgb_readfile_worker_pgm(file_obj):
             image_size_is_zero = True
     elif (start_time is not None and end_time is not None):
         if (file_dt >= start_time and file_dt <= end_time):
-            if (images.size == 0):
+            if (images.size == 0):  # pragma: nocover
                 image_size_is_zero = True
     elif (start_time is not None and file_dt >= start_time):
-        if (images.size == 0):
+        if (images.size == 0):  # pragma: nocover
             image_size_is_zero = True
     elif (end_time is not None and file_dt <= end_time):
-        if (images.size == 0):
+        if (images.size == 0):  # pragma: nocover
             image_size_is_zero = True
 
     # react to image data being empty

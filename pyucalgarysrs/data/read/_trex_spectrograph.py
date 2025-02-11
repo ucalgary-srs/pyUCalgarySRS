@@ -52,7 +52,7 @@ def read_raw(file_list, n_parallel=1, first_record=False, no_metadata=False, sta
             original_sigint_handler = signal.signal(signal.SIGINT, signal.SIG_IGN)
             pool = Pool(processes=n_parallel)
             signal.signal(signal.SIGINT, original_sigint_handler)  # restore SIGINT handler
-        except ValueError:  # pragma: nocover
+        except ValueError:  # pragma: nocover-ok
             # likely the read call is being used within a context that doesn't support the usage
             # of signals in this way, proceed without it
             pool = Pool(processes=n_parallel)
@@ -70,7 +70,7 @@ def read_raw(file_list, n_parallel=1, first_record=False, no_metadata=False, sta
                     end_time=end_time,
                     quiet=quiet,
                 ), file_list)
-        except KeyboardInterrupt:  # pragma: nocover
+        except KeyboardInterrupt:  # pragma: nocover-ok
             pool.terminate()  # gracefully kill children
             return np.empty((0, 0, 0), dtype=__SPECTROGRAPH_RAW_DT), [], []
         else:
@@ -220,9 +220,9 @@ def __spectrograph_raw_readfile_worker(file, first_record=False, no_metadata=Fal
             problematic = True
             error_message = "Unrecognized file type"
             try:
-                if (unzipped is not None):  # pragma: nocover
+                if (unzipped is not None):  # pragma: nocover-ok
                     unzipped.close()
-            except Exception:  # pragma: nocover
+            except Exception:  # pragma: nocover-ok
                 pass
             return images, metadata_dict_list, problematic, file, error_message
     except Exception as e:
@@ -231,9 +231,9 @@ def __spectrograph_raw_readfile_worker(file, first_record=False, no_metadata=Fal
         problematic = True
         error_message = "failed to open file: %s" % (str(e))
         try:
-            if (unzipped is not None):  # pragma: nocover
+            if (unzipped is not None):  # pragma: nocover-ok
                 unzipped.close()
-        except Exception:  # pragma: nocover
+        except Exception:  # pragma: nocover-ok
             pass
         return images, metadata_dict_list, problematic, file, error_message
 
@@ -259,7 +259,7 @@ def __spectrograph_raw_readfile_worker(file, first_record=False, no_metadata=Fal
             error_message = "error reading before image data: %s" % (str(e))
             try:
                 unzipped.close()
-            except Exception:  # pragma: nocover
+            except Exception:  # pragma: nocover-ok
                 pass
             return images, metadata_dict_list, problematic, file, error_message
 
@@ -277,7 +277,7 @@ def __spectrograph_raw_readfile_worker(file, first_record=False, no_metadata=Fal
                 # metadata lines start with #"<key>"
                 try:
                     line_decoded = line.decode("ascii")  # type: ignore
-                except Exception as e:
+                except Exception as e:  # pragma: nocover
                     # skip metadata line if it can't be decoded, likely corrupt file
                     if (quiet is False):
                         print("Error decoding metadata line: %s (line='%s', file='%s')" % (str(e), line, file))
@@ -342,7 +342,7 @@ def __spectrograph_raw_readfile_worker(file, first_record=False, no_metadata=Fal
 
                 # change 1d numpy array into matrix with correctly located pixels
                 image_matrix = np.reshape(image_np, (image_height, image_width, 1))
-            except Exception as e:
+            except Exception as e:  # pragma: nocover
                 if (quiet is False):
                     print("Failed reading image data frame: %s" % (str(e)))
                 metadata_dict_list.pop()  # remove corresponding metadata entry
@@ -367,13 +367,13 @@ def __spectrograph_raw_readfile_worker(file, first_record=False, no_metadata=Fal
             image_size_is_zero = True
     elif (start_time is not None and end_time is not None):
         if (file_dt >= start_time and file_dt <= end_time):
-            if (images.size == 0):
+            if (images.size == 0):  # pragma: nocover
                 image_size_is_zero = True
     elif (start_time is not None and file_dt >= start_time):
-        if (images.size == 0):
+        if (images.size == 0):  # pragma: nocover
             image_size_is_zero = True
     elif (end_time is not None and file_dt <= end_time):
-        if (images.size == 0):
+        if (images.size == 0):  # pragma: nocover
             image_size_is_zero = True
     if (image_size_is_zero is True):
         if (quiet is False):
@@ -410,7 +410,7 @@ def read_processed(file_list, n_parallel=1, first_record=False, no_metadata=Fals
             original_sigint_handler = signal.signal(signal.SIGINT, signal.SIG_IGN)
             pool = Pool(processes=n_parallel)
             signal.signal(signal.SIGINT, original_sigint_handler)  # restore SIGINT handler
-        except ValueError:  # pragma: nocover
+        except ValueError:  # pragma: nocover-ok
             # likely the read call is being used within a context that doesn't support the usage
             # of signals in this way, proceed without it
             pool = Pool(processes=n_parallel)
@@ -428,7 +428,7 @@ def read_processed(file_list, n_parallel=1, first_record=False, no_metadata=Fals
                     end_time=end_time,
                     quiet=quiet,
                 ), file_list)
-        except KeyboardInterrupt:  # pragma: nocover
+        except KeyboardInterrupt:  # pragma: nocover-ok
             pool.terminate()  # gracefully kill children
             return np.empty((0, 0, 0), dtype=__SPECTROGRAPH_PROCESSED_DT), np.empty((0), dtype=datetime.datetime), [], []
         else:
@@ -542,7 +542,7 @@ def __spectrograph_processed_readfile_worker(file, first_record=False, no_metada
     try:
         file_dt = datetime.datetime.strptime(os.path.basename(file)[0:11], "%Y%m%d_%H")
     except Exception:
-        if (file is False):
+        if (file is False):  # pragma: nocover
             print("Failed to extract timestamp from filename")
         problematic = True
         error_message = "failed to extract timestamp from filename"
@@ -587,7 +587,7 @@ def __spectrograph_processed_readfile_worker(file, first_record=False, no_metada
                     timestamps.append(original_timestamps[i])  # type: ignore
 
         # bail out if we don't want to read any frames
-        if (len(idxs) == 0):
+        if (len(idxs) == 0):  # pragma: nocover
             timestamps = np.array([])
             return spectra, timestamps, metadata_dict_list, problematic, file, error_message
 
@@ -611,7 +611,7 @@ def __spectrograph_processed_readfile_worker(file, first_record=False, no_metada
         # set image vars and reshape if multiple images
         image_height = spectra.shape[0]  # type: ignore
         image_width = spectra.shape[1]  # type: ignore
-        if (len(spectra.shape) == 2):  # type: ignore
+        if (len(spectra.shape) == 2):  # type: ignore  # pragma: nocover
             # force reshape to 3 dimensions
             spectra = spectra.reshape((image_height, image_width, 1))  # type: ignore
     except Exception as e:

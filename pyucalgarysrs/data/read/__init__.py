@@ -819,7 +819,7 @@ class ReadManager:
                     timestamp_list.append(datetime.datetime.strptime(m["image_request_start_timestamp"], "%Y-%m-%d %H:%M:%S.%f UTC"))
                 elif ("Image request start" in m):
                     timestamp_list.append(datetime.datetime.strptime(m["Image request start"], "%Y-%m-%d %H:%M:%S.%f UTC"))
-                else:
+                else:  # pragma: nocover
                     raise SRSError("Unexpected timestamp metadata format")
 
         # convert to return type
@@ -946,7 +946,7 @@ class ReadManager:
             timestamp_list = []
             if (no_metadata is False):
                 timestamp_list = timestamp_np.tolist()
-        else:
+        else:  # pragma: nocover
             raise SRSUnsupportedReadError("Unexpected Spectrograph file format")
 
         # convert to return type
@@ -1067,7 +1067,7 @@ class ReadManager:
             #
             # NOTE: bytscl_values was not present in early THEMIS skymap files, so
             # we conditionally add it
-            if ("bytscl_values" in item_recarray.generation_info[0].dtype.names):
+            if ("bytscl_values" in item_recarray.generation_info[0].dtype.names):  # pragma: nocover
                 generation_info_obj.bytscl_values = item_recarray.generation_info[0].bytscl_values
 
             # flip certain things
@@ -1349,7 +1349,7 @@ class ReadManager:
         # to be -999.0
         grid_data_obj = GridData(
             grid=data_dict["grid"],  # type: ignore
-            fill_value=-999.0 if "fill_value" not in data_dict else data_dict["fill_value"],
+            fill_value=-999.0 if "fill_value" not in data_dict else data_dict["fill_value"],  # type: ignore
             source_info=None if "source_info" not in data_dict else GridSourceInfoData(
                 confidence=data_dict["source_info"]["confidence"]),  # type: ignore
         )

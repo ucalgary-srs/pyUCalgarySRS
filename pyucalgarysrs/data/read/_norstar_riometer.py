@@ -52,7 +52,7 @@ def read(file_list, n_parallel=1, no_metadata=False, start_time=None, end_time=N
             original_sigint_handler = signal.signal(signal.SIGINT, signal.SIG_IGN)
             pool = Pool(processes=n_parallel)
             signal.signal(signal.SIGINT, original_sigint_handler)  # restore SIGINT handler
-        except ValueError:  # pragma: nocover
+        except ValueError:  # pragma: nocover-ok
             # likely the read call is being used within a context that doesn't support the usage
             # of signals in this way, proceed without it
             pool = Pool(processes=n_parallel)
@@ -68,7 +68,7 @@ def read(file_list, n_parallel=1, no_metadata=False, start_time=None, end_time=N
                 end_time=end_time,
                 quiet=quiet,
             ), file_list)
-        except KeyboardInterrupt:  # pragma: nocover
+        except KeyboardInterrupt:  # pragma: nocover-ok
             pool.terminate()  # gracefully kill children
             return [], [], [], []
         else:
@@ -233,7 +233,7 @@ def __riometer_readfile_worker(file, no_metadata=False, start_time=None, end_tim
             fp = open(file, 'r')
             for line in fp:
                 # check if we want this line
-                if (line[0] != '#'):
+                if (line[0] != '#'):  # pragma: nocover
                     break
                 if ("------------" in line):
                     # end of metadata, bail out
@@ -272,18 +272,18 @@ def __riometer_readfile_worker(file, no_metadata=False, start_time=None, end_tim
                         if (os.path.basename(file)[0:3] in s3):
                             metadata_dict["site_unique_id"] = s4
                             break
-                else:
+                else:  # pragma: nocover
                     # 4-letter site code -- find position of 'rio-' in the file, site code
                     # will be right after that
                     idx = os.path.basename(file).find('rio-')
                     if (idx != -1):
                         metadata_dict["site_unique_id"] = os.path.basename(file)[idx + 4:4].lower()
-            if ("site_unique_id" not in metadata_dict):
+            if ("site_unique_id" not in metadata_dict):  # pragma: nocover
                 # still haven't found it, raise a warning message
                 metadata_dict["site_unique_id"] = "unknown"
                 if (quiet is False):
                     print("Warning: unable to determine 'site_unique_id' field in file '%s'" % (file))
-        except Exception as e:
+        except Exception as e:  # pragma: nocover
             # set error message
             if (quiet is False):
                 print("Error reading metadata for file '%s': %s" % (file, str(e)))
