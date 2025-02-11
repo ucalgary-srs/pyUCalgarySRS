@@ -21,7 +21,7 @@ packages = [
 ]
 
 [tool.poetry.urls]
-"API Reference" = "https://docs.aurorax.space/code/pyaurorax_api_reference/pyaurorax"
+"API Reference" = "https://docs-pyucalgarysrs.phys.ucalgary.ca/"
 "UCalgary SRS Open Data Platform" = "https://data.phys.ucalgary.ca"
 
 [tool.poetry.dependencies]
