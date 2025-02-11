@@ -1,3 +1,13 @@
+Version 1.20.0
+-------------------
+- updated dependency version ranges
+
+
+Version 1.19.0
+-------------------
+- added support for Numpy 2.0
+
+
 Version 1.18.0
 -------------------
 - bugfix for TREx Spectrograph processed data reading

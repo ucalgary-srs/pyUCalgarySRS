@@ -4,7 +4,7 @@ build-backend = "poetry.core.masonry.api"
 
 [tool.poetry]
 name = "pyucalgarysrs"
-version = "1.19.0"
+version = "1.20.0"
 description = "Tools for interacting with UCalgary Space Remote Sensing data"
 readme = "README.md"
 homepage = "https://github.com/ucalgary-srs/pyUCalgarySRS"
@@ -20,8 +20,12 @@ packages = [
     { include = "pyucalgarysrs" },
 ]
 
+[tool.poetry.urls]
+"API Reference" = "https://docs.aurorax.space/code/pyaurorax_api_reference/pyaurorax"
+"UCalgary SRS Open Data Platform" = "https://data.phys.ucalgary.ca"
+
 [tool.poetry.dependencies]
-python = ">=3.9,<4"
+python = ">=3.9"
 requests = "^2.28.0"
 humanize = "^4.4.0"
 texttable = "^1.6.4"
