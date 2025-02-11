@@ -26,13 +26,19 @@ requests = "^2.28.0"
 humanize = "^4.4.0"
 texttable = "^1.6.4"
 tqdm = "^4.61.2"
-numpy = ">=1.21.0,<3.0.0"
+numpy = [
+    {version = "^1.21.0", python = ">=3.9,<3.10"},
+    {version = ">=1.21.0,<3.0.0", python = ">=3.10"}
+]
 opencv-python = "^4.4.0"
 h5py = "^3.1.0"
-scipy = "^1.6.0"
+scipy = [
+    {version = "^1.6.0", python = ">=3.9,<3.10"},
+    {version = "^1.8.0", python = ">=3.10"}
+]
 
 [tool.poetry.group.dev.dependencies]
-ruff = "0.9.4"
+ruff = "0.9.6"
 pytest = "8.3.4"
 pycodestyle = "2.12.1"
 yapf = "0.43.0"
@@ -40,13 +46,17 @@ pytest-xdist = "3.6.1"
 pytest-sugar = "1.0.0"
 pytest-cov = "6.0.0"
 bandit = "1.8.2"
-pyright = "1.1.392.post0"  # note: 1.1.393 causes a non-issue to be flagged at pyucalgarysrs/data/read/__init__.py:1345
+pyright = "1.1.393"
 pdoc3 = "0.11.5"
 jupyter = "^1.1.1"
 ipykernel = "^6.29.5"
 iprogress = "^0.4"
 ipywidgets = "^8.1.5"
 nbmake = "^1.5.5"
+matplotlib = [
+    {version = "^3.4.0", python = ">=3.9,<3.10"},
+    {version = "^3.5.0", python = ">=3.10"}
+]
 
 [tool.ruff]
 line-length = 150

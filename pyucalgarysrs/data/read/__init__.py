@@ -955,7 +955,7 @@ class ReadManager:
             problematic_files_objs.append(ProblematicFile(p["filename"], error_message=p["error_message"], error_type="error"))
         ret_obj = Data(
             data=img,
-            timestamp=timestamp_list,
+            timestamp=timestamp_list,  # type: ignore
             metadata=meta,
             problematic_files=problematic_files_objs,
             calibrated_data=None,
