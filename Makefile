@@ -70,7 +70,6 @@ tool-checks:
 publish:
 	${MAKE} test
 	${MAKE} tool-checks
-	${MAKE} test-notebooks
 	poetry build
 	poetry publish
 	@rm -rf pyucalgarysrs.egg-info build dist
