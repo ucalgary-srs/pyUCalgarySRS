@@ -1,3 +1,8 @@
+Version 1.20.1
+-------------------
+- documentation updates for ATM inverse function
+
+
 Version 1.20.0
 -------------------
 - updated dependency version ranges
