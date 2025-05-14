@@ -63,7 +63,7 @@ ALL_TESTS = [
             "start": "2023-01-01T06:00:00",
             "end": "2023-01-01T06:04:59",
         },
-        "expected_num_urls": 5 * 11,
+        "expected_num_urls": 5 * 12,
         "expected_status": 200,
         "expected_error_message": None,
         "expected_warning": False,

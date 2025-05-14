@@ -28,7 +28,8 @@ def test_top_level_class_instantiation_noparams():
     # instantiate
     srs = pyucalgarysrs.PyUCalgarySRS()
 
-    # check paths
+    # initialize paths
+    srs.initialize_paths()
     assert os.path.exists(srs.download_output_root_path)
     assert os.path.exists(srs.read_tar_temp_path)
 
@@ -36,6 +37,7 @@ def test_top_level_class_instantiation_noparams():
     new_path = str("%s/pyucalgarysrs_data_download_testing_%s" % (Path.home(), ''.join(random.choices(string.ascii_lowercase + string.digits, k=8))))
     srs.download_output_root_path = new_path
     assert srs.download_output_root_path == new_path
+    srs.initialize_paths()
     assert os.path.exists(new_path)
     shutil.rmtree(new_path, ignore_errors=True)
 
@@ -43,6 +45,7 @@ def test_top_level_class_instantiation_noparams():
     new_path = str("%s/pyucalgarysrs_data_tar_testing%s" % (Path.home(), ''.join(random.choices(string.ascii_lowercase + string.digits, k=8))))
     srs.read_tar_temp_path = new_path
     assert srs.read_tar_temp_path == new_path
+    srs.initialize_paths()
     assert os.path.exists(new_path)
     shutil.rmtree(new_path, ignore_errors=True)
 
@@ -78,12 +81,8 @@ def test_top_level_class_instantiation_usingparams():
     assert srs.api_timeout == testing_api_timeout
     assert srs.api_headers == testing_api_headers
     assert srs.api_key == testing_api_key
-    assert os.path.exists(testing_download_path)
-    assert os.path.exists(testing_read_path)
-
-    # cleanup
-    shutil.rmtree(testing_download_path, ignore_errors=True)
-    shutil.rmtree(testing_read_path, ignore_errors=True)
+    assert os.path.exists(testing_download_path) is False
+    assert os.path.exists(testing_read_path) is False
 
 
 @pytest.mark.top_level
@@ -96,9 +95,11 @@ def test_bad_paths_noparams(srs):
         new_path = "/dev/bad_path"
         with pytest.raises(pyucalgarysrs.SRSInitializationError) as e_info:
             srs.download_output_root_path = new_path
+            srs.initialize_paths()
         assert "Error during output path creation" in str(e_info)
         with pytest.raises(pyucalgarysrs.SRSInitializationError) as e_info:
             srs.read_tar_temp_path = new_path
+            srs.initialize_paths()
         assert "Error during output path creation" in str(e_info)
 
 
@@ -191,7 +192,9 @@ def test_purge_download_path(srs):
                    (Path.home(), ''.join(random.choices(string.ascii_lowercase + string.digits, k=8))))
     srs.download_output_root_path = new_path
     assert srs.download_output_root_path == new_path
-    assert os.path.exists(srs.download_output_root_path)
+    assert os.path.exists(srs.download_output_root_path) is False
+    srs.initialize_paths()
+    assert os.path.exists(srs.download_output_root_path) is True
 
     # create some dummy files and folders
     os.makedirs("%s/testing1" % (srs.download_output_root_path), exist_ok=True)
@@ -202,7 +205,7 @@ def test_purge_download_path(srs):
 
     # check purge function
     srs.purge_download_output_root_path()
-    assert len(os.listdir(srs.download_output_root_path)) == 0
+    assert len(os.listdir(srs.download_output_root_path)) <= 1  # only the tar_temp_dir should be there
 
     # cleanup
     shutil.rmtree(srs.download_output_root_path, ignore_errors=True)
@@ -215,7 +218,9 @@ def test_purge_tar_temp_path(srs):
                    (Path.home(), ''.join(random.choices(string.ascii_lowercase + string.digits, k=8))))
     srs.read_tar_temp_path = new_path
     assert srs.read_tar_temp_path == new_path
-    assert os.path.exists(srs.read_tar_temp_path)
+    assert os.path.exists(srs.read_tar_temp_path) is False
+    srs.initialize_paths()
+    assert os.path.exists(srs.read_tar_temp_path) is True
 
     # create some dummy files and folders
     os.makedirs("%s/testing1" % (srs.read_tar_temp_path), exist_ok=True)

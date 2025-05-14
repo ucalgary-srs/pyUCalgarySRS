@@ -125,9 +125,6 @@ class PyUCalgarySRS:
         self._tqdm = None
         self.__initialize_progress_bar_backend()
 
-        # initialize paths
-        self.__initialize_paths()
-
         # initialize sub-modules
         self.__data = DataManager(self)
         self.__models = ModelsManager(self)
@@ -232,7 +229,6 @@ class PyUCalgarySRS:
     @download_output_root_path.setter
     def download_output_root_path(self, value: str):
         self.__download_output_root_path = value
-        self.__initialize_paths()
 
     @property
     def read_tar_temp_path(self):
@@ -244,7 +240,6 @@ class PyUCalgarySRS:
     @read_tar_temp_path.setter
     def read_tar_temp_path(self, value: str):
         self.__read_tar_temp_path = value
-        self.__initialize_paths()
 
     @property
     def progress_bar_backend(self):
@@ -290,20 +285,6 @@ class PyUCalgarySRS:
     # -----------------------------
     # private methods
     # -----------------------------
-    def __initialize_paths(self):
-        """
-        Initialize the `download_output_root_path` and `read_tar_temp_path` directories.
-        """
-        if (self.__download_output_root_path is None):
-            self.__download_output_root_path = Path("%s/pyucalgarysrs_data" % (str(Path.home())))
-        if (self.__read_tar_temp_path is None):
-            self.__read_tar_temp_path = Path("%s/tar_temp_working" % (self.__download_output_root_path))
-        try:
-            os.makedirs(self.download_output_root_path, exist_ok=True)
-            os.makedirs(self.read_tar_temp_path, exist_ok=True)
-        except IOError as e:  # pragma: nocover-ok
-            raise SRSInitializationError("Error during output path creation: %s" % str(e)) from e
-
     def __initialize_progress_bar_backend(self):
         """
         Initialize the `progress_bar_backend` parameter.
@@ -318,6 +299,20 @@ class PyUCalgarySRS:
     # -----------------------------
     # public methods
     # -----------------------------
+    def initialize_paths(self):
+        """
+        Initialize the `download_output_root_path` and `read_tar_temp_path` directories.
+        """
+        if (self.__download_output_root_path is None):
+            self.__download_output_root_path = Path("%s/pyucalgarysrs_data" % (str(Path.home())))
+        if (self.__read_tar_temp_path is None):
+            self.__read_tar_temp_path = Path("%s/tar_temp_working" % (self.__download_output_root_path))
+        try:
+            os.makedirs(self.download_output_root_path, exist_ok=True)
+            os.makedirs(self.read_tar_temp_path, exist_ok=True)
+        except IOError as e:  # pragma: nocover-ok
+            raise SRSInitializationError("Error during output path creation: %s" % str(e)) from e
+
     def purge_download_output_root_path(self):
         """
         Delete all files in the `download_output_root_path` directory. Since the
@@ -389,10 +384,13 @@ class PyUCalgarySRS:
 
         # get list of dataset paths
         dataset_paths = []
-        for f in os.listdir(download_pathlib_path):
-            path_f = download_pathlib_path / f
-            if (os.path.isdir(path_f) is True and str(path_f) != self.read_tar_temp_path):
-                dataset_paths.append(path_f)
+        if (download_pathlib_path.exists() is False):
+            dataset_paths = []
+        else:
+            for f in os.listdir(download_pathlib_path):
+                path_f = download_pathlib_path / f
+                if (os.path.isdir(path_f) is True and str(path_f) != self.read_tar_temp_path):
+                    dataset_paths.append(path_f)
 
         # get size of each dataset path
         dataset_dict = {}

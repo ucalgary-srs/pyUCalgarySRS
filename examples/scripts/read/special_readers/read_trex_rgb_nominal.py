@@ -3,7 +3,6 @@ import datetime
 
 # init
 srs = pyucalgarysrs.PyUCalgarySRS()
-srs.api_base_url = "https://api-staging.phys.ucalgary.ca"
 
 # get dataset
 print("\n[%s] Getting dataset ..." % (datetime.datetime.now()))

@@ -819,6 +819,9 @@ class ReadManager:
                     timestamp_list.append(datetime.datetime.strptime(m["image_request_start_timestamp"], "%Y-%m-%d %H:%M:%S.%f UTC"))
                 elif ("Image request start" in m):
                     timestamp_list.append(datetime.datetime.strptime(m["Image request start"], "%Y-%m-%d %H:%M:%S.%f UTC"))
+                elif (m == {}):  # pragma: nocover
+                    # a problematic file, skip it
+                    pass
                 else:  # pragma: nocover
                     raise SRSError("Unexpected timestamp metadata format")
 

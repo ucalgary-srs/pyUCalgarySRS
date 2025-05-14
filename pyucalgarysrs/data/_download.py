@@ -235,6 +235,9 @@ def download_generic(srs_obj, dataset_name, start, end, site_uid, device_uid, n_
     # get file listing
     file_listing_obj = get_urls(srs_obj, dataset_name, start, end, site_uid, device_uid, timeout, warning_stack_level=4)
 
+    # initialize paths
+    srs_obj.initialize_paths()
+
     # download the urls
     download_obj = __download_urls(
         srs_obj,
@@ -254,6 +257,9 @@ def download_generic(srs_obj, dataset_name, start, end, site_uid, device_uid, n_
 
 def download_using_urls(srs_obj, file_listing_obj, n_parallel, overwrite, progress_bar_disable, progress_bar_ncols, progress_bar_ascii,
                         progress_bar_desc, timeout):
+    # initialize paths
+    srs_obj.initialize_paths()
+
     # download the urls
     download_obj = __download_urls(srs_obj,
                                    file_listing_obj,

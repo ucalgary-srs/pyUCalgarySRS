@@ -117,16 +117,18 @@ def read(file_list, n_parallel=1, first_record=False, no_metadata=False, start_t
     image_dtype = None
     for i in range(0, len(pool_data)):
         # set sizes
-        if (pool_data[i][2] is True):
-            image_width = pool_data[i][5] if pool_data[i][5] is not None else image_width
-            image_height = pool_data[i][6] if pool_data[i][6] is not None else image_height
-            image_channels = pool_data[i][7] if pool_data[i][7] is not None else image_channels
-            image_dtype = pool_data[i][8] if pool_data[i][8] is not None else image_dtype
-        else:
+        if (pool_data[i][2] is False):
+            # not a problematic file
             image_width = pool_data[i][5] if pool_data[i][5] is not None and pool_data[i][5] != 0 else image_width
             image_height = pool_data[i][6] if pool_data[i][6] is not None and pool_data[i][6] != 0 else image_height
             image_channels = pool_data[i][7] if pool_data[i][7] is not None and pool_data[i][7] != 0 else image_channels
             image_dtype = pool_data[i][8] if pool_data[i][8] is not None and pool_data[i][8] != 0 else image_dtype
+        else:
+            # a problematic file
+            image_width = pool_data[i][5] if image_width is None and pool_data[i][5] is not None else image_width
+            image_height = pool_data[i][6] if image_height is None and pool_data[i][6] is not None else image_height
+            image_channels = pool_data[i][7] if image_channels is None and pool_data[i][7] is not None else image_channels
+            image_dtype = pool_data[i][8] if image_dtype is None and pool_data[i][8] is not None else image_dtype
     if (image_width is None or image_height is None or image_channels is None or image_dtype is None):  # pragma: nocover
         raise SRSError("Unexpected read error, please contact the UCalgary team")
 
@@ -368,6 +370,10 @@ def __rgb_readfile_worker_png(file_obj):
 
     # set up working dir
     this_working_dir = "%s/%s" % (file_obj["tar_tempdir"], ''.join(random.choices(string.ascii_lowercase, k=8)))  # nosec
+    try:
+        os.makedirs(this_working_dir, exist_ok=True)
+    except Exception:
+        pass
 
     # set start and end times so we can use shorter variable names lower down in this function
     start_time = file_obj["start_time"]
