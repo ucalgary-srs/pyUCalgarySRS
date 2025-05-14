@@ -1,3 +1,7 @@
+Version 1.21.2
+-------------------
+- minor update to `show_data_usage()` function
+
 Version 1.21.1
 -------------------
 - minor update to path initialization

@@ -388,9 +388,7 @@ class PyUCalgarySRS:
 
         # get list of dataset paths
         dataset_paths = []
-        if (download_pathlib_path.exists() is False):
-            dataset_paths = []
-        else:
+        if (download_pathlib_path.exists() is True):
             for f in os.listdir(download_pathlib_path):
                 path_f = download_pathlib_path / f
                 if (os.path.isdir(path_f) is True and str(path_f) != self.read_tar_temp_path):
