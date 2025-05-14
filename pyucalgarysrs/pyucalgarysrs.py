@@ -307,9 +307,9 @@ class PyUCalgarySRS:
         """
         Initialize the `download_output_root_path` and `read_tar_temp_path` directories.
         """
-        if (self.__download_output_root_path is None):
+        if (self.__download_output_root_path is None):  # pragma: nocover-ok
             self.__download_output_root_path = Path("%s/pyucalgarysrs_data" % (str(Path.home())))
-        if (self.__read_tar_temp_path is None):
+        if (self.__read_tar_temp_path is None):  # pragma: nocover-ok
             self.__read_tar_temp_path = Path("%s/tar_temp_working" % (self.__download_output_root_path))
         try:
             os.makedirs(self.download_output_root_path, exist_ok=True)
