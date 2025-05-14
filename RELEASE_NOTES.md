@@ -1,3 +1,7 @@
+Version 1.21.1
+-------------------
+- minor update to path initialization
+
 Version 1.21.0
 -------------------
 - data directory will now only be created when data is downloaded, instead of at initialization

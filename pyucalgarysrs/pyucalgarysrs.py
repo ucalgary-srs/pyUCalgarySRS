@@ -106,7 +106,11 @@ class PyUCalgarySRS:
         """
         # initialize path parameters
         self.__download_output_root_path = download_output_root_path
+        if (self.__download_output_root_path is None):
+            self.__download_output_root_path = Path("%s/pyucalgarysrs_data" % (str(Path.home())))
         self.__read_tar_temp_path = read_tar_temp_path
+        if (self.__read_tar_temp_path is None):
+            self.__read_tar_temp_path = Path("%s/tar_temp_working" % (self.__download_output_root_path))
 
         # initialize api parameters
         self.__api_base_url = api_base_url
