@@ -53,6 +53,10 @@ DATA_DIR = "%s/../../../test_data/read_skymap" % (os.path.dirname(os.path.realpa
         "filename": "spect_skymap_luck_20230424-+_v01.sav",
         "dataset_name": "TREX_SPECT_SKYMAP_IDLSAV",
     },
+    {
+        "filename": "smile_skymap_atha_20241103-+_v01.sav",
+        "dataset_name": "SMILE_ASI_SKYMAP_IDLSAV",
+    },
 ])
 @pytest.mark.data_read
 def test_read_single_file(srs, capsys, all_datasets, test_dict):
