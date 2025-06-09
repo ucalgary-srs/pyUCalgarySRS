@@ -20,6 +20,8 @@ import pyucalgarysrs
 ALL_TESTS = [
     # ---------------
     # core tests
+    #
+    # region - core tests
     # ---------------
     {
         "request": {
@@ -243,6 +245,8 @@ ALL_TESTS = [
 
     # --------------------------------------
     # core tests that will return no data
+    #
+    # region - tests with no data
     # --------------------------------------
     {
         "request": {
@@ -271,6 +275,8 @@ ALL_TESTS = [
 
     # ---------------------------------
     # core tests that will fail
+    #
+    # region - test failures
     # ---------------------------------
     {
         "request": {
@@ -308,6 +314,10 @@ ALL_TESTS = [
 
     # ---------------------------------
     # tests for specific datasets
+    #
+    # REGO
+    #
+    # region - tests for REGO
     # ---------------------------------
     {
         "request": {
@@ -499,6 +509,12 @@ ALL_TESTS = [
         "expected_error_message": None,
         "expected_warning": False,
     },
+
+    # ---------------------------------
+    # THEMIS ASI
+    #
+    # region - tests for THEMIS ASI
+    # ---------------------------------
     {
         "request": {
             "name": "THEMIS_ASI_RAW",
@@ -691,6 +707,12 @@ ALL_TESTS = [
         "expected_error_message": None,
         "expected_warning": False,
     },
+
+    # ---------------------------------
+    # TREx RGB
+    #
+    # region - tests for TREx RGB
+    # ---------------------------------
     {
         "request": {
             "name": "TREX_RGB_RAW_BURST",
@@ -763,6 +785,24 @@ ALL_TESTS = [
         "expected_error_message": None,
         "expected_warning": False,
     },
+    {
+        "request": {
+            "name": "TREX_RGB_SKYMAP_IDLSAV",
+            "start": "2023-01-01T00:00:00",
+            "end": "2023-12-31T23:59:59",
+            "site_uid": "gill",
+        },
+        "expected_num_urls": 2,
+        "expected_status": 200,
+        "expected_error_message": None,
+        "expected_warning": False,
+    },
+
+    # ---------------------------------
+    # TREx NIR
+    #
+    # region - tests for TREx NIR
+    # ---------------------------------
     {
         "request": {
             "name": "TREX_NIR_RAW",
@@ -905,6 +945,12 @@ ALL_TESTS = [
         "expected_error_message": None,
         "expected_warning": False,
     },
+
+    # ---------------------------------
+    # TREx Blueline
+    #
+    # region - tests for TREx Blue
+    # ---------------------------------
     {
         "request": {
             "name": "TREX_BLUE_RAW",
@@ -1009,6 +1055,114 @@ ALL_TESTS = [
             "site_uid": "gill",
         },
         "expected_num_urls": 5,
+        "expected_status": 200,
+        "expected_error_message": None,
+        "expected_warning": False,
+    },
+
+    # ---------------------------------
+    # TREx Spectrograph
+    #
+    # region - tests for TREx Spect
+    # ---------------------------------
+    {
+        "request": {
+            "name": "TREX_SPECT_RAW",
+            "start": "2023-01-01T06:00:00",
+            "end": "2023-01-01T06:59:59",
+            "site_uid": "rabb",
+        },
+        "expected_num_urls": 60,
+        "expected_status": 200,
+        "expected_error_message": None,
+        "expected_warning": False,
+    },
+    {
+        "request": {
+            "name": "TREX_SPECT_PROCESSED_V1",
+            "start": "2023-01-01T06:00:00",
+            "end": "2023-01-01T06:59:59",
+            "site_uid": "rabb",
+        },
+        "expected_num_urls": 1,
+        "expected_status": 200,
+        "expected_error_message": None,
+        "expected_warning": False,
+    },
+
+    # ---------------------------------
+    # SMILE ASI
+    #
+    # region - tests for SMILE ASI
+    # ---------------------------------
+    {
+        "request": {
+            "name": "SMILE_ASI_RAW",
+            "start": "2025-03-01T06:00:00",
+            "end": "2025-03-01T06:59:59",
+            "site_uid": "gill",
+        },
+        "expected_num_urls": 60,
+        "expected_status": 200,
+        "expected_error_message": None,
+        "expected_warning": False,
+    },
+    {
+        "request": {
+            "name": "SMILE_ASI_HOURLY_KEOGRAM",
+            "start": "2025-03-01T06:00:00",
+            "end": "2025-03-01T07:59:59",
+            "site_uid": "gill",
+        },
+        "expected_num_urls": 2,
+        "expected_status": 200,
+        "expected_error_message": None,
+        "expected_warning": False,
+    },
+    {
+        "request": {
+            "name": "SMILE_ASI_HOURLY_MONTAGE",
+            "start": "2025-03-01T06:00:00",
+            "end": "2025-03-01T07:59:59",
+            "site_uid": "gill",
+        },
+        "expected_num_urls": 2,
+        "expected_status": 200,
+        "expected_error_message": None,
+        "expected_warning": False,
+    },
+    {
+        "request": {
+            "name": "SMILE_ASI_DAILY_KEOGRAM",
+            "start": "2025-03-01T00:00:00",
+            "end": "2025-03-05T23:59:59",
+            "site_uid": "gill",
+        },
+        "expected_num_urls": 5,
+        "expected_status": 200,
+        "expected_error_message": None,
+        "expected_warning": False,
+    },
+    {
+        "request": {
+            "name": "SMILE_ASI_DAILY_MONTAGE",
+            "start": "2025-03-01T00:00:00",
+            "end": "2025-03-05T23:59:59",
+            "site_uid": "gill",
+        },
+        "expected_num_urls": 5,
+        "expected_status": 200,
+        "expected_error_message": None,
+        "expected_warning": False,
+    },
+    {
+        "request": {
+            "name": "SMILE_ASI_SKYMAP_IDLSAV",
+            "start": "2025-01-01T00:00:00",
+            "end": "2025-12-31T23:59:59",
+            "site_uid": "gill",
+        },
+        "expected_num_urls": 1,
         "expected_status": 200,
         "expected_error_message": None,
         "expected_warning": False,

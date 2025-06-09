@@ -16,4 +16,4 @@ from pyucalgarysrs import __version__
 
 
 def test_version():
-    assert __version__ == "1.21.2"
+    assert __version__ == "1.22.0"

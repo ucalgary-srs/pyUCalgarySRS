@@ -17,7 +17,7 @@ import pyucalgarysrs
 
 
 @pytest.mark.data_observatories
-@pytest.mark.parametrize("instrument_array", ["themis_asi", "trex_rgb", "trex_nir", "trex_blue", "rego"])
+@pytest.mark.parametrize("instrument_array", ["themis_asi", "trex_rgb", "trex_nir", "trex_blue", "rego", "trex_spectrograph", "smile_asi"])
 def test_get_sites(srs, instrument_array, capsys):
     # get all sites
     observatories = srs.data.list_observatories(instrument_array)
@@ -41,6 +41,11 @@ def test_get_sites(srs, instrument_array, capsys):
 @pytest.mark.parametrize("test_dict", [
     {
         "instrument_array": "themis_asi",
+        "uid": "atha",
+        "expected_results": 1
+    },
+    {
+        "instrument_array": "smile_asi",
         "uid": "atha",
         "expected_results": 1
     },

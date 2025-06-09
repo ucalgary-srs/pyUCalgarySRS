@@ -27,6 +27,7 @@ from ._trex_blue import read as func_read_trex_blue
 from ._trex_rgb import read as func_read_trex_rgb
 from ._trex_spectrograph import read_raw as func_read_trex_spectrograph_raw
 from ._trex_spectrograph import read_processed as func_read_trex_spectrograph_processed
+from ._smile import read as func_read_smile
 from ._skymap import read as func_read_skymap
 from ._calibration import read as func_read_calibration
 from ._grid import read as func_read_grid
@@ -60,6 +61,7 @@ class ReadManager:
     __VALID_TREX_BLUE_READFILE_DATASETS = ["TREX_BLUE_RAW"]
     __VALID_TREX_RGB_READFILE_DATASETS = ["TREX_RGB_RAW_NOMINAL", "TREX_RGB_RAW_BURST"]
     __VALID_TREX_SPECT_READFILE_DATASETS = ["TREX_SPECT_RAW", "TREX_SPECT_PROCESSED_V1"]
+    __VALID_SMILE_READFILE_DATASETS = ["SMILE_ASI_RAW"]
     __VALID_SKYMAP_READFILE_DATASETS = [
         "REGO_SKYMAP_IDLSAV",
         "THEMIS_ASI_SKYMAP_IDLSAV",
@@ -67,6 +69,7 @@ class ReadManager:
         "TREX_RGB_SKYMAP_IDLSAV",
         "TREX_BLUE_SKYMAP_IDLSAV",
         "TREX_SPECT_SKYMAP_IDLSAV",
+        "SMILE_ASI_SKYMAP_IDLSAV",
     ]
     __VALID_CALIBRATION_READFILE_DATASETS = [
         "REGO_CALIBRATION_RAYLEIGHS_IDLSAV",
@@ -276,6 +279,15 @@ class ReadManager:
                                       end_time=end_time,
                                       quiet=quiet,
                                       dataset=dataset)
+        elif (dataset.name in self.__VALID_SMILE_READFILE_DATASETS):
+            return self.read_smile(file_list,
+                                   n_parallel=n_parallel,
+                                   first_record=False if first_record is None else first_record,
+                                   no_metadata=no_metadata,
+                                   start_time=start_time,
+                                   end_time=end_time,
+                                   quiet=quiet,
+                                   dataset=dataset)
         elif (dataset.name in self.__VALID_SKYMAP_READFILE_DATASETS):
             if (start_time is not None or end_time is not None):
                 show_warning("Reading of skymap files does not support the start_time or end_time parameters. Removing " +
@@ -959,6 +971,113 @@ class ReadManager:
         ret_obj = Data(
             data=img,
             timestamp=timestamp_list,  # type: ignore
+            metadata=meta,
+            problematic_files=problematic_files_objs,
+            calibrated_data=None,
+            dataset=dataset,
+        )
+
+        # return
+        return ret_obj
+
+    def read_smile(self,
+                   file_list: Union[List[str], List[Path], str, Path],
+                   n_parallel: int = 1,
+                   first_record: bool = False,
+                   no_metadata: bool = False,
+                   start_time: Optional[datetime.datetime] = None,
+                   end_time: Optional[datetime.datetime] = None,
+                   quiet: bool = False,
+                   dataset: Optional[Dataset] = None) -> Data:
+        """
+        Read in SMILE ASI raw data (L0 raw h5 files).
+
+        Args:
+            file_list (List[str], List[Path], str, Path): 
+                The files to read in. Absolute paths are recommended, but not technically
+                necessary. This can be a single string for a file, or a list of strings to read
+                in multiple files. This parameter is required.
+
+            n_parallel (int): 
+                Number of data files to read in parallel using multiprocessing. Default value 
+                is 1. Adjust according to your computer's available resources. This parameter 
+                is optional.
+            
+            first_record (bool): 
+                Only read in the first record in each file. This is the same as the first_frame
+                parameter in the themis-imager-readfile and trex-imager-readfile libraries, and
+                is a read optimization if you only need one image per minute, as opposed to the
+                full temporal resolution of data (e.g., 3sec cadence). This parameter is optional.
+            
+            no_metadata (bool): 
+                Skip reading of metadata. This is a minor optimization if the metadata is not needed.
+                Default is `False`. This parameter is optional.
+            
+            start_time (datetime.datetime): 
+                The start timestamp to read data onwards from (inclusive). This can be utilized to 
+                read a portion of a data file, and could be paired with the `end_time` parameter. 
+                This tends to be utilized for datasets that are hour or day-long files where it is 
+                possible to only read a smaller bit of that file. An example is the TREx Spectrograph 
+                processed data (1 hour files), or the riometer data (1 day files). If not supplied, 
+                it will assume the start time is the timestamp of the first record in the first 
+                file supplied (ie. beginning of the supplied data). This parameter is optional.
+
+            end_time (datetime.datetime): 
+                The end timestamp to read data up to (inclusive). This can be utilized to read a 
+                portion of a data file, and could be paired with the `start_time` parameter. This 
+                tends to be utilized for datasets that are hour or day-long files where it is possible 
+                to only read a smaller bit of that file. An example is the TREx Spectrograph processed 
+                data (1 hour files), or the riometer data (1 day files). If not supplied, it will
+                it will assume the end time is the timestamp of the last record in the last file
+                supplied (ie. end of the supplied data). This parameter is optional.
+
+            quiet (bool): 
+                Do not print out errors while reading data files, if any are encountered. Any files
+                that encounter errors will be, as usual, accessible via the `problematic_files` 
+                attribute of the returned `pyucalgarysrs.data.classes.Data` object. This parameter
+                is optional.
+
+            dataset (pyucalgarysrs.data.classes.Dataset): 
+                The dataset object for which the files are associated with. This parameter is
+                optional.
+
+        Returns:
+            A `pyucalgarysrs.data.classes.Data` object containing the data read in, among other
+            values.
+        
+        Raises:
+            pyucalgarysrs.exceptions.SRSError: a generic read error was encountered
+        """
+        # read data
+        img, meta, problematic_files = func_read_smile(
+            file_list,
+            n_parallel=n_parallel,
+            first_record=first_record,
+            no_metadata=no_metadata,
+            start_time=start_time,
+            end_time=end_time,
+            quiet=quiet,
+        )
+
+        # generate timestamp array
+        timestamp_list = []
+        if (no_metadata is False):
+            for m in meta:
+                if ("image_request_start" in m):
+                    timestamp_list.append(datetime.datetime.strptime(m["image_request_start"], "%Y-%m-%d %H:%M:%S.%f UTC"))
+                elif (m == {}):  # pragma: nocover
+                    # a problematic file, skip it
+                    pass
+                else:  # pragma: nocover
+                    raise SRSError("Unexpected timestamp metadata format")
+
+        # convert to return type
+        problematic_files_objs = []
+        for p in problematic_files:
+            problematic_files_objs.append(ProblematicFile(p["filename"], error_message=p["error_message"], error_type="error"))
+        ret_obj = Data(
+            data=img,
+            timestamp=timestamp_list,
             metadata=meta,
             problematic_files=problematic_files_objs,
             calibrated_data=None,
