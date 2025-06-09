@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1">
-<meta name="generator" content="pdoc3 0.11.5">
+<meta name="generator" content="pdoc3 0.11.6">
 <title>pyucalgarysrs API documentation</title>
 <meta name="description" content="The PyUCalgarySRS library provides a way to interact with the UCalgary Space
 Remote Sensing (SRS) Open Data Platform. It enables users to …">
@@ -184,7 +184,11 @@ model is the TREx Auroral Transport Model (ATM).</p></div>
         &#34;&#34;&#34;
         # initialize path parameters
         self.__download_output_root_path = download_output_root_path
+        if (self.__download_output_root_path is None):
+            self.__download_output_root_path = Path(&#34;%s/pyucalgarysrs_data&#34; % (str(Path.home())))
         self.__read_tar_temp_path = read_tar_temp_path
+        if (self.__read_tar_temp_path is None):
+            self.__read_tar_temp_path = Path(&#34;%s/tar_temp_working&#34; % (self.__download_output_root_path))
 
         # initialize api parameters
         self.__api_base_url = api_base_url
@@ -202,9 +206,6 @@ model is the TREx Auroral Transport Model (ATM).</p></div>
         self.__progress_bar_backend = progress_bar_backend
         self._tqdm = None
         self.__initialize_progress_bar_backend()
-
-        # initialize paths
-        self.__initialize_paths()
 
         # initialize sub-modules
         self.__data = DataManager(self)
@@ -310,7 +311,6 @@ model is the TREx Auroral Transport Model (ATM).</p></div>
     @download_output_root_path.setter
     def download_output_root_path(self, value: str):
         self.__download_output_root_path = value
-        self.__initialize_paths()
 
     @property
     def read_tar_temp_path(self):
@@ -322,7 +322,6 @@ model is the TREx Auroral Transport Model (ATM).</p></div>
     @read_tar_temp_path.setter
     def read_tar_temp_path(self, value: str):
         self.__read_tar_temp_path = value
-        self.__initialize_paths()
 
     @property
     def progress_bar_backend(self):
@@ -368,20 +367,6 @@ model is the TREx Auroral Transport Model (ATM).</p></div>
     # -----------------------------
     # private methods
     # -----------------------------
-    def __initialize_paths(self):
-        &#34;&#34;&#34;
-        Initialize the `download_output_root_path` and `read_tar_temp_path` directories.
-        &#34;&#34;&#34;
-        if (self.__download_output_root_path is None):
-            self.__download_output_root_path = Path(&#34;%s/pyucalgarysrs_data&#34; % (str(Path.home())))
-        if (self.__read_tar_temp_path is None):
-            self.__read_tar_temp_path = Path(&#34;%s/tar_temp_working&#34; % (self.__download_output_root_path))
-        try:
-            os.makedirs(self.download_output_root_path, exist_ok=True)
-            os.makedirs(self.read_tar_temp_path, exist_ok=True)
-        except IOError as e:  # pragma: nocover-ok
-            raise SRSInitializationError(&#34;Error during output path creation: %s&#34; % str(e)) from e
-
     def __initialize_progress_bar_backend(self):
         &#34;&#34;&#34;
         Initialize the `progress_bar_backend` parameter.
@@ -396,6 +381,20 @@ model is the TREx Auroral Transport Model (ATM).</p></div>
     # -----------------------------
     # public methods
     # -----------------------------
+    def initialize_paths(self):
+        &#34;&#34;&#34;
+        Initialize the `download_output_root_path` and `read_tar_temp_path` directories.
+        &#34;&#34;&#34;
+        if (self.__download_output_root_path is None):  # pragma: nocover-ok
+            self.__download_output_root_path = Path(&#34;%s/pyucalgarysrs_data&#34; % (str(Path.home())))
+        if (self.__read_tar_temp_path is None):  # pragma: nocover-ok
+            self.__read_tar_temp_path = Path(&#34;%s/tar_temp_working&#34; % (self.__download_output_root_path))
+        try:
+            os.makedirs(self.download_output_root_path, exist_ok=True)
+            os.makedirs(self.read_tar_temp_path, exist_ok=True)
+        except IOError as e:  # pragma: nocover-ok
+            raise SRSInitializationError(&#34;Error during output path creation: %s&#34; % str(e)) from e
+
     def purge_download_output_root_path(self):
         &#34;&#34;&#34;
         Delete all files in the `download_output_root_path` directory. Since the
@@ -467,10 +466,11 @@ model is the TREx Auroral Transport Model (ATM).</p></div>
 
         # get list of dataset paths
         dataset_paths = []
-        for f in os.listdir(download_pathlib_path):
-            path_f = download_pathlib_path / f
-            if (os.path.isdir(path_f) is True and str(path_f) != self.read_tar_temp_path):
-                dataset_paths.append(path_f)
+        if (download_pathlib_path.exists() is True):
+            for f in os.listdir(download_pathlib_path):
+                path_f = download_pathlib_path / f
+                if (os.path.isdir(path_f) is True and str(path_f) != self.read_tar_temp_path):
+                    dataset_paths.append(path_f)
 
         # get size of each dataset path
         dataset_dict = {}
@@ -732,6 +732,30 @@ def read_tar_temp_path(self):
 </dl>
 <h3>Methods</h3>
 <dl>
+<dt id="pyucalgarysrs.PyUCalgarySRS.initialize_paths"><code class="name flex">
+<span>def <span class="ident">initialize_paths</span></span>(<span>self)</span>
+</code></dt>
+<dd>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def initialize_paths(self):
+    &#34;&#34;&#34;
+    Initialize the `download_output_root_path` and `read_tar_temp_path` directories.
+    &#34;&#34;&#34;
+    if (self.__download_output_root_path is None):  # pragma: nocover-ok
+        self.__download_output_root_path = Path(&#34;%s/pyucalgarysrs_data&#34; % (str(Path.home())))
+    if (self.__read_tar_temp_path is None):  # pragma: nocover-ok
+        self.__read_tar_temp_path = Path(&#34;%s/tar_temp_working&#34; % (self.__download_output_root_path))
+    try:
+        os.makedirs(self.download_output_root_path, exist_ok=True)
+        os.makedirs(self.read_tar_temp_path, exist_ok=True)
+    except IOError as e:  # pragma: nocover-ok
+        raise SRSInitializationError(&#34;Error during output path creation: %s&#34; % str(e)) from e</code></pre>
+</details>
+<div class="desc"><p>Initialize the <code>download_output_root_path</code> and <code>read_tar_temp_path</code> directories.</p></div>
+</dd>
 <dt id="pyucalgarysrs.PyUCalgarySRS.purge_download_output_root_path"><code class="name flex">
 <span>def <span class="ident">purge_download_output_root_path</span></span>(<span>self)</span>
 </code></dt>
@@ -849,10 +873,11 @@ directory.</p>
 
     # get list of dataset paths
     dataset_paths = []
-    for f in os.listdir(download_pathlib_path):
-        path_f = download_pathlib_path / f
-        if (os.path.isdir(path_f) is True and str(path_f) != self.read_tar_temp_path):
-            dataset_paths.append(path_f)
+    if (download_pathlib_path.exists() is True):
+        for f in os.listdir(download_pathlib_path):
+            path_f = download_pathlib_path / f
+            if (os.path.isdir(path_f) is True and str(path_f) != self.read_tar_temp_path):
+                dataset_paths.append(path_f)
 
     # get size of each dataset path
     dataset_dict = {}
@@ -1016,6 +1041,7 @@ setTimeout(() => input.focus(), 100);
 <li><code><a title="pyucalgarysrs.PyUCalgarySRS.api_timeout" href="#pyucalgarysrs.PyUCalgarySRS.api_timeout">api_timeout</a></code></li>
 <li><code><a title="pyucalgarysrs.PyUCalgarySRS.data" href="#pyucalgarysrs.PyUCalgarySRS.data">data</a></code></li>
 <li><code><a title="pyucalgarysrs.PyUCalgarySRS.download_output_root_path" href="#pyucalgarysrs.PyUCalgarySRS.download_output_root_path">download_output_root_path</a></code></li>
+<li><code><a title="pyucalgarysrs.PyUCalgarySRS.initialize_paths" href="#pyucalgarysrs.PyUCalgarySRS.initialize_paths">initialize_paths</a></code></li>
 <li><code><a title="pyucalgarysrs.PyUCalgarySRS.models" href="#pyucalgarysrs.PyUCalgarySRS.models">models</a></code></li>
 <li><code><a title="pyucalgarysrs.PyUCalgarySRS.progress_bar_backend" href="#pyucalgarysrs.PyUCalgarySRS.progress_bar_backend">progress_bar_backend</a></code></li>
 <li><code><a title="pyucalgarysrs.PyUCalgarySRS.purge_download_output_root_path" href="#pyucalgarysrs.PyUCalgarySRS.purge_download_output_root_path">purge_download_output_root_path</a></code></li>
@@ -1030,7 +1056,7 @@ setTimeout(() => input.focus(), 100);
 </nav>
 </main>
 <footer id="footer">
-<p>Generated by <a href="https://pdoc3.github.io/pdoc" title="pdoc: Python API documentation generator"><cite>pdoc</cite> 0.11.5</a>.</p>
+<p>Generated by <a href="https://pdoc3.github.io/pdoc" title="pdoc: Python API documentation generator"><cite>pdoc</cite> 0.11.6</a>.</p>
 </footer>
 </body>
 </html>

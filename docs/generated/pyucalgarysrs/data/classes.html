@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1">
-<meta name="generator" content="pdoc3 0.11.5">
+<meta name="generator" content="pdoc3 0.11.6">
 <title>pyucalgarysrs.data.classes API documentation</title>
 <meta name="description" content="Classes for representing data download and reading operations. All
 classes in this module are included at the top level of this library.">
@@ -160,7 +160,7 @@ read instead of a flatfield calibration file.</dd>
 <dt><strong><code>dataset</code></strong> :&ensp;<code><a title="pyucalgarysrs.data.classes.Dataset" href="#pyucalgarysrs.data.classes.Dataset">Dataset</a></code></dt>
 <dd>The <code><a title="pyucalgarysrs.data.classes.Dataset" href="#pyucalgarysrs.data.classes.Dataset">Dataset</a></code> object for this data.</dd>
 </dl></div>
-<h3>Class variables</h3>
+<h3>Instance variables</h3>
 <dl>
 <dt id="pyucalgarysrs.data.classes.Calibration.dataset"><code class="name">var <span class="ident">dataset</span> : <a title="pyucalgarysrs.data.classes.Dataset" href="#pyucalgarysrs.data.classes.Dataset">Dataset</a> | None</code></dt>
 <dd>
@@ -300,7 +300,7 @@ until the next newest calibration for this detector UID.</dd>
 <dt><strong><code>skymap_filename</code></strong> :&ensp;<code>str</code></dt>
 <dd>Path to skymap file used to assist with calibration process. If None, no skymap file was used.</dd>
 </dl></div>
-<h3>Class variables</h3>
+<h3>Instance variables</h3>
 <dl>
 <dt id="pyucalgarysrs.data.classes.CalibrationGenerationInfo.author"><code class="name">var <span class="ident">author</span> : str | None</code></dt>
 <dd>
@@ -546,7 +546,7 @@ until calibrated data is inserted manually.</dd>
 <dt><strong><code>dataset</code></strong> :&ensp;<code><a title="pyucalgarysrs.data.classes.Dataset" href="#pyucalgarysrs.data.classes.Dataset">Dataset</a></code></dt>
 <dd>The <code><a title="pyucalgarysrs.data.classes.Dataset" href="#pyucalgarysrs.data.classes.Dataset">Dataset</a></code> object for this data.</dd>
 </dl></div>
-<h3>Class variables</h3>
+<h3>Instance variables</h3>
 <dl>
 <dt id="pyucalgarysrs.data.classes.Data.calibrated_data"><code class="name">var <span class="ident">calibrated_data</span> : Any</code></dt>
 <dd>
@@ -908,7 +908,7 @@ class FileDownloadResult:
 <dt><strong><code>dataset</code></strong> :&ensp;<code><a title="pyucalgarysrs.data.classes.Dataset" href="#pyucalgarysrs.data.classes.Dataset">Dataset</a></code></dt>
 <dd>The <code><a title="pyucalgarysrs.data.classes.Dataset" href="#pyucalgarysrs.data.classes.Dataset">Dataset</a></code> object for this data.</dd>
 </dl></div>
-<h3>Class variables</h3>
+<h3>Instance variables</h3>
 <dl>
 <dt id="pyucalgarysrs.data.classes.FileDownloadResult.count"><code class="name">var <span class="ident">count</span> : int</code></dt>
 <dd>
@@ -1046,7 +1046,7 @@ structure compared to the UCalgary Open Data archive.</dd>
 <dt><strong><code>total_bytes</code></strong> :&ensp;<code>int</code></dt>
 <dd>The cumulative amount of bytes for the available URLs.</dd>
 </dl></div>
-<h3>Class variables</h3>
+<h3>Instance variables</h3>
 <dl>
 <dt id="pyucalgarysrs.data.classes.FileListingResponse.count"><code class="name">var <span class="ident">count</span> : int</code></dt>
 <dd>
@@ -1161,7 +1161,7 @@ class GridData:
 <dt><strong><code>source_info</code></strong> :&ensp;<code><a title="pyucalgarysrs.data.classes.GridSourceInfoData" href="#pyucalgarysrs.data.classes.GridSourceInfoData">GridSourceInfoData</a></code></dt>
 <dd>Special data attributes specific to this particular grid file</dd>
 </dl></div>
-<h3>Class variables</h3>
+<h3>Instance variables</h3>
 <dl>
 <dt id="pyucalgarysrs.data.classes.GridData.fill_value"><code class="name">var <span class="ident">fill_value</span> : float</code></dt>
 <dd>
@@ -1249,7 +1249,7 @@ class GridSourceInfoData:
 <dt><strong><code>confidence</code></strong> :&ensp;<code>ndarray</code></dt>
 <dd>A confidence rating</dd>
 </dl></div>
-<h3>Class variables</h3>
+<h3>Instance variables</h3>
 <dl>
 <dt id="pyucalgarysrs.data.classes.GridSourceInfoData.confidence"><code class="name">var <span class="ident">confidence</span> : Any</code></dt>
 <dd>
@@ -1397,7 +1397,7 @@ class HSRData:
 <dt><strong><code>absorption</code></strong> :&ensp;<code>ndarray</code></dt>
 <dd>Absorption data, a numpy array of float. Note this is only populated for K2 data.</dd>
 </dl></div>
-<h3>Class variables</h3>
+<h3>Instance variables</h3>
 <dl>
 <dt id="pyucalgarysrs.data.classes.HSRData.absorption"><code class="name">var <span class="ident">absorption</span> : numpy.ndarray | None</code></dt>
 <dd>
@@ -1610,7 +1610,7 @@ class ProblematicFile:
 <dt><strong><code>error_type</code></strong> :&ensp;<code>str</code></dt>
 <dd>Error type encountered. Possible values are 'error' or 'warning'.</dd>
 </dl></div>
-<h3>Class variables</h3>
+<h3>Instance variables</h3>
 <dl>
 <dt id="pyucalgarysrs.data.classes.ProblematicFile.error_message"><code class="name">var <span class="ident">error_message</span> : str</code></dt>
 <dd>
@@ -1688,7 +1688,7 @@ class RiometerData:
 <dt><strong><code>absorption</code></strong> :&ensp;<code>ndarray</code></dt>
 <dd>Absorption data, a numpy array of float. Note that this is only populated for K2 data.</dd>
 </dl></div>
-<h3>Class variables</h3>
+<h3>Instance variables</h3>
 <dl>
 <dt id="pyucalgarysrs.data.classes.RiometerData.absorption"><code class="name">var <span class="ident">absorption</span> : numpy.ndarray | None</code></dt>
 <dd>
@@ -1884,7 +1884,7 @@ class Skymap:
 <dt><strong><code>dataset</code></strong> :&ensp;<code><a title="pyucalgarysrs.data.classes.Dataset" href="#pyucalgarysrs.data.classes.Dataset">Dataset</a></code></dt>
 <dd>The <code><a title="pyucalgarysrs.data.classes.Dataset" href="#pyucalgarysrs.data.classes.Dataset">Dataset</a></code> object for this data.</dd>
 </dl></div>
-<h3>Class variables</h3>
+<h3>Instance variables</h3>
 <dl>
 <dt id="pyucalgarysrs.data.classes.Skymap.filename"><code class="name">var <span class="ident">filename</span> : str</code></dt>
 <dd>
@@ -2130,7 +2130,7 @@ the next newest skymap.</dd>
 <dt><strong><code>bytscl_values</code></strong> :&ensp;<code>ndarray</code></dt>
 <dd>Values used for bytescaling during skymap procedure</dd>
 </dl></div>
-<h3>Class variables</h3>
+<h3>Instance variables</h3>
 <dl>
 <dt id="pyucalgarysrs.data.classes.SkymapGenerationInfo.author"><code class="name">var <span class="ident">author</span> : str</code></dt>
 <dd>
@@ -2442,7 +2442,7 @@ setTimeout(() => input.focus(), 100);
 </nav>
 </main>
 <footer id="footer">
-<p>Generated by <a href="https://pdoc3.github.io/pdoc" title="pdoc: Python API documentation generator"><cite>pdoc</cite> 0.11.5</a>.</p>
+<p>Generated by <a href="https://pdoc3.github.io/pdoc" title="pdoc: Python API documentation generator"><cite>pdoc</cite> 0.11.6</a>.</p>
 </footer>
 </body>
 </html>
