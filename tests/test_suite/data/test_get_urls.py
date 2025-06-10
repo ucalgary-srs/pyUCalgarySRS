@@ -1110,8 +1110,8 @@ ALL_TESTS = [
     {
         "request": {
             "name": "SMILE_ASI_HOURLY_KEOGRAM",
-            "start": "2025-03-01T06:00:00",
-            "end": "2025-03-01T07:59:59",
+            "start": "2025-05-01T06:00:00",
+            "end": "2025-05-01T07:59:59",
             "site_uid": "gill",
         },
         "expected_num_urls": 2,
@@ -1122,8 +1122,8 @@ ALL_TESTS = [
     {
         "request": {
             "name": "SMILE_ASI_HOURLY_MONTAGE",
-            "start": "2025-03-01T06:00:00",
-            "end": "2025-03-01T07:59:59",
+            "start": "2025-05-01T06:00:00",
+            "end": "2025-05-01T07:59:59",
             "site_uid": "gill",
         },
         "expected_num_urls": 2,
@@ -1134,8 +1134,8 @@ ALL_TESTS = [
     {
         "request": {
             "name": "SMILE_ASI_DAILY_KEOGRAM",
-            "start": "2025-03-01T00:00:00",
-            "end": "2025-03-05T23:59:59",
+            "start": "2025-05-01T00:00:00",
+            "end": "2025-05-05T23:59:59",
             "site_uid": "gill",
         },
         "expected_num_urls": 5,
@@ -1146,8 +1146,8 @@ ALL_TESTS = [
     {
         "request": {
             "name": "SMILE_ASI_DAILY_MONTAGE",
-            "start": "2025-03-01T00:00:00",
-            "end": "2025-03-05T23:59:59",
+            "start": "2025-05-01T00:00:00",
+            "end": "2025-05-05T23:59:59",
             "site_uid": "gill",
         },
         "expected_num_urls": 5,
