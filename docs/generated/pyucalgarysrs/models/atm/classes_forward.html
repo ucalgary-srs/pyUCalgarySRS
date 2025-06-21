@@ -70,7 +70,7 @@ classes in this module are included at the top level of this library.</p>
 <dl>
 <dt id="pyucalgarysrs.models.atm.classes_forward.ATMForwardOutputFlags"><code class="flex name class">
 <span>class <span class="ident">ATMForwardOutputFlags</span></span>
-<span>(</span><span>height_integrated_rayleighs_4278: bool = False,<br>height_integrated_rayleighs_5577: bool = False,<br>height_integrated_rayleighs_6300: bool = False,<br>height_integrated_rayleighs_8446: bool = False,<br>height_integrated_rayleighs_lbh: bool = False,<br>height_integrated_rayleighs_1304: bool = False,<br>height_integrated_rayleighs_1356: bool = False,<br>altitudes: bool = False,<br>emission_4278: bool = False,<br>emission_5577: bool = False,<br>emission_6300: bool = False,<br>emission_8446: bool = False,<br>emission_lbh: bool = False,<br>emission_1304: bool = False,<br>emission_1356: bool = False,<br>plasma_electron_density: bool = False,<br>plasma_o2plus_density: bool = False,<br>plasma_oplus_density: bool = False,<br>plasma_noplus_density: bool = False,<br>plasma_ionisation_rate: bool = False,<br>plasma_electron_temperature: bool = False,<br>plasma_ion_temperature: bool = False,<br>plasma_pederson_conductivity: bool = False,<br>plasma_hall_conductivity: bool = False,<br>neutral_o2_density: bool = False,<br>neutral_o_density: bool = False,<br>neutral_n2_density: bool = False,<br>neutral_n_density: bool = False,<br>neutral_temperature: bool = False)</span>
+<span>(</span><span>height_integrated_rayleighs_4278: bool = False,<br>height_integrated_rayleighs_5577: bool = False,<br>height_integrated_rayleighs_6300: bool = False,<br>height_integrated_rayleighs_8446: bool = False,<br>height_integrated_rayleighs_lbh: bool = False,<br>height_integrated_rayleighs_1304: bool = False,<br>height_integrated_rayleighs_1356: bool = False,<br>altitudes: bool = False,<br>emission_4278: bool = False,<br>emission_5577: bool = False,<br>emission_6300: bool = False,<br>emission_8446: bool = False,<br>emission_lbh: bool = False,<br>emission_1304: bool = False,<br>emission_1356: bool = False,<br>plasma_electron_density: bool = False,<br>plasma_o2plus_density: bool = False,<br>plasma_oplus_density: bool = False,<br>plasma_noplus_density: bool = False,<br>plasma_ionisation_rate: bool = False,<br>plasma_electron_temperature: bool = False,<br>plasma_ion_temperature: bool = False,<br>plasma_pederson_conductivity: bool = False,<br>plasma_hall_conductivity: bool = False,<br>neutral_o2_density: bool = False,<br>neutral_o_density: bool = False,<br>neutral_n2_density: bool = False,<br>neutral_n_density: bool = False,<br>neutral_temperature: bool = False,<br>production_rate_o2plus: bool = False,<br>production_rate_oplus: bool = False,<br>production_rate_oneg: bool = False,<br>production_rate_o: bool = False,<br>production_rate_nplus: bool = False,<br>production_rate_n2plus: bool = False,<br>production_rate_n: bool = False,<br>production_rate_n2d: bool = False)</span>
 </code></dt>
 <dd>
 <details class="source">
@@ -122,6 +122,14 @@ class ATMForwardOutputFlags:
     neutral_n2_density: bool = False
     neutral_n_density: bool = False
     neutral_temperature: bool = False
+    production_rate_o2plus: bool = False
+    production_rate_oplus: bool = False
+    production_rate_oneg: bool = False
+    production_rate_o: bool = False
+    production_rate_nplus: bool = False
+    production_rate_n2plus: bool = False
+    production_rate_n: bool = False
+    production_rate_n2d: bool = False
 
     def set_all_true(self):
         &#34;&#34;&#34;
@@ -276,6 +284,38 @@ object.</p></div>
 <dd>
 <div class="desc"></div>
 </dd>
+<dt id="pyucalgarysrs.models.atm.classes_forward.ATMForwardOutputFlags.production_rate_n"><code class="name">var <span class="ident">production_rate_n</span> : bool</code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="pyucalgarysrs.models.atm.classes_forward.ATMForwardOutputFlags.production_rate_n2d"><code class="name">var <span class="ident">production_rate_n2d</span> : bool</code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="pyucalgarysrs.models.atm.classes_forward.ATMForwardOutputFlags.production_rate_n2plus"><code class="name">var <span class="ident">production_rate_n2plus</span> : bool</code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="pyucalgarysrs.models.atm.classes_forward.ATMForwardOutputFlags.production_rate_nplus"><code class="name">var <span class="ident">production_rate_nplus</span> : bool</code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="pyucalgarysrs.models.atm.classes_forward.ATMForwardOutputFlags.production_rate_o"><code class="name">var <span class="ident">production_rate_o</span> : bool</code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="pyucalgarysrs.models.atm.classes_forward.ATMForwardOutputFlags.production_rate_o2plus"><code class="name">var <span class="ident">production_rate_o2plus</span> : bool</code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="pyucalgarysrs.models.atm.classes_forward.ATMForwardOutputFlags.production_rate_oneg"><code class="name">var <span class="ident">production_rate_oneg</span> : bool</code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="pyucalgarysrs.models.atm.classes_forward.ATMForwardOutputFlags.production_rate_oplus"><code class="name">var <span class="ident">production_rate_oplus</span> : bool</code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
 </dl>
 <h3>Methods</h3>
 <dl>
@@ -338,7 +378,7 @@ object.</p></div>
 </dd>
 <dt id="pyucalgarysrs.models.atm.classes_forward.ATMForwardRequest"><code class="flex name class">
 <span>class <span class="ident">ATMForwardRequest</span></span>
-<span>(</span><span>atm_model_version: Literal['1.0'],<br>timestamp: datetime.datetime,<br>geodetic_latitude: float,<br>geodetic_longitude: float,<br>maxwellian_energy_flux: float,<br>gaussian_energy_flux: float,<br>maxwellian_characteristic_energy: float,<br>gaussian_peak_energy: float,<br>gaussian_spectral_width: float,<br>nrlmsis_model_version: Literal['00', '2.0'],<br>oxygen_correction_factor: float,<br>timescale_auroral: int,<br>timescale_transport: int,<br>custom_spectrum: numpy.ndarray | None,<br>output: <a title="pyucalgarysrs.models.atm.classes_forward.ATMForwardOutputFlags" href="#pyucalgarysrs.models.atm.classes_forward.ATMForwardOutputFlags">ATMForwardOutputFlags</a>,<br>no_cache: bool)</span>
+<span>(</span><span>atm_model_version: Literal['1.0', '2.0'],<br>timestamp: datetime.datetime,<br>geodetic_latitude: float,<br>geodetic_longitude: float,<br>maxwellian_energy_flux: float,<br>maxwellian_characteristic_energy: float,<br>gaussian_energy_flux: float,<br>gaussian_peak_energy: float,<br>gaussian_spectral_width: float,<br>kappa_energy_flux: float,<br>kappa_mean_energy: float,<br>kappa_k_index: float,<br>exponential_energy_flux: float,<br>exponential_characteristic_energy: float,<br>exponential_starting_energy: float,<br>proton_energy_flux: float,<br>proton_characteristic_energy: float,<br>d_region: bool,<br>nrlmsis_model_version: Literal['00', '2.0'],<br>oxygen_correction_factor: float,<br>custom_spectrum: numpy.ndarray | None,<br>custom_neutral_profile: numpy.ndarray | None,<br>timescale_auroral: int,<br>timescale_transport: int,<br>output: <a title="pyucalgarysrs.models.atm.classes_forward.ATMForwardOutputFlags" href="#pyucalgarysrs.models.atm.classes_forward.ATMForwardOutputFlags">ATMForwardOutputFlags</a>,<br>no_cache: bool)</span>
 </code></dt>
 <dd>
 <details class="source">
@@ -354,20 +394,30 @@ class ATMForwardRequest:
     and [`ATMForwardResult`](classes_forward.html#pyucalgarysrs.models.atm.classes_forward.ATMForwardResult) 
     objects.
     &#34;&#34;&#34;
-    atm_model_version: Literal[&#34;1.0&#34;]
+    atm_model_version: Literal[&#34;1.0&#34;, &#34;2.0&#34;]
     timestamp: datetime.datetime
     geodetic_latitude: float
     geodetic_longitude: float
     maxwellian_energy_flux: float
-    gaussian_energy_flux: float
     maxwellian_characteristic_energy: float
+    gaussian_energy_flux: float
     gaussian_peak_energy: float
     gaussian_spectral_width: float
+    kappa_energy_flux: float
+    kappa_mean_energy: float
+    kappa_k_index: float
+    exponential_energy_flux: float
+    exponential_characteristic_energy: float
+    exponential_starting_energy: float
+    proton_energy_flux: float
+    proton_characteristic_energy: float
+    d_region: bool
     nrlmsis_model_version: Literal[&#34;00&#34;, &#34;2.0&#34;]
     oxygen_correction_factor: float
+    custom_spectrum: Optional[ndarray]
+    custom_neutral_profile: Optional[ndarray]
     timescale_auroral: int
     timescale_transport: int
-    custom_spectrum: Optional[ndarray]
     output: ATMForwardOutputFlags
     no_cache: bool</code></pre>
 </details>
@@ -378,11 +428,31 @@ and <a href="classes_forward.html#pyucalgarysrs.models.atm.classes_forward.ATMFo
 objects.</p></div>
 <h3>Instance variables</h3>
 <dl>
-<dt id="pyucalgarysrs.models.atm.classes_forward.ATMForwardRequest.atm_model_version"><code class="name">var <span class="ident">atm_model_version</span> : Literal['1.0']</code></dt>
+<dt id="pyucalgarysrs.models.atm.classes_forward.ATMForwardRequest.atm_model_version"><code class="name">var <span class="ident">atm_model_version</span> : Literal['1.0', '2.0']</code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="pyucalgarysrs.models.atm.classes_forward.ATMForwardRequest.custom_neutral_profile"><code class="name">var <span class="ident">custom_neutral_profile</span> : numpy.ndarray | None</code></dt>
 <dd>
 <div class="desc"></div>
 </dd>
 <dt id="pyucalgarysrs.models.atm.classes_forward.ATMForwardRequest.custom_spectrum"><code class="name">var <span class="ident">custom_spectrum</span> : numpy.ndarray | None</code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="pyucalgarysrs.models.atm.classes_forward.ATMForwardRequest.d_region"><code class="name">var <span class="ident">d_region</span> : bool</code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="pyucalgarysrs.models.atm.classes_forward.ATMForwardRequest.exponential_characteristic_energy"><code class="name">var <span class="ident">exponential_characteristic_energy</span> : float</code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="pyucalgarysrs.models.atm.classes_forward.ATMForwardRequest.exponential_energy_flux"><code class="name">var <span class="ident">exponential_energy_flux</span> : float</code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="pyucalgarysrs.models.atm.classes_forward.ATMForwardRequest.exponential_starting_energy"><code class="name">var <span class="ident">exponential_starting_energy</span> : float</code></dt>
 <dd>
 <div class="desc"></div>
 </dd>
@@ -403,6 +473,18 @@ objects.</p></div>
 <div class="desc"></div>
 </dd>
 <dt id="pyucalgarysrs.models.atm.classes_forward.ATMForwardRequest.geodetic_longitude"><code class="name">var <span class="ident">geodetic_longitude</span> : float</code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="pyucalgarysrs.models.atm.classes_forward.ATMForwardRequest.kappa_energy_flux"><code class="name">var <span class="ident">kappa_energy_flux</span> : float</code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="pyucalgarysrs.models.atm.classes_forward.ATMForwardRequest.kappa_k_index"><code class="name">var <span class="ident">kappa_k_index</span> : float</code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="pyucalgarysrs.models.atm.classes_forward.ATMForwardRequest.kappa_mean_energy"><code class="name">var <span class="ident">kappa_mean_energy</span> : float</code></dt>
 <dd>
 <div class="desc"></div>
 </dd>
@@ -430,6 +512,14 @@ objects.</p></div>
 <dd>
 <div class="desc"></div>
 </dd>
+<dt id="pyucalgarysrs.models.atm.classes_forward.ATMForwardRequest.proton_characteristic_energy"><code class="name">var <span class="ident">proton_characteristic_energy</span> : float</code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="pyucalgarysrs.models.atm.classes_forward.ATMForwardRequest.proton_energy_flux"><code class="name">var <span class="ident">proton_energy_flux</span> : float</code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
 <dt id="pyucalgarysrs.models.atm.classes_forward.ATMForwardRequest.timescale_auroral"><code class="name">var <span class="ident">timescale_auroral</span> : int</code></dt>
 <dd>
 <div class="desc"></div>
@@ -446,7 +536,7 @@ objects.</p></div>
 </dd>
 <dt id="pyucalgarysrs.models.atm.classes_forward.ATMForwardResult"><code class="flex name class">
 <span>class <span class="ident">ATMForwardResult</span></span>
-<span>(</span><span>request_info: <a title="pyucalgarysrs.models.atm.classes_forward.ATMForwardResultRequestInfo" href="#pyucalgarysrs.models.atm.classes_forward.ATMForwardResultRequestInfo">ATMForwardResultRequestInfo</a>,<br>height_integrated_rayleighs_4278: Any,<br>height_integrated_rayleighs_5577: Any,<br>height_integrated_rayleighs_6300: Any,<br>height_integrated_rayleighs_8446: Any,<br>height_integrated_rayleighs_lbh: Any,<br>height_integrated_rayleighs_1304: Any,<br>height_integrated_rayleighs_1356: Any,<br>altitudes: Any,<br>emission_4278: Any,<br>emission_5577: Any,<br>emission_6300: Any,<br>emission_8446: Any,<br>emission_lbh: Any,<br>emission_1304: Any,<br>emission_1356: Any,<br>plasma_electron_density: Any,<br>plasma_o2plus_density: Any,<br>plasma_noplus_density: Any,<br>plasma_oplus_density: Any,<br>plasma_ionisation_rate: Any,<br>plasma_electron_temperature: Any,<br>plasma_ion_temperature: Any,<br>plasma_pederson_conductivity: Any,<br>plasma_hall_conductivity: Any,<br>neutral_o2_density: Any,<br>neutral_o_density: Any,<br>neutral_n2_density: Any,<br>neutral_n_density: Any,<br>neutral_temperature: Any)</span>
+<span>(</span><span>request_info: <a title="pyucalgarysrs.models.atm.classes_forward.ATMForwardResultRequestInfo" href="#pyucalgarysrs.models.atm.classes_forward.ATMForwardResultRequestInfo">ATMForwardResultRequestInfo</a>,<br>height_integrated_rayleighs_4278: Any,<br>height_integrated_rayleighs_5577: Any,<br>height_integrated_rayleighs_6300: Any,<br>height_integrated_rayleighs_8446: Any,<br>height_integrated_rayleighs_lbh: Any,<br>height_integrated_rayleighs_1304: Any,<br>height_integrated_rayleighs_1356: Any,<br>altitudes: Any,<br>emission_4278: Any,<br>emission_5577: Any,<br>emission_6300: Any,<br>emission_8446: Any,<br>emission_lbh: Any,<br>emission_1304: Any,<br>emission_1356: Any,<br>plasma_electron_density: Any,<br>plasma_o2plus_density: Any,<br>plasma_noplus_density: Any,<br>plasma_oplus_density: Any,<br>plasma_ionisation_rate: Any,<br>plasma_electron_temperature: Any,<br>plasma_ion_temperature: Any,<br>plasma_pederson_conductivity: Any,<br>plasma_hall_conductivity: Any,<br>neutral_o2_density: Any,<br>neutral_o_density: Any,<br>neutral_n2_density: Any,<br>neutral_n_density: Any,<br>neutral_temperature: Any,<br>production_rate_o2plus: Any,<br>production_rate_oplus: Any,<br>production_rate_oneg: Any,<br>production_rate_o: Any,<br>production_rate_nplus: Any,<br>production_rate_n2plus: Any,<br>production_rate_n: Any,<br>production_rate_n2d: Any)</span>
 </code></dt>
 <dd>
 <details class="source">
@@ -554,6 +644,30 @@ class ATMForwardResult:
 
         neutral_temperature (ndarray): 
             A 1-dimensional numpy array for the neutral temperature (Kelvin).
+
+        production_rate_o2plus (ndarray): 
+            A 1-dimensional numpy array for the O2+ production rate (1/cm^3/s)
+
+        production_rate_oplus (ndarray): 
+            A 1-dimensional numpy array for the O+ production rate (1/cm^3/s)
+
+        production_rate_oneg (ndarray): 
+            A 1-dimensional numpy array for the O- production rate (1/cm^3/s)
+
+        production_rate_o (ndarray): 
+            A 1-dimensional numpy array for the O production rate (1/cm^3/s)
+
+        production_rate_nplus (ndarray): 
+            A 1-dimensional numpy array for the N+ production rate (1/cm^3/s)
+
+        production_rate_n2plus (ndarray): 
+            A 1-dimensional numpy array for the N2+ production rate (1/cm^3/s)
+
+        production_rate_n (ndarray): 
+            A 1-dimensional numpy array for the N production rate (1/cm^3/s)
+
+        production_rate_n2d (ndarray): 
+            A 1-dimensional numpy array for the N(2d) production rate (1/cm^3/s)
     &#34;&#34;&#34;
     request_info: ATMForwardResultRequestInfo
     height_integrated_rayleighs_4278: Any
@@ -585,6 +699,14 @@ class ATMForwardResult:
     neutral_n2_density: Any
     neutral_n_density: Any
     neutral_temperature: Any
+    production_rate_o2plus: Any
+    production_rate_oplus: Any
+    production_rate_oneg: Any
+    production_rate_o: Any
+    production_rate_nplus: Any
+    production_rate_n2plus: Any
+    production_rate_n: Any
+    production_rate_n2d: Any
 
     def pretty_print(self):
         &#34;&#34;&#34;
@@ -594,6 +716,10 @@ class ATMForwardResult:
         for var_name in dir(self):
             # exclude methods
             if (var_name.startswith(&#34;__&#34;) or var_name == &#34;pretty_print&#34;):
+                continue
+
+            # exclude based on version
+            if (self.request_info.request.atm_model_version == &#34;1.0&#34; and &#34;production_rate_&#34; in var_name):
                 continue
 
             # convert var to string format we want
@@ -678,6 +804,22 @@ types (e.g., float, numpy ndarray).</p>
 <dd>A 1-dimensional numpy array for the neutral N density (cm^-3).</dd>
 <dt><strong><code>neutral_temperature</code></strong> :&ensp;<code>ndarray</code></dt>
 <dd>A 1-dimensional numpy array for the neutral temperature (Kelvin).</dd>
+<dt><strong><code>production_rate_o2plus</code></strong> :&ensp;<code>ndarray</code></dt>
+<dd>A 1-dimensional numpy array for the O2+ production rate (1/cm^3/s)</dd>
+<dt><strong><code>production_rate_oplus</code></strong> :&ensp;<code>ndarray</code></dt>
+<dd>A 1-dimensional numpy array for the O+ production rate (1/cm^3/s)</dd>
+<dt><strong><code>production_rate_oneg</code></strong> :&ensp;<code>ndarray</code></dt>
+<dd>A 1-dimensional numpy array for the O- production rate (1/cm^3/s)</dd>
+<dt><strong><code>production_rate_o</code></strong> :&ensp;<code>ndarray</code></dt>
+<dd>A 1-dimensional numpy array for the O production rate (1/cm^3/s)</dd>
+<dt><strong><code>production_rate_nplus</code></strong> :&ensp;<code>ndarray</code></dt>
+<dd>A 1-dimensional numpy array for the N+ production rate (1/cm^3/s)</dd>
+<dt><strong><code>production_rate_n2plus</code></strong> :&ensp;<code>ndarray</code></dt>
+<dd>A 1-dimensional numpy array for the N2+ production rate (1/cm^3/s)</dd>
+<dt><strong><code>production_rate_n</code></strong> :&ensp;<code>ndarray</code></dt>
+<dd>A 1-dimensional numpy array for the N production rate (1/cm^3/s)</dd>
+<dt><strong><code>production_rate_n2d</code></strong> :&ensp;<code>ndarray</code></dt>
+<dd>A 1-dimensional numpy array for the N(2d) production rate (1/cm^3/s)</dd>
 </dl></div>
 <h3>Instance variables</h3>
 <dl>
@@ -797,6 +939,38 @@ types (e.g., float, numpy ndarray).</p>
 <dd>
 <div class="desc"></div>
 </dd>
+<dt id="pyucalgarysrs.models.atm.classes_forward.ATMForwardResult.production_rate_n"><code class="name">var <span class="ident">production_rate_n</span> : Any</code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="pyucalgarysrs.models.atm.classes_forward.ATMForwardResult.production_rate_n2d"><code class="name">var <span class="ident">production_rate_n2d</span> : Any</code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="pyucalgarysrs.models.atm.classes_forward.ATMForwardResult.production_rate_n2plus"><code class="name">var <span class="ident">production_rate_n2plus</span> : Any</code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="pyucalgarysrs.models.atm.classes_forward.ATMForwardResult.production_rate_nplus"><code class="name">var <span class="ident">production_rate_nplus</span> : Any</code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="pyucalgarysrs.models.atm.classes_forward.ATMForwardResult.production_rate_o"><code class="name">var <span class="ident">production_rate_o</span> : Any</code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="pyucalgarysrs.models.atm.classes_forward.ATMForwardResult.production_rate_o2plus"><code class="name">var <span class="ident">production_rate_o2plus</span> : Any</code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="pyucalgarysrs.models.atm.classes_forward.ATMForwardResult.production_rate_oneg"><code class="name">var <span class="ident">production_rate_oneg</span> : Any</code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="pyucalgarysrs.models.atm.classes_forward.ATMForwardResult.production_rate_oplus"><code class="name">var <span class="ident">production_rate_oplus</span> : Any</code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
 <dt id="pyucalgarysrs.models.atm.classes_forward.ATMForwardResult.request_info"><code class="name">var <span class="ident">request_info</span> : <a title="pyucalgarysrs.models.atm.classes_forward.ATMForwardResultRequestInfo" href="#pyucalgarysrs.models.atm.classes_forward.ATMForwardResultRequestInfo">ATMForwardResultRequestInfo</a></code></dt>
 <dd>
 <div class="desc"></div>
@@ -820,6 +994,10 @@ types (e.g., float, numpy ndarray).</p>
     for var_name in dir(self):
         # exclude methods
         if (var_name.startswith(&#34;__&#34;) or var_name == &#34;pretty_print&#34;):
+            continue
+
+        # exclude based on version
+        if (self.request_info.request.atm_model_version == &#34;1.0&#34; and &#34;production_rate_&#34; in var_name):
             continue
 
         # convert var to string format we want
@@ -993,6 +1171,14 @@ setTimeout(() => input.focus(), 100);
 <li><code><a title="pyucalgarysrs.models.atm.classes_forward.ATMForwardOutputFlags.plasma_o2plus_density" href="#pyucalgarysrs.models.atm.classes_forward.ATMForwardOutputFlags.plasma_o2plus_density">plasma_o2plus_density</a></code></li>
 <li><code><a title="pyucalgarysrs.models.atm.classes_forward.ATMForwardOutputFlags.plasma_oplus_density" href="#pyucalgarysrs.models.atm.classes_forward.ATMForwardOutputFlags.plasma_oplus_density">plasma_oplus_density</a></code></li>
 <li><code><a title="pyucalgarysrs.models.atm.classes_forward.ATMForwardOutputFlags.plasma_pederson_conductivity" href="#pyucalgarysrs.models.atm.classes_forward.ATMForwardOutputFlags.plasma_pederson_conductivity">plasma_pederson_conductivity</a></code></li>
+<li><code><a title="pyucalgarysrs.models.atm.classes_forward.ATMForwardOutputFlags.production_rate_n" href="#pyucalgarysrs.models.atm.classes_forward.ATMForwardOutputFlags.production_rate_n">production_rate_n</a></code></li>
+<li><code><a title="pyucalgarysrs.models.atm.classes_forward.ATMForwardOutputFlags.production_rate_n2d" href="#pyucalgarysrs.models.atm.classes_forward.ATMForwardOutputFlags.production_rate_n2d">production_rate_n2d</a></code></li>
+<li><code><a title="pyucalgarysrs.models.atm.classes_forward.ATMForwardOutputFlags.production_rate_n2plus" href="#pyucalgarysrs.models.atm.classes_forward.ATMForwardOutputFlags.production_rate_n2plus">production_rate_n2plus</a></code></li>
+<li><code><a title="pyucalgarysrs.models.atm.classes_forward.ATMForwardOutputFlags.production_rate_nplus" href="#pyucalgarysrs.models.atm.classes_forward.ATMForwardOutputFlags.production_rate_nplus">production_rate_nplus</a></code></li>
+<li><code><a title="pyucalgarysrs.models.atm.classes_forward.ATMForwardOutputFlags.production_rate_o" href="#pyucalgarysrs.models.atm.classes_forward.ATMForwardOutputFlags.production_rate_o">production_rate_o</a></code></li>
+<li><code><a title="pyucalgarysrs.models.atm.classes_forward.ATMForwardOutputFlags.production_rate_o2plus" href="#pyucalgarysrs.models.atm.classes_forward.ATMForwardOutputFlags.production_rate_o2plus">production_rate_o2plus</a></code></li>
+<li><code><a title="pyucalgarysrs.models.atm.classes_forward.ATMForwardOutputFlags.production_rate_oneg" href="#pyucalgarysrs.models.atm.classes_forward.ATMForwardOutputFlags.production_rate_oneg">production_rate_oneg</a></code></li>
+<li><code><a title="pyucalgarysrs.models.atm.classes_forward.ATMForwardOutputFlags.production_rate_oplus" href="#pyucalgarysrs.models.atm.classes_forward.ATMForwardOutputFlags.production_rate_oplus">production_rate_oplus</a></code></li>
 <li><code><a title="pyucalgarysrs.models.atm.classes_forward.ATMForwardOutputFlags.set_all_false" href="#pyucalgarysrs.models.atm.classes_forward.ATMForwardOutputFlags.set_all_false">set_all_false</a></code></li>
 <li><code><a title="pyucalgarysrs.models.atm.classes_forward.ATMForwardOutputFlags.set_all_true" href="#pyucalgarysrs.models.atm.classes_forward.ATMForwardOutputFlags.set_all_true">set_all_true</a></code></li>
 </ul>
@@ -1001,18 +1187,28 @@ setTimeout(() => input.focus(), 100);
 <h4><code><a title="pyucalgarysrs.models.atm.classes_forward.ATMForwardRequest" href="#pyucalgarysrs.models.atm.classes_forward.ATMForwardRequest">ATMForwardRequest</a></code></h4>
 <ul class="">
 <li><code><a title="pyucalgarysrs.models.atm.classes_forward.ATMForwardRequest.atm_model_version" href="#pyucalgarysrs.models.atm.classes_forward.ATMForwardRequest.atm_model_version">atm_model_version</a></code></li>
+<li><code><a title="pyucalgarysrs.models.atm.classes_forward.ATMForwardRequest.custom_neutral_profile" href="#pyucalgarysrs.models.atm.classes_forward.ATMForwardRequest.custom_neutral_profile">custom_neutral_profile</a></code></li>
 <li><code><a title="pyucalgarysrs.models.atm.classes_forward.ATMForwardRequest.custom_spectrum" href="#pyucalgarysrs.models.atm.classes_forward.ATMForwardRequest.custom_spectrum">custom_spectrum</a></code></li>
+<li><code><a title="pyucalgarysrs.models.atm.classes_forward.ATMForwardRequest.d_region" href="#pyucalgarysrs.models.atm.classes_forward.ATMForwardRequest.d_region">d_region</a></code></li>
+<li><code><a title="pyucalgarysrs.models.atm.classes_forward.ATMForwardRequest.exponential_characteristic_energy" href="#pyucalgarysrs.models.atm.classes_forward.ATMForwardRequest.exponential_characteristic_energy">exponential_characteristic_energy</a></code></li>
+<li><code><a title="pyucalgarysrs.models.atm.classes_forward.ATMForwardRequest.exponential_energy_flux" href="#pyucalgarysrs.models.atm.classes_forward.ATMForwardRequest.exponential_energy_flux">exponential_energy_flux</a></code></li>
+<li><code><a title="pyucalgarysrs.models.atm.classes_forward.ATMForwardRequest.exponential_starting_energy" href="#pyucalgarysrs.models.atm.classes_forward.ATMForwardRequest.exponential_starting_energy">exponential_starting_energy</a></code></li>
 <li><code><a title="pyucalgarysrs.models.atm.classes_forward.ATMForwardRequest.gaussian_energy_flux" href="#pyucalgarysrs.models.atm.classes_forward.ATMForwardRequest.gaussian_energy_flux">gaussian_energy_flux</a></code></li>
 <li><code><a title="pyucalgarysrs.models.atm.classes_forward.ATMForwardRequest.gaussian_peak_energy" href="#pyucalgarysrs.models.atm.classes_forward.ATMForwardRequest.gaussian_peak_energy">gaussian_peak_energy</a></code></li>
 <li><code><a title="pyucalgarysrs.models.atm.classes_forward.ATMForwardRequest.gaussian_spectral_width" href="#pyucalgarysrs.models.atm.classes_forward.ATMForwardRequest.gaussian_spectral_width">gaussian_spectral_width</a></code></li>
 <li><code><a title="pyucalgarysrs.models.atm.classes_forward.ATMForwardRequest.geodetic_latitude" href="#pyucalgarysrs.models.atm.classes_forward.ATMForwardRequest.geodetic_latitude">geodetic_latitude</a></code></li>
 <li><code><a title="pyucalgarysrs.models.atm.classes_forward.ATMForwardRequest.geodetic_longitude" href="#pyucalgarysrs.models.atm.classes_forward.ATMForwardRequest.geodetic_longitude">geodetic_longitude</a></code></li>
+<li><code><a title="pyucalgarysrs.models.atm.classes_forward.ATMForwardRequest.kappa_energy_flux" href="#pyucalgarysrs.models.atm.classes_forward.ATMForwardRequest.kappa_energy_flux">kappa_energy_flux</a></code></li>
+<li><code><a title="pyucalgarysrs.models.atm.classes_forward.ATMForwardRequest.kappa_k_index" href="#pyucalgarysrs.models.atm.classes_forward.ATMForwardRequest.kappa_k_index">kappa_k_index</a></code></li>
+<li><code><a title="pyucalgarysrs.models.atm.classes_forward.ATMForwardRequest.kappa_mean_energy" href="#pyucalgarysrs.models.atm.classes_forward.ATMForwardRequest.kappa_mean_energy">kappa_mean_energy</a></code></li>
 <li><code><a title="pyucalgarysrs.models.atm.classes_forward.ATMForwardRequest.maxwellian_characteristic_energy" href="#pyucalgarysrs.models.atm.classes_forward.ATMForwardRequest.maxwellian_characteristic_energy">maxwellian_characteristic_energy</a></code></li>
 <li><code><a title="pyucalgarysrs.models.atm.classes_forward.ATMForwardRequest.maxwellian_energy_flux" href="#pyucalgarysrs.models.atm.classes_forward.ATMForwardRequest.maxwellian_energy_flux">maxwellian_energy_flux</a></code></li>
 <li><code><a title="pyucalgarysrs.models.atm.classes_forward.ATMForwardRequest.no_cache" href="#pyucalgarysrs.models.atm.classes_forward.ATMForwardRequest.no_cache">no_cache</a></code></li>
 <li><code><a title="pyucalgarysrs.models.atm.classes_forward.ATMForwardRequest.nrlmsis_model_version" href="#pyucalgarysrs.models.atm.classes_forward.ATMForwardRequest.nrlmsis_model_version">nrlmsis_model_version</a></code></li>
 <li><code><a title="pyucalgarysrs.models.atm.classes_forward.ATMForwardRequest.output" href="#pyucalgarysrs.models.atm.classes_forward.ATMForwardRequest.output">output</a></code></li>
 <li><code><a title="pyucalgarysrs.models.atm.classes_forward.ATMForwardRequest.oxygen_correction_factor" href="#pyucalgarysrs.models.atm.classes_forward.ATMForwardRequest.oxygen_correction_factor">oxygen_correction_factor</a></code></li>
+<li><code><a title="pyucalgarysrs.models.atm.classes_forward.ATMForwardRequest.proton_characteristic_energy" href="#pyucalgarysrs.models.atm.classes_forward.ATMForwardRequest.proton_characteristic_energy">proton_characteristic_energy</a></code></li>
+<li><code><a title="pyucalgarysrs.models.atm.classes_forward.ATMForwardRequest.proton_energy_flux" href="#pyucalgarysrs.models.atm.classes_forward.ATMForwardRequest.proton_energy_flux">proton_energy_flux</a></code></li>
 <li><code><a title="pyucalgarysrs.models.atm.classes_forward.ATMForwardRequest.timescale_auroral" href="#pyucalgarysrs.models.atm.classes_forward.ATMForwardRequest.timescale_auroral">timescale_auroral</a></code></li>
 <li><code><a title="pyucalgarysrs.models.atm.classes_forward.ATMForwardRequest.timescale_transport" href="#pyucalgarysrs.models.atm.classes_forward.ATMForwardRequest.timescale_transport">timescale_transport</a></code></li>
 <li><code><a title="pyucalgarysrs.models.atm.classes_forward.ATMForwardRequest.timestamp" href="#pyucalgarysrs.models.atm.classes_forward.ATMForwardRequest.timestamp">timestamp</a></code></li>
@@ -1051,6 +1247,14 @@ setTimeout(() => input.focus(), 100);
 <li><code><a title="pyucalgarysrs.models.atm.classes_forward.ATMForwardResult.plasma_oplus_density" href="#pyucalgarysrs.models.atm.classes_forward.ATMForwardResult.plasma_oplus_density">plasma_oplus_density</a></code></li>
 <li><code><a title="pyucalgarysrs.models.atm.classes_forward.ATMForwardResult.plasma_pederson_conductivity" href="#pyucalgarysrs.models.atm.classes_forward.ATMForwardResult.plasma_pederson_conductivity">plasma_pederson_conductivity</a></code></li>
 <li><code><a title="pyucalgarysrs.models.atm.classes_forward.ATMForwardResult.pretty_print" href="#pyucalgarysrs.models.atm.classes_forward.ATMForwardResult.pretty_print">pretty_print</a></code></li>
+<li><code><a title="pyucalgarysrs.models.atm.classes_forward.ATMForwardResult.production_rate_n" href="#pyucalgarysrs.models.atm.classes_forward.ATMForwardResult.production_rate_n">production_rate_n</a></code></li>
+<li><code><a title="pyucalgarysrs.models.atm.classes_forward.ATMForwardResult.production_rate_n2d" href="#pyucalgarysrs.models.atm.classes_forward.ATMForwardResult.production_rate_n2d">production_rate_n2d</a></code></li>
+<li><code><a title="pyucalgarysrs.models.atm.classes_forward.ATMForwardResult.production_rate_n2plus" href="#pyucalgarysrs.models.atm.classes_forward.ATMForwardResult.production_rate_n2plus">production_rate_n2plus</a></code></li>
+<li><code><a title="pyucalgarysrs.models.atm.classes_forward.ATMForwardResult.production_rate_nplus" href="#pyucalgarysrs.models.atm.classes_forward.ATMForwardResult.production_rate_nplus">production_rate_nplus</a></code></li>
+<li><code><a title="pyucalgarysrs.models.atm.classes_forward.ATMForwardResult.production_rate_o" href="#pyucalgarysrs.models.atm.classes_forward.ATMForwardResult.production_rate_o">production_rate_o</a></code></li>
+<li><code><a title="pyucalgarysrs.models.atm.classes_forward.ATMForwardResult.production_rate_o2plus" href="#pyucalgarysrs.models.atm.classes_forward.ATMForwardResult.production_rate_o2plus">production_rate_o2plus</a></code></li>
+<li><code><a title="pyucalgarysrs.models.atm.classes_forward.ATMForwardResult.production_rate_oneg" href="#pyucalgarysrs.models.atm.classes_forward.ATMForwardResult.production_rate_oneg">production_rate_oneg</a></code></li>
+<li><code><a title="pyucalgarysrs.models.atm.classes_forward.ATMForwardResult.production_rate_oplus" href="#pyucalgarysrs.models.atm.classes_forward.ATMForwardResult.production_rate_oplus">production_rate_oplus</a></code></li>
 <li><code><a title="pyucalgarysrs.models.atm.classes_forward.ATMForwardResult.request_info" href="#pyucalgarysrs.models.atm.classes_forward.ATMForwardResult.request_info">request_info</a></code></li>
 </ul>
 </li>

@@ -67,6 +67,14 @@ class ATMForwardOutputFlags:
     neutral_n2_density: bool = False
     neutral_n_density: bool = False
     neutral_temperature: bool = False
+    production_rate_o2plus: bool = False
+    production_rate_oplus: bool = False
+    production_rate_oneg: bool = False
+    production_rate_o: bool = False
+    production_rate_nplus: bool = False
+    production_rate_n2plus: bool = False
+    production_rate_n: bool = False
+    production_rate_n2d: bool = False
 
     def set_all_true(self):
         """
