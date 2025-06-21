@@ -103,7 +103,6 @@ class ATMInverseRequest:
     intensity_8446: float
     precipitation_flux_spectral_type: Literal["gaussian", "maxwellian"]
     nrlmsis_model_version: Literal["00", "2.0"]
-    atmospheric_attenuation_correction: bool
     output: ATMInverseOutputFlags
     no_cache: bool
 
@@ -287,6 +286,11 @@ class ATMInverseResult:
         for var_name in dir(self):
             # exclude methods
             if (var_name.startswith("__") or var_name == "pretty_print"):
+                continue
+
+            # exclude based on version
+            if (self.request_info.request.atm_model_version == "2.0"
+                    and (var_name == "energy_flux" or var_name == "characteristic_energy" or var_name == "oxygen_correction_factor")):
                 continue
 
             # convert var to string format we want

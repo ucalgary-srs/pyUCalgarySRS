@@ -103,20 +103,30 @@ class ATMForwardRequest:
     and [`ATMForwardResult`](classes_forward.html#pyucalgarysrs.models.atm.classes_forward.ATMForwardResult) 
     objects.
     """
-    atm_model_version: Literal["1.0"]
+    atm_model_version: Literal["1.0", "2.0"]
     timestamp: datetime.datetime
     geodetic_latitude: float
     geodetic_longitude: float
     maxwellian_energy_flux: float
-    gaussian_energy_flux: float
     maxwellian_characteristic_energy: float
+    gaussian_energy_flux: float
     gaussian_peak_energy: float
     gaussian_spectral_width: float
+    kappa_energy_flux: float
+    kappa_mean_energy: float
+    kappa_k_index: float
+    exponential_energy_flux: float
+    exponential_characteristic_energy: float
+    exponential_starting_energy: float
+    proton_energy_flux: float
+    proton_characteristic_energy: float
+    d_region: bool
     nrlmsis_model_version: Literal["00", "2.0"]
     oxygen_correction_factor: float
+    custom_spectrum: Optional[ndarray]
+    custom_neutral_profile: Optional[ndarray]
     timescale_auroral: int
     timescale_transport: int
-    custom_spectrum: Optional[ndarray]
     output: ATMForwardOutputFlags
     no_cache: bool
 
@@ -246,6 +256,30 @@ class ATMForwardResult:
 
         neutral_temperature (ndarray): 
             A 1-dimensional numpy array for the neutral temperature (Kelvin).
+
+        production_rate_o2plus (ndarray): 
+            A 1-dimensional numpy array for the O2+ production rate (1/cm^3/s)
+
+        production_rate_oplus (ndarray): 
+            A 1-dimensional numpy array for the O+ production rate (1/cm^3/s)
+
+        production_rate_oneg (ndarray): 
+            A 1-dimensional numpy array for the O- production rate (1/cm^3/s)
+
+        production_rate_o (ndarray): 
+            A 1-dimensional numpy array for the O production rate (1/cm^3/s)
+
+        production_rate_nplus (ndarray): 
+            A 1-dimensional numpy array for the N+ production rate (1/cm^3/s)
+
+        production_rate_n2plus (ndarray): 
+            A 1-dimensional numpy array for the N2+ production rate (1/cm^3/s)
+
+        production_rate_n (ndarray): 
+            A 1-dimensional numpy array for the N production rate (1/cm^3/s)
+
+        production_rate_n2d (ndarray): 
+            A 1-dimensional numpy array for the N(2d) production rate (1/cm^3/s)
     """
     request_info: ATMForwardResultRequestInfo
     height_integrated_rayleighs_4278: Any
@@ -277,6 +311,14 @@ class ATMForwardResult:
     neutral_n2_density: Any
     neutral_n_density: Any
     neutral_temperature: Any
+    production_rate_o2plus: Any
+    production_rate_oplus: Any
+    production_rate_oneg: Any
+    production_rate_o: Any
+    production_rate_nplus: Any
+    production_rate_n2plus: Any
+    production_rate_n: Any
+    production_rate_n2d: Any
 
     def pretty_print(self):
         """
@@ -286,6 +328,10 @@ class ATMForwardResult:
         for var_name in dir(self):
             # exclude methods
             if (var_name.startswith("__") or var_name == "pretty_print"):
+                continue
+
+            # exclude based on version
+            if (self.request_info.request.atm_model_version == "1.0" and "production_rate_" in var_name):
                 continue
 
             # convert var to string format we want
