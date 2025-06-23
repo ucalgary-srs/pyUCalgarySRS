@@ -1,3 +1,19 @@
+Version 1.23.1
+-------------------
+- bugfix for ATM output flags
+
+Version 1.23.0
+-------------------
+- added support for TREx ATM model version 2
+
+Version 1.22.1
+-------------------
+- updated numpy dependency version range
+
+Version 1.22.0
+-------------------
+- added support for SMILE ASI data
+
 Version 1.21.2
 -------------------
 - minor update to `show_data_usage()` function
