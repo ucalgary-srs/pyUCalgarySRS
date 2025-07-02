@@ -182,73 +182,96 @@ class ATMInverseResult:
             Derived oxygen correction factor.
 
         height_integrated_rayleighs_4278 (float): 
-            Height-integrated Rayleighs value for the 427.8nm emission (blue).
+            Height-integrated Rayleighs value for the 427.8nm emission (blue). Only utilized for 
+            ATM model version 1.0.
 
         height_integrated_rayleighs_5577 (float): 
-            Height-integrated Rayleighs value for the 557.7nm emission (green).
+            Height-integrated Rayleighs value for the 557.7nm emission (green). Only utilized for 
+            ATM model version 1.0.
             
         height_integrated_rayleighs_6300 (float): 
-            Height-integrated Rayleighs value for the 630.0nm emission(red).
+            Height-integrated Rayleighs value for the 630.0nm emission(red). Only utilized for 
+            ATM model version 1.0.
         
         height_integrated_rayleighs_8446 (float): 
-            Height-integrated Rayleighs value for the 844.6nm emission (near infrared).
+            Height-integrated Rayleighs value for the 844.6nm emission (near infrared). Only 
+            utilized for ATM model version 1.0.
 
         altitudes (ndarray): 
-            A 1-dimensional numpy array for the altitudes in kilometers.
+            A 1-dimensional numpy array for the altitudes in kilometers. Only utilized for 
+            ATM model version 1.0.
 
         emission_4278 (ndarray): 
-            A 1-dimensional numpy array for the 427.8nm volume emission rate (1/cm^3/s).
+            A 1-dimensional numpy array for the 427.8nm volume emission rate (1/cm^3/s). Only 
+            utilized for ATM model version 1.0.
 
         emission_5577 (ndarray): 
-            A 1-dimensional numpy array for the 557.7nm volume emission rate (1/cm^3/s).
+            A 1-dimensional numpy array for the 557.7nm volume emission rate (1/cm^3/s). Only 
+            utilized for ATM model version 1.0.
 
         emission_6300 (ndarray): 
-            A 1-dimensional numpy array for the 630.0nm volume emission rate (1/cm^3/s).
+            A 1-dimensional numpy array for the 630.0nm volume emission rate (1/cm^3/s). Only 
+            utilized for ATM model version 1.0.
 
         emission_8446 (ndarray): 
-            A 1-dimensional numpy array for the 844.6nm volume emission rate (1/cm^3/s).
+            A 1-dimensional numpy array for the 844.6nm volume emission rate (1/cm^3/s). Only 
+            utilized for ATM model version 1.0.
 
         plasma_electron_density (ndarray): 
-            A 1-dimensional numpy array for the plasma electron density (cm^-3).
+            A 1-dimensional numpy array for the plasma electron density (cm^-3). Only utilized 
+            for ATM model version 1.0.
 
         plasma_o2plus_density (ndarray): 
-            A 1-dimensional numpy array for the plasma O2+ density (cm^-3).
+            A 1-dimensional numpy array for the plasma O2+ density (cm^-3). Only utilized for 
+            ATM model version 1.0.
 
         plasma_noplus_density (ndarray): 
-            A 1-dimensional numpy array for the plasma NO+ density (cm^-3).
+            A 1-dimensional numpy array for the plasma NO+ density (cm^-3). Only utilized for 
+            ATM model version 1.0.
 
         plasma_oplus_density (ndarray): 
-            A 1-dimensional numpy array for the plasma O+ density (cm^-3).
+            A 1-dimensional numpy array for the plasma O+ density (cm^-3). Only utilized for 
+            ATM model version 1.0.
 
         plasma_ionisation_rate (ndarray): 
-            A 1-dimensional numpy array for the plasma ionisation rate (1/cm^3/s).
+            A 1-dimensional numpy array for the plasma ionisation rate (1/cm^3/s). Only utilized 
+            for ATM model version 1.0.
 
         plasma_electron_temperature (ndarray): 
-            A 1-dimensional numpy array for the plasma electron temperature (Kelvin).
+            A 1-dimensional numpy array for the plasma electron temperature (Kelvin). Only 
+            utilized for ATM model version 1.0.
 
         plasma_ion_temperature (ndarray): 
-            A 1-dimensional numpy array for the plasma ion temperature (Kelvin).
+            A 1-dimensional numpy array for the plasma ion temperature (Kelvin). Only utilized 
+            for ATM model version 1.0.
 
         plasma_pederson_conductivity (ndarray): 
-            A 1-dimensional numpy array for the Peterson plasma conductivity (S/m).
+            A 1-dimensional numpy array for the Peterson plasma conductivity (S/m). Only utilized 
+            for ATM model version 1.0.
 
         plasma_hall_conductivity (ndarray): 
-            A 1-dimensional numpy array for the hall plasma conductivity (S/m).
+            A 1-dimensional numpy array for the hall plasma conductivity (S/m). Only utilized 
+            for ATM model version 1.0.
 
         neutral_o2_density (ndarray): 
-            A 1-dimensional numpy array for the neutral O2 density (cm^-3).
+            A 1-dimensional numpy array for the neutral O2 density (cm^-3). Only utilized for 
+            ATM model version 1.0.
 
         neutral_o_density (ndarray): 
-            A 1-dimensional numpy array for the neutral O density (cm^-3).
+            A 1-dimensional numpy array for the neutral O density (cm^-3). Only utilized for 
+            ATM model version 1.0.
 
         neutral_n2_density (ndarray): 
-            A 1-dimensional numpy array for the neutral N2 density (cm^-3).
+            A 1-dimensional numpy array for the neutral N2 density (cm^-3). Only utilized for 
+            ATM model version 1.0.
 
         neutral_n_density (ndarray): 
-            A 1-dimensional numpy array for the neutral N density (cm^-3).
+            A 1-dimensional numpy array for the neutral N density (cm^-3). Only utilized for 
+            ATM model version 1.0.
 
         neutral_temperature (ndarray): 
-            A 1-dimensional numpy array for the neutral temperature (Kelvin).
+            A 1-dimensional numpy array for the neutral temperature (Kelvin). Only utilized for 
+            ATM model version 1.0.
     """
     request_info: ATMInverseResultRequestInfo
     energy_flux: Any
@@ -278,6 +301,16 @@ class ATMInverseResult:
     neutral_n_density: Any
     neutral_temperature: Any
 
+    def __str__(self) -> str:
+        return self.__repr__()
+
+    def __repr__(self) -> str:
+        return "ATMInverseResult(energy_flux=%f, characteristic_energy=%f, oxygen_correction_factor=%f, ...)" % (
+            self.energy_flux,
+            self.characteristic_energy,
+            self.oxygen_correction_factor,
+        )
+
     def pretty_print(self):
         """
         A special print output for this class.
@@ -290,7 +323,7 @@ class ATMInverseResult:
 
             # exclude based on version
             if (self.request_info.request.atm_model_version == "2.0"
-                    and (var_name == "energy_flux" or var_name == "characteristic_energy" or var_name == "oxygen_correction_factor")):
+                    and (var_name != "energy_flux" and var_name != "characteristic_energy" and var_name != "oxygen_correction_factor")):
                 continue
 
             # convert var to string format we want
@@ -305,4 +338,7 @@ class ATMInverseResult:
                     var_str = "%s ...])" % (var_value.__repr__()[0:60])
 
             # print string for this var
-            print("  %-37s: %s" % (var_name, var_str))
+            if (self.request_info.request.atm_model_version == "1.0"):
+                print("  %-34s: %s" % (var_name, var_str))
+            else:
+                print("  %-26s: %s" % (var_name, var_str))

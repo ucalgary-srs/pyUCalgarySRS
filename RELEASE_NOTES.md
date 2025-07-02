@@ -1,3 +1,7 @@
+Version 1.23.2
+-------------------
+- updates to ATM inversion docstrings, `pretty_print()`, `__str__()` and `__repr__()` functions
+
 Version 1.23.1
 -------------------
 - bugfix for ATM output flags

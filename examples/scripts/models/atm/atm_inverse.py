@@ -2,12 +2,11 @@ import datetime
 import pyucalgarysrs
 
 srs = pyucalgarysrs.PyUCalgarySRS()
-srs.api_base_url = "https://api-staging.phys.ucalgary.ca"
 
 output = pyucalgarysrs.ATMInverseOutputFlags()
 output.set_all_true()
 
-timestamp = datetime.datetime(2022, 1, 1, 6, 0, 0)
+timestamp = datetime.datetime(2021, 11, 4, 6, 0, 0)
 lat = 51.04
 lon = -100.0
 intensity_4278 = 2302.6

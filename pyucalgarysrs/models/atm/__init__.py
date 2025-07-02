@@ -308,7 +308,7 @@ class ATMManager:
 
             geodetic_longitude (float): 
                 Longitude in geodetic coordinates. Currently limited to the Transition Region Explorer (TREx)
-                region of >=-110 and <-70 degrees. An error will be raised if outside of this range. This 
+                region of >=-160 and <-75 degrees. An error will be raised if outside of this range. This 
                 parameter is required.
 
             intensity_4278 (float): 
