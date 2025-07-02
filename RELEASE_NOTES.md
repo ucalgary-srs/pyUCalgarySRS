@@ -1,3 +1,7 @@
+Version 1.23.3
+-------------------
+- bugfixes for ATM forward custom spectrum and custom neutral profile parameters
+
 Version 1.23.2
 -------------------
 - updates to ATM inversion docstrings, `pretty_print()`, `__str__()` and `__repr__()` functions

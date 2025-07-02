@@ -132,20 +132,20 @@ def forward(
         # inject custom neutral profile if supplied
         if (custom_neutral_profile is not None):
             post_data["custom_neutral_profile"] = {
-                "altitude": custom_neutral_profile[:, 0].tolist(),
-                "o_density": custom_neutral_profile[:, 1].tolist(),
-                "o2_density": custom_neutral_profile[:, 2].tolist(),
-                "n2_density": custom_neutral_profile[:, 3].tolist(),
-                "n_density": custom_neutral_profile[:, 4].tolist(),
-                "no_density": custom_neutral_profile[:, 5].tolist(),
-                "temperature": custom_neutral_profile[:, 6].tolist(),
+                "altitude": custom_neutral_profile[0, :].tolist(),
+                "o_density": custom_neutral_profile[1, :].tolist(),
+                "o2_density": custom_neutral_profile[2, :].tolist(),
+                "n2_density": custom_neutral_profile[3, :].tolist(),
+                "n_density": custom_neutral_profile[4, :].tolist(),
+                "no_density": custom_neutral_profile[5, :].tolist(),
+                "temperature": custom_neutral_profile[6, :].tolist(),
             }
 
     # inject custom spectrum if supplied
     if (custom_spectrum is not None):
         post_data["custom_spectrum"] = {
-            "energy": custom_spectrum[:, 0].tolist(),
-            "flux": custom_spectrum[:, 1].tolist(),
+            "energy": custom_spectrum[0, :].tolist(),
+            "flux": custom_spectrum[1, :].tolist(),
         }
 
     # make request
