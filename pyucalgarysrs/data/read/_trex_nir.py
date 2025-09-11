@@ -220,7 +220,7 @@ def __nir_readfile_worker(file, first_record=False, no_metadata=False, start_tim
             unzipped = gzip.open(file, mode='rb')
         elif file.endswith("pgm"):
             unzipped = open(file, mode='rb')
-        else:  # pragma: nocover
+        else:  # pragma: nocover-ok
             if (quiet is False):
                 print("Unrecognized file type: %s" % (file))
             problematic = True
@@ -256,7 +256,7 @@ def __nir_readfile_worker(file, first_record=False, no_metadata=False, start_tim
         try:
             prev_line = line
             line = unzipped.readline()
-        except Exception as e:  # pragma: nocover
+        except Exception as e:  # pragma: nocover-ok
             if (quiet is False):
                 print("Error reading before image data in file '%s'" % (file))
             problematic = True
@@ -348,7 +348,7 @@ def __nir_readfile_worker(file, first_record=False, no_metadata=False, start_tim
 
                 # change 1d numpy array into matrix with correctly located pixels
                 image_matrix = np.reshape(image_np, (image_height, image_width, 1))
-            except Exception as e:  # pragma: nocover
+            except Exception as e:  # pragma: nocover-ok
                 if (quiet is False):
                     print("Failed reading image data frame: %s" % (str(e)))
                 metadata_dict_list.pop()  # remove corresponding metadata entry
@@ -373,13 +373,13 @@ def __nir_readfile_worker(file, first_record=False, no_metadata=False, start_tim
             image_size_is_zero = True
     elif (start_time is not None and end_time is not None):
         if (file_dt >= start_time and file_dt <= end_time):
-            if (images.size == 0):  # pragma: nocover
+            if (images.size == 0):  # pragma: nocover-ok
                 image_size_is_zero = True
     elif (start_time is not None and file_dt >= start_time):
-        if (images.size == 0):  # pragma: nocover
+        if (images.size == 0):  # pragma: nocover-ok
             image_size_is_zero = True
     elif (end_time is not None and file_dt <= end_time):
-        if (images.size == 0):  # pragma: nocover
+        if (images.size == 0):  # pragma: nocover-ok
             image_size_is_zero = True
     if (image_size_is_zero is True):
         if (quiet is False):

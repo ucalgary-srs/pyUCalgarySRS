@@ -103,7 +103,7 @@ def read(file_list, n_parallel=1, first_record=False, no_metadata=False, start_t
                 "dtype": pd["data"]["timestamp"].dtype,
                 "n_channels": 1,
             }
-            if (len(data_dict_sizes_and_dtype["timestamp"]["shape"]) == 4):  # pragma: nocover
+            if (len(data_dict_sizes_and_dtype["timestamp"]["shape"]) == 4):  # pragma: nocover-ok
                 data_dict_sizes_and_dtype["timestamp"]["n_channels"] = 3
         else:
             data_dict_sizes_and_dtype["timestamp"]["shape"][-1] += list(pd["data"]["timestamp"].shape)[-1]
@@ -119,7 +119,7 @@ def read(file_list, n_parallel=1, first_record=False, no_metadata=False, start_t
                         "dtype": pd["data"]["source_info"][key_name].dtype,
                         "n_channels": 1,
                     }
-                    if (len(data_dict_sizes_and_dtype["source_info"][key_name]["shape"]) == 4):  # pragma: nocover
+                    if (len(data_dict_sizes_and_dtype["source_info"][key_name]["shape"]) == 4):  # pragma: nocover-ok
                         data_dict_sizes_and_dtype["source_info"][key_name]["n_channels"] = 3
                 else:
                     data_dict_sizes_and_dtype["source_info"][key_name]["shape"][-1] += list(pd["data"]["source_info"][key_name].shape)[-1]
@@ -176,7 +176,7 @@ def read(file_list, n_parallel=1, first_record=False, no_metadata=False, start_t
                     this_end_position = list_position + list(pd["data"]["source_info"][key1].shape)[-1]
                     if (data_dict_sizes_and_dtype["source_info"][key1]["n_channels"] == 1):
                         data_dict["source_info"][key1][:, :, list_position:this_end_position] = pd["data"]["source_info"][key1][:, :, :]
-                    else:  # pragma: nocover
+                    else:  # pragma: nocover-ok
                         data_dict["source_info"][key1][:, :, :, list_position:this_end_position] = pd["data"]["source_info"][key1][:, :, :, :]
             elif (key == "timestamp"):
                 this_end_position = list_position + list(pd["data"][key].shape)[-1]
@@ -203,7 +203,7 @@ def read(file_list, n_parallel=1, first_record=False, no_metadata=False, start_t
     #
     # NOTE: we hit this logic if all the files we tried to read in failed for
     # one reason or another
-    if ("grid" not in data_dict):  # pragma: nocover
+    if ("grid" not in data_dict):  # pragma: nocover-ok
         data_dict["grid"] = np.empty((512, 1024, 0), dtype=np.float32)
 
     # return
@@ -291,12 +291,12 @@ def __grid_readfile_worker(file_obj):
 
         # convert timestamps to numpy array
         if (len(data_dict["timestamp"]) == 0):  # type: ignore
-            data_dict["timestamp"] = np.empty((0), dtype=str)  # pragma: nocover
+            data_dict["timestamp"] = np.empty((0), dtype=str)  # pragma: nocover-ok
         else:
             data_dict["timestamp"] = np.asarray(data_dict["timestamp"])
 
         # bail out if we don't want to read any frames
-        if (len(idxs) == 0):  # pragma: nocover
+        if (len(idxs) == 0):  # pragma: nocover-ok
             return {
                 "data": data_dict,
                 "metadata": metadata_dict_list,
@@ -311,7 +311,7 @@ def __grid_readfile_worker(file_obj):
             data_dict["grid"] = f["data"]["grid"][:, :, idxs]  # type: ignore
         elif (len(f["data"]["grid"].shape) == 4):  # type: ignore
             data_dict["grid"] = f["data"]["grid"][:, :, :, idxs]  # type: ignore
-        else:  # pragma: nocover
+        else:  # pragma: nocover-ok
             if (file_obj["quiet"] is False):
                 print("Error reading image file: unexpected grid data shape")
             problematic = True

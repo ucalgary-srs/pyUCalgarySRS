@@ -39,7 +39,7 @@ class ATMInverseOutputFlags:
     object.
     """
     energy_flux: bool = False
-    characteristic_energy: bool = False
+    mean_energy: bool = False
     oxygen_correction_factor: bool = False
     height_integrated_rayleighs_4278: bool = False
     height_integrated_rayleighs_5577: bool = False
@@ -103,6 +103,7 @@ class ATMInverseRequest:
     intensity_8446: float
     precipitation_flux_spectral_type: Literal["gaussian", "maxwellian"]
     nrlmsis_model_version: Literal["00", "2.0"]
+    special_logic_keyword: Optional[str]
     output: ATMInverseOutputFlags
     no_cache: bool
 
@@ -175,8 +176,8 @@ class ATMInverseResult:
         energy_flux (float): 
             Derived energy flux in erg/cm2/s.
 
-        characteristic_energy (float): 
-            Derived characteristic energy in EV.
+        mean_energy (float): 
+            Derived characteristic energy in EV. Previously named as 'characteristic_energy'.
 
         oxygen_correction_factor (float): 
             Derived oxygen correction factor.
@@ -275,7 +276,7 @@ class ATMInverseResult:
     """
     request_info: ATMInverseResultRequestInfo
     energy_flux: Any
-    characteristic_energy: Any
+    mean_energy: Any
     oxygen_correction_factor: Any
     height_integrated_rayleighs_4278: Any
     height_integrated_rayleighs_5577: Any
@@ -305,9 +306,9 @@ class ATMInverseResult:
         return self.__repr__()
 
     def __repr__(self) -> str:
-        return "ATMInverseResult(energy_flux=%f, characteristic_energy=%f, oxygen_correction_factor=%f, ...)" % (
+        return "ATMInverseResult(energy_flux=%f, mean_energy=%f, oxygen_correction_factor=%f, ...)" % (
             self.energy_flux,
-            self.characteristic_energy,
+            self.mean_energy,
             self.oxygen_correction_factor,
         )
 
@@ -323,7 +324,7 @@ class ATMInverseResult:
 
             # exclude based on version
             if (self.request_info.request.atm_model_version == "2.0"
-                    and (var_name != "energy_flux" and var_name != "characteristic_energy" and var_name != "oxygen_correction_factor")):
+                    and (var_name not in ["request_info", "energy_flux", "mean_energy", "oxygen_correction_factor"])):
                 continue
 
             # convert var to string format we want
@@ -335,10 +336,10 @@ class ATMInverseResult:
                 if (isinstance(var_value, float)):
                     var_str = "%f" % (var_value)
                 elif (isinstance(var_value, ndarray)):
-                    var_str = "%s ...])" % (var_value.__repr__()[0:60])
+                    var_str = "%s ...])" % (var_value.__repr__()[0:60])  # pragma: nocover-ok
 
             # print string for this var
             if (self.request_info.request.atm_model_version == "1.0"):
-                print("  %-34s: %s" % (var_name, var_str))
+                print("  %-34s: %s" % (var_name, var_str))  # pragma: nocover-ok
             else:
                 print("  %-26s: %s" % (var_name, var_str))

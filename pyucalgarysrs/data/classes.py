@@ -953,17 +953,17 @@ class HSRData:
         absorption_str = "None" if (self.absorption is None) else "array(dims=%s, dtype=%s)" % (self.absorption.shape, self.absorption.dtype)
 
         # set central frequency string
-        if (len(self.band_central_frequency) == 0):  # pragma: nocover
+        if (len(self.band_central_frequency) == 0):  # pragma: nocover-ok
             band_central_frequency_str = "[]"
-        elif (len(self.band_central_frequency) == 1):  # pragma: nocover
+        elif (len(self.band_central_frequency) == 1):  # pragma: nocover-ok
             band_central_frequency_str = "[1 central frequency]"
         else:
             band_central_frequency_str = "[%d central frequencies]" % (len(self.band_central_frequency))
 
         # set passband string
-        if (len(self.band_passband) == 0):  # pragma: nocover
+        if (len(self.band_passband) == 0):  # pragma: nocover-ok
             band_passband_str = "[]"
-        elif (len(self.band_passband) == 1):  # pragma: nocover
+        elif (len(self.band_passband) == 1):  # pragma: nocover-ok
             band_passband_str = "[1 passband]"
         else:
             band_passband_str = "[%d passbands]" % (len(self.band_passband))
@@ -987,17 +987,17 @@ class HSRData:
         absorption_str = "None" if (self.absorption is None) else "array(dims=%s, dtype=%s)" % (self.absorption.shape, self.absorption.dtype)
 
         # set central frequency string
-        if (len(self.band_central_frequency) == 0):  # pragma: nocover
+        if (len(self.band_central_frequency) == 0):  # pragma: nocover-ok
             band_central_frequency_str = "[]"
-        elif (len(self.band_central_frequency) == 1):  # pragma: nocover
+        elif (len(self.band_central_frequency) == 1):  # pragma: nocover-ok
             band_central_frequency_str = "[1 central frequency]"
         else:
             band_central_frequency_str = "[%d central frequencies]" % (len(self.band_central_frequency))
 
         # set passband string
-        if (len(self.band_passband) == 0):  # pragma: nocover
+        if (len(self.band_passband) == 0):  # pragma: nocover-ok
             band_passband_str = "[]"
-        elif (len(self.band_passband) == 1):  # pragma: nocover
+        elif (len(self.band_passband) == 1):  # pragma: nocover-ok
             band_passband_str = "[1 passband]"
         else:
             band_passband_str = "[%d passbands]" % (len(self.band_passband))

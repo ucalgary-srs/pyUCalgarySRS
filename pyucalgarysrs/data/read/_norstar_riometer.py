@@ -233,7 +233,7 @@ def __riometer_readfile_worker(file, no_metadata=False, start_time=None, end_tim
             fp = open(file, 'r')
             for line in fp:
                 # check if we want this line
-                if (line[0] != '#'):  # pragma: nocover
+                if (line[0] != '#'):  # pragma: nocover-ok
                     break
                 if ("------------" in line):
                     # end of metadata, bail out
@@ -272,18 +272,18 @@ def __riometer_readfile_worker(file, no_metadata=False, start_time=None, end_tim
                         if (os.path.basename(file)[0:3] in s3):
                             metadata_dict["site_unique_id"] = s4
                             break
-                else:  # pragma: nocover
+                else:  # pragma: nocover-ok
                     # 4-letter site code -- find position of 'rio-' in the file, site code
                     # will be right after that
                     idx = os.path.basename(file).find('rio-')
                     if (idx != -1):
                         metadata_dict["site_unique_id"] = os.path.basename(file)[idx + 4:4].lower()
-            if ("site_unique_id" not in metadata_dict):  # pragma: nocover
+            if ("site_unique_id" not in metadata_dict):  # pragma: nocover-ok
                 # still haven't found it, raise a warning message
                 metadata_dict["site_unique_id"] = "unknown"
                 if (quiet is False):
                     print("Warning: unable to determine 'site_unique_id' field in file '%s'" % (file))
-        except Exception as e:  # pragma: nocover
+        except Exception as e:  # pragma: nocover-ok
             # set error message
             if (quiet is False):
                 print("Error reading metadata for file '%s': %s" % (file, str(e)))

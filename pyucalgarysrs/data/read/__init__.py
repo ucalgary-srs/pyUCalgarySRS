@@ -831,10 +831,10 @@ class ReadManager:
                     timestamp_list.append(datetime.datetime.strptime(m["image_request_start_timestamp"], "%Y-%m-%d %H:%M:%S.%f UTC"))
                 elif ("Image request start" in m):
                     timestamp_list.append(datetime.datetime.strptime(m["Image request start"], "%Y-%m-%d %H:%M:%S.%f UTC"))
-                elif (m == {}):  # pragma: nocover
+                elif (m == {}):  # pragma: nocover-ok
                     # a problematic file, skip it
                     pass
-                else:  # pragma: nocover
+                else:  # pragma: nocover-ok
                     raise SRSError("Unexpected timestamp metadata format")
 
         # convert to return type
@@ -961,7 +961,7 @@ class ReadManager:
             timestamp_list = []
             if (no_metadata is False):
                 timestamp_list = timestamp_np.tolist()
-        else:  # pragma: nocover
+        else:  # pragma: nocover-ok
             raise SRSUnsupportedReadError("Unexpected Spectrograph file format")
 
         # convert to return type
@@ -1065,10 +1065,10 @@ class ReadManager:
             for m in meta:
                 if ("image_request_start" in m):
                     timestamp_list.append(datetime.datetime.strptime(m["image_request_start"], "%Y-%m-%d %H:%M:%S.%f UTC"))
-                elif (m == {}):  # pragma: nocover
+                elif (m == {}):  # pragma: nocover-ok
                     # a problematic file, skip it
                     pass
-                else:  # pragma: nocover
+                else:  # pragma: nocover-ok
                     raise SRSError("Unexpected timestamp metadata format")
 
         # convert to return type
@@ -1189,7 +1189,7 @@ class ReadManager:
             #
             # NOTE: bytscl_values was not present in early THEMIS skymap files, so
             # we conditionally add it
-            if ("bytscl_values" in item_recarray.generation_info[0].dtype.names):  # pragma: nocover
+            if ("bytscl_values" in item_recarray.generation_info[0].dtype.names):  # pragma: nocover-ok
                 generation_info_obj.bytscl_values = item_recarray.generation_info[0].bytscl_values
 
             # flip certain things

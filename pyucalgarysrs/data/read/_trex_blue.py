@@ -222,7 +222,7 @@ def __blueline_readfile_worker(file, first_record=False, no_metadata=False, star
             unzipped = gzip.open(file, mode='rb')
         elif file.endswith("pgm"):
             unzipped = open(file, mode='rb')
-        else:  # pragma: nocover
+        else:  # pragma: nocover-ok
             if (quiet is False):
                 print("Unrecognized file type: %s" % (file))
             problematic = True
@@ -258,7 +258,7 @@ def __blueline_readfile_worker(file, first_record=False, no_metadata=False, star
         try:
             prev_line = line
             line = unzipped.readline()
-        except Exception as e:  # pragma: nocover
+        except Exception as e:  # pragma: nocover-ok
             if (quiet is False):
                 print("Error reading before image data in file '%s'" % (file))
             problematic = True
@@ -285,7 +285,7 @@ def __blueline_readfile_worker(file, first_record=False, no_metadata=False, star
                 # metadata lines start with #"<key>"
                 try:
                     line_decoded = line.decode("ascii")  # type: ignore
-                except Exception as e:  # pragma: nocover
+                except Exception as e:  # pragma: nocover-ok
                     # skip metadata line if it can't be decoded, likely corrupt file
                     if (quiet is False):
                         print("Error decoding metadata line: %s (line='%s', file='%s')" % (str(e), line, file))
@@ -350,7 +350,7 @@ def __blueline_readfile_worker(file, first_record=False, no_metadata=False, star
 
                 # change 1d numpy array into matrix with correctly located pixels
                 image_matrix = np.reshape(image_np, (image_height, image_width, 1))
-            except Exception as e:  # pragma: nocover
+            except Exception as e:  # pragma: nocover-ok
                 if (quiet is False):
                     print("Failed reading image data frame: %s" % (str(e)))
                 metadata_dict_list.pop()  # remove corresponding metadata entry
@@ -375,13 +375,13 @@ def __blueline_readfile_worker(file, first_record=False, no_metadata=False, star
             image_size_is_zero = True
     elif (start_time is not None and end_time is not None):
         if (file_dt >= start_time and file_dt <= end_time):
-            if (images.size == 0):  # pragma: nocover
+            if (images.size == 0):  # pragma: nocover-ok
                 image_size_is_zero = True
     elif (start_time is not None and file_dt >= start_time):
-        if (images.size == 0):  # pragma: nocover
+        if (images.size == 0):  # pragma: nocover-ok
             image_size_is_zero = True
     elif (end_time is not None and file_dt <= end_time):
-        if (images.size == 0):  # pragma: nocover
+        if (images.size == 0):  # pragma: nocover-ok
             image_size_is_zero = True
     if (image_size_is_zero is True):
         if (quiet is False):

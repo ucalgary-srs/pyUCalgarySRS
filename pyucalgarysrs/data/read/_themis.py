@@ -208,7 +208,7 @@ def __themis_readfile_worker(file, first_record=False, no_metadata=False, start_
             unzipped = open(file, mode='rb')
         elif file.endswith("pgm.bz2"):
             unzipped = bz2.open(file, mode='rb')
-        else:  # pragma: nocover
+        else:  # pragma: nocover-ok
             if (quiet is False):
                 print("Unrecognized file type: %s" % (file))
             problematic = True
@@ -263,7 +263,7 @@ def __themis_readfile_worker(file, first_record=False, no_metadata=False, start_
                 # metadata lines start with #"<key>"
                 try:
                     line_decoded = line.decode("ascii")  # type: ignore
-                except Exception as e:  # pragma: nocover
+                except Exception as e:  # pragma: nocover-ok
                     # skip metadata line if it can't be decoded, likely corrupt file but don't mark it as one yet
                     if (quiet is False):
                         print("Error decoding metadata line: %s (line='%s', file='%s')" % (str(e), line, file))
@@ -273,7 +273,7 @@ def __themis_readfile_worker(file, first_record=False, no_metadata=False, start_
 
                 # split the key and value out of the metadata line
                 line_decoded_split = line_decoded.split('"')
-                if (len(line_decoded_split) != 3):  # pragma: nocover
+                if (len(line_decoded_split) != 3):  # pragma: nocover-ok
                     if (quiet is False):
                         print("Warning: issue splitting metadata line (line='%s', file='%s')" % (line_decoded, file))
                     continue
@@ -350,13 +350,13 @@ def __themis_readfile_worker(file, first_record=False, no_metadata=False, start_
             image_size_is_zero = True
     elif (start_time is not None and end_time is not None):
         if (file_dt >= start_time and file_dt <= end_time):
-            if (images.size == 0):  # pragma: nocover
+            if (images.size == 0):  # pragma: nocover-ok
                 image_size_is_zero = True
     elif (start_time is not None and file_dt >= start_time):
-        if (images.size == 0):  # pragma: nocover
+        if (images.size == 0):  # pragma: nocover-ok
             image_size_is_zero = True
     elif (end_time is not None and file_dt <= end_time):
-        if (images.size == 0):  # pragma: nocover
+        if (images.size == 0):  # pragma: nocover-ok
             image_size_is_zero = True
     if (image_size_is_zero is True):
         if (quiet is False):

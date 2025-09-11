@@ -339,7 +339,7 @@ class ATMForwardResult:
                 continue
 
             # exclude based on version
-            if (self.request_info.request.atm_model_version == "1.0" and "production_rate_" in var_name):
+            if (self.request_info.request.atm_model_version == "1.0" and "production_rate_" in var_name):  # pragma: nocover-ok
                 continue
 
             # convert var to string format we want

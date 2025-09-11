@@ -277,7 +277,7 @@ def __spectrograph_raw_readfile_worker(file, first_record=False, no_metadata=Fal
                 # metadata lines start with #"<key>"
                 try:
                     line_decoded = line.decode("ascii")  # type: ignore
-                except Exception as e:  # pragma: nocover
+                except Exception as e:  # pragma: nocover-ok
                     # skip metadata line if it can't be decoded, likely corrupt file
                     if (quiet is False):
                         print("Error decoding metadata line: %s (line='%s', file='%s')" % (str(e), line, file))
@@ -342,7 +342,7 @@ def __spectrograph_raw_readfile_worker(file, first_record=False, no_metadata=Fal
 
                 # change 1d numpy array into matrix with correctly located pixels
                 image_matrix = np.reshape(image_np, (image_height, image_width, 1))
-            except Exception as e:  # pragma: nocover
+            except Exception as e:  # pragma: nocover-ok
                 if (quiet is False):
                     print("Failed reading image data frame: %s" % (str(e)))
                 metadata_dict_list.pop()  # remove corresponding metadata entry
@@ -367,13 +367,13 @@ def __spectrograph_raw_readfile_worker(file, first_record=False, no_metadata=Fal
             image_size_is_zero = True
     elif (start_time is not None and end_time is not None):
         if (file_dt >= start_time and file_dt <= end_time):
-            if (images.size == 0):  # pragma: nocover
+            if (images.size == 0):  # pragma: nocover-ok
                 image_size_is_zero = True
     elif (start_time is not None and file_dt >= start_time):
-        if (images.size == 0):  # pragma: nocover
+        if (images.size == 0):  # pragma: nocover-ok
             image_size_is_zero = True
     elif (end_time is not None and file_dt <= end_time):
-        if (images.size == 0):  # pragma: nocover
+        if (images.size == 0):  # pragma: nocover-ok
             image_size_is_zero = True
     if (image_size_is_zero is True):
         if (quiet is False):
@@ -542,7 +542,7 @@ def __spectrograph_processed_readfile_worker(file, first_record=False, no_metada
     try:
         file_dt = datetime.datetime.strptime(os.path.basename(file)[0:11], "%Y%m%d_%H")
     except Exception:
-        if (file is False):  # pragma: nocover
+        if (file is False):  # pragma: nocover-ok
             print("Failed to extract timestamp from filename")
         problematic = True
         error_message = "failed to extract timestamp from filename"
@@ -587,7 +587,7 @@ def __spectrograph_processed_readfile_worker(file, first_record=False, no_metada
                     timestamps.append(original_timestamps[i])  # type: ignore
 
         # bail out if we don't want to read any frames
-        if (len(idxs) == 0):  # pragma: nocover
+        if (len(idxs) == 0):  # pragma: nocover-ok
             timestamps = np.array([])
             return spectra, timestamps, metadata_dict_list, problematic, file, error_message
 
@@ -611,7 +611,7 @@ def __spectrograph_processed_readfile_worker(file, first_record=False, no_metada
         # set image vars and reshape if multiple images
         image_height = spectra.shape[0]  # type: ignore
         image_width = spectra.shape[1]  # type: ignore
-        if (len(spectra.shape) == 2):  # type: ignore  # pragma: nocover
+        if (len(spectra.shape) == 2):  # type: ignore  # pragma: nocover-ok
             # force reshape to 3 dimensions
             spectra = spectra.reshape((image_height, image_width, 1))  # type: ignore
     except Exception as e:

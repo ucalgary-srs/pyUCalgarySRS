@@ -83,7 +83,7 @@ def forward(
     )
 
     # set up request
-    if (atm_model_version == "1.0"):
+    if (atm_model_version == "1.0"):  # pragma: nocover-ok
         url = "%s/api/v1/atm/forward" % (srs_obj.api_base_url)
         post_data = {
             "timestamp": timestamp.strftime("%Y-%m-%dT%H:%M:%S"),
@@ -164,7 +164,7 @@ def forward(
 
     # cast result into return object
     request_info_obj = ATMForwardResultRequestInfo(request=request_obj, calculation_duration_ms=res["calculation_duration_ms"])
-    if (atm_model_version == "1.0"):
+    if (atm_model_version == "1.0"):  # pragma: nocover-ok
         result_obj = ATMForwardResult(
             request_info=request_info_obj,
             height_integrated_rayleighs_4278=res["data"]["height_integrated_rayleighs_4278"],

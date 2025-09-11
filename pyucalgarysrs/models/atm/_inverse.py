@@ -30,6 +30,7 @@ def inverse(
     output,
     precipitation_flux_spectral_type,
     nrlmsis_model_version,
+    special_logic_keyword,
     atm_model_version,
     no_cache,
     timeout,
@@ -50,12 +51,13 @@ def inverse(
         intensity_8446=intensity_8446,
         precipitation_flux_spectral_type=precipitation_flux_spectral_type,
         nrlmsis_model_version=nrlmsis_model_version,
+        special_logic_keyword=special_logic_keyword,
         output=output,
         no_cache=no_cache,
     )
 
     # set up request
-    if (atm_model_version == "1.0"):
+    if (atm_model_version == "1.0"):  # pragma: nocover-ok
         url = "%s/api/v1/atm/inverse" % (srs_obj.api_base_url)
         post_data = {
             "timestamp": timestamp.strftime("%Y-%m-%dT%H:%M:%S"),
@@ -82,6 +84,7 @@ def inverse(
             "intensity_8446": intensity_8446,
             "precipitation_flux_spectral_type": precipitation_flux_spectral_type,
             "nrlmsis_model_version": nrlmsis_model_version,
+            "special_logic_keyword": special_logic_keyword,
             "output": output.__dict__,
             "no_cache": no_cache,
         }
@@ -101,7 +104,7 @@ def inverse(
     res = r.json()
 
     # set up return object
-    if (atm_model_version == "1.0"):
+    if (atm_model_version == "1.0"):  # pragma: nocover-ok
         forward_params_obj = None
         if (res["forward_params"] is not None):
             forward_params_obj = ATMInverseForwardParams(**res["forward_params"])
@@ -118,11 +121,11 @@ def inverse(
         )
 
     # set main result
-    if (atm_model_version == "1.0"):
+    if (atm_model_version == "1.0"):  # pragma: nocover-ok
         result_obj = ATMInverseResult(
             request_info=request_info_obj,
             energy_flux=res["data"]["energy_flux"],
-            characteristic_energy=res["data"]["characteristic_energy"],
+            mean_energy=res["data"]["mean_energy"],
             oxygen_correction_factor=res["data"]["oxygen_correction_factor"],
             height_integrated_rayleighs_4278=res["data"]["height_integrated_rayleighs_4278"],
             height_integrated_rayleighs_5577=res["data"]["height_integrated_rayleighs_5577"],
@@ -156,7 +159,7 @@ def inverse(
         result_obj = ATMInverseResult(
             request_info=request_info_obj,
             energy_flux=res["data"]["energy_flux"],
-            characteristic_energy=res["data"]["characteristic_energy"],
+            mean_energy=res["data"]["mean_energy"],
             oxygen_correction_factor=res["data"]["oxygen_correction_factor"],
             height_integrated_rayleighs_4278=None,
             height_integrated_rayleighs_5577=None,

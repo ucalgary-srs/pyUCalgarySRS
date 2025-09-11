@@ -36,7 +36,7 @@ ALL_TESTS = [
             "atmospheric_attenuation_correction": False,
             "output": {
                 "energy_flux": True,
-                "characteristic_energy": True,
+                "mean_energy": True,
                 "oxygen_correction_factor": True,
             },
             "no_cache": True,
@@ -58,7 +58,7 @@ ALL_TESTS = [
             "atmospheric_attenuation_correction": False,
             "output": {
                 "energy_flux": True,
-                "characteristic_energy": True,
+                "mean_energy": True,
                 "oxygen_correction_factor": True,
             },
             "no_cache": False,
@@ -80,7 +80,7 @@ ALL_TESTS = [
             "atmospheric_attenuation_correction": False,
             "output": {
                 "energy_flux": True,
-                "characteristic_energy": True,
+                "mean_energy": True,
                 "oxygen_correction_factor": True,
             },
         },
@@ -101,7 +101,7 @@ ALL_TESTS = [
             "atmospheric_attenuation_correction": False,
             "output": {
                 "energy_flux": True,
-                "characteristic_energy": False,
+                "mean_energy": False,
                 "oxygen_correction_factor": False,
             },
         },
@@ -124,7 +124,7 @@ ALL_TESTS = [
             "output": {
                 "altitudes": True,
                 "energy_flux": True,
-                "characteristic_energy": True,
+                "mean_energy": True,
                 "oxygen_correction_factor": True,
                 "height_integrated_rayleighs_4278": True,
                 "height_integrated_rayleighs_5577": True,
@@ -170,7 +170,7 @@ ALL_TESTS = [
             "output": {
                 "altitudes": True,
                 "energy_flux": True,
-                "characteristic_energy": True,
+                "mean_energy": True,
                 "oxygen_correction_factor": True,
                 "height_integrated_rayleighs_4278": True,
                 "height_integrated_rayleighs_5577": True,
@@ -214,7 +214,7 @@ ALL_TESTS = [
             "atmospheric_attenuation_correction": False,
             "output": {
                 "energy_flux": True,
-                "characteristic_energy": True,
+                "mean_energy": True,
                 "oxygen_correction_factor": True,
             },
             "no_cache": True,
@@ -322,7 +322,7 @@ def test_atm_inverse(srs, test_dict):
             if ("atm_model_version" in test_dict and test_dict["atm_model_version"] == "1.0"):
                 assert getattr(result, output_var) is not None
             else:
-                if (output_var == "energy_flux" or output_var == "oxygen_correction_factor" or output_var == "characteristic_energy"):
+                if (output_var in ["energy_flux", "oxygen_correction_factor", "mean_energy"]):
                     assert getattr(result, output_var) is not None
                 else:
                     assert getattr(result, output_var) is None
@@ -369,6 +369,10 @@ def test_atm_inverse_schema_atm_inverse_result(srs, capsys):
     captured_stdout = capsys.readouterr().out
     assert captured_stdout != ""
 
+    # check __str__ and __repr__
+    print_str = str(result)
+    assert print_str != ""
+
 
 @pytest.mark.atm
 def test_attenuation_warning(srs, capsys):
@@ -387,7 +391,7 @@ def test_attenuation_warning(srs, capsys):
             "atmospheric_attenuation_correction": True,
             "output": {
                 "energy_flux": True,
-                "characteristic_energy": True,
+                "mean_energy": True,
                 "oxygen_correction_factor": True,
             },
             "no_cache": True,
@@ -403,7 +407,43 @@ def test_attenuation_warning(srs, capsys):
     # check warning
     assert len(w) == 1
     assert issubclass(w[-1].category, UserWarning)
-    assert "The atmospheric_attentuation_correction parameter has been deprecated." in str(w[-1].message)
+    assert "The atmospheric_attenuation_correction parameter was deprecated in v1.23.0." in str(w[-1].message)
+
+    # check pretty_print method
+    result.pretty_print()
+    captured_stdout = capsys.readouterr().out
+    assert captured_stdout != ""
+
+
+@pytest.mark.atm
+def test_special_logic_keyword(srs, capsys):
+    # set request
+    request_dict = {
+        "request": {
+            "timestamp": "2025-01-01T12:00:00",
+            "geodetic_latitude": 58.0,
+            "geodetic_longitude": -105.0,
+            "nrlmsis_model_version": "2.0",
+            "intensity_4278": 2302.6,
+            "intensity_5577": 11339.5,
+            "intensity_6300": 528.3,
+            "intensity_8446": 427.4,
+            "precipitation_flux_spectral_type": "gaussian",
+            "atmospheric_attenuation_correction": False,
+            "special_logic_keyword": "shill_20250910",
+            "output": {
+                "energy_flux": True,
+                "mean_energy": True,
+                "oxygen_correction_factor": True,
+            },
+            "no_cache": True,
+        },
+        "expected_status": 200,
+        "expected_error_message": None,
+    }
+
+    # do a request
+    result, _ = __do_function(srs, request_dict)
 
     # check pretty_print method
     result.pretty_print()

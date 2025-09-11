@@ -112,7 +112,7 @@ def read(file_list, n_parallel=1, first_record=False, no_metadata=False, start_t
             image_height = pool_data[i][6] if image_height is None and pool_data[i][6] is not None else image_height
             image_channels = pool_data[i][7] if image_channels is None and pool_data[i][7] is not None else image_channels
             image_dtype = pool_data[i][8] if image_dtype is None and pool_data[i][8] is not None else image_dtype
-    if (image_width is None or image_height is None or image_channels is None or image_dtype is None):  # pragma: nocover
+    if (image_width is None or image_height is None or image_channels is None or image_dtype is None):  # pragma: nocover-ok
         raise SRSError("Unexpected read error, please contact the UCalgary team")
 
     # set image sizes and derive number of frames to prepare for
@@ -200,7 +200,7 @@ def __trex_readfile_worker(file_obj):
                 print("Unrecognized file type: %s" % (file_obj["filename"]))
             problematic = True
             error_message = "Unrecognized file type"
-    except Exception as e:  # pragma: nocover
+    except Exception as e:  # pragma: nocover-ok
         if (file_obj["quiet"] is False):
             print("Failed to process file '%s' " % (file_obj["filename"]))
         problematic = True
@@ -227,7 +227,7 @@ def __smile_readfile_worker_h5(file_obj):
     # extract start and end times of the filename
     try:
         file_dt = datetime.datetime.strptime(os.path.basename(file_obj["filename"])[0:13], "%Y%m%d_%H%M")
-    except Exception:
+    except Exception:  # pragma: nocover-ok
         if (file_obj["quiet"] is False):
             print("Failed to extract timestamp from filename")
         problematic = True
@@ -277,7 +277,7 @@ def __smile_readfile_worker_h5(file_obj):
                     idxs.append(i)
 
         # bail out if we don't want to read any frames
-        if (len(idxs) == 0):  # pragma: nocover
+        if (len(idxs) == 0):  # pragma: nocover-ok
             return images, metadata_dict_list, problematic, file_obj["filename"], error_message, \
                 image_width, image_height, image_channels, image_dtype
 
@@ -302,7 +302,7 @@ def __smile_readfile_worker_h5(file_obj):
         f.close()
 
         # reshape if multiple images
-        if (len(images.shape) == 3):  # type: ignore  # pragma: nocover
+        if (len(images.shape) == 3):  # type: ignore  # pragma: nocover-ok
             # force reshape to 4 dimensions
             images = images.reshape((image_height, image_width, image_channels, 1))  # type: ignore
 

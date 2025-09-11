@@ -212,7 +212,7 @@ def __rego_readfile_worker(file, first_record=False, no_metadata=False, start_ti
             unzipped = gzip.open(file, mode='rb')
         elif file.endswith("pgm"):
             unzipped = open(file, mode='rb')
-        else:  # pragma: nocover
+        else:  # pragma: nocover-ok
             if (quiet is False):
                 print("Unrecognized file type: %s" % (file))
             problematic = True
@@ -270,7 +270,7 @@ def __rego_readfile_worker(file, first_record=False, no_metadata=False, start_ti
                 # metadata lines start with #"<key>"
                 try:
                     line_decoded = line.decode("ascii")  # type: ignore
-                except Exception as e:  # pragma: nocover
+                except Exception as e:  # pragma: nocover-ok
                     # skip metadata line if it can't be decoded, likely corrupt file
                     if (quiet is False):
                         print("Error decoding metadata line: %s (line='%s', file='%s')" % (str(e), line, file))
@@ -364,13 +364,13 @@ def __rego_readfile_worker(file, first_record=False, no_metadata=False, start_ti
             image_size_is_zero = True
     elif (start_time is not None and end_time is not None):
         if (file_dt >= start_time and file_dt <= end_time):
-            if (images.size == 0):  # pragma: nocover
+            if (images.size == 0):  # pragma: nocover-ok
                 image_size_is_zero = True
     elif (start_time is not None and file_dt >= start_time):
-        if (images.size == 0):  # pragma: nocover
+        if (images.size == 0):  # pragma: nocover-ok
             image_size_is_zero = True
     elif (end_time is not None and file_dt <= end_time):
-        if (images.size == 0):  # pragma: nocover
+        if (images.size == 0):  # pragma: nocover-ok
             image_size_is_zero = True
     if (image_size_is_zero is True):
         if (quiet is False):
