@@ -294,8 +294,8 @@ class ATMManager:
         parameters. Note that this function utilizes the UCalgary Space Remote Sensing API to perform 
         the calculation.
 
-        **NOTE**: The 'atmospheric_attenuation_correction' parameter from ATM model version 1.0 has been deprecated. 
-        Please ensure you perform this conversion yourself on the results, if desired.
+        **NOTE**: The 'atmospheric_attenuation_correction' parameter from ATM model version 1.0 was deprecated
+        in v1.23.0. Please ensure you perform this conversion yourself on the results, if desired.
 
         **NOTE**: As of PyUCalgarySRS version 1.24.0, the `characteristic_energy` output flag was deprecated. 
         Please use `mean_energy` instead.
