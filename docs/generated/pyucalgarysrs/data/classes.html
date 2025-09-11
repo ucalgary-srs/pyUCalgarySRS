@@ -1326,17 +1326,17 @@ class HSRData:
         absorption_str = &#34;None&#34; if (self.absorption is None) else &#34;array(dims=%s, dtype=%s)&#34; % (self.absorption.shape, self.absorption.dtype)
 
         # set central frequency string
-        if (len(self.band_central_frequency) == 0):  # pragma: nocover
+        if (len(self.band_central_frequency) == 0):  # pragma: nocover-ok
             band_central_frequency_str = &#34;[]&#34;
-        elif (len(self.band_central_frequency) == 1):  # pragma: nocover
+        elif (len(self.band_central_frequency) == 1):  # pragma: nocover-ok
             band_central_frequency_str = &#34;[1 central frequency]&#34;
         else:
             band_central_frequency_str = &#34;[%d central frequencies]&#34; % (len(self.band_central_frequency))
 
         # set passband string
-        if (len(self.band_passband) == 0):  # pragma: nocover
+        if (len(self.band_passband) == 0):  # pragma: nocover-ok
             band_passband_str = &#34;[]&#34;
-        elif (len(self.band_passband) == 1):  # pragma: nocover
+        elif (len(self.band_passband) == 1):  # pragma: nocover-ok
             band_passband_str = &#34;[1 passband]&#34;
         else:
             band_passband_str = &#34;[%d passbands]&#34; % (len(self.band_passband))
@@ -1360,17 +1360,17 @@ class HSRData:
         absorption_str = &#34;None&#34; if (self.absorption is None) else &#34;array(dims=%s, dtype=%s)&#34; % (self.absorption.shape, self.absorption.dtype)
 
         # set central frequency string
-        if (len(self.band_central_frequency) == 0):  # pragma: nocover
+        if (len(self.band_central_frequency) == 0):  # pragma: nocover-ok
             band_central_frequency_str = &#34;[]&#34;
-        elif (len(self.band_central_frequency) == 1):  # pragma: nocover
+        elif (len(self.band_central_frequency) == 1):  # pragma: nocover-ok
             band_central_frequency_str = &#34;[1 central frequency]&#34;
         else:
             band_central_frequency_str = &#34;[%d central frequencies]&#34; % (len(self.band_central_frequency))
 
         # set passband string
-        if (len(self.band_passband) == 0):  # pragma: nocover
+        if (len(self.band_passband) == 0):  # pragma: nocover-ok
             band_passband_str = &#34;[]&#34;
-        elif (len(self.band_passband) == 1):  # pragma: nocover
+        elif (len(self.band_passband) == 1):  # pragma: nocover-ok
             band_passband_str = &#34;[1 passband]&#34;
         else:
             band_passband_str = &#34;[%d passbands]&#34; % (len(self.band_passband))
@@ -1440,17 +1440,17 @@ class HSRData:
     absorption_str = &#34;None&#34; if (self.absorption is None) else &#34;array(dims=%s, dtype=%s)&#34; % (self.absorption.shape, self.absorption.dtype)
 
     # set central frequency string
-    if (len(self.band_central_frequency) == 0):  # pragma: nocover
+    if (len(self.band_central_frequency) == 0):  # pragma: nocover-ok
         band_central_frequency_str = &#34;[]&#34;
-    elif (len(self.band_central_frequency) == 1):  # pragma: nocover
+    elif (len(self.band_central_frequency) == 1):  # pragma: nocover-ok
         band_central_frequency_str = &#34;[1 central frequency]&#34;
     else:
         band_central_frequency_str = &#34;[%d central frequencies]&#34; % (len(self.band_central_frequency))
 
     # set passband string
-    if (len(self.band_passband) == 0):  # pragma: nocover
+    if (len(self.band_passband) == 0):  # pragma: nocover-ok
         band_passband_str = &#34;[]&#34;
-    elif (len(self.band_passband) == 1):  # pragma: nocover
+    elif (len(self.band_passband) == 1):  # pragma: nocover-ok
         band_passband_str = &#34;[1 passband]&#34;
     else:
         band_passband_str = &#34;[%d passbands]&#34; % (len(self.band_passband))

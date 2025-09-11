@@ -719,7 +719,7 @@ class ATMForwardResult:
                 continue
 
             # exclude based on version
-            if (self.request_info.request.atm_model_version == &#34;1.0&#34; and &#34;production_rate_&#34; in var_name):
+            if (self.request_info.request.atm_model_version == &#34;1.0&#34; and &#34;production_rate_&#34; in var_name):  # pragma: nocover-ok
                 continue
 
             # convert var to string format we want
@@ -997,7 +997,7 @@ types (e.g., float, numpy ndarray).</p>
             continue
 
         # exclude based on version
-        if (self.request_info.request.atm_model_version == &#34;1.0&#34; and &#34;production_rate_&#34; in var_name):
+        if (self.request_info.request.atm_model_version == &#34;1.0&#34; and &#34;production_rate_&#34; in var_name):  # pragma: nocover-ok
             continue
 
         # convert var to string format we want

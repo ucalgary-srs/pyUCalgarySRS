@@ -857,10 +857,10 @@ border-left: 1px solid #ddd;
                     timestamp_list.append(datetime.datetime.strptime(m[&#34;image_request_start_timestamp&#34;], &#34;%Y-%m-%d %H:%M:%S.%f UTC&#34;))
                 elif (&#34;Image request start&#34; in m):
                     timestamp_list.append(datetime.datetime.strptime(m[&#34;Image request start&#34;], &#34;%Y-%m-%d %H:%M:%S.%f UTC&#34;))
-                elif (m == {}):  # pragma: nocover
+                elif (m == {}):  # pragma: nocover-ok
                     # a problematic file, skip it
                     pass
-                else:  # pragma: nocover
+                else:  # pragma: nocover-ok
                     raise SRSError(&#34;Unexpected timestamp metadata format&#34;)
 
         # convert to return type
@@ -987,7 +987,7 @@ border-left: 1px solid #ddd;
             timestamp_list = []
             if (no_metadata is False):
                 timestamp_list = timestamp_np.tolist()
-        else:  # pragma: nocover
+        else:  # pragma: nocover-ok
             raise SRSUnsupportedReadError(&#34;Unexpected Spectrograph file format&#34;)
 
         # convert to return type
@@ -1091,10 +1091,10 @@ border-left: 1px solid #ddd;
             for m in meta:
                 if (&#34;image_request_start&#34; in m):
                     timestamp_list.append(datetime.datetime.strptime(m[&#34;image_request_start&#34;], &#34;%Y-%m-%d %H:%M:%S.%f UTC&#34;))
-                elif (m == {}):  # pragma: nocover
+                elif (m == {}):  # pragma: nocover-ok
                     # a problematic file, skip it
                     pass
-                else:  # pragma: nocover
+                else:  # pragma: nocover-ok
                     raise SRSError(&#34;Unexpected timestamp metadata format&#34;)
 
         # convert to return type
@@ -1215,7 +1215,7 @@ border-left: 1px solid #ddd;
             #
             # NOTE: bytscl_values was not present in early THEMIS skymap files, so
             # we conditionally add it
-            if (&#34;bytscl_values&#34; in item_recarray.generation_info[0].dtype.names):  # pragma: nocover
+            if (&#34;bytscl_values&#34; in item_recarray.generation_info[0].dtype.names):  # pragma: nocover-ok
                 generation_info_obj.bytscl_values = item_recarray.generation_info[0].bytscl_values
 
             # flip certain things
@@ -2811,7 +2811,7 @@ values.</p>
         #
         # NOTE: bytscl_values was not present in early THEMIS skymap files, so
         # we conditionally add it
-        if (&#34;bytscl_values&#34; in item_recarray.generation_info[0].dtype.names):  # pragma: nocover
+        if (&#34;bytscl_values&#34; in item_recarray.generation_info[0].dtype.names):  # pragma: nocover-ok
             generation_info_obj.bytscl_values = item_recarray.generation_info[0].bytscl_values
 
         # flip certain things
@@ -2996,10 +2996,10 @@ values.</p>
         for m in meta:
             if (&#34;image_request_start&#34; in m):
                 timestamp_list.append(datetime.datetime.strptime(m[&#34;image_request_start&#34;], &#34;%Y-%m-%d %H:%M:%S.%f UTC&#34;))
-            elif (m == {}):  # pragma: nocover
+            elif (m == {}):  # pragma: nocover-ok
                 # a problematic file, skip it
                 pass
-            else:  # pragma: nocover
+            else:  # pragma: nocover-ok
                 raise SRSError(&#34;Unexpected timestamp metadata format&#34;)
 
     # convert to return type
@@ -3795,10 +3795,10 @@ values.</p>
                 timestamp_list.append(datetime.datetime.strptime(m[&#34;image_request_start_timestamp&#34;], &#34;%Y-%m-%d %H:%M:%S.%f UTC&#34;))
             elif (&#34;Image request start&#34; in m):
                 timestamp_list.append(datetime.datetime.strptime(m[&#34;Image request start&#34;], &#34;%Y-%m-%d %H:%M:%S.%f UTC&#34;))
-            elif (m == {}):  # pragma: nocover
+            elif (m == {}):  # pragma: nocover-ok
                 # a problematic file, skip it
                 pass
-            else:  # pragma: nocover
+            else:  # pragma: nocover-ok
                 raise SRSError(&#34;Unexpected timestamp metadata format&#34;)
 
     # convert to return type
@@ -3986,7 +3986,7 @@ values.</p>
         timestamp_list = []
         if (no_metadata is False):
             timestamp_list = timestamp_np.tolist()
-    else:  # pragma: nocover
+    else:  # pragma: nocover-ok
         raise SRSUnsupportedReadError(&#34;Unexpected Spectrograph file format&#34;)
 
     # convert to return type
