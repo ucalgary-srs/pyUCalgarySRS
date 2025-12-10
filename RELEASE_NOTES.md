@@ -1,3 +1,9 @@
+Version 1.25.0
+-------------------
+- deprecated support for Python 3.9
+- minor test suite updates
+
+
 Version 1.24.0
 -------------------
 - ATM inversion changes

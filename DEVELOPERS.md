@@ -81,3 +81,11 @@ The overall mentality is that the coverage report is in place to help us quickly
   2. Lines marked with `# pragma: nocover` indicate that they are excluded from the coverage report, but that we should work towards plugging the holes.
 
 The example notebooks CAN be included in the coverage by including `--cov=pyucalgarysrs --cov-report= --cov-append` in the pytest call from the Makefile. However, we currently prefer to not include them in the coverage since the regular test suite is needed anyways, and will be more comprehensive. Notebooks are tested before each release is published, to ensure they are working.
+
+### Getting to the bottom of dependencies not updating
+
+Sometimes, poetry will show that updates to dependencies are available but not happening when a `poetry show --outdated` and `poetry update` are done. Figuring out why can be tricky. A few commands below can be used to track them down.
+
+`poetry show --outdated`
+`poetry show --why --tree numpy`
+`poetry lock -vvv`

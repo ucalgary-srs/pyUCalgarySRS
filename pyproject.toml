@@ -4,7 +4,7 @@ build-backend = "poetry.core.masonry.api"
 
 [tool.poetry]
 name = "pyucalgarysrs"
-version = "1.24.0"
+version = "1.25.0"
 description = "Tools for interacting with UCalgary Space Remote Sensing data"
 readme = "README.md"
 homepage = "https://github.com/ucalgary-srs/pyUCalgarySRS"
@@ -25,33 +25,29 @@ packages = [
 "UCalgary SRS Open Data Platform" = "https://data.phys.ucalgary.ca"
 
 [tool.poetry.dependencies]
-python = ">=3.9"
+python = ">=3.10"
 requests = "^2.28.0"
 humanize = "^4.4.0"
 texttable = "^1.6.4"
 tqdm = "^4.61.2"
 numpy = [
-    {version = "^1.21.0", python = ">=3.9,<3.10"},
     {version = ">=1.21.0,<2.3.0", python = ">=3.10,<3.11"},
     {version = ">=1.21.0,<3.0.0", python = ">=3.11"}
 ]
 opencv-python = "^4.4.0"
 h5py = "^3.1.0"
-scipy = [
-    {version = "^1.6.0", python = ">=3.9,<3.10"},
-    {version = "^1.8.0", python = ">=3.10"}
-]
+scipy = "^1.9.0"
 
 [tool.poetry.group.dev.dependencies]
-ruff = "0.13.0"
-pytest = "8.4.2"
+ruff = "0.14.8"
+pytest = "9.0.2"
 pycodestyle = "2.14.0"
 yapf = "0.43.0"
 pytest-xdist = "3.8.0"
 pytest-sugar = "1.1.1"
 pytest-cov = "7.0.0"
-bandit = "1.8.6"
-pyright = "1.1.405"
+bandit = "1.9.2"
+pyright = "1.1.407"
 pdoc3 = "0.11.6"
 jupyter = "^1.1.1"
 ipykernel = "^6.29.5"
