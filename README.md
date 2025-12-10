@@ -9,7 +9,7 @@ This is the Python library for retrieving and loading data provided by UCalgary 
 > [!NOTE]
 > This library is primarily a sub-dependency for higher-level data access and analysis support libraries [PyAuroraX](https://github.com/aurorax-space/pyaurorax) and [PyUCRio](https://github.com/ucalgary-srs/pyUCRio). We recommend using those libraries for accessing and analyzing optical (all-sky imager, spectrograph) data and riometer data, respectively.
 
-PyUCalagarySRS currently supports Python 3.9+.
+PyUCalagarySRS currently supports Python 3.10+.
 
 Some links to help:
 - [PyUCalgarySRS API Reference](https://docs-pyucalgarysrs.phys.ucalgary.ca)

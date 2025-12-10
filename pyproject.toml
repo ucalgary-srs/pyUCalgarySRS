@@ -54,10 +54,7 @@ ipykernel = "^6.29.5"
 iprogress = "^0.4"
 ipywidgets = "^8.1.5"
 nbmake = "^1.5.5"
-matplotlib = [
-    {version = "^3.4.0", python = ">=3.9,<3.10"},
-    {version = "^3.5.0", python = ">=3.10"}
-]
+matplotlib = "^3.5.0"
 
 [tool.ruff]
 line-length = 150
