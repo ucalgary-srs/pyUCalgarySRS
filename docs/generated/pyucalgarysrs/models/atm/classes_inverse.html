@@ -296,6 +296,9 @@ class ATMInverseResult:
     types (e.g., float, numpy ndarray).
 
     Attributes:
+        request_info (ATMInverseResultRequestInfo): 
+            Information about the API request made to perform the ATM forward calculation.
+        
         energy_flux (float): 
             Derived energy flux in erg/cm2/s.
 
@@ -352,6 +355,8 @@ be None types. If flags were set to True then the values will be their respectiv
 types (e.g., float, numpy ndarray).</p>
 <h2 id="attributes">Attributes</h2>
 <dl>
+<dt><strong><code>request_info</code></strong> :&ensp;<code><a title="pyucalgarysrs.models.atm.classes_inverse.ATMInverseResultRequestInfo" href="#pyucalgarysrs.models.atm.classes_inverse.ATMInverseResultRequestInfo">ATMInverseResultRequestInfo</a></code></dt>
+<dd>Information about the API request made to perform the ATM forward calculation.</dd>
 <dt><strong><code>energy_flux</code></strong> :&ensp;<code>float</code></dt>
 <dd>Derived energy flux in erg/cm2/s.</dd>
 <dt><strong><code>mean_energy</code></strong> :&ensp;<code>float</code></dt>

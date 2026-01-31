@@ -121,6 +121,9 @@ class ATMInverseResult:
     types (e.g., float, numpy ndarray).
 
     Attributes:
+        request_info (ATMInverseResultRequestInfo): 
+            Information about the API request made to perform the ATM forward calculation.
+        
         energy_flux (float): 
             Derived energy flux in erg/cm2/s.
 
