@@ -1,3 +1,8 @@
+Version 1.26.1
+-------------------
+- updated `pretty_print()` function for ATM forward result
+
+
 Version 1.26.0
 -------------------
 - ATM model changes

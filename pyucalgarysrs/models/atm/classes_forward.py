@@ -300,17 +300,17 @@ class ATMForwardResult:
     height_integrated_rayleighs_5577: Any
     height_integrated_rayleighs_6300: Any
     height_integrated_rayleighs_8446: Any
-    height_integrated_rayleighs_smile_uvi_lbh: Any
     height_integrated_rayleighs_1304: Any
     height_integrated_rayleighs_1356: Any
+    height_integrated_rayleighs_smile_uvi_lbh: Any
     altitudes: Any
     emission_4278: Any
     emission_5577: Any
     emission_6300: Any
     emission_8446: Any
-    emission_smile_uvi_lbh: Any
     emission_1304: Any
     emission_1356: Any
+    emission_smile_uvi_lbh: Any
     plasma_electron_density: Any
     plasma_o2plus_density: Any
     plasma_noplus_density: Any
@@ -356,4 +356,4 @@ class ATMForwardResult:
                     var_str = "%s ...])" % (var_value.__repr__()[0:60])
 
             # print string for this var
-            print("  %-37s: %s" % (var_name, var_str))
+            print("  %-43s: %s" % (var_name, var_str))
