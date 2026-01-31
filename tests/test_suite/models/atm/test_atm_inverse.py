@@ -33,7 +33,6 @@ ALL_TESTS = [
             "intensity_6300": 528.3,
             "intensity_8446": 427.4,
             "precipitation_flux_spectral_type": "gaussian",
-            "atmospheric_attenuation_correction": False,
             "output": {
                 "energy_flux": True,
                 "mean_energy": True,
@@ -55,7 +54,6 @@ ALL_TESTS = [
             "intensity_6300": 528.3,
             "intensity_8446": 427.4,
             "precipitation_flux_spectral_type": "gaussian",
-            "atmospheric_attenuation_correction": False,
             "output": {
                 "energy_flux": True,
                 "mean_energy": True,
@@ -77,7 +75,6 @@ ALL_TESTS = [
             "intensity_6300": 528.3,
             "intensity_8446": 427.4,
             "precipitation_flux_spectral_type": "gaussian",
-            "atmospheric_attenuation_correction": False,
             "output": {
                 "energy_flux": True,
                 "mean_energy": True,
@@ -98,7 +95,6 @@ ALL_TESTS = [
             "intensity_6300": 528.3,
             "intensity_8446": 427.4,
             "precipitation_flux_spectral_type": "gaussian",
-            "atmospheric_attenuation_correction": False,
             "output": {
                 "energy_flux": True,
                 "mean_energy": False,
@@ -118,100 +114,7 @@ ALL_TESTS = [
             "intensity_5577": 11339.5,
             "intensity_6300": 528.3,
             "intensity_8446": 427.4,
-            "precipitation_flux_spectral_type": "gaussian",
-            "atmospheric_attenuation_correction": False,
-            "atm_model_version": "1.0",
-            "output": {
-                "altitudes": True,
-                "energy_flux": True,
-                "mean_energy": True,
-                "oxygen_correction_factor": True,
-                "height_integrated_rayleighs_4278": True,
-                "height_integrated_rayleighs_5577": True,
-                "height_integrated_rayleighs_6300": True,
-                "height_integrated_rayleighs_8446": True,
-                "emission_4278": True,
-                "emission_5577": True,
-                "emission_6300": True,
-                "emission_8446": True,
-                "plasma_electron_density": True,
-                "plasma_o2plus_density": True,
-                "plasma_oplus_density": True,
-                "plasma_noplus_density": True,
-                "plasma_ionisation_rate": True,
-                "plasma_electron_temperature": True,
-                "plasma_ion_temperature": True,
-                "plasma_pederson_conductivity": True,
-                "plasma_hall_conductivity": True,
-                "neutral_o2_density": True,
-                "neutral_o_density": True,
-                "neutral_n2_density": True,
-                "neutral_n_density": True,
-                "neutral_temperature": True
-            },
-            "no_cache": True,
-        },
-        "expected_status": 200,
-        "expected_error_message": None,
-    },
-    {
-        "request": {
-            "timestamp": "2023-03-24T07:00:00",
-            "geodetic_latitude": 58.0,
-            "geodetic_longitude": -105.0,
-            "nrlmsis_model_version": "2.0",
-            "intensity_4278": 2302.6,
-            "intensity_5577": 11339.5,
-            "intensity_6300": 528.3,
-            "intensity_8446": 427.4,
             "precipitation_flux_spectral_type": "maxwellian",
-            "atmospheric_attenuation_correction": False,
-            "atm_model_version": "1.0",
-            "output": {
-                "altitudes": True,
-                "energy_flux": True,
-                "mean_energy": True,
-                "oxygen_correction_factor": True,
-                "height_integrated_rayleighs_4278": True,
-                "height_integrated_rayleighs_5577": True,
-                "height_integrated_rayleighs_6300": True,
-                "height_integrated_rayleighs_8446": True,
-                "emission_4278": True,
-                "emission_5577": True,
-                "emission_6300": True,
-                "emission_8446": True,
-                "plasma_electron_density": True,
-                "plasma_o2plus_density": True,
-                "plasma_oplus_density": True,
-                "plasma_noplus_density": True,
-                "plasma_ionisation_rate": True,
-                "plasma_electron_temperature": True,
-                "plasma_ion_temperature": True,
-                "plasma_pederson_conductivity": True,
-                "plasma_hall_conductivity": True,
-                "neutral_o2_density": True,
-                "neutral_o_density": True,
-                "neutral_n2_density": True,
-                "neutral_n_density": True,
-                "neutral_temperature": True
-            },
-            "no_cache": True,
-        },
-        "expected_status": 200,
-        "expected_error_message": None,
-    },
-    {
-        "request": {
-            "timestamp": "2023-03-24T07:00:00",
-            "geodetic_latitude": 58.0,
-            "geodetic_longitude": -105.0,
-            "nrlmsis_model_version": "2.0",
-            "intensity_4278": 2302.6,
-            "intensity_5577": 11339.5,
-            "intensity_6300": 528.3,
-            "intensity_8446": 427.4,
-            "precipitation_flux_spectral_type": "maxwellian",
-            "atmospheric_attenuation_correction": False,
             "output": {
                 "energy_flux": True,
                 "mean_energy": True,
@@ -233,7 +136,6 @@ ALL_TESTS = [
             "intensity_6300": 528.3,
             "intensity_8446": 427.4,
             "precipitation_flux_spectral_type": "gaussian",
-            "atmospheric_attenuation_correction": False,
             "no_cache": True,
         },
         "expected_status": 200,
@@ -253,7 +155,6 @@ ALL_TESTS = [
             "intensity_5577": 11339.5,
             "intensity_6300": 528.3,
             "intensity_8446": 427.4,
-            "atmospheric_attenuation_correction": False,
             "no_cache": True,
         },
         "expected_status": 400,
@@ -279,6 +180,11 @@ def __do_function(srs_obj, test_dict):
     if ("no_cache" in test_dict["request"]):
         no_cache = test_dict["request"]["no_cache"]
 
+    # set up atm model version
+    atm_model_version = "2.0"
+    if ("atm_model_version" in test_dict["request"]):
+        atm_model_version = test_dict["request"]["atm_model_version"]
+
     # do calculation
     result = srs_obj.models.atm.inverse(
         datetime.datetime.fromisoformat(test_dict["request"]["timestamp"]),
@@ -291,7 +197,7 @@ def __do_function(srs_obj, test_dict):
         output_obj,
         precipitation_flux_spectral_type=precipitation_flux_spectral_type,
         nrlmsis_model_version=test_dict["request"]["nrlmsis_model_version"],
-        atmospheric_attenuation_correction=test_dict["request"]["atmospheric_attenuation_correction"],
+        atm_model_version=atm_model_version,
         no_cache=no_cache,
     )
 
@@ -375,47 +281,6 @@ def test_atm_inverse_schema_atm_inverse_result(srs, capsys):
 
 
 @pytest.mark.atm
-def test_attenuation_warning(srs, capsys):
-    # set request
-    request_dict = {
-        "request": {
-            "timestamp": "2023-03-24T07:00:00",
-            "geodetic_latitude": 58.0,
-            "geodetic_longitude": -105.0,
-            "nrlmsis_model_version": "2.0",
-            "intensity_4278": 2302.6,
-            "intensity_5577": 11339.5,
-            "intensity_6300": 528.3,
-            "intensity_8446": 427.4,
-            "precipitation_flux_spectral_type": "gaussian",
-            "atmospheric_attenuation_correction": True,
-            "output": {
-                "energy_flux": True,
-                "mean_energy": True,
-                "oxygen_correction_factor": True,
-            },
-            "no_cache": True,
-        },
-        "expected_status": 200,
-        "expected_error_message": None,
-    }
-
-    # do a request
-    with warnings.catch_warnings(record=True) as w:
-        result, _ = __do_function(srs, request_dict)
-
-    # check warning
-    assert len(w) == 1
-    assert issubclass(w[-1].category, UserWarning)
-    assert "The atmospheric_attenuation_correction parameter was deprecated in v1.23.0." in str(w[-1].message)
-
-    # check pretty_print method
-    result.pretty_print()
-    captured_stdout = capsys.readouterr().out
-    assert captured_stdout != ""
-
-
-@pytest.mark.atm
 def test_special_logic_keyword(srs, capsys):
     # set request
     request_dict = {
@@ -429,7 +294,6 @@ def test_special_logic_keyword(srs, capsys):
             "intensity_6300": 528.3,
             "intensity_8446": 427.4,
             "precipitation_flux_spectral_type": "gaussian",
-            "atmospheric_attenuation_correction": False,
             "special_logic_keyword": "shill_20250910",
             "output": {
                 "energy_flux": True,
@@ -444,6 +308,27 @@ def test_special_logic_keyword(srs, capsys):
 
     # do a request
     result, _ = __do_function(srs, request_dict)
+
+    # check pretty_print method
+    result.pretty_print()
+    captured_stdout = capsys.readouterr().out
+    assert captured_stdout != ""
+
+
+@pytest.mark.atm
+def test_atm_inverse_model_version_warning(srs, capsys):
+    # set request
+    request_dict = ALL_TESTS[0]
+    request_dict["request"]["atm_model_version"] = "1.0"
+
+    # do a request
+    with warnings.catch_warnings(record=True) as w:
+        result, _ = __do_function(srs, request_dict)
+
+    # check warning
+    assert len(w) == 1
+    assert issubclass(w[-1].category, UserWarning)
+    assert "Using ATM version 1.0 is no longer supported in this library" in str(w[-1].message)
 
     # check pretty_print method
     result.pretty_print()

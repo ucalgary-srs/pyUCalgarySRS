@@ -14,8 +14,9 @@
 
 import pytest
 import pyucalgarysrs
-import numpy as np
 import datetime
+import warnings
+import numpy as np
 
 # NOTE: the following tests were taken verbatim from the SRS core API codebase
 ALL_TESTS = [
@@ -42,14 +43,14 @@ ALL_TESTS = [
                 "height_integrated_rayleighs_5577": True,
                 "height_integrated_rayleighs_6300": True,
                 "height_integrated_rayleighs_8446": True,
-                "height_integrated_rayleighs_lbh": True,
+                "height_integrated_rayleighs_smile_uvi_lbh": True,
                 "height_integrated_rayleighs_1304": True,
                 "height_integrated_rayleighs_1356": True,
                 "emission_4278": False,
                 "emission_5577": False,
                 "emission_6300": False,
                 "emission_8446": False,
-                "emission_lbh": False,
+                "emission_smile_uvi_lbh": False,
                 "emission_1304": False,
                 "emission_1356": False,
                 "plasma_electron_density": False,
@@ -59,7 +60,7 @@ ALL_TESTS = [
                 "plasma_ionisation_rate": False,
                 "plasma_electron_temperature": False,
                 "plasma_ion_temperature": False,
-                "plasma_pederson_conductivity": False,
+                "plasma_pedersen_conductivity": False,
                 "plasma_hall_conductivity": False,
                 "neutral_o2_density": False,
                 "neutral_o_density": False,
@@ -92,14 +93,14 @@ ALL_TESTS = [
                 "height_integrated_rayleighs_5577": True,
                 "height_integrated_rayleighs_6300": True,
                 "height_integrated_rayleighs_8446": True,
-                "height_integrated_rayleighs_lbh": True,
+                "height_integrated_rayleighs_smile_uvi_lbh": True,
                 "height_integrated_rayleighs_1304": True,
                 "height_integrated_rayleighs_1356": True,
                 "emission_4278": False,
                 "emission_5577": False,
                 "emission_6300": False,
                 "emission_8446": False,
-                "emission_lbh": False,
+                "emission_smile_uvi_lbh": False,
                 "emission_1304": False,
                 "emission_1356": False,
                 "plasma_electron_density": False,
@@ -109,7 +110,7 @@ ALL_TESTS = [
                 "plasma_ionisation_rate": False,
                 "plasma_electron_temperature": False,
                 "plasma_ion_temperature": False,
-                "plasma_pederson_conductivity": False,
+                "plasma_pedersen_conductivity": False,
                 "plasma_hall_conductivity": False,
                 "neutral_o2_density": False,
                 "neutral_o_density": False,
@@ -142,14 +143,14 @@ ALL_TESTS = [
                 "height_integrated_rayleighs_5577": True,
                 "height_integrated_rayleighs_6300": True,
                 "height_integrated_rayleighs_8446": True,
-                "height_integrated_rayleighs_lbh": True,
+                "height_integrated_rayleighs_smile_uvi_lbh": True,
                 "height_integrated_rayleighs_1304": True,
                 "height_integrated_rayleighs_1356": True,
                 "emission_4278": False,
                 "emission_5577": False,
                 "emission_6300": False,
                 "emission_8446": False,
-                "emission_lbh": False,
+                "emission_smile_uvi_lbh": False,
                 "emission_1304": False,
                 "emission_1356": False,
                 "plasma_electron_density": False,
@@ -159,7 +160,7 @@ ALL_TESTS = [
                 "plasma_ionisation_rate": False,
                 "plasma_electron_temperature": False,
                 "plasma_ion_temperature": False,
-                "plasma_pederson_conductivity": False,
+                "plasma_pedersen_conductivity": False,
                 "plasma_hall_conductivity": False,
                 "neutral_o2_density": False,
                 "neutral_o_density": False,
@@ -191,14 +192,14 @@ ALL_TESTS = [
                 "height_integrated_rayleighs_5577": True,
                 "height_integrated_rayleighs_6300": True,
                 "height_integrated_rayleighs_8446": True,
-                "height_integrated_rayleighs_lbh": True,
+                "height_integrated_rayleighs_smile_uvi_lbh": True,
                 "height_integrated_rayleighs_1304": True,
                 "height_integrated_rayleighs_1356": True,
                 "emission_4278": False,
                 "emission_5577": False,
                 "emission_6300": False,
                 "emission_8446": False,
-                "emission_lbh": False,
+                "emission_smile_uvi_lbh": False,
                 "emission_1304": False,
                 "emission_1356": False,
                 "plasma_electron_density": False,
@@ -208,7 +209,7 @@ ALL_TESTS = [
                 "plasma_ionisation_rate": False,
                 "plasma_electron_temperature": False,
                 "plasma_ion_temperature": False,
-                "plasma_pederson_conductivity": False,
+                "plasma_pedersen_conductivity": False,
                 "plasma_hall_conductivity": False,
                 "neutral_o2_density": False,
                 "neutral_o_density": False,
@@ -241,14 +242,14 @@ ALL_TESTS = [
                 "height_integrated_rayleighs_5577": True,
                 "height_integrated_rayleighs_6300": True,
                 "height_integrated_rayleighs_8446": True,
-                "height_integrated_rayleighs_lbh": True,
+                "height_integrated_rayleighs_smile_uvi_lbh": True,
                 "height_integrated_rayleighs_1304": True,
                 "height_integrated_rayleighs_1356": True,
                 "emission_4278": True,
                 "emission_5577": True,
                 "emission_6300": True,
                 "emission_8446": True,
-                "emission_lbh": True,
+                "emission_smile_uvi_lbh": True,
                 "emission_1304": True,
                 "emission_1356": True,
                 "plasma_electron_density": True,
@@ -258,7 +259,7 @@ ALL_TESTS = [
                 "plasma_ionisation_rate": True,
                 "plasma_electron_temperature": True,
                 "plasma_ion_temperature": True,
-                "plasma_pederson_conductivity": True,
+                "plasma_pedersen_conductivity": True,
                 "plasma_hall_conductivity": True,
                 "neutral_o2_density": True,
                 "neutral_o_density": True,
@@ -291,14 +292,14 @@ ALL_TESTS = [
                 "height_integrated_rayleighs_5577": False,
                 "height_integrated_rayleighs_6300": False,
                 "height_integrated_rayleighs_8446": False,
-                "height_integrated_rayleighs_lbh": False,
+                "height_integrated_rayleighs_smile_uvi_lbh": False,
                 "height_integrated_rayleighs_1304": False,
                 "height_integrated_rayleighs_1356": False,
                 "emission_4278": False,
                 "emission_5577": False,
                 "emission_6300": False,
                 "emission_8446": False,
-                "emission_lbh": False,
+                "emission_smile_uvi_lbh": False,
                 "emission_1304": False,
                 "emission_1356": False,
                 "plasma_electron_density": False,
@@ -308,7 +309,7 @@ ALL_TESTS = [
                 "plasma_ionisation_rate": False,
                 "plasma_electron_temperature": False,
                 "plasma_ion_temperature": False,
-                "plasma_pederson_conductivity": False,
+                "plasma_pedersen_conductivity": False,
                 "plasma_hall_conductivity": False,
                 "neutral_o2_density": False,
                 "neutral_o_density": False,
@@ -445,6 +446,11 @@ def __do_function(srs_obj, test_dict):
     if ("no_cache" in test_dict["request"]):
         no_cache = test_dict["request"]["no_cache"]
 
+    # set up atm model version
+    atm_model_version = "2.0"
+    if ("atm_model_version" in test_dict["request"]):
+        atm_model_version = test_dict["request"]["atm_model_version"]
+
     # do calculation
     result = srs_obj.models.atm.forward(
         datetime.datetime.fromisoformat(test_dict["request"]["timestamp"]),
@@ -462,6 +468,7 @@ def __do_function(srs_obj, test_dict):
         timescale_transport=test_dict["request"]["timescale_transport"],
         custom_spectrum=custom_spectrum,
         custom_neutral_profile=custom_neutral_profile,
+        atm_model_version=atm_model_version,
         no_cache=no_cache,
     )
 
@@ -566,7 +573,7 @@ def test_atm_forward_custom_spectrum(srs, capsys):
                 "height_integrated_rayleighs_5577": True,
                 "height_integrated_rayleighs_6300": True,
                 "height_integrated_rayleighs_8446": True,
-                "height_integrated_rayleighs_lbh": True,
+                "height_integrated_rayleighs_smile_uvi_lbh": True,
                 "height_integrated_rayleighs_1304": True,
                 "height_integrated_rayleighs_1356": True,
             },
@@ -615,7 +622,7 @@ def test_atm_forward_custom_neutral_profile(srs, capsys):
                 "height_integrated_rayleighs_5577": True,
                 "height_integrated_rayleighs_6300": True,
                 "height_integrated_rayleighs_8446": True,
-                "height_integrated_rayleighs_lbh": True,
+                "height_integrated_rayleighs_smile_uvi_lbh": True,
                 "height_integrated_rayleighs_1304": True,
                 "height_integrated_rayleighs_1356": True,
             },
@@ -649,6 +656,27 @@ def test_atm_forward_custom_neutral_profile(srs, capsys):
 
     # do a request
     result, _ = __do_function(srs, request_dict)
+
+    # check pretty_print method
+    result.pretty_print()
+    captured_stdout = capsys.readouterr().out
+    assert captured_stdout != ""
+
+
+@pytest.mark.atm
+def test_atm_forward_model_version_warning(srs, capsys):
+    # set request
+    request_dict = ALL_TESTS[0]
+    request_dict["request"]["atm_model_version"] = "1.0"
+
+    # do a request
+    with warnings.catch_warnings(record=True) as w:
+        result, _ = __do_function(srs, request_dict)
+
+    # check warning
+    assert len(w) == 1
+    assert issubclass(w[-1].category, UserWarning)
+    assert "Using ATM version 1.0 is no longer supported in this library" in str(w[-1].message)
 
     # check pretty_print method
     result.pretty_print()

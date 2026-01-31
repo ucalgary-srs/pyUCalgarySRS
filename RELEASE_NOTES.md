@@ -1,3 +1,15 @@
+Version 1.26.0
+-------------------
+- ATM model changes
+  - removed support for use of ATM model version 1.0. To use this version of the model, please use a previous version of this library.
+  - forward function
+    - renamed `height_integrated_rayleighs_lbh` output flag to `height_integrated_rayleighs_smile_uvi_lbh`
+    - renamed `emission_lbh` output flag to `emission_smile_uvi_lbh`
+    - renamed `plasma_pederson_conductivity` output flag to `plasma_pedersen_conductivity`
+  - inversion function
+    - removed the `atmospheric_attenuation_correction` parameter (was deprecated in v1.23.0)
+
+
 Version 1.25.0
 -------------------
 - deprecated support for Python 3.9
@@ -7,8 +19,8 @@ Version 1.25.0
 Version 1.24.0
 -------------------
 - ATM inversion changes
-  - changed `characteristic_energy` output flag and data to `mean_energy`.
-  - added `special_logic_keyword` parameter to help handle specific non-standard use cases on the backend ATM API.
+  - renamed `characteristic_energy` output flag and data to `mean_energy`
+  - added `special_logic_keyword` parameter to help handle specific non-standard use cases on the backend ATM API
 
 
 Version 1.23.3

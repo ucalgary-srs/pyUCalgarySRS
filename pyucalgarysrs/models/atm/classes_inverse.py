@@ -41,29 +41,6 @@ class ATMInverseOutputFlags:
     energy_flux: bool = False
     mean_energy: bool = False
     oxygen_correction_factor: bool = False
-    height_integrated_rayleighs_4278: bool = False
-    height_integrated_rayleighs_5577: bool = False
-    height_integrated_rayleighs_6300: bool = False
-    height_integrated_rayleighs_8446: bool = False
-    altitudes: bool = False
-    emission_4278: bool = False
-    emission_5577: bool = False
-    emission_6300: bool = False
-    emission_8446: bool = False
-    plasma_electron_density: bool = False
-    plasma_o2plus_density: bool = False
-    plasma_oplus_density: bool = False
-    plasma_noplus_density: bool = False
-    plasma_ionisation_rate: bool = False
-    plasma_electron_temperature: bool = False
-    plasma_ion_temperature: bool = False
-    plasma_pederson_conductivity: bool = False
-    plasma_hall_conductivity: bool = False
-    neutral_o2_density: bool = False
-    neutral_o_density: bool = False
-    neutral_n2_density: bool = False
-    neutral_n_density: bool = False
-    neutral_temperature: bool = False
 
     def set_all_true(self):
         """
@@ -93,7 +70,6 @@ class ATMInverseRequest:
     and [`ATMInverseResult`](classes_inverse.html#pyucalgarysrs.models.atm.classes_inverse.ATMInverseResult) 
     objects.
     """
-    atm_model_version: Literal["1.0"]
     timestamp: datetime.datetime
     geodetic_latitude: float
     geodetic_longitude: float
@@ -103,30 +79,10 @@ class ATMInverseRequest:
     intensity_8446: float
     precipitation_flux_spectral_type: Literal["gaussian", "maxwellian"]
     nrlmsis_model_version: Literal["00", "2.0"]
+    atm_model_version: Literal["1.0"]
     special_logic_keyword: Optional[str]
     output: ATMInverseOutputFlags
     no_cache: bool
-
-
-@dataclass
-class ATMInverseForwardParams:
-    """
-    Class representing a forward calculation done under-the-hood of an inverse
-    calculation.
-
-    Depending on the inversion request parameters, a further forward calculation 
-    may be performed by the API. This variable contains the details of any such 
-    calculation.
-    """
-    maxwellian_energy_flux: float
-    gaussian_energy_flux: float
-    maxwellian_characteristic_energy: float
-    gaussian_peak_energy: float
-    gaussian_spectral_width: float
-    nrlmsis_model_version: Literal["00", "2.0"]
-    oxygen_correction_factor: float
-    timescale_auroral: int
-    timescale_transport: int
 
 
 @dataclass
@@ -148,14 +104,9 @@ class ATMInverseResultRequestInfo:
         calculation_duration_ms (float): 
             Duration the the API spent performing the ATM inverse calculation. Represented
             in milliseconds.
-        
-        forward_params (ATMInverseForwardParams): 
-            Depending on the inversion request parameters, a further forward calculation may be performed 
-            under-the-hood. This variable contains the details of any such calculation.
     """
     request: ATMInverseRequest
     calculation_duration_ms: float
-    forward_params: Optional[ATMInverseForwardParams] = None
 
 
 @dataclass
@@ -170,9 +121,6 @@ class ATMInverseResult:
     types (e.g., float, numpy ndarray).
 
     Attributes:
-        request_info (ATMInverseResultRequestInfo): 
-            Information about the API request made to perform the ATM forward calculation.
-        
         energy_flux (float): 
             Derived energy flux in erg/cm2/s.
 
@@ -181,126 +129,11 @@ class ATMInverseResult:
 
         oxygen_correction_factor (float): 
             Derived oxygen correction factor.
-
-        height_integrated_rayleighs_4278 (float): 
-            Height-integrated Rayleighs value for the 427.8nm emission (blue). Only utilized for 
-            ATM model version 1.0.
-
-        height_integrated_rayleighs_5577 (float): 
-            Height-integrated Rayleighs value for the 557.7nm emission (green). Only utilized for 
-            ATM model version 1.0.
-            
-        height_integrated_rayleighs_6300 (float): 
-            Height-integrated Rayleighs value for the 630.0nm emission(red). Only utilized for 
-            ATM model version 1.0.
-        
-        height_integrated_rayleighs_8446 (float): 
-            Height-integrated Rayleighs value for the 844.6nm emission (near infrared). Only 
-            utilized for ATM model version 1.0.
-
-        altitudes (ndarray): 
-            A 1-dimensional numpy array for the altitudes in kilometers. Only utilized for 
-            ATM model version 1.0.
-
-        emission_4278 (ndarray): 
-            A 1-dimensional numpy array for the 427.8nm volume emission rate (1/cm^3/s). Only 
-            utilized for ATM model version 1.0.
-
-        emission_5577 (ndarray): 
-            A 1-dimensional numpy array for the 557.7nm volume emission rate (1/cm^3/s). Only 
-            utilized for ATM model version 1.0.
-
-        emission_6300 (ndarray): 
-            A 1-dimensional numpy array for the 630.0nm volume emission rate (1/cm^3/s). Only 
-            utilized for ATM model version 1.0.
-
-        emission_8446 (ndarray): 
-            A 1-dimensional numpy array for the 844.6nm volume emission rate (1/cm^3/s). Only 
-            utilized for ATM model version 1.0.
-
-        plasma_electron_density (ndarray): 
-            A 1-dimensional numpy array for the plasma electron density (cm^-3). Only utilized 
-            for ATM model version 1.0.
-
-        plasma_o2plus_density (ndarray): 
-            A 1-dimensional numpy array for the plasma O2+ density (cm^-3). Only utilized for 
-            ATM model version 1.0.
-
-        plasma_noplus_density (ndarray): 
-            A 1-dimensional numpy array for the plasma NO+ density (cm^-3). Only utilized for 
-            ATM model version 1.0.
-
-        plasma_oplus_density (ndarray): 
-            A 1-dimensional numpy array for the plasma O+ density (cm^-3). Only utilized for 
-            ATM model version 1.0.
-
-        plasma_ionisation_rate (ndarray): 
-            A 1-dimensional numpy array for the plasma ionisation rate (1/cm^3/s). Only utilized 
-            for ATM model version 1.0.
-
-        plasma_electron_temperature (ndarray): 
-            A 1-dimensional numpy array for the plasma electron temperature (Kelvin). Only 
-            utilized for ATM model version 1.0.
-
-        plasma_ion_temperature (ndarray): 
-            A 1-dimensional numpy array for the plasma ion temperature (Kelvin). Only utilized 
-            for ATM model version 1.0.
-
-        plasma_pederson_conductivity (ndarray): 
-            A 1-dimensional numpy array for the Peterson plasma conductivity (S/m). Only utilized 
-            for ATM model version 1.0.
-
-        plasma_hall_conductivity (ndarray): 
-            A 1-dimensional numpy array for the hall plasma conductivity (S/m). Only utilized 
-            for ATM model version 1.0.
-
-        neutral_o2_density (ndarray): 
-            A 1-dimensional numpy array for the neutral O2 density (cm^-3). Only utilized for 
-            ATM model version 1.0.
-
-        neutral_o_density (ndarray): 
-            A 1-dimensional numpy array for the neutral O density (cm^-3). Only utilized for 
-            ATM model version 1.0.
-
-        neutral_n2_density (ndarray): 
-            A 1-dimensional numpy array for the neutral N2 density (cm^-3). Only utilized for 
-            ATM model version 1.0.
-
-        neutral_n_density (ndarray): 
-            A 1-dimensional numpy array for the neutral N density (cm^-3). Only utilized for 
-            ATM model version 1.0.
-
-        neutral_temperature (ndarray): 
-            A 1-dimensional numpy array for the neutral temperature (Kelvin). Only utilized for 
-            ATM model version 1.0.
     """
     request_info: ATMInverseResultRequestInfo
     energy_flux: Any
     mean_energy: Any
     oxygen_correction_factor: Any
-    height_integrated_rayleighs_4278: Any
-    height_integrated_rayleighs_5577: Any
-    height_integrated_rayleighs_6300: Any
-    height_integrated_rayleighs_8446: Any
-    altitudes: Any
-    emission_4278: Any
-    emission_5577: Any
-    emission_6300: Any
-    emission_8446: Any
-    plasma_electron_density: Any
-    plasma_o2plus_density: Any
-    plasma_noplus_density: Any
-    plasma_oplus_density: Any
-    plasma_ionisation_rate: Any
-    plasma_electron_temperature: Any
-    plasma_ion_temperature: Any
-    plasma_pederson_conductivity: Any
-    plasma_hall_conductivity: Any
-    neutral_o2_density: Any
-    neutral_o_density: Any
-    neutral_n2_density: Any
-    neutral_n_density: Any
-    neutral_temperature: Any
 
     def __str__(self) -> str:
         return self.__repr__()
@@ -322,11 +155,6 @@ class ATMInverseResult:
             if (var_name.startswith("__") or var_name == "pretty_print"):
                 continue
 
-            # exclude based on version
-            if (self.request_info.request.atm_model_version == "2.0"
-                    and (var_name not in ["request_info", "energy_flux", "mean_energy", "oxygen_correction_factor"])):
-                continue
-
             # convert var to string format we want
             var_value = getattr(self, var_name)
             var_str = "None"
@@ -339,7 +167,4 @@ class ATMInverseResult:
                     var_str = "%s ...])" % (var_value.__repr__()[0:60])  # pragma: nocover-ok
 
             # print string for this var
-            if (self.request_info.request.atm_model_version == "1.0"):
-                print("  %-34s: %s" % (var_name, var_str))  # pragma: nocover-ok
-            else:
-                print("  %-26s: %s" % (var_name, var_str))
+            print("  %-26s: %s" % (var_name, var_str))

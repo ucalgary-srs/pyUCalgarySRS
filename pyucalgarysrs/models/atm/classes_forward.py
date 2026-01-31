@@ -42,17 +42,17 @@ class ATMForwardOutputFlags:
     height_integrated_rayleighs_5577: bool = False
     height_integrated_rayleighs_6300: bool = False
     height_integrated_rayleighs_8446: bool = False
-    height_integrated_rayleighs_lbh: bool = False
     height_integrated_rayleighs_1304: bool = False
     height_integrated_rayleighs_1356: bool = False
+    height_integrated_rayleighs_smile_uvi_lbh: bool = False
     altitudes: bool = False
     emission_4278: bool = False
     emission_5577: bool = False
     emission_6300: bool = False
     emission_8446: bool = False
-    emission_lbh: bool = False
     emission_1304: bool = False
     emission_1356: bool = False
+    emission_smile_uvi_lbh: bool = False
     plasma_electron_density: bool = False
     plasma_o2plus_density: bool = False
     plasma_oplus_density: bool = False
@@ -60,7 +60,7 @@ class ATMForwardOutputFlags:
     plasma_ionisation_rate: bool = False
     plasma_electron_temperature: bool = False
     plasma_ion_temperature: bool = False
-    plasma_pederson_conductivity: bool = False
+    plasma_pedersen_conductivity: bool = False
     plasma_hall_conductivity: bool = False
     neutral_o2_density: bool = False
     neutral_o_density: bool = False
@@ -111,7 +111,6 @@ class ATMForwardRequest:
     and [`ATMForwardResult`](classes_forward.html#pyucalgarysrs.models.atm.classes_forward.ATMForwardResult) 
     objects.
     """
-    atm_model_version: Literal["1.0", "2.0"]
     timestamp: datetime.datetime
     geodetic_latitude: float
     geodetic_longitude: float
@@ -135,6 +134,7 @@ class ATMForwardRequest:
     custom_neutral_profile: Optional[ndarray]
     timescale_auroral: int
     timescale_transport: int
+    atm_model_version: Literal["2.0"]
     output: ATMForwardOutputFlags
     no_cache: bool
 
@@ -190,8 +190,11 @@ class ATMForwardResult:
         height_integrated_rayleighs_8446 (float): 
             Height-integrated Rayleighs value for the 844.6nm emission (near infrared).
 
-        height_integrated_rayleighs_lbh (float): 
-            Height-integrated Rayleighs value for the Lyman-Birge-Hopfield emission.
+        height_integrated_rayleighs_smile_uvi_lbh (float): 
+            Height-integrated Rayleighs value for the Lyman-Birge-Hopfield emission expected
+            to be seen from a spacecraft (not from the ground, unlike the above emissions). This
+            is derived by integrating the SMILE UVI filter into the model, hence the name 
+            association with SMILE UVI.
 
         height_integrated_rayleighs_1304 (float): 
             Height-integrated Rayleighs value for the 130.4nm emission.
@@ -214,8 +217,11 @@ class ATMForwardResult:
         emission_8446 (ndarray): 
             A 1-dimensional numpy array for the 844.6nm volume emission rate (1/cm^3/s).
 
-        emission_lbh (ndarray): 
-            A 1-dimensional numpy array for the Lyman-Birge-Hopfield volume emission rate (1/cm^3/s).
+        emission_smile_uvi_lbh (ndarray): 
+            A 1-dimensional numpy array for the Lyman-Birge-Hopfield volume emission rate expected
+            to be seen from a spacecraft (not from the ground, unlike the above emissions). This
+            is derived by integrating the SMILE UVI filter into the model, hence the name 
+            association with SMILE UVI. Units are 1/cm^3/s.
 
         emission_1304 (ndarray): 
             A 1-dimensional numpy array for the 130.4nm volume emission rate (1/cm^3/s).
@@ -244,8 +250,8 @@ class ATMForwardResult:
         plasma_ion_temperature (ndarray): 
             A 1-dimensional numpy array for the plasma ion temperature (Kelvin).
 
-        plasma_pederson_conductivity (ndarray): 
-            A 1-dimensional numpy array for the Peterson plasma conductivity (S/m).
+        plasma_pedersen_conductivity (ndarray): 
+            A 1-dimensional numpy array for the Pedersen plasma conductivity (S/m).
 
         plasma_hall_conductivity (ndarray): 
             A 1-dimensional numpy array for the hall plasma conductivity (S/m).
@@ -294,7 +300,7 @@ class ATMForwardResult:
     height_integrated_rayleighs_5577: Any
     height_integrated_rayleighs_6300: Any
     height_integrated_rayleighs_8446: Any
-    height_integrated_rayleighs_lbh: Any
+    height_integrated_rayleighs_smile_uvi_lbh: Any
     height_integrated_rayleighs_1304: Any
     height_integrated_rayleighs_1356: Any
     altitudes: Any
@@ -302,7 +308,7 @@ class ATMForwardResult:
     emission_5577: Any
     emission_6300: Any
     emission_8446: Any
-    emission_lbh: Any
+    emission_smile_uvi_lbh: Any
     emission_1304: Any
     emission_1356: Any
     plasma_electron_density: Any
@@ -312,7 +318,7 @@ class ATMForwardResult:
     plasma_ionisation_rate: Any
     plasma_electron_temperature: Any
     plasma_ion_temperature: Any
-    plasma_pederson_conductivity: Any
+    plasma_pedersen_conductivity: Any
     plasma_hall_conductivity: Any
     neutral_o2_density: Any
     neutral_o_density: Any
@@ -336,10 +342,6 @@ class ATMForwardResult:
         for var_name in dir(self):
             # exclude methods
             if (var_name.startswith("__") or var_name == "pretty_print"):
-                continue
-
-            # exclude based on version
-            if (self.request_info.request.atm_model_version == "1.0" and "production_rate_" in var_name):  # pragma: nocover-ok
                 continue
 
             # convert var to string format we want

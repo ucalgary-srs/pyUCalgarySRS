@@ -33,7 +33,7 @@ Basic usage:
 """
 
 # versioning info
-__version__ = "1.25.0"
+__version__ = "1.26.0"
 
 # documentation
 __pdoc__ = {"pyucalgarysrs": False}
@@ -75,7 +75,6 @@ from .models.atm.classes_forward import (
     ATMForwardResultRequestInfo,
 )
 from .models.atm.classes_inverse import (
-    ATMInverseForwardParams,
     ATMInverseOutputFlags,
     ATMInverseRequest,
     ATMInverseResult,

@@ -78,7 +78,7 @@ class ATMManager:
                 oxygen_correction_factor: float = ATM_DEFAULT_OXYGEN_CORRECTION_FACTOR,
                 timescale_auroral: int = ATM_DEFAULT_TIMESCALE_AURORAL,
                 timescale_transport: int = ATM_DEFAULT_TIMESCALE_TRANSPORT,
-                atm_model_version: Literal["1.0", "2.0"] = ATM_DEFAULT_MODEL_VERSION,
+                atm_model_version: Literal["2.0"] = ATM_DEFAULT_MODEL_VERSION,
                 custom_spectrum: Optional[ndarray] = None,
                 custom_neutral_profile: Optional[ndarray] = None,
                 no_cache: bool = False,
@@ -96,9 +96,8 @@ class ATMManager:
         square input (with time duration T0 and spatial width L) input of precipitation. The initial/boundary 
         conditions are given by IRI. The output yields the mean density/VER over [0-L] at time T0.
 
-        Please note that some of the inputs and outputs are only supported by ATM version 2.0. The following
-        inputs are only supported by version 2.0: `kappa_*`, `exponential_*`, `proton_*`, `d_region`, and 
-        `custom_neutral_profile`. The following outputs are only supported by version 2.0: `production_rate_*`.
+        **NOTE**: As of PyUCalgarySRS version 1.26.0, support for model version '1.0' was removed. To
+        use this version of the model, please use a prior release of PyUCalgarySRS.
 
         **NOTE**: All spectral shapes are super-imposable except exponential (maxwellian, gaussian, kappa). The 
         exponential spectrum should be only be used for high-energy tail and, starting from E0 (proton_starting_energy), 
@@ -218,11 +217,8 @@ class ATMManager:
                 speed. Represented in seconds. Default is 600 (10 minutes). This parameter is optional.
 
             atm_model_version (str): 
-                ATM model version number. Possible values are presently "1.0" or "2.0". The default is "2.0". 
+                ATM model version number. The default is "2.0". This parameter is optional.
                 
-                **IMPORTANT**: Please note that certain inputs and outputs are only available in version "2.0". See above for 
-                more details. This parameter is optional.
-
             no_cache (bool): 
                 The UCalgary Space Remote Sensing API utilizes a caching layer for performing ATM
                 calculations. If this variation of input parameters has been run before (and the
@@ -242,6 +238,11 @@ class ATMManager:
         Raises:
             pyucalgarysrs.exceptions.SRSAPIError: An API error was encountered
         """
+        if (atm_model_version == "1.0"):
+            show_warning("Using ATM version 1.0 is no longer supported in this library. To use it, please interact " +
+                         "with the API directly (more information at https://api.phys.ucalgary.ca). Defaulting to using version 2.0.")
+            atm_model_version = 2.0
+
         return func_forward(
             self.__srs_obj,
             timestamp,
@@ -284,9 +285,8 @@ class ATMManager:
                 output: ATMInverseOutputFlags,
                 precipitation_flux_spectral_type: Literal["gaussian", "maxwellian"] = ATM_DEFAULT_PRECIPITATION_SPECTRAL_FLUX_TYPE,
                 nrlmsis_model_version: Literal["00", "2.0"] = ATM_DEFAULT_NRLMSIS_MODEL_VERSION,
-                atmospheric_attenuation_correction: bool = False,
                 special_logic_keyword: str = ATM_DEFAULT_SPECIAL_LOGIC_KEYWORD,
-                atm_model_version: Literal["1.0", "2.0"] = ATM_DEFAULT_MODEL_VERSION,
+                atm_model_version: Literal["2.0"] = ATM_DEFAULT_MODEL_VERSION,
                 no_cache: bool = False,
                 timeout: Optional[int] = None) -> ATMInverseResult:
         """
@@ -294,8 +294,8 @@ class ATMManager:
         parameters. Note that this function utilizes the UCalgary Space Remote Sensing API to perform 
         the calculation.
 
-        **NOTE**: The 'atmospheric_attenuation_correction' parameter from ATM model version 1.0 was deprecated
-        in v1.23.0. Please ensure you perform this conversion yourself on the results, if desired.
+        **NOTE**: As of PyUCalgarySRS version 1.26.0, support for model version '1.0' was removed. To
+        use this version of the model, please use a prior release of PyUCalgarySRS.
 
         **NOTE**: As of PyUCalgarySRS version 1.24.0, the `characteristic_energy` output flag was deprecated. 
         Please use `mean_energy` instead.
@@ -346,18 +346,12 @@ class ATMManager:
                 optional. More details about this empirical model can be found [here](https://ccmc.gsfc.nasa.gov/models/NRLMSIS~00/),
                 and [here](https://ccmc.gsfc.nasa.gov/models/NRLMSIS~2.0/).
 
-            atmospheric_attenuation_correction (bool): 
-                Apply an atmospheric attenuation correction factor. Default is `False`.
-
-                This parameter was deprecated in v1.23.0, and will be removed in a future release.
-
             special_logic_keyword (str): 
                 Use a special keyword provided by UCalgary staff to apply alternative logic during an ATM inversion
                 request. This parameter is optional.
 
             atm_model_version (str): 
-                ATM model version number. Possible values are only '1.0' at this time, but will have
-                additional possible values in the future. This parameter is optional.
+                ATM model version number. The default is "2.0". This parameter is optional.
 
             no_cache (bool): 
                 The UCalgary Space Remote Sensing API utilizes a caching layer for performing ATM
@@ -378,9 +372,10 @@ class ATMManager:
         Raises:
             pyucalgarysrs.exceptions.SRSAPIError: An API error was encountered
         """
-        if (atmospheric_attenuation_correction is True):
-            show_warning("The atmospheric_attenuation_correction parameter was deprecated in v1.23.0. If you want this correction, " +
-                         "please perform it yourself on the result.")
+        if (atm_model_version == "1.0"):
+            show_warning("Using ATM version 1.0 is no longer supported in this library. To use it, please interact " +
+                         "with the API directly (more information at https://api.phys.ucalgary.ca). Defaulting to using version 2.0.")
+            atm_model_version = 2.0
 
         return func_inverse(
             self.__srs_obj,
