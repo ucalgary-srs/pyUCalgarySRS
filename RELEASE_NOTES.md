@@ -1,3 +1,8 @@
+Version 1.26.2
+-------------------
+- updated TREx Spectrograph reading function to handle specific corrupt metadata nicer
+
+
 Version 1.26.1
 -------------------
 - updated `pretty_print()` function for ATM forward result

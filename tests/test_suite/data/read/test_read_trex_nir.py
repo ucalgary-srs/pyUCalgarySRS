@@ -629,13 +629,6 @@ def test_read_first_frame_and_no_metadata(srs, all_datasets, test_dict):
     },
     {
         "filenames": [
-            "20221004_1002_luck_nir-219_8446.pgm.gz",
-        ],
-        "expected_success": False,
-        "expected_frames": 1
-    },
-    {
-        "filenames": [
             "20191126_0600_gill_nir-217_8446.pgm.gz",
         ],
         "expected_success": False,

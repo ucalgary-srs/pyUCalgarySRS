@@ -278,12 +278,16 @@ def __spectrograph_raw_readfile_worker(file, first_record=False, no_metadata=Fal
                 try:
                     line_decoded = line.decode("ascii")  # type: ignore
                 except Exception as e:  # pragma: nocover-ok
-                    # skip metadata line if it can't be decoded, likely corrupt file
-                    if (quiet is False):
-                        print("Error decoding metadata line: %s (line='%s', file='%s')" % (str(e), line, file))
-                    problematic = True
-                    error_message = "error decoding metadata line: %s" % (str(e))
-                    continue
+                    # if this is a metadata line about the BLS, we're going to ignore it
+                    if (b'Bright Light Status' in line):
+                        line_decoded = line.decode("ascii", errors="replace").replace('\ufffd', '')
+                    else:
+                        # skip metadata line if it can't be decoded, likely corrupt file
+                        if (quiet is False):
+                            print("Error decoding metadata line: %s (line='%s', file='%s')" % (str(e), line, file))
+                        problematic = True
+                        error_message = "error decoding metadata line: %s" % (str(e))
+                        continue
 
                 # split the key and value out of the metadata line
                 line_decoded_split = line_decoded.split('"')
