@@ -536,7 +536,7 @@ objects.</p></div>
 </dd>
 <dt id="pyucalgarysrs.models.atm.classes_forward.ATMForwardResult"><code class="flex name class">
 <span>class <span class="ident">ATMForwardResult</span></span>
-<span>(</span><span>request_info: <a title="pyucalgarysrs.models.atm.classes_forward.ATMForwardResultRequestInfo" href="#pyucalgarysrs.models.atm.classes_forward.ATMForwardResultRequestInfo">ATMForwardResultRequestInfo</a>,<br>height_integrated_rayleighs_4278: Any,<br>height_integrated_rayleighs_5577: Any,<br>height_integrated_rayleighs_6300: Any,<br>height_integrated_rayleighs_8446: Any,<br>height_integrated_rayleighs_smile_uvi_lbh: Any,<br>height_integrated_rayleighs_1304: Any,<br>height_integrated_rayleighs_1356: Any,<br>altitudes: Any,<br>emission_4278: Any,<br>emission_5577: Any,<br>emission_6300: Any,<br>emission_8446: Any,<br>emission_smile_uvi_lbh: Any,<br>emission_1304: Any,<br>emission_1356: Any,<br>plasma_electron_density: Any,<br>plasma_o2plus_density: Any,<br>plasma_noplus_density: Any,<br>plasma_oplus_density: Any,<br>plasma_ionisation_rate: Any,<br>plasma_electron_temperature: Any,<br>plasma_ion_temperature: Any,<br>plasma_pedersen_conductivity: Any,<br>plasma_hall_conductivity: Any,<br>neutral_o2_density: Any,<br>neutral_o_density: Any,<br>neutral_n2_density: Any,<br>neutral_n_density: Any,<br>neutral_temperature: Any,<br>production_rate_o2plus: Any,<br>production_rate_oplus: Any,<br>production_rate_oneg: Any,<br>production_rate_o: Any,<br>production_rate_nplus: Any,<br>production_rate_n2plus: Any,<br>production_rate_n: Any,<br>production_rate_n2d: Any)</span>
+<span>(</span><span>request_info: <a title="pyucalgarysrs.models.atm.classes_forward.ATMForwardResultRequestInfo" href="#pyucalgarysrs.models.atm.classes_forward.ATMForwardResultRequestInfo">ATMForwardResultRequestInfo</a>,<br>height_integrated_rayleighs_4278: Any,<br>height_integrated_rayleighs_5577: Any,<br>height_integrated_rayleighs_6300: Any,<br>height_integrated_rayleighs_8446: Any,<br>height_integrated_rayleighs_1304: Any,<br>height_integrated_rayleighs_1356: Any,<br>height_integrated_rayleighs_smile_uvi_lbh: Any,<br>altitudes: Any,<br>emission_4278: Any,<br>emission_5577: Any,<br>emission_6300: Any,<br>emission_8446: Any,<br>emission_1304: Any,<br>emission_1356: Any,<br>emission_smile_uvi_lbh: Any,<br>plasma_electron_density: Any,<br>plasma_o2plus_density: Any,<br>plasma_noplus_density: Any,<br>plasma_oplus_density: Any,<br>plasma_ionisation_rate: Any,<br>plasma_electron_temperature: Any,<br>plasma_ion_temperature: Any,<br>plasma_pedersen_conductivity: Any,<br>plasma_hall_conductivity: Any,<br>neutral_o2_density: Any,<br>neutral_o_density: Any,<br>neutral_n2_density: Any,<br>neutral_n_density: Any,<br>neutral_temperature: Any,<br>production_rate_o2plus: Any,<br>production_rate_oplus: Any,<br>production_rate_oneg: Any,<br>production_rate_o: Any,<br>production_rate_nplus: Any,<br>production_rate_n2plus: Any,<br>production_rate_n: Any,<br>production_rate_n2d: Any)</span>
 </code></dt>
 <dd>
 <details class="source">
@@ -680,17 +680,17 @@ class ATMForwardResult:
     height_integrated_rayleighs_5577: Any
     height_integrated_rayleighs_6300: Any
     height_integrated_rayleighs_8446: Any
-    height_integrated_rayleighs_smile_uvi_lbh: Any
     height_integrated_rayleighs_1304: Any
     height_integrated_rayleighs_1356: Any
+    height_integrated_rayleighs_smile_uvi_lbh: Any
     altitudes: Any
     emission_4278: Any
     emission_5577: Any
     emission_6300: Any
     emission_8446: Any
-    emission_smile_uvi_lbh: Any
     emission_1304: Any
     emission_1356: Any
+    emission_smile_uvi_lbh: Any
     plasma_electron_density: Any
     plasma_o2plus_density: Any
     plasma_noplus_density: Any
@@ -736,7 +736,7 @@ class ATMForwardResult:
                     var_str = &#34;%s ...])&#34; % (var_value.__repr__()[0:60])
 
             # print string for this var
-            print(&#34;  %-37s: %s&#34; % (var_name, var_str))</code></pre>
+            print(&#34;  %-43s: %s&#34; % (var_name, var_str))</code></pre>
 </details>
 <div class="desc"><p>Class containing all data from an ATM forward calculation. This class also includes
 details about the input parameters to the forward calculation routine (<code>request_info</code>),
@@ -1016,7 +1016,7 @@ association with SMILE UVI. Units are 1/cm^3/s.</dd>
                 var_str = &#34;%s ...])&#34; % (var_value.__repr__()[0:60])
 
         # print string for this var
-        print(&#34;  %-37s: %s&#34; % (var_name, var_str))</code></pre>
+        print(&#34;  %-43s: %s&#34; % (var_name, var_str))</code></pre>
 </details>
 <div class="desc"><p>A special print output for this class.</p></div>
 </dd>
