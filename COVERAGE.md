@@ -6,7 +6,7 @@ Name                                            Stmts   Miss  Cover   Missing
 pyucalgarysrs/__init__.py                           8      0   100%
 pyucalgarysrs/_util.py                              5      0   100%
 pyucalgarysrs/data/__init__.py                     41      0   100%
-pyucalgarysrs/data/_download.py                    94      0   100%
+pyucalgarysrs/data/_download.py                    97      0   100%
 pyucalgarysrs/data/_list.py                        37      0   100%
 pyucalgarysrs/data/classes.py                     373      0   100%
 pyucalgarysrs/data/read/__init__.py               294      0   100%
@@ -15,7 +15,7 @@ pyucalgarysrs/data/read/_grid.py                  161      0   100%
 pyucalgarysrs/data/read/_norstar_riometer.py      139      0   100%
 pyucalgarysrs/data/read/_rego.py                  193      0   100%
 pyucalgarysrs/data/read/_skymap.py                 48      0   100%
-pyucalgarysrs/data/read/_smile.py                 151      0   100%
+pyucalgarysrs/data/read/_smile.py                 159      0   100%
 pyucalgarysrs/data/read/_swan_hsr.py              101      0   100%
 pyucalgarysrs/data/read/_themis.py                180      0   100%
 pyucalgarysrs/data/read/_trex_blue.py             178      0   100%
@@ -31,5 +31,5 @@ pyucalgarysrs/models/atm/classes_forward.py       143      0   100%
 pyucalgarysrs/models/atm/classes_inverse.py        62      0   100%
 pyucalgarysrs/pyucalgarysrs.py                    195      0   100%
 -----------------------------------------------------------------------------
-TOTAL                                            3433      8    99%
+TOTAL                                            3444      8    99%
 ```
