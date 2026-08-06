@@ -263,4 +263,38 @@ def test_download_using_urls_bad_url(srs):
             overwrite=True,
             progress_bar_desc="Some download description",
         )
-    assert "HTTP error 404 when downloading" in str(e_info)
+    # NOTE: we don't check for a specific HTTP status code here. The code we get back depends
+    # on how the data server is configured to respond to a path that doesn't exist, which can
+    # change independently of this library (ie. it currently redirects to the home page instead
+    # of responding with a 404). All we care about is that the failing URL was reported.
+    assert "HTTP error" in str(e_info)
+    assert "fake_url.txt" in str(e_info)
+
+
+@pytest.mark.data_download
+def test_download_using_urls_html_response(srs):
+    # get urls
+    file_listing_obj = srs.data.get_urls(
+        "TREX_RGB_HOURLY_KEOGRAM",
+        datetime.datetime(2023, 2, 5, 6, 0, 0),
+        datetime.datetime(2023, 2, 5, 8, 59, 59),
+        site_uid="gill",
+    )
+
+    # hack one of the urls to point at a page of HTML that responds successfully
+    #
+    # NOTE: the data server can be set up to redirect to the home page when a file doesn't
+    # exist. If it does that using a redirect that we follow, we end up with a successful
+    # response containing HTML, instead of an HTTP error. We want that to fail loudly,
+    # rather than writing the HTML page to disk as if it were the file we asked for.
+    file_listing_obj.urls[0] = "https://data.phys.ucalgary.ca/index.html"
+
+    # download, expecting a failure
+    with pytest.raises(pyucalgarysrs.SRSDownloadError) as e_info:
+        srs.data.download_using_urls(
+            file_listing_obj,
+            n_parallel=1,
+            overwrite=True,
+        )
+    assert "HTML content received instead of a file" in str(e_info)
+    assert "index.html" in str(e_info)

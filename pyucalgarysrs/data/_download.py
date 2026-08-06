@@ -51,7 +51,16 @@ def __download_url(
 
     # retrieve file and save to disk
     r = requests.get(url, headers=headers, timeout=timeout)
-    if (r.status_code == 200):
+
+    # check if we were given a page of HTML instead of the file we asked for
+    #
+    # NOTE: the data server can be set up to redirect to the home page when a file doesn't
+    # exist, which means we can get back a successful response containing a page of HTML,
+    # instead of an HTTP error. None of the data files we serve are HTML, so without this
+    # check we would write that page to disk as if it were the file that was asked for.
+    is_html = ("text/html" in r.headers.get("Content-Type", "").lower())
+
+    if (r.status_code == 200 and is_html is False):
         this_bytes = len(r.content)
         with open(output_filename, 'wb') as fp:
             fp.write(r.content)
@@ -68,7 +77,11 @@ def __download_url(
                 pbar.update()
             else:
                 pbar.update(0)  # pragma: no cover
-        raise SRSDownloadError("HTTP error %d when downloading '%s'" % (r.status_code, url))
+        if (r.status_code == 200):
+            raise SRSDownloadError("HTML content received instead of a file when downloading '%s', the " % (url) +
+                                   "file was likely not found on the server")
+        else:
+            raise SRSDownloadError("HTTP error %d when downloading '%s'" % (r.status_code, url))
 
     # return filename
     return {"filename": output_filename, "bytes_downloaded": this_bytes}

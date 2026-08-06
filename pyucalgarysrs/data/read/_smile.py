@@ -209,6 +209,16 @@ def __trex_readfile_worker(file_obj):
         image_width, image_height, image_channels, image_dtype
 
 
+def __unwrap_attr_value(value):
+    # in single-frame files (ie. the onsite bundling of frames into a minute file didn't
+    # happen), the metadata attributes are stored as single-element arrays instead of as
+    # scalar values. Unwrap them so that the metadata is consistent no matter which flavour
+    # of file was read.
+    if (isinstance(value, np.ndarray) and value.shape == (1, )):
+        return value[0]
+    return value
+
+
 def __smile_readfile_worker_h5(file_obj):
     # init
     images = np.array([])
@@ -252,10 +262,19 @@ def __smile_readfile_worker_h5(file_obj):
         # open H5 file
         f = h5py.File(file_obj["filename"], 'r')
 
+        # determine if this is a single-frame file
+        #
+        # NOTE: normally each file contains a minute of data, where the images dataset
+        # has a fourth dimension for the frame number. However, if the bundling of
+        # individual frames into a minute file didn't happen onsite, we are left with
+        # single-frame files where the images dataset has no frame dimension at all.
+        images_dataset = f["data"]["images"]  # type: ignore
+        single_frame_file = (len(images_dataset.shape) == 3)  # type: ignore
+
         # set image shape vars
-        image_height = f["data"]["images"].shape[0]  # type: ignore
-        image_width = f["data"]["images"].shape[1]  # type: ignore
-        image_channels = f["data"]["images"].shape[2]  # type: ignore
+        image_height = images_dataset.shape[0]  # type: ignore
+        image_width = images_dataset.shape[1]  # type: ignore
+        image_channels = images_dataset.shape[2]  # type: ignore
 
         # get timestamps
         if (file_obj["first_record"] is True):
@@ -282,20 +301,23 @@ def __smile_readfile_worker_h5(file_obj):
                 image_width, image_height, image_channels, image_dtype
 
         # get images
-        images = f["data"]["images"][:, :, :, idxs]  # type: ignore
+        if (single_frame_file is True):
+            images = images_dataset[:, :, :]  # type: ignore
+        else:
+            images = images_dataset[:, :, :, idxs]  # type: ignore
 
         # read metadata
         file_metadata = {}
         if (file_obj["no_metadata"] is False):
             # get file metadata
             for key, value in f["metadata"]["file"].attrs.items():  # type: ignore
-                file_metadata[key] = value
+                file_metadata[key] = __unwrap_attr_value(value)
 
             # read frame metadata
             for i in idxs:  # type: ignore
                 this_frame_metadata = file_metadata.copy()
                 for key, value in f["metadata"]["frame"]["frame%d" % (i)].attrs.items():  # type: ignore
-                    this_frame_metadata[key] = value
+                    this_frame_metadata[key] = __unwrap_attr_value(value)
                 metadata_dict_list.append(this_frame_metadata)
 
         # close H5 file
