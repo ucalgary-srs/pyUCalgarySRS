@@ -1,3 +1,8 @@
+Version 1.26.4 (2026-08-15)
+-------------------
+- improved error messages for files that failed to read
+
+
 Version 1.26.3 (2026-08-06)
 -------------------
 - updated SMILE ASI reading function to handle uncommon edge-case when loading data
