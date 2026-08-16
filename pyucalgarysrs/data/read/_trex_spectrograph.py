@@ -180,7 +180,7 @@ def __spectrograph_raw_readfile_worker(file, first_record=False, no_metadata=Fal
         file_dt = datetime.datetime.strptime(os.path.basename(file)[0:13], "%Y%m%d_%H%M")
     except Exception:
         if (quiet is False):
-            print("Failed to extract timestamp from filename")
+            print("Failed to extract timestamp from filename: %s" % (file))
         problematic = True
         error_message = "failed to extract timestamp from filename"
         return images, metadata_dict_list, problematic, file, error_message
@@ -348,7 +348,7 @@ def __spectrograph_raw_readfile_worker(file, first_record=False, no_metadata=Fal
                 image_matrix = np.reshape(image_np, (image_height, image_width, 1))
             except Exception as e:  # pragma: nocover-ok
                 if (quiet is False):
-                    print("Failed reading image data frame: %s" % (str(e)))
+                    print("Failed reading image data frame: %s (file='%s')" % (str(e), file))
                 metadata_dict_list.pop()  # remove corresponding metadata entry
                 problematic = True
                 error_message = "image data read failure: %s" % (str(e))
@@ -381,7 +381,7 @@ def __spectrograph_raw_readfile_worker(file, first_record=False, no_metadata=Fal
             image_size_is_zero = True
     if (image_size_is_zero is True):
         if (quiet is False):
-            print("Error reading image file: found no image data")
+            print("Error reading image file: found no image data (file='%s')" % (file))
         problematic = True
         error_message = "no image data"
 
@@ -546,8 +546,8 @@ def __spectrograph_processed_readfile_worker(file, first_record=False, no_metada
     try:
         file_dt = datetime.datetime.strptime(os.path.basename(file)[0:11], "%Y%m%d_%H")
     except Exception:
-        if (file is False):  # pragma: nocover-ok
-            print("Failed to extract timestamp from filename")
+        if (quiet is False):  # pragma: nocover-ok
+            print("Failed to extract timestamp from filename: %s" % (file))
         problematic = True
         error_message = "failed to extract timestamp from filename"
         return spectra, timestamps, metadata_dict_list, problematic, file, error_message
@@ -620,7 +620,7 @@ def __spectrograph_processed_readfile_worker(file, first_record=False, no_metada
             spectra = spectra.reshape((image_height, image_width, 1))  # type: ignore
     except Exception as e:
         if (quiet is False):
-            print("Error reading image file: %s" % (str(e)))
+            print("Error reading image file: %s (file='%s')" % (str(e), file))
         problematic = True
         error_message = "error reading image file: %s" % (str(e))
 

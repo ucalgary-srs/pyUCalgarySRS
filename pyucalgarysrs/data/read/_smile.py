@@ -239,7 +239,7 @@ def __smile_readfile_worker_h5(file_obj):
         file_dt = datetime.datetime.strptime(os.path.basename(file_obj["filename"])[0:13], "%Y%m%d_%H%M")
     except Exception:  # pragma: nocover-ok
         if (file_obj["quiet"] is False):
-            print("Failed to extract timestamp from filename")
+            print("Failed to extract timestamp from filename: %s" % (file_obj["filename"]))
         problematic = True
         error_message = "failed to extract timestamp from filename"
         return images, metadata_dict_list, problematic, file_obj["filename"], error_message, \
@@ -332,7 +332,7 @@ def __smile_readfile_worker_h5(file_obj):
         images = np.flip(images, axis=0)  # type: ignore
     except Exception as e:
         if (file_obj["quiet"] is False):
-            print("Error reading image file: %s" % (str(e)))
+            print("Error reading image file: %s (file='%s')" % (str(e), file_obj["filename"]))
         problematic = True
         error_message = "error reading image file: %s" % (str(e))
 

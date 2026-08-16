@@ -160,7 +160,7 @@ def __riometer_readfile_worker(file, no_metadata=False, start_time=None, end_tim
         file_dt = datetime.datetime.strptime(os.path.basename(file).split('_')[-2], "%Y%m%d")
     except Exception:
         if (quiet is False):
-            print("Failed to extract timestamp from filename")
+            print("Failed to extract timestamp from filename: %s" % (file))
         problematic = True
         error_message = "failed to extract timestamp from filename"
         return {

@@ -228,7 +228,7 @@ def __grid_readfile_worker(file_obj):
         file_dt = datetime.datetime.strptime(os.path.basename(file_obj["filename"])[0:13], "%Y%m%d_%H%M")
     except Exception:
         if (file_obj["quiet"] is False):
-            print("Failed to extract timestamp from filename")
+            print("Failed to extract timestamp from filename: %s" % (file_obj["filename"]))
         problematic = True
         error_message = "failed to extract timestamp from filename"
         return {
@@ -313,7 +313,7 @@ def __grid_readfile_worker(file_obj):
             data_dict["grid"] = f["data"]["grid"][:, :, :, idxs]  # type: ignore
         else:  # pragma: nocover-ok
             if (file_obj["quiet"] is False):
-                print("Error reading image file: unexpected grid data shape")
+                print("Error reading image file: unexpected grid data shape (file='%s')" % (file_obj["filename"]))
             problematic = True
             error_message = "error reading image file: unexpected grid data shape"
             return {
@@ -360,7 +360,7 @@ def __grid_readfile_worker(file_obj):
             "timestamp": np.empty((0)),
         }
         if (file_obj["quiet"] is False):
-            print("Error reading image file: %s" % (str(e)))
+            print("Error reading image file: %s (file='%s')" % (str(e), file_obj["filename"]))
         problematic = True
         error_message = "error reading image file: %s" % (str(e))
 

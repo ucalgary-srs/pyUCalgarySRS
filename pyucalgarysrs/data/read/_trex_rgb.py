@@ -265,7 +265,7 @@ def __rgb_readfile_worker_h5(file_obj):
         file_dt = datetime.datetime.strptime(os.path.basename(file_obj["filename"])[0:13], "%Y%m%d_%H%M")
     except Exception:
         if (file_obj["quiet"] is False):
-            print("Failed to extract timestamp from filename")
+            print("Failed to extract timestamp from filename: %s" % (file_obj["filename"]))
         problematic = True
         error_message = "failed to extract timestamp from filename"
         return images, metadata_dict_list, problematic, file_obj["filename"], error_message, \
@@ -346,7 +346,7 @@ def __rgb_readfile_worker_h5(file_obj):
         images = np.flip(images, axis=0)  # type: ignore
     except Exception as e:
         if (file_obj["quiet"] is False):
-            print("Error reading image file: %s" % (str(e)))
+            print("Error reading image file: %s (file='%s')" % (str(e), file_obj["filename"]))
         problematic = True
         error_message = "error reading image file: %s" % (str(e))
 
@@ -386,7 +386,7 @@ def __rgb_readfile_worker_png(file_obj):
         file_dt = datetime.datetime.strptime(os.path.basename(file_obj["filename"])[0:13], "%Y%m%d_%H%M")
     except Exception:
         if (file_obj["quiet"] is False):
-            print("Failed to extract timestamp from filename")
+            print("Failed to extract timestamp from filename: %s" % (file_obj["filename"]))
         problematic = True
         error_message = "failed to extract timestamp from filename"
         return images, metadata_dict_list, problematic, file_obj["filename"], error_message, \
@@ -511,7 +511,7 @@ def __rgb_readfile_worker_png(file_obj):
                     images = np.dstack([images, image_matrix])  # depth stack images (on last axis)
         except Exception as e:
             if (file_obj["quiet"] is False):
-                print("Failed reading image data frame: %s" % (str(e)))
+                print("Failed reading image data frame: %s (file='%s')" % (str(e), file_obj["filename"]))
             metadata_dict_list.pop()  # remove corresponding metadata entry
             problematic = True
             error_message = "image data read failure: %s" % (str(e))
@@ -542,7 +542,7 @@ def __rgb_readfile_worker_png(file_obj):
     # react to image data being empty
     if (image_size_is_zero is True):
         if (file_obj["quiet"] is False):
-            print("Error reading image file: found no image data")
+            print("Error reading image file: found no image data (file='%s')" % (file_obj["filename"]))
         problematic = True
         error_message = "no image data"
     else:
@@ -585,7 +585,7 @@ def __rgb_readfile_worker_pgm(file_obj):
         file_dt = datetime.datetime.strptime(os.path.basename(file_obj["filename"])[0:13], "%Y%m%d_%H%M")
     except Exception:
         if (file_obj["quiet"] is False):
-            print("Failed to extract timestamp from filename")
+            print("Failed to extract timestamp from filename: %s" % (file_obj["filename"]))
         problematic = True
         error_message = "failed to extract timestamp from filename"
         return images, metadata_dict_list, problematic, file_obj["filename"], error_message, \
@@ -754,7 +754,7 @@ def __rgb_readfile_worker_pgm(file_obj):
                 image_matrix = np.reshape(image_np, (image_height, image_width, 1))
             except Exception as e:  # pragma: nocover-ok
                 if (file_obj["quiet"] is False):
-                    print("Failed reading image data frame: %s" % (str(e)))
+                    print("Failed reading image data frame: %s (file='%s')" % (str(e), file_obj["filename"]))
                 metadata_dict_list.pop()  # remove corresponding metadata entry
                 problematic = True
                 error_message = "image data read failure: %s" % (str(e))
@@ -795,7 +795,7 @@ def __rgb_readfile_worker_pgm(file_obj):
     # react to image data being empty
     if (image_size_is_zero is True):
         if (file_obj["quiet"] is False):
-            print("Error reading image file: found no image data")
+            print("Error reading image file: found no image data (file='%s')" % (file_obj["filename"]))
         problematic = True
         error_message = "no image data"
     else:
