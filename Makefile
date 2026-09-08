@@ -1,4 +1,4 @@
-.PHONY: install update get-test-data docs show-outdated test test-linting test-ruff test-pycodestyle test-bandit test-pyright test-pytest test-notebooks test-pytest-production test-coverage tool-checks publish
+.PHONY: install update get-test-data build-test-data get-test-data-clean rebuild-test-data docs show-outdated test test-linting test-ruff test-pycodestyle test-bandit test-pyright test-pytest test-notebooks test-pytest-production test-coverage tool-checks publish
 
 all:
 
@@ -11,10 +11,11 @@ update upgrade:
 	pip install --upgrade poetry
 	poetry update
 
-get-test-data:
-	cd tests/test_data && rm -rf read_*
-	cd tests/test_data && wget -O test_data.tar.gz https://aurora.phys.ucalgary.ca/public/github_tests/pyucalgarysrs_test_data.tar.gz
-	cd tests/test_data && tar -zxvf test_data.tar.gz && rm test_data.tar.gz
+get-test-data build-test-data:
+	poetry run python3 tools/build_test_data.py
+
+get-test-data-clean rebuild-test-data:
+	poetry run python3 tools/build_test_data.py --clean
 
 docs:
 	poetry run pdoc3 --html --force --output-dir docs/generated pyucalgarysrs --config "lunr_search={'fuzziness': 1}" --template-dir docs/templates
