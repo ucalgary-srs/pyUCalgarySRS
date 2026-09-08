@@ -562,6 +562,12 @@ classes in this module are included at the top level of this library.</p></div>
                 Number of data files to read in parallel using multiprocessing. Default value 
                 is 1. Adjust according to your computer&#39;s available resources. This parameter 
                 is optional.
+
+                NOTE: when using a value greater than 1 from within a script, the code that
+                does the reading must be inside an `if __name__ == &#34;__main__&#34;:` block. This is 
+                a requirement of the multiprocessing start methods used on all platforms (and 
+                the default on Linux as of Python 3.14), since the worker processes import the 
+                calling script when they start up.
             
             first_record (bool): 
                 Only read in the first record in each file. This is the same as the first_frame
@@ -796,8 +802,9 @@ For example, both fields can be used for most raw and keogram data, but only sit
 be used for skymap datasets, and only device UID can be used for calibration datasets. If
 fields are specified during a call in which site or device UID is not used, a UserWarning
 is display to provide the user with feedback about this detail.</p>
-<h2 id="args">Args</h2>
 <dl>
+<dt>Args</dt>
+<dt>-----=</dt>
 <dt><strong><code>dataset_name</code></strong> :&ensp;<code>str</code></dt>
 <dd>Name of the dataset to download data for. Use the <code>list_datasets()</code> function
 to get the possible values for this parameter. One example is "THEMIS_ASI_RAW".
@@ -846,11 +853,13 @@ See notes section below for further details.</dd>
 default is 30 seconds, or the <code>api_timeout</code> value in the super class' <code><a title="pyucalgarysrs.PyUCalgarySRS" href="../index.html#pyucalgarysrs.PyUCalgarySRS">PyUCalgarySRS</a></code>
 object. This parameter is optional.</dd>
 </dl>
-<h2 id="returns">Returns</h2>
-<p>A <code><a title="pyucalgarysrs.data.classes.FileDownloadResult" href="classes.html#pyucalgarysrs.data.classes.FileDownloadResult">FileDownloadResult</a></code> object containing details about what
+<p>Returns
+-----=
+A <code><a title="pyucalgarysrs.data.classes.FileDownloadResult" href="classes.html#pyucalgarysrs.data.classes.FileDownloadResult">FileDownloadResult</a></code> object containing details about what
 data files were downloaded.</p>
-<h2 id="raises">Raises</h2>
 <dl>
+<dt>Raises</dt>
+<dt>-----=</dt>
 <dt><code>ValueError</code></dt>
 <dd>if no files are available for download</dd>
 <dt><code><a title="pyucalgarysrs.exceptions.SRSDownloadError" href="../exceptions.html#pyucalgarysrs.exceptions.SRSDownloadError">SRSDownloadError</a></code></dt>
@@ -992,8 +1001,9 @@ is needed than the generic <code>download()</code> function. </p>
 list of URLs available for download, then further process this list to fewer files
 based on some other requirement (ie. time down-sampling such as one file per hour).
 Lastly using this function to download the new custom set URLs.</p>
-<h2 id="args">Args</h2>
 <dl>
+<dt>Args</dt>
+<dt>-----=</dt>
 <dt><strong><code>file_listing_response</code></strong> :&ensp;<code>FileListingResponse</code></dt>
 <dd>A <code><a title="pyucalgarysrs.data.classes.FileListingResponse" href="classes.html#pyucalgarysrs.data.classes.FileListingResponse">FileListingResponse</a></code> object returned from a
 <code>get_urls()</code> call, which contains a list of URLs to download for a specific
@@ -1024,11 +1034,13 @@ See notes section below for further details.</dd>
 default is 30 seconds, or the <code>api_timeout</code> value in the super class' <code><a title="pyucalgarysrs.PyUCalgarySRS" href="../index.html#pyucalgarysrs.PyUCalgarySRS">PyUCalgarySRS</a></code>
 object. This parameter is optional.</dd>
 </dl>
-<h2 id="returns">Returns</h2>
-<p>A <code><a title="pyucalgarysrs.data.classes.FileDownloadResult" href="classes.html#pyucalgarysrs.data.classes.FileDownloadResult">FileDownloadResult</a></code> object containing details about what
+<p>Returns
+-----=
+A <code><a title="pyucalgarysrs.data.classes.FileDownloadResult" href="classes.html#pyucalgarysrs.data.classes.FileDownloadResult">FileDownloadResult</a></code> object containing details about what
 data files were downloaded.</p>
-<h2 id="raises">Raises</h2>
 <dl>
+<dt>Raises</dt>
+<dt>-----=</dt>
 <dt><code><a title="pyucalgarysrs.exceptions.SRSDownloadError" href="../exceptions.html#pyucalgarysrs.exceptions.SRSDownloadError">SRSDownloadError</a></code></dt>
 <dd>an error was encountered while downloading a
 specific file</dd>
@@ -1089,8 +1101,9 @@ srs.data.download(dataset_name, start, end)
     raise SRSAPIError(&#34;Dataset not found&#34;)</code></pre>
 </details>
 <div class="desc"><p>Get a specific dataset</p>
-<h2 id="args">Args</h2>
 <dl>
+<dt>Args</dt>
+<dt>-----=</dt>
 <dt><strong><code>name</code></strong> :&ensp;<code>str</code></dt>
 <dd>The dataset name to get. Names are case insensitive.</dd>
 <dt><strong><code>timeout</code></strong> :&ensp;<code>int</code></dt>
@@ -1099,11 +1112,13 @@ default is 3 seconds, or the <code>api_timeout</code> value in the super class' 
 object. This parameter is optional.
 </dd>
 </dl>
-<h2 id="returns">Returns</h2>
-<p>A list of <a href="classes.html#pyucalgarysrs.data.classes.Dataset"><code>Dataset</code></a>
+<p>Returns
+-----=
+A list of <a href="classes.html#pyucalgarysrs.data.classes.Dataset"><code>Dataset</code></a>
 objects.</p>
-<h2 id="raises">Raises</h2>
 <dl>
+<dt>Raises</dt>
+<dt>-----=</dt>
 <dt><code><a title="pyucalgarysrs.exceptions.SRSAPIError" href="../exceptions.html#pyucalgarysrs.exceptions.SRSAPIError">SRSAPIError</a></code></dt>
 <dd>An API error was encountered.</dd>
 </dl></div>
@@ -1193,8 +1208,9 @@ For example, both fields can be used for most raw and keogram data, but only sit
 be used for skymap datasets, and only device UID can be used for calibration datasets. If
 fields are specified during a call in which site or device UID is not used, a UserWarning
 is display to provide the user with feedback about this detail.</p>
-<h2 id="args">Args</h2>
 <dl>
+<dt>Args</dt>
+<dt>-----=</dt>
 <dt><strong><code>dataset_name</code></strong> :&ensp;<code>str</code></dt>
 <dd>Name of the dataset to download data for. Use the <code>list_datasets()</code> function
 to get the possible values for this parameter. One example is "THEMIS_ASI_RAW".
@@ -1222,11 +1238,13 @@ parameter is optional.</dd>
 default is 30 seconds, or the <code>api_timeout</code> value in the super class' <code><a title="pyucalgarysrs.PyUCalgarySRS" href="../index.html#pyucalgarysrs.PyUCalgarySRS">PyUCalgarySRS</a></code>
 object. This parameter is optional.</dd>
 </dl>
-<h2 id="returns">Returns</h2>
-<p>A <code><a title="pyucalgarysrs.data.classes.FileListingResponse" href="classes.html#pyucalgarysrs.data.classes.FileListingResponse">FileListingResponse</a></code> object containing a list of the available URLS,
+<p>Returns
+-----=
+A <code><a title="pyucalgarysrs.data.classes.FileListingResponse" href="classes.html#pyucalgarysrs.data.classes.FileListingResponse">FileListingResponse</a></code> object containing a list of the available URLS,
 among other values.</p>
-<h2 id="raises">Raises</h2>
 <dl>
+<dt>Raises</dt>
+<dt>-----=</dt>
 <dt><code><a title="pyucalgarysrs.exceptions.SRSAPIError" href="../exceptions.html#pyucalgarysrs.exceptions.SRSAPIError">SRSAPIError</a></code></dt>
 <dd>an API error was encountered</dd>
 </dl></div>
@@ -1267,14 +1285,16 @@ in basic formats such as JPG or PNG, so unique functions aren't necessary. We le
 it up to the user to open these basic files in whichever way they prefer. Use the
 <code>list_supported_read_datasets()</code> function to see all datasets that have special
 file reading functionality in this library.</p>
-<h2 id="args">Args</h2>
 <dl>
+<dt>Args</dt>
+<dt>-----=</dt>
 <dt><strong><code>dataset_name</code></strong> :&ensp;<code>str</code></dt>
 <dd>The dataset name to check if file reading is supported. This parameter
 is required.</dd>
 </dl>
-<h2 id="returns">Returns</h2>
-<p>Boolean indicating if file reading is supported.</p></div>
+<p>Returns
+-----=
+Boolean indicating if file reading is supported.</p></div>
 </dd>
 <dt id="pyucalgarysrs.data.DataManager.list_datasets"><code class="name flex">
 <span>def <span class="ident">list_datasets</span></span>(<span>self,<br>name: str | None = None,<br>level: str | None = None,<br>timeout: int | None = None,<br>supported_library: Literal['<a title="pyucalgarysrs" href="../index.html">pyucalgarysrs</a>', 'pyaurorax', 'idl-aurorax', 'pyucrio', 'idl-ucrio'] = 'pyucalgarysrs') ‑> List[<a title="pyucalgarysrs.data.classes.Dataset" href="classes.html#pyucalgarysrs.data.classes.Dataset">Dataset</a>]</span>
@@ -1322,8 +1342,9 @@ is required.</dd>
     return self.__list.list_datasets(self.__srs_obj, name, level, timeout, supported_library)</code></pre>
 </details>
 <div class="desc"><p>List available datasets</p>
-<h2 id="args">Args</h2>
 <dl>
+<dt>Args</dt>
+<dt>-----=</dt>
 <dt><strong><code>name</code></strong> :&ensp;<code>str</code></dt>
 <dd>Supply a name used for filtering. If that name is found in the available dataset
 names received from the API, it will be included in the results. This parameter is
@@ -1339,11 +1360,13 @@ object. This parameter is optional.</dd>
 <dd>The supported library to filter based on. This is used to help with showing only the datasets
 that we want shown in the one-level-up libraries, such as PyAuroraX and PyUCRio.</dd>
 </dl>
-<h2 id="returns">Returns</h2>
-<p>A list of <a href="classes.html#pyucalgarysrs.data.classes.Dataset"><code>Dataset</code></a>
+<p>Returns
+-----=
+A list of <a href="classes.html#pyucalgarysrs.data.classes.Dataset"><code>Dataset</code></a>
 objects.</p>
-<h2 id="raises">Raises</h2>
 <dl>
+<dt>Raises</dt>
+<dt>-----=</dt>
 <dt><code><a title="pyucalgarysrs.exceptions.SRSAPIError" href="../exceptions.html#pyucalgarysrs.exceptions.SRSAPIError">SRSAPIError</a></code></dt>
 <dd>An API error was encountered.</dd>
 </dl></div>
@@ -1385,8 +1408,9 @@ objects.</p>
     return self.__list.list_observatories(self.__srs_obj, instrument_array, uid, timeout)</code></pre>
 </details>
 <div class="desc"><p>List information about observatories</p>
-<h2 id="args">Args</h2>
 <dl>
+<dt>Args</dt>
+<dt>-----=</dt>
 <dt><strong><code>instrument_array</code></strong> :&ensp;<code>str</code></dt>
 <dd>The instrument array to list observatories for. Valid values are: themis_asi, rego,
 trex_rgb, trex_nir, trex_blue, trex_spectrograph, norstar_riometer, and swan_hsr.</dd>
@@ -1399,11 +1423,13 @@ parameter is optional.</dd>
 default is 30 seconds, or the <code>api_timeout</code> value in the super class' <code><a title="pyucalgarysrs.PyUCalgarySRS" href="../index.html#pyucalgarysrs.PyUCalgarySRS">PyUCalgarySRS</a></code>
 object. This parameter is optional.</dd>
 </dl>
-<h2 id="returns">Returns</h2>
-<p>A list of <a href="classes.html#pyucalgarysrs.data.classes.Observatory"><code>Observatory</code></a>
+<p>Returns
+-----=
+A list of <a href="classes.html#pyucalgarysrs.data.classes.Observatory"><code>Observatory</code></a>
 objects.</p>
-<h2 id="raises">Raises</h2>
 <dl>
+<dt>Raises</dt>
+<dt>-----=</dt>
 <dt><code><a title="pyucalgarysrs.exceptions.SRSAPIError" href="../exceptions.html#pyucalgarysrs.exceptions.SRSAPIError">SRSAPIError</a></code></dt>
 <dd>An API error was encountered.</dd>
 </dl></div>
@@ -1426,11 +1452,12 @@ objects.</p>
     return self.readers.list_supported_datasets()</code></pre>
 </details>
 <div class="desc"><p>List the datasets which have file reading capabilities supported.</p>
-<h2 id="returns">Returns</h2>
-<p>A list of the dataset names with file reading support.</p></div>
+<p>Returns
+-----=
+A list of the dataset names with file reading support.</p></div>
 </dd>
 <dt id="pyucalgarysrs.data.DataManager.read"><code class="name flex">
-<span>def <span class="ident">read</span></span>(<span>self,<br>dataset: <a title="pyucalgarysrs.data.classes.Dataset" href="classes.html#pyucalgarysrs.data.classes.Dataset">Dataset</a>,<br>file_list: List[str] | List[pathlib.Path] | str | pathlib.Path,<br>n_parallel: int = 1,<br>no_metadata: bool = False,<br>first_record: bool | None = None,<br>start_time: datetime.datetime | None = None,<br>end_time: datetime.datetime | None = None,<br>quiet: bool = False) ‑> <a title="pyucalgarysrs.data.classes.Data" href="classes.html#pyucalgarysrs.data.classes.Data">Data</a></span>
+<span>def <span class="ident">read</span></span>(<span>self,<br>dataset: <a title="pyucalgarysrs.data.classes.Dataset" href="classes.html#pyucalgarysrs.data.classes.Dataset">Dataset</a>,<br>file_list: List[str] | List[pathlib._local.Path] | str | pathlib._local.Path,<br>n_parallel: int = 1,<br>no_metadata: bool = False,<br>first_record: bool | None = None,<br>start_time: datetime.datetime | None = None,<br>end_time: datetime.datetime | None = None,<br>quiet: bool = False) ‑> <a title="pyucalgarysrs.data.classes.Data" href="classes.html#pyucalgarysrs.data.classes.Data">Data</a></span>
 </code></dt>
 <dd>
 <details class="source">
@@ -1464,6 +1491,12 @@ objects.</p>
             Number of data files to read in parallel using multiprocessing. Default value 
             is 1. Adjust according to your computer&#39;s available resources. This parameter 
             is optional.
+
+            NOTE: when using a value greater than 1 from within a script, the code that
+            does the reading must be inside an `if __name__ == &#34;__main__&#34;:` block. This is 
+            a requirement of the multiprocessing start methods used on all platforms (and 
+            the default on Linux as of Python 3.14), since the worker processes import the 
+            calling script when they start up.
         
         first_record (bool): 
             Only read in the first record in each file. This is the same as the first_frame
@@ -1528,8 +1561,9 @@ objects.</p>
 </details>
 <div class="desc"><p>Read in data files for a given dataset. Note that only one type of dataset's data
 should be read in using a single call.</p>
-<h2 id="args">Args</h2>
 <dl>
+<dt>Args</dt>
+<dt>-----=</dt>
 <dt><strong><code>dataset</code></strong> :&ensp;<code>Dataset</code></dt>
 <dd>The dataset object for which the files are associated with. This parameter is
 required.</dd>
@@ -1538,9 +1572,16 @@ required.</dd>
 necessary. This can be a single string for a file, or a list of strings to read
 in multiple files. This parameter is required.</dd>
 <dt><strong><code>n_parallel</code></strong> :&ensp;<code>int</code></dt>
-<dd>Number of data files to read in parallel using multiprocessing. Default value
+<dd>
+<p>Number of data files to read in parallel using multiprocessing. Default value
 is 1. Adjust according to your computer's available resources. This parameter
-is optional.</dd>
+is optional.</p>
+<p>NOTE: when using a value greater than 1 from within a script, the code that
+does the reading must be inside an <code>if __name__ == "__main__":</code> block. This is
+a requirement of the multiprocessing start methods used on all platforms (and
+the default on Linux as of Python 3.14), since the worker processes import the
+calling script when they start up.</p>
+</dd>
 <dt><strong><code>first_record</code></strong> :&ensp;<code>bool</code></dt>
 <dd>Only read in the first record in each file. This is the same as the first_frame
 parameter in the themis-imager-readfile and trex-imager-readfile libraries, and
@@ -1571,11 +1612,13 @@ that encounter errors will be, as usual, accessible via the <code>problematic_fi
 attribute of the returned <code><a title="pyucalgarysrs.data.classes.Data" href="classes.html#pyucalgarysrs.data.classes.Data">Data</a></code> object. This parameter
 is optional.</dd>
 </dl>
-<h2 id="returns">Returns</h2>
-<p>A <code><a title="pyucalgarysrs.data.classes.Data" href="classes.html#pyucalgarysrs.data.classes.Data">Data</a></code> object containing the data read in, among other
+<p>Returns
+-----=
+A <code><a title="pyucalgarysrs.data.classes.Data" href="classes.html#pyucalgarysrs.data.classes.Data">Data</a></code> object containing the data read in, among other
 values.</p>
-<h2 id="raises">Raises</h2>
 <dl>
+<dt>Raises</dt>
+<dt>-----=</dt>
 <dt><code><a title="pyucalgarysrs.exceptions.SRSUnsupportedReadError" href="../exceptions.html#pyucalgarysrs.exceptions.SRSUnsupportedReadError">SRSUnsupportedReadError</a></code></dt>
 <dd>an unsupported dataset was used when
 trying to read files.</dd>

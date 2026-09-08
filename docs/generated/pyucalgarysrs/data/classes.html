@@ -141,8 +141,9 @@ class Calibration:
             print(&#34;  %-27s: %s&#34; % (var_name, var_str))</code></pre>
 </details>
 <div class="desc"><p>Representation for a calibration file.</p>
-<h2 id="attributes">Attributes</h2>
 <dl>
+<dt>Attributes</dt>
+<dt>-----=</dt>
 <dt><strong><code>filename</code></strong> :&ensp;<code>str</code></dt>
 <dd>Filename for the calibration file, as an absolute path of its location on the local machine.</dd>
 <dt><strong><code>detector_uid</code></strong> :&ensp;<code>str</code></dt>
@@ -164,31 +165,31 @@ read instead of a flatfield calibration file.</dd>
 <dl>
 <dt id="pyucalgarysrs.data.classes.Calibration.dataset"><code class="name">var <span class="ident">dataset</span> : <a title="pyucalgarysrs.data.classes.Dataset" href="#pyucalgarysrs.data.classes.Dataset">Dataset</a> | None</code></dt>
 <dd>
-<div class="desc"></div>
+<div class="desc"><p>The type of the None singleton.</p></div>
 </dd>
 <dt id="pyucalgarysrs.data.classes.Calibration.detector_uid"><code class="name">var <span class="ident">detector_uid</span> : str</code></dt>
 <dd>
-<div class="desc"></div>
+<div class="desc"><p>The type of the None singleton.</p></div>
 </dd>
 <dt id="pyucalgarysrs.data.classes.Calibration.filename"><code class="name">var <span class="ident">filename</span> : str</code></dt>
 <dd>
-<div class="desc"></div>
+<div class="desc"><p>The type of the None singleton.</p></div>
 </dd>
 <dt id="pyucalgarysrs.data.classes.Calibration.flat_field_multiplier"><code class="name">var <span class="ident">flat_field_multiplier</span> : numpy.ndarray | None</code></dt>
 <dd>
-<div class="desc"></div>
+<div class="desc"><p>The type of the None singleton.</p></div>
 </dd>
 <dt id="pyucalgarysrs.data.classes.Calibration.generation_info"><code class="name">var <span class="ident">generation_info</span> : <a title="pyucalgarysrs.data.classes.CalibrationGenerationInfo" href="#pyucalgarysrs.data.classes.CalibrationGenerationInfo">CalibrationGenerationInfo</a></code></dt>
 <dd>
-<div class="desc"></div>
+<div class="desc"><p>The type of the None singleton.</p></div>
 </dd>
 <dt id="pyucalgarysrs.data.classes.Calibration.rayleighs_perdn_persecond"><code class="name">var <span class="ident">rayleighs_perdn_persecond</span> : float | None</code></dt>
 <dd>
-<div class="desc"></div>
+<div class="desc"><p>The type of the None singleton.</p></div>
 </dd>
 <dt id="pyucalgarysrs.data.classes.Calibration.version"><code class="name">var <span class="ident">version</span> : str</code></dt>
 <dd>
-<div class="desc"></div>
+<div class="desc"><p>The type of the None singleton.</p></div>
 </dd>
 </dl>
 <h3>Methods</h3>
@@ -286,8 +287,9 @@ class CalibrationGenerationInfo:
             print(&#34;  %-22s: %s&#34; % (var_name, var_str))</code></pre>
 </details>
 <div class="desc"><p>Representation of generation details for a specific calibration file.</p>
-<h2 id="attributes">Attributes</h2>
 <dl>
+<dt>Attributes</dt>
+<dt>-----=</dt>
 <dt><strong><code>valid_interval_start</code></strong> :&ensp;<code>datetime.datetime</code></dt>
 <dd>Valid start timestamp for this calibration file</dd>
 <dt><strong><code>valid_interval_stop</code></strong> :&ensp;<code>datetime.datetime</code></dt>
@@ -304,23 +306,23 @@ until the next newest calibration for this detector UID.</dd>
 <dl>
 <dt id="pyucalgarysrs.data.classes.CalibrationGenerationInfo.author"><code class="name">var <span class="ident">author</span> : str | None</code></dt>
 <dd>
-<div class="desc"></div>
+<div class="desc"><p>The type of the None singleton.</p></div>
 </dd>
 <dt id="pyucalgarysrs.data.classes.CalibrationGenerationInfo.input_data_dir"><code class="name">var <span class="ident">input_data_dir</span> : str | None</code></dt>
 <dd>
-<div class="desc"></div>
+<div class="desc"><p>The type of the None singleton.</p></div>
 </dd>
 <dt id="pyucalgarysrs.data.classes.CalibrationGenerationInfo.skymap_filename"><code class="name">var <span class="ident">skymap_filename</span> : str | None</code></dt>
 <dd>
-<div class="desc"></div>
+<div class="desc"><p>The type of the None singleton.</p></div>
 </dd>
 <dt id="pyucalgarysrs.data.classes.CalibrationGenerationInfo.valid_interval_start"><code class="name">var <span class="ident">valid_interval_start</span> : datetime.datetime</code></dt>
 <dd>
-<div class="desc"></div>
+<div class="desc"><p>The type of the None singleton.</p></div>
 </dd>
 <dt id="pyucalgarysrs.data.classes.CalibrationGenerationInfo.valid_interval_stop"><code class="name">var <span class="ident">valid_interval_stop</span> : datetime.datetime | None</code></dt>
 <dd>
-<div class="desc"></div>
+<div class="desc"><p>The type of the None singleton.</p></div>
 </dd>
 </dl>
 <h3>Methods</h3>
@@ -530,8 +532,9 @@ class Data:
         print(&#34;  %-19s: %s&#34; % (&#34;dataset&#34;, dataset_str))</code></pre>
 </details>
 <div class="desc"><p>Representation of the data read in from a <code>read</code> call.</p>
-<h2 id="attributes">Attributes</h2>
 <dl>
+<dt>Attributes</dt>
+<dt>-----=</dt>
 <dt><strong><code>data</code></strong> :&ensp;<code>Any</code></dt>
 <dd>The loaded data. This can be one of the following types: ndarray, List[Skymap], List[Calibration].</dd>
 <dt><strong><code>timestamp</code></strong> :&ensp;<code>List[datetime.datetime]</code></dt>
@@ -550,27 +553,27 @@ until calibrated data is inserted manually.</dd>
 <dl>
 <dt id="pyucalgarysrs.data.classes.Data.calibrated_data"><code class="name">var <span class="ident">calibrated_data</span> : Any</code></dt>
 <dd>
-<div class="desc"></div>
+<div class="desc"><p>The type of the None singleton.</p></div>
 </dd>
 <dt id="pyucalgarysrs.data.classes.Data.data"><code class="name">var <span class="ident">data</span> : Any</code></dt>
 <dd>
-<div class="desc"></div>
+<div class="desc"><p>The type of the None singleton.</p></div>
 </dd>
 <dt id="pyucalgarysrs.data.classes.Data.dataset"><code class="name">var <span class="ident">dataset</span> : <a title="pyucalgarysrs.data.classes.Dataset" href="#pyucalgarysrs.data.classes.Dataset">Dataset</a> | None</code></dt>
 <dd>
-<div class="desc"></div>
+<div class="desc"><p>The type of the None singleton.</p></div>
 </dd>
 <dt id="pyucalgarysrs.data.classes.Data.metadata"><code class="name">var <span class="ident">metadata</span> : List[Dict]</code></dt>
 <dd>
-<div class="desc"></div>
+<div class="desc"><p>The type of the None singleton.</p></div>
 </dd>
 <dt id="pyucalgarysrs.data.classes.Data.problematic_files"><code class="name">var <span class="ident">problematic_files</span> : List[<a title="pyucalgarysrs.data.classes.ProblematicFile" href="#pyucalgarysrs.data.classes.ProblematicFile">ProblematicFile</a>]</code></dt>
 <dd>
-<div class="desc"></div>
+<div class="desc"><p>The type of the None singleton.</p></div>
 </dd>
 <dt id="pyucalgarysrs.data.classes.Data.timestamp"><code class="name">var <span class="ident">timestamp</span> : List[datetime.datetime]</code></dt>
 <dd>
-<div class="desc"></div>
+<div class="desc"><p>The type of the None singleton.</p></div>
 </dd>
 </dl>
 <h3>Methods</h3>
@@ -767,8 +770,9 @@ until calibrated data is inserted manually.</dd>
 </details>
 <div class="desc"><p>A dataset available from the UCalgary Space Remote Sensing API, with possibly
 support for downloading and/or reading.</p>
-<h2 id="attributes">Attributes</h2>
 <dl>
+<dt>Attributes</dt>
+<dt>-----=</dt>
 <dt><strong><code>name</code></strong> :&ensp;<code>str</code></dt>
 <dd>Dataset name</dd>
 <dt><strong><code>short_description</code></strong> :&ensp;<code>str</code></dt>
@@ -895,8 +899,9 @@ class FileDownloadResult:
                 print(&#34;  %-18s: %s&#34; % (var_name, None if var_value is None else var_value))</code></pre>
 </details>
 <div class="desc"><p>Representation of the results from a data download call.</p>
-<h2 id="attributes">Attributes</h2>
 <dl>
+<dt>Attributes</dt>
+<dt>-----=</dt>
 <dt><strong><code>filenames</code></strong> :&ensp;<code>List[str]</code></dt>
 <dd>List of downloaded files, as absolute paths of their location on the local machine.</dd>
 <dt><strong><code>count</code></strong> :&ensp;<code>int</code></dt>
@@ -912,23 +917,23 @@ class FileDownloadResult:
 <dl>
 <dt id="pyucalgarysrs.data.classes.FileDownloadResult.count"><code class="name">var <span class="ident">count</span> : int</code></dt>
 <dd>
-<div class="desc"></div>
+<div class="desc"><p>The type of the None singleton.</p></div>
 </dd>
 <dt id="pyucalgarysrs.data.classes.FileDownloadResult.dataset"><code class="name">var <span class="ident">dataset</span> : <a title="pyucalgarysrs.data.classes.Dataset" href="#pyucalgarysrs.data.classes.Dataset">Dataset</a></code></dt>
 <dd>
-<div class="desc"></div>
+<div class="desc"><p>The type of the None singleton.</p></div>
 </dd>
 <dt id="pyucalgarysrs.data.classes.FileDownloadResult.filenames"><code class="name">var <span class="ident">filenames</span> : List[str]</code></dt>
 <dd>
-<div class="desc"></div>
+<div class="desc"><p>The type of the None singleton.</p></div>
 </dd>
 <dt id="pyucalgarysrs.data.classes.FileDownloadResult.output_root_path"><code class="name">var <span class="ident">output_root_path</span> : str</code></dt>
 <dd>
-<div class="desc"></div>
+<div class="desc"><p>The type of the None singleton.</p></div>
 </dd>
 <dt id="pyucalgarysrs.data.classes.FileDownloadResult.total_bytes"><code class="name">var <span class="ident">total_bytes</span> : int</code></dt>
 <dd>
-<div class="desc"></div>
+<div class="desc"><p>The type of the None singleton.</p></div>
 </dd>
 </dl>
 <h3>Methods</h3>
@@ -1032,8 +1037,9 @@ class FileListingResponse:
                 print(&#34;  %-13s: %s&#34; % (var_name, None if var_value is None else var_value))</code></pre>
 </details>
 <div class="desc"><p>Representation of the file listing response from the UCalgary Space Remote Sensing API.</p>
-<h2 id="attributes">Attributes</h2>
 <dl>
+<dt>Attributes</dt>
+<dt>-----=</dt>
 <dt><strong><code>urls</code></strong> :&ensp;<code>List[str]</code></dt>
 <dd>A list of URLs for available data files.</dd>
 <dt><strong><code>path_prefix</code></strong> :&ensp;<code>str</code></dt>
@@ -1050,23 +1056,23 @@ structure compared to the UCalgary Open Data archive.</dd>
 <dl>
 <dt id="pyucalgarysrs.data.classes.FileListingResponse.count"><code class="name">var <span class="ident">count</span> : int</code></dt>
 <dd>
-<div class="desc"></div>
+<div class="desc"><p>The type of the None singleton.</p></div>
 </dd>
 <dt id="pyucalgarysrs.data.classes.FileListingResponse.dataset"><code class="name">var <span class="ident">dataset</span> : <a title="pyucalgarysrs.data.classes.Dataset" href="#pyucalgarysrs.data.classes.Dataset">Dataset</a></code></dt>
 <dd>
-<div class="desc"></div>
+<div class="desc"><p>The type of the None singleton.</p></div>
 </dd>
 <dt id="pyucalgarysrs.data.classes.FileListingResponse.path_prefix"><code class="name">var <span class="ident">path_prefix</span> : str</code></dt>
 <dd>
-<div class="desc"></div>
+<div class="desc"><p>The type of the None singleton.</p></div>
 </dd>
 <dt id="pyucalgarysrs.data.classes.FileListingResponse.total_bytes"><code class="name">var <span class="ident">total_bytes</span> : int | None</code></dt>
 <dd>
-<div class="desc"></div>
+<div class="desc"><p>The type of the None singleton.</p></div>
 </dd>
 <dt id="pyucalgarysrs.data.classes.FileListingResponse.urls"><code class="name">var <span class="ident">urls</span> : List[str]</code></dt>
 <dd>
-<div class="desc"></div>
+<div class="desc"><p>The type of the None singleton.</p></div>
 </dd>
 </dl>
 <h3>Methods</h3>
@@ -1152,8 +1158,9 @@ class GridData:
         print(&#34;    %-15s: %s&#34; % (&#34;confidence&#34;, confidence_str))</code></pre>
 </details>
 <div class="desc"><p>Representation for a grid file's data.</p>
-<h2 id="attributes">Attributes</h2>
 <dl>
+<dt>Attributes</dt>
+<dt>-----=</dt>
 <dt><strong><code>grid</code></strong> :&ensp;<code>ndarray</code></dt>
 <dd>Primary data set, gridded images</dd>
 <dt><strong><code>fill_value</code></strong> :&ensp;<code>float</code></dt>
@@ -1165,15 +1172,15 @@ class GridData:
 <dl>
 <dt id="pyucalgarysrs.data.classes.GridData.fill_value"><code class="name">var <span class="ident">fill_value</span> : float</code></dt>
 <dd>
-<div class="desc"></div>
+<div class="desc"><p>The type of the None singleton.</p></div>
 </dd>
 <dt id="pyucalgarysrs.data.classes.GridData.grid"><code class="name">var <span class="ident">grid</span> : numpy.ndarray</code></dt>
 <dd>
-<div class="desc"></div>
+<div class="desc"><p>The type of the None singleton.</p></div>
 </dd>
 <dt id="pyucalgarysrs.data.classes.GridData.source_info"><code class="name">var <span class="ident">source_info</span> : <a title="pyucalgarysrs.data.classes.GridSourceInfoData" href="#pyucalgarysrs.data.classes.GridSourceInfoData">GridSourceInfoData</a></code></dt>
 <dd>
-<div class="desc"></div>
+<div class="desc"><p>The type of the None singleton.</p></div>
 </dd>
 </dl>
 <h3>Methods</h3>
@@ -1244,8 +1251,9 @@ class GridSourceInfoData:
         print(&#34;  %-22s: %s&#34; % (&#34;confidence&#34;, confidence_str))</code></pre>
 </details>
 <div class="desc"><p>Representation for a grid file's data specific to the type of grid file</p>
-<h2 id="args">Args</h2>
 <dl>
+<dt>Args</dt>
+<dt>-----=</dt>
 <dt><strong><code>confidence</code></strong> :&ensp;<code>ndarray</code></dt>
 <dd>A confidence rating</dd>
 </dl></div>
@@ -1253,7 +1261,7 @@ class GridSourceInfoData:
 <dl>
 <dt id="pyucalgarysrs.data.classes.GridSourceInfoData.confidence"><code class="name">var <span class="ident">confidence</span> : Any</code></dt>
 <dd>
-<div class="desc"></div>
+<div class="desc"><p>The type of the None singleton.</p></div>
 </dd>
 </dl>
 <h3>Methods</h3>
@@ -1384,8 +1392,9 @@ class HSRData:
         print(&#34;  %-24s: %s&#34; % (&#34;absorption&#34;, absorption_str))</code></pre>
 </details>
 <div class="desc"><p>Representation for SWAN Hyper Spectral Riometer (HSR) data.</p>
-<h2 id="attributes">Attributes</h2>
 <dl>
+<dt>Attributes</dt>
+<dt>-----=</dt>
 <dt><strong><code>timestamp</code></strong> :&ensp;<code>ndarray</code></dt>
 <dd>Timestamp data, a numpy array of datetime objects</dd>
 <dt><strong><code>raw_power</code></strong> :&ensp;<code>ndarray</code></dt>
@@ -1401,23 +1410,23 @@ class HSRData:
 <dl>
 <dt id="pyucalgarysrs.data.classes.HSRData.absorption"><code class="name">var <span class="ident">absorption</span> : numpy.ndarray | None</code></dt>
 <dd>
-<div class="desc"></div>
+<div class="desc"><p>The type of the None singleton.</p></div>
 </dd>
 <dt id="pyucalgarysrs.data.classes.HSRData.band_central_frequency"><code class="name">var <span class="ident">band_central_frequency</span> : List[str]</code></dt>
 <dd>
-<div class="desc"></div>
+<div class="desc"><p>The type of the None singleton.</p></div>
 </dd>
 <dt id="pyucalgarysrs.data.classes.HSRData.band_passband"><code class="name">var <span class="ident">band_passband</span> : List[str]</code></dt>
 <dd>
-<div class="desc"></div>
+<div class="desc"><p>The type of the None singleton.</p></div>
 </dd>
 <dt id="pyucalgarysrs.data.classes.HSRData.raw_power"><code class="name">var <span class="ident">raw_power</span> : numpy.ndarray</code></dt>
 <dd>
-<div class="desc"></div>
+<div class="desc"><p>The type of the None singleton.</p></div>
 </dd>
 <dt id="pyucalgarysrs.data.classes.HSRData.timestamp"><code class="name">var <span class="ident">timestamp</span> : numpy.ndarray</code></dt>
 <dd>
-<div class="desc"></div>
+<div class="desc"><p>The type of the None singleton.</p></div>
 </dd>
 </dl>
 <h3>Methods</h3>
@@ -1531,8 +1540,9 @@ class HSRData:
             print(&#34;  %-19s: %s&#34; % (var_name, None if var_value is None else var_value))</code></pre>
 </details>
 <div class="desc"><p>Representation for an observatory.</p>
-<h2 id="attributes">Attributes</h2>
 <dl>
+<dt>Attributes</dt>
+<dt>-----=</dt>
 <dt><strong><code>uid</code></strong> :&ensp;<code>str</code></dt>
 <dd>The 4-letter unique identifier (traditionally referred to as the site UID)</dd>
 <dt><strong><code>full_name</code></strong> :&ensp;<code>str</code></dt>
@@ -1601,8 +1611,9 @@ class ProblematicFile:
     error_type: Literal[&#34;error&#34;, &#34;warning&#34;]</code></pre>
 </details>
 <div class="desc"><p>Representation about a file that had issues being read.</p>
-<h2 id="attributes">Attributes</h2>
 <dl>
+<dt>Attributes</dt>
+<dt>-----=</dt>
 <dt><strong><code>filename</code></strong> :&ensp;<code>str</code></dt>
 <dd>Filename of the problematic file.</dd>
 <dt><strong><code>error_message</code></strong> :&ensp;<code>str</code></dt>
@@ -1614,15 +1625,15 @@ class ProblematicFile:
 <dl>
 <dt id="pyucalgarysrs.data.classes.ProblematicFile.error_message"><code class="name">var <span class="ident">error_message</span> : str</code></dt>
 <dd>
-<div class="desc"></div>
+<div class="desc"><p>The type of the None singleton.</p></div>
 </dd>
 <dt id="pyucalgarysrs.data.classes.ProblematicFile.error_type"><code class="name">var <span class="ident">error_type</span> : Literal['error', 'warning']</code></dt>
 <dd>
-<div class="desc"></div>
+<div class="desc"><p>The type of the None singleton.</p></div>
 </dd>
 <dt id="pyucalgarysrs.data.classes.ProblematicFile.filename"><code class="name">var <span class="ident">filename</span> : str</code></dt>
 <dd>
-<div class="desc"></div>
+<div class="desc"><p>The type of the None singleton.</p></div>
 </dd>
 </dl>
 </dd>
@@ -1679,8 +1690,9 @@ class RiometerData:
         print(&#34;  %-12s: %s&#34; % (&#34;absorption&#34;, absorption_str))</code></pre>
 </details>
 <div class="desc"><p>Representation for riometer data.</p>
-<h2 id="attributes">Attributes</h2>
 <dl>
+<dt>Attributes</dt>
+<dt>-----=</dt>
 <dt><strong><code>timestamp</code></strong> :&ensp;<code>ndarray</code></dt>
 <dd>Timestamp data, a numpy array of datetime objects</dd>
 <dt><strong><code>raw_signal</code></strong> :&ensp;<code>ndarray</code></dt>
@@ -1692,15 +1704,15 @@ class RiometerData:
 <dl>
 <dt id="pyucalgarysrs.data.classes.RiometerData.absorption"><code class="name">var <span class="ident">absorption</span> : numpy.ndarray | None</code></dt>
 <dd>
-<div class="desc"></div>
+<div class="desc"><p>The type of the None singleton.</p></div>
 </dd>
 <dt id="pyucalgarysrs.data.classes.RiometerData.raw_signal"><code class="name">var <span class="ident">raw_signal</span> : numpy.ndarray</code></dt>
 <dd>
-<div class="desc"></div>
+<div class="desc"><p>The type of the None singleton.</p></div>
 </dd>
 <dt id="pyucalgarysrs.data.classes.RiometerData.timestamp"><code class="name">var <span class="ident">timestamp</span> : numpy.ndarray</code></dt>
 <dd>
-<div class="desc"></div>
+<div class="desc"><p>The type of the None singleton.</p></div>
 </dd>
 </dl>
 <h3>Methods</h3>
@@ -1851,8 +1863,9 @@ class Skymap:
         return alts_km</code></pre>
 </details>
 <div class="desc"><p>Representation for a skymap file.</p>
-<h2 id="attributes">Attributes</h2>
 <dl>
+<dt>Attributes</dt>
+<dt>-----=</dt>
 <dt><strong><code>filename</code></strong> :&ensp;<code>str</code></dt>
 <dd>Filename for the skymap file, as an absolute path of its location on the local machine.</dd>
 <dt><strong><code>project_uid</code></strong> :&ensp;<code>str</code></dt>
@@ -1888,59 +1901,59 @@ class Skymap:
 <dl>
 <dt id="pyucalgarysrs.data.classes.Skymap.filename"><code class="name">var <span class="ident">filename</span> : str</code></dt>
 <dd>
-<div class="desc"></div>
+<div class="desc"><p>The type of the None singleton.</p></div>
 </dd>
 <dt id="pyucalgarysrs.data.classes.Skymap.full_azimuth"><code class="name">var <span class="ident">full_azimuth</span> : numpy.ndarray | None</code></dt>
 <dd>
-<div class="desc"></div>
+<div class="desc"><p>The type of the None singleton.</p></div>
 </dd>
 <dt id="pyucalgarysrs.data.classes.Skymap.full_elevation"><code class="name">var <span class="ident">full_elevation</span> : numpy.ndarray</code></dt>
 <dd>
-<div class="desc"></div>
+<div class="desc"><p>The type of the None singleton.</p></div>
 </dd>
 <dt id="pyucalgarysrs.data.classes.Skymap.full_map_altitude"><code class="name">var <span class="ident">full_map_altitude</span> : numpy.ndarray</code></dt>
 <dd>
-<div class="desc"></div>
+<div class="desc"><p>The type of the None singleton.</p></div>
 </dd>
 <dt id="pyucalgarysrs.data.classes.Skymap.full_map_latitude"><code class="name">var <span class="ident">full_map_latitude</span> : numpy.ndarray</code></dt>
 <dd>
-<div class="desc"></div>
+<div class="desc"><p>The type of the None singleton.</p></div>
 </dd>
 <dt id="pyucalgarysrs.data.classes.Skymap.full_map_longitude"><code class="name">var <span class="ident">full_map_longitude</span> : numpy.ndarray</code></dt>
 <dd>
-<div class="desc"></div>
+<div class="desc"><p>The type of the None singleton.</p></div>
 </dd>
 <dt id="pyucalgarysrs.data.classes.Skymap.generation_info"><code class="name">var <span class="ident">generation_info</span> : <a title="pyucalgarysrs.data.classes.SkymapGenerationInfo" href="#pyucalgarysrs.data.classes.SkymapGenerationInfo">SkymapGenerationInfo</a></code></dt>
 <dd>
-<div class="desc"></div>
+<div class="desc"><p>The type of the None singleton.</p></div>
 </dd>
 <dt id="pyucalgarysrs.data.classes.Skymap.imager_uid"><code class="name">var <span class="ident">imager_uid</span> : str</code></dt>
 <dd>
-<div class="desc"></div>
+<div class="desc"><p>The type of the None singleton.</p></div>
 </dd>
 <dt id="pyucalgarysrs.data.classes.Skymap.project_uid"><code class="name">var <span class="ident">project_uid</span> : str</code></dt>
 <dd>
-<div class="desc"></div>
+<div class="desc"><p>The type of the None singleton.</p></div>
 </dd>
 <dt id="pyucalgarysrs.data.classes.Skymap.site_map_altitude"><code class="name">var <span class="ident">site_map_altitude</span> : float</code></dt>
 <dd>
-<div class="desc"></div>
+<div class="desc"><p>The type of the None singleton.</p></div>
 </dd>
 <dt id="pyucalgarysrs.data.classes.Skymap.site_map_latitude"><code class="name">var <span class="ident">site_map_latitude</span> : float</code></dt>
 <dd>
-<div class="desc"></div>
+<div class="desc"><p>The type of the None singleton.</p></div>
 </dd>
 <dt id="pyucalgarysrs.data.classes.Skymap.site_map_longitude"><code class="name">var <span class="ident">site_map_longitude</span> : float</code></dt>
 <dd>
-<div class="desc"></div>
+<div class="desc"><p>The type of the None singleton.</p></div>
 </dd>
 <dt id="pyucalgarysrs.data.classes.Skymap.site_uid"><code class="name">var <span class="ident">site_uid</span> : str</code></dt>
 <dd>
-<div class="desc"></div>
+<div class="desc"><p>The type of the None singleton.</p></div>
 </dd>
 <dt id="pyucalgarysrs.data.classes.Skymap.version"><code class="name">var <span class="ident">version</span> : str</code></dt>
 <dd>
-<div class="desc"></div>
+<div class="desc"><p>The type of the None singleton.</p></div>
 </dd>
 </dl>
 <h3>Methods</h3>
@@ -2100,8 +2113,9 @@ class SkymapGenerationInfo:
             print(&#34;  %-22s: %s&#34; % (var_name, var_str))</code></pre>
 </details>
 <div class="desc"><p>Representation of generation details for a specific skymap file.</p>
-<h2 id="attributes">Attributes</h2>
 <dl>
+<dt>Attributes</dt>
+<dt>-----=</dt>
 <dt><strong><code>author</code></strong> :&ensp;<code>str</code></dt>
 <dd>Name of individual who created the skymap</dd>
 <dt><strong><code>ccd_center</code></strong> :&ensp;<code>float</code></dt>
@@ -2134,55 +2148,55 @@ the next newest skymap.</dd>
 <dl>
 <dt id="pyucalgarysrs.data.classes.SkymapGenerationInfo.author"><code class="name">var <span class="ident">author</span> : str</code></dt>
 <dd>
-<div class="desc"></div>
+<div class="desc"><p>The type of the None singleton.</p></div>
 </dd>
 <dt id="pyucalgarysrs.data.classes.SkymapGenerationInfo.bytscl_values"><code class="name">var <span class="ident">bytscl_values</span> : numpy.ndarray | None</code></dt>
 <dd>
-<div class="desc"></div>
+<div class="desc"><p>The type of the None singleton.</p></div>
 </dd>
 <dt id="pyucalgarysrs.data.classes.SkymapGenerationInfo.ccd_center"><code class="name">var <span class="ident">ccd_center</span> : float</code></dt>
 <dd>
-<div class="desc"></div>
+<div class="desc"><p>The type of the None singleton.</p></div>
 </dd>
 <dt id="pyucalgarysrs.data.classes.SkymapGenerationInfo.code_used"><code class="name">var <span class="ident">code_used</span> : str</code></dt>
 <dd>
-<div class="desc"></div>
+<div class="desc"><p>The type of the None singleton.</p></div>
 </dd>
 <dt id="pyucalgarysrs.data.classes.SkymapGenerationInfo.data_loc"><code class="name">var <span class="ident">data_loc</span> : str</code></dt>
 <dd>
-<div class="desc"></div>
+<div class="desc"><p>The type of the None singleton.</p></div>
 </dd>
 <dt id="pyucalgarysrs.data.classes.SkymapGenerationInfo.date_generated"><code class="name">var <span class="ident">date_generated</span> : datetime.datetime</code></dt>
 <dd>
-<div class="desc"></div>
+<div class="desc"><p>The type of the None singleton.</p></div>
 </dd>
 <dt id="pyucalgarysrs.data.classes.SkymapGenerationInfo.date_time_used"><code class="name">var <span class="ident">date_time_used</span> : datetime.datetime</code></dt>
 <dd>
-<div class="desc"></div>
+<div class="desc"><p>The type of the None singleton.</p></div>
 </dd>
 <dt id="pyucalgarysrs.data.classes.SkymapGenerationInfo.img_flip"><code class="name">var <span class="ident">img_flip</span> : numpy.ndarray | None</code></dt>
 <dd>
-<div class="desc"></div>
+<div class="desc"><p>The type of the None singleton.</p></div>
 </dd>
 <dt id="pyucalgarysrs.data.classes.SkymapGenerationInfo.optical_orientation"><code class="name">var <span class="ident">optical_orientation</span> : numpy.ndarray | None</code></dt>
 <dd>
-<div class="desc"></div>
+<div class="desc"><p>The type of the None singleton.</p></div>
 </dd>
 <dt id="pyucalgarysrs.data.classes.SkymapGenerationInfo.optical_projection"><code class="name">var <span class="ident">optical_projection</span> : numpy.ndarray | None</code></dt>
 <dd>
-<div class="desc"></div>
+<div class="desc"><p>The type of the None singleton.</p></div>
 </dd>
 <dt id="pyucalgarysrs.data.classes.SkymapGenerationInfo.pixel_aspect_ratio"><code class="name">var <span class="ident">pixel_aspect_ratio</span> : float | None</code></dt>
 <dd>
-<div class="desc"></div>
+<div class="desc"><p>The type of the None singleton.</p></div>
 </dd>
 <dt id="pyucalgarysrs.data.classes.SkymapGenerationInfo.valid_interval_start"><code class="name">var <span class="ident">valid_interval_start</span> : datetime.datetime</code></dt>
 <dd>
-<div class="desc"></div>
+<div class="desc"><p>The type of the None singleton.</p></div>
 </dd>
 <dt id="pyucalgarysrs.data.classes.SkymapGenerationInfo.valid_interval_stop"><code class="name">var <span class="ident">valid_interval_stop</span> : datetime.datetime | None</code></dt>
 <dd>
-<div class="desc"></div>
+<div class="desc"><p>The type of the None singleton.</p></div>
 </dd>
 </dl>
 <h3>Methods</h3>

@@ -193,6 +193,12 @@ border-left: 1px solid #ddd;
                 Number of data files to read in parallel using multiprocessing. Default value 
                 is 1. Adjust according to your computer&#39;s available resources. This parameter 
                 is optional.
+
+                NOTE: when using a value greater than 1 from within a script, the code that
+                does the reading must be inside an `if __name__ == &#34;__main__&#34;:` block. This is 
+                a requirement of the multiprocessing start methods used on all platforms (and 
+                the default on Linux as of Python 3.14), since the worker processes import the 
+                calling script when they start up.
             
             first_record (bool): 
                 Only read in the first record in each file. This is the same as the first_frame
@@ -388,6 +394,12 @@ border-left: 1px solid #ddd;
                 Number of data files to read in parallel using multiprocessing. Default value 
                 is 1. Adjust according to your computer&#39;s available resources. This parameter 
                 is optional.
+
+                NOTE: when using a value greater than 1 from within a script, the code that
+                does the reading must be inside an `if __name__ == &#34;__main__&#34;:` block. This is 
+                a requirement of the multiprocessing start methods used on all platforms (and 
+                the default on Linux as of Python 3.14), since the worker processes import the 
+                calling script when they start up.
             
             first_record (bool): 
                 Only read in the first record in each file. This is the same as the first_frame
@@ -489,6 +501,12 @@ border-left: 1px solid #ddd;
                 Number of data files to read in parallel using multiprocessing. Default value 
                 is 1. Adjust according to your computer&#39;s available resources. This parameter 
                 is optional.
+
+                NOTE: when using a value greater than 1 from within a script, the code that
+                does the reading must be inside an `if __name__ == &#34;__main__&#34;:` block. This is 
+                a requirement of the multiprocessing start methods used on all platforms (and 
+                the default on Linux as of Python 3.14), since the worker processes import the 
+                calling script when they start up.
             
             first_record (bool): 
                 Only read in the first record in each file. This is the same as the first_frame
@@ -590,6 +608,12 @@ border-left: 1px solid #ddd;
                 Number of data files to read in parallel using multiprocessing. Default value 
                 is 1. Adjust according to your computer&#39;s available resources. This parameter 
                 is optional.
+
+                NOTE: when using a value greater than 1 from within a script, the code that
+                does the reading must be inside an `if __name__ == &#34;__main__&#34;:` block. This is 
+                a requirement of the multiprocessing start methods used on all platforms (and 
+                the default on Linux as of Python 3.14), since the worker processes import the 
+                calling script when they start up.
             
             first_record (bool): 
                 Only read in the first record in each file. This is the same as the first_frame
@@ -691,6 +715,12 @@ border-left: 1px solid #ddd;
                 Number of data files to read in parallel using multiprocessing. Default value 
                 is 1. Adjust according to your computer&#39;s available resources. This parameter 
                 is optional.
+
+                NOTE: when using a value greater than 1 from within a script, the code that
+                does the reading must be inside an `if __name__ == &#34;__main__&#34;:` block. This is 
+                a requirement of the multiprocessing start methods used on all platforms (and 
+                the default on Linux as of Python 3.14), since the worker processes import the 
+                calling script when they start up.
             
             first_record (bool): 
                 Only read in the first record in each file. This is the same as the first_frame
@@ -792,6 +822,12 @@ border-left: 1px solid #ddd;
                 Number of data files to read in parallel using multiprocessing. Default value 
                 is 1. Adjust according to your computer&#39;s available resources. This parameter 
                 is optional.
+
+                NOTE: when using a value greater than 1 from within a script, the code that
+                does the reading must be inside an `if __name__ == &#34;__main__&#34;:` block. This is 
+                a requirement of the multiprocessing start methods used on all platforms (and 
+                the default on Linux as of Python 3.14), since the worker processes import the 
+                calling script when they start up.
             
             first_record (bool): 
                 Only read in the first record in each file. This is the same as the first_frame
@@ -901,6 +937,12 @@ border-left: 1px solid #ddd;
                 Number of data files to read in parallel using multiprocessing. Default value 
                 is 1. Adjust according to your computer&#39;s available resources. This parameter 
                 is optional.
+
+                NOTE: when using a value greater than 1 from within a script, the code that
+                does the reading must be inside an `if __name__ == &#34;__main__&#34;:` block. This is 
+                a requirement of the multiprocessing start methods used on all platforms (and 
+                the default on Linux as of Python 3.14), since the worker processes import the 
+                calling script when they start up.
             
             first_record (bool): 
                 Only read in the first record in each file. This is the same as the first_frame
@@ -1028,6 +1070,12 @@ border-left: 1px solid #ddd;
                 Number of data files to read in parallel using multiprocessing. Default value 
                 is 1. Adjust according to your computer&#39;s available resources. This parameter 
                 is optional.
+
+                NOTE: when using a value greater than 1 from within a script, the code that
+                does the reading must be inside an `if __name__ == &#34;__main__&#34;:` block. This is 
+                a requirement of the multiprocessing start methods used on all platforms (and 
+                the default on Linux as of Python 3.14), since the worker processes import the 
+                calling script when they start up.
             
             first_record (bool): 
                 Only read in the first record in each file. This is the same as the first_frame
@@ -1133,6 +1181,12 @@ border-left: 1px solid #ddd;
                 Number of data files to read in parallel using multiprocessing. Default value 
                 is 1. Adjust according to your computer&#39;s available resources. This parameter 
                 is optional.
+
+                NOTE: when using a value greater than 1 from within a script, the code that
+                does the reading must be inside an `if __name__ == &#34;__main__&#34;:` block. This is 
+                a requirement of the multiprocessing start methods used on all platforms (and 
+                the default on Linux as of Python 3.14), since the worker processes import the 
+                calling script when they start up.
                                     
             quiet (bool): 
                 Do not print out errors while reading skymap files, if any are encountered. Any 
@@ -1299,6 +1353,12 @@ border-left: 1px solid #ddd;
                 is 1. Adjust according to your computer&#39;s available resources. This parameter 
                 is optional.
 
+                NOTE: when using a value greater than 1 from within a script, the code that
+                does the reading must be inside an `if __name__ == &#34;__main__&#34;:` block. This is 
+                a requirement of the multiprocessing start methods used on all platforms (and 
+                the default on Linux as of Python 3.14), since the worker processes import the 
+                calling script when they start up.
+
             quiet (bool): 
                 Do not print out errors while reading calibration files, if any are encountered. 
                 Any files that encounter errors will be, as usual, accessible via the `problematic_files` 
@@ -1430,6 +1490,12 @@ border-left: 1px solid #ddd;
                 Number of data files to read in parallel using multiprocessing. Default value 
                 is 1. Adjust according to your computer&#39;s available resources. This parameter 
                 is optional.
+
+                NOTE: when using a value greater than 1 from within a script, the code that
+                does the reading must be inside an `if __name__ == &#34;__main__&#34;:` block. This is 
+                a requirement of the multiprocessing start methods used on all platforms (and 
+                the default on Linux as of Python 3.14), since the worker processes import the 
+                calling script when they start up.
             
             first_record (bool): 
                 Only read in the first record in each file. This is the same as the first_frame
@@ -1545,6 +1611,12 @@ border-left: 1px solid #ddd;
                 Number of data files to read in parallel using multiprocessing. Default value 
                 is 1. Adjust according to your computer&#39;s available resources. This parameter 
                 is optional.
+
+                NOTE: when using a value greater than 1 from within a script, the code that
+                does the reading must be inside an `if __name__ == &#34;__main__&#34;:` block. This is 
+                a requirement of the multiprocessing start methods used on all platforms (and 
+                the default on Linux as of Python 3.14), since the worker processes import the 
+                calling script when they start up.
                         
             no_metadata (bool): 
                 Skip reading of metadata. This is a minor optimization if the metadata is not needed.
@@ -1632,6 +1704,12 @@ border-left: 1px solid #ddd;
                 Number of data files to read in parallel using multiprocessing. Default value 
                 is 1. Adjust according to your computer&#39;s available resources. This parameter 
                 is optional.
+
+                NOTE: when using a value greater than 1 from within a script, the code that
+                does the reading must be inside an `if __name__ == &#34;__main__&#34;:` block. This is 
+                a requirement of the multiprocessing start methods used on all platforms (and 
+                the default on Linux as of Python 3.14), since the worker processes import the 
+                calling script when they start up.
                         
             no_metadata (bool): 
                 Skip reading of metadata. This is a minor optimization if the metadata is not needed.
@@ -1743,14 +1821,16 @@ in basic formats such as JPG or PNG, so unique functions aren't necessary. We le
 it up to the user to open these basic files in whichever way they prefer. Use the
 <code>list_supported_read_datasets()</code> function to see all datasets that have special
 file reading functionality in this library.</p>
-<h2 id="args">Args</h2>
 <dl>
+<dt>Args</dt>
+<dt>-----=</dt>
 <dt><strong><code>dataset_name</code></strong> :&ensp;<code>str</code></dt>
 <dd>The dataset name to check if file reading is supported. This parameter
 is required.</dd>
 </dl>
-<h2 id="returns">Returns</h2>
-<p>Boolean indicating if file reading is supported.</p></div>
+<p>Returns
+-----=
+Boolean indicating if file reading is supported.</p></div>
 </dd>
 <dt id="pyucalgarysrs.data.read.ReadManager.list_supported_datasets"><code class="name flex">
 <span>def <span class="ident">list_supported_datasets</span></span>(<span>self) ‑> List[str]</span>
@@ -1777,11 +1857,12 @@ is required.</dd>
     return supported_datasets</code></pre>
 </details>
 <div class="desc"><p>List the datasets which have file reading capabilities supported.</p>
-<h2 id="returns">Returns</h2>
-<p>A list of the dataset names with file reading support.</p></div>
+<p>Returns
+-----=
+A list of the dataset names with file reading support.</p></div>
 </dd>
 <dt id="pyucalgarysrs.data.read.ReadManager.read"><code class="name flex">
-<span>def <span class="ident">read</span></span>(<span>self,<br>dataset: <a title="pyucalgarysrs.data.classes.Dataset" href="../classes.html#pyucalgarysrs.data.classes.Dataset">Dataset</a>,<br>file_list: List[str] | List[pathlib.Path] | str | pathlib.Path,<br>n_parallel: int = 1,<br>no_metadata: bool = False,<br>first_record: bool | None = None,<br>start_time: datetime.datetime | None = None,<br>end_time: datetime.datetime | None = None,<br>quiet: bool = False) ‑> <a title="pyucalgarysrs.data.classes.Data" href="../classes.html#pyucalgarysrs.data.classes.Data">Data</a></span>
+<span>def <span class="ident">read</span></span>(<span>self,<br>dataset: <a title="pyucalgarysrs.data.classes.Dataset" href="../classes.html#pyucalgarysrs.data.classes.Dataset">Dataset</a>,<br>file_list: List[str] | List[pathlib._local.Path] | str | pathlib._local.Path,<br>n_parallel: int = 1,<br>no_metadata: bool = False,<br>first_record: bool | None = None,<br>start_time: datetime.datetime | None = None,<br>end_time: datetime.datetime | None = None,<br>quiet: bool = False) ‑> <a title="pyucalgarysrs.data.classes.Data" href="../classes.html#pyucalgarysrs.data.classes.Data">Data</a></span>
 </code></dt>
 <dd>
 <details class="source">
@@ -1815,6 +1896,12 @@ is required.</dd>
             Number of data files to read in parallel using multiprocessing. Default value 
             is 1. Adjust according to your computer&#39;s available resources. This parameter 
             is optional.
+
+            NOTE: when using a value greater than 1 from within a script, the code that
+            does the reading must be inside an `if __name__ == &#34;__main__&#34;:` block. This is 
+            a requirement of the multiprocessing start methods used on all platforms (and 
+            the default on Linux as of Python 3.14), since the worker processes import the 
+            calling script when they start up.
         
         first_record (bool): 
             Only read in the first record in each file. This is the same as the first_frame
@@ -1990,8 +2077,9 @@ is required.</dd>
 </details>
 <div class="desc"><p>Read in data files for a given dataset. Note that only one type of dataset's data
 should be read in using a single call.</p>
-<h2 id="args">Args</h2>
 <dl>
+<dt>Args</dt>
+<dt>-----=</dt>
 <dt><strong><code>dataset</code></strong> :&ensp;<code><a title="pyucalgarysrs.data.classes.Dataset" href="../classes.html#pyucalgarysrs.data.classes.Dataset">Dataset</a></code></dt>
 <dd>The dataset object for which the files are associated with. This parameter is
 required.</dd>
@@ -2000,9 +2088,16 @@ required.</dd>
 necessary. This can be a single string for a file, or a list of strings to read
 in multiple files. This parameter is required.</dd>
 <dt><strong><code>n_parallel</code></strong> :&ensp;<code>int</code></dt>
-<dd>Number of data files to read in parallel using multiprocessing. Default value
+<dd>
+<p>Number of data files to read in parallel using multiprocessing. Default value
 is 1. Adjust according to your computer's available resources. This parameter
-is optional.</dd>
+is optional.</p>
+<p>NOTE: when using a value greater than 1 from within a script, the code that
+does the reading must be inside an <code>if __name__ == "__main__":</code> block. This is
+a requirement of the multiprocessing start methods used on all platforms (and
+the default on Linux as of Python 3.14), since the worker processes import the
+calling script when they start up.</p>
+</dd>
 <dt><strong><code>first_record</code></strong> :&ensp;<code>bool</code></dt>
 <dd>Only read in the first record in each file. This is the same as the first_frame
 parameter in the themis-imager-readfile and trex-imager-readfile libraries, and
@@ -2035,11 +2130,13 @@ that encounter errors will be, as usual, accessible via the <code>problematic_fi
 attribute of the returned <code><a title="pyucalgarysrs.data.classes.Data" href="../classes.html#pyucalgarysrs.data.classes.Data">Data</a></code> object. This parameter
 is optional.</dd>
 </dl>
-<h2 id="returns">Returns</h2>
-<p>A <code><a title="pyucalgarysrs.data.classes.Data" href="../classes.html#pyucalgarysrs.data.classes.Data">Data</a></code> object containing the data read in, among other
+<p>Returns
+-----=
+A <code><a title="pyucalgarysrs.data.classes.Data" href="../classes.html#pyucalgarysrs.data.classes.Data">Data</a></code> object containing the data read in, among other
 values.</p>
-<h2 id="raises">Raises</h2>
 <dl>
+<dt>Raises</dt>
+<dt>-----=</dt>
 <dt><code><a title="pyucalgarysrs.exceptions.SRSUnsupportedReadError" href="../../exceptions.html#pyucalgarysrs.exceptions.SRSUnsupportedReadError">SRSUnsupportedReadError</a></code></dt>
 <dd>an unsupported dataset was used when
 trying to read files.</dd>
@@ -2053,7 +2150,7 @@ been integrated, and those libraries are anticipated to be deprecated at some po
 future.</p></div>
 </dd>
 <dt id="pyucalgarysrs.data.read.ReadManager.read_calibration"><code class="name flex">
-<span>def <span class="ident">read_calibration</span></span>(<span>self,<br>file_list: List[str] | List[pathlib.Path] | str | pathlib.Path,<br>n_parallel: int = 1,<br>quiet: bool = False,<br>dataset: <a title="pyucalgarysrs.data.classes.Dataset" href="../classes.html#pyucalgarysrs.data.classes.Dataset">Dataset</a> | None = None) ‑> <a title="pyucalgarysrs.data.classes.Data" href="../classes.html#pyucalgarysrs.data.classes.Data">Data</a></span>
+<span>def <span class="ident">read_calibration</span></span>(<span>self,<br>file_list: List[str] | List[pathlib._local.Path] | str | pathlib._local.Path,<br>n_parallel: int = 1,<br>quiet: bool = False,<br>dataset: <a title="pyucalgarysrs.data.classes.Dataset" href="../classes.html#pyucalgarysrs.data.classes.Dataset">Dataset</a> | None = None) ‑> <a title="pyucalgarysrs.data.classes.Data" href="../classes.html#pyucalgarysrs.data.classes.Data">Data</a></span>
 </code></dt>
 <dd>
 <details class="source">
@@ -2080,6 +2177,12 @@ future.</p></div>
             Number of data files to read in parallel using multiprocessing. Default value 
             is 1. Adjust according to your computer&#39;s available resources. This parameter 
             is optional.
+
+            NOTE: when using a value greater than 1 from within a script, the code that
+            does the reading must be inside an `if __name__ == &#34;__main__&#34;:` block. This is 
+            a requirement of the multiprocessing start methods used on all platforms (and 
+            the default on Linux as of Python 3.14), since the worker processes import the 
+            calling script when they start up.
 
         quiet (bool): 
             Do not print out errors while reading calibration files, if any are encountered. 
@@ -2191,16 +2294,24 @@ future.</p></div>
     return data_obj</code></pre>
 </details>
 <div class="desc"><p>Read in UCalgary calibration files.</p>
-<h2 id="args">Args</h2>
 <dl>
+<dt>Args</dt>
+<dt>-----=</dt>
 <dt><strong><code>file_list</code></strong> :&ensp;<code>List[str], List[Path], str, Path</code></dt>
 <dd>The files to read in. Absolute paths are recommended, but not technically
 necessary. This can be a single string for a file, or a list of strings to read
 in multiple files. This parameter is required.</dd>
 <dt><strong><code>n_parallel</code></strong> :&ensp;<code>int</code></dt>
-<dd>Number of data files to read in parallel using multiprocessing. Default value
+<dd>
+<p>Number of data files to read in parallel using multiprocessing. Default value
 is 1. Adjust according to your computer's available resources. This parameter
-is optional.</dd>
+is optional.</p>
+<p>NOTE: when using a value greater than 1 from within a script, the code that
+does the reading must be inside an <code>if __name__ == "__main__":</code> block. This is
+a requirement of the multiprocessing start methods used on all platforms (and
+the default on Linux as of Python 3.14), since the worker processes import the
+calling script when they start up.</p>
+</dd>
 <dt><strong><code>quiet</code></strong> :&ensp;<code>bool</code></dt>
 <dd>Do not print out errors while reading calibration files, if any are encountered.
 Any files that encounter errors will be, as usual, accessible via the <code>problematic_files</code>
@@ -2210,17 +2321,19 @@ is optional.</dd>
 <dd>The dataset object for which the files are associated with. This parameter is
 optional.</dd>
 </dl>
-<h2 id="returns">Returns</h2>
-<p>A <code><a title="pyucalgarysrs.data.classes.Data" href="../classes.html#pyucalgarysrs.data.classes.Data">Data</a></code> object containing the data read in, among other
+<p>Returns
+-----=
+A <code><a title="pyucalgarysrs.data.classes.Data" href="../classes.html#pyucalgarysrs.data.classes.Data">Data</a></code> object containing the data read in, among other
 values.</p>
-<h2 id="raises">Raises</h2>
 <dl>
+<dt>Raises</dt>
+<dt>-----=</dt>
 <dt><code><a title="pyucalgarysrs.exceptions.SRSError" href="../../exceptions.html#pyucalgarysrs.exceptions.SRSError">SRSError</a></code></dt>
 <dd>a generic read error was encountered</dd>
 </dl></div>
 </dd>
 <dt id="pyucalgarysrs.data.read.ReadManager.read_grid"><code class="name flex">
-<span>def <span class="ident">read_grid</span></span>(<span>self,<br>file_list: List[str] | List[pathlib.Path] | str | pathlib.Path,<br>n_parallel: int = 1,<br>first_record: bool = False,<br>no_metadata: bool = False,<br>start_time: datetime.datetime | None = None,<br>end_time: datetime.datetime | None = None,<br>quiet: bool = False,<br>dataset: <a title="pyucalgarysrs.data.classes.Dataset" href="../classes.html#pyucalgarysrs.data.classes.Dataset">Dataset</a> | None = None) ‑> <a title="pyucalgarysrs.data.classes.Data" href="../classes.html#pyucalgarysrs.data.classes.Data">Data</a></span>
+<span>def <span class="ident">read_grid</span></span>(<span>self,<br>file_list: List[str] | List[pathlib._local.Path] | str | pathlib._local.Path,<br>n_parallel: int = 1,<br>first_record: bool = False,<br>no_metadata: bool = False,<br>start_time: datetime.datetime | None = None,<br>end_time: datetime.datetime | None = None,<br>quiet: bool = False,<br>dataset: <a title="pyucalgarysrs.data.classes.Dataset" href="../classes.html#pyucalgarysrs.data.classes.Dataset">Dataset</a> | None = None) ‑> <a title="pyucalgarysrs.data.classes.Data" href="../classes.html#pyucalgarysrs.data.classes.Data">Data</a></span>
 </code></dt>
 <dd>
 <details class="source">
@@ -2249,6 +2362,12 @@ values.</p>
             Number of data files to read in parallel using multiprocessing. Default value 
             is 1. Adjust according to your computer&#39;s available resources. This parameter 
             is optional.
+
+            NOTE: when using a value greater than 1 from within a script, the code that
+            does the reading must be inside an `if __name__ == &#34;__main__&#34;:` block. This is 
+            a requirement of the multiprocessing start methods used on all platforms (and 
+            the default on Linux as of Python 3.14), since the worker processes import the 
+            calling script when they start up.
         
         first_record (bool): 
             Only read in the first record in each file. This is the same as the first_frame
@@ -2344,16 +2463,24 @@ values.</p>
     return ret_obj</code></pre>
 </details>
 <div class="desc"><p>Read in grid files.</p>
-<h2 id="args">Args</h2>
 <dl>
+<dt>Args</dt>
+<dt>-----=</dt>
 <dt><strong><code>file_list</code></strong> :&ensp;<code>List[str], List[Path], str, Path</code></dt>
 <dd>The files to read in. Absolute paths are recommended, but not technically
 necessary. This can be a single string for a file, or a list of strings to read
 in multiple files. This parameter is required.</dd>
 <dt><strong><code>n_parallel</code></strong> :&ensp;<code>int</code></dt>
-<dd>Number of data files to read in parallel using multiprocessing. Default value
+<dd>
+<p>Number of data files to read in parallel using multiprocessing. Default value
 is 1. Adjust according to your computer's available resources. This parameter
-is optional.</dd>
+is optional.</p>
+<p>NOTE: when using a value greater than 1 from within a script, the code that
+does the reading must be inside an <code>if __name__ == "__main__":</code> block. This is
+a requirement of the multiprocessing start methods used on all platforms (and
+the default on Linux as of Python 3.14), since the worker processes import the
+calling script when they start up.</p>
+</dd>
 <dt><strong><code>first_record</code></strong> :&ensp;<code>bool</code></dt>
 <dd>Only read in the first record in each file. This is the same as the first_frame
 parameter in the themis-imager-readfile and trex-imager-readfile libraries, and
@@ -2387,17 +2514,19 @@ is optional.</dd>
 <dd>The dataset object for which the files are associated with. This parameter is
 optional.</dd>
 </dl>
-<h2 id="returns">Returns</h2>
-<p>A <code><a title="pyucalgarysrs.data.classes.Data" href="../classes.html#pyucalgarysrs.data.classes.Data">Data</a></code> object containing the data read in, among other
+<p>Returns
+-----=
+A <code><a title="pyucalgarysrs.data.classes.Data" href="../classes.html#pyucalgarysrs.data.classes.Data">Data</a></code> object containing the data read in, among other
 values.</p>
-<h2 id="raises">Raises</h2>
 <dl>
+<dt>Raises</dt>
+<dt>-----=</dt>
 <dt><code><a title="pyucalgarysrs.exceptions.SRSError" href="../../exceptions.html#pyucalgarysrs.exceptions.SRSError">SRSError</a></code></dt>
 <dd>a generic read error was encountered</dd>
 </dl></div>
 </dd>
 <dt id="pyucalgarysrs.data.read.ReadManager.read_norstar_riometer"><code class="name flex">
-<span>def <span class="ident">read_norstar_riometer</span></span>(<span>self,<br>file_list: List[str] | List[pathlib.Path] | str | pathlib.Path,<br>n_parallel: int = 1,<br>no_metadata: bool = False,<br>start_time: datetime.datetime | None = None,<br>end_time: datetime.datetime | None = None,<br>quiet: bool = False,<br>dataset: <a title="pyucalgarysrs.data.classes.Dataset" href="../classes.html#pyucalgarysrs.data.classes.Dataset">Dataset</a> | None = None) ‑> <a title="pyucalgarysrs.data.classes.Data" href="../classes.html#pyucalgarysrs.data.classes.Data">Data</a></span>
+<span>def <span class="ident">read_norstar_riometer</span></span>(<span>self,<br>file_list: List[str] | List[pathlib._local.Path] | str | pathlib._local.Path,<br>n_parallel: int = 1,<br>no_metadata: bool = False,<br>start_time: datetime.datetime | None = None,<br>end_time: datetime.datetime | None = None,<br>quiet: bool = False,<br>dataset: <a title="pyucalgarysrs.data.classes.Dataset" href="../classes.html#pyucalgarysrs.data.classes.Dataset">Dataset</a> | None = None) ‑> <a title="pyucalgarysrs.data.classes.Data" href="../classes.html#pyucalgarysrs.data.classes.Data">Data</a></span>
 </code></dt>
 <dd>
 <details class="source">
@@ -2425,6 +2554,12 @@ values.</p>
             Number of data files to read in parallel using multiprocessing. Default value 
             is 1. Adjust according to your computer&#39;s available resources. This parameter 
             is optional.
+
+            NOTE: when using a value greater than 1 from within a script, the code that
+            does the reading must be inside an `if __name__ == &#34;__main__&#34;:` block. This is 
+            a requirement of the multiprocessing start methods used on all platforms (and 
+            the default on Linux as of Python 3.14), since the worker processes import the 
+            calling script when they start up.
                     
         no_metadata (bool): 
             Skip reading of metadata. This is a minor optimization if the metadata is not needed.
@@ -2492,16 +2627,24 @@ values.</p>
     return ret_obj</code></pre>
 </details>
 <div class="desc"><p>Read in NORSTAR Riometer ASCII data (K0 or K2 txt files).</p>
-<h2 id="args">Args</h2>
 <dl>
+<dt>Args</dt>
+<dt>-----=</dt>
 <dt><strong><code>file_list</code></strong> :&ensp;<code>List[str], List[Path], str, Path</code></dt>
 <dd>The files to read in. Absolute paths are recommended, but not technically
 necessary. This can be a single string for a file, or a list of strings to read
 in multiple files. This parameter is required.</dd>
 <dt><strong><code>n_parallel</code></strong> :&ensp;<code>int</code></dt>
-<dd>Number of data files to read in parallel using multiprocessing. Default value
+<dd>
+<p>Number of data files to read in parallel using multiprocessing. Default value
 is 1. Adjust according to your computer's available resources. This parameter
-is optional.</dd>
+is optional.</p>
+<p>NOTE: when using a value greater than 1 from within a script, the code that
+does the reading must be inside an <code>if __name__ == "__main__":</code> block. This is
+a requirement of the multiprocessing start methods used on all platforms (and
+the default on Linux as of Python 3.14), since the worker processes import the
+calling script when they start up.</p>
+</dd>
 <dt><strong><code>no_metadata</code></strong> :&ensp;<code>bool</code></dt>
 <dd>Skip reading of metadata. This is a minor optimization if the metadata is not needed.
 Default is <code>False</code>. This parameter is optional.</dd>
@@ -2530,17 +2673,19 @@ is optional.</dd>
 <dd>The dataset object for which the files are associated with. This parameter is
 optional.</dd>
 </dl>
-<h2 id="returns">Returns</h2>
-<p>A <code><a title="pyucalgarysrs.data.classes.Data" href="../classes.html#pyucalgarysrs.data.classes.Data">Data</a></code> object containing the data read in, among other
+<p>Returns
+-----=
+A <code><a title="pyucalgarysrs.data.classes.Data" href="../classes.html#pyucalgarysrs.data.classes.Data">Data</a></code> object containing the data read in, among other
 values.</p>
-<h2 id="raises">Raises</h2>
 <dl>
+<dt>Raises</dt>
+<dt>-----=</dt>
 <dt><code><a title="pyucalgarysrs.exceptions.SRSError" href="../../exceptions.html#pyucalgarysrs.exceptions.SRSError">SRSError</a></code></dt>
 <dd>a generic read error was encountered</dd>
 </dl></div>
 </dd>
 <dt id="pyucalgarysrs.data.read.ReadManager.read_rego"><code class="name flex">
-<span>def <span class="ident">read_rego</span></span>(<span>self,<br>file_list: List[str] | List[pathlib.Path] | str | pathlib.Path,<br>n_parallel: int = 1,<br>first_record: bool = False,<br>no_metadata: bool = False,<br>start_time: datetime.datetime | None = None,<br>end_time: datetime.datetime | None = None,<br>quiet: bool = False,<br>dataset: <a title="pyucalgarysrs.data.classes.Dataset" href="../classes.html#pyucalgarysrs.data.classes.Dataset">Dataset</a> | None = None) ‑> <a title="pyucalgarysrs.data.classes.Data" href="../classes.html#pyucalgarysrs.data.classes.Data">Data</a></span>
+<span>def <span class="ident">read_rego</span></span>(<span>self,<br>file_list: List[str] | List[pathlib._local.Path] | str | pathlib._local.Path,<br>n_parallel: int = 1,<br>first_record: bool = False,<br>no_metadata: bool = False,<br>start_time: datetime.datetime | None = None,<br>end_time: datetime.datetime | None = None,<br>quiet: bool = False,<br>dataset: <a title="pyucalgarysrs.data.classes.Dataset" href="../classes.html#pyucalgarysrs.data.classes.Dataset">Dataset</a> | None = None) ‑> <a title="pyucalgarysrs.data.classes.Data" href="../classes.html#pyucalgarysrs.data.classes.Data">Data</a></span>
 </code></dt>
 <dd>
 <details class="source">
@@ -2569,6 +2714,12 @@ values.</p>
             Number of data files to read in parallel using multiprocessing. Default value 
             is 1. Adjust according to your computer&#39;s available resources. This parameter 
             is optional.
+
+            NOTE: when using a value greater than 1 from within a script, the code that
+            does the reading must be inside an `if __name__ == &#34;__main__&#34;:` block. This is 
+            a requirement of the multiprocessing start methods used on all platforms (and 
+            the default on Linux as of Python 3.14), since the worker processes import the 
+            calling script when they start up.
         
         first_record (bool): 
             Only read in the first record in each file. This is the same as the first_frame
@@ -2649,16 +2800,24 @@ values.</p>
     return ret_obj</code></pre>
 </details>
 <div class="desc"><p>Read in REGO raw data (stream0 pgm* files).</p>
-<h2 id="args">Args</h2>
 <dl>
+<dt>Args</dt>
+<dt>-----=</dt>
 <dt><strong><code>file_list</code></strong> :&ensp;<code>List[str], List[Path], str, Path</code></dt>
 <dd>The files to read in. Absolute paths are recommended, but not technically
 necessary. This can be a single string for a file, or a list of strings to read
 in multiple files. This parameter is required.</dd>
 <dt><strong><code>n_parallel</code></strong> :&ensp;<code>int</code></dt>
-<dd>Number of data files to read in parallel using multiprocessing. Default value
+<dd>
+<p>Number of data files to read in parallel using multiprocessing. Default value
 is 1. Adjust according to your computer's available resources. This parameter
-is optional.</dd>
+is optional.</p>
+<p>NOTE: when using a value greater than 1 from within a script, the code that
+does the reading must be inside an <code>if __name__ == "__main__":</code> block. This is
+a requirement of the multiprocessing start methods used on all platforms (and
+the default on Linux as of Python 3.14), since the worker processes import the
+calling script when they start up.</p>
+</dd>
 <dt><strong><code>first_record</code></strong> :&ensp;<code>bool</code></dt>
 <dd>Only read in the first record in each file. This is the same as the first_frame
 parameter in the themis-imager-readfile and trex-imager-readfile libraries, and
@@ -2692,17 +2851,19 @@ is optional.</dd>
 <dd>The dataset object for which the files are associated with. This parameter is
 optional.</dd>
 </dl>
-<h2 id="returns">Returns</h2>
-<p>A <code><a title="pyucalgarysrs.data.classes.Data" href="../classes.html#pyucalgarysrs.data.classes.Data">Data</a></code> object containing the data read in, among other
+<p>Returns
+-----=
+A <code><a title="pyucalgarysrs.data.classes.Data" href="../classes.html#pyucalgarysrs.data.classes.Data">Data</a></code> object containing the data read in, among other
 values.</p>
-<h2 id="raises">Raises</h2>
 <dl>
+<dt>Raises</dt>
+<dt>-----=</dt>
 <dt><code><a title="pyucalgarysrs.exceptions.SRSError" href="../../exceptions.html#pyucalgarysrs.exceptions.SRSError">SRSError</a></code></dt>
 <dd>a generic read error was encountered</dd>
 </dl></div>
 </dd>
 <dt id="pyucalgarysrs.data.read.ReadManager.read_skymap"><code class="name flex">
-<span>def <span class="ident">read_skymap</span></span>(<span>self,<br>file_list: List[str] | List[pathlib.Path] | str | pathlib.Path,<br>n_parallel: int = 1,<br>quiet: bool = False,<br>dataset: <a title="pyucalgarysrs.data.classes.Dataset" href="../classes.html#pyucalgarysrs.data.classes.Dataset">Dataset</a> | None = None) ‑> <a title="pyucalgarysrs.data.classes.Data" href="../classes.html#pyucalgarysrs.data.classes.Data">Data</a></span>
+<span>def <span class="ident">read_skymap</span></span>(<span>self,<br>file_list: List[str] | List[pathlib._local.Path] | str | pathlib._local.Path,<br>n_parallel: int = 1,<br>quiet: bool = False,<br>dataset: <a title="pyucalgarysrs.data.classes.Dataset" href="../classes.html#pyucalgarysrs.data.classes.Dataset">Dataset</a> | None = None) ‑> <a title="pyucalgarysrs.data.classes.Data" href="../classes.html#pyucalgarysrs.data.classes.Data">Data</a></span>
 </code></dt>
 <dd>
 <details class="source">
@@ -2729,6 +2890,12 @@ values.</p>
             Number of data files to read in parallel using multiprocessing. Default value 
             is 1. Adjust according to your computer&#39;s available resources. This parameter 
             is optional.
+
+            NOTE: when using a value greater than 1 from within a script, the code that
+            does the reading must be inside an `if __name__ == &#34;__main__&#34;:` block. This is 
+            a requirement of the multiprocessing start methods used on all platforms (and 
+            the default on Linux as of Python 3.14), since the worker processes import the 
+            calling script when they start up.
                                 
         quiet (bool): 
             Do not print out errors while reading skymap files, if any are encountered. Any 
@@ -2875,16 +3042,24 @@ values.</p>
     return data_obj</code></pre>
 </details>
 <div class="desc"><p>Read in UCalgary skymap files.</p>
-<h2 id="args">Args</h2>
 <dl>
+<dt>Args</dt>
+<dt>-----=</dt>
 <dt><strong><code>file_list</code></strong> :&ensp;<code>List[str], List[Path], str, Path</code></dt>
 <dd>The files to read in. Absolute paths are recommended, but not technically
 necessary. This can be a single string for a file, or a list of strings to read
 in multiple files. This parameter is required.</dd>
 <dt><strong><code>n_parallel</code></strong> :&ensp;<code>int</code></dt>
-<dd>Number of data files to read in parallel using multiprocessing. Default value
+<dd>
+<p>Number of data files to read in parallel using multiprocessing. Default value
 is 1. Adjust according to your computer's available resources. This parameter
-is optional.</dd>
+is optional.</p>
+<p>NOTE: when using a value greater than 1 from within a script, the code that
+does the reading must be inside an <code>if __name__ == "__main__":</code> block. This is
+a requirement of the multiprocessing start methods used on all platforms (and
+the default on Linux as of Python 3.14), since the worker processes import the
+calling script when they start up.</p>
+</dd>
 <dt><strong><code>quiet</code></strong> :&ensp;<code>bool</code></dt>
 <dd>Do not print out errors while reading skymap files, if any are encountered. Any
 files that encounter errors will be, as usual, accessible via the <code>problematic_files</code>
@@ -2894,17 +3069,19 @@ is optional.</dd>
 <dd>The dataset object for which the files are associated with. This parameter is
 optional.</dd>
 </dl>
-<h2 id="returns">Returns</h2>
-<p>A <code><a title="pyucalgarysrs.data.classes.Data" href="../classes.html#pyucalgarysrs.data.classes.Data">Data</a></code> object containing the data read in, among other
+<p>Returns
+-----=
+A <code><a title="pyucalgarysrs.data.classes.Data" href="../classes.html#pyucalgarysrs.data.classes.Data">Data</a></code> object containing the data read in, among other
 values.</p>
-<h2 id="raises">Raises</h2>
 <dl>
+<dt>Raises</dt>
+<dt>-----=</dt>
 <dt><code><a title="pyucalgarysrs.exceptions.SRSError" href="../../exceptions.html#pyucalgarysrs.exceptions.SRSError">SRSError</a></code></dt>
 <dd>a generic read error was encountered</dd>
 </dl></div>
 </dd>
 <dt id="pyucalgarysrs.data.read.ReadManager.read_smile"><code class="name flex">
-<span>def <span class="ident">read_smile</span></span>(<span>self,<br>file_list: List[str] | List[pathlib.Path] | str | pathlib.Path,<br>n_parallel: int = 1,<br>first_record: bool = False,<br>no_metadata: bool = False,<br>start_time: datetime.datetime | None = None,<br>end_time: datetime.datetime | None = None,<br>quiet: bool = False,<br>dataset: <a title="pyucalgarysrs.data.classes.Dataset" href="../classes.html#pyucalgarysrs.data.classes.Dataset">Dataset</a> | None = None) ‑> <a title="pyucalgarysrs.data.classes.Data" href="../classes.html#pyucalgarysrs.data.classes.Data">Data</a></span>
+<span>def <span class="ident">read_smile</span></span>(<span>self,<br>file_list: List[str] | List[pathlib._local.Path] | str | pathlib._local.Path,<br>n_parallel: int = 1,<br>first_record: bool = False,<br>no_metadata: bool = False,<br>start_time: datetime.datetime | None = None,<br>end_time: datetime.datetime | None = None,<br>quiet: bool = False,<br>dataset: <a title="pyucalgarysrs.data.classes.Dataset" href="../classes.html#pyucalgarysrs.data.classes.Dataset">Dataset</a> | None = None) ‑> <a title="pyucalgarysrs.data.classes.Data" href="../classes.html#pyucalgarysrs.data.classes.Data">Data</a></span>
 </code></dt>
 <dd>
 <details class="source">
@@ -2933,6 +3110,12 @@ values.</p>
             Number of data files to read in parallel using multiprocessing. Default value 
             is 1. Adjust according to your computer&#39;s available resources. This parameter 
             is optional.
+
+            NOTE: when using a value greater than 1 from within a script, the code that
+            does the reading must be inside an `if __name__ == &#34;__main__&#34;:` block. This is 
+            a requirement of the multiprocessing start methods used on all platforms (and 
+            the default on Linux as of Python 3.14), since the worker processes import the 
+            calling script when they start up.
         
         first_record (bool): 
             Only read in the first record in each file. This is the same as the first_frame
@@ -3019,16 +3202,24 @@ values.</p>
     return ret_obj</code></pre>
 </details>
 <div class="desc"><p>Read in SMILE ASI raw data (L0 raw h5 files).</p>
-<h2 id="args">Args</h2>
 <dl>
+<dt>Args</dt>
+<dt>-----=</dt>
 <dt><strong><code>file_list</code></strong> :&ensp;<code>List[str], List[Path], str, Path</code></dt>
 <dd>The files to read in. Absolute paths are recommended, but not technically
 necessary. This can be a single string for a file, or a list of strings to read
 in multiple files. This parameter is required.</dd>
 <dt><strong><code>n_parallel</code></strong> :&ensp;<code>int</code></dt>
-<dd>Number of data files to read in parallel using multiprocessing. Default value
+<dd>
+<p>Number of data files to read in parallel using multiprocessing. Default value
 is 1. Adjust according to your computer's available resources. This parameter
-is optional.</dd>
+is optional.</p>
+<p>NOTE: when using a value greater than 1 from within a script, the code that
+does the reading must be inside an <code>if __name__ == "__main__":</code> block. This is
+a requirement of the multiprocessing start methods used on all platforms (and
+the default on Linux as of Python 3.14), since the worker processes import the
+calling script when they start up.</p>
+</dd>
 <dt><strong><code>first_record</code></strong> :&ensp;<code>bool</code></dt>
 <dd>Only read in the first record in each file. This is the same as the first_frame
 parameter in the themis-imager-readfile and trex-imager-readfile libraries, and
@@ -3062,17 +3253,19 @@ is optional.</dd>
 <dd>The dataset object for which the files are associated with. This parameter is
 optional.</dd>
 </dl>
-<h2 id="returns">Returns</h2>
-<p>A <code><a title="pyucalgarysrs.data.classes.Data" href="../classes.html#pyucalgarysrs.data.classes.Data">Data</a></code> object containing the data read in, among other
+<p>Returns
+-----=
+A <code><a title="pyucalgarysrs.data.classes.Data" href="../classes.html#pyucalgarysrs.data.classes.Data">Data</a></code> object containing the data read in, among other
 values.</p>
-<h2 id="raises">Raises</h2>
 <dl>
+<dt>Raises</dt>
+<dt>-----=</dt>
 <dt><code><a title="pyucalgarysrs.exceptions.SRSError" href="../../exceptions.html#pyucalgarysrs.exceptions.SRSError">SRSError</a></code></dt>
 <dd>a generic read error was encountered</dd>
 </dl></div>
 </dd>
 <dt id="pyucalgarysrs.data.read.ReadManager.read_swan_hsr"><code class="name flex">
-<span>def <span class="ident">read_swan_hsr</span></span>(<span>self,<br>file_list: List[str] | List[pathlib.Path] | str | pathlib.Path,<br>n_parallel: int = 1,<br>no_metadata: bool = False,<br>start_time: datetime.datetime | None = None,<br>end_time: datetime.datetime | None = None,<br>quiet: bool = False,<br>dataset: <a title="pyucalgarysrs.data.classes.Dataset" href="../classes.html#pyucalgarysrs.data.classes.Dataset">Dataset</a> | None = None) ‑> <a title="pyucalgarysrs.data.classes.Data" href="../classes.html#pyucalgarysrs.data.classes.Data">Data</a></span>
+<span>def <span class="ident">read_swan_hsr</span></span>(<span>self,<br>file_list: List[str] | List[pathlib._local.Path] | str | pathlib._local.Path,<br>n_parallel: int = 1,<br>no_metadata: bool = False,<br>start_time: datetime.datetime | None = None,<br>end_time: datetime.datetime | None = None,<br>quiet: bool = False,<br>dataset: <a title="pyucalgarysrs.data.classes.Dataset" href="../classes.html#pyucalgarysrs.data.classes.Dataset">Dataset</a> | None = None) ‑> <a title="pyucalgarysrs.data.classes.Data" href="../classes.html#pyucalgarysrs.data.classes.Data">Data</a></span>
 </code></dt>
 <dd>
 <details class="source">
@@ -3100,6 +3293,12 @@ values.</p>
             Number of data files to read in parallel using multiprocessing. Default value 
             is 1. Adjust according to your computer&#39;s available resources. This parameter 
             is optional.
+
+            NOTE: when using a value greater than 1 from within a script, the code that
+            does the reading must be inside an `if __name__ == &#34;__main__&#34;:` block. This is 
+            a requirement of the multiprocessing start methods used on all platforms (and 
+            the default on Linux as of Python 3.14), since the worker processes import the 
+            calling script when they start up.
                     
         no_metadata (bool): 
             Skip reading of metadata. This is a minor optimization if the metadata is not needed.
@@ -3167,16 +3366,24 @@ values.</p>
     return ret_obj</code></pre>
 </details>
 <div class="desc"><p>Read in SWAN Hyper Spectral Riometer (HSR) H5 data (K0 H5 files).</p>
-<h2 id="args">Args</h2>
 <dl>
+<dt>Args</dt>
+<dt>-----=</dt>
 <dt><strong><code>file_list</code></strong> :&ensp;<code>List[str], List[Path], str, Path</code></dt>
 <dd>The files to read in. Absolute paths are recommended, but not technically
 necessary. This can be a single string for a file, or a list of strings to read
 in multiple files. This parameter is required.</dd>
 <dt><strong><code>n_parallel</code></strong> :&ensp;<code>int</code></dt>
-<dd>Number of data files to read in parallel using multiprocessing. Default value
+<dd>
+<p>Number of data files to read in parallel using multiprocessing. Default value
 is 1. Adjust according to your computer's available resources. This parameter
-is optional.</dd>
+is optional.</p>
+<p>NOTE: when using a value greater than 1 from within a script, the code that
+does the reading must be inside an <code>if __name__ == "__main__":</code> block. This is
+a requirement of the multiprocessing start methods used on all platforms (and
+the default on Linux as of Python 3.14), since the worker processes import the
+calling script when they start up.</p>
+</dd>
 <dt><strong><code>no_metadata</code></strong> :&ensp;<code>bool</code></dt>
 <dd>Skip reading of metadata. This is a minor optimization if the metadata is not needed.
 Default is <code>False</code>. This parameter is optional.</dd>
@@ -3205,17 +3412,19 @@ is optional.</dd>
 <dd>The dataset object for which the files are associated with. This parameter is
 optional.</dd>
 </dl>
-<h2 id="returns">Returns</h2>
-<p>A <code><a title="pyucalgarysrs.data.classes.Data" href="../classes.html#pyucalgarysrs.data.classes.Data">Data</a></code> object containing the data read in, among other
+<p>Returns
+-----=
+A <code><a title="pyucalgarysrs.data.classes.Data" href="../classes.html#pyucalgarysrs.data.classes.Data">Data</a></code> object containing the data read in, among other
 values.</p>
-<h2 id="raises">Raises</h2>
 <dl>
+<dt>Raises</dt>
+<dt>-----=</dt>
 <dt><code><a title="pyucalgarysrs.exceptions.SRSError" href="../../exceptions.html#pyucalgarysrs.exceptions.SRSError">SRSError</a></code></dt>
 <dd>a generic read error was encountered</dd>
 </dl></div>
 </dd>
 <dt id="pyucalgarysrs.data.read.ReadManager.read_themis"><code class="name flex">
-<span>def <span class="ident">read_themis</span></span>(<span>self,<br>file_list: List[str] | List[pathlib.Path] | str | pathlib.Path,<br>n_parallel: int = 1,<br>first_record: bool = False,<br>no_metadata: bool = False,<br>start_time: datetime.datetime | None = None,<br>end_time: datetime.datetime | None = None,<br>quiet: bool = False,<br>dataset: <a title="pyucalgarysrs.data.classes.Dataset" href="../classes.html#pyucalgarysrs.data.classes.Dataset">Dataset</a> | None = None) ‑> <a title="pyucalgarysrs.data.classes.Data" href="../classes.html#pyucalgarysrs.data.classes.Data">Data</a></span>
+<span>def <span class="ident">read_themis</span></span>(<span>self,<br>file_list: List[str] | List[pathlib._local.Path] | str | pathlib._local.Path,<br>n_parallel: int = 1,<br>first_record: bool = False,<br>no_metadata: bool = False,<br>start_time: datetime.datetime | None = None,<br>end_time: datetime.datetime | None = None,<br>quiet: bool = False,<br>dataset: <a title="pyucalgarysrs.data.classes.Dataset" href="../classes.html#pyucalgarysrs.data.classes.Dataset">Dataset</a> | None = None) ‑> <a title="pyucalgarysrs.data.classes.Data" href="../classes.html#pyucalgarysrs.data.classes.Data">Data</a></span>
 </code></dt>
 <dd>
 <details class="source">
@@ -3244,6 +3453,12 @@ values.</p>
             Number of data files to read in parallel using multiprocessing. Default value 
             is 1. Adjust according to your computer&#39;s available resources. This parameter 
             is optional.
+
+            NOTE: when using a value greater than 1 from within a script, the code that
+            does the reading must be inside an `if __name__ == &#34;__main__&#34;:` block. This is 
+            a requirement of the multiprocessing start methods used on all platforms (and 
+            the default on Linux as of Python 3.14), since the worker processes import the 
+            calling script when they start up.
         
         first_record (bool): 
             Only read in the first record in each file. This is the same as the first_frame
@@ -3324,16 +3539,24 @@ values.</p>
     return ret_obj</code></pre>
 </details>
 <div class="desc"><p>Read in THEMIS ASI raw data (stream0 full.pgm* files).</p>
-<h2 id="args">Args</h2>
 <dl>
+<dt>Args</dt>
+<dt>-----=</dt>
 <dt><strong><code>file_list</code></strong> :&ensp;<code>List[str], List[Path], str, Path</code></dt>
 <dd>The files to read in. Absolute paths are recommended, but not technically
 necessary. This can be a single string for a file, or a list of strings to read
 in multiple files. This parameter is required.</dd>
 <dt><strong><code>n_parallel</code></strong> :&ensp;<code>int</code></dt>
-<dd>Number of data files to read in parallel using multiprocessing. Default value
+<dd>
+<p>Number of data files to read in parallel using multiprocessing. Default value
 is 1. Adjust according to your computer's available resources. This parameter
-is optional.</dd>
+is optional.</p>
+<p>NOTE: when using a value greater than 1 from within a script, the code that
+does the reading must be inside an <code>if __name__ == "__main__":</code> block. This is
+a requirement of the multiprocessing start methods used on all platforms (and
+the default on Linux as of Python 3.14), since the worker processes import the
+calling script when they start up.</p>
+</dd>
 <dt><strong><code>first_record</code></strong> :&ensp;<code>bool</code></dt>
 <dd>Only read in the first record in each file. This is the same as the first_frame
 parameter in the themis-imager-readfile and trex-imager-readfile libraries, and
@@ -3367,17 +3590,19 @@ is optional.</dd>
 <dd>The dataset object for which the files are associated with. This parameter is
 optional.</dd>
 </dl>
-<h2 id="returns">Returns</h2>
-<p>A <code><a title="pyucalgarysrs.data.classes.Data" href="../classes.html#pyucalgarysrs.data.classes.Data">Data</a></code> object containing the data read in, among other
+<p>Returns
+-----=
+A <code><a title="pyucalgarysrs.data.classes.Data" href="../classes.html#pyucalgarysrs.data.classes.Data">Data</a></code> object containing the data read in, among other
 values.</p>
-<h2 id="raises">Raises</h2>
 <dl>
+<dt>Raises</dt>
+<dt>-----=</dt>
 <dt><code><a title="pyucalgarysrs.exceptions.SRSError" href="../../exceptions.html#pyucalgarysrs.exceptions.SRSError">SRSError</a></code></dt>
 <dd>a generic read error was encountered</dd>
 </dl></div>
 </dd>
 <dt id="pyucalgarysrs.data.read.ReadManager.read_trex_blue"><code class="name flex">
-<span>def <span class="ident">read_trex_blue</span></span>(<span>self,<br>file_list: List[str] | List[pathlib.Path] | str | pathlib.Path,<br>n_parallel: int = 1,<br>first_record: bool = False,<br>no_metadata: bool = False,<br>start_time: datetime.datetime | None = None,<br>end_time: datetime.datetime | None = None,<br>quiet: bool = False,<br>dataset: <a title="pyucalgarysrs.data.classes.Dataset" href="../classes.html#pyucalgarysrs.data.classes.Dataset">Dataset</a> | None = None) ‑> <a title="pyucalgarysrs.data.classes.Data" href="../classes.html#pyucalgarysrs.data.classes.Data">Data</a></span>
+<span>def <span class="ident">read_trex_blue</span></span>(<span>self,<br>file_list: List[str] | List[pathlib._local.Path] | str | pathlib._local.Path,<br>n_parallel: int = 1,<br>first_record: bool = False,<br>no_metadata: bool = False,<br>start_time: datetime.datetime | None = None,<br>end_time: datetime.datetime | None = None,<br>quiet: bool = False,<br>dataset: <a title="pyucalgarysrs.data.classes.Dataset" href="../classes.html#pyucalgarysrs.data.classes.Dataset">Dataset</a> | None = None) ‑> <a title="pyucalgarysrs.data.classes.Data" href="../classes.html#pyucalgarysrs.data.classes.Data">Data</a></span>
 </code></dt>
 <dd>
 <details class="source">
@@ -3406,6 +3631,12 @@ values.</p>
             Number of data files to read in parallel using multiprocessing. Default value 
             is 1. Adjust according to your computer&#39;s available resources. This parameter 
             is optional.
+
+            NOTE: when using a value greater than 1 from within a script, the code that
+            does the reading must be inside an `if __name__ == &#34;__main__&#34;:` block. This is 
+            a requirement of the multiprocessing start methods used on all platforms (and 
+            the default on Linux as of Python 3.14), since the worker processes import the 
+            calling script when they start up.
         
         first_record (bool): 
             Only read in the first record in each file. This is the same as the first_frame
@@ -3486,16 +3717,24 @@ values.</p>
     return ret_obj</code></pre>
 </details>
 <div class="desc"><p>Read in TREx Blueline raw data (stream0 pgm* files).</p>
-<h2 id="args">Args</h2>
 <dl>
+<dt>Args</dt>
+<dt>-----=</dt>
 <dt><strong><code>file_list</code></strong> :&ensp;<code>List[str], List[Path], str, Path</code></dt>
 <dd>The files to read in. Absolute paths are recommended, but not technically
 necessary. This can be a single string for a file, or a list of strings to read
 in multiple files. This parameter is required.</dd>
 <dt><strong><code>n_parallel</code></strong> :&ensp;<code>int</code></dt>
-<dd>Number of data files to read in parallel using multiprocessing. Default value
+<dd>
+<p>Number of data files to read in parallel using multiprocessing. Default value
 is 1. Adjust according to your computer's available resources. This parameter
-is optional.</dd>
+is optional.</p>
+<p>NOTE: when using a value greater than 1 from within a script, the code that
+does the reading must be inside an <code>if __name__ == "__main__":</code> block. This is
+a requirement of the multiprocessing start methods used on all platforms (and
+the default on Linux as of Python 3.14), since the worker processes import the
+calling script when they start up.</p>
+</dd>
 <dt><strong><code>first_record</code></strong> :&ensp;<code>bool</code></dt>
 <dd>Only read in the first record in each file. This is the same as the first_frame
 parameter in the themis-imager-readfile and trex-imager-readfile libraries, and
@@ -3529,17 +3768,19 @@ is optional.</dd>
 <dd>The dataset object for which the files are associated with. This parameter is
 optional.</dd>
 </dl>
-<h2 id="returns">Returns</h2>
-<p>A <code><a title="pyucalgarysrs.data.classes.Data" href="../classes.html#pyucalgarysrs.data.classes.Data">Data</a></code> object containing the data read in, among other
+<p>Returns
+-----=
+A <code><a title="pyucalgarysrs.data.classes.Data" href="../classes.html#pyucalgarysrs.data.classes.Data">Data</a></code> object containing the data read in, among other
 values.</p>
-<h2 id="raises">Raises</h2>
 <dl>
+<dt>Raises</dt>
+<dt>-----=</dt>
 <dt><code><a title="pyucalgarysrs.exceptions.SRSError" href="../../exceptions.html#pyucalgarysrs.exceptions.SRSError">SRSError</a></code></dt>
 <dd>a generic read error was encountered</dd>
 </dl></div>
 </dd>
 <dt id="pyucalgarysrs.data.read.ReadManager.read_trex_nir"><code class="name flex">
-<span>def <span class="ident">read_trex_nir</span></span>(<span>self,<br>file_list: List[str] | List[pathlib.Path] | str | pathlib.Path,<br>n_parallel: int = 1,<br>first_record: bool = False,<br>no_metadata: bool = False,<br>start_time: datetime.datetime | None = None,<br>end_time: datetime.datetime | None = None,<br>quiet: bool = False,<br>dataset: <a title="pyucalgarysrs.data.classes.Dataset" href="../classes.html#pyucalgarysrs.data.classes.Dataset">Dataset</a> | None = None) ‑> <a title="pyucalgarysrs.data.classes.Data" href="../classes.html#pyucalgarysrs.data.classes.Data">Data</a></span>
+<span>def <span class="ident">read_trex_nir</span></span>(<span>self,<br>file_list: List[str] | List[pathlib._local.Path] | str | pathlib._local.Path,<br>n_parallel: int = 1,<br>first_record: bool = False,<br>no_metadata: bool = False,<br>start_time: datetime.datetime | None = None,<br>end_time: datetime.datetime | None = None,<br>quiet: bool = False,<br>dataset: <a title="pyucalgarysrs.data.classes.Dataset" href="../classes.html#pyucalgarysrs.data.classes.Dataset">Dataset</a> | None = None) ‑> <a title="pyucalgarysrs.data.classes.Data" href="../classes.html#pyucalgarysrs.data.classes.Data">Data</a></span>
 </code></dt>
 <dd>
 <details class="source">
@@ -3568,6 +3809,12 @@ values.</p>
             Number of data files to read in parallel using multiprocessing. Default value 
             is 1. Adjust according to your computer&#39;s available resources. This parameter 
             is optional.
+
+            NOTE: when using a value greater than 1 from within a script, the code that
+            does the reading must be inside an `if __name__ == &#34;__main__&#34;:` block. This is 
+            a requirement of the multiprocessing start methods used on all platforms (and 
+            the default on Linux as of Python 3.14), since the worker processes import the 
+            calling script when they start up.
         
         first_record (bool): 
             Only read in the first record in each file. This is the same as the first_frame
@@ -3648,16 +3895,24 @@ values.</p>
     return ret_obj</code></pre>
 </details>
 <div class="desc"><p>Read in TREx near-infrared (NIR) raw data (stream0 pgm* files).</p>
-<h2 id="args">Args</h2>
 <dl>
+<dt>Args</dt>
+<dt>-----=</dt>
 <dt><strong><code>file_list</code></strong> :&ensp;<code>List[str], List[Path], str, Path</code></dt>
 <dd>The files to read in. Absolute paths are recommended, but not technically
 necessary. This can be a single string for a file, or a list of strings to read
 in multiple files. This parameter is required.</dd>
 <dt><strong><code>n_parallel</code></strong> :&ensp;<code>int</code></dt>
-<dd>Number of data files to read in parallel using multiprocessing. Default value
+<dd>
+<p>Number of data files to read in parallel using multiprocessing. Default value
 is 1. Adjust according to your computer's available resources. This parameter
-is optional.</dd>
+is optional.</p>
+<p>NOTE: when using a value greater than 1 from within a script, the code that
+does the reading must be inside an <code>if __name__ == "__main__":</code> block. This is
+a requirement of the multiprocessing start methods used on all platforms (and
+the default on Linux as of Python 3.14), since the worker processes import the
+calling script when they start up.</p>
+</dd>
 <dt><strong><code>first_record</code></strong> :&ensp;<code>bool</code></dt>
 <dd>Only read in the first record in each file. This is the same as the first_frame
 parameter in the themis-imager-readfile and trex-imager-readfile libraries, and
@@ -3691,17 +3946,19 @@ is optional.</dd>
 <dd>The dataset object for which the files are associated with. This parameter is
 optional.</dd>
 </dl>
-<h2 id="returns">Returns</h2>
-<p>A <code><a title="pyucalgarysrs.data.classes.Data" href="../classes.html#pyucalgarysrs.data.classes.Data">Data</a></code> object containing the data read in, among other
+<p>Returns
+-----=
+A <code><a title="pyucalgarysrs.data.classes.Data" href="../classes.html#pyucalgarysrs.data.classes.Data">Data</a></code> object containing the data read in, among other
 values.</p>
-<h2 id="raises">Raises</h2>
 <dl>
+<dt>Raises</dt>
+<dt>-----=</dt>
 <dt><code><a title="pyucalgarysrs.exceptions.SRSError" href="../../exceptions.html#pyucalgarysrs.exceptions.SRSError">SRSError</a></code></dt>
 <dd>a generic read error was encountered</dd>
 </dl></div>
 </dd>
 <dt id="pyucalgarysrs.data.read.ReadManager.read_trex_rgb"><code class="name flex">
-<span>def <span class="ident">read_trex_rgb</span></span>(<span>self,<br>file_list: List[str] | List[pathlib.Path] | str | pathlib.Path,<br>n_parallel: int = 1,<br>first_record: bool = False,<br>no_metadata: bool = False,<br>start_time: datetime.datetime | None = None,<br>end_time: datetime.datetime | None = None,<br>quiet: bool = False,<br>dataset: <a title="pyucalgarysrs.data.classes.Dataset" href="../classes.html#pyucalgarysrs.data.classes.Dataset">Dataset</a> | None = None) ‑> <a title="pyucalgarysrs.data.classes.Data" href="../classes.html#pyucalgarysrs.data.classes.Data">Data</a></span>
+<span>def <span class="ident">read_trex_rgb</span></span>(<span>self,<br>file_list: List[str] | List[pathlib._local.Path] | str | pathlib._local.Path,<br>n_parallel: int = 1,<br>first_record: bool = False,<br>no_metadata: bool = False,<br>start_time: datetime.datetime | None = None,<br>end_time: datetime.datetime | None = None,<br>quiet: bool = False,<br>dataset: <a title="pyucalgarysrs.data.classes.Dataset" href="../classes.html#pyucalgarysrs.data.classes.Dataset">Dataset</a> | None = None) ‑> <a title="pyucalgarysrs.data.classes.Data" href="../classes.html#pyucalgarysrs.data.classes.Data">Data</a></span>
 </code></dt>
 <dd>
 <details class="source">
@@ -3730,6 +3987,12 @@ values.</p>
             Number of data files to read in parallel using multiprocessing. Default value 
             is 1. Adjust according to your computer&#39;s available resources. This parameter 
             is optional.
+
+            NOTE: when using a value greater than 1 from within a script, the code that
+            does the reading must be inside an `if __name__ == &#34;__main__&#34;:` block. This is 
+            a requirement of the multiprocessing start methods used on all platforms (and 
+            the default on Linux as of Python 3.14), since the worker processes import the 
+            calling script when they start up.
         
         first_record (bool): 
             Only read in the first record in each file. This is the same as the first_frame
@@ -3818,16 +4081,24 @@ values.</p>
     return ret_obj</code></pre>
 </details>
 <div class="desc"><p>Read in TREx RGB raw data (stream0 h5, stream0.burst png.tar, unstable stream0 and stream0.colour pgm<em> and png</em>).</p>
-<h2 id="args">Args</h2>
 <dl>
+<dt>Args</dt>
+<dt>-----=</dt>
 <dt><strong><code>file_list</code></strong> :&ensp;<code>List[str], List[Path], str, Path</code></dt>
 <dd>The files to read in. Absolute paths are recommended, but not technically
 necessary. This can be a single string for a file, or a list of strings to read
 in multiple files. This parameter is required.</dd>
 <dt><strong><code>n_parallel</code></strong> :&ensp;<code>int</code></dt>
-<dd>Number of data files to read in parallel using multiprocessing. Default value
+<dd>
+<p>Number of data files to read in parallel using multiprocessing. Default value
 is 1. Adjust according to your computer's available resources. This parameter
-is optional.</dd>
+is optional.</p>
+<p>NOTE: when using a value greater than 1 from within a script, the code that
+does the reading must be inside an <code>if __name__ == "__main__":</code> block. This is
+a requirement of the multiprocessing start methods used on all platforms (and
+the default on Linux as of Python 3.14), since the worker processes import the
+calling script when they start up.</p>
+</dd>
 <dt><strong><code>first_record</code></strong> :&ensp;<code>bool</code></dt>
 <dd>Only read in the first record in each file. This is the same as the first_frame
 parameter in the themis-imager-readfile and trex-imager-readfile libraries, and
@@ -3861,17 +4132,19 @@ is optional.</dd>
 <dd>The dataset object for which the files are associated with. This parameter is
 optional.</dd>
 </dl>
-<h2 id="returns">Returns</h2>
-<p>A <code><a title="pyucalgarysrs.data.classes.Data" href="../classes.html#pyucalgarysrs.data.classes.Data">Data</a></code> object containing the data read in, among other
+<p>Returns
+-----=
+A <code><a title="pyucalgarysrs.data.classes.Data" href="../classes.html#pyucalgarysrs.data.classes.Data">Data</a></code> object containing the data read in, among other
 values.</p>
-<h2 id="raises">Raises</h2>
 <dl>
+<dt>Raises</dt>
+<dt>-----=</dt>
 <dt><code><a title="pyucalgarysrs.exceptions.SRSError" href="../../exceptions.html#pyucalgarysrs.exceptions.SRSError">SRSError</a></code></dt>
 <dd>a generic read error was encountered</dd>
 </dl></div>
 </dd>
 <dt id="pyucalgarysrs.data.read.ReadManager.read_trex_spectrograph"><code class="name flex">
-<span>def <span class="ident">read_trex_spectrograph</span></span>(<span>self,<br>file_list: List[str] | List[pathlib.Path] | str | pathlib.Path,<br>n_parallel: int = 1,<br>first_record: bool = False,<br>no_metadata: bool = False,<br>start_time: datetime.datetime | None = None,<br>end_time: datetime.datetime | None = None,<br>quiet: bool = False,<br>dataset: <a title="pyucalgarysrs.data.classes.Dataset" href="../classes.html#pyucalgarysrs.data.classes.Dataset">Dataset</a> | None = None) ‑> <a title="pyucalgarysrs.data.classes.Data" href="../classes.html#pyucalgarysrs.data.classes.Data">Data</a></span>
+<span>def <span class="ident">read_trex_spectrograph</span></span>(<span>self,<br>file_list: List[str] | List[pathlib._local.Path] | str | pathlib._local.Path,<br>n_parallel: int = 1,<br>first_record: bool = False,<br>no_metadata: bool = False,<br>start_time: datetime.datetime | None = None,<br>end_time: datetime.datetime | None = None,<br>quiet: bool = False,<br>dataset: <a title="pyucalgarysrs.data.classes.Dataset" href="../classes.html#pyucalgarysrs.data.classes.Dataset">Dataset</a> | None = None) ‑> <a title="pyucalgarysrs.data.classes.Data" href="../classes.html#pyucalgarysrs.data.classes.Data">Data</a></span>
 </code></dt>
 <dd>
 <details class="source">
@@ -3900,6 +4173,12 @@ values.</p>
             Number of data files to read in parallel using multiprocessing. Default value 
             is 1. Adjust according to your computer&#39;s available resources. This parameter 
             is optional.
+
+            NOTE: when using a value greater than 1 from within a script, the code that
+            does the reading must be inside an `if __name__ == &#34;__main__&#34;:` block. This is 
+            a requirement of the multiprocessing start methods used on all platforms (and 
+            the default on Linux as of Python 3.14), since the worker processes import the 
+            calling script when they start up.
         
         first_record (bool): 
             Only read in the first record in each file. This is the same as the first_frame
@@ -4006,16 +4285,24 @@ values.</p>
     return ret_obj</code></pre>
 </details>
 <div class="desc"><p>Read in TREx Spectrograph raw data (stream0 pgm* files).</p>
-<h2 id="args">Args</h2>
 <dl>
+<dt>Args</dt>
+<dt>-----=</dt>
 <dt><strong><code>file_list</code></strong> :&ensp;<code>List[str], List[Path], str, Path</code></dt>
 <dd>The files to read in. Absolute paths are recommended, but not technically
 necessary. This can be a single string for a file, or a list of strings to read
 in multiple files. This parameter is required.</dd>
 <dt><strong><code>n_parallel</code></strong> :&ensp;<code>int</code></dt>
-<dd>Number of data files to read in parallel using multiprocessing. Default value
+<dd>
+<p>Number of data files to read in parallel using multiprocessing. Default value
 is 1. Adjust according to your computer's available resources. This parameter
-is optional.</dd>
+is optional.</p>
+<p>NOTE: when using a value greater than 1 from within a script, the code that
+does the reading must be inside an <code>if __name__ == "__main__":</code> block. This is
+a requirement of the multiprocessing start methods used on all platforms (and
+the default on Linux as of Python 3.14), since the worker processes import the
+calling script when they start up.</p>
+</dd>
 <dt><strong><code>first_record</code></strong> :&ensp;<code>bool</code></dt>
 <dd>Only read in the first record in each file. This is the same as the first_frame
 parameter in the themis-imager-readfile and trex-imager-readfile libraries, and
@@ -4049,11 +4336,13 @@ is optional.</dd>
 <dd>The dataset object for which the files are associated with. This parameter is
 optional.</dd>
 </dl>
-<h2 id="returns">Returns</h2>
-<p>A <code><a title="pyucalgarysrs.data.classes.Data" href="../classes.html#pyucalgarysrs.data.classes.Data">Data</a></code> object containing the data read in, among other
+<p>Returns
+-----=
+A <code><a title="pyucalgarysrs.data.classes.Data" href="../classes.html#pyucalgarysrs.data.classes.Data">Data</a></code> object containing the data read in, among other
 values.</p>
-<h2 id="raises">Raises</h2>
 <dl>
+<dt>Raises</dt>
+<dt>-----=</dt>
 <dt><code><a title="pyucalgarysrs.exceptions.SRSError" href="../../exceptions.html#pyucalgarysrs.exceptions.SRSError">SRSError</a></code></dt>
 <dd>a generic read error was encountered</dd>
 </dl></div>

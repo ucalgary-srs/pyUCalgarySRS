@@ -554,8 +554,9 @@ srs = pyucalgarysrs.PyUCalgarySRS()
 as the destination directory for downloaded data, or API special settings
 (e.g., timeout, HTTP headers). These parameters can be set when instantiating
 the object, or after instantiating using the self-contained accessible variables.</p>
-<h2 id="attributes">Attributes</h2>
 <dl>
+<dt>Attributes</dt>
+<dt>-----=</dt>
 <dt><strong><code>download_output_root_path</code></strong> :&ensp;<code>str</code></dt>
 <dd>Destination directory for downloaded data. The default for this path is a
 subfolder in the user's home directory, such
@@ -585,9 +586,8 @@ and this parameter is implemented purely for future-proofing. It is presently no
 <dt><strong><code>progress_bar_backend</code></strong> :&ensp;<code>str</code></dt>
 <dd>The progress bar backend to use. Valid choices are 'auto', 'standard', or 'notebook'.
 Default is 'auto'. This parameter is optional.</dd>
-</dl>
-<h2 id="raises">Raises</h2>
-<dl>
+<dt>Raises</dt>
+<dt>-----=</dt>
 <dt><code><a title="pyucalgarysrs.exceptions.SRSInitializationError" href="exceptions.html#pyucalgarysrs.exceptions.SRSInitializationError">SRSInitializationError</a></code></dt>
 <dd>an error was encountered during
 initialization of the paths</dd>
@@ -788,8 +788,9 @@ def read_tar_temp_path(self):
 library downloads data to this directory, over time it can grow too large
 and the user can risk running out of space. This method is here to assist
 with easily clearing out this directory.</p>
-<h2 id="raises">Raises</h2>
 <dl>
+<dt>Raises</dt>
+<dt>-----=</dt>
 <dt><code><a title="pyucalgarysrs.exceptions.SRSPurgeError" href="exceptions.html#pyucalgarysrs.exceptions.SRSPurgeError">SRSPurgeError</a></code></dt>
 <dd>an error was encountered during the purge operation</dd>
 </dl></div>
@@ -830,8 +831,9 @@ can cause this directory to contain residual files that aren't deleted during
 the normal read routine. Though this is very rare, it is still possible.
 Therefore, this method is here to assist with easily clearing out this
 directory.</p>
-<h2 id="raises">Raises</h2>
 <dl>
+<dt>Raises</dt>
+<dt>-----=</dt>
 <dt><code><a title="pyucalgarysrs.exceptions.SRSPurgeError" href="exceptions.html#pyucalgarysrs.exceptions.SRSPurgeError">SRSPurgeError</a></code></dt>
 <dd>an error was encountered during the purge operation</dd>
 </dl></div>
@@ -952,18 +954,21 @@ directory.</p>
 <div class="desc"><p>Print the volume of data existing in the download_output_root_path, broken down
 by dataset. Alternatively return the information in a dictionary.</p>
 <p>This can be a helpful tool for managing your disk space.</p>
-<h2 id="args">Args</h2>
 <dl>
+<dt>Args</dt>
+<dt>-----=</dt>
 <dt><strong><code>order</code></strong> :&ensp;<code>bool</code></dt>
 <dd>Order results by either <code>size</code> or <code>name</code>. Default is <code>size</code>.</dd>
 <dt><strong><code>return_dict</code></strong> :&ensp;<code>bool</code></dt>
 <dd>Instead of printing the data usage information, return information as a dictionary.</dd>
 </dl>
-<h2 id="returns">Returns</h2>
-<p>Printed output. If <code>return_dict</code> is True, then it will instead return a dictionary with the
+<p>Returns
+-----=
+Printed output. If <code>return_dict</code> is True, then it will instead return a dictionary with the
 disk usage information.</p>
-<h2 id="notes">Notes</h2>
-<p>Note that size on disk may differ slightly from the values determined by this
+<p>Notes
+-----=
+Note that size on disk may differ slightly from the values determined by this
 routine. For example, the results here will be slightly different than the output
 of a 'du' command on *nix systems.</p></div>
 </dd>
