@@ -13,6 +13,7 @@
 # limitations under the License.
 
 import warnings
+import multiprocessing
 
 
 def show_warning(message: str, stacklevel: int = 1) -> None:
@@ -25,3 +26,32 @@ def show_warning(message: str, stacklevel: int = 1) -> None:
     warnings.simplefilter("always", UserWarning)
     warnings.warn(message, UserWarning, stacklevel=stacklevel)
     warnings.resetwarnings()
+
+
+def get_mp_context():
+    """
+    This is a helper method for within the library to determine the multiprocessing context to
+    use for process pools.
+
+    We prefer 'forkserver' where it is available (Linux, macOS). Forking a multi-threaded process
+    can deadlock the child, and Python 3.12+ emits a DeprecationWarning for it. Python 3.14 switches
+    the Linux default to 'forkserver', so this just adopts that behaviour early. On platforms without
+    it (Windows), the default context is used, which is 'spawn'.
+
+    NOTE: This is a private method only meant for use within the library.
+    """
+    if ("forkserver" in multiprocessing.get_all_start_methods()):
+        ctx = multiprocessing.get_context("forkserver")
+
+        # preload this library in the forkserver process instead of the default of '__main__'
+        #
+        # NOTE: the forkserver process itself imports the '__main__' module of the calling program
+        # by default, which fails for programs that have no importable main module (ex. a script
+        # piped in on stdin). All the child processes need is this library, so we preload that
+        # instead. Note that this does not change the requirement that callers using n_parallel
+        # greater than 1 do so from within an `if __name__ == "__main__":` block, since each child
+        # process imports the calling script when it starts up.
+        ctx.set_forkserver_preload(["pyucalgarysrs"])
+
+        return ctx
+    return multiprocessing.get_context()  # pragma: nocover-ok

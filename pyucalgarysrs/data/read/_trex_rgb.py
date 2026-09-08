@@ -24,9 +24,8 @@ import cv2
 import h5py
 import numpy as np
 from pathlib import Path
-from multiprocessing import Pool
 from concurrent.futures import ThreadPoolExecutor
-from ..._util import show_warning
+from ..._util import show_warning, get_mp_context
 from ...exceptions import SRSError
 
 # static globals
@@ -37,6 +36,15 @@ __RGB_PGM_DT = __RGB_PGM_DT.newbyteorder('>')  # force big endian byte ordering
 __RGB_PNG_DT = np.dtype("uint8")
 __RGB_H5_DT = np.dtype("uint8")
 __PNG_METADATA_PROJECT_UID = "trex"
+
+# flag for if the tarfile extraction filter is supported by this Python version
+#
+# NOTE: the 'filter' parameter was added to the tarfile extraction methods in Python 3.11.4
+# (and backported to 3.10.12), and becomes the default in Python 3.14. We set it explicitly
+# so that behaviour is consistent across Python versions, and so that no DeprecationWarning
+# is raised on Python 3.12+. The 'data' value is the most restrictive filter, which is all we
+# need since these tar files only contain regular files.
+__TAR_FILTER_SUPPORTED = hasattr(tarfile, "data_filter")
 
 
 def read(file_list, n_parallel=1, first_record=False, no_metadata=False, start_time=None, end_time=None, tar_tempdir=None, quiet=False):
@@ -86,12 +94,12 @@ def read(file_list, n_parallel=1, first_record=False, no_metadata=False, start_t
         try:
             # set up process pool (ignore SIGINT before spawning pool so child processes inherit SIGINT handler)
             original_sigint_handler = signal.signal(signal.SIGINT, signal.SIG_IGN)
-            pool = Pool(processes=n_parallel)
+            pool = get_mp_context().Pool(processes=n_parallel)
             signal.signal(signal.SIGINT, original_sigint_handler)  # restore SIGINT handler
         except ValueError:  # pragma: nocover-ok
             # likely the read call is being used within a context that doesn't support the usage
             # of signals in this way, proceed without it
-            pool = Pool(processes=n_parallel)
+            pool = get_mp_context().Pool(processes=n_parallel)
 
         # call readfile function, run each iteration with a single input file from file_list
         # NOTE: structure of data - data[file][metadata dictionary lists = 1, images = 0][frame]
@@ -414,9 +422,15 @@ def __rgb_readfile_worker_png(file_obj):
             file_list = sorted(tf.getnames())
             if (file_obj["first_record"] is True):
                 file_list = [file_list[0]]
-                tf.extract(file_list[0], path=this_working_dir)  # nosec
+                if (__TAR_FILTER_SUPPORTED is True):
+                    tf.extract(file_list[0], path=this_working_dir, filter="data")  # nosec
+                else:  # pragma: nocover-ok
+                    tf.extract(file_list[0], path=this_working_dir)  # nosec
             else:
-                tf.extractall(path=this_working_dir)  # nosec
+                if (__TAR_FILTER_SUPPORTED is True):
+                    tf.extractall(path=this_working_dir, filter="data")  # nosec
+                else:  # pragma: nocover-ok
+                    tf.extractall(path=this_working_dir)  # nosec
             for i in range(0, len(file_list)):
                 file_list[i] = "%s/%s" % (this_working_dir, file_list[i])
             tf.close()

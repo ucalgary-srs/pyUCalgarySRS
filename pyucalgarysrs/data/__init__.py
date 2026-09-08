@@ -499,6 +499,12 @@ class DataManager:
                 Number of data files to read in parallel using multiprocessing. Default value 
                 is 1. Adjust according to your computer's available resources. This parameter 
                 is optional.
+
+                NOTE: when using a value greater than 1 from within a script, the code that
+                does the reading must be inside an `if __name__ == "__main__":` block. This is 
+                a requirement of the multiprocessing start methods used on all platforms (and 
+                the default on Linux as of Python 3.14), since the worker processes import the 
+                calling script when they start up.
             
             first_record (bool): 
                 Only read in the first record in each file. This is the same as the first_frame

@@ -1,3 +1,10 @@
+Version 1.26.5 (2026-09-08)
+-------------------
+- minor modifications to data reading
+  - multiprocessing now uses the `forkserver` start method where available, adopting the Python 3.14 default
+  - TREx RGB tar file extraction now explicitly uses the `data` extraction filter, adopting the Python 3.14 default
+
+
 Version 1.26.4 (2026-08-15)
 -------------------
 - improved error messages for files that failed to read

@@ -167,6 +167,12 @@ class ReadManager:
                 Number of data files to read in parallel using multiprocessing. Default value 
                 is 1. Adjust according to your computer's available resources. This parameter 
                 is optional.
+
+                NOTE: when using a value greater than 1 from within a script, the code that
+                does the reading must be inside an `if __name__ == "__main__":` block. This is 
+                a requirement of the multiprocessing start methods used on all platforms (and 
+                the default on Linux as of Python 3.14), since the worker processes import the 
+                calling script when they start up.
             
             first_record (bool): 
                 Only read in the first record in each file. This is the same as the first_frame
@@ -362,6 +368,12 @@ class ReadManager:
                 Number of data files to read in parallel using multiprocessing. Default value 
                 is 1. Adjust according to your computer's available resources. This parameter 
                 is optional.
+
+                NOTE: when using a value greater than 1 from within a script, the code that
+                does the reading must be inside an `if __name__ == "__main__":` block. This is 
+                a requirement of the multiprocessing start methods used on all platforms (and 
+                the default on Linux as of Python 3.14), since the worker processes import the 
+                calling script when they start up.
             
             first_record (bool): 
                 Only read in the first record in each file. This is the same as the first_frame
@@ -463,6 +475,12 @@ class ReadManager:
                 Number of data files to read in parallel using multiprocessing. Default value 
                 is 1. Adjust according to your computer's available resources. This parameter 
                 is optional.
+
+                NOTE: when using a value greater than 1 from within a script, the code that
+                does the reading must be inside an `if __name__ == "__main__":` block. This is 
+                a requirement of the multiprocessing start methods used on all platforms (and 
+                the default on Linux as of Python 3.14), since the worker processes import the 
+                calling script when they start up.
             
             first_record (bool): 
                 Only read in the first record in each file. This is the same as the first_frame
@@ -564,6 +582,12 @@ class ReadManager:
                 Number of data files to read in parallel using multiprocessing. Default value 
                 is 1. Adjust according to your computer's available resources. This parameter 
                 is optional.
+
+                NOTE: when using a value greater than 1 from within a script, the code that
+                does the reading must be inside an `if __name__ == "__main__":` block. This is 
+                a requirement of the multiprocessing start methods used on all platforms (and 
+                the default on Linux as of Python 3.14), since the worker processes import the 
+                calling script when they start up.
             
             first_record (bool): 
                 Only read in the first record in each file. This is the same as the first_frame
@@ -665,6 +689,12 @@ class ReadManager:
                 Number of data files to read in parallel using multiprocessing. Default value 
                 is 1. Adjust according to your computer's available resources. This parameter 
                 is optional.
+
+                NOTE: when using a value greater than 1 from within a script, the code that
+                does the reading must be inside an `if __name__ == "__main__":` block. This is 
+                a requirement of the multiprocessing start methods used on all platforms (and 
+                the default on Linux as of Python 3.14), since the worker processes import the 
+                calling script when they start up.
             
             first_record (bool): 
                 Only read in the first record in each file. This is the same as the first_frame
@@ -766,6 +796,12 @@ class ReadManager:
                 Number of data files to read in parallel using multiprocessing. Default value 
                 is 1. Adjust according to your computer's available resources. This parameter 
                 is optional.
+
+                NOTE: when using a value greater than 1 from within a script, the code that
+                does the reading must be inside an `if __name__ == "__main__":` block. This is 
+                a requirement of the multiprocessing start methods used on all platforms (and 
+                the default on Linux as of Python 3.14), since the worker processes import the 
+                calling script when they start up.
             
             first_record (bool): 
                 Only read in the first record in each file. This is the same as the first_frame
@@ -875,6 +911,12 @@ class ReadManager:
                 Number of data files to read in parallel using multiprocessing. Default value 
                 is 1. Adjust according to your computer's available resources. This parameter 
                 is optional.
+
+                NOTE: when using a value greater than 1 from within a script, the code that
+                does the reading must be inside an `if __name__ == "__main__":` block. This is 
+                a requirement of the multiprocessing start methods used on all platforms (and 
+                the default on Linux as of Python 3.14), since the worker processes import the 
+                calling script when they start up.
             
             first_record (bool): 
                 Only read in the first record in each file. This is the same as the first_frame
@@ -1002,6 +1044,12 @@ class ReadManager:
                 Number of data files to read in parallel using multiprocessing. Default value 
                 is 1. Adjust according to your computer's available resources. This parameter 
                 is optional.
+
+                NOTE: when using a value greater than 1 from within a script, the code that
+                does the reading must be inside an `if __name__ == "__main__":` block. This is 
+                a requirement of the multiprocessing start methods used on all platforms (and 
+                the default on Linux as of Python 3.14), since the worker processes import the 
+                calling script when they start up.
             
             first_record (bool): 
                 Only read in the first record in each file. This is the same as the first_frame
@@ -1107,6 +1155,12 @@ class ReadManager:
                 Number of data files to read in parallel using multiprocessing. Default value 
                 is 1. Adjust according to your computer's available resources. This parameter 
                 is optional.
+
+                NOTE: when using a value greater than 1 from within a script, the code that
+                does the reading must be inside an `if __name__ == "__main__":` block. This is 
+                a requirement of the multiprocessing start methods used on all platforms (and 
+                the default on Linux as of Python 3.14), since the worker processes import the 
+                calling script when they start up.
                                     
             quiet (bool): 
                 Do not print out errors while reading skymap files, if any are encountered. Any 
@@ -1273,6 +1327,12 @@ class ReadManager:
                 is 1. Adjust according to your computer's available resources. This parameter 
                 is optional.
 
+                NOTE: when using a value greater than 1 from within a script, the code that
+                does the reading must be inside an `if __name__ == "__main__":` block. This is 
+                a requirement of the multiprocessing start methods used on all platforms (and 
+                the default on Linux as of Python 3.14), since the worker processes import the 
+                calling script when they start up.
+
             quiet (bool): 
                 Do not print out errors while reading calibration files, if any are encountered. 
                 Any files that encounter errors will be, as usual, accessible via the `problematic_files` 
@@ -1404,6 +1464,12 @@ class ReadManager:
                 Number of data files to read in parallel using multiprocessing. Default value 
                 is 1. Adjust according to your computer's available resources. This parameter 
                 is optional.
+
+                NOTE: when using a value greater than 1 from within a script, the code that
+                does the reading must be inside an `if __name__ == "__main__":` block. This is 
+                a requirement of the multiprocessing start methods used on all platforms (and 
+                the default on Linux as of Python 3.14), since the worker processes import the 
+                calling script when they start up.
             
             first_record (bool): 
                 Only read in the first record in each file. This is the same as the first_frame
@@ -1519,6 +1585,12 @@ class ReadManager:
                 Number of data files to read in parallel using multiprocessing. Default value 
                 is 1. Adjust according to your computer's available resources. This parameter 
                 is optional.
+
+                NOTE: when using a value greater than 1 from within a script, the code that
+                does the reading must be inside an `if __name__ == "__main__":` block. This is 
+                a requirement of the multiprocessing start methods used on all platforms (and 
+                the default on Linux as of Python 3.14), since the worker processes import the 
+                calling script when they start up.
                         
             no_metadata (bool): 
                 Skip reading of metadata. This is a minor optimization if the metadata is not needed.
@@ -1606,6 +1678,12 @@ class ReadManager:
                 Number of data files to read in parallel using multiprocessing. Default value 
                 is 1. Adjust according to your computer's available resources. This parameter 
                 is optional.
+
+                NOTE: when using a value greater than 1 from within a script, the code that
+                does the reading must be inside an `if __name__ == "__main__":` block. This is 
+                a requirement of the multiprocessing start methods used on all platforms (and 
+                the default on Linux as of Python 3.14), since the worker processes import the 
+                calling script when they start up.
                         
             no_metadata (bool): 
                 Skip reading of metadata. This is a minor optimization if the metadata is not needed.

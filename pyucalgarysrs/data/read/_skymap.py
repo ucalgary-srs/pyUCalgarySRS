@@ -17,7 +17,7 @@ import signal
 import warnings
 from typing import List
 from pathlib import Path
-from multiprocessing import Pool
+from ..._util import get_mp_context
 from functools import partial
 from scipy.io import readsav
 from ...exceptions import SRSError
@@ -33,12 +33,12 @@ def read(file_list, n_parallel=1, quiet=False) -> List:
         try:
             # set up process pool (ignore SIGINT before spawning pool so child processes inherit SIGINT handler)
             original_sigint_handler = signal.signal(signal.SIGINT, signal.SIG_IGN)
-            pool = Pool(processes=n_parallel)
+            pool = get_mp_context().Pool(processes=n_parallel)
             signal.signal(signal.SIGINT, original_sigint_handler)  # restore SIGINT handler
         except ValueError:  # pragma: nocover-ok
             # likely the read call is being used within a context that doesn't support the usage
             # of signals in this way, proceed without it
-            pool = Pool(processes=n_parallel)
+            pool = get_mp_context().Pool(processes=n_parallel)
 
         # call readfile function, run each iteration with a single input file from file_list
         data = []

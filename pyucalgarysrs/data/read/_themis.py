@@ -19,10 +19,9 @@ import os
 import datetime
 import numpy as np
 from pathlib import Path
-from multiprocessing import Pool
 from functools import partial
 from concurrent.futures import ThreadPoolExecutor
-from ..._util import show_warning
+from ..._util import show_warning, get_mp_context
 
 # globals
 THEMIS_IMAGE_SIZE_BYTES = 256 * 256 * 2  # 16-bit 256x256 images
@@ -54,12 +53,12 @@ def read(file_list, n_parallel=1, first_record=False, no_metadata=False, start_t
         try:
             # set up process pool (ignore SIGINT before spawning pool so child processes inherit SIGINT handler)
             original_sigint_handler = signal.signal(signal.SIGINT, signal.SIG_IGN)
-            pool = Pool(processes=n_parallel)
+            pool = get_mp_context().Pool(processes=n_parallel)
             signal.signal(signal.SIGINT, original_sigint_handler)  # restore SIGINT handler
         except ValueError:  # pragma: nocover-ok
             # likely the read call is being used within a context that doesn't support the usage
             # of signals in this way, proceed without it
-            pool = Pool(processes=n_parallel)
+            pool = get_mp_context().Pool(processes=n_parallel)
 
         # call readfile function, run each iteration with a single input file from file_list
         # NOTE: structure of data - data[file][metadata dictionary lists = 1, images = 0][frame]
