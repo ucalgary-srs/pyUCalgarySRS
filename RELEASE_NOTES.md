@@ -1,4 +1,4 @@
-Version 1.26.6 (2026-09-17)
+Version 1.27.0 (2026-09-17)
 -------------------
 - updated dependencies
   - widened `opencv-python` constraint to allow the 5.x series (`>=4.4.0,<6.0.0`)
