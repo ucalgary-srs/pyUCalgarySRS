@@ -49,10 +49,7 @@ pytest-cov = "7.1.0"
 bandit = "1.9.4"
 pyright = "1.1.414"
 pdoc3 = "0.11.6"
-# NOTE: Markdown 3.10.3 tightened its setext-header regex to `(?:=+|-+)`, which no longer
-# matches the `-----=` underline that pdoc3 emits for Google-style docstring sections. That
-# leaves a literal "-----=" in the generated HTML. Pin below 3.10.3 until pdoc3 fixes it.
-markdown = "<3.10.3"
+markdown = "3.10.2"  # Locked to this version. Markdown >=3.10.3 exposes pdoc3's "-----=" heading markers; unpin once pdoc3 fixes this.
 jupyter = "^1.1.1"
 ipykernel = "^7.3.0"
 iprogress = "^0.4"
