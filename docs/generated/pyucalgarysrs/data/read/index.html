@@ -1821,16 +1821,14 @@ in basic formats such as JPG or PNG, so unique functions aren't necessary. We le
 it up to the user to open these basic files in whichever way they prefer. Use the
 <code>list_supported_read_datasets()</code> function to see all datasets that have special
 file reading functionality in this library.</p>
+<h2 id="args">Args</h2>
 <dl>
-<dt>Args</dt>
-<dt>-----=</dt>
 <dt><strong><code>dataset_name</code></strong> :&ensp;<code>str</code></dt>
 <dd>The dataset name to check if file reading is supported. This parameter
 is required.</dd>
 </dl>
-<p>Returns
------=
-Boolean indicating if file reading is supported.</p></div>
+<h2 id="returns">Returns</h2>
+<p>Boolean indicating if file reading is supported.</p></div>
 </dd>
 <dt id="pyucalgarysrs.data.read.ReadManager.list_supported_datasets"><code class="name flex">
 <span>def <span class="ident">list_supported_datasets</span></span>(<span>self) ‑> List[str]</span>
@@ -1857,9 +1855,8 @@ Boolean indicating if file reading is supported.</p></div>
     return supported_datasets</code></pre>
 </details>
 <div class="desc"><p>List the datasets which have file reading capabilities supported.</p>
-<p>Returns
------=
-A list of the dataset names with file reading support.</p></div>
+<h2 id="returns">Returns</h2>
+<p>A list of the dataset names with file reading support.</p></div>
 </dd>
 <dt id="pyucalgarysrs.data.read.ReadManager.read"><code class="name flex">
 <span>def <span class="ident">read</span></span>(<span>self,<br>dataset: <a title="pyucalgarysrs.data.classes.Dataset" href="../classes.html#pyucalgarysrs.data.classes.Dataset">Dataset</a>,<br>file_list: List[str] | List[pathlib._local.Path] | str | pathlib._local.Path,<br>n_parallel: int = 1,<br>no_metadata: bool = False,<br>first_record: bool | None = None,<br>start_time: datetime.datetime | None = None,<br>end_time: datetime.datetime | None = None,<br>quiet: bool = False) ‑> <a title="pyucalgarysrs.data.classes.Data" href="../classes.html#pyucalgarysrs.data.classes.Data">Data</a></span>
@@ -2077,9 +2074,8 @@ A list of the dataset names with file reading support.</p></div>
 </details>
 <div class="desc"><p>Read in data files for a given dataset. Note that only one type of dataset's data
 should be read in using a single call.</p>
+<h2 id="args">Args</h2>
 <dl>
-<dt>Args</dt>
-<dt>-----=</dt>
 <dt><strong><code>dataset</code></strong> :&ensp;<code><a title="pyucalgarysrs.data.classes.Dataset" href="../classes.html#pyucalgarysrs.data.classes.Dataset">Dataset</a></code></dt>
 <dd>The dataset object for which the files are associated with. This parameter is
 required.</dd>
@@ -2130,13 +2126,11 @@ that encounter errors will be, as usual, accessible via the <code>problematic_fi
 attribute of the returned <code><a title="pyucalgarysrs.data.classes.Data" href="../classes.html#pyucalgarysrs.data.classes.Data">Data</a></code> object. This parameter
 is optional.</dd>
 </dl>
-<p>Returns
------=
-A <code><a title="pyucalgarysrs.data.classes.Data" href="../classes.html#pyucalgarysrs.data.classes.Data">Data</a></code> object containing the data read in, among other
+<h2 id="returns">Returns</h2>
+<p>A <code><a title="pyucalgarysrs.data.classes.Data" href="../classes.html#pyucalgarysrs.data.classes.Data">Data</a></code> object containing the data read in, among other
 values.</p>
+<h2 id="raises">Raises</h2>
 <dl>
-<dt>Raises</dt>
-<dt>-----=</dt>
 <dt><code><a title="pyucalgarysrs.exceptions.SRSUnsupportedReadError" href="../../exceptions.html#pyucalgarysrs.exceptions.SRSUnsupportedReadError">SRSUnsupportedReadError</a></code></dt>
 <dd>an unsupported dataset was used when
 trying to read files.</dd>
@@ -2294,9 +2288,8 @@ future.</p></div>
     return data_obj</code></pre>
 </details>
 <div class="desc"><p>Read in UCalgary calibration files.</p>
+<h2 id="args">Args</h2>
 <dl>
-<dt>Args</dt>
-<dt>-----=</dt>
 <dt><strong><code>file_list</code></strong> :&ensp;<code>List[str], List[Path], str, Path</code></dt>
 <dd>The files to read in. Absolute paths are recommended, but not technically
 necessary. This can be a single string for a file, or a list of strings to read
@@ -2321,13 +2314,11 @@ is optional.</dd>
 <dd>The dataset object for which the files are associated with. This parameter is
 optional.</dd>
 </dl>
-<p>Returns
------=
-A <code><a title="pyucalgarysrs.data.classes.Data" href="../classes.html#pyucalgarysrs.data.classes.Data">Data</a></code> object containing the data read in, among other
+<h2 id="returns">Returns</h2>
+<p>A <code><a title="pyucalgarysrs.data.classes.Data" href="../classes.html#pyucalgarysrs.data.classes.Data">Data</a></code> object containing the data read in, among other
 values.</p>
+<h2 id="raises">Raises</h2>
 <dl>
-<dt>Raises</dt>
-<dt>-----=</dt>
 <dt><code><a title="pyucalgarysrs.exceptions.SRSError" href="../../exceptions.html#pyucalgarysrs.exceptions.SRSError">SRSError</a></code></dt>
 <dd>a generic read error was encountered</dd>
 </dl></div>
@@ -2463,9 +2454,8 @@ values.</p>
     return ret_obj</code></pre>
 </details>
 <div class="desc"><p>Read in grid files.</p>
+<h2 id="args">Args</h2>
 <dl>
-<dt>Args</dt>
-<dt>-----=</dt>
 <dt><strong><code>file_list</code></strong> :&ensp;<code>List[str], List[Path], str, Path</code></dt>
 <dd>The files to read in. Absolute paths are recommended, but not technically
 necessary. This can be a single string for a file, or a list of strings to read
@@ -2514,13 +2504,11 @@ is optional.</dd>
 <dd>The dataset object for which the files are associated with. This parameter is
 optional.</dd>
 </dl>
-<p>Returns
------=
-A <code><a title="pyucalgarysrs.data.classes.Data" href="../classes.html#pyucalgarysrs.data.classes.Data">Data</a></code> object containing the data read in, among other
+<h2 id="returns">Returns</h2>
+<p>A <code><a title="pyucalgarysrs.data.classes.Data" href="../classes.html#pyucalgarysrs.data.classes.Data">Data</a></code> object containing the data read in, among other
 values.</p>
+<h2 id="raises">Raises</h2>
 <dl>
-<dt>Raises</dt>
-<dt>-----=</dt>
 <dt><code><a title="pyucalgarysrs.exceptions.SRSError" href="../../exceptions.html#pyucalgarysrs.exceptions.SRSError">SRSError</a></code></dt>
 <dd>a generic read error was encountered</dd>
 </dl></div>
@@ -2627,9 +2615,8 @@ values.</p>
     return ret_obj</code></pre>
 </details>
 <div class="desc"><p>Read in NORSTAR Riometer ASCII data (K0 or K2 txt files).</p>
+<h2 id="args">Args</h2>
 <dl>
-<dt>Args</dt>
-<dt>-----=</dt>
 <dt><strong><code>file_list</code></strong> :&ensp;<code>List[str], List[Path], str, Path</code></dt>
 <dd>The files to read in. Absolute paths are recommended, but not technically
 necessary. This can be a single string for a file, or a list of strings to read
@@ -2673,13 +2660,11 @@ is optional.</dd>
 <dd>The dataset object for which the files are associated with. This parameter is
 optional.</dd>
 </dl>
-<p>Returns
------=
-A <code><a title="pyucalgarysrs.data.classes.Data" href="../classes.html#pyucalgarysrs.data.classes.Data">Data</a></code> object containing the data read in, among other
+<h2 id="returns">Returns</h2>
+<p>A <code><a title="pyucalgarysrs.data.classes.Data" href="../classes.html#pyucalgarysrs.data.classes.Data">Data</a></code> object containing the data read in, among other
 values.</p>
+<h2 id="raises">Raises</h2>
 <dl>
-<dt>Raises</dt>
-<dt>-----=</dt>
 <dt><code><a title="pyucalgarysrs.exceptions.SRSError" href="../../exceptions.html#pyucalgarysrs.exceptions.SRSError">SRSError</a></code></dt>
 <dd>a generic read error was encountered</dd>
 </dl></div>
@@ -2800,9 +2785,8 @@ values.</p>
     return ret_obj</code></pre>
 </details>
 <div class="desc"><p>Read in REGO raw data (stream0 pgm* files).</p>
+<h2 id="args">Args</h2>
 <dl>
-<dt>Args</dt>
-<dt>-----=</dt>
 <dt><strong><code>file_list</code></strong> :&ensp;<code>List[str], List[Path], str, Path</code></dt>
 <dd>The files to read in. Absolute paths are recommended, but not technically
 necessary. This can be a single string for a file, or a list of strings to read
@@ -2851,13 +2835,11 @@ is optional.</dd>
 <dd>The dataset object for which the files are associated with. This parameter is
 optional.</dd>
 </dl>
-<p>Returns
------=
-A <code><a title="pyucalgarysrs.data.classes.Data" href="../classes.html#pyucalgarysrs.data.classes.Data">Data</a></code> object containing the data read in, among other
+<h2 id="returns">Returns</h2>
+<p>A <code><a title="pyucalgarysrs.data.classes.Data" href="../classes.html#pyucalgarysrs.data.classes.Data">Data</a></code> object containing the data read in, among other
 values.</p>
+<h2 id="raises">Raises</h2>
 <dl>
-<dt>Raises</dt>
-<dt>-----=</dt>
 <dt><code><a title="pyucalgarysrs.exceptions.SRSError" href="../../exceptions.html#pyucalgarysrs.exceptions.SRSError">SRSError</a></code></dt>
 <dd>a generic read error was encountered</dd>
 </dl></div>
@@ -3042,9 +3024,8 @@ values.</p>
     return data_obj</code></pre>
 </details>
 <div class="desc"><p>Read in UCalgary skymap files.</p>
+<h2 id="args">Args</h2>
 <dl>
-<dt>Args</dt>
-<dt>-----=</dt>
 <dt><strong><code>file_list</code></strong> :&ensp;<code>List[str], List[Path], str, Path</code></dt>
 <dd>The files to read in. Absolute paths are recommended, but not technically
 necessary. This can be a single string for a file, or a list of strings to read
@@ -3069,13 +3050,11 @@ is optional.</dd>
 <dd>The dataset object for which the files are associated with. This parameter is
 optional.</dd>
 </dl>
-<p>Returns
------=
-A <code><a title="pyucalgarysrs.data.classes.Data" href="../classes.html#pyucalgarysrs.data.classes.Data">Data</a></code> object containing the data read in, among other
+<h2 id="returns">Returns</h2>
+<p>A <code><a title="pyucalgarysrs.data.classes.Data" href="../classes.html#pyucalgarysrs.data.classes.Data">Data</a></code> object containing the data read in, among other
 values.</p>
+<h2 id="raises">Raises</h2>
 <dl>
-<dt>Raises</dt>
-<dt>-----=</dt>
 <dt><code><a title="pyucalgarysrs.exceptions.SRSError" href="../../exceptions.html#pyucalgarysrs.exceptions.SRSError">SRSError</a></code></dt>
 <dd>a generic read error was encountered</dd>
 </dl></div>
@@ -3202,9 +3181,8 @@ values.</p>
     return ret_obj</code></pre>
 </details>
 <div class="desc"><p>Read in SMILE ASI raw data (L0 raw h5 files).</p>
+<h2 id="args">Args</h2>
 <dl>
-<dt>Args</dt>
-<dt>-----=</dt>
 <dt><strong><code>file_list</code></strong> :&ensp;<code>List[str], List[Path], str, Path</code></dt>
 <dd>The files to read in. Absolute paths are recommended, but not technically
 necessary. This can be a single string for a file, or a list of strings to read
@@ -3253,13 +3231,11 @@ is optional.</dd>
 <dd>The dataset object for which the files are associated with. This parameter is
 optional.</dd>
 </dl>
-<p>Returns
------=
-A <code><a title="pyucalgarysrs.data.classes.Data" href="../classes.html#pyucalgarysrs.data.classes.Data">Data</a></code> object containing the data read in, among other
+<h2 id="returns">Returns</h2>
+<p>A <code><a title="pyucalgarysrs.data.classes.Data" href="../classes.html#pyucalgarysrs.data.classes.Data">Data</a></code> object containing the data read in, among other
 values.</p>
+<h2 id="raises">Raises</h2>
 <dl>
-<dt>Raises</dt>
-<dt>-----=</dt>
 <dt><code><a title="pyucalgarysrs.exceptions.SRSError" href="../../exceptions.html#pyucalgarysrs.exceptions.SRSError">SRSError</a></code></dt>
 <dd>a generic read error was encountered</dd>
 </dl></div>
@@ -3366,9 +3342,8 @@ values.</p>
     return ret_obj</code></pre>
 </details>
 <div class="desc"><p>Read in SWAN Hyper Spectral Riometer (HSR) H5 data (K0 H5 files).</p>
+<h2 id="args">Args</h2>
 <dl>
-<dt>Args</dt>
-<dt>-----=</dt>
 <dt><strong><code>file_list</code></strong> :&ensp;<code>List[str], List[Path], str, Path</code></dt>
 <dd>The files to read in. Absolute paths are recommended, but not technically
 necessary. This can be a single string for a file, or a list of strings to read
@@ -3412,13 +3387,11 @@ is optional.</dd>
 <dd>The dataset object for which the files are associated with. This parameter is
 optional.</dd>
 </dl>
-<p>Returns
------=
-A <code><a title="pyucalgarysrs.data.classes.Data" href="../classes.html#pyucalgarysrs.data.classes.Data">Data</a></code> object containing the data read in, among other
+<h2 id="returns">Returns</h2>
+<p>A <code><a title="pyucalgarysrs.data.classes.Data" href="../classes.html#pyucalgarysrs.data.classes.Data">Data</a></code> object containing the data read in, among other
 values.</p>
+<h2 id="raises">Raises</h2>
 <dl>
-<dt>Raises</dt>
-<dt>-----=</dt>
 <dt><code><a title="pyucalgarysrs.exceptions.SRSError" href="../../exceptions.html#pyucalgarysrs.exceptions.SRSError">SRSError</a></code></dt>
 <dd>a generic read error was encountered</dd>
 </dl></div>
@@ -3539,9 +3512,8 @@ values.</p>
     return ret_obj</code></pre>
 </details>
 <div class="desc"><p>Read in THEMIS ASI raw data (stream0 full.pgm* files).</p>
+<h2 id="args">Args</h2>
 <dl>
-<dt>Args</dt>
-<dt>-----=</dt>
 <dt><strong><code>file_list</code></strong> :&ensp;<code>List[str], List[Path], str, Path</code></dt>
 <dd>The files to read in. Absolute paths are recommended, but not technically
 necessary. This can be a single string for a file, or a list of strings to read
@@ -3590,13 +3562,11 @@ is optional.</dd>
 <dd>The dataset object for which the files are associated with. This parameter is
 optional.</dd>
 </dl>
-<p>Returns
------=
-A <code><a title="pyucalgarysrs.data.classes.Data" href="../classes.html#pyucalgarysrs.data.classes.Data">Data</a></code> object containing the data read in, among other
+<h2 id="returns">Returns</h2>
+<p>A <code><a title="pyucalgarysrs.data.classes.Data" href="../classes.html#pyucalgarysrs.data.classes.Data">Data</a></code> object containing the data read in, among other
 values.</p>
+<h2 id="raises">Raises</h2>
 <dl>
-<dt>Raises</dt>
-<dt>-----=</dt>
 <dt><code><a title="pyucalgarysrs.exceptions.SRSError" href="../../exceptions.html#pyucalgarysrs.exceptions.SRSError">SRSError</a></code></dt>
 <dd>a generic read error was encountered</dd>
 </dl></div>
@@ -3717,9 +3687,8 @@ values.</p>
     return ret_obj</code></pre>
 </details>
 <div class="desc"><p>Read in TREx Blueline raw data (stream0 pgm* files).</p>
+<h2 id="args">Args</h2>
 <dl>
-<dt>Args</dt>
-<dt>-----=</dt>
 <dt><strong><code>file_list</code></strong> :&ensp;<code>List[str], List[Path], str, Path</code></dt>
 <dd>The files to read in. Absolute paths are recommended, but not technically
 necessary. This can be a single string for a file, or a list of strings to read
@@ -3768,13 +3737,11 @@ is optional.</dd>
 <dd>The dataset object for which the files are associated with. This parameter is
 optional.</dd>
 </dl>
-<p>Returns
------=
-A <code><a title="pyucalgarysrs.data.classes.Data" href="../classes.html#pyucalgarysrs.data.classes.Data">Data</a></code> object containing the data read in, among other
+<h2 id="returns">Returns</h2>
+<p>A <code><a title="pyucalgarysrs.data.classes.Data" href="../classes.html#pyucalgarysrs.data.classes.Data">Data</a></code> object containing the data read in, among other
 values.</p>
+<h2 id="raises">Raises</h2>
 <dl>
-<dt>Raises</dt>
-<dt>-----=</dt>
 <dt><code><a title="pyucalgarysrs.exceptions.SRSError" href="../../exceptions.html#pyucalgarysrs.exceptions.SRSError">SRSError</a></code></dt>
 <dd>a generic read error was encountered</dd>
 </dl></div>
@@ -3895,9 +3862,8 @@ values.</p>
     return ret_obj</code></pre>
 </details>
 <div class="desc"><p>Read in TREx near-infrared (NIR) raw data (stream0 pgm* files).</p>
+<h2 id="args">Args</h2>
 <dl>
-<dt>Args</dt>
-<dt>-----=</dt>
 <dt><strong><code>file_list</code></strong> :&ensp;<code>List[str], List[Path], str, Path</code></dt>
 <dd>The files to read in. Absolute paths are recommended, but not technically
 necessary. This can be a single string for a file, or a list of strings to read
@@ -3946,13 +3912,11 @@ is optional.</dd>
 <dd>The dataset object for which the files are associated with. This parameter is
 optional.</dd>
 </dl>
-<p>Returns
------=
-A <code><a title="pyucalgarysrs.data.classes.Data" href="../classes.html#pyucalgarysrs.data.classes.Data">Data</a></code> object containing the data read in, among other
+<h2 id="returns">Returns</h2>
+<p>A <code><a title="pyucalgarysrs.data.classes.Data" href="../classes.html#pyucalgarysrs.data.classes.Data">Data</a></code> object containing the data read in, among other
 values.</p>
+<h2 id="raises">Raises</h2>
 <dl>
-<dt>Raises</dt>
-<dt>-----=</dt>
 <dt><code><a title="pyucalgarysrs.exceptions.SRSError" href="../../exceptions.html#pyucalgarysrs.exceptions.SRSError">SRSError</a></code></dt>
 <dd>a generic read error was encountered</dd>
 </dl></div>
@@ -4081,9 +4045,8 @@ values.</p>
     return ret_obj</code></pre>
 </details>
 <div class="desc"><p>Read in TREx RGB raw data (stream0 h5, stream0.burst png.tar, unstable stream0 and stream0.colour pgm<em> and png</em>).</p>
+<h2 id="args">Args</h2>
 <dl>
-<dt>Args</dt>
-<dt>-----=</dt>
 <dt><strong><code>file_list</code></strong> :&ensp;<code>List[str], List[Path], str, Path</code></dt>
 <dd>The files to read in. Absolute paths are recommended, but not technically
 necessary. This can be a single string for a file, or a list of strings to read
@@ -4132,13 +4095,11 @@ is optional.</dd>
 <dd>The dataset object for which the files are associated with. This parameter is
 optional.</dd>
 </dl>
-<p>Returns
------=
-A <code><a title="pyucalgarysrs.data.classes.Data" href="../classes.html#pyucalgarysrs.data.classes.Data">Data</a></code> object containing the data read in, among other
+<h2 id="returns">Returns</h2>
+<p>A <code><a title="pyucalgarysrs.data.classes.Data" href="../classes.html#pyucalgarysrs.data.classes.Data">Data</a></code> object containing the data read in, among other
 values.</p>
+<h2 id="raises">Raises</h2>
 <dl>
-<dt>Raises</dt>
-<dt>-----=</dt>
 <dt><code><a title="pyucalgarysrs.exceptions.SRSError" href="../../exceptions.html#pyucalgarysrs.exceptions.SRSError">SRSError</a></code></dt>
 <dd>a generic read error was encountered</dd>
 </dl></div>
@@ -4285,9 +4246,8 @@ values.</p>
     return ret_obj</code></pre>
 </details>
 <div class="desc"><p>Read in TREx Spectrograph raw data (stream0 pgm* files).</p>
+<h2 id="args">Args</h2>
 <dl>
-<dt>Args</dt>
-<dt>-----=</dt>
 <dt><strong><code>file_list</code></strong> :&ensp;<code>List[str], List[Path], str, Path</code></dt>
 <dd>The files to read in. Absolute paths are recommended, but not technically
 necessary. This can be a single string for a file, or a list of strings to read
@@ -4336,13 +4296,11 @@ is optional.</dd>
 <dd>The dataset object for which the files are associated with. This parameter is
 optional.</dd>
 </dl>
-<p>Returns
------=
-A <code><a title="pyucalgarysrs.data.classes.Data" href="../classes.html#pyucalgarysrs.data.classes.Data">Data</a></code> object containing the data read in, among other
+<h2 id="returns">Returns</h2>
+<p>A <code><a title="pyucalgarysrs.data.classes.Data" href="../classes.html#pyucalgarysrs.data.classes.Data">Data</a></code> object containing the data read in, among other
 values.</p>
+<h2 id="raises">Raises</h2>
 <dl>
-<dt>Raises</dt>
-<dt>-----=</dt>
 <dt><code><a title="pyucalgarysrs.exceptions.SRSError" href="../../exceptions.html#pyucalgarysrs.exceptions.SRSError">SRSError</a></code></dt>
 <dd>a generic read error was encountered</dd>
 </dl></div>
