@@ -180,7 +180,7 @@ classes in this module are included at the top level of this library.</p></div>
                 `maxwellian_mean_energy`. If `maxwellian_energy_flux` is nonzero and neither is given, the API uses
                 5000 eV. This parameter is optional.
 
-            maxwellian_mean_energy (float):
+            maxwellian_mean_energy (float): 
                 Maxwellian mean energy in eV, equal to 2x the characteristic energy. This is the quantity returned
                 as `mean_energy` by a Maxwellian inversion, so inversions can be passed here directly. Cannot be combined
                 with `maxwellian_characteristic_energy`. This parameter is optional.
@@ -546,7 +546,7 @@ the super class.</p></div>
             `maxwellian_mean_energy`. If `maxwellian_energy_flux` is nonzero and neither is given, the API uses
             5000 eV. This parameter is optional.
 
-        maxwellian_mean_energy (float):
+        maxwellian_mean_energy (float): 
             Maxwellian mean energy in eV, equal to 2x the characteristic energy. This is the quantity returned
             as `mean_energy` by a Maxwellian inversion, so inversions can be passed here directly. Cannot be combined
             with `maxwellian_characteristic_energy`. This parameter is optional.
@@ -734,12 +734,10 @@ This parameter is optional.</dd>
 <dd>Maxwellian characteristic energy E0 in eV. Specify at most one of <code>maxwellian_characteristic_energy</code> or
 <code>maxwellian_mean_energy</code>. If <code>maxwellian_energy_flux</code> is nonzero and neither is given, the API uses
 5000 eV. This parameter is optional.</dd>
-</dl>
-<p>maxwellian_mean_energy (float):
-Maxwellian mean energy in eV, equal to 2x the characteristic energy. This is the quantity returned
+<dt><strong><code>maxwellian_mean_energy</code></strong> :&ensp;<code>float</code></dt>
+<dd>Maxwellian mean energy in eV, equal to 2x the characteristic energy. This is the quantity returned
 as <code>mean_energy</code> by a Maxwellian inversion, so inversions can be passed here directly. Cannot be combined
-with <code>maxwellian_characteristic_energy</code>. This parameter is optional.</p>
-<dl>
+with <code>maxwellian_characteristic_energy</code>. This parameter is optional.</dd>
 <dt><strong><code>gaussian_energy_flux</code></strong> :&ensp;<code>float</code></dt>
 <dd>Gaussian energy flux in erg/cm2/s. Default is 0, meaning all gaussian parameters will be disabled.
 Note that <code>gaussian_peak_energy</code> and <code>gaussian_spectral_width</code> should be specified if the <code>gaussian_energy_flux</code>
