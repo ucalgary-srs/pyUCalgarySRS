@@ -184,7 +184,7 @@ object.</p></div>
 </dd>
 <dt id="pyucalgarysrs.models.atm.classes_inverse.ATMInverseRequest"><code class="flex name class">
 <span>class <span class="ident">ATMInverseRequest</span></span>
-<span>(</span><span>timestamp: datetime.datetime,<br>geodetic_latitude: float,<br>geodetic_longitude: float,<br>intensity_4278: float,<br>intensity_5577: float,<br>intensity_6300: float,<br>intensity_8446: float,<br>precipitation_flux_spectral_type: Literal['gaussian', 'maxwellian'],<br>nrlmsis_model_version: Literal['00', '2.0'],<br>atm_model_version: Literal['1.0'],<br>special_logic_keyword: str | None,<br>output: <a title="pyucalgarysrs.models.atm.classes_inverse.ATMInverseOutputFlags" href="#pyucalgarysrs.models.atm.classes_inverse.ATMInverseOutputFlags">ATMInverseOutputFlags</a>,<br>no_cache: bool)</span>
+<span>(</span><span>timestamp: datetime.datetime,<br>geodetic_latitude: float,<br>geodetic_longitude: float,<br>intensity_4278: float,<br>intensity_5577: float,<br>intensity_6300: float,<br>intensity_8446: float,<br>precipitation_flux_spectral_type: Literal['gaussian', 'maxwellian'],<br>nrlmsis_model_version: Literal['00', '2.0'],<br>atm_model_version: Literal['2.0'],<br>special_logic_keyword: str | None,<br>output: <a title="pyucalgarysrs.models.atm.classes_inverse.ATMInverseOutputFlags" href="#pyucalgarysrs.models.atm.classes_inverse.ATMInverseOutputFlags">ATMInverseOutputFlags</a>,<br>no_cache: bool)</span>
 </code></dt>
 <dd>
 <details class="source">
@@ -209,7 +209,7 @@ class ATMInverseRequest:
     intensity_8446: float
     precipitation_flux_spectral_type: Literal[&#34;gaussian&#34;, &#34;maxwellian&#34;]
     nrlmsis_model_version: Literal[&#34;00&#34;, &#34;2.0&#34;]
-    atm_model_version: Literal[&#34;1.0&#34;]
+    atm_model_version: Literal[&#34;2.0&#34;]
     special_logic_keyword: Optional[str]
     output: ATMInverseOutputFlags
     no_cache: bool</code></pre>
@@ -221,7 +221,7 @@ and <a href="classes_inverse.html#pyucalgarysrs.models.atm.classes_inverse.ATMIn
 objects.</p></div>
 <h3>Instance variables</h3>
 <dl>
-<dt id="pyucalgarysrs.models.atm.classes_inverse.ATMInverseRequest.atm_model_version"><code class="name">var <span class="ident">atm_model_version</span> : Literal['1.0']</code></dt>
+<dt id="pyucalgarysrs.models.atm.classes_inverse.ATMInverseRequest.atm_model_version"><code class="name">var <span class="ident">atm_model_version</span> : Literal['2.0']</code></dt>
 <dd>
 <div class="desc"><p>The type of the None singleton.</p></div>
 </dd>
@@ -303,7 +303,9 @@ class ATMInverseResult:
             Derived energy flux in erg/cm2/s.
 
         mean_energy (float): 
-            Derived characteristic energy in EV. Previously named as &#39;characteristic_energy&#39;.
+            Derived mean energy in eV. For a Maxwellian inversion this is 2x the characteristic energy, so
+            pass it to forward() as `maxwellian_mean_energy` (or halve it for `maxwellian_characteristic_energy`).
+            For a Gaussian inversion it is the peak energy.
 
         oxygen_correction_factor (float): 
             Derived oxygen correction factor.
@@ -360,7 +362,9 @@ types (e.g., float, numpy ndarray).</p>
 <dt><strong><code>energy_flux</code></strong> :&ensp;<code>float</code></dt>
 <dd>Derived energy flux in erg/cm2/s.</dd>
 <dt><strong><code>mean_energy</code></strong> :&ensp;<code>float</code></dt>
-<dd>Derived characteristic energy in EV. Previously named as 'characteristic_energy'.</dd>
+<dd>Derived mean energy in eV. For a Maxwellian inversion this is 2x the characteristic energy, so
+pass it to forward() as <code>maxwellian_mean_energy</code> (or halve it for <code>maxwellian_characteristic_energy</code>).
+For a Gaussian inversion it is the peak energy.</dd>
 <dt><strong><code>oxygen_correction_factor</code></strong> :&ensp;<code>float</code></dt>
 <dd>Derived oxygen correction factor.</dd>
 </dl></div>

@@ -378,7 +378,7 @@ object.</p></div>
 </dd>
 <dt id="pyucalgarysrs.models.atm.classes_forward.ATMForwardRequest"><code class="flex name class">
 <span>class <span class="ident">ATMForwardRequest</span></span>
-<span>(</span><span>timestamp: datetime.datetime,<br>geodetic_latitude: float,<br>geodetic_longitude: float,<br>maxwellian_energy_flux: float,<br>maxwellian_characteristic_energy: float,<br>gaussian_energy_flux: float,<br>gaussian_peak_energy: float,<br>gaussian_spectral_width: float,<br>kappa_energy_flux: float,<br>kappa_mean_energy: float,<br>kappa_k_index: float,<br>exponential_energy_flux: float,<br>exponential_characteristic_energy: float,<br>exponential_starting_energy: float,<br>proton_energy_flux: float,<br>proton_characteristic_energy: float,<br>d_region: bool,<br>nrlmsis_model_version: Literal['00', '2.0'],<br>oxygen_correction_factor: float,<br>custom_spectrum: numpy.ndarray | None,<br>custom_neutral_profile: numpy.ndarray | None,<br>timescale_auroral: int,<br>timescale_transport: int,<br>atm_model_version: Literal['2.0'],<br>output: <a title="pyucalgarysrs.models.atm.classes_forward.ATMForwardOutputFlags" href="#pyucalgarysrs.models.atm.classes_forward.ATMForwardOutputFlags">ATMForwardOutputFlags</a>,<br>no_cache: bool)</span>
+<span>(</span><span>timestamp: datetime.datetime,<br>geodetic_latitude: float,<br>geodetic_longitude: float,<br>maxwellian_energy_flux: float,<br>maxwellian_characteristic_energy: float | None,<br>maxwellian_mean_energy: float | None,<br>gaussian_energy_flux: float,<br>gaussian_peak_energy: float,<br>gaussian_spectral_width: float,<br>kappa_energy_flux: float,<br>kappa_mean_energy: float,<br>kappa_k_index: float,<br>exponential_energy_flux: float,<br>exponential_characteristic_energy: float,<br>exponential_starting_energy: float,<br>proton_energy_flux: float,<br>proton_characteristic_energy: float,<br>d_region: bool,<br>nrlmsis_model_version: Literal['00', '2.0'],<br>oxygen_correction_factor: float,<br>custom_spectrum: numpy.ndarray | None,<br>custom_neutral_profile: numpy.ndarray | None,<br>timescale_auroral: int,<br>timescale_transport: int,<br>atm_model_version: Literal['2.0'],<br>output: <a title="pyucalgarysrs.models.atm.classes_forward.ATMForwardOutputFlags" href="#pyucalgarysrs.models.atm.classes_forward.ATMForwardOutputFlags">ATMForwardOutputFlags</a>,<br>no_cache: bool)</span>
 </code></dt>
 <dd>
 <details class="source">
@@ -398,7 +398,8 @@ class ATMForwardRequest:
     geodetic_latitude: float
     geodetic_longitude: float
     maxwellian_energy_flux: float
-    maxwellian_characteristic_energy: float
+    maxwellian_characteristic_energy: Optional[float]
+    maxwellian_mean_energy: Optional[float]
     gaussian_energy_flux: float
     gaussian_peak_energy: float
     gaussian_spectral_width: float
@@ -488,11 +489,15 @@ objects.</p></div>
 <dd>
 <div class="desc"><p>The type of the None singleton.</p></div>
 </dd>
-<dt id="pyucalgarysrs.models.atm.classes_forward.ATMForwardRequest.maxwellian_characteristic_energy"><code class="name">var <span class="ident">maxwellian_characteristic_energy</span> : float</code></dt>
+<dt id="pyucalgarysrs.models.atm.classes_forward.ATMForwardRequest.maxwellian_characteristic_energy"><code class="name">var <span class="ident">maxwellian_characteristic_energy</span> : float | None</code></dt>
 <dd>
 <div class="desc"><p>The type of the None singleton.</p></div>
 </dd>
 <dt id="pyucalgarysrs.models.atm.classes_forward.ATMForwardRequest.maxwellian_energy_flux"><code class="name">var <span class="ident">maxwellian_energy_flux</span> : float</code></dt>
+<dd>
+<div class="desc"><p>The type of the None singleton.</p></div>
+</dd>
+<dt id="pyucalgarysrs.models.atm.classes_forward.ATMForwardRequest.maxwellian_mean_energy"><code class="name">var <span class="ident">maxwellian_mean_energy</span> : float | None</code></dt>
 <dd>
 <div class="desc"><p>The type of the None singleton.</p></div>
 </dd>
@@ -1207,6 +1212,7 @@ setTimeout(() => input.focus(), 100);
 <li><code><a title="pyucalgarysrs.models.atm.classes_forward.ATMForwardRequest.kappa_mean_energy" href="#pyucalgarysrs.models.atm.classes_forward.ATMForwardRequest.kappa_mean_energy">kappa_mean_energy</a></code></li>
 <li><code><a title="pyucalgarysrs.models.atm.classes_forward.ATMForwardRequest.maxwellian_characteristic_energy" href="#pyucalgarysrs.models.atm.classes_forward.ATMForwardRequest.maxwellian_characteristic_energy">maxwellian_characteristic_energy</a></code></li>
 <li><code><a title="pyucalgarysrs.models.atm.classes_forward.ATMForwardRequest.maxwellian_energy_flux" href="#pyucalgarysrs.models.atm.classes_forward.ATMForwardRequest.maxwellian_energy_flux">maxwellian_energy_flux</a></code></li>
+<li><code><a title="pyucalgarysrs.models.atm.classes_forward.ATMForwardRequest.maxwellian_mean_energy" href="#pyucalgarysrs.models.atm.classes_forward.ATMForwardRequest.maxwellian_mean_energy">maxwellian_mean_energy</a></code></li>
 <li><code><a title="pyucalgarysrs.models.atm.classes_forward.ATMForwardRequest.no_cache" href="#pyucalgarysrs.models.atm.classes_forward.ATMForwardRequest.no_cache">no_cache</a></code></li>
 <li><code><a title="pyucalgarysrs.models.atm.classes_forward.ATMForwardRequest.nrlmsis_model_version" href="#pyucalgarysrs.models.atm.classes_forward.ATMForwardRequest.nrlmsis_model_version">nrlmsis_model_version</a></code></li>
 <li><code><a title="pyucalgarysrs.models.atm.classes_forward.ATMForwardRequest.output" href="#pyucalgarysrs.models.atm.classes_forward.ATMForwardRequest.output">output</a></code></li>
