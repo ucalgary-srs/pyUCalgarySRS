@@ -1,6 +1,6 @@
 Version 1.28.0 (2026-09-23)
 -------------------
-- ATM changes (requires UCalgary SRS API >= 1.78.0)
+- ATM changes
   - forward: `maxwellian_energy_flux` now defaults to 0; at least one energy flux or a `custom_spectrum` is required
   - forward: added `maxwellian_mean_energy` as an alternative to `maxwellian_characteristic_energy` (at most one may be given)
   - inverse: `precipitation_flux_spectral_type` is now required (previously defaulted to `gaussian`)
