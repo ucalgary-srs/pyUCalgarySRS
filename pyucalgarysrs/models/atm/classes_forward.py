@@ -115,7 +115,8 @@ class ATMForwardRequest:
     geodetic_latitude: float
     geodetic_longitude: float
     maxwellian_energy_flux: float
-    maxwellian_characteristic_energy: float
+    maxwellian_characteristic_energy: Optional[float]
+    maxwellian_mean_energy: Optional[float]
     gaussian_energy_flux: float
     gaussian_peak_energy: float
     gaussian_spectral_width: float

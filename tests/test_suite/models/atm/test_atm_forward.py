@@ -682,3 +682,33 @@ def test_atm_forward_model_version_warning(srs, capsys):
     result.pretty_print()
     captured_stdout = capsys.readouterr().out
     assert captured_stdout != ""
+
+
+def __hir(srs, **kw):
+    flags = pyucalgarysrs.ATMForwardOutputFlags()
+    flags.enable_only_height_integrated_rayleighs()
+    r = srs.models.atm.forward(datetime.datetime(2025, 3, 20, 9, 0, 0), 60.0, -105.0, flags, oxygen_correction_factor=0.5, no_cache=True, **kw)
+    return [
+        r.height_integrated_rayleighs_4278, r.height_integrated_rayleighs_5577, r.height_integrated_rayleighs_6300, r.height_integrated_rayleighs_8446
+    ]
+
+
+@pytest.mark.atm
+def test_atm_forward_maxwellian_mean_energy(srs):
+    by_mean = __hir(srs, maxwellian_energy_flux=2.0, maxwellian_mean_energy=4000.0)
+    by_char = __hir(srs, maxwellian_energy_flux=2.0, maxwellian_characteristic_energy=2000.0)
+    default = __hir(srs, maxwellian_energy_flux=2.0)
+    assert by_mean == pytest.approx(by_char, rel=1e-4)
+    assert by_mean != pytest.approx(default, rel=1e-2)  # a mean of 4000 must not fall back to the 5000 eV default
+
+
+@pytest.mark.atm
+def test_atm_forward_both_maxwellian_energies(srs):
+    with pytest.raises(pyucalgarysrs.SRSError, match="Only one of"):
+        __hir(srs, maxwellian_energy_flux=2.0, maxwellian_mean_energy=4000.0, maxwellian_characteristic_energy=2000.0)
+
+
+@pytest.mark.atm
+def test_atm_forward_no_spectrum(srs):
+    with pytest.raises(pyucalgarysrs.SRSAPIError, match="No precipitation spectrum specified"):
+        __hir(srs)

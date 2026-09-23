@@ -334,3 +334,14 @@ def test_atm_inverse_model_version_warning(srs, capsys):
     result.pretty_print()
     captured_stdout = capsys.readouterr().out
     assert captured_stdout != ""
+
+
+@pytest.mark.atm
+def test_atm_inverse_spectral_type_required(srs):
+    flags = pyucalgarysrs.ATMInverseOutputFlags()
+    flags.mean_energy = True
+    args = (datetime.datetime(2025, 3, 20, 9, 0, 0), 60.0, -105.0, 499.27, 3036.96, 643.31, 287.61, flags)
+    with pytest.raises(TypeError):
+        srs.models.atm.inverse(*args)  # type: ignore
+    with pytest.raises(pyucalgarysrs.SRSError, match="required"):
+        srs.models.atm.inverse(*args, precipitation_flux_spectral_type=None)  # type: ignore

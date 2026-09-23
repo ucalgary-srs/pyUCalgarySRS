@@ -79,7 +79,7 @@ class ATMInverseRequest:
     intensity_8446: float
     precipitation_flux_spectral_type: Literal["gaussian", "maxwellian"]
     nrlmsis_model_version: Literal["00", "2.0"]
-    atm_model_version: Literal["1.0"]
+    atm_model_version: Literal["2.0"]
     special_logic_keyword: Optional[str]
     output: ATMInverseOutputFlags
     no_cache: bool
@@ -128,7 +128,9 @@ class ATMInverseResult:
             Derived energy flux in erg/cm2/s.
 
         mean_energy (float): 
-            Derived characteristic energy in EV. Previously named as 'characteristic_energy'.
+            Derived mean energy in eV. For a Maxwellian inversion this is 2x the characteristic energy, so
+            pass it to forward() as `maxwellian_mean_energy` (or halve it for `maxwellian_characteristic_energy`).
+            For a Gaussian inversion it is the peak energy.
 
         oxygen_correction_factor (float): 
             Derived oxygen correction factor.

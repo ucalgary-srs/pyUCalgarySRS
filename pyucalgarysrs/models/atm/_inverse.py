@@ -14,7 +14,7 @@
 
 import requests
 from .classes_inverse import ATMInverseResult, ATMInverseResultRequestInfo, ATMInverseRequest
-from ...exceptions import SRSAPIError
+from ...exceptions import SRSAPIError, SRSError
 
 
 def inverse(
@@ -34,6 +34,11 @@ def inverse(
     no_cache,
     timeout,
 ):
+
+    # spectral type is required (older pyaurorax versions pass None)
+    if (precipitation_flux_spectral_type not in ("gaussian", "maxwellian")):
+        raise SRSError("precipitation_flux_spectral_type is required and must be 'gaussian' or 'maxwellian'")
+
     # set timeout
     if (timeout is None):
         timeout = srs_obj.api_timeout
@@ -81,6 +86,8 @@ def inverse(
         try:
             res = r.json()
             msg = res["detail"]
+            if (isinstance(msg, list)):
+                msg = "; ".join(str(d.get("msg", d)) for d in msg)
         except Exception:
             msg = r.content
         raise SRSAPIError("API error code %d: %s" % (r.status_code, msg))

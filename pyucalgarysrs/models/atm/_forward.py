@@ -15,7 +15,7 @@
 import requests
 import numpy as np
 from .classes_forward import ATMForwardResult, ATMForwardResultRequestInfo, ATMForwardRequest
-from ...exceptions import SRSAPIError
+from ...exceptions import SRSAPIError, SRSError
 
 
 def forward(
@@ -26,6 +26,7 @@ def forward(
     output,
     maxwellian_energy_flux,
     maxwellian_characteristic_energy,
+    maxwellian_mean_energy,
     gaussian_energy_flux,
     gaussian_peak_energy,
     gaussian_spectral_width,
@@ -48,6 +49,12 @@ def forward(
     no_cache,
     timeout,
 ):
+
+    # only one Maxwellian energy may be given
+    if (maxwellian_characteristic_energy is not None and maxwellian_mean_energy is not None):
+        raise SRSError("Only one of maxwellian_characteristic_energy or maxwellian_mean_energy can be specified. "
+                       "The characteristic energy is half the mean energy.")
+
     # set timeout
     if (timeout is None):
         timeout = srs_obj.api_timeout
@@ -60,6 +67,7 @@ def forward(
         geodetic_longitude=geodetic_longitude,
         maxwellian_energy_flux=maxwellian_energy_flux,
         maxwellian_characteristic_energy=maxwellian_characteristic_energy,
+        maxwellian_mean_energy=maxwellian_mean_energy,
         gaussian_energy_flux=gaussian_energy_flux,
         gaussian_peak_energy=gaussian_peak_energy,
         gaussian_spectral_width=gaussian_spectral_width,
@@ -89,7 +97,6 @@ def forward(
         "geodetic_latitude": geodetic_latitude,
         "geodetic_longitude": geodetic_longitude,
         "maxwellian_energy_flux": maxwellian_energy_flux,
-        "maxwellian_characteristic_energy": maxwellian_characteristic_energy,
         "gaussian_energy_flux": gaussian_energy_flux,
         "gaussian_peak_energy": gaussian_peak_energy,
         "gaussian_spectral_width": gaussian_spectral_width,
@@ -109,6 +116,12 @@ def forward(
         "output": output.__dict__,
         "no_cache": no_cache,
     }
+
+    # only send the Maxwellian energy the caller chose; the API applies its default if neither is sent
+    if (maxwellian_characteristic_energy is not None):
+        post_data["maxwellian_characteristic_energy"] = maxwellian_characteristic_energy
+    if (maxwellian_mean_energy is not None):
+        post_data["maxwellian_mean_energy"] = maxwellian_mean_energy
 
     # inject custom neutral profile if supplied
     if (custom_neutral_profile is not None):
@@ -138,6 +151,8 @@ def forward(
         try:
             res = r.json()
             msg = res["detail"]
+            if (isinstance(msg, list)):
+                msg = "; ".join(str(d.get("msg", d)) for d in msg)
         except Exception:
             msg = r.content
         raise SRSAPIError("API error code %d: %s" % (r.status_code, msg))
