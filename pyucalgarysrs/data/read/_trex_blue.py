@@ -317,8 +317,19 @@ def __blueline_readfile_worker(file, first_record=False, no_metadata=False, star
                 # always the end of metadata for frame
                 if (key.startswith("Exposure plus readout")):
                     # check if we want to skip this frame based on the start and end times
-                    this_timestamp = datetime.datetime.strptime(metadata_dict["Image request start"],
-                                                                "%Y-%m-%d %H:%M:%S.%f UTC").replace(microsecond=0)
+                    try:
+                        this_timestamp = datetime.datetime.strptime(metadata_dict["Image request start"],
+                                                                    "%Y-%m-%d %H:%M:%S.%f UTC").replace(microsecond=0)
+                    except Exception as e:
+                        # malformed or missing timestamp, likely corrupt file; skip this frame
+                        # (including its image data) and flag the file as problematic
+                        if (quiet is False):
+                            print("Error parsing 'Image request start' timestamp: %s (file='%s')" % (str(e), file))
+                        problematic = True
+                        error_message = "error parsing image request start timestamp: %s" % (str(e))
+                        skip_this_record = True
+                        metadata_dict = {}
+                        continue
                     if ((start_time is None or this_timestamp >= start_time) and (end_time is None or this_timestamp <= end_time)):
                         metadata_dict_list.append(metadata_dict)
                     else:

@@ -1,3 +1,8 @@
+Version 1.28.1 (2026-11-12)
+-------------------
+- improved handling of corrupt raw data files for THEMIS, REGO, TREx NIR, TREx Blueline, and TREx Spectrograph
+
+
 Version 1.28.0 (2026-09-23)
 -------------------
 - ATM changes
@@ -6,6 +11,7 @@ Version 1.28.0 (2026-09-23)
   - inverse: `precipitation_flux_spectral_type` is now required (previously defaulted to `gaussian`)
   - inverse: `characteristic_energy` removed from the API response (deprecated since 1.24.0)
   - docstring fixes for `mean_energy`, the exponential spectrum note, and the custom spectrum and neutral profile array shapes
+
 
 Version 1.27.0 (2026-09-17)
 -------------------
