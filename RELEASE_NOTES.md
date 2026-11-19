@@ -1,3 +1,8 @@
+Version 1.28.2 (2026-11-19)
+-------------------
+- ATM documentation update
+
+
 Version 1.28.1 (2026-11-12)
 -------------------
 - improved handling of corrupt raw data files for THEMIS, REGO, TREx NIR, TREx Blueline, and TREx Spectrograph
